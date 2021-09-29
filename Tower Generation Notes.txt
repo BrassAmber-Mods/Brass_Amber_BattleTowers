@@ -1,0 +1,46 @@
+Floor Structure:
+name_towertype_spawners
+
+Bottom Floor 1 -> Cult Room even 1-2 -> Odd Floor 1-2 -> Even Floor 1-2 -> Cult Room odd 1-3 -> Even Floor 1-3 -> Odd Floor 1-3 -> Mini Boss 1-4
+
+Land_Default_246 = Cult Room even 1-2, , Barracks Even 1-2, Barracks Even 1-3, MiniBoss 1-4
+Land_Default_357 =  Cult Room odd-3, Barracks Odd -2, Barracks Odd -3
+
+DONE ^ (mini boss needs to be rotated -and actually made)
+
+Cult Room Odd 1-3 will have a jigsaw that skips up to the mini-boss floor so that the jigsaw limit isn't reached.
+
+
+
+
+Bottom Floor 2 -> Even Floor 2-2 -> Cult Room odd 2-2 -> Even Floor 2-2 -> Odd Floor 2-3 -> Cult Room even 2-3 -> Odd Floor 2-3 -> Mini Boss 2-4
+
+Land_Default_246_2 = Cult Room even-3, Barracks Even 2-2, MiniBoss 2-4
+Land_Default_357_2 = Cult Room odd2-2, Barracks Odd 2-3
+
+
+
+
+Biome Specific stuff - Tower generates from the bottom floor up so, very long-term plan is to have a seperate .json pool that 
+		includes, for example, icy weathered floor variations 
+
+	Land_Default = No weathering
+	Land_Icy = Icy
+	Land_Desert = Sandy
+	Land_Forest = Overgrown
+	Land_Mountain = deteriorating 
+
+	Ocean_Default
+
+	Nether_Default
+	Nether_Overgrown
+
+	Core_Default
+	Core_Flooded
+
+	End_Default
+	End_Overgrown
+	End_Deteriorating
+
+	Sky_Default
+	Sky_Airy = No Iron Bars on windows, all 4 walls are windows
