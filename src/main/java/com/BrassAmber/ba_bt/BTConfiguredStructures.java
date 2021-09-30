@@ -9,7 +9,7 @@ import net.minecraft.world.gen.FlatGenerationSettings;
 
 public class BTConfiguredStructures {
 
-    public static StructureFeature<?, ?> CONFIGURED_LAND_BATTLE_TOWER = BTStructures.LAND_BATTLE_TOWER.get().configured(IFeatureConfig.NONE);
+    public static StructureFeature<?, ?> CONFIGURED_LAND_BATTLE_TOWER = BTStructures.LAND_BATTLE_TOWER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 
     public static void registerConfiguredStructures() {
         Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
@@ -30,6 +30,6 @@ public class BTConfiguredStructures {
          *
          * Requires AccessTransformer ( see resources/META-INF/accesstransformer.cfg )
          */
-        FlatGenerationSettings.STRUCTURE_FEATURES.put(BTStructures.LAND_BATTLE_TOWER.get(), CONFIGURED_LAND_BATTLE_TOWER);
+        FlatGenerationSettings.STRUCTURES.put(BTStructures.LAND_BATTLE_TOWER.get(), CONFIGURED_LAND_BATTLE_TOWER);
     }
 }

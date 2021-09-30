@@ -42,24 +42,25 @@ public class BTStructures {
             StructureSeparationSettings structureSeparationSettings,
             boolean transformSurroundingLand)
     {
-        Structure.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
+        Structure.NAME_STRUCTURE_BIMAP.put(structure.getRegistryName().toString(), structure);
 
         if(transformSurroundingLand){
-            Structure.NOISE_AFFECTING_FEATURES =
+            Structure.field_236384_t_ =
                     ImmutableList.<Structure<?>>builder()
-                            .addAll(Structure.NOISE_AFFECTING_FEATURES)
+                            .addAll(Structure.field_236384_t_)
                             .add(structure)
                             .build();
         }
 
-        DimensionStructuresSettings.DEFAULTS =
+        DimensionStructuresSettings.field_236191_b_ =
                 ImmutableMap.<Structure<?>, StructureSeparationSettings>builder()
-                        .putAll(DimensionStructuresSettings.DEFAULTS)
+                        .putAll(DimensionStructuresSettings.field_236191_b_)
                         .put(structure, structureSeparationSettings)
                         .build();
 
-        WorldGenRegistries.NOISE_GENERATOR_SETTINGS.entrySet().forEach(settings -> {
-            Map<Structure<?>, StructureSeparationSettings> structureMap = settings.getValue().structureSettings().structureConfig();
+
+        WorldGenRegistries.NOISE_SETTINGS.getEntries().forEach(settings -> {
+            Map<Structure<?>, StructureSeparationSettings> structureMap = settings.getValue().getStructures().func_236195_a_();
 
             /*
              * Pre-caution in case a mod makes the structure map immutable like datapacks do.
@@ -70,7 +71,7 @@ public class BTStructures {
             if(structureMap instanceof ImmutableMap){
                 Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(structureMap);
                 tempMap.put(structure, structureSeparationSettings);
-                settings.getValue().structureSettings().structureConfig = tempMap;
+                settings.getValue().getStructures().field_236193_d_ = tempMap;
             }
             else{
                 structureMap.put(structure, structureSeparationSettings);
