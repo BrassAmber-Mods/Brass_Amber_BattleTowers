@@ -54,7 +54,7 @@ public class BTJigsawManager {
         p_242837_6_.add(abstractvillagepiece);
         if (p_242837_1_.maxDepth() > 0) {
             int i1 = 80;
-            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)(i - 80), (double)(k - 80), (double)(j - 80), (double)(i + 80 + 1), (double)(k + 120 + 1), (double)(j + 80 + 1));
+            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)(i - 80), (double)(k - 80), (double)(j - 80), (double)(i + 80 + 1), (double)(k + 80 + 1), (double)(j + 80 + 1));
             BTJigsawManager.Assembler jigsawmanager$assembler = new BTJigsawManager.Assembler(mutableregistry, p_242837_1_.maxDepth(), p_242837_2_, p_242837_3_, p_242837_4_, p_242837_6_, p_242837_7_);
             jigsawmanager$assembler.placing.addLast(new BTJigsawManager.Entry(abstractvillagepiece, new MutableObject<>(VoxelShapes.join(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.of(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + 120, 0));
 
