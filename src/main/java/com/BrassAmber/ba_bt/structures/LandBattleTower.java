@@ -140,31 +140,6 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             // Sets the bounds of the structure once you are finished.
             this.calculateBoundingBox();
 
-            BTJigsawManager.addPieces(
-                    dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
-                            // The path to the starting Template Pool JSON file to read.
-                            //
-                            // Note, this is "ba_bt:land_tower/start_pool"
-                            // the game will automatically look into the following path for the template pool:
-                            // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json"
-
-                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool_top")),
-
-                            // How many pieces outward from center can a recursive jigsaw structure spawn.
-                            // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
-                            // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
-                            // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
-                            10),
-                    AbstractVillagePiece::new,
-                    chunkGenerator,
-                    templateManagerIn,
-                    topPos, // Position of the structure. Y value is ignored if last parameter is set to true.
-                    this.pieces, // The list that will be populated with the jigsaw pieces after this method.
-                    this.random,
-                    false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
-                    // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
-                    true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + this.pieces.get(0).getBoundingBox().x0 + " "
                     + this.pieces.get(0).getBoundingBox().y0 + " " + this.pieces.get(0).getBoundingBox().z0);
         }
