@@ -1,9 +1,8 @@
 package com.BrassAmber.ba_bt.structures;
 
+import com.BrassAmber.ba_bt.BTJigsawManager;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.mojang.serialization.Codec;
-import com.yungnickyoung.minecraft.yungsapi.api.YungJigsawConfig;
-import com.yungnickyoung.minecraft.yungsapi.api.YungJigsawManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
@@ -39,7 +38,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     }
 
     @Override
-    public GenerationStage.Decoration getDecorationStage() {
+    public GenerationStage.Decoration step() {
         return GenerationStage.Decoration.SURFACE_STRUCTURES;
     }
 
@@ -47,15 +46,15 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
         // Grab height of land. Will stop at first non-air block.
-        int landHeight = chunkGenerator.getHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
         // Grabs column of blocks at given position. In overworld, this column will be made of stone, water, and air.
         // In nether, it will be netherrack, lava, and air. End will only be endstone and air. It depends on what block
         // the chunk generator will place for that dimension.
-        IBlockReader columnOfBlocks = chunkGenerator.func_230348_a_(centerOfChunk.getX(), centerOfChunk.getZ());
+        IBlockReader columnOfBlocks = chunkGenerator.getBaseColumn(centerOfChunk.getX(), centerOfChunk.getZ());
 
         // Combine the column of blocks with land height and you get the top block itself which you can test.
-        BlockState topBlock = columnOfBlocks.getBlockState(centerOfChunk.up(landHeight));
+        BlockState topBlock = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight));
 
         // Now we test to make sure our structure is not spawning on water or other fluids.
         // You can do height check instead too to make it spawn at high elevations.
@@ -67,7 +66,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
         }
 
-        public void func_230364_a_(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
+        public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
 
             // Turns the chunk coordinates into actual coordinates we can use
             int x = chunkX * 16;
@@ -80,6 +79,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              * force the structure to spawn at blockpos's Y value instead. You got options here!
              */
             BlockPos centerPos = new BlockPos(x, 0, z);
+            BlockPos topPos = new BlockPos(centerPos.getX(), 78, centerPos.getZ());
 
             /*
              * If you are doing Nether structures, you'll probably want to spawn your structure on top of ledges.
@@ -90,18 +90,31 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              */
             //IBlockReader blockReader = chunkGenerator.getBaseColumn(blockpos.getX(), blockpos.getZ());
 
-            YungJigsawConfig jigsawConfig = new YungJigsawConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY)
-                    .getOrDefault(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),10);
+
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
-            YungJigsawManager.assembleJigsawStructure(
+            BTJigsawManager.addPieces(
                     dynamicRegistryManager,
-                    jigsawConfig,
+                    new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                            // The path to the starting Template Pool JSON file to read.
+                            //
+                            // Note, this is "ba_bt:land_tower/start_pool"
+                            // the game will automatically look into the following path for the template pool:
+                            // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json"
+
+                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
+
+                            // How many pieces outward from center can a recursive jigsaw structure spawn.
+                            // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
+                            // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
+                            // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
+                            10),
+                    AbstractVillagePiece::new,
                     chunkGenerator,
                     templateManagerIn,
                     centerPos, // Position of the structure. Y value is ignored if last parameter is set to true.
-                    this.components, // The list that will be populated with the jigsaw pieces after this method.
-                    this.rand,
+                    this.pieces, // The list that will be populated with the jigsaw pieces after this method.
+                    this.random,
                     false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
                     // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
                     true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
@@ -122,27 +135,38 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             // land formed around the structure to be lowered and not cover the doorstep. You can raise the bounding
             // box to force the structure to be buried as well. This bounding box stuff with land is only for structures
             // that you added to Structure.NOISE_AFFECTING_FEATURES field handles adding land around the base of structures.
-            this.components.forEach(piece -> piece.offset(0, 1, 0));
-            this.components.forEach(piece -> piece.getBoundingBox().minY -= 1);
-            // Since by default, the start piece of a structure spawns with it's corner at centerPos
-            // and will randomly rotate around that corner, we will center the piece on centerPos instead.
-            // This is so that our structure's start piece is now centered on the water check done in isFeatureChunk.
-            // Whatever the offset done to center the start piece, that offset is applied to all other pieces
-            // so the entire structure is shifted properly to the new spot.
-            Vector3i structureCenter = this.components.get(0).getBoundingBox().func_215126_f();
-            int xOffset = centerPos.getX() - structureCenter.getX();
-            int zOffset = centerPos.getZ() - structureCenter.getZ();
-            for (StructurePiece structurePiece : this.components) {
-                structurePiece.offset(xOffset, 0, zOffset);
-            }
-
+            this.pieces.forEach(piece -> piece.move(0, 1, 0));
+            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 1);
             // Sets the bounds of the structure once you are finished.
-            this.recalculateStructureSize();
+            this.calculateBoundingBox();
 
-            // I use to debug and quickly find out if the structure is spawning or not and where it is.
-            // This is returning the coordinates of the center starting piece.
-            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + this.components.get(0).getBoundingBox().minX + " "
-                    + this.components.get(0).getBoundingBox().minY + " " + this.components.get(0).getBoundingBox().minZ);
+            BTJigsawManager.addPieces(
+                    dynamicRegistryManager,
+                    new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                            // The path to the starting Template Pool JSON file to read.
+                            //
+                            // Note, this is "ba_bt:land_tower/start_pool"
+                            // the game will automatically look into the following path for the template pool:
+                            // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json"
+
+                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool_top")),
+
+                            // How many pieces outward from center can a recursive jigsaw structure spawn.
+                            // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
+                            // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
+                            // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
+                            10),
+                    AbstractVillagePiece::new,
+                    chunkGenerator,
+                    templateManagerIn,
+                    topPos, // Position of the structure. Y value is ignored if last parameter is set to true.
+                    this.pieces, // The list that will be populated with the jigsaw pieces after this method.
+                    this.random,
+                    false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
+                    // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
+                    true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + this.pieces.get(0).getBoundingBox().x0 + " "
+                    + this.pieces.get(0).getBoundingBox().y0 + " " + this.pieces.get(0).getBoundingBox().z0);
         }
 
     }
