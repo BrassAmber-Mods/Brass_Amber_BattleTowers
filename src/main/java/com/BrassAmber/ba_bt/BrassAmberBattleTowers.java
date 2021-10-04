@@ -104,7 +104,7 @@ public class BrassAmberBattleTowers
     private static Method GETCODEC_METHOD;
     public void addDimensionalSpacing(final WorldEvent.Load event) {
         if(event.getWorld() instanceof ServerWorld){
-            ServerWorld serverWorld = (ServerWorld)event.getWorld();
+            ServerWorld serverWorld = (ServerWorld) event.getWorld();
 
             /*
              * Skip Terraforged's chunk generator as they are a special case of a mod locking down their chunkgenerator.
@@ -112,13 +112,16 @@ public class BrassAmberBattleTowers
              * This here is done with reflection as this tutorial is not about setting up and using Mixins.
              * If you are using mixins, you can call the codec method with an invoker mixin instead of using reflection.
              */
+
             try {
                 if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
-                ResourceLocation cgRL = Registry.CHUNK_GENERATOR_CODEC.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkProvider().generator));
-                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) return;
+                ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
+                if(cgRL != null && cgRL.getNamespace().equals("terraforged")) {
+                    return;
+                }
             }
             catch(Exception e){
-                BrassAmberBattleTowers.LOGGER.error("Was unable to check if " + serverWorld.getChunkProvider().generator + " is using Terraforged's ChunkGenerator.");
+                BrassAmberBattleTowers.LOGGER.error("Was unable to check if " + serverWorld.getChunkSource().generator + " is using Terraforged's ChunkGenerator.");
             }
 
             /*
@@ -126,8 +129,8 @@ public class BrassAmberBattleTowers
              * people seem to want their superflat worlds free of modded structures.
              * Also that vanilla superflat is really tricky and buggy to work with in my experience.
              */
-            if(serverWorld.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator &&
-                    serverWorld.getDimensionKey().equals(World.OVERWORLD)){
+            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
+                    serverWorld.dimension().equals(World.OVERWORLD)){
                 return;
             }
 
@@ -139,9 +142,9 @@ public class BrassAmberBattleTowers
              * already added your default structure spacing to some dimensions. You would need to override the spacing with .put(...)
              * And if you want to do dimension blacklisting, you need to remove the spacing entry entirely from the map below to prevent generation safely.
              */
-            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_);
-            tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.field_236191_b_.get(BTStructures.LAND_BATTLE_TOWER.get()));
-            serverWorld.getChunkProvider().generator.func_235957_b_().field_236193_d_ = tempMap;
+            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkSource().generator.getSettings().structureConfig());
+            tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+            serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
         }
     }
 

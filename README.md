@@ -1,4 +1,8 @@
-# Brass_Amber_BattleTowers
+## Brass_Amber_BattleTowers
 Re-vamp of the old BattleTowers mod from yogbox. Developed by Brass_Herbalist, X, and Milamber
 
 Comment in current java files are from the Structure Tutorial here: https://github.com/TelepathicGrunt/StructureTutorialMod/tree/e51cca9698110559f8f586b9c71ae9a4e655d786
+
+# Dependencies
+
+Yung's API - https://github.com/yungnickyoung/YUNGs-API
