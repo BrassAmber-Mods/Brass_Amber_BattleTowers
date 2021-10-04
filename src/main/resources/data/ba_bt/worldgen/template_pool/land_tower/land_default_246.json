@@ -20,6 +20,15 @@
         "element_type": "minecraft:single_pool_element"
       }
     },
+    {
+      "weight": 2,
+      "element": {
+        "location": "ba_bt:barracks_even_1_2_abandoned",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
 	{	
       "weight": 50,
       "element": {
@@ -35,6 +44,15 @@
         "location": "ba_bt:barracks_even_1_3",
         "processors": "minecraft:empty",
 		"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "location": "ba_bt:barracks_even_1_3_abandoned",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
     },

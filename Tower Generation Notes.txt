@@ -24,23 +24,23 @@ Land_Default_357_2 = Cult Room odd2-2, Barracks Odd 2-3
 Biome Specific stuff - Tower generates from the bottom floor up so, very long-term plan is to have a seperate .json pool that 
 		includes, for example, icy weathered floor variations 
 
-	Land_Default = No weathering
+	Land_Default = No weathering    ---  8-10 Spacing
 	Land_Icy = Icy
 	Land_Desert = Sandy
 	Land_Forest = Overgrown
 	Land_Mountain = deteriorating 
 
-	Ocean_Default
+	Ocean_Default  --- 10-12 Spacing
 
-	Nether_Default
+	Nether_Default --- 14-16 Spacing
 	Nether_Overgrown
 
-	Core_Default
+	Core_Default  --- 12-14 Spacing
 	Core_Flooded
 
-	End_Default
+	End_Default  --- 18-20 Spacing
 	End_Overgrown
 	End_Deteriorating
 
-	Sky_Default
+	Sky_Default  --- 20-24 Spacing
 	Sky_Airy = No Iron Bars on windows, all 4 walls are windows
