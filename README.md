@@ -5,4 +5,4 @@ Comment in current java files are from the Structure Tutorial here: https://gith
 
 # Dependencies
 
-Yung's API - https://github.com/yungnickyoung/YUNGs-API
+None
