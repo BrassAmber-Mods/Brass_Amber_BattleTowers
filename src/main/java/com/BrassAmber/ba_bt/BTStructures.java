@@ -31,7 +31,7 @@ public class BTStructures {
                 new StructureSeparationSettings(10 /* average distance apart in chunks between spawn attempts */,
                         8 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1234567890 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
-                false);
+                true);
 
 
         // Add more structures here and so on
