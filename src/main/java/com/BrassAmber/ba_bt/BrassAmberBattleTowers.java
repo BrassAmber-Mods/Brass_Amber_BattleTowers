@@ -9,12 +9,17 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.BrassAmber.ba_bt.item.BTItems;
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -48,12 +53,16 @@ public class BrassAmberBattleTowers {
 
     // Directly reference a log4j logger
     public static final Logger LOGGER = LogManager.getLogger();
+    
+	public static final ITextComponent HOLD_SHIFT_TOOLTIP = (new TranslationTextComponent("tooltip.battletowers.hold_shift").withStyle(TextFormatting.DARK_GRAY));
 
     public BrassAmberBattleTowers() {
         // Register the setup method for modloading
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         BTStructures.DEFERRED_REGISTRY_STRUCTURE.register(eventBus);
+        BTItems.ITEMS.register(eventBus); //Register Items
+        BTSoundEvents.SOUND_EVENTS.register(eventBus); //Register SoundEvents
 
         eventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading

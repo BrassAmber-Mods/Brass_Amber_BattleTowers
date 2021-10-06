@@ -1,5 +1,8 @@
 {
-	//	Golem Sounds
+	// Items
+	"item.ba_bt.land_monolith_key": "Land Monolith Key",
+	
+	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
 	"ba_bt.subtitle.golem.death": "Golem dies",
 	"ba_bt.subtitle.golem.charge": "Golem charges",
@@ -8,5 +11,10 @@
 	"ba_bt.subtitle.golem.special": "Golem attacks",
 	
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
-	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down"
+	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
+	
+	// Item Tooltips
+	"tooltip.battletowers.hold_shift": "Hold shift for more information.",
+	"tooltip.battletowers.monolith": "The Monolith is used to summon a Battle Golem.",
+	"tooltip.battletowers.monolith_key": "Place 3 keys in a Monolith to summon a Battle Golem."
 }
