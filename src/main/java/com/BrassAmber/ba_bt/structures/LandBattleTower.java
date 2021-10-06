@@ -2,8 +2,10 @@ package com.BrassAmber.ba_bt.structures;
 
 import com.BrassAmber.ba_bt.BTJigsawManager;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -14,6 +16,7 @@ import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
@@ -22,6 +25,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraftforge.common.extensions.IForgeStructure;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
