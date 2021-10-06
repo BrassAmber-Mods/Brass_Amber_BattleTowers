@@ -1,10 +1,18 @@
 package com.BrassAmber.ba_bt;
 
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mojang.serialization.Codec;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -16,7 +24,6 @@ import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.coremod.CoreModTracker;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -32,19 +39,12 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(BrassAmberBattleTowers.MOD_ID)
-public class BrassAmberBattleTowers
-{
-    public static final String MOD_ID = "ba_bt";
+public class BrassAmberBattleTowers {
+    
+	public static final String MOD_ID = "ba_bt";
 
     // Directly reference a log4j logger
     public static final Logger LOGGER = LogManager.getLogger();
@@ -96,9 +96,9 @@ public class BrassAmberBattleTowers
          * RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName()) to get the biome's
          * registrykey. Then that can be fed into the dictionary to get the biome's types.
          */
-        if (event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.EXTREME_HILLS ||
-                event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA)
+        if (event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.EXTREME_HILLS || event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA) {
             event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
+        }
     }
 
     private static Method GETCODEC_METHOD;
@@ -129,8 +129,7 @@ public class BrassAmberBattleTowers
              * people seem to want their superflat worlds free of modded structures.
              * Also that vanilla superflat is really tricky and buggy to work with in my experience.
              */
-            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
-                    serverWorld.dimension().equals(World.OVERWORLD)){
+            if(serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.dimension().equals(World.OVERWORLD)) {
                 return;
             }
 
@@ -152,14 +151,12 @@ public class BrassAmberBattleTowers
         // do something that can only be done on the client
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
+    private void enqueueIMC(final InterModEnqueueEvent event) {
         // some example code to dispatch IMC to another mod
         InterModComms.sendTo("ba_bt", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
     }
 
-    private void processIMC(final InterModProcessEvent event)
-    {
+    private void processIMC(final InterModProcessEvent event) {
         // some example code to receive and process InterModComms from other mods
         LOGGER.info("Got IMC {}", event.getIMCStream().
                 map(m->m.getMessageSupplier().get()).
@@ -171,6 +168,10 @@ public class BrassAmberBattleTowers
         // do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
+    
+    public static ResourceLocation locate(String name) {
+		return new ResourceLocation(MOD_ID, name);
+	}
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
