@@ -139,8 +139,9 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             // land formed around the structure to be lowered and not cover the doorstep. You can raise the bounding
             // box to force the structure to be buried as well. This bounding box stuff with land is only for structures
             // that you added to Structure.NOISE_AFFECTING_FEATURES field handles adding land around the base of structures.
-            this.pieces.forEach(piece -> piece.move(0, 1, 0));
-            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 1);
+            this.pieces.forEach(piece -> piece.move(0, -2, 0));
+            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 2);
+            this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 2);
             // Sets the bounds of the structure once you are finished.
             this.calculateBoundingBox();
 

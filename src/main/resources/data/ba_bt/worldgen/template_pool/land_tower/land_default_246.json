@@ -11,8 +11,17 @@
         "element_type": "minecraft:single_pool_element"
       }
     },
-	{	
+    {
       "weight": 50,
+      "element": {
+        "location": "ba_bt:land_tower/barracks_open_even_1_2",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+	{	
+      "weight": 10,
       "element": {
         "location": "ba_bt:land_tower/barracks_even_1_2",
         "processors": "minecraft:empty",
@@ -21,7 +30,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 4,
       "element": {
         "location": "ba_bt:land_tower/barracks_even_1_2_abandoned",
         "processors": "minecraft:empty",
@@ -38,8 +47,17 @@
         "element_type": "minecraft:single_pool_element"
       }
     },
-	{	
+    {
       "weight": 50,
+      "element": {
+        "location": "ba_bt:land_tower/barracks_open_even_1_3",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+	{	
+      "weight": 10,
       "element": {
         "location": "ba_bt:land_tower/barracks_even_1_3",
         "processors": "minecraft:empty",
@@ -48,7 +66,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 4,
       "element": {
         "location": "ba_bt:land_tower/barracks_even_1_3_abandoned",
         "processors": "minecraft:empty",
