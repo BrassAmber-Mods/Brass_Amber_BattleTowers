@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.BrassAmber.ba_bt.block.BTBlocks;
+import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.block.entity.client.BTChestTileEntityRenderer;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.client.BTEntityRender;
 import com.BrassAmber.ba_bt.item.BTItems;
@@ -37,6 +40,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -64,6 +68,10 @@ public class BrassAmberBattleTowers {
 		BTStructures.DEFERRED_REGISTRY_STRUCTURE.register(eventBus);
 		// Register Items
 		BTItems.ITEMS.register(eventBus);
+		// Register Blocks
+		BTBlocks.BLOCKS.register(eventBus);
+		// Register TileEntityTypes
+		BTTileEntityTypes.TILE_ENTITY_TYPES.register(eventBus);
 		// Register SoundEvents
 		BTSoundEvents.SOUND_EVENTS.register(eventBus);
 		// Register EntityTypes
@@ -165,6 +173,8 @@ public class BrassAmberBattleTowers {
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		// Register Entity Renderers
 		BTEntityRender.init();
+
+		ClientRegistry.bindTileEntityRenderer(BTTileEntityTypes.TOWER_CHEST, BTChestTileEntityRenderer::new);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {

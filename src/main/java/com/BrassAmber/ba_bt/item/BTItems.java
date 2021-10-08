@@ -16,7 +16,7 @@ public class BTItems {
 	/**
 	 * Helper method for registering all Items
 	 */
-	private static Item registerItem(String registryName, Item item) {
+	public static Item registerItem(String registryName, Item item) {
 		ITEMS.register(registryName, () -> item);
 		return item;
 	}

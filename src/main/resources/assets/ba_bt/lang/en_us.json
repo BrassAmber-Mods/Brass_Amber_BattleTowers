@@ -1,7 +1,4 @@
 {
-	// Items
-	"item.ba_bt.land_monolith_key": "Land Monolith Key",
-	
 	// Golems
 	"entity.ba_bt.land_golem": "Land Golem",
 	
@@ -15,6 +12,13 @@
 	
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
+	
+	// Chests
+	"container.ba_bt.tower_chest": "Tower Chest",
+	"container.ba_bt.tower_chest_double": "Large Tower Chest",
+	
+	// Items
+	"item.ba_bt.land_monolith_key": "Land Monolith Key",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",

@@ -25,17 +25,17 @@ public class MonolithKeyItem extends Item {
 	public MonolithKeyItem(Item.Properties builder) {
 		super(builder);
 	}
-	
+
 	/**
 	 * Called to trigger the item's "innate" right click behavior.
 	 */
 	@Override
 	public ActionResult<ItemStack> use(World worldIn, PlayerEntity player, Hand hand) {
 		// Used for SoundEvent testing
-//		player.playSound(BTSoundEvents.ENTITY_GOLEM_AMBIENT, 1.0f, 1.0f);
+		// player.playSound(BTSoundEvents.ENTITY_GOLEM_AMBIENT, 1.0f, 1.0f);
 		return super.use(worldIn, player, hand);
 	}
-	
+
 	/*********************************************************** Characteristics ********************************************************/
 
 	/**
@@ -49,11 +49,11 @@ public class MonolithKeyItem extends Item {
 	public boolean isFoil(ItemStack stack) {
 		return false;
 	}
-	
+
 	/**
 	 * allows items to add custom lines of information to the mouseover description
 	 */
-	@Override
+	@Override 
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
