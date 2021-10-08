@@ -26,6 +26,7 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraftforge.common.extensions.IForgeStructure;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
@@ -35,6 +36,8 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     public LandBattleTower(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
+
+    private Biome biomeIn;
 
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory() {
@@ -47,6 +50,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     }
 
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
+        biomeIn = biome;
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
         // Grab height of land. Will stop at first non-air block.
@@ -123,7 +127,9 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                     // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
                     true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-
+            if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP) {
+                //add code here to start the spawning of the overgrown add-on
+            }
 
             // **THE FOLLOWING TWO LINES ARE OPTIONAL**
             //

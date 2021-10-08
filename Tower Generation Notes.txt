@@ -8,21 +8,16 @@ Land_Default_357 =  Cult Room odd-3, Barracks Odd -2, Barracks Odd -3
 
 DONE ^ (mini boss needs to be rotated -and actually made)
 
-Cult Room Odd 1-3 will have a jigsaw that skips up to the mini-boss floor so that the jigsaw limit isn't reached.
-
-
-
-
 Bottom Floor 2 -> Even Floor 2-2 -> Cult Room odd 2-2 -> Even Floor 2-2 -> Odd Floor 2-3 -> Cult Room even 2-3 -> Odd Floor 2-3 -> Mini Boss 2-4
 
 Land_Default_246_2 = Cult Room even-3, Barracks Even 2-2, MiniBoss 2-4
 Land_Default_357_2 = Cult Room odd2-2, Barracks Odd 2-3
 
 
+-----------------------------------------------------------------------------------------------------------------------
 
-
-Biome Specific stuff - Tower generates from the bottom floor up so, very long-term plan is to have a seperate .json pool that 
-		includes, for example, icy weathered floor variations 
+Biome Specific stuff - Tower generates from the bottom floor up so, Land_Overgrown folder for example will contain all
+                        the base rooms, except with extra jigsaws for weathering.
 
 	Land_Default = No weathering    ---  8-10 Spacing
 	Land_Icy = Icy
@@ -44,3 +39,13 @@ Biome Specific stuff - Tower generates from the bottom floor up so, very long-te
 
 	Sky_Default  --- 20-24 Spacing
 	Sky_Airy = No Iron Bars on windows, all 4 walls are windows
+
+
+
+
+
+----------------------------------------------------
+Spawners - Base Values will be hardcoded.
+
+Each Land_Tower variation will have structure blocks that spawn with the "weathering" that sometimes change the spawners
+into different spawners.
