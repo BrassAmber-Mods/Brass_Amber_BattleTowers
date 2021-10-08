@@ -45,7 +45,7 @@ public class BTChestBlock extends ChestBlock {
 					if (chestTileEntity1.hasCustomName()) {
 						return chestTileEntity1.getDisplayName();
 					} else {
-						return (ITextComponent) (chestTileEntity2.hasCustomName() ? chestTileEntity2.getDisplayName() : new TranslationTextComponent("container.ba_bt.tower_chest_double"));
+						return (ITextComponent) (chestTileEntity2.hasCustomName() ? chestTileEntity2.getDisplayName() : new TranslationTextComponent("container.ba_bt.golem_chest_double"));
 					}
 				}
 			});
@@ -62,7 +62,7 @@ public class BTChestBlock extends ChestBlock {
 
 	public BTChestBlock(Properties properties) {
 		super(properties, () -> {
-			return BTTileEntityTypes.TOWER_CHEST;
+			return BTTileEntityTypes.GOLEM_CHEST;
 		});
 	}
 
@@ -73,7 +73,7 @@ public class BTChestBlock extends ChestBlock {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return BTTileEntityTypes.TOWER_CHEST.create();
+		return BTTileEntityTypes.GOLEM_CHEST.create();
 	}
 
 	@Nullable

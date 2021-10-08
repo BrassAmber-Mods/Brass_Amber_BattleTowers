@@ -174,7 +174,7 @@ public class BrassAmberBattleTowers {
 		// Register Entity Renderers
 		BTEntityRender.init();
 
-		ClientRegistry.bindTileEntityRenderer(BTTileEntityTypes.TOWER_CHEST, BTChestTileEntityRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(BTTileEntityTypes.GOLEM_CHEST, BTChestTileEntityRenderer::new);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {

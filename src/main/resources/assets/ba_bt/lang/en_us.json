@@ -13,9 +13,12 @@
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
 	
+	// Blocks
+	"block.ba_bt.golem_chest": "Golem Chest",
+	
 	// Chests
-	"container.ba_bt.tower_chest": "Tower Chest",
-	"container.ba_bt.tower_chest_double": "Large Tower Chest",
+	"container.ba_bt.golem_chest": "Golem Chest",
+	"container.ba_bt.golem_chest_double": "Large Golem Chest",
 	
 	// Items
 	"item.ba_bt.land_monolith_key": "Land Monolith Key",

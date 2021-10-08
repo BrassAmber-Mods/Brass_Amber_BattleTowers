@@ -6,10 +6,10 @@ import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class BTChestTileEntity extends ChestTileEntity {
+public class GolemChestTileEntity extends ChestTileEntity {
 
-	public BTChestTileEntity() {
-		super(BTTileEntityTypes.TOWER_CHEST);
+	public GolemChestTileEntity() {
+		super(BTTileEntityTypes.GOLEM_CHEST);
 	}
 
 	/**
@@ -17,6 +17,6 @@ public class BTChestTileEntity extends ChestTileEntity {
 	 */
 	@Override
 	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container.ba_bt.tower_chest");
+		return new TranslationTextComponent("container.ba_bt.golem_chest");
 	}
 }
