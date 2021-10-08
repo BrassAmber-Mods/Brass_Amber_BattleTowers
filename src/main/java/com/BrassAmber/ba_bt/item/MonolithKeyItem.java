@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
@@ -33,7 +32,7 @@ public class MonolithKeyItem extends Item {
 	@Override
 	public ActionResult<ItemStack> use(World worldIn, PlayerEntity player, Hand hand) {
 		// Used for SoundEvent testing
-		player.playSound(BTSoundEvents.ENTITY_GOLEM_AMBIENT, 1.0f, 1.0f);
+//		player.playSound(BTSoundEvents.ENTITY_GOLEM_AMBIENT, 1.0f, 1.0f);
 		return super.use(worldIn, player, hand);
 	}
 	

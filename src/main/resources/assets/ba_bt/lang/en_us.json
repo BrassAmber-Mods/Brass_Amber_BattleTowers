@@ -2,6 +2,9 @@
 	// Items
 	"item.ba_bt.land_monolith_key": "Land Monolith Key",
 	
+	// Golems
+	"entity.ba_bt.land_golem": "Land Golem",
+	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
 	"ba_bt.subtitle.golem.death": "Golem dies",
