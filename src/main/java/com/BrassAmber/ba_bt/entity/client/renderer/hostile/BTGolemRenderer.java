@@ -17,9 +17,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BTGolemRenderer extends MobRenderer<BTGolemEntity, BipedModel<BTGolemEntity>> {
-	private static final ResourceLocation GOLEM_TEXTURES_AWAKEN = BrassAmberBattleTowers.locate("textures/entity/hostile/land_golem.png");
 	private static final ResourceLocation GOLEM_TEXTURES_DORMANT = BrassAmberBattleTowers.locate("textures/entity/hostile/land_golem_dormant.png");
-	private static final float scale = BTGolemEntityAbstract.scale;
+	private static final ResourceLocation GOLEM_TEXTURES_AWAKEN = BrassAmberBattleTowers.locate("textures/entity/hostile/land_golem.png");
+	private static final ResourceLocation GOLEM_TEXTURES_ENRAGED = BrassAmberBattleTowers.locate("textures/entity/hostile/land_golem_enraged.png");
+	private static final float scale = BTGolemEntityAbstract.SCALE;
 
 	public BTGolemRenderer(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn, new GolemModel(), 0.5F * scale);
@@ -34,7 +35,7 @@ public class BTGolemRenderer extends MobRenderer<BTGolemEntity, BipedModel<BTGol
 
 	@Override
 	public ResourceLocation getTextureLocation(BTGolemEntity entity) {
-		return entity.isAwake() ? GOLEM_TEXTURES_AWAKEN : GOLEM_TEXTURES_DORMANT;
+		return entity.isAwake() ? GOLEM_TEXTURES_AWAKEN : entity.isEnraged() ? GOLEM_TEXTURES_ENRAGED : GOLEM_TEXTURES_DORMANT;
 	}
 
 }

@@ -5,15 +5,12 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -22,15 +19,17 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 
 public abstract class BTGolemEntityAbstract extends MonsterEntity {
-	private final static DataParameter<Boolean> AWAKE = EntityDataManager.<Boolean>defineId(BTGolemEntityAbstract.class, DataSerializers.BOOLEAN);
+	protected static final DataParameter<Byte> GOLEM_STATE = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BYTE);
+	public static final byte DORMANT = 0, AWAKE = 1, ENRAGED = 2;
+	public static final float SCALE = 1.8F;
 	private final ServerBossInfo bossbar;
-	public static final float scale = 1.8F;
 
 	protected BTGolemEntityAbstract(EntityType<? extends MonsterEntity> type, World worldIn, BossInfo.Color bossbarColor) {
 		super(type, worldIn);
@@ -45,7 +44,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public void addAdditionalSaveData(CompoundNBT compound) {
 		super.addAdditionalSaveData(compound);
-		compound.putBoolean("isAwaken", this.isAwake());
+		compound.putByte("golemState", this.getGolemState());
 	}
 
 	/**
@@ -54,25 +53,47 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public void readAdditionalSaveData(CompoundNBT compound) {
 		super.readAdditionalSaveData(compound);
-		if (compound.contains("isAwaken")) {
-			this.setAwake(compound.getBoolean("isAwaken"));
-		}
+		this.setGolemState(compound.getByte("golemState"));
 	}
 
 	@Override
 	protected void defineSynchedData() {
 		super.defineSynchedData();
-		this.entityData.define(AWAKE, false);
+		this.entityData.define(GOLEM_STATE, (byte) 0);
 	}
 
 	/*********************************************************** Awake / Dormant ********************************************************/
 
-	public boolean isAwake() {
-		return this.entityData.get(AWAKE);
+	/**
+	 * 0 = Dormant, 1 = Awake, 2 = Enraged
+	 */
+	public byte getGolemState() {
+		return (byte) MathHelper.clamp(this.entityData.get(GOLEM_STATE), 0, 2);
 	}
 
-	public void setAwake(boolean isAwaken) {
-		this.entityData.set(AWAKE, isAwaken);
+	public void setGolemState(byte golemStateID) {
+		this.entityData.set(GOLEM_STATE, golemStateID);
+	}
+
+	/**
+	 * Check to see if the golem is dormant.
+	 */
+	public boolean isDormant() {
+		return this.entityData.get(GOLEM_STATE).equals(DORMANT);
+	}
+
+	/**
+	 * Check to see if the golem is awake, but not enraged.
+	 */
+	public boolean isAwake() {
+		return this.entityData.get(GOLEM_STATE).equals(AWAKE);
+	}
+
+	/**
+	 * Check to see if the golem is enraged.
+	 */
+	public boolean isEnraged() {
+		return this.entityData.get(GOLEM_STATE).equals(ENRAGED);
 	}
 
 	/*********************************************************** Bossbar ********************************************************/
@@ -156,27 +177,26 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		super.tick();
 		// Update the bossbar to display the health correctly.
 		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
+
+		// Set the golemState to enraged when health drops below 1/3.
+		if (this.getHealth() / this.getMaxHealth() < 0.33) {
+			this.setGolemState(ENRAGED);
+
+		}
+	}
+
+	@Override
+	public boolean hurt(DamageSource source, float damage) {
+		boolean isHurt = super.hurt(source, damage);
+		if (!this.isAwake()) {
+			this.setGolemState(AWAKE);
+		}
+		return isHurt;
 	}
 
 	@Override
 	public void die(DamageSource source) {
 		super.die(source);
-		this.spawnGolemDrops();
-	}
-
-	protected void spawnGolemDrops() {
-		if (!this.level.isClientSide()) {
-			int dropsAmount = 5;
-			for (int j = 0; j < dropsAmount; j++) {
-				spawnAtLocation(new ItemStack(Items.DIAMOND));
-				spawnAtLocation(new ItemStack(Items.REDSTONE));
-			}
-
-			dropsAmount = this.random.nextInt(4) + 8;
-			for (int k = 0; k < dropsAmount; k++) {
-				spawnAtLocation(new ItemStack(Blocks.CLAY));
-			}
-		}
 	}
 
 	/*********************************************************** TESTING ********************************************************/
