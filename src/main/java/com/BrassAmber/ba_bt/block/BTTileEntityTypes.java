@@ -14,7 +14,7 @@ public class BTTileEntityTypes {
 	public static final TileEntityType<GolemChestTileEntity> GOLEM_CHEST = registerTileEntity("golem_chest", TileEntityType.Builder.of(GolemChestTileEntity::new, BTBlocks.GOLEM_CHEST));
 
 	/**
-	 * Helper method for registering all Blocks and Items
+	 * Helper method for registering Tile Entities
 	 */
 	private static <T extends TileEntity> TileEntityType<T> registerTileEntity(String registryName, TileEntityType.Builder<T> builder) {
 		TileEntityType<T> tileEntityType = builder.build(null);

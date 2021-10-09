@@ -13,9 +13,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BTChestTileEntityRenderer extends ChestTileEntityRenderer<GolemChestTileEntity> {
-	public static final RenderMaterial GOLEM_LOCATION = chestMaterial("golem");
-	public static final RenderMaterial GOLEM_LOCATION_LEFT = chestMaterial("golem_left");
-	public static final RenderMaterial GOLEM_LOCATION_RIGHT = chestMaterial("golem_right");
+	private static final RenderMaterial GOLEM_LOCATION = chestMaterial("golem");
+	private static final RenderMaterial GOLEM_LOCATION_LEFT = chestMaterial("golem_left");
+	private static final RenderMaterial GOLEM_LOCATION_RIGHT = chestMaterial("golem_right");
 
 	public BTChestTileEntityRenderer(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
 		super(tileEntityRendererDispatcher);

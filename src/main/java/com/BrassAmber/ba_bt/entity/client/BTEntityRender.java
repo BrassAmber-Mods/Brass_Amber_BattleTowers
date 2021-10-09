@@ -14,10 +14,10 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class BTEntityRender {
 
 	public static void init() {
-		register(BTEntityTypes.GOLEM, BTGolemRenderer::new);
+		registerEntityRenderer(BTEntityTypes.GOLEM, BTGolemRenderer::new);
 	}
 
-	private static <T extends Entity> void register(EntityType<T> entityType, IRenderFactory<? super T> renderFactory) {
+	private static <T extends Entity> void registerEntityRenderer(EntityType<T> entityType, IRenderFactory<? super T> renderFactory) {
 		RenderingRegistry.registerEntityRenderingHandler(entityType, renderFactory);
 	}
 }

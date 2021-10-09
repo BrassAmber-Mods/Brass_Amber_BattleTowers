@@ -76,6 +76,7 @@ public class BTChestBlock extends ChestBlock {
 		return BTTileEntityTypes.GOLEM_CHEST.create();
 	}
 
+	@Override
 	@Nullable
 	public INamedContainerProvider getMenuProvider(BlockState state, World worldIn, BlockPos pos) {
 		return this.combine(state, worldIn, pos, false).<Optional<INamedContainerProvider>>apply(MENU_PROVIDER_COMBINER).orElse((INamedContainerProvider) null);

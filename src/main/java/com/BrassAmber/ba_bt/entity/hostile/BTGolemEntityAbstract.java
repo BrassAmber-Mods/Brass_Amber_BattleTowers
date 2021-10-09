@@ -79,21 +79,21 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 * Check to see if the golem is dormant.
 	 */
 	public boolean isDormant() {
-		return this.entityData.get(GOLEM_STATE).equals(DORMANT);
+		return this.getGolemState() == DORMANT;
 	}
 
 	/**
 	 * Check to see if the golem is awake, but not enraged.
 	 */
 	public boolean isAwake() {
-		return this.entityData.get(GOLEM_STATE).equals(AWAKE);
+		return this.getGolemState() == AWAKE;
 	}
 
 	/**
 	 * Check to see if the golem is enraged.
 	 */
 	public boolean isEnraged() {
-		return this.entityData.get(GOLEM_STATE).equals(ENRAGED);
+		return this.getGolemState() == ENRAGED;
 	}
 
 	/*********************************************************** Bossbar ********************************************************/
