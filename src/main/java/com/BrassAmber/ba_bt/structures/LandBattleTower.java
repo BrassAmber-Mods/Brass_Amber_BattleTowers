@@ -4,9 +4,11 @@ import org.apache.logging.log4j.Level;
 
 import com.BrassAmber.ba_bt.BTJigsawManager;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +18,7 @@ import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
@@ -27,11 +30,21 @@ import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
+import net.minecraftforge.common.extensions.IForgeStructure;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import org.apache.logging.log4j.Level;
+
+import java.util.List;
+import java.util.Random;
+
+
 public class LandBattleTower extends Structure<NoFeatureConfig> {
     public LandBattleTower(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
     
+    private Biome biomeIn;
+
     private Biome biomeIn;
 
     @Override
@@ -45,8 +58,9 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     }
 
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
-    	biomeIn = biome;
-    	BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
+        biomeIn = biome;
+        BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
+
 
         // Grab height of land. Will stop at first non-air block.
         int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
