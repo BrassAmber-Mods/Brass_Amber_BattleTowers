@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.entity.client.model.hostile;
 
-import com.BrassAmber.ba_bt.entity.hostile.BTGolemEntity;
+import com.BrassAmber.ba_bt.entity.hostile.BTGolemEntityAbstract;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -9,8 +9,13 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+/**
+ * 
+ * End Golem needs transparency?
+ *
+ */
 @OnlyIn(Dist.CLIENT)
-public class LandGolemModel extends EntityModel<BTGolemEntity> {
+public class LandGolemModel extends EntityModel<BTGolemEntityAbstract> {
 	// TODO
 	private final ModelRenderer allBodyParts;
 	
@@ -33,7 +38,7 @@ public class LandGolemModel extends EntityModel<BTGolemEntity> {
 	}
 
 	@Override
-	public void setupAnim(BTGolemEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(BTGolemEntityAbstract entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		//previously the render function, render code was moved to a method below
 	}
 

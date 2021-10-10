@@ -1,6 +1,11 @@
 {
 	// Golems
 	"entity.ba_bt.land_golem": "Land Golem",
+	"entity.ba_bt.core_golem": "Core Golem",
+	"entity.ba_bt.nether_golem": "Nether Golem",
+	"entity.ba_bt.end_golem": "End Golem",
+	"entity.ba_bt.sky_golem": "Sky Golem",
+	"entity.ba_bt.ocean_golem": "Ocean Golem",
 	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
