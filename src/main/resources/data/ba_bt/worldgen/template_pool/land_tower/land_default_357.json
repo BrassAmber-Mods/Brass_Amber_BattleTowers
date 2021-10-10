@@ -5,7 +5,34 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:barracks_odd_1_2",
+        "location": "ba_bt:land_tower/barracks_open_odd_1_2",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "ba_bt:land_tower/barracks_odd_1_2",
+        "processors": "minecraft:empty",
+		"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "ba_bt:land_tower/barracks_odd_1_2_abandoned",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 50,
+      "element": {
+        "location": "ba_bt:land_tower/alchemy_odd_1_2",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -14,7 +41,34 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:alchemy_odd_1_2",
+        "location": "ba_bt:land_tower/barracks_open_odd_1_3",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "ba_bt:land_tower/barracks_odd_1_3",
+        "processors": "minecraft:empty",
+		"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "ba_bt:land_tower/barracks_odd_1_3_abandoned",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 50,
+      "element": {
+        "location": "ba_bt:land_tower/alchemy_odd_1_3",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -23,25 +77,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:barracks_odd_1_3",
-        "processors": "minecraft:empty",
-		"projection": "rigid",
-        "element_type": "minecraft:single_pool_element"
-      }
-    },
-    {
-      "weight": 50,
-      "element": {
-        "location": "ba_bt:alchemy_odd_1_3",
-        "processors": "minecraft:empty",
-		"projection": "rigid",
-        "element_type": "minecraft:single_pool_element"
-      }
-    },
-    {
-      "weight": 50,
-      "element": {
-        "location": "ba_bt:cult_odd_1_3",
+        "location": "ba_bt:land_tower/cult_odd_1_3",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
