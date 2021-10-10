@@ -24,7 +24,7 @@ public class BTEntityTypes {
 
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, BrassAmberBattleTowers.MOD_ID);
 
-	public static final EntityType<BTGolemEntity> GOLEM = buildEntityType("land_golem", EntityType.Builder.of(BTGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE * 0.6F, BTGolemEntityAbstract.SCALE * 2).setTrackingRange(10).fireImmune());
+	public static final EntityType<BTGolemEntity> GOLEM = buildEntityType("land_golem", EntityType.Builder.of(BTGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
 
 	/**
 	 * Register Spawn Rules

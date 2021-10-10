@@ -117,7 +117,7 @@ public class BrassAmberBattleTowers {
 		 * RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName()) to get the biome's
 		 * registrykey. Then that can be fed into the dictionary to get the biome's types.
 		 */
-		if (event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.EXTREME_HILLS || event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA) {
+		if (event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.EXTREME_HILLS || event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA || event.getCategory() == Biome.Category.FOREST) {
 			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
 		}
 	}

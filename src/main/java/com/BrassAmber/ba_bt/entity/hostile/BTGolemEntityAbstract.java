@@ -28,7 +28,7 @@ import net.minecraft.world.server.ServerBossInfo;
 public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	protected static final DataParameter<Byte> GOLEM_STATE = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BYTE);
 	public static final byte DORMANT = 0, AWAKE = 1, ENRAGED = 2;
-	public static final float SCALE = 1.8F;
+	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 
 	protected BTGolemEntityAbstract(EntityType<? extends MonsterEntity> type, World worldIn, BossInfo.Color bossbarColor) {

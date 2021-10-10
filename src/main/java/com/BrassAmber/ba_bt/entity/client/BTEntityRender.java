@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.entity.client;
 
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.BTGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.hostile.LandGolemRenderer;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class BTEntityRender {
 
 	public static void init() {
-		registerEntityRenderer(BTEntityTypes.GOLEM, BTGolemRenderer::new);
+		registerEntityRenderer(BTEntityTypes.GOLEM, LandGolemRenderer::new);
 	}
 
 	private static <T extends Entity> void registerEntityRenderer(EntityType<T> entityType, IRenderFactory<? super T> renderFactory) {
