@@ -1,7 +1,18 @@
 package com.BrassAmber.ba_bt;
 
+import java.util.Deque;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
+
+import org.apache.commons.lang3.mutable.MutableObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
+
 import net.minecraft.block.JigsawBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -17,26 +28,25 @@ import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.jigsaw.*;
+import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.JigsawJunction;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import org.apache.commons.lang3.mutable.MutableObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.*;
 
 public class BTJigsawManager {
-    private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void addPieces(DynamicRegistries p_242837_0_, VillageConfig p_242837_1_, BTJigsawManager.IPieceFactory p_242837_2_, ChunkGenerator p_242837_3_, TemplateManager p_242837_4_, BlockPos p_242837_5_, List<? super AbstractVillagePiece> p_242837_6_, Random p_242837_7_, boolean p_242837_8_, boolean p_242837_9_) {
-        Structure.bootstrap();
-        MutableRegistry<JigsawPattern> mutableregistry = p_242837_0_.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
+	public static void addPieces(DynamicRegistries registries, VillageConfig config, BTJigsawManager.IPieceFactory p_242837_2_, ChunkGenerator p_242837_3_, TemplateManager p_242837_4_, BlockPos p_242837_5_, List<? super AbstractVillagePiece> p_242837_6_, Random p_242837_7_, boolean p_242837_8_, boolean p_242837_9_) {
+		Structure.bootstrap();
+        MutableRegistry<JigsawPattern> mutableregistry = registries.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(p_242837_7_);
-        JigsawPattern jigsawpattern = p_242837_1_.startPool().get();
+        JigsawPattern jigsawpattern = config.startPool().get();
         JigsawPiece jigsawpiece = jigsawpattern.getRandomTemplate(p_242837_7_);
         AbstractVillagePiece abstractvillagepiece = p_242837_2_.create(p_242837_4_, jigsawpiece, p_242837_5_, jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(p_242837_4_, p_242837_5_, rotation));
         MutableBoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
@@ -52,10 +62,10 @@ public class BTJigsawManager {
         int l = mutableboundingbox.y0 + abstractvillagepiece.getGroundLevelDelta();
         abstractvillagepiece.move(0, k - l, 0);
         p_242837_6_.add(abstractvillagepiece);
-        if (p_242837_1_.maxDepth() > 0) {
+        if (config.maxDepth() > 0) {
             int i1 = 80;
             AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)(i - 80), (double)(k - 80), (double)(j - 80), (double)(i + 80 + 1), (double)(k + 120 + 1), (double)(j + 80 + 1));
-            BTJigsawManager.Assembler jigsawmanager$assembler = new BTJigsawManager.Assembler(mutableregistry, p_242837_1_.maxDepth(), p_242837_2_, p_242837_3_, p_242837_4_, p_242837_6_, p_242837_7_);
+            BTJigsawManager.Assembler jigsawmanager$assembler = new BTJigsawManager.Assembler(mutableregistry, config.maxDepth(), p_242837_2_, p_242837_3_, p_242837_4_, p_242837_6_, p_242837_7_);
             jigsawmanager$assembler.placing.addLast(new BTJigsawManager.Entry(abstractvillagepiece, new MutableObject<>(VoxelShapes.join(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.of(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + 120, 0));
 
             while(!jigsawmanager$assembler.placing.isEmpty()) {

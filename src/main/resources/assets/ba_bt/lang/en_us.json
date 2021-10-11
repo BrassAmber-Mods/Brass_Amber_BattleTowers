@@ -1,3 +1,35 @@
 {
-
+	// Golems
+	"entity.ba_bt.land_golem": "Land Golem",
+	"entity.ba_bt.core_golem": "Core Golem",
+	"entity.ba_bt.nether_golem": "Nether Golem",
+	"entity.ba_bt.end_golem": "End Golem",
+	"entity.ba_bt.sky_golem": "Sky Golem",
+	"entity.ba_bt.ocean_golem": "Ocean Golem",
+	
+	// Golem Sounds
+	"ba_bt.subtitle.golem.hurt": "Golem hurts",
+	"ba_bt.subtitle.golem.death": "Golem dies",
+	"ba_bt.subtitle.golem.charge": "Golem charges",
+	"ba_bt.subtitle.golem.awaken": "Golem awakens",
+	"ba_bt.subtitle.golem.ambient": "Golem growls",
+	"ba_bt.subtitle.golem.special": "Golem attacks",
+	
+	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
+	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
+	
+	// Blocks
+	"block.ba_bt.golem_chest": "Golem Chest",
+	
+	// Chests
+	"container.ba_bt.golem_chest": "Golem Chest",
+	"container.ba_bt.golem_chest_double": "Large Golem Chest",
+	
+	// Items
+	"item.ba_bt.land_monolith_key": "Land Monolith Key",
+	
+	// Item Tooltips
+	"tooltip.battletowers.hold_shift": "Hold shift for more information.",
+	"tooltip.battletowers.monolith": "The Monolith is used to summon a Battle Golem.",
+	"tooltip.battletowers.monolith_key": "Place 3 keys in a Monolith to summon a Battle Golem."
 }
