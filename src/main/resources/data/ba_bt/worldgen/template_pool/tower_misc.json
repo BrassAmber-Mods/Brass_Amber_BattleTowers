@@ -5,7 +5,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:top_floor_lamp",
+        "location": "ba_bt:land_tower/top_floor_lamp",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
