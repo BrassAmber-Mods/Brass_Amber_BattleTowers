@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_top",
+  "textures": {
+    "top": "ba_bt:block/totem/end_totem",
+    "side": "ba_bt:block/totem/totem_side"
+  }
+}

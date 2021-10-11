@@ -7,6 +7,7 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
+import com.BrassAmber.ba_bt.block.block.TotemBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.client.renderer.inventory.BTChestItemRenderer;
@@ -29,13 +30,25 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final Block GOLEM_CHEST = registerBlock("golem_chest", new GolemChestBlock(BTChestType.GOLEM, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(GolemChestTileEntity::new));
-	public static final Block STONE_CHEST = registerBlock("stone_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
+	public static final Block GOLEM_CHEST = registerChestBlock("golem_chest", new GolemChestBlock(BTChestType.GOLEM, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(GolemChestTileEntity::new));
+	public static final Block STONE_CHEST = registerChestBlock("stone_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
+	
+	public static final Block TOTEM = registerBlock("totem", new TotemBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
 
 	/**
 	 * Helper method for registering all Blocks and Items
 	 */
-	private static Block registerBlock(String registryName, Block block, Supplier<Callable<ItemStackTileEntityRenderer>> renderMethod) {
+	private static Block registerBlock(String registryName, Block block) {
+		BLOCKS.register(registryName, () -> block);
+		// Blocks are registered before Items
+		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+		return block;
+	}
+	
+	/**
+	 * Helper method for registering Chests
+	 */
+	private static Block registerChestBlock(String registryName, Block block, Supplier<Callable<ItemStackTileEntityRenderer>> renderMethod) {
 		BLOCKS.register(registryName, () -> block);
 		// Blocks are registered before Items
 		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_MISC).setISTER(renderMethod)));

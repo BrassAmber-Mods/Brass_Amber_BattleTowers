@@ -37,7 +37,7 @@ import net.minecraft.world.server.ServerBossInfo;
 public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	protected static final DataParameter<Byte> GOLEM_STATE = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BYTE);
 	public static final CreatureAttribute BATTLE_GOLEM = new CreatureAttribute();
-	public static final byte DORMANT = 0, AWAKE = 1, ENRAGED = 2;
+	public static final byte DORMANT = 0, AWAKE = 1, SPECIAL = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 
@@ -82,7 +82,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 		// Set the golemState to enraged when health drops below 1/3.
 		if (this.getHealth() / this.getMaxHealth() < 0.33) {
-			this.setGolemState(ENRAGED);
+			this.setGolemState(SPECIAL);
 
 		}
 	}
@@ -197,7 +197,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 * Check to see if the golem is enraged.
 	 */
 	public boolean isEnraged() {
-		return this.getGolemState() == ENRAGED;
+		return this.getGolemState() == SPECIAL;
 	}
 
 	/*********************************************************** Bossbar ********************************************************/
