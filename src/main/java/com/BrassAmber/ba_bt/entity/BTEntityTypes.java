@@ -52,12 +52,12 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		event.put(GOLEM, BTGolemEntityAbstract.createMobAttributes().build());
-		event.put(CORE, BTGolemEntityAbstract.createMobAttributes().build());
-		event.put(NETHER, BTGolemEntityAbstract.createMobAttributes().build());
-		event.put(END, BTGolemEntityAbstract.createMobAttributes().build());
-		event.put(SKY, BTGolemEntityAbstract.createMobAttributes().build());
-		event.put(OCEAN, BTGolemEntityAbstract.createMobAttributes().build());
+		event.put(GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(CORE, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(NETHER, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(END, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(SKY, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(OCEAN, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 	}
 
 	/**

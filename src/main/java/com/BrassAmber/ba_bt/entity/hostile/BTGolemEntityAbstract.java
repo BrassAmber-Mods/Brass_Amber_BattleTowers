@@ -5,11 +5,20 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -27,6 +36,7 @@ import net.minecraft.world.server.ServerBossInfo;
 
 public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	protected static final DataParameter<Byte> GOLEM_STATE = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BYTE);
+	public static final CreatureAttribute BATTLE_GOLEM = new CreatureAttribute();
 	public static final byte DORMANT = 0, AWAKE = 1, ENRAGED = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
@@ -60,6 +70,100 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(GOLEM_STATE, (byte) 0);
+	}
+
+	/*********************************************************** Ticks ********************************************************/
+
+	@Override
+	public void tick() {
+		super.tick();
+		// Update the bossbar to display the health correctly.
+		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
+
+		// Set the golemState to enraged when health drops below 1/3.
+		if (this.getHealth() / this.getMaxHealth() < 0.33) {
+			this.setGolemState(ENRAGED);
+
+		}
+	}
+
+	@Override
+	public boolean hurt(DamageSource source, float damage) {
+		boolean isHurt = super.hurt(source, damage);
+		if (!this.isAwake()) {
+			this.setGolemState(AWAKE);
+		}
+		return isHurt;
+	}
+
+	@Override
+	public void die(DamageSource source) {
+		super.die(source);
+	}
+
+	/*********************************************************** TESTING ********************************************************/
+
+	@Override
+	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new SwimGoal(this));
+		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
+		this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true, true));
+	}
+
+	/*********************************************************** Properties ********************************************************/
+
+	public static AttributeModifierMap.MutableAttribute createBattleGolemAttributes() {
+		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 600.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D);
+	}
+
+	@Override
+	public CreatureAttribute getMobType() {
+		return BATTLE_GOLEM;
+	}
+
+	/**
+	 * Prevents despawning in Peaceful difficulty.
+	 * I don't want him to despawn in Peaceful, just stand still invincible.
+	 */
+	@Override
+	protected boolean shouldDespawnInPeaceful() {
+		return false;
+	}
+
+	/**
+	 * This seems to be the standard way to prevent despawning.
+	 */
+	@Override
+	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+		return false;
+	}
+
+	/**
+	 * Return false if this Entity is a boss, true otherwise.
+	 */
+	@Override
+	public boolean canChangeDimensions() {
+		return false;
+	}
+
+	@Override
+	public boolean causeFallDamage(float damage, float multiplier) {
+		return false;
+	}
+
+	/**
+	 * Prevents Golems from being pushed and entering Boats and such.
+	 */
+	@Override
+	public boolean isPushable() {
+		return false;
+	}
+
+	@Override
+	protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+		return sizeIn.height * 0.88F;
 	}
 
 	/*********************************************************** Awake / Dormant ********************************************************/
@@ -123,86 +227,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		super.setCustomName(name);
 		// Update the bossbar to display the correct name.
 		this.bossbar.setName(this.getDisplayName());
-	}
-
-	/*********************************************************** Properties ********************************************************/
-
-	/**
-	 * Prevents despawning in Peaceful difficulty.
-	 * I don't want him to despawn in Peaceful, just stand still invincible.
-	 */
-	@Override
-	protected boolean shouldDespawnInPeaceful() {
-		return false;
-	}
-
-	/**
-	 * This seems to be the standard way to prevent despawning.
-	 */
-	@Override
-	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
-		return false;
-	}
-
-	/**
-	 * Return false if this Entity is a boss, true otherwise.
-	 */
-	@Override
-	public boolean canChangeDimensions() {
-		return false;
-	}
-
-	@Override
-	public boolean causeFallDamage(float damage, float multiplier) {
-		return false;
-	}
-
-	/**
-	 * Prevents Golems from being pushed and entering Boats and such.
-	 */
-	@Override
-	public boolean isPushable() {
-		return false;
-	}
-
-	@Override
-	protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
-		return sizeIn.height * 0.88F;
-	}
-
-	/*********************************************************** Ticks ********************************************************/
-
-	@Override
-	public void tick() {
-		super.tick();
-		// Update the bossbar to display the health correctly.
-		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
-
-		// Set the golemState to enraged when health drops below 1/3.
-		if (this.getHealth() / this.getMaxHealth() < 0.33) {
-			this.setGolemState(ENRAGED);
-
-		}
-	}
-
-	@Override
-	public boolean hurt(DamageSource source, float damage) {
-		boolean isHurt = super.hurt(source, damage);
-		if (!this.isAwake()) {
-			this.setGolemState(AWAKE);
-		}
-		return isHurt;
-	}
-
-	@Override
-	public void die(DamageSource source) {
-		super.die(source);
-	}
-
-	/*********************************************************** TESTING ********************************************************/
-
-	@Override
-	protected void registerGoals() {
 	}
 
 	/*********************************************************** Sounds ********************************************************/
