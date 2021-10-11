@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.block.entity.client.inventory;
+package com.BrassAmber.ba_bt.block.tileentity.client.renderer.inventory;
 
 import java.util.function.Supplier;
 

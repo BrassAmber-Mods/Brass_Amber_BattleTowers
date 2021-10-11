@@ -1,6 +1,8 @@
 package com.BrassAmber.ba_bt.block.block;
 
 import java.util.Optional;
+import java.util.Random;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
@@ -18,14 +20,16 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMerger;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class BTChestBlock extends ChestBlock {
-	private static final TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>> MENU_PROVIDER_COMBINER = new TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>>() {
+public class GolemChestBlock extends ChestBlock {
+	private final TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>> menu_provider_combiner = new TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>>() {
 		public Optional<INamedContainerProvider> acceptDouble(final ChestTileEntity chestTileEntity1, final ChestTileEntity chestTileEntity2) {
 			final IInventory iinventory = new DoubleSidedInventory(chestTileEntity1, chestTileEntity2);
 			return Optional.of(new INamedContainerProvider() {
@@ -45,7 +49,7 @@ public class BTChestBlock extends ChestBlock {
 					if (chestTileEntity1.hasCustomName()) {
 						return chestTileEntity1.getDisplayName();
 					} else {
-						return (ITextComponent) (chestTileEntity2.hasCustomName() ? chestTileEntity2.getDisplayName() : new TranslationTextComponent("container.ba_bt.golem_chest_double"));
+						return (ITextComponent) (chestTileEntity2.hasCustomName() ? chestTileEntity2.getDisplayName() : new TranslationTextComponent("container.ba_bt."+getChestType().getName()+"_chest_double"));
 					}
 				}
 			});
@@ -60,10 +64,23 @@ public class BTChestBlock extends ChestBlock {
 		}
 	};
 
-	public BTChestBlock(Properties properties) {
-		super(properties, () -> {
+//	protected static TileEntityType<? extends GolemChestTileEntity> CHEST_TILE_ENTITY_TYPE = BTTileEntityTypes.GOLEM_CHEST;
+	private final BTChestType chestType;
+	
+	public GolemChestBlock(BTChestType chestType, Properties properties) {
+		this(chestType, properties, () -> {
 			return BTTileEntityTypes.GOLEM_CHEST;
 		});
+	}
+	
+	public GolemChestBlock(BTChestType chestType, Properties properties, Supplier<TileEntityType<? extends ChestTileEntity>> chestSupplier) {
+		super(properties, chestSupplier);
+		this.chestType = chestType;
+	}
+	
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return BTTileEntityTypes.GOLEM_CHEST.create();
 	}
 
 	@Override
@@ -72,13 +89,33 @@ public class BTChestBlock extends ChestBlock {
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return BTTileEntityTypes.GOLEM_CHEST.create();
-	}
-
-	@Override
 	@Nullable
 	public INamedContainerProvider getMenuProvider(BlockState state, World worldIn, BlockPos pos) {
-		return this.combine(state, worldIn, pos, false).<Optional<INamedContainerProvider>>apply(MENU_PROVIDER_COMBINER).orElse((INamedContainerProvider) null);
+		return this.combine(state, worldIn, pos, false).<Optional<INamedContainerProvider>>apply(this.menu_provider_combiner).orElse((INamedContainerProvider) null);
+	}
+	
+	public BTChestType getChestType() {
+		return this.chestType;
+	}
+
+	public enum BTChestType {
+		GOLEM("golem"),
+		STONE("stone");
+		
+		private String typeName;
+
+		private static final BTChestType[] ALL_CHEST_TYPES = values();
+
+		BTChestType(String typeName) {
+			this.typeName = typeName;
+		}
+
+		public String getName() {
+			return this.typeName;
+		}
+
+		public static BTChestType getRandomChestType(Random rand) {
+			return Util.getRandom(ALL_CHEST_TYPES, rand);
+		}
 	}
 }

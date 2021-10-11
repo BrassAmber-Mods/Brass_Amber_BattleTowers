@@ -4,9 +4,12 @@ import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.block.BTChestBlock;
-import com.BrassAmber.ba_bt.block.entity.GolemChestTileEntity;
-import com.BrassAmber.ba_bt.block.entity.client.inventory.BTChestItemRenderer;
+import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
+import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
+import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
+import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.client.renderer.inventory.BTChestItemRenderer;
 import com.BrassAmber.ba_bt.item.BTItems;
 
 import net.minecraft.block.AbstractBlock;
@@ -17,6 +20,7 @@ import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,7 +29,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final Block GOLEM_CHEST = registerBlock("golem_chest", new BTChestBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer());
+	public static final Block GOLEM_CHEST = registerBlock("golem_chest", new GolemChestBlock(BTChestType.GOLEM, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(GolemChestTileEntity::new));
+	public static final Block STONE_CHEST = registerBlock("stone_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
 
 	/**
 	 * Helper method for registering all Blocks and Items
@@ -38,7 +43,7 @@ public class BTBlocks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private static Callable<ItemStackTileEntityRenderer> chestItemRenderer() {
-		return () -> new BTChestItemRenderer<>(GolemChestTileEntity::new);
+	private static <T extends TileEntity> Callable<ItemStackTileEntityRenderer> chestItemRenderer(Supplier<T> tileEntitySupplier) {
+		return () -> new BTChestItemRenderer<>(tileEntitySupplier);
 	}
 }

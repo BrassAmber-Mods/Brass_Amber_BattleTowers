@@ -20,10 +20,13 @@
 	
 	// Blocks
 	"block.ba_bt.golem_chest": "Golem Chest",
+	"block.ba_bt.stone_chest": "Stone Chest",
 	
-	// Chests
+	// Containers
 	"container.ba_bt.golem_chest": "Golem Chest",
 	"container.ba_bt.golem_chest_double": "Large Golem Chest",
+	"container.ba_bt.stone_chest": "Stone Chest",
+	"container.ba_bt.stone_chest_double": "Large Stone Chest",
 	
 	// Items
 	"item.ba_bt.land_monolith_key": "Land Monolith Key",
