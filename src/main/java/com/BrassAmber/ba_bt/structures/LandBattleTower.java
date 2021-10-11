@@ -45,8 +45,6 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     
     private Biome biomeIn;
 
-    private Biome biomeIn;
-
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory() {
         return LandBattleTower.Start::new;
