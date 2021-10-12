@@ -7,6 +7,8 @@
 	"entity.ba_bt.sky_golem": "Sky Golem",
 	"entity.ba_bt.ocean_golem": "Ocean Golem",
 	
+	"entity.ba_bt.monolith": "Monolith",
+	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
 	"ba_bt.subtitle.golem.death": "Golem dies",
@@ -20,13 +22,29 @@
 	
 	// Blocks
 	"block.ba_bt.golem_chest": "Golem Chest",
+	"block.ba_bt.stone_chest": "Stone Chest",
+	"block.ba_bt.totem": "Totem",
 	
-	// Chests
+	// Containers
 	"container.ba_bt.golem_chest": "Golem Chest",
 	"container.ba_bt.golem_chest_double": "Large Golem Chest",
+	"container.ba_bt.stone_chest": "Stone Chest",
+	"container.ba_bt.stone_chest_double": "Large Stone Chest",
 	
 	// Items
-	"item.ba_bt.land_monolith_key": "Land Monolith Key",
+	"item.ba_bt.monolith_key_land": "Land Monolith Key",
+	"item.ba_bt.monolith_key_core": "Core Monolith Key",
+	"item.ba_bt.monolith_key_nether": "Nether Monolith Key",
+	"item.ba_bt.monolith_key_end": "End Monolith Key",
+	"item.ba_bt.monolith_key_sky": "Sky Monolith Key",
+	"item.ba_bt.monolith_key_ocean": "Ocean Monolith Key",
+	
+	"item.ba_bt.guardian_eye_land": "Land Guardian Eye",
+	"item.ba_bt.guardian_eye_core": "Core Guardian Eye",
+	"item.ba_bt.guardian_eye_nether": "Nether Guardian Eye",
+	"item.ba_bt.guardian_eye_end": "End Guardian Eye",
+	"item.ba_bt.guardian_eye_sky": "Sky Guardian Eye",
+	"item.ba_bt.guardian_eye_ocean": "Ocean Guardian Eye",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",
