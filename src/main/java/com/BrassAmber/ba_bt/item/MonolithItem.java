@@ -10,6 +10,7 @@ import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -28,9 +29,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MonolithItem extends Item {
+	private EntityType<MonolithEntity> monolithEntityType;
 
-	public MonolithItem(Item.Properties builder) {
+	public MonolithItem(EntityType<MonolithEntity> monolithEntityType, Item.Properties builder) {
 		super(builder);
+		this.monolithEntityType = monolithEntityType;
 	}
 
 	/*********************************************************** Placement ********************************************************/
@@ -56,7 +59,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (world instanceof ServerWorld) {
 					double centerOnBlock = 0.5D;
-					MonolithEntity newMonolithEntity = new MonolithEntity(world, x + centerOnBlock, y, z + centerOnBlock);
+					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, world, x + centerOnBlock, y, z + centerOnBlock);
 					newMonolithEntity.yRot = this.getPlacementDirection(context);
 					world.addFreshEntity(newMonolithEntity);
 				}

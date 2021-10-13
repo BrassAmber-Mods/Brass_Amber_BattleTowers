@@ -54,8 +54,8 @@ public class MonolithEntity extends Entity {
 		this.floatingRotation = this.random.nextInt(100_000);
 	}
 
-	public MonolithEntity(World worldIn, double x, double y, double z) {
-		this(BTEntityTypes.MONOLITH, worldIn);
+	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, World worldIn, double x, double y, double z) {
+		this(monolithEntityType, worldIn);
 		this.setPos(x, y, z);
 	}
 
@@ -67,7 +67,25 @@ public class MonolithEntity extends Entity {
 	 */
 	@Override
 	public ItemStack getPickedResult(RayTraceResult target) {
-		return new ItemStack(BTItems.MONOLITH);
+		EntityType<?> entityType = this.getEntity().getType();
+		if (entityType != null) {
+			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+				return new ItemStack(BTItems.LAND_MONOLITH);
+			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+				return new ItemStack(BTItems.CORE_MONOLITH);
+			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
+				return new ItemStack(BTItems.NETHER_MONOLITH);
+			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+				return new ItemStack(BTItems.END_MONOLITH);
+			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+				return new ItemStack(BTItems.SKY_MONOLITH);
+			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+				return new ItemStack(BTItems.OCEAN_MONOLITH);
+			}
+		}
+
+		// Couldn't get EntityType
+		return ItemStack.EMPTY;
 	}
 
 	/*********************************************************** NBT ********************************************************/
@@ -173,7 +191,7 @@ public class MonolithEntity extends Entity {
 			serverworld.addFreshEntity(lightningboltentity);
 
 			// Create a new GolemEntity
-			BTGolemEntity newGolemEntity = BTEntityTypes.LAND.create(this.level);
+			BTGolemEntity newGolemEntity = BTEntityTypes.LAND_GOLEM.create(this.level);
 			// Set the position for the new Golem to the current position of the Monolith.
 			newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
 			// Set the Golem to be invulnerable for x amount of ticks.
@@ -184,7 +202,7 @@ public class MonolithEntity extends Entity {
 			newGolemEntity.yRot = this.yRot;
 			newGolemEntity.setYHeadRot(this.yRot);
 			newGolemEntity.setYBodyRot(this.yRot);
-			
+
 			newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 			serverworld.addFreshEntity(newGolemEntity);
 		}

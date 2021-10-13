@@ -7,7 +7,12 @@
 	"entity.ba_bt.sky_golem": "Sky Golem",
 	"entity.ba_bt.ocean_golem": "Ocean Golem",
 	
-	"entity.ba_bt.monolith": "Monolith",
+	"entity.ba_bt.land_monolith": "Land Monolith",
+	"entity.ba_bt.core_monolith": "Core Monolith",
+	"entity.ba_bt.nether_monolith": "Nether Monolith",
+	"entity.ba_bt.end_monolith": "End Monolith",
+	"entity.ba_bt.sky_monolith": "Sky Monolith",
+	"entity.ba_bt.ocean_monolith": "Ocean Monolith",
 	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
@@ -46,7 +51,12 @@
 	"item.ba_bt.guardian_eye_sky": "Sky Guardian Eye",
 	"item.ba_bt.guardian_eye_ocean": "Ocean Guardian Eye",
 	
-	"item.ba_bt.monolith": "Monolith",
+	"item.ba_bt.monolith_land": "Land Monolith",
+	"item.ba_bt.monolith_core": "Core Monolith",
+	"item.ba_bt.monolith_nether": "Nether Monolith",
+	"item.ba_bt.monolith_end": "End Monolith",
+	"item.ba_bt.monolith_sky": "Sky Monolith",
+	"item.ba_bt.monolith_ocean": "Ocean Monolith",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",

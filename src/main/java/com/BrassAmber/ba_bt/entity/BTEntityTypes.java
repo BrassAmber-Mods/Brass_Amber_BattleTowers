@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EntityType.Builder;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -28,26 +29,31 @@ public class BTEntityTypes {
 
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, BrassAmberBattleTowers.MOD_ID);
 
-	public static final EntityType<BTGolemEntity> LAND = buildEntityType("land_golem", EntityType.Builder.of(BTGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
-	public static final EntityType<BTGolemEntity> CORE = buildEntityType("core_golem", EntityType.Builder.of(BTGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
-	public static final EntityType<BTGolemEntity> NETHER = buildEntityType("nether_golem", EntityType.Builder.of(BTGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
-	public static final EntityType<EndGolemEntity> END = buildEntityType("end_golem", EntityType.Builder.of(EndGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
-	public static final EntityType<SkyGolemEntity> SKY = buildEntityType("sky_golem", EntityType.Builder.of(SkyGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
-	public static final EntityType<OceanGolemEntity> OCEAN = buildEntityType("ocean_golem", EntityType.Builder.of(OceanGolemEntity::new, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE*2 * 0.6F, BTGolemEntityAbstract.SCALE*2 * 2).setTrackingRange(10).fireImmune());
+	public static final EntityType<BTGolemEntity> LAND_GOLEM = buildGolemEntityType("land_golem", BTGolemEntity::new);
+	public static final EntityType<BTGolemEntity> CORE_GOLEM = buildGolemEntityType("core_golem", BTGolemEntity::new);
+	public static final EntityType<BTGolemEntity> NETHER_GOLEM = buildGolemEntityType("nether_golem", BTGolemEntity::new);
+	public static final EntityType<EndGolemEntity> END_GOLEM = buildGolemEntityType("end_golem", EndGolemEntity::new);
+	public static final EntityType<SkyGolemEntity> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolemEntity::new);
+	public static final EntityType<OceanGolemEntity> OCEAN_GOLEM = buildGolemEntityType("ocean_golem", OceanGolemEntity::new);
 
-	public static final EntityType<MonolithEntity> MONOLITH = buildEntityType("monolith", EntityType.Builder.<MonolithEntity>of(MonolithEntity::new, EntityClassification.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune());
-	
+	public static final EntityType<MonolithEntity> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
+	public static final EntityType<MonolithEntity> CORE_MONOLITH = buildMonolithEntityType("core_monolith");
+	public static final EntityType<MonolithEntity> NETHER_MONOLITH = buildMonolithEntityType("nether_monolith");
+	public static final EntityType<MonolithEntity> END_MONOLITH = buildMonolithEntityType("end_monolith");
+	public static final EntityType<MonolithEntity> SKY_MONOLITH = buildMonolithEntityType("sky_monolith");
+	public static final EntityType<MonolithEntity> OCEAN_MONOLITH = buildMonolithEntityType("ocean_monolith");
+
 	/**
 	 * Register Spawn Rules
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onRegisterEntityTypes(Register<EntityType<?>> event) {
-		registerSpawnPlacement(LAND, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(CORE, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(NETHER, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(END, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(SKY, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(OCEAN, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(LAND_GOLEM, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(CORE_GOLEM, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(NETHER_GOLEM, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(END_GOLEM, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(SKY_GOLEM, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(OCEAN_GOLEM, MobEntity::checkMobSpawnRules);
 	}
 
 	/**
@@ -55,12 +61,28 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		event.put(LAND, BTGolemEntityAbstract.createBattleGolemAttributes().build());
-		event.put(CORE, BTGolemEntityAbstract.createBattleGolemAttributes().build());
-		event.put(NETHER, BTGolemEntityAbstract.createBattleGolemAttributes().build());
-		event.put(END, BTGolemEntityAbstract.createBattleGolemAttributes().build());
-		event.put(SKY, BTGolemEntityAbstract.createBattleGolemAttributes().build());
-		event.put(OCEAN, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(LAND_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(CORE_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(NETHER_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(END_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(SKY_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(OCEAN_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+	}
+
+	/**
+	 * Helper method for creating Golem EntityTypes
+	 */
+	private static <T extends BTGolemEntityAbstract> EntityType<T> buildGolemEntityType(String registryName, EntityType.IFactory<T> typeFactory) {
+		Builder<T> golemBuilder = EntityType.Builder.of(typeFactory, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE * 2 * 0.6F, BTGolemEntityAbstract.SCALE * 2 * 2).setTrackingRange(10).fireImmune();
+		return buildEntityType(registryName, golemBuilder);
+	}
+
+	/**
+	 * Helper method for creating Monolith EntityTypes
+	 */
+	private static EntityType<MonolithEntity> buildMonolithEntityType(String registryName) {
+		EntityType.Builder<MonolithEntity> monolithBuilder = EntityType.Builder.<MonolithEntity>of(MonolithEntity::new, EntityClassification.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune();
+		return buildEntityType(registryName, monolithBuilder);
 	}
 
 	/**

@@ -18,35 +18,39 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MonolithEntityRenderer extends EntityRenderer<MonolithEntity> {
-	private static final ResourceLocation MONOLITH_0 = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_0.png");
-	private static final ResourceLocation MONOLITH_1 = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_1.png");
-	private static final ResourceLocation MONOLITH_2 = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_2.png");
-	private static final ResourceLocation MONOLITH_3 = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_3.png");
-	private static final ResourceLocation MONOLITH_0E = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_0_e.png");
-	private static final ResourceLocation MONOLITH_1E = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_1_e.png");
-	private static final ResourceLocation MONOLITH_2E = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_2_e.png");
-	private static final ResourceLocation MONOLITH_3E = BrassAmberBattleTowers.locate("textures/entity/monolith/monolith_3_e.png");
+public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEntity> {
 	private final ModelRenderer crystal = new ModelRenderer(128, 64, 0, 0);
 	private final ModelRenderer crystalOverlay = new ModelRenderer(128, 64, 0, 0);
+	// TODO Make arrays?
+	protected ResourceLocation monolith0;
+	protected ResourceLocation monolith1;
+	protected ResourceLocation monolith2;
+	protected ResourceLocation monolith3;
+	protected ResourceLocation monolith0E;
+	protected ResourceLocation monolith1E;
+	protected ResourceLocation monolith2E;
+	protected ResourceLocation monolith3E;
+	private String monolithType;
 
-	public MonolithEntityRenderer(EntityRendererManager renderManagerIn) {
+	public MonolithRendererAbstract(EntityRendererManager renderManagerIn, String monolithType) {
 		super(renderManagerIn);
+		this.monolithType = monolithType;
+		this.setMonolithTextures();
 
 		// Monolith Model
-		crystal.setPos(0.0F, 13.0F, 0.0F);
-		crystal.texOffs(16, 0).addBox(-4.0F, -21.0F, -4.0F, 8.0F, 4.0F, 8.0F);
-		crystal.texOffs(8, 14).addBox(-6.0F, -17.0F, -6.0F, 12.0F, 4.0F, 12.0F);
-		crystal.texOffs(0, 32).addBox(-8.0F, -13.0F, -8.0F, 16.0F, 16.0F, 16.0F);
-		crystal.texOffs(60, 14).addBox(-6.0F, 3.0F, -6.0F, 12.0F, 4.0F, 12.0F);
-		crystal.texOffs(52, 0).addBox(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F);
+		this.crystal.setPos(0.0F, 13.0F, 0.0F);
+		this.crystal.texOffs(16, 0).addBox(-4.0F, -21.0F, -4.0F, 8.0F, 4.0F, 8.0F);
+		this.crystal.texOffs(8, 14).addBox(-6.0F, -17.0F, -6.0F, 12.0F, 4.0F, 12.0F);
+		this.crystal.texOffs(0, 32).addBox(-8.0F, -13.0F, -8.0F, 16.0F, 16.0F, 16.0F);
+		this.crystal.texOffs(60, 14).addBox(-6.0F, 3.0F, -6.0F, 12.0F, 4.0F, 12.0F);
+		this.crystal.texOffs(52, 0).addBox(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F);
 
-		crystalOverlay.setPos(0.0F, 13.0F, 0.0F);
-		crystalOverlay.texOffs(16, 0).addBox(-4.0F, -21.0F, -4.0F, 8.0F, 4.0F, 8.0F);
-		crystalOverlay.texOffs(8, 14).addBox(-6.0F, -17.0F, -6.0F, 12.0F, 4.0F, 12.0F);
-		crystalOverlay.texOffs(0, 32).addBox(-8.0F, -13.0F, -8.0F, 16.0F, 16.0F, 16.0F);
-		crystalOverlay.texOffs(60, 14).addBox(-6.0F, 3.0F, -6.0F, 12.0F, 4.0F, 12.0F);
-		crystalOverlay.texOffs(52, 0).addBox(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F);
+		this.crystalOverlay.setPos(0.0F, 13.0F, 0.0F);
+		this.crystalOverlay.texOffs(16, 0).addBox(-4.0F, -21.0F, -4.0F, 8.0F, 4.0F, 8.0F);
+		this.crystalOverlay.texOffs(8, 14).addBox(-6.0F, -17.0F, -6.0F, 12.0F, 4.0F, 12.0F);
+		this.crystalOverlay.texOffs(0, 32).addBox(-8.0F, -13.0F, -8.0F, 16.0F, 16.0F, 16.0F);
+		this.crystalOverlay.texOffs(60, 14).addBox(-6.0F, 3.0F, -6.0F, 12.0F, 4.0F, 12.0F);
+		this.crystalOverlay.texOffs(52, 0).addBox(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F);
 	}
 
 	@Override
@@ -91,29 +95,43 @@ public class MonolithEntityRenderer extends EntityRenderer<MonolithEntity> {
 	public ResourceLocation getTextureLocation(MonolithEntity entityIn) {
 		switch (entityIn.getKeyCountInEntity()) {
 		case 0:
-			return MONOLITH_0;
-		case 1:
-			return MONOLITH_1;
-		case 2:
-			return MONOLITH_2;
-		case 3:
 		default:
-			return MONOLITH_3;
+			return monolith0;
+		case 1:
+			return monolith1;
+		case 2:
+			return monolith2;
+		case 3:
+			return monolith3;
 		}
 	}
 
-	public ResourceLocation getGlowingEntityTexture(MonolithEntity entityIn) {
+	protected ResourceLocation getGlowingEntityTexture(MonolithEntity entityIn) {
 		switch (entityIn.getKeyCountInEntity()) {
 		case 0:
-			return MONOLITH_0E;
-		case 1:
-			return MONOLITH_1E;
-		case 2:
-			return MONOLITH_2E;
-		case 3:
 		default:
-			return MONOLITH_3E;
+			return monolith0E;
+		case 1:
+			return monolith1E;
+		case 2:
+			return monolith2E;
+		case 3:
+			return monolith3E;
 		}
 	}
 
+	protected void setMonolithTextures() {
+		this.monolith0 = this.setMonolithTexture(this.monolithType + "_0");
+		this.monolith1 = this.setMonolithTexture(this.monolithType + "_1");
+		this.monolith2 = this.setMonolithTexture(this.monolithType + "_2");
+		this.monolith3 = this.setMonolithTexture(this.monolithType + "_3");
+		this.monolith0E = this.setMonolithTexture(this.monolithType + "_0_e");
+		this.monolith1E = this.setMonolithTexture(this.monolithType + "_1_e");
+		this.monolith2E = this.setMonolithTexture(this.monolithType + "_2_e");
+		this.monolith3E = this.setMonolithTexture(this.monolithType + "_3_e");
+	}
+
+	protected ResourceLocation setMonolithTexture(String textureName) {
+		return BrassAmberBattleTowers.locate("textures/entity/monolith/" + this.monolithType + "/" + textureName + ".png");
+	}
 }
