@@ -1,0 +1,16 @@
+Sky golem legs do not move and she uses vex animations [weapon hand raises when she charges]
+-holds a sword in hand
+Ocean golem tail doesn't need an animation [but a light waving would be fine]
+-holds a trident in hand 
+[weapons are twice the size of player handheld items]
+
+Core golem:
+"I've decided to do a small remodel of the core god to make him more interesting"
+- he will take damage from anything instead of just pickaxes.
+- but I'm giving him an extra set of arms
+- and a new ability when he reaches 1/3 health, he raises into the air and sprouts 4 more arms. Those arms shoots fireballs alongside his head in stage 2
+
+the ocean/sky golem should return to their summon point if you die, if not they persist with a follow range of 2 chunks
+all the others would have a 2 chunk range as well, returning to their summon point when you die
+
+Golem HP should slowly return as well rather than insta-refill

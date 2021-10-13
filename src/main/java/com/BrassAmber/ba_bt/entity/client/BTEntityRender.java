@@ -2,12 +2,12 @@ package com.BrassAmber.ba_bt.entity.client;
 
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.client.renderer.block.MonolithEntityRenderer;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.CoreGolemRenderer;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.EndGolemRenderer;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.LandGolemRenderer;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.NetherGolemRenderer;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.OceanGolemRenderer;
-import com.BrassAmber.ba_bt.entity.client.renderer.hostile.SkyGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.golem.CoreGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.golem.EndGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.golem.LandGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.golem.NetherGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.golem.OceanGolemRenderer;
+import com.BrassAmber.ba_bt.entity.client.renderer.golem.SkyGolemRenderer;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

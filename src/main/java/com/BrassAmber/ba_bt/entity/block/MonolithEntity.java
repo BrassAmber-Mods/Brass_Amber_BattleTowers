@@ -2,7 +2,8 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.hostile.BTGolemEntity;
+import com.BrassAmber.ba_bt.entity.golem.BTGolemEntity;
+import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.item.BTItems;
 
 import net.minecraft.block.BlockState;
@@ -145,7 +146,7 @@ public class MonolithEntity extends Entity {
 	}
 
 	/**
-	 * Checks if there are any Blocks in the way
+	 * Checks if there are any Blocks in the way.
 	 */
 	@SuppressWarnings("deprecation")
 	private void checkBlocksInEntity() {
@@ -158,21 +159,32 @@ public class MonolithEntity extends Entity {
 		}
 	}
 
+	/**
+	 * Helper method to spawn a new Golem.
+	 */
 	protected void spawnGolem() {
 		if (!this.level.isClientSide()) {
 			ServerWorld serverworld = (ServerWorld) this.level;
 
+			// Spawn visual lightning
 			LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(serverworld);
 			lightningboltentity.moveTo(this.getX(), this.getY(), this.getZ());
 			lightningboltentity.setVisualOnly(true);
 			serverworld.addFreshEntity(lightningboltentity);
 
+			// Create a new GolemEntity
 			BTGolemEntity newGolemEntity = BTEntityTypes.LAND.create(this.level);
+			// Set the position for the new Golem to the current position of the Monolith.
 			newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+			// Set the Golem to be invulnerable for x amount of ticks.
 			newGolemEntity.invulnerableTime = 60;
-			newGolemEntity.setPersistenceRequired();
-			newGolemEntity.setNoAi(true);
-			newGolemEntity.setGolemState((byte) 0);
+			// Set the Golem to spawn Dormant.
+			newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+			// Spawn the Golem facing the same direction as the Monolith.
+			newGolemEntity.yRot = this.yRot;
+			newGolemEntity.setYHeadRot(this.yRot);
+			newGolemEntity.setYBodyRot(this.yRot);
+			
 			newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 			serverworld.addFreshEntity(newGolemEntity);
 		}

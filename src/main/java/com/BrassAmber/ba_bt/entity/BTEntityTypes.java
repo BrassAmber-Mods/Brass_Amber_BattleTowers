@@ -2,11 +2,11 @@ package com.BrassAmber.ba_bt.entity;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
-import com.BrassAmber.ba_bt.entity.hostile.BTGolemEntity;
-import com.BrassAmber.ba_bt.entity.hostile.BTGolemEntityAbstract;
-import com.BrassAmber.ba_bt.entity.hostile.EndGolemEntity;
-import com.BrassAmber.ba_bt.entity.hostile.OceanGolemEntity;
-import com.BrassAmber.ba_bt.entity.hostile.SkyGolemEntity;
+import com.BrassAmber.ba_bt.entity.golem.BTGolemEntity;
+import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.golem.EndGolemEntity;
+import com.BrassAmber.ba_bt.entity.golem.OceanGolemEntity;
+import com.BrassAmber.ba_bt.entity.golem.SkyGolemEntity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;

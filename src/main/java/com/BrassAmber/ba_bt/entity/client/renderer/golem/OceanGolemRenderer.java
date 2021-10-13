@@ -1,8 +1,8 @@
-package com.BrassAmber.ba_bt.entity.client.renderer.hostile;
+package com.BrassAmber.ba_bt.entity.client.renderer.golem;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.client.model.hostile.OceanGolemModel;
-import com.BrassAmber.ba_bt.entity.hostile.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.client.model.golem.OceanGolemModel;
+import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;

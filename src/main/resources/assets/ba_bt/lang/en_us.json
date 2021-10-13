@@ -46,6 +46,8 @@
 	"item.ba_bt.guardian_eye_sky": "Sky Guardian Eye",
 	"item.ba_bt.guardian_eye_ocean": "Ocean Guardian Eye",
 	
+	"item.ba_bt.monolith": "Monolith",
+	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",
 	"tooltip.battletowers.monolith": "The Monolith is used to summon a Battle Golem.",
