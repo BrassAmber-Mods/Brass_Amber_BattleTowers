@@ -1,0 +1,95 @@
+{
+	"entity.golem.hurt": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.hurt",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/golemhurt1",
+				"volume": 1.0
+			},
+			{
+				"name": "ba_bt:entity/golem/golemhurt2",
+				"volume": 1.0
+			}
+		]
+	},
+	"entity.golem.death": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.death",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/golemdeath",
+				"volume": 1.0
+			}
+		]
+	},
+	"entity.golem.charge": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.charge",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/golemcharge1",
+				"volume": 1.0
+			},
+			{
+				"name": "ba_bt:entity/golem/golemcharge2",
+				"volume": 1.0
+			}
+		]
+	},
+	"entity.golem.awaken": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.awaken",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/golemawaken",
+				"volume": 1.0
+			}
+		]
+	},
+	"entity.golem.ambient": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.ambient",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/golem",
+				"volume": 1.0
+			}
+		]
+	},
+	"entity.golem.special": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.special",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/golemspecial1",
+				"volume": 1.0
+			},
+			{
+				"name": "ba_bt:entity/golem/golemspecial2",
+				"volume": 1.0
+			}
+		]
+	},
+		
+	"tower.break.start": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.break.start",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/towerbreakstart",
+				"volume": 0.6
+			}
+		]
+	},
+	"tower.break.crumble": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.break.crumble",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/towercrumble",
+				"volume": 0.6
+			}
+		]
+	}
+}
