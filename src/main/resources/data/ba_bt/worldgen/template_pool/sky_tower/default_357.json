@@ -68,7 +68,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:sky_tower/sky_praising_odd_4",
+        "location": "ba_bt:sky_tower/sky_praising_room_odd_4",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"

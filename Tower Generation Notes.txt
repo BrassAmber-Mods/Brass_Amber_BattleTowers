@@ -50,4 +50,20 @@ Biome Specific stuff - Tower generates from the bottom floor up so, very long-te
 	End_Deteriorating
 
 	Sky_Default
+	floor 8- skeleton, silver skeleton, spectral wraith, sky minion
+    floor 7- skeleton, silver skeleton, spectral wraith, sky minion
+    floor 6- skeleton, silver skeleton, spectral wraith, sky minion
+    floor 5- skeleton, silver skeleton, spectral wraith
+    floor 4- skeleton, silver skeleton
+    floor 2- skeleton, silver skeleton
+    floor 1- skeleton, silver skeleton
 	Sky_Airy = No Iron Bars on windows, all 4 walls are windows
+
+
+
+	land tower rarity: common [8-10 chunks apart]
+    ocean tower rarity: uncommon 10-11chunks apart]
+    core tower rarity:  uncommon [10-12 chunks apart]
+    nether tower rarity: rare [ 14-15 chunks apart]
+    end tower rarity:  extremely rare: [18-20 chunks apart]
+    sky tower rarity: angelic [20-24 chunks apart]

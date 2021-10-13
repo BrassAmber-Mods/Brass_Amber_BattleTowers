@@ -70,7 +70,7 @@
 	{	
       "weight": 50,
       "element": {
-        "location": "ba_bt:sky_tower/miniboss",
+        "location": "ba_bt:sky_tower/sky_miniboss",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
