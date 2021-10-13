@@ -285,7 +285,8 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	private SwimGoal swimGoal = new SwimGoal(this);
 	private MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.0D, true);
 	private LookAtGoal lookAtGoal = new LookAtGoal(this, PlayerEntity.class, 8.0F);
-	// Probably not gonna use this anymore
+	// Probably not going to use this anymore, TODO delete
+	@SuppressWarnings("unused")
 	private GolemFireballAttackGoal fireballAttackGoal = new GolemFireballAttackGoal(this);
 	private HurtByTargetGoal hurtByTargetGoal = new HurtByTargetGoal(this);
 	private NearestAttackableTargetGoal<PlayerEntity> nearestAttackablePlayer = new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true, true);
