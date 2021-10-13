@@ -1,3 +1,29 @@
+All Golems:
++ Go dormant when you die and return to the tower top but instead of fully healing, they slowly regenerate health
++ the golems when freed from the monolith can chase the player at a max range of 2 chunks, otherwise they teleport back
++ if they go dormant when a player dies, then you will need to go within a 6 blocks or less radius to reawaken it
+
+========================================================================
+
+Land Golem
+HP: 300 Hearts
+
+Attacks:
+-Fireball
+-Melee punch
+
+Apocalypse stomp 
+-when above the player: 
+-the golem will smash the floor by performing a standing still jump on the spot]
+
+When below 1/3 HP
+-Golem becomes enraged, doubling his firing speed but losing half his defenses
+
+Ideas:
++ Fireballs explode in the air without hitting a block after a certain time like Anti-Air
+
+========================================================================
+
 Sky golem legs do not move and she uses vex animations [weapon hand raises when she charges]
 -holds a sword in hand
 Ocean golem tail doesn't need an animation [but a light waving would be fine]
