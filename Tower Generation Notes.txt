@@ -23,7 +23,7 @@ Land_Default_357_2 = Cult Room odd2-2, Barracks Odd 2-3
 
 Floor Structure -- Sky Tower
 
-Base -> Praising Room 2 -> Random Room Odd 1_3 -> Random Room Even 3 -> Random Room Odd 2_3 -> Random Room Even 4 -> Praising Room 4 -> Miniboss 4 -> Roof
+Base & Praising Room 2 -> Random Room Odd 1_3 -> Random Room Even 3 -> Random Room Odd 2_3 -> Random Room Even 4 -> Praising Room 4 -> Miniboss 4 & Roof
 
 
 
