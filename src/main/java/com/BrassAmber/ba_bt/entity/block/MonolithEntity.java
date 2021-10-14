@@ -48,6 +48,8 @@ public class MonolithEntity extends Entity {
 	private final GolemType golemType;
 	private final Item correctMonolithKey;
 	private final Item correctGuardianEye;
+	private boolean displayEye = false;
+	private int nextStageCounter = 0;
 	private int livingSoundTime;
 	private int floatingRotation;
 
@@ -66,17 +68,7 @@ public class MonolithEntity extends Entity {
 		this.setPos(x, y, z);
 	}
 
-	/**
-	 * Called when a user uses the creative pick block button on this entity.
-	 * @return An ItemStack to add to the player's inventory, empty ItemStack if nothing should be added.
-	 * (Empty ItemStack is an ItemStack of '(Item) null')
-	 */
-	@Override
-	public ItemStack getPickedResult(RayTraceResult target) {
-		return new ItemStack(GolemType.getMonolithItemFor(this.golemType));
-	}
-
-	/*********************************************************** NBT ********************************************************/
+	/*********************************************************** Data ********************************************************/
 
 	@Override
 	protected void defineSynchedData() {
@@ -93,20 +85,52 @@ public class MonolithEntity extends Entity {
 		compound.putInt("Keys", this.getKeyCountInEntity());
 	}
 
-	/*********************************************************** Keys ********************************************************/
+	/*********************************************************** Ticks ********************************************************/
 
 	/**
-	 * counts the amount of keys in the entity. used in rendering.
+	 * Gets called from: {@link Entity#tick()}.
 	 */
-	public final int getKeyCountInEntity() {
-		return MathHelper.clamp(this.entityData.get(KEYS), 0, 3);
-	}
+	@Override
+	public void baseTick() {
+		super.baseTick();
 
-	/**
-	 * sets the amount of keys in the entity. used for rendering.
-	 */
-	public final void setKeyCountInEntity(int count) {
-		this.entityData.set(KEYS, count);
+		boolean isLandMonolith = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH);
+		if (this.getKeyCountInEntity() == 2 && !isLandMonolith) {
+			this.nextStageCounter++;
+			int seconds = 2;
+			// Hold this stage for 2 seconds before the Eye slot becomes visible.
+			if (this.nextStageCounter >= (seconds * 20)) {
+				// Display the Eye slot on the Monolith.
+				this.setEyeSlotDisplayed();
+				// Reset counter.
+				this.nextStageCounter = 0;
+			}
+		}
+		// Checks for keys.
+		else if (this.getKeyCountInEntity() >= 3 && (this.isEyeSlotDisplayed() || isLandMonolith)) {
+			// Hold this for 5 seconds before Golem Spawns
+			this.nextStageCounter++;
+			int seconds = 5;
+			if (this.nextStageCounter >= (seconds * 20)) {
+				//	Spawn Golem and remove this entity
+				this.spawnGolem();
+				this.remove();
+			}
+		}
+
+		// Checks if there are any blocks inside the hit-box and deletes them.
+		this.checkBlocksInEntity();
+
+		// Handles the floating animation
+		++this.floatingRotation;
+		// Animate particles.
+		this.animateTick();
+
+		// Play ambient sounds at random intervals.
+		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
+			this.resetMinSoundInterval();
+			this.playAmbientSound();
+		}
 	}
 
 	/*********************************************************** Interaction ********************************************************/
@@ -131,7 +155,7 @@ public class MonolithEntity extends Entity {
 			}
 
 			// Test for a chance to insert a Guardian Eye.
-			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityTypes.LAND_MONOLITH)) {
+			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityTypes.LAND_MONOLITH) && this.isEyeSlotDisplayed()) {
 				this.increaseKeyCount(player, hand);
 				return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 			}
@@ -152,60 +176,6 @@ public class MonolithEntity extends Entity {
 		}
 	}
 
-	/*********************************************************** Ticks ********************************************************/
-
-	/**
-	 * Gets called from: {@link Entity#tick()}.
-	 */
-	@Override
-	public void baseTick() {
-		super.baseTick();
-
-		// Checks for keys.
-		if (this.getKeyCountInEntity() >= 3) {
-			//	Spawn Golem and remove this entity
-			this.spawnGolem();
-			this.remove();
-		}
-
-		// Checks if there are any blocks inside the hit-box and deletes them.
-		this.checkBlocksInEntity();
-
-		// Handles the floating animation
-		++this.floatingRotation;
-		// Animate particles.
-		this.animateTick();
-		
-		// Play ambient sounds at random intervals.
-		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
-			this.resetMinSoundInterval();
-			this.playAmbientSound();
-		}
-	}
-
-	/**
-	 * Reset the interval for ambient sounds.
-	 */
-	private void resetMinSoundInterval() {
-		this.livingSoundTime = -this.getAmbientSoundInterval();
-	}
-
-	/*********************************************************** Check Blocks ********************************************************/
-
-	/**
-	 * Checks if there are any Blocks in the way.
-	 */
-	@SuppressWarnings("deprecation")
-	private void checkBlocksInEntity() {
-		for (int height = 0; height < 3; height++) {
-			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
-			BlockState testBlock = this.level.getBlockState(monolithPos);
-			if (!testBlock.isAir()) {
-				this.level.setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
-			}
-		}
-	}
-	
 	/*********************************************************** Golem Spawning ********************************************************/
 
 	/**
@@ -242,7 +212,63 @@ public class MonolithEntity extends Entity {
 		}
 	}
 
+	/*********************************************************** Check Blocks ********************************************************/
+
+	/**
+	 * Checks if there are any Blocks in the way.
+	 */
+	@SuppressWarnings("deprecation")
+	private void checkBlocksInEntity() {
+		for (int height = 0; height < 3; height++) {
+			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
+			BlockState testBlock = this.level.getBlockState(monolithPos);
+			if (!testBlock.isAir()) {
+				this.level.setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
+			}
+		}
+	}
+
+	/*********************************************************** Keys ********************************************************/
+
+	/**
+	 * counts the amount of keys in the entity. used in rendering.
+	 */
+	public final int getKeyCountInEntity() {
+		return MathHelper.clamp(this.entityData.get(KEYS), 0, 3);
+	}
+
+	/**
+	 * sets the amount of keys in the entity. used for rendering.
+	 */
+	public final void setKeyCountInEntity(int count) {
+		this.entityData.set(KEYS, count);
+	}
+
+	/*********************************************************** Golem Type Helpers ********************************************************/
+
+	public EntityType<?> getMonolithType() {
+		return this.monolithType;
+	}
+
+	public void setEyeSlotDisplayed() {
+		this.displayEye = true;
+	}
+
+	public boolean isEyeSlotDisplayed() {
+		return this.displayEye;
+	}
+
 	/*********************************************************** Characteristics & Properties ********************************************************/
+
+	/**
+	 * Called when a user uses the creative pick block button on this entity.
+	 * @return An ItemStack to add to the player's inventory, empty ItemStack if nothing should be added.
+	 * (Empty ItemStack is an ItemStack of '(Item) null')
+	 */
+	@Override
+	public ItemStack getPickedResult(RayTraceResult target) {
+		return new ItemStack(GolemType.getMonolithItemFor(this.golemType));
+	}
 
 	/**
 	 * {@link PushReaction.IGNORE} is the only valid option for an entity I think to stop piston interaction
@@ -312,7 +338,7 @@ public class MonolithEntity extends Entity {
 	public float getFloatingRotation() {
 		return this.floatingRotation;
 	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	private void animateTick() {
 		// TODO Add blue portal like particle
@@ -329,10 +355,10 @@ public class MonolithEntity extends Entity {
 	public IPacket<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
-	
+
 	/*********************************************************** Sounds ********************************************************/
 	// TODO Fix subtitles for all sounds.
-	
+
 	@Override
 	public SoundCategory getSoundSource() {
 		return SoundCategory.BLOCKS;
@@ -358,6 +384,13 @@ public class MonolithEntity extends Entity {
 	 */
 	private int getAmbientSoundInterval() {
 		return 400;
+	}
+
+	/**
+	 * Reset the interval for ambient sounds.
+	 */
+	private void resetMinSoundInterval() {
+		this.livingSoundTime = -this.getAmbientSoundInterval();
 	}
 
 	/**
