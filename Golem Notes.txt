@@ -24,11 +24,19 @@ Ideas:
 
 ========================================================================
 
-Sky golem legs do not move and she uses vex animations [weapon hand raises when she charges]
+Sky golem:
++ legs do not move and she uses vex animations [weapon hand raises when she charges]
 -holds a sword in hand
 Ocean golem tail doesn't need an animation [but a light waving would be fine]
 -holds a trident in hand 
 [weapons are twice the size of player handheld items]
++ What to do with the Minions when she's dormant?
+
+Minions:
++ the sky golem summons sky minions [player models with wings, i forgot to add the wings to the model]
++ every 1/4 hp she loses, a cloud of 4-7 of her minions spawn
+
+========================================================================
 
 Core golem:
 "I've decided to do a small remodel of the core god to make him more interesting"
