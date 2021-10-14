@@ -188,7 +188,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		}
 	}
 
-	/*********************************************************** Shoot Fireballs TEST ********************************************************/
+	/*********************************************************** Shoot Fireball TEST ********************************************************/
 
 	public int chargeTime = 0;
 
@@ -459,25 +459,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 	/*********************************************************** Awake / Dormant ********************************************************/
 
-	/*
-	 * Reset the Golem to its defined spawn location.
-	 */
-	private void resetGolem() {
-		BlockPos spawnPos = this.getSpawnPos();
-		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
-		this.faceSpawnDirection();
-		this.setGolemState(DORMANT);
-	}
-
-	/*
-	 * Make the Golem face the defined spawn direction.
-	 */
-	private void faceSpawnDirection() {
-		this.yRot = this.getSpawnDirection();
-		this.setYHeadRot(this.getSpawnDirection());
-		this.setYBodyRot(this.getSpawnDirection());
-	}
-
 	/**
 	 * 0 = Dormant, 1 = Awake, 2 = Enraged
 	 */
@@ -516,8 +497,34 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		return this.getGolemState() == SPECIAL;
 	}
 
-	/*********************************************************** Spawn Position ********************************************************/
+	/*********************************************************** Spawn Position / Reset ********************************************************/
 
+	/*
+	 * Reset the Golem to its defined spawn location.
+	 */
+	private void resetGolem() {
+		BlockPos spawnPos = this.getSpawnPos();
+		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
+		this.faceSpawnDirection();
+		this.setGolemState(DORMANT);
+	}
+
+	/*
+	 * Make the Golem face the defined spawn direction.
+	 */
+	private void faceSpawnDirection() {
+		this.faceDirection(this.getSpawnDirection());
+	}
+	
+	/*
+	 * Make the Golem face the defined spawn direction.
+	 */
+	public void faceDirection(float direction) {
+		this.yRot = direction;
+		this.setYHeadRot(direction);
+		this.setYBodyRot(direction);
+	}
+	
 	/**
 	 * Define the spawn position.
 	 */

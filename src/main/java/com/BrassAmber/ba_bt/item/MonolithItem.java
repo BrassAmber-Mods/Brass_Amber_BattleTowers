@@ -29,7 +29,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MonolithItem extends Item {
-	private EntityType<MonolithEntity> monolithEntityType;
+	private final EntityType<MonolithEntity> monolithEntityType;
 
 	public MonolithItem(EntityType<MonolithEntity> monolithEntityType, Item.Properties builder) {
 		super(builder);

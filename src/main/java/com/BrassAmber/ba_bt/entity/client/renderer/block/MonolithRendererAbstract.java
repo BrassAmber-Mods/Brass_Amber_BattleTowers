@@ -60,7 +60,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 		float amplitude = 0.25F;
 		float defaultHeight = 0.5f;
 
-		float floatingInput = entityIn.floatingRotation / speedModifier;
+		float floatingInput = entityIn.getFloatingRotation() / speedModifier;
 		float floatingWave = amplitude * MathHelper.sin(floatingInput) + defaultHeight;
 
 		//	Bobbing up and down animation
