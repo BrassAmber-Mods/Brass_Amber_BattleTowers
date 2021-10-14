@@ -1,9 +1,9 @@
 package com.BrassAmber.ba_bt.item;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.block.TotemBlock.TotemType;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -22,12 +22,12 @@ public class BTItems {
 	public static final Item SKY_MONOLOITH_KEY = registerMonolithKey("monolith_key_sky");
 	public static final Item OCEAN_MONOLOITH_KEY = registerMonolithKey("monolith_key_ocean");
 
-	public static final Item LAND_GUARDIAN_EYE = registerGuardianEye("guardian_eye_land", TotemType.LAND);
-	public static final Item CORE_GUARDIAN_EYE = registerGuardianEye("guardian_eye_core", TotemType.CORE);
-	public static final Item NETHER_GUARDIAN_EYE = registerGuardianEye("guardian_eye_nether", TotemType.NETHER);
-	public static final Item END_GUARDIAN_EYE = registerGuardianEye("guardian_eye_end", TotemType.END);
-	public static final Item SKY_GUARDIAN_EYE = registerGuardianEye("guardian_eye_sky", TotemType.SKY);
-	public static final Item OCEAN_GUARDIAN_EYE = registerGuardianEye("guardian_eye_ocean", TotemType.OCEAN);
+	public static final Item LAND_GUARDIAN_EYE = registerGuardianEye("guardian_eye_land", GolemType.LAND);
+	public static final Item CORE_GUARDIAN_EYE = registerGuardianEye("guardian_eye_core", GolemType.CORE);
+	public static final Item NETHER_GUARDIAN_EYE = registerGuardianEye("guardian_eye_nether", GolemType.NETHER);
+	public static final Item END_GUARDIAN_EYE = registerGuardianEye("guardian_eye_end", GolemType.END);
+	public static final Item SKY_GUARDIAN_EYE = registerGuardianEye("guardian_eye_sky", GolemType.SKY);
+	public static final Item OCEAN_GUARDIAN_EYE = registerGuardianEye("guardian_eye_ocean", GolemType.OCEAN);
 
 	public static final Item LAND_MONOLITH = registerMonolith("monolith_land", BTEntityTypes.LAND_MONOLITH);
 	public static final Item CORE_MONOLITH = registerMonolith("monolith_core", BTEntityTypes.CORE_MONOLITH);
@@ -55,8 +55,8 @@ public class BTItems {
 	/**
 	 * Helper method for creating Guardian Eye items.
 	 */
-	private static Item registerGuardianEye(String registryName, TotemType totemType) {
-		Item newGuardianEyeItem = new GuardianEyeItem(totemType, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).tab(ItemGroup.TAB_MISC));
+	private static Item registerGuardianEye(String registryName, GolemType golemType) {
+		Item newGuardianEyeItem = new GuardianEyeItem(golemType, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).tab(ItemGroup.TAB_MISC));
 		return registerItem(registryName, newGuardianEyeItem);
 	}
 

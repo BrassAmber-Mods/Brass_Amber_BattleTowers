@@ -1,7 +1,10 @@
 package com.BrassAmber.ba_bt.entity.client.renderer.block;
 
+import java.util.List;
+
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -20,21 +23,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEntity> {
 	private final ModelRenderer crystal = new ModelRenderer(128, 64, 0, 0);
-	private final ModelRenderer crystalOverlay = new ModelRenderer(128, 64, 0, 0);
-	// TODO Make arrays?
-	protected ResourceLocation monolith0;
-	protected ResourceLocation monolith1;
-	protected ResourceLocation monolith2;
-	protected ResourceLocation monolith3;
-	protected ResourceLocation monolith0E;
-	protected ResourceLocation monolith1E;
-	protected ResourceLocation monolith2E;
-	protected ResourceLocation monolith3E;
+	private List<ResourceLocation> monolithTextures = Lists.newArrayList();
 	private String monolithType;
 
 	public MonolithRendererAbstract(EntityRendererManager renderManagerIn, String monolithType) {
 		super(renderManagerIn);
 		this.monolithType = monolithType;
+		// Set the correct textures for each Monolith type.
 		this.setMonolithTextures();
 
 		// Monolith Model
@@ -44,13 +39,6 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 		this.crystal.texOffs(0, 32).addBox(-8.0F, -13.0F, -8.0F, 16.0F, 16.0F, 16.0F);
 		this.crystal.texOffs(60, 14).addBox(-6.0F, 3.0F, -6.0F, 12.0F, 4.0F, 12.0F);
 		this.crystal.texOffs(52, 0).addBox(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F);
-
-		this.crystalOverlay.setPos(0.0F, 13.0F, 0.0F);
-		this.crystalOverlay.texOffs(16, 0).addBox(-4.0F, -21.0F, -4.0F, 8.0F, 4.0F, 8.0F);
-		this.crystalOverlay.texOffs(8, 14).addBox(-6.0F, -17.0F, -6.0F, 12.0F, 4.0F, 12.0F);
-		this.crystalOverlay.texOffs(0, 32).addBox(-8.0F, -13.0F, -8.0F, 16.0F, 16.0F, 16.0F);
-		this.crystalOverlay.texOffs(60, 14).addBox(-6.0F, 3.0F, -6.0F, 12.0F, 4.0F, 12.0F);
-		this.crystalOverlay.texOffs(52, 0).addBox(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F);
 	}
 
 	@Override
@@ -60,7 +48,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 		float amplitude = 0.25F;
 		float defaultHeight = 0.5f;
 
-		float floatingInput = entityIn.floatingRotation / speedModifier;
+		float floatingInput = entityIn.getFloatingRotation() / speedModifier;
 		float floatingWave = amplitude * MathHelper.sin(floatingInput) + defaultHeight;
 
 		//	Bobbing up and down animation
@@ -79,59 +67,45 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 		// Render the base textures
 		IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(entityIn)));
 		this.crystal.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY);
-
-		// Render the blue glowing textures
-		matrixStackIn.scale(1.01F, 1.01F, 1.01F);
-		ivertexbuilder = bufferIn.getBuffer(RenderType.entityCutout(this.getGlowingEntityTexture(entityIn)));
-		int light = /*config.disableGlow.get() ? packedLightIn : */200;
-		this.crystalOverlay.render(matrixStackIn, ivertexbuilder, light, OverlayTexture.NO_OVERLAY);
 		matrixStackIn.popPose();
 	}
 
-	/*
-	 * Returns the correct texture according to the amount of keys
+	/**
+	 * Returns the correct texture according to the amount of keys or eyes.
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(MonolithEntity entityIn) {
-		switch (entityIn.getKeyCountInEntity()) {
-		case 0:
-		default:
-			return monolith0;
-		case 1:
-			return monolith1;
-		case 2:
-			return monolith2;
-		case 3:
-			return monolith3;
+		int eyeSlotIncrement = entityIn.isEyeSlotDisplayed() ? 1 : 0;
+		int textureLocation = entityIn.getKeyCountInEntity() + eyeSlotIncrement;
+		return this.getMonolithTexture(textureLocation);
+	}
+
+	/**
+	 * Get the correct texture from the List.
+	 */
+	private ResourceLocation getMonolithTexture(int textureLocation) {
+		int maxAmountOfTextures = this.isLandMonolith() ? 3 : 4;
+		return this.monolithTextures.get(MathHelper.clamp(textureLocation, 0, maxAmountOfTextures));
+	}
+	
+	/**
+	 * Initialize all the Monolith textures automatically.
+	 */
+	private void setMonolithTextures() {
+		int maxTextures = this.isLandMonolith() ? 3 : 4;
+		for (int x = 0; x <= maxTextures; x++) {
+			this.monolithTextures.add(this.setMonolithTextureLocation(this.monolithType + "_" + x));
 		}
 	}
 
-	protected ResourceLocation getGlowingEntityTexture(MonolithEntity entityIn) {
-		switch (entityIn.getKeyCountInEntity()) {
-		case 0:
-		default:
-			return monolith0E;
-		case 1:
-			return monolith1E;
-		case 2:
-			return monolith2E;
-		case 3:
-			return monolith3E;
-		}
-	}
-
-	protected void setMonolithTextures() {
-		this.monolith0 = this.setMonolithTexture(this.monolithType + "_0");
-		this.monolith1 = this.setMonolithTexture(this.monolithType + "_1");
-		this.monolith2 = this.setMonolithTexture(this.monolithType + "_2");
-		this.monolith3 = this.setMonolithTexture(this.monolithType + "_3");
-		this.monolith0E = this.setMonolithTexture(this.monolithType + "_0_e");
-		this.monolith1E = this.setMonolithTexture(this.monolithType + "_1_e");
-		this.monolith2E = this.setMonolithTexture(this.monolithType + "_2_e");
-		this.monolith3E = this.setMonolithTexture(this.monolithType + "_3_e");
-	}
-
-	protected ResourceLocation setMonolithTexture(String textureName) {
+	private ResourceLocation setMonolithTextureLocation(String textureName) {
 		return BrassAmberBattleTowers.locate("textures/entity/monolith/" + this.monolithType + "/" + textureName + ".png");
+	}
+	
+	/**
+	 * Check for the Land Monolith, because that one doesn't have an Eye texture.
+	 */
+	private boolean isLandMonolith() {
+		return this.monolithType.equals(LandMonolithRenderer.LAND_MONOLITH);
 	}
 }

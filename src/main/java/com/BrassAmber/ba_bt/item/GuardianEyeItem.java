@@ -1,18 +1,18 @@
 package com.BrassAmber.ba_bt.item;
 
-import com.BrassAmber.ba_bt.block.block.TotemBlock.TotemType;
+import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.item.Item;
 
 public class GuardianEyeItem extends Item {
-	private TotemType totemType;
+	private GolemType golemType;
 
-	public GuardianEyeItem(TotemType totemType, Item.Properties builder) {
+	public GuardianEyeItem(GolemType golemType, Item.Properties builder) {
 		super(builder);
-		this.totemType = totemType;
+		this.golemType = golemType;
 	}
 	
-	public TotemType getTotemType() {
-		return this.totemType;
+	public GolemType getGolemType() {
+		return this.golemType;
 	}
 }
