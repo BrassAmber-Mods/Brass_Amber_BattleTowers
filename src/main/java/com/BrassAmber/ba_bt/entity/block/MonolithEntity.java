@@ -2,8 +2,7 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntity;
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.golem.*;
 import com.BrassAmber.ba_bt.item.BTItems;
 
 import net.minecraft.block.BlockState;
@@ -15,6 +14,7 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -45,13 +45,16 @@ import net.minecraftforge.fml.network.NetworkHooks;
  */
 public class MonolithEntity extends Entity {
 	public static final DataParameter<Integer> KEYS = EntityDataManager.defineId(MonolithEntity.class, DataSerializers.INT);
+	public static final DataParameter<Integer> EYES = EntityDataManager.defineId(MonolithEntity.class, DataSerializers.INT);
 	public int livingSoundTime;
 	public int floatingRotation;
+	protected EntityType<?> entityType;
 
 	public MonolithEntity(EntityType<? extends MonolithEntity> type, World world) {
 		super(type, world);
 		this.blocksBuilding = true;
 		this.floatingRotation = this.random.nextInt(100_000);
+		this.entityType = this.getEntity().getType();
 	}
 
 	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, World worldIn, double x, double y, double z) {
@@ -93,16 +96,19 @@ public class MonolithEntity extends Entity {
 	@Override
 	protected void defineSynchedData() {
 		this.entityData.define(KEYS, 0);
+		this.entityData.define(EYES, 0);
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundNBT compound) {
 		this.setKeyCountInEntity(compound.getInt("Keys"));
+		this.setEyeCountInEntity(compound.getInt("Eyes"));
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundNBT compound) {
 		compound.putInt("Keys", this.getKeyCountInEntity());
+		compound.putInt("Eyes", this.getEyeCountInEntity());
 	}
 
 	/*********************************************************** Keys ********************************************************/
@@ -113,6 +119,19 @@ public class MonolithEntity extends Entity {
 	public final int getKeyCountInEntity() {
 		return MathHelper.clamp(this.entityData.get(KEYS), 0, 3);
 	}
+
+	/**
+	 * counts the amount of eyes in the entity. used in rendering.
+	 */
+	public final int getEyeCountInEntity() {
+		return MathHelper.clamp(this.entityData.get(EYES), 0, 1);
+	}
+
+	public final void setEyeCountInEntity(int count) {
+		this.entityData.set(EYES, count);
+	}
+
+
 
 	/**
 	 * sets the amount of keys in the entity. used for rendering.
@@ -130,16 +149,60 @@ public class MonolithEntity extends Entity {
 	 */
 	@Override
 	public ActionResultType interactAt(PlayerEntity player, Vector3d vec, Hand hand) {
-		if (player.getItemInHand(hand).getItem().equals(BTItems.LAND_MONOLOITH_KEY)) {
-			if (this.getKeyCountInEntity() < 3) {
-				this.setKeyCountInEntity(this.getKeyCountInEntity() + 1);
-				this.playKeyInteractionSound();
-				if (!player.isCreative()) {
-					player.getItemInHand(hand).shrink(1);
+		Item key = BTItems.LAND_MONOLOITH_KEY;
+		Item eye = BTItems.LAND_GUARDIAN_EYE;
+
+		if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+			key = BTItems.CORE_MONOLOITH_KEY;
+			eye = BTItems.NETHER_GUARDIAN_EYE;
+		} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
+			key = BTItems.NETHER_MONOLOITH_KEY;
+			eye = BTItems.OCEAN_GUARDIAN_EYE;
+		} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+			key = BTItems.END_MONOLOITH_KEY;
+			eye = BTItems.CORE_GUARDIAN_EYE;
+		} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+			key = BTItems.SKY_MONOLOITH_KEY;
+			eye = BTItems.END_GUARDIAN_EYE;
+		} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+			key = BTItems.OCEAN_MONOLOITH_KEY;
+			eye = BTItems.LAND_GUARDIAN_EYE;
+		}
+		if (entityType != null) {
+			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+				if (player.getItemInHand(hand).getItem().equals(BTItems.LAND_MONOLOITH_KEY)) {
+					if (this.getKeyCountInEntity() < 3) {
+						this.setKeyCountInEntity(this.getKeyCountInEntity() + 1);
+						this.playKeyInteractionSound();
+						if (!player.isCreative()) {
+							player.getItemInHand(hand).shrink(1);
+						}
+						return ActionResultType.SUCCESS;
+					}
 				}
-				return ActionResultType.SUCCESS;
+			} else {
+				if (player.getItemInHand(hand).getItem().equals(key)) {
+					if (this.getKeyCountInEntity() < 2) {
+						this.setKeyCountInEntity(this.getKeyCountInEntity() + 1);
+						this.playKeyInteractionSound();
+						if (!player.isCreative()) {
+							player.getItemInHand(hand).shrink(1);
+						}
+						return ActionResultType.SUCCESS;
+					}
+				}
+				if (player.getItemInHand(hand).getItem().equals(eye) && this.getKeyCountInEntity() == 2) {
+					this.setEyeCountInEntity(1);
+					this.playKeyInteractionSound();
+					if (!player.isCreative()) {
+						player.getItemInHand(hand).shrink(1);
+					}
+					return  ActionResultType.SUCCESS;
+				}
+
 			}
 		}
+
 		return ActionResultType.PASS;
 	}
 
@@ -151,12 +214,20 @@ public class MonolithEntity extends Entity {
 	public void tick() {
 		super.tick();
 		++this.floatingRotation; // Handles the floating animation
-
-		if (this.getKeyCountInEntity() >= 3) {
-			//	Spawn Golem and remove this entity
-			this.spawnGolem();
-			this.remove();
+		if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+			if (this.getKeyCountInEntity() >= 3) {
+				//	Spawn Golem and remove this entity
+				this.spawnGolem();
+				this.remove();
+			}
+		} else {
+			if (this.getEyeCountInEntity() == 1) {
+				//	Spawn Golem and remove this entity
+				this.spawnGolem();
+				this.remove();
+			}
 		}
+
 
 		this.checkBlocksInEntity();
 
@@ -191,20 +262,95 @@ public class MonolithEntity extends Entity {
 			serverworld.addFreshEntity(lightningboltentity);
 
 			// Create a new GolemEntity
-			BTGolemEntity newGolemEntity = BTEntityTypes.LAND_GOLEM.create(this.level);
-			// Set the position for the new Golem to the current position of the Monolith.
-			newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
-			// Set the Golem to be invulnerable for x amount of ticks.
-			newGolemEntity.invulnerableTime = 60;
-			// Set the Golem to spawn Dormant.
-			newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
-			// Spawn the Golem facing the same direction as the Monolith.
-			newGolemEntity.yRot = this.yRot;
-			newGolemEntity.setYHeadRot(this.yRot);
-			newGolemEntity.setYBodyRot(this.yRot);
+			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+				BTGolemEntity newGolemEntity = BTEntityTypes.LAND_GOLEM.create(this.level);
+				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+				// Set the Golem to be invulnerable for x amount of ticks.
+				newGolemEntity.invulnerableTime = 60;
+				// Set the Golem to spawn Dormant.
+				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				// Spawn the Golem facing the same direction as the Monolith.
+				newGolemEntity.yRot = this.yRot;
+				newGolemEntity.setYHeadRot(this.yRot);
+				newGolemEntity.setYBodyRot(this.yRot);
 
-			newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
-			serverworld.addFreshEntity(newGolemEntity);
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				serverworld.addFreshEntity(newGolemEntity);
+			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+				BTGolemEntity newGolemEntity = BTEntityTypes.CORE_GOLEM.create(this.level);
+				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+				// Set the Golem to be invulnerable for x amount of ticks.
+				newGolemEntity.invulnerableTime = 60;
+				// Set the Golem to spawn Dormant.
+				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				// Spawn the Golem facing the same direction as the Monolith.
+				newGolemEntity.yRot = this.yRot;
+				newGolemEntity.setYHeadRot(this.yRot);
+				newGolemEntity.setYBodyRot(this.yRot);
+
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				serverworld.addFreshEntity(newGolemEntity);
+			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
+				BTGolemEntity newGolemEntity = BTEntityTypes.NETHER_GOLEM.create(this.level);
+				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+				// Set the Golem to be invulnerable for x amount of ticks.
+				newGolemEntity.invulnerableTime = 60;
+				// Set the Golem to spawn Dormant.
+				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				// Spawn the Golem facing the same direction as the Monolith.
+				newGolemEntity.yRot = this.yRot;
+				newGolemEntity.setYHeadRot(this.yRot);
+				newGolemEntity.setYBodyRot(this.yRot);
+
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				serverworld.addFreshEntity(newGolemEntity);
+			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+				EndGolemEntity newGolemEntity = BTEntityTypes.END_GOLEM.create(this.level);
+				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+				// Set the Golem to be invulnerable for x amount of ticks.
+				newGolemEntity.invulnerableTime = 60;
+				// Set the Golem to spawn Dormant.
+				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				// Spawn the Golem facing the same direction as the Monolith.
+				newGolemEntity.yRot = this.yRot;
+				newGolemEntity.setYHeadRot(this.yRot);
+				newGolemEntity.setYBodyRot(this.yRot);
+
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				serverworld.addFreshEntity(newGolemEntity);
+			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+				SkyGolemEntity newGolemEntity = BTEntityTypes.SKY_GOLEM.create(this.level);
+				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+				// Set the Golem to be invulnerable for x amount of ticks.
+				newGolemEntity.invulnerableTime = 60;
+				// Set the Golem to spawn Dormant.
+				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				// Spawn the Golem facing the same direction as the Monolith.
+				newGolemEntity.yRot = this.yRot;
+				newGolemEntity.setYHeadRot(this.yRot);
+				newGolemEntity.setYBodyRot(this.yRot);
+
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				serverworld.addFreshEntity(newGolemEntity);
+			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+				OceanGolemEntity newGolemEntity = BTEntityTypes.OCEAN_GOLEM.create(this.level);
+
+				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
+				// Set the Golem to be invulnerable for x amount of ticks.
+				newGolemEntity.invulnerableTime = 60;
+				// Set the Golem to spawn Dormant.
+				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				// Spawn the Golem facing the same direction as the Monolith.
+				newGolemEntity.yRot = this.yRot;
+				newGolemEntity.setYHeadRot(this.yRot);
+				newGolemEntity.setYBodyRot(this.yRot);
+
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				serverworld.addFreshEntity(newGolemEntity);
+			}
+
+			// Set the position for the new Golem to the current position of the Monolith.
+
 		}
 	}
 
