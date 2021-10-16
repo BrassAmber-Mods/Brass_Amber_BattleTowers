@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.entity.golem;
+package com.BrassAmber.ba_bt.entity.hostile.golem;
 
 import javax.annotation.Nullable;
 

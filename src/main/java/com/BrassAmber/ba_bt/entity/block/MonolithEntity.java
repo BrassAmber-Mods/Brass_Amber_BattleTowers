@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.block.BlockState;
@@ -60,7 +60,7 @@ public class MonolithEntity extends Entity {
 		this.monolithType = this.getType();
 		this.golemType = GolemType.getTypeForMonolith(this);
 		this.correctMonolithKey = GolemType.getKeyFor(this.golemType);
-		this.correctGuardianEye = GolemType.getEyeFor(this.golemType);
+		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
 	}
 
 	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, World worldIn, double x, double y, double z) {

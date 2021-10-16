@@ -25,30 +25,7 @@ public enum GolemType implements IStringSerializable {
 		this.name = name;
 	}
 
-	/**
-	 * Get the correct Monolith key for the Correct Monolith Entity
-	 */
-	public static GolemType getTypeForMonolith(MonolithEntity monolithEntity) {
-		EntityType<?> entityType = monolithEntity.getEntity().getType();
-		if (entityType != null) {
-			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
-				return LAND;
-			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
-				return CORE;
-			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
-				return NETHER;
-			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
-				return END;
-			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
-				return SKY;
-			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
-				return OCEAN;
-			}
-		}
-
-		// Couldn't get EntityType
-		return EMPTY;
-	}
+	/*********************************************************** Monolith Spawning ********************************************************/
 
 	/**
 	 * Get the correct Monolith key for the Correct Monolith Entity
@@ -71,9 +48,11 @@ public enum GolemType implements IStringSerializable {
 			return BTEntityTypes.OCEAN_GOLEM;
 		}
 	}
+	
+	/*********************************************************** Monolith ********************************************************/
 
 	/**
-	 * Get the correct Monolith key for the Correct Monolith Entity
+	 * Get the correct Monolith Item for the Correct Monolith Entity.
 	 */
 	@Nullable
 	public static Item getMonolithItemFor(GolemType golemType) {
@@ -95,7 +74,38 @@ public enum GolemType implements IStringSerializable {
 			return BTItems.OCEAN_MONOLITH;
 		}
 	}
+	
 
+	/**
+	 * Return the correct GolemType for each Monolith Entity.
+	 */
+	public static GolemType getTypeForMonolith(MonolithEntity monolithEntity) {
+		EntityType<?> entityType = monolithEntity.getEntity().getType();
+		if (entityType != null) {
+			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+				return LAND;
+			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+				return CORE;
+			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
+				return NETHER;
+			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+				return END;
+			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+				return SKY;
+			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+				return OCEAN;
+			}
+		}
+
+		// Couldn't get EntityType
+		return EMPTY;
+	}
+	
+	/*********************************************************** Eyes ********************************************************/
+
+	/**
+	 * Return the matching Guardian Eye for each GolemType.
+	 */
 	@Nullable
 	public static Item getEyeFor(GolemType golemType) {
 		switch (golemType) {
@@ -117,6 +127,30 @@ public enum GolemType implements IStringSerializable {
 		}
 	}
 
+	/**
+	 * Return the previous GolemType in fighting order.
+	 */
+	@Nullable
+	public static GolemType getPreviousGolemType(GolemType golemType) {
+		switch (golemType) {
+		case EMPTY:case LAND:
+		default:
+			return EMPTY;
+		case OCEAN:
+			return LAND;
+		case NETHER:
+			return OCEAN;
+		case CORE:
+			return NETHER;
+		case END:
+			return CORE;
+		case SKY:
+			return END;
+		}
+	}
+	
+	/*********************************************************** Keys ********************************************************/
+
 	@Nullable
 	public static Item getKeyFor(GolemType golemType) {
 		switch (golemType) {
@@ -137,6 +171,8 @@ public enum GolemType implements IStringSerializable {
 			return BTItems.OCEAN_MONOLOITH_KEY;
 		}
 	}
+	
+	/*********************************************************** Extra ********************************************************/
 
 	@Override
 	public String getSerializedName() {

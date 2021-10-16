@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.entity.client.model.golem;
 
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -67,6 +67,8 @@ public class LandGolemModel extends EntityModel<BTGolemEntityAbstract> implement
 		leftLeg.setPos(3.8F, 0.0F, 0.0F);
 		leftLeg.texOffs(0, 32).addBox(-3.8F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, 0.0F, false);
 	}
+
+	/*********************************************************** Animations ********************************************************/
 
 	@Override
 	public void setupAnim(BTGolemEntityAbstract entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

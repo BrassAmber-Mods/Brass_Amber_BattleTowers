@@ -2,11 +2,12 @@ package com.BrassAmber.ba_bt.entity;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntity;
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
-import com.BrassAmber.ba_bt.entity.golem.EndGolemEntity;
-import com.BrassAmber.ba_bt.entity.golem.OceanGolemEntity;
-import com.BrassAmber.ba_bt.entity.golem.SkyGolemEntity;
+import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntity;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.EndGolemEntity;
+import com.BrassAmber.ba_bt.entity.hostile.golem.OceanGolemEntity;
+import com.BrassAmber.ba_bt.entity.hostile.golem.SkyGolemEntity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -26,7 +27,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 @EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Bus.MOD)
 public class BTEntityTypes {
-
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, BrassAmberBattleTowers.MOD_ID);
 
 	public static final EntityType<BTGolemEntity> LAND_GOLEM = buildGolemEntityType("land_golem", BTGolemEntity::new);
@@ -35,6 +35,8 @@ public class BTEntityTypes {
 	public static final EntityType<EndGolemEntity> END_GOLEM = buildGolemEntityType("end_golem", EndGolemEntity::new);
 	public static final EntityType<SkyGolemEntity> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolemEntity::new);
 	public static final EntityType<OceanGolemEntity> OCEAN_GOLEM = buildGolemEntityType("ocean_golem", OceanGolemEntity::new);
+
+	public static final EntityType<SkyMinionEntity> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinionEntity::new, EntityClassification.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
 
 	public static final EntityType<MonolithEntity> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
 	public static final EntityType<MonolithEntity> CORE_MONOLITH = buildMonolithEntityType("core_monolith");
@@ -54,6 +56,8 @@ public class BTEntityTypes {
 		registerSpawnPlacement(END_GOLEM, MobEntity::checkMobSpawnRules);
 		registerSpawnPlacement(SKY_GOLEM, MobEntity::checkMobSpawnRules);
 		registerSpawnPlacement(OCEAN_GOLEM, MobEntity::checkMobSpawnRules);
+
+		registerSpawnPlacement(SKY_MINION, MobEntity::checkMobSpawnRules);
 	}
 
 	/**
@@ -67,6 +71,8 @@ public class BTEntityTypes {
 		event.put(END_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 		event.put(SKY_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 		event.put(OCEAN_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+
+		event.put(SKY_MINION, SkyMinionEntity.createAttributes().build());
 	}
 
 	/**

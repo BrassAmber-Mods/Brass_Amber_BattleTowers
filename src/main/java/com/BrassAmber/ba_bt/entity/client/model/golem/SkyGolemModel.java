@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.entity.client.model.golem;
 
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 

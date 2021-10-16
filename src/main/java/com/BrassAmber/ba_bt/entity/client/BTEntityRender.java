@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.entity.client;
 
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.entity.client.renderer.SkyMinionRenderer;
 import com.BrassAmber.ba_bt.entity.client.renderer.block.CoreMonolithRenderer;
 import com.BrassAmber.ba_bt.entity.client.renderer.block.EndMonolithRenderer;
 import com.BrassAmber.ba_bt.entity.client.renderer.block.LandMonolithRenderer;
@@ -31,6 +32,8 @@ public class BTEntityRender {
 		registerEntityRenderer(BTEntityTypes.END_GOLEM, EndGolemRenderer::new);
 		registerEntityRenderer(BTEntityTypes.SKY_GOLEM, SkyGolemRenderer::new);
 		registerEntityRenderer(BTEntityTypes.OCEAN_GOLEM, OceanGolemRenderer::new);
+
+		registerEntityRenderer(BTEntityTypes.SKY_MINION, SkyMinionRenderer::new);
 
 		registerEntityRenderer(BTEntityTypes.LAND_MONOLITH, LandMonolithRenderer::new);
 		registerEntityRenderer(BTEntityTypes.CORE_MONOLITH, CoreMonolithRenderer::new);

@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.entity.ai.goal;
 
 import java.util.EnumSet;
 
-import com.BrassAmber.ba_bt.entity.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 import net.minecraft.entity.LivingEntity;

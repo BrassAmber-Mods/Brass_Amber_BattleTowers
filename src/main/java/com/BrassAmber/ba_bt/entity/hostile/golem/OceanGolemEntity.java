@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.entity.golem;
+package com.BrassAmber.ba_bt.entity.hostile.golem;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.BossInfo;
