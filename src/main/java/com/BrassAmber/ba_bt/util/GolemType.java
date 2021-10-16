@@ -112,16 +112,18 @@ public enum GolemType implements IStringSerializable {
 		case EMPTY:
 		default:
 			return (Item) null;
-		case CORE:
-			return BTItems.NETHER_GUARDIAN_EYE;
-		case NETHER:
-			return BTItems.OCEAN_GUARDIAN_EYE;
-		case END:
-			return BTItems.CORE_GUARDIAN_EYE;
-		case SKY:
-			return BTItems.END_GUARDIAN_EYE;
-		case OCEAN:
+		case LAND:
 			return BTItems.LAND_GUARDIAN_EYE;
+		case CORE:
+			return BTItems.CORE_GUARDIAN_EYE;
+		case NETHER:
+			return BTItems.NETHER_GUARDIAN_EYE;
+		case END:
+			return BTItems.END_GUARDIAN_EYE;
+		case SKY:
+			return BTItems.SKY_GUARDIAN_EYE;
+		case OCEAN:
+			return BTItems.OCEAN_GUARDIAN_EYE;
 		}
 	}
 
