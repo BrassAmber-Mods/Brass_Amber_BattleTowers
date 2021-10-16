@@ -74,11 +74,11 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         
         // Now we test to make sure our structure is not spawning on water or other fluids.
         // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower.
-        return topBlock.getFluidState().isEmpty() && isSpawnable(chunkGenerator, centerOfChunk) && landHeight <= 150 ; //;
+        return isFlatLand(chunkGenerator, centerOfChunk) && landHeight <= 150 ; //;
 
     }
     
-    public boolean isSpawnable(ChunkGenerator chunk, BlockPos pos) {
+    public boolean isFlatLand(ChunkGenerator chunk, BlockPos pos) {
         BlockPos north = new BlockPos(pos.getX(), 0, pos.getY()+4);
         BlockPos east = new BlockPos(pos.getX()+4, 0, pos.getY());
         BlockPos south = new BlockPos(pos.getX(), 0, pos.getY()-4);
@@ -89,8 +89,10 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         list.add(south);
         list.add(west);
         list.add(pos);
+
         
-        ArrayList<Boolean> canSpawnList = new ArrayList<>(5);
+        ArrayList<Boolean> isFlat = new ArrayList<>(5);
+        ArrayList<Boolean> hasWater = new ArrayList<>(5);
 
 
         for (BlockPos x: list) {
@@ -100,11 +102,34 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             int landheight3 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()+1, Heightmap.Type.WORLD_SURFACE_WG);
             int landheight4 = chunk.getFirstOccupiedHeight(x.getX()+1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
-            canSpawnList.add(landHeight == landheight1 && landHeight == landheight2 && landHeight == landheight3 && landHeight == landheight4);
+            IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
+
+            // Combine the column of blocks with land height and you get the top block itself which you can test.
+            BlockState topBlock = columnOfBlocks.getBlockState(x.above(landHeight));
+
+            isFlat.add(landHeight == landheight1 && landHeight == landheight2 && landHeight == landheight3 && landHeight == landheight4);
         }
+        for (BlockPos x: list) {
+            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+
+            IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
+
+            // Combine the column of blocks with land height and you get the top block itself which you can test.
+            BlockState topBlock = columnOfBlocks.getBlockState(x.above(landHeight));
+
+            hasWater.add(topBlock.getFluidState().isSource());
+        }
+        boolean noWater = true;
+
+        if (hasWater.contains(true)) {
+            noWater = false;
+        }
+
+        BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + pos.getX() + pos.getY() + (isFlat.get(0) || isFlat.get(1)
+                || isFlat.get(2) || isFlat.get(3) || isFlat.get(4)) + noWater);
         
-        return canSpawnList.get(0) || canSpawnList.get(1)
-                || canSpawnList.get(2) || canSpawnList.get(3) || canSpawnList.get(4);
+        return (isFlat.get(0) || isFlat.get(1)
+                || isFlat.get(2) || isFlat.get(3) || isFlat.get(4)) && noWater;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
