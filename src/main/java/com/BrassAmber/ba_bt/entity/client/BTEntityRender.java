@@ -27,11 +27,11 @@ public class BTEntityRender {
 
 	public static void init() {
 		registerEntityRenderer(BTEntityTypes.LAND_GOLEM, LandGolemRenderer::new);
-		registerEntityRenderer(BTEntityTypes.CORE_GOLEM, CoreGolemRenderer::new);
+		registerEntityRenderer(BTEntityTypes.OCEAN_GOLEM, OceanGolemRenderer::new);
 		registerEntityRenderer(BTEntityTypes.NETHER_GOLEM, NetherGolemRenderer::new);
+		registerEntityRenderer(BTEntityTypes.CORE_GOLEM, CoreGolemRenderer::new);
 		registerEntityRenderer(BTEntityTypes.END_GOLEM, EndGolemRenderer::new);
 		registerEntityRenderer(BTEntityTypes.SKY_GOLEM, SkyGolemRenderer::new);
-		registerEntityRenderer(BTEntityTypes.OCEAN_GOLEM, OceanGolemRenderer::new);
 
 		registerEntityRenderer(BTEntityTypes.SKY_MINION, SkyMinionRenderer::new);
 

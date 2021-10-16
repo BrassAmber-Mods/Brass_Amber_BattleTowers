@@ -13,11 +13,11 @@ import net.minecraft.util.IStringSerializable;
 public enum GolemType implements IStringSerializable {
 	EMPTY("empty"),
 	LAND("land"),
-	CORE("core"),
+	OCEAN("ocean"),
 	NETHER("nether"),
+	CORE("core"),
 	END("end"),
-	SKY("sky"),
-	OCEAN("ocean");
+	SKY("sky");
 
 	private String name;
 
@@ -36,19 +36,20 @@ public enum GolemType implements IStringSerializable {
 		default:
 		case LAND:
 			return BTEntityTypes.LAND_GOLEM;
-		case CORE:
-			return BTEntityTypes.CORE_GOLEM;
+		case OCEAN:
+			return BTEntityTypes.OCEAN_GOLEM;
 		case NETHER:
 			return BTEntityTypes.NETHER_GOLEM;
+		case CORE:
+			return BTEntityTypes.CORE_GOLEM;
 		case END:
 			return BTEntityTypes.END_GOLEM;
 		case SKY:
 			return BTEntityTypes.SKY_GOLEM;
-		case OCEAN:
-			return BTEntityTypes.OCEAN_GOLEM;
+
 		}
 	}
-	
+
 	/*********************************************************** Monolith ********************************************************/
 
 	/**
@@ -62,19 +63,19 @@ public enum GolemType implements IStringSerializable {
 			return (Item) null;
 		case LAND:
 			return BTItems.LAND_MONOLITH;
-		case CORE:
-			return BTItems.CORE_MONOLITH;
+		case OCEAN:
+			return BTItems.OCEAN_MONOLITH;
 		case NETHER:
 			return BTItems.NETHER_MONOLITH;
+		case CORE:
+			return BTItems.CORE_MONOLITH;
 		case END:
 			return BTItems.END_MONOLITH;
 		case SKY:
 			return BTItems.SKY_MONOLITH;
-		case OCEAN:
-			return BTItems.OCEAN_MONOLITH;
+
 		}
 	}
-	
 
 	/**
 	 * Return the correct GolemType for each Monolith Entity.
@@ -84,23 +85,24 @@ public enum GolemType implements IStringSerializable {
 		if (entityType != null) {
 			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
 				return LAND;
-			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
-				return CORE;
+			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+				return OCEAN;
 			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
 				return NETHER;
+			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+				return CORE;
 			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
 				return END;
 			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
 				return SKY;
-			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
-				return OCEAN;
 			}
 		}
 
 		// Couldn't get EntityType
 		return EMPTY;
+
 	}
-	
+
 	/*********************************************************** Eyes ********************************************************/
 
 	/**
@@ -114,16 +116,16 @@ public enum GolemType implements IStringSerializable {
 			return (Item) null;
 		case LAND:
 			return BTItems.LAND_GUARDIAN_EYE;
-		case CORE:
-			return BTItems.CORE_GUARDIAN_EYE;
+		case OCEAN:
+			return BTItems.OCEAN_GUARDIAN_EYE;
 		case NETHER:
 			return BTItems.NETHER_GUARDIAN_EYE;
+		case CORE:
+			return BTItems.CORE_GUARDIAN_EYE;
 		case END:
 			return BTItems.END_GUARDIAN_EYE;
 		case SKY:
 			return BTItems.SKY_GUARDIAN_EYE;
-		case OCEAN:
-			return BTItems.OCEAN_GUARDIAN_EYE;
 		}
 	}
 
@@ -133,7 +135,8 @@ public enum GolemType implements IStringSerializable {
 	@Nullable
 	public static GolemType getPreviousGolemType(GolemType golemType) {
 		switch (golemType) {
-		case EMPTY:case LAND:
+		case EMPTY:
+		case LAND:
 		default:
 			return EMPTY;
 		case OCEAN:
@@ -148,7 +151,7 @@ public enum GolemType implements IStringSerializable {
 			return END;
 		}
 	}
-	
+
 	/*********************************************************** Keys ********************************************************/
 
 	@Nullable
@@ -159,19 +162,19 @@ public enum GolemType implements IStringSerializable {
 			return (Item) null;
 		case LAND:
 			return BTItems.LAND_MONOLOITH_KEY;
-		case CORE:
-			return BTItems.CORE_MONOLOITH_KEY;
+		case OCEAN:
+			return BTItems.OCEAN_MONOLOITH_KEY;
 		case NETHER:
 			return BTItems.NETHER_MONOLOITH_KEY;
+		case CORE:
+			return BTItems.CORE_MONOLOITH_KEY;
 		case END:
 			return BTItems.END_MONOLOITH_KEY;
 		case SKY:
 			return BTItems.SKY_MONOLOITH_KEY;
-		case OCEAN:
-			return BTItems.OCEAN_MONOLOITH_KEY;
 		}
 	}
-	
+
 	/*********************************************************** Extra ********************************************************/
 
 	@Override
