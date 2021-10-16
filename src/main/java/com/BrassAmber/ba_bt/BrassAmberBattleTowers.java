@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.minecraft.util.RegistryKey;
+import net.minecraftforge.common.BiomeDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -116,7 +118,19 @@ public class BrassAmberBattleTowers {
 		 * RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName()) to get the biome's
 		 * registrykey. Then that can be fed into the dictionary to get the biome's types.
 		 */
-		if (event.getCategory() == Biome.Category.BEACH || event.getCategory() == Biome.Category.EXTREME_HILLS || event.getCategory() == Biome.Category.PLAINS || event.getCategory() == Biome.Category.SAVANNA || event.getCategory() == Biome.Category.FOREST) {
+		RegistryKey key = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
+		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.WET)
+				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.DEAD)
+				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.COLD)
+				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.HOT)
+				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.RIVER)
+		) {
+
+		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.NETHER)) {
+
+		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.END)) {
+
+		} else {
 			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
 		}
 	}

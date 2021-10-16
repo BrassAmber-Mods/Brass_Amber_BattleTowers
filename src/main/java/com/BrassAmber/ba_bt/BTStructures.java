@@ -64,9 +64,6 @@ public class BTStructures {
 
             /*
              * Pre-caution in case a mod makes the structure map immutable like datapacks do.
-             * I take no chances myself. You never know what another mods does...
-             *
-             * structureConfig requires AccessTransformer  (See resources/META-INF/accesstransformer.cfg)
              */
             if(structureMap instanceof ImmutableMap){
                 Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(structureMap);

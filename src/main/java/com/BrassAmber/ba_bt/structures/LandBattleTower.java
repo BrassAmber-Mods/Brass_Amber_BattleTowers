@@ -34,6 +34,7 @@ import net.minecraftforge.common.extensions.IForgeStructure;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -59,7 +60,6 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         biomeIn = biome;
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
-
         // Grab height of land. Will stop at first non-air block.
         int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
@@ -71,9 +71,40 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         // Combine the column of blocks with land height and you get the top block itself which you can test.
         BlockState topBlock = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight));
 
+        
         // Now we test to make sure our structure is not spawning on water or other fluids.
-        // You can do height check instead too to make it spawn at high elevations.
-        return topBlock.getFluidState().isEmpty(); //landHeight > 100;
+        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower.
+        return topBlock.getFluidState().isEmpty() && isSpawnable(chunkGenerator, centerOfChunk) && landHeight <= 150 ; //;
+
+    }
+    
+    public boolean isSpawnable(ChunkGenerator chunk, BlockPos pos) {
+        BlockPos north = new BlockPos(pos.getX(), 0, pos.getY()+4);
+        BlockPos east = new BlockPos(pos.getX()+4, 0, pos.getY());
+        BlockPos south = new BlockPos(pos.getX(), 0, pos.getY()-4);
+        BlockPos west = new BlockPos(pos.getX()-4, 0, pos.getY());
+        ArrayList<BlockPos> list = new ArrayList<>(4);
+        list.add(north);
+        list.add(east);
+        list.add(south);
+        list.add(west);
+        list.add(pos);
+        
+        ArrayList<Boolean> canSpawnList = new ArrayList<>(5);
+
+
+        for (BlockPos x: list) {
+            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight1 = chunk.getFirstOccupiedHeight(x.getX()-1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight2 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()-1, Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight3 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()+1, Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight4 = chunk.getFirstOccupiedHeight(x.getX()+1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+
+            canSpawnList.add(landHeight == landheight1 && landHeight == landheight2 && landHeight == landheight3 && landHeight == landheight4);
+        }
+        
+        return canSpawnList.get(0) || canSpawnList.get(1)
+                || canSpawnList.get(2) || canSpawnList.get(3) || canSpawnList.get(4);
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
