@@ -25,6 +25,8 @@ import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import org.apache.logging.log4j.Level;
 
+import java.util.Random;
+
 
 public class SkyBattleTower extends Structure<NoFeatureConfig> {
     public SkyBattleTower(Codec<NoFeatureConfig> codec) {
@@ -52,11 +54,17 @@ public class SkyBattleTower extends Structure<NoFeatureConfig> {
         int landHeight4 = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX()+4, centerOfChunk.getZ()+4, Heightmap.Type.WORLD_SURFACE_WG);
         int landHeight5 = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX()+4, centerOfChunk.getZ()-4, Heightmap.Type.WORLD_SURFACE_WG);
 
+        Random rand = new Random();
+        int x = rand.nextInt(3);
+
+        BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Sky Battle Tower at " + centerOfChunk.getX() + " "
+                + centerOfChunk.getZ() + " " + (landHeight <= 110) + " " + (landHeight2 <= 110) + " "
+                + (landHeight3 <= 110) + " " + (landHeight4 <= 110) + " " + (landHeight5 <= 110)  + " " + x);
+
+
+
         // Now we test to make sure our structure is not spawning on Land Towers
-        if (landHeight <= 110 && landHeight2 <= 110 && landHeight3 <= 110 && landHeight4 <= 110 && landHeight5 <= 110) {
-            return true;
-        }
-        return false;
+        return (landHeight <= 110 && landHeight2 <= 110 && landHeight3 <= 110 && landHeight4 <= 110 && landHeight5 <= 110) && x == 1;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
@@ -77,17 +85,6 @@ public class SkyBattleTower extends Structure<NoFeatureConfig> {
              * force the structure to spawn at blockpos's Y value instead. You got options here!
              */
             BlockPos centerPos = new BlockPos(x, 143, z);
-
-            /*
-             * If you are doing Nether structures, you'll probably want to spawn your structure on top of ledges.
-             * Best way to do that is to use getBaseColumn to grab a column of blocks at the structure's x/z position.
-             * Then loop through it and look for land with air above it and set blockpos's Y value to it.
-             * Make sure to set the final boolean in JigsawManager.addPieces to false so
-             * that the structure spawns at blockpos's y value instead of placing the structure on the Bedrock roof!
-             */
-            IBlockReader blockReader = chunkGenerator.getBaseColumn(centerPos.getX(), centerPos.getZ());
-
-
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
             BTJigsawManager.addPieces(

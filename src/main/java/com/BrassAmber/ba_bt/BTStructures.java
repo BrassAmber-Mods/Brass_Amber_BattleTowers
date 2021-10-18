@@ -36,8 +36,8 @@ public class BTStructures {
                 false);
         setupMapSpacingAndLand(
                 SKY_BATTLE_TOWER.get(), /* The instance of the structure */
-                new StructureSeparationSettings(24 /* average distance apart in chunks between spawn attempts */,
-                        20 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(26 /* average distance apart in chunks between spawn attempts */,
+                        22 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1526374890 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 false);
 
