@@ -30,8 +30,8 @@ public class BTStructures {
     public static void setupStructures() {
         setupMapSpacingAndLand(
                 LAND_BATTLE_TOWER.get(), /* The instance of the structure */
-                new StructureSeparationSettings(12 /* average distance apart in chunks between spawn attempts */,
-                        10 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                new StructureSeparationSettings(16 /* average distance apart in chunks between spawn attempts */,
+                        12 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1234567890 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 false);
         setupMapSpacingAndLand(
@@ -72,9 +72,6 @@ public class BTStructures {
 
             /*
              * Pre-caution in case a mod makes the structure map immutable like datapacks do.
-             * I take no chances myself. You never know what another mods does...
-             *
-             * structureConfig requires AccessTransformer  (See resources/META-INF/accesstransformer.cfg)
              */
             if(structureMap instanceof ImmutableMap){
                 Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(structureMap);

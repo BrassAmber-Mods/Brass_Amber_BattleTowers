@@ -35,6 +35,7 @@ import net.minecraftforge.common.extensions.IForgeStructure;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -58,24 +59,122 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
 
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
         biomeIn = biome;
-        BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
-
+        BlockPos cornerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
         // Grab height of land. Will stop at first non-air block.
-        int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight = chunkGenerator.getFirstOccupiedHeight(cornerOfChunk.getX(), cornerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
         // Grabs column of blocks at given position. In overworld, this column will be made of stone, water, and air.
         // In nether, it will be netherrack, lava, and air. End will only be endstone and air. It depends on what block
         // the chunk generator will place for that dimension.
-        IBlockReader columnOfBlocks = chunkGenerator.getBaseColumn(centerOfChunk.getX(), centerOfChunk.getZ());
+        IBlockReader columnOfBlocks = chunkGenerator.getBaseColumn(cornerOfChunk.getX(), cornerOfChunk.getZ());
 
         // Combine the column of blocks with land height and you get the top block itself which you can test.
-        BlockState topBlock = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight));
-        BlockState topBlockFull = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight-1));
+        BlockState topBlock = columnOfBlocks.getBlockState(cornerOfChunk.above(landHeight));
 
+        
         // Now we test to make sure our structure is not spawning on water or other fluids.
-        // You can do height check instead too to make it spawn at high elevations.
-        return topBlock.getFluidState().isEmpty() && landHeight <= 155 && topBlockFull.isAir(); //landHeight > 100;
+
+        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower.
+        return isFlatLand(chunkGenerator, new BlockPos(cornerOfChunk.getX(), 0, cornerOfChunk.getZ())) && landHeight <= 150 ; //;
+    }
+    
+    public boolean isFlatLand(ChunkGenerator chunk, BlockPos pos) {
+        //Create block positions to check
+        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+12);
+        BlockPos east = new BlockPos(pos.getX()+12, 0, pos.getZ());
+        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-12);
+        BlockPos west = new BlockPos(pos.getX()-12, 0, pos.getZ());
+        // create arraylist to allow easy iteration over BlockPos
+        ArrayList<BlockPos> list = new ArrayList<>(5);
+        list.add(pos);
+        list.add(north);
+        list.add(east);
+        list.add(south);
+        list.add(west);
+
+
+        // Create arraylists to hold the output of the iteration checks below
+        ArrayList<Boolean> isFlat = new ArrayList<>(5);
+        ArrayList<Boolean> hasWater = new ArrayList<>(5);
+        ArrayList<Boolean> sameHeight = new ArrayList<>(4);
+
+        // create integers to hold how many landheights are the same and how many isFlat are true/false
+        int t = 0;
+        int f = 0;
+
+        // Check that a + sign of blocks at each position is all the same level. (flat)
+        for (BlockPos x: list) {
+            // get land height for each blcok on the +
+            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight1 = chunk.getFirstOccupiedHeight(x.getX()-1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight2 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()-1, Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight3 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()+1, Heightmap.Type.WORLD_SURFACE_WG);
+            int landheight4 = chunk.getFirstOccupiedHeight(x.getX()+1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+
+            // set t and f to 0
+            t = 0;
+            f = 0;
+
+            // add landheights to arraylist
+            sameHeight.add(landHeight == landheight1);
+            sameHeight.add(landHeight == landheight2);
+            sameHeight.add(landHeight == landheight3);
+            sameHeight.add(landHeight == landheight4);
+
+            // check how many landheights are the same
+            for (Boolean tf: sameHeight) {
+                if (tf) {
+                    t += 1;
+                } else {
+                    f += 1;
+                }
+            }
+
+            // check if most BlockPos are the same height and add false to the list if not
+            isFlat.add(t > f);
+        }
+
+        // set t and f to 0
+        t = 0;
+        f = 0;
+
+        // iterate over isFlat array and count how many are true and how many are false
+        for (Boolean tf: isFlat) {
+            if (tf) {
+                t += 1;
+            } else {
+                f += 1;
+            }
+        }
+
+        // check that there is no water at any of the Blockpos
+        for (BlockPos x: list) {
+            // get landheight
+            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+
+            // get collum of blocks at blockpos
+            IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
+
+            // combine the column of blocks with land height and you get the top block itself which you can test.
+            BlockState topBlock = columnOfBlocks.getBlockState(x.above(landHeight));
+
+            // check whether the topblock is a sourceblock of water
+            hasWater.add(topBlock.getFluidState().isSource());
+        }
+        // set the base output to be true
+        boolean noWater = true;
+
+        // check if any of the blockpos have water
+        if (hasWater.contains(true)) {
+            noWater = false;
+        }
+
+        BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + pos.getX() + " " + pos.getZ()
+                + " " + t +" " + f + " "+ noWater);
+
+        // if there are more flat areas than not flat areas and no water return true
+        return (t > f) && noWater;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
@@ -96,7 +195,6 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              * force the structure to spawn at blockpos's Y value instead. You got options here!
              */
             BlockPos centerPos = new BlockPos(x, 0, z);
-            BlockPos topPos = new BlockPos(centerPos.getX(), 78, centerPos.getZ());
 
             /*
              * If you are doing Nether structures, you'll probably want to spawn your structure on top of ledges.
@@ -105,9 +203,6 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              * Make sure to set the final boolean in JigsawManager.addPieces to false so
              * that the structure spawns at blockpos's y value instead of placing the structure on the Bedrock roof!
              */
-            //IBlockReader blockReader = chunkGenerator.getBaseColumn(blockpos.getX(), blockpos.getZ());
-
-
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
             BTJigsawManager.addPieces(
