@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.structures;
 
+import net.minecraft.tags.ITag;
 import org.apache.logging.log4j.Level;
 
 import com.BrassAmber.ba_bt.BTJigsawManager;
@@ -73,6 +74,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
 
         
         // Now we test to make sure our structure is not spawning on water or other fluids.
+
         // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower.
         return isFlatLand(chunkGenerator, new BlockPos(cornerOfChunk.getX(), 0, cornerOfChunk.getZ())) && landHeight <= 150 ; //;
     }

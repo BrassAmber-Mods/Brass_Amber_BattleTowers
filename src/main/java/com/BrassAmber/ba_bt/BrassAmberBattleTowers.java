@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.RegistryKey;
 import net.minecraftforge.common.BiomeDictionary;
 import org.apache.logging.log4j.LogManager;
@@ -133,6 +134,7 @@ public class BrassAmberBattleTowers {
 		} else {
 			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
 		}
+		event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_SKY_BATTLE_TOWER);
 	}
 
 	private static Method GETCODEC_METHOD;
@@ -177,10 +179,20 @@ public class BrassAmberBattleTowers {
 			 * And if you want to do dimension blacklisting, you need to remove the spacing entry entirely from the map below to prevent generation safely.
 			 */
 			Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-			tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+			if (serverWorld.dimension().equals(World.OVERWORLD)) {
+				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+				tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
+			}
+			else if (serverWorld.dimension().equals(World.NETHER)) {
+
+			}
+			else if (serverWorld.dimension().equals(World.END)) {
+
+			}
 			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}
+
 
 	// Do something that can only be done on the client
 	private void doClientStuff(final FMLClientSetupEvent event) {
