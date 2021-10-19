@@ -1,15 +1,9 @@
 package com.BrassAmber.ba_bt.structures;
 
-import net.minecraft.tags.ITag;
-import org.apache.logging.log4j.Level;
-
 import com.BrassAmber.ba_bt.BTJigsawManager;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +13,6 @@ import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
@@ -30,25 +23,19 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-
-import net.minecraftforge.common.extensions.IForgeStructure;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.Level;
 
-import java.util.List;
 import java.util.Random;
 
 
-public class LandBattleTower extends Structure<NoFeatureConfig> {
-    public LandBattleTower(Codec<NoFeatureConfig> codec) {
+public class SkyBattleTower extends Structure<NoFeatureConfig> {
+    public SkyBattleTower(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
-    
-    private Biome biomeIn;
 
     @Override
     public IStartFactory<NoFeatureConfig> getStartFactory() {
-        return LandBattleTower.Start::new;
+        return SkyBattleTower.Start::new;
     }
 
     @Override
@@ -57,25 +44,27 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     }
 
     protected boolean isFeatureChunk(ChunkGenerator chunkGenerator, BiomeProvider biomeSource, long seed, SharedSeedRandom chunkRandom, int chunkX, int chunkZ, Biome biome, ChunkPos chunkPos, NoFeatureConfig featureConfig) {
-        biomeIn = biome;
         BlockPos centerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
 
         // Grab height of land. Will stop at first non-air block.
         int landHeight = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight2 = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX()-4, centerOfChunk.getZ()-4, Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight3 = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX()-4, centerOfChunk.getZ()+4, Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight4 = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX()+4, centerOfChunk.getZ()+4, Heightmap.Type.WORLD_SURFACE_WG);
+        int landHeight5 = chunkGenerator.getFirstOccupiedHeight(centerOfChunk.getX()+4, centerOfChunk.getZ()-4, Heightmap.Type.WORLD_SURFACE_WG);
 
-        // Grabs column of blocks at given position. In overworld, this column will be made of stone, water, and air.
-        // In nether, it will be netherrack, lava, and air. End will only be endstone and air. It depends on what block
-        // the chunk generator will place for that dimension.
-        IBlockReader columnOfBlocks = chunkGenerator.getBaseColumn(centerOfChunk.getX(), centerOfChunk.getZ());
+        Random rand = new Random();
+        int x = rand.nextInt(3);
 
-        // Combine the column of blocks with land height and you get the top block itself which you can test.
-        BlockState topBlock = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight));
-        BlockState topBlockFull = columnOfBlocks.getBlockState(centerOfChunk.above(landHeight-1));
+        BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Sky Battle Tower at " + centerOfChunk.getX() + " "
+                + centerOfChunk.getZ() + " " + (landHeight <= 110) + " " + (landHeight2 <= 110) + " "
+                + (landHeight3 <= 110) + " " + (landHeight4 <= 110) + " " + (landHeight5 <= 110)  + " " + x);
 
-        // Now we test to make sure our structure is not spawning on water or other fluids.
-        // You can do height check instead too to make it spawn at high elevations.
-        return topBlock.getFluidState().isEmpty() && landHeight <= 155 && topBlockFull.isAir(); //landHeight > 100;
+
+
+        // Now we test to make sure our structure is not spawning on Land Towers
+        return (landHeight <= 110 && landHeight2 <= 110 && landHeight3 <= 110 && landHeight4 <= 110 && landHeight5 <= 110) && x == 1;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
@@ -95,19 +84,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              * structure will spawn at terrain height instead. Set that parameter to false to
              * force the structure to spawn at blockpos's Y value instead. You got options here!
              */
-            BlockPos centerPos = new BlockPos(x, 0, z);
-            BlockPos topPos = new BlockPos(centerPos.getX(), 78, centerPos.getZ());
-
-            /*
-             * If you are doing Nether structures, you'll probably want to spawn your structure on top of ledges.
-             * Best way to do that is to use getBaseColumn to grab a column of blocks at the structure's x/z position.
-             * Then loop through it and look for land with air above it and set blockpos's Y value to it.
-             * Make sure to set the final boolean in JigsawManager.addPieces to false so
-             * that the structure spawns at blockpos's y value instead of placing the structure on the Bedrock roof!
-             */
-            //IBlockReader blockReader = chunkGenerator.getBaseColumn(blockpos.getX(), blockpos.getZ());
-
-
+            BlockPos centerPos = new BlockPos(x, 143, z);
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
             BTJigsawManager.addPieces(
@@ -119,7 +96,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                             // the game will automatically look into the following path for the template pool:
                             // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json"
 
-                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
+                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "sky_tower/start_pool")),
 
                             // How many pieces outward from center can a recursive jigsaw structure spawn.
                             // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
@@ -134,34 +111,12 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                     this.random,
                     false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
                     // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
-                    true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+                    false);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
 
-            if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP) {
-                //add code here to start the spawning of the overgrown add-on
-            }
-
-            // **THE FOLLOWING TWO LINES ARE OPTIONAL**
-            //
-            // Right here, you can do interesting stuff with the pieces in this.pieces such as offset the
-            // center piece by 50 blocks up for no reason, remove repeats of a piece or add a new piece so
-            // only 1 of that piece exists, etc. But you do not have access to the piece's blocks as this list
-            // holds just the piece's size and positions. Blocks will be placed later in JigsawManager.
-            //
-            // In this case, we do `piece.offset` to raise pieces up by 1 block so that the house is not right on
-            // the surface of water or sunken into land a bit.
-            //
-            // Then we extend the bounding box down by 1 by doing `piece.getBoundingBox().minY` which will cause the
-            // land formed around the structure to be lowered and not cover the doorstep. You can raise the bounding
-            // box to force the structure to be buried as well. This bounding box stuff with land is only for structures
-            // that you added to Structure.NOISE_AFFECTING_FEATURES field handles adding land around the base of structures.
-            this.pieces.forEach(piece -> piece.move(0, -2, 0));
-            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 2);
-            this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 2);
-            // Sets the bounds of the structure once you are finished.
             this.calculateBoundingBox();
 
-            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + this.pieces.get(0).getBoundingBox().x0 + " "
+            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Sky Battle Tower at " + this.pieces.get(0).getBoundingBox().x0 + " "
                     + this.pieces.get(0).getBoundingBox().y0 + " " + this.pieces.get(0).getBoundingBox().z0);
         }
 

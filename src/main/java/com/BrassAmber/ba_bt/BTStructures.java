@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt;
 
 import com.BrassAmber.ba_bt.structures.LandBattleTower;
+import com.BrassAmber.ba_bt.structures.SkyBattleTower;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.util.registry.WorldGenRegistries;
@@ -20,6 +21,7 @@ public class BTStructures {
     public static final DeferredRegister<Structure<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, BrassAmberBattleTowers.MOD_ID);
 
     public static final RegistryObject<Structure<NoFeatureConfig>> LAND_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("land_battle_tower", () -> (new LandBattleTower(NoFeatureConfig.CODEC)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> SKY_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("sky_battle_tower", () -> (new SkyBattleTower(NoFeatureConfig.CODEC)));
 
     /**
      * This is where we set the rarity of your structures and determine if land conforms to it.
@@ -31,6 +33,12 @@ public class BTStructures {
                 new StructureSeparationSettings(12 /* average distance apart in chunks between spawn attempts */,
                         10 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
                         1234567890 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
+                false);
+        setupMapSpacingAndLand(
+                SKY_BATTLE_TOWER.get(), /* The instance of the structure */
+                new StructureSeparationSettings(26 /* average distance apart in chunks between spawn attempts */,
+                        22 /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        1526374890 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */),
                 false);
 
 
