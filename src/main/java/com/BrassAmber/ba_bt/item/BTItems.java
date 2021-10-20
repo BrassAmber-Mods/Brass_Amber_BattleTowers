@@ -3,12 +3,18 @@ package com.BrassAmber.ba_bt.item;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
+import com.BrassAmber.ba_bt.item.item.MonolithItem;
+import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Rarity;
+import net.minecraft.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 

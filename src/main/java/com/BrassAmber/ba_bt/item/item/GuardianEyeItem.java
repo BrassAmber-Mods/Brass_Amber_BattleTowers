@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.item;
+package com.BrassAmber.ba_bt.item.item;
 
 import com.BrassAmber.ba_bt.util.GolemType;
 

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "ba_bt:silver_chestplate"
-  },
-  "result": "ba_bt:silver_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}
