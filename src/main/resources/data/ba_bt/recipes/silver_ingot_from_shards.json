@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "silver_ingot",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "ba_bt:silver_shard"
+    }
+  },
+  "result": {
+    "item": "ba_bt:silver_ingot"
+  }
+}
