@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "minecraft:iron_ore"
+    "item": "ba_bt:silver_sword"
   },
-  "result": "minecraft:iron_ingot",
+  "result": "ba_bt:silver_ingot",
   "experience": 0.7,
   "cookingtime": 200
 }

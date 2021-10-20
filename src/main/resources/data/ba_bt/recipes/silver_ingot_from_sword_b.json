@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "ba_bt:silver_sword"
+  },
+  "result": "ba_bt:silver_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}
