@@ -14,12 +14,15 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BTItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
+
+	public static final Item SILVER_SKELETON_SPAWN_EGG = registerItem("silver_skeleton_spawn_egg", new SpawnEggItem(BTEntityTypes.SILVER_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(ItemGroup.TAB_MISC)));
 
 	public static final Item LAND_MONOLOITH_KEY = registerMonolithKey("monolith_key_land");
 	public static final Item CORE_MONOLOITH_KEY = registerMonolithKey("monolith_key_core");
