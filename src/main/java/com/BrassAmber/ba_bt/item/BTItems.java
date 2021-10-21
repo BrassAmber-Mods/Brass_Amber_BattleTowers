@@ -3,12 +3,18 @@ package com.BrassAmber.ba_bt.item;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
+import com.BrassAmber.ba_bt.item.item.MonolithItem;
+import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
+import net.minecraft.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -35,6 +41,15 @@ public class BTItems {
 	public static final Item END_MONOLITH = registerMonolith("monolith_end", BTEntityTypes.END_MONOLITH);
 	public static final Item SKY_MONOLITH = registerMonolith("monolith_sky", BTEntityTypes.SKY_MONOLITH);
 	public static final Item OCEAN_MONOLITH = registerMonolith("monolith_ocean", BTEntityTypes.OCEAN_MONOLITH);
+
+	public static final Item SILVER_INGOT = registerItem("silver_ingot", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
+	public static final Item SILVER_SHARD = registerItem("silver_shard", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
+	public static final Item SILVER_SWORD = registerItem("silver_sword", new SwordItem(BTItemTier.SILVER, 3, -2.4F, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+
+	public static final Item IRON_HELMET = registerItem("silver_helmet", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item IRON_CHESTPLATE = registerItem("silver_chestplate", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item IRON_LEGGINGS = registerItem("silver_leggings", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item IRON_BOOTS = registerItem("silver_boots", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.FEET, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
 	/**
 	 * Helper method for registering all Items
