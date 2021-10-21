@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ba_bt:silver_ingot"
+    }
+  ],
+  "result": {
+    "item": "ba_bt:silver_shard",
+    "count": 9
+  }
+}
