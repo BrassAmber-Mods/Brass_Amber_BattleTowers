@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.block.BTSpawner;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
@@ -34,6 +35,7 @@ public class BTBlocks {
 	public static final Block STONE_CHEST = registerChestBlock("stone_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
 	
 	public static final Block TOTEM = registerBlock("totem", new TotemBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
+	public static final Block BTSPAWNER = registerBlock("btspawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
 	/**
 	 * Helper method for registering all Blocks and Items
