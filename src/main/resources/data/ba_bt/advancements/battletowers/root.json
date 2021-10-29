@@ -1,0 +1,42 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "display": {
+        "title": {
+            "text": "BattleTowers",
+            "color": "dark_purple",
+            "bold": true,
+            "italic": false,
+            "underlined": false,
+            "strikethrough": false,
+            "obfuscated": false
+        },
+        "description": {
+            "text": ""
+        },
+        "icon": {
+            "item": "ba_bt:battle_tower_icon"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false,
+        "background": "ba_bt:textures/gui/advancements/backgrounds/stone_bricks.png"
+    },
+    "criteria": {
+        "crafting_table": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecraft:crafting_table"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "crafting_table"
+        ]
+    ]
+}

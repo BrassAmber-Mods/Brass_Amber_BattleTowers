@@ -1,0 +1,45 @@
+ooooooooo
+BrassAmber BattleTowers
+ooooooooo
+---------
+'Howling Towers'
+-Infiltrate the Land Tower 
+---------
+'I hope you know what you're doing'
+-Find a Monolith Key
+---------
+'The ocean depths begins to stir..'
+-Destroy Bahrynz'muul, Bound Guardian of the Tower
+---------
+'Twisted Worship'
+-Infiltrate the Ocean Tower
+---------
+'Screams echo from the ruined portals...'
+-Destroy Morayzu'un, Voidborn idol of the Drowned
+---------
+'Spire of Enslavement'
+-Infiltrate the Nether Tower
+---------
+'The core becomes restless...'
+-Destroy Volsun'syrr, Tyrant of the Nether Wastes
+---------
+'The Deepest Depths'
+-Infiltrate the Core Tower
+---------
+'The Stronghold calls out to you...'
+-Destroy Obthu'uryn, Ancient Core God of Judgement
+---------
+'Tower in the Void'
+-Infiltrate the End Tower
+---------
+'The clouds descend from The Heavens...'
+-Destroy Shul'losniir, Fractured Guardian of the Endermen
+---------
+'Is that tower.. floating?
+-Infiltrate the Sky Tower
+--------
+'Fall of the Gods...'
+-Destroy Veyhz'kriin, Goddess of the Heavens
+--------
+'Second Era Incident'
+-Defeat the Realm Guardians, plunging the world back into disorder.. you are no hero

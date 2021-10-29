@@ -8,15 +8,14 @@ import com.BrassAmber.ba_bt.item.item.MonolithItem;
 import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
 import com.BrassAmber.ba_bt.util.GolemType;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StructureBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class BTItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
@@ -46,10 +45,12 @@ public class BTItems {
 	public static final Item SILVER_SHARD = registerItem("silver_shard", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
 	public static final Item SILVER_SWORD = registerItem("silver_sword", new SwordItem(BTItemTier.SILVER, 3, -2.4F, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
-	public static final Item IRON_HELMET = registerItem("silver_helmet", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item IRON_CHESTPLATE = registerItem("silver_chestplate", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item IRON_LEGGINGS = registerItem("silver_leggings", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item IRON_BOOTS = registerItem("silver_boots", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.FEET, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item SILVER_HELMET = registerItem("silver_helmet", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item SILVER_CHESTPLATE = registerItem("silver_chestplate", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item SILVER_LEGGINGS = registerItem("silver_leggings", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item SILVER_BOOTS = registerItem("silver_boots", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.FEET, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+
+	public static final Item BATTLE_TOWER_ICON = registerItem("battle_tower_icon", new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
 	/**
 	 * Helper method for registering all Items

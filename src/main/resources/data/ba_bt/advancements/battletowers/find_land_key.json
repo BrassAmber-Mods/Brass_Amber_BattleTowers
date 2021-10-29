@@ -1,0 +1,46 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "display": {
+        "title": {
+            "text": "I hope you know what you're doing.....",
+            "color": "dark_green",
+            "bold": true,
+            "italic": true
+        },
+        "description": {
+            "text": "-Find a Monolith Key",
+            "color": "green",
+            "italic": true
+        },
+        "icon": {
+            "item": "ba_bt:monolith_key_land"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "Find Key": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "ba_bt:monolith_key_land",
+                        "count": 1,
+                        "data": 0
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "Find Key"
+        ]
+    ],
+    "rewards": {
+        "experience": 56
+    },
+    "parent": "ba_bt:battletowers/root"
+}
