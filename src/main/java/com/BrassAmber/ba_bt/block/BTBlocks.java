@@ -7,7 +7,6 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
-import com.BrassAmber.ba_bt.block.block.TabIconBlock;
 import com.BrassAmber.ba_bt.block.block.TotemBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
@@ -19,7 +18,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -42,14 +40,12 @@ public class BTBlocks {
 
 	public static final Block TOTEM = registerBlock("totem", new TotemBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
 
-	public static final Block TAB_ICON = registerBlock("tab_icon", new TabIconBlock(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
 	public static void onRegisterBlocks(RegistryEvent.Register<Block> event) {
 		BrassAmberBattleTowers.LOGGER.info("Set Block RenderTypes");
 		RenderType cutoutRenderType = RenderType.cutout();
-		RenderTypeLookup.setRenderLayer(TAB_ICON, cutoutRenderType);
 	}
 
 	/**

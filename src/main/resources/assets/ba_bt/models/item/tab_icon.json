@@ -1,3 +1,6 @@
 {
-  "parent": "ba_bt:block/tab_icon"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ba_bt:item/tab_icon"
+  }
 }
