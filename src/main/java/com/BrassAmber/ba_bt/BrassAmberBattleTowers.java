@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.util.RegistryKey;
-import net.minecraftforge.common.BiomeDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,19 +19,21 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -57,7 +56,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class BrassAmberBattleTowers {
 
 	public static final String MOD_ID = "ba_bt";
-
+	public static final ItemGroup BATLETOWERSTAB = new BTItemGroup();
 	// Directly reference a log4j logger
 	public static final Logger LOGGER = LogManager.getLogger();
 
@@ -120,12 +119,7 @@ public class BrassAmberBattleTowers {
 		 * registrykey. Then that can be fed into the dictionary to get the biome's types.
 		 */
 		RegistryKey key = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
-		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.WET)
-				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.DEAD)
-				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.COLD)
-				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.HOT)
-				|| BiomeDictionary.hasType(key, BiomeDictionary.Type.RIVER)
-		) {
+		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.WET) || BiomeDictionary.hasType(key, BiomeDictionary.Type.DEAD) || BiomeDictionary.hasType(key, BiomeDictionary.Type.COLD) || BiomeDictionary.hasType(key, BiomeDictionary.Type.HOT) || BiomeDictionary.hasType(key, BiomeDictionary.Type.RIVER)) {
 
 		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.NETHER)) {
 
@@ -182,17 +176,14 @@ public class BrassAmberBattleTowers {
 			if (serverWorld.dimension().equals(World.OVERWORLD)) {
 				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
 				tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
-			}
-			else if (serverWorld.dimension().equals(World.NETHER)) {
+			} else if (serverWorld.dimension().equals(World.NETHER)) {
 
-			}
-			else if (serverWorld.dimension().equals(World.END)) {
+			} else if (serverWorld.dimension().equals(World.END)) {
 
 			}
 			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}
-
 
 	// Do something that can only be done on the client
 	private void doClientStuff(final FMLClientSetupEvent event) {
