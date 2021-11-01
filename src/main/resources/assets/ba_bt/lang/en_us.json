@@ -1,6 +1,6 @@
 {
 	"itemGroup.ba_bt": "BrassAmber Battletowers",
-	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
+	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
 	// Entities
 	"entity.ba_bt.land_golem": "Land Golem",

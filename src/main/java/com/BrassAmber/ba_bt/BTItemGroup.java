@@ -2,7 +2,6 @@ package com.BrassAmber.ba_bt;
 
 import com.BrassAmber.ba_bt.block.BTBlocks;
 
-import com.BrassAmber.ba_bt.item.BTItems;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
@@ -13,10 +12,11 @@ public class BTItemGroup extends ItemGroup {
 	}
 
 	/**
-	 * TODO Takes an OperatorOnlyItem for now. (Which means it can only be accessed using commands) I want this just to be a texture.
+	 * TODO Takes an Item for now. I want this just to be a texture.
+	 * (Not sure if we should keep the block maybe? It doesn't really work with the new texture. Or we should make the texture 3D.)
 	 */
 	@Override
 	public ItemStack makeIcon() {
-		return new ItemStack(BTItems.TAB_ICON_ITEM);
+		return new ItemStack(BTBlocks.TAB_ICON);
 	}
 }

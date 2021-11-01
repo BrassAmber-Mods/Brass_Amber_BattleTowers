@@ -7,6 +7,7 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
+import com.BrassAmber.ba_bt.block.block.TabIconBlock;
 import com.BrassAmber.ba_bt.block.block.TotemBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
@@ -18,6 +19,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -40,34 +42,56 @@ public class BTBlocks {
 
 	public static final Block TOTEM = registerBlock("totem", new TotemBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
 
+	public static final Block TAB_ICON = registerBlockNoGroup("tab_icon", new TabIconBlock(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
 	public static void onRegisterBlocks(RegistryEvent.Register<Block> event) {
 		BrassAmberBattleTowers.LOGGER.info("Set Block RenderTypes");
 		RenderType cutoutRenderType = RenderType.cutout();
+		RenderTypeLookup.setRenderLayer(TAB_ICON, cutoutRenderType);
 	}
 
 	/**
-	 * Helper method for registering all Blocks and Items
+	 * Helper method for registering all Blocks and Items with a custom ItemGroup.
+	 */
+	private static Block registerBlock(String registryName, Block block, ItemGroup itemGroup) {
+		return registerBlock(registryName, block, new BlockItem(block, new Item.Properties().tab(itemGroup)));
+	}
+	
+	/**
+	 * Helper method for registering all Blocks and Items to the BattleTowers ItemGroup.
 	 */
 	private static Block registerBlock(String registryName, Block block) {
+		return registerBlock(registryName, block, BrassAmberBattleTowers.BATLETOWERSTAB);
+	}
+	
+	/**
+	 * Items without a group will not show up in the creative inventory and JEI.
+	 */
+	private static Block registerBlockNoGroup(String registryName, Block block) {
+		return registerBlock(registryName, block, (ItemGroup) null);
+	}
+	
+	/**
+	 * Helper method for registering all Blocks and Items
+	 */
+	private static Block registerBlock(String registryName, Block block, Item item) {
 		BLOCKS.register(registryName, () -> block);
 		// Blocks are registered before Items
-		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+		BTItems.registerItem(registryName, item);
 		return block;
 	}
+	
+	/*********************************************************** Chest Stuff ********************************************************/
 
 	/**
 	 * Helper method for registering Chests
 	 */
 	private static Block registerChestBlock(String registryName, Block block, Supplier<Callable<ItemStackTileEntityRenderer>> renderMethod) {
-		BLOCKS.register(registryName, () -> block);
-		// Blocks are registered before Items
-		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_MISC).setISTER(renderMethod)));
-		return block;
+		return registerBlock(registryName, block, new BlockItem(block, new Item.Properties().tab(BrassAmberBattleTowers.BATLETOWERSTAB).setISTER(renderMethod)));
 	}
-
+	
 	@OnlyIn(Dist.CLIENT)
 	private static <T extends TileEntity> Callable<ItemStackTileEntityRenderer> chestItemRenderer(Supplier<T> tileEntitySupplier) {
 		return () -> new BTChestItemRenderer<>(tileEntitySupplier);
