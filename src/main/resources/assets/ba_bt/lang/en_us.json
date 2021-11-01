@@ -35,6 +35,8 @@
 	"block.ba_bt.golem_chest": "Golem Chest",
 	"block.ba_bt.stone_chest": "Stone Chest",
 	"block.ba_bt.totem": "Totem",
+	"block.ba_bt.silver_block": "Silver Block",
+	"block.ba_bt.silver_tiles": "Silver Tiles",
 	
 	// Containers
 	"container.ba_bt.golem_chest": "Golem Chest",
