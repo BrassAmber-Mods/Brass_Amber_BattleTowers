@@ -1,3 +1,14 @@
+Latest features:
+- Should reset when 32 blocks away from the spawn position.
+- Becomes awake when a player is within 6 blocks.
+- Generates 5% of health when dormant. (Maybe hard to see for you, I made the boss-bar invisible when a Golem is dormant)
+- Shoots fireballs.
+- Melees.
+
+When enraged:
+- Double fireball firing speed.
+- Double damage intake.
+
 All Golems:
 + Go dormant when you die and return to the tower top but instead of fully healing, they slowly regenerate health
 + the golems when freed from the monolith can chase the player at a max range of 2 chunks, otherwise they teleport back
@@ -24,17 +35,32 @@ Ideas:
 
 ========================================================================
 
-Sky golem:
-+ legs do not move and she uses vex animations [weapon hand raises when she charges]
+Sky golem legs do not move and she uses vex animations [weapon hand raises when she charges]
 -holds a sword in hand
 Ocean golem tail doesn't need an animation [but a light waving would be fine]
 -holds a trident in hand 
 [weapons are twice the size of player handheld items]
-+ What to do with the Minions when she's dormant?
 
-Minions:
-+ the sky golem summons sky minions [player models with wings, i forgot to add the wings to the model]
-+ every 1/4 hp she loses, a cloud of 4-7 of her minions spawn
+-Movement: Vex
+-circling the player at a distance 
+-flying towards the player but not into
+Secondary Movement:
+-charges towards and into the player at 2x her current speed
+-----------------------------------------------------
+Sky Golem default speed is 2x a vex [3x] when charging
+-----------------------------------------------------
+when below 1/4 hp, her speed increased to 3x a vex with 4x charging
+
+Minions
+-every 1/4 hp lost she summons 7-10 sky minions
+-these minions are as weak as vex but do 30% more damage 
+-they are player sized with wings
+-Vex AI makes them circle and charge, nothing special
+--------------------------------------------------------
+IF YOU'RE UP FOR IT HAVE IT SO THEY OCCASIONALLY GROUP TOGETHER BEFORE DISPERSING OUT TO CHARGE
+------------------------------------
+shoots a dragons breath fireball [this can linger in air] 
+[also it's purple, as if she was consuming the end eye to produce such fire]
 
 ========================================================================
 
@@ -48,3 +74,25 @@ the ocean/sky golem should return to their summon point if you die, if not they 
 all the others would have a 2 chunk range as well, returning to their summon point when you die
 
 Golem HP should slowly return as well rather than insta-refill
+
+Attacks:
+-Melee Punch
+-Fireball
+-Apocalypse stomp that breaks obsidian
+-every 5 fireballs he shoots, he cracks [cracked_core.png]
+---------------------------------------------
+if hit during this phase, deal double damage
+---------------------------------------------
+-if you don't hit him within 5 seconds, he stop moving [monolith implode sound plays]
+-this then blasts out energy [AoE explosion all around him [TNT damage]]
+-when below 1/3 hp, he will begin to rise up 8 blocks into the air
+-he then raises, his arms go from his sides to a 'T' pose before changing models
+-----------------------------------
+switches to [core_god_phase_2] model & texture 
+-----------------------------------
+-golem flies around like a vex
+-occasionally charging towards and past the player in a downwards swoop
+-charges downwards or up towards the player in a shallow 'U' shape
+-summons 6 fireballs above each of its hands 
+-the 6 fireballs form a ring before randomly firing them off
+-this only happens as a rare attack[ well, less common than the others]
