@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.block.block;
 
-import com.BrassAmber.ba_bt.item.GuardianEyeItem;
+import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.block.Block;

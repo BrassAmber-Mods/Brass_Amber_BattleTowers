@@ -56,10 +56,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class BrassAmberBattleTowers {
 
 	public static final String MOD_ID = "ba_bt";
-
+	public static final ItemGroup BATLETOWERSTAB = new BTItemGroup();
 	// Directly reference a log4j logger
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final ItemGroup BATLETOWERSTAB = new BTItemGroup();
+
 	public static final ITextComponent HOLD_SHIFT_TOOLTIP = (new TranslationTextComponent("tooltip.battletowers.hold_shift").withStyle(TextFormatting.DARK_GRAY));
 
 	public BrassAmberBattleTowers() {

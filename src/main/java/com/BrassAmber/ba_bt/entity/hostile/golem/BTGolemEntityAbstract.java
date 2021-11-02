@@ -1,14 +1,18 @@
 package com.BrassAmber.ba_bt.entity.hostile.golem;
 
+import java.util.Map;
+
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
 import com.BrassAmber.ba_bt.item.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.google.common.collect.Maps;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
@@ -20,11 +24,15 @@ import net.minecraft.entity.Pose;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TargetGoal;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -35,9 +43,14 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathPoint;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Tuple;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -51,7 +64,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 
 /**
- * TODO Break blocks in his way like enderdragen, also explode blocks players hide behind
+ * FIXME Can still be pushed by players. (Doesn't really matter in Survival, because he will become awake. However you can still bump him off an edge while fighting)
+ * 
+ * TODO Break blocks in his way like enderdragen, also explode blocks players hide behind.
+ * TODO If players splash the Golem with potions before the fight they I want to clear all effects.
+ * 
+ * TODO Pathfind to the player when not able to see the player.
  */
 public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	private static final DataParameter<BlockPos> SPAWN_POS = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BLOCK_POS);
@@ -63,6 +81,9 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 	private int explosionPower = 1;
+	private int fireballChargeTime = 0;
+	protected Map<Integer, Tuple<Integer, Goal>> golemGoals;
+	protected Map<Integer, Tuple<Integer, Goal>> golemTargets;
 
 	// Data Strings
 	private final String spawnPosName = "SpawnPos";
@@ -126,9 +147,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 	/*
 	 * Gets called every tick the entity exists. (Alive or dead)
-	 * 
-	 * TODO Reset if there's no target for some time.
-	 * TODO Destroy floors and blocks to get to the player.
 	 */
 	@Override
 	public void tick() {
@@ -145,9 +163,9 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
-			if (!this.getCommandSenderWorld().isClientSide()) {
+			if (!this.level.isClientSide()) {
 				double maxDistanceToPlayer = 6.0D;
-				PlayerEntity entityplayer = this.getCommandSenderWorld().getNearestPlayer(this, maxDistanceToPlayer);
+				PlayerEntity entityplayer = this.level.getNearestPlayer(this, maxDistanceToPlayer);
 				// Must be able to see the player and the player mustn't be in Creative mode.
 				if (entityplayer != null && !entityplayer.isCreative() && this.canSee(entityplayer)) {
 					this.setGolemState(AWAKE);
@@ -156,24 +174,45 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			}
 		}
 
+		// Reset the Golem if its to far from it's spawn location and not close to a player.
+		this.resetGolemTick();
+
+		// Heal the Golem if its dormant and not at max health.
+		this.healGolemTick();
+
+		// Handles Golem attacks.
+		this.golemAttackTick();
+	}
+
+	/**
+	 * Reset the Golem if its to far from it's spawn location and not close to a player.
+	 */
+	protected void resetGolemTick() {
 		// Reset to spawn position if the golem is too far away
 		int maxDistanceFromSpawn = 32;
+		// We need the max distance squared.
 		maxDistanceFromSpawn *= maxDistanceFromSpawn;
 		BlockPos spawnPos = this.getSpawnPos();
 		// Check for the distance to the X and Z coordinates on the current Y level.
 		// This way we get only the lateral distance
-		if (this.distanceToSqr(spawnPos.getX(), this.getY(), spawnPos.getZ()) > maxDistanceFromSpawn && !this.getCommandSenderWorld().isClientSide()) {
+		if (this.distanceToSqr(spawnPos.getX(), this.getY(), spawnPos.getZ()) > maxDistanceFromSpawn && !this.level.isClientSide()) {
 			this.resetGolem();
 		}
 
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		int maxDistanceToNearestPlayer = 32;
 		// Doesn't include Spectators. (Does include Creative mode)
-		PlayerEntity nearestPlayer = this.getCommandSenderWorld().getNearestPlayer(this, maxDistanceToNearestPlayer);
-		if (nearestPlayer == null) {
+		PlayerEntity nearestPlayer = this.level.getNearestPlayer(this, maxDistanceToNearestPlayer);
+		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
+		if (nearestPlayer == null && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection())) {
 			this.resetGolem();
 		}
+	}
 
+	/**
+	 * Heal the Golem if its dormant and not at max health.
+	 */
+	protected void healGolemTick() {
 		// Do something per second
 		boolean isEachSecond = this.tickCount % 20 == 0;
 
@@ -182,20 +221,129 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			// Heal the golem. (Will be clamped to max health)
 			this.heal(this.getMaxHealth() / 200);
 		}
+	}
 
-		if (this.getTarget() instanceof LivingEntity && !this.getCommandSenderWorld().getDifficulty().equals(Difficulty.PEACEFUL)) {
+	/*********************************************************** Attack Ticks ********************************************************/
+
+	/**
+	 * Handles Golem attacks.
+	 * Can be overridden by other Golems with different functionalities.
+	 * 
+	 * TODO Reset if there's no target for some time.
+	 * TODO Destroy floors and blocks to get to the player.
+	 */
+	protected void golemAttackTick() {
+		if (this.getTarget() instanceof LivingEntity && !this.level.getDifficulty().equals(Difficulty.PEACEFUL)) {
 			this.doFireballAttack();
+		}
+
+		// TODO Destroy block stuff
+		if (!this.level.isClientSide()) {
+			// TODO delete
+			//			this.checkWalls(this.getBoundingBox());
+
+			// TODO Note: Golem now keeps track of target through walls and stuff.
+			// We can start to use that to destroy blocks and stuff.
+			if (this.getTarget() != null) {
+				for (Object goal : this.targetSelector.getRunningGoals().toArray()) {
+					PrioritizedGoal prioGoal = (PrioritizedGoal) goal;
+					if (prioGoal.getGoal() instanceof TargetGoal) {
+						// TargetGoal targetGoal = (TargetGoal) prioGoal.getGoal();
+						this.canReach(this.getTarget());
+						// BrassAmberBattleTowers.LOGGER.info("Can reach: " + this.canReach(this.getTarget()));
+						// If the Golem is not creating new Paths and can't reach the target.
+						if (!this.isPathFinding() && !this.canReach(this.getTarget())) {
+							this.checkWalls(this.getBoundingBox());
+						}
+					}
+				}
+			}
+
+			// Check if the Golem is looking for a path to reach the target.
+			// Is false for example when able to attack or not able to see the player.
+			// BrassAmberBattleTowers.LOGGER.info(this.isPathFinding());
+			//			
+
+			//			BrassAmberBattleTowers.LOGGER.info(this.goalSelector.getRunningGoals().count());
+			//			this.goalSelector.getRunningGoals().forEach((goal) -> BrassAmberBattleTowers.LOGGER.info(goal.getGoal()));
+			//			
+			//			BrassAmberBattleTowers.LOGGER.info(this.targetSelector.getRunningGoals().count());
+			//			this.targetSelector.getRunningGoals().forEach((goal) -> BrassAmberBattleTowers.LOGGER.info(goal.getGoal()));
 		}
 	}
 
-	/*********************************************************** Shoot Fireball TEST ********************************************************/
-
-	public int chargeTime = 0;
+	/*********************************************************** Attacks ********************************************************
+	
+	/**
+	 * Check if the Golem can physically walk close enough to the target's position.
+	 */
+	private boolean canReach(LivingEntity targetEntity) {
+		//	      this.reachCacheTime = 10 + this.getRandom().nextInt(5);
+		Path path = this.getNavigation().createPath(targetEntity, 0);
+		if (path == null) {
+			return false;
+		} else {
+			PathPoint pathpoint = path.getEndNode();
+			if (pathpoint == null) {
+				// Check if there is even a path.
+				return false;
+			} else if (pathpoint.y - MathHelper.floor(targetEntity.getY()) > 2.5D) {
+				// Target is too far on Y coordinate.
+				return false;
+			} else {
+				int x = pathpoint.x - MathHelper.floor(targetEntity.getX());
+				int z = pathpoint.z - MathHelper.floor(targetEntity.getZ());
+				// Checks if target is too far horizontally.
+				return (double) (x * x + z * z) <= 2.25D;
+			}
+		}
+	}
 
 	/**
-	 * This DOES work.
-	 * 
-	 * Try this again since the {@link GolemFireballAttackGoal} didn't seem to work.
+	 * Referenced from {@link EnderDragonEntity#checkWalls}
+	 */
+	@SuppressWarnings("deprecation")
+	private boolean checkWalls(AxisAlignedBB boundingBox) {
+		int minX = MathHelper.floor(boundingBox.minX);
+		int minY = MathHelper.floor(boundingBox.minY);
+		int minZ = MathHelper.floor(boundingBox.minZ);
+		int maxX = MathHelper.floor(boundingBox.maxX);
+		int maxY = MathHelper.floor(boundingBox.maxY);
+		int maxZ = MathHelper.floor(boundingBox.maxZ);
+		boolean isStuckInWall = false;
+		boolean canDestroyBlock = false;
+
+		for (int x = minX - 1; x <= maxX + 1; ++x) {
+			for (int y = minY; y <= maxY + 1; ++y) {
+				for (int z = minZ - 1; z <= maxZ + 1; ++z) {
+					BlockPos blockpos = new BlockPos(x, y, z);
+					BlockState blockstate = this.level.getBlockState(blockpos);
+					Block block = blockstate.getBlock();
+					if (!blockstate.isAir(this.level, blockpos) && blockstate.getMaterial() != Material.FIRE) {
+						if (net.minecraftforge.common.ForgeHooks.canEntityDestroy(this.level, blockpos, this) && !BlockTags.DRAGON_IMMUNE.contains(block)) {
+							canDestroyBlock = this.level.destroyBlock(blockpos, false) || canDestroyBlock;
+						} else {
+							isStuckInWall = true;
+						}
+					}
+				}
+			}
+		}
+
+		if (canDestroyBlock) {
+			BlockPos blockpos1 = new BlockPos(minX + this.random.nextInt(maxX - minX + 1), minY + this.random.nextInt(maxY - minY + 1), minZ + this.random.nextInt(maxZ - minZ + 1));
+			// Block destroy/explode particles.
+			this.level.levelEvent(2008, blockpos1, 0);
+		}
+
+		return isStuckInWall;
+	}
+
+	/*********************************************************** Fireball Attack ********************************************************/
+
+	/**
+	 * Shoot fireballs.
+	 * TODO Maybe shoot a fireball at the target's last known location?
 	 */
 	private void doFireballAttack() {
 		LivingEntity targetLivingEntity = this.getTarget();
@@ -210,16 +358,16 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		// Check if the target is within range and if the Golem is able to see the target.
 		if (targetLivingEntity.distanceToSqr(this) < maxShootingDistance && this.canSee(targetLivingEntity)) {
 			// Increase attack time
-			++this.chargeTime;
+			++this.fireballChargeTime;
 
 			// Prepare to shoot. (10 more ticks, or 0.5 seconds)
-			if (this.chargeTime == 10 && !this.isSilent()) {
+			if (this.fireballChargeTime == 10 && !this.isSilent()) {
 				// Play charging sound
 				this.playSoundEventWithVariation(BTSoundEvents.ENTITY_GOLEM_CHARGE);
 			}
 
 			// Shoot fireball
-			if (this.chargeTime == 20) {
+			if (this.fireballChargeTime == 20) {
 				// Calculation for fireball trajectory and positioning.
 				Vector3d vector3d = this.getViewVector(1.0F);
 				double xPower = targetLivingEntity.getX() - this.getX();
@@ -246,34 +394,46 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 				world.addFreshEntity(fireballentity);
 
 				// set firing timeout between shoots. (Doubles if the Golem is enraged)
-				this.chargeTime = this.isEnraged() ? -20 : -40;
+				this.fireballChargeTime = this.isEnraged() ? -20 : -40;
 			}
 		}
 
 		// If target is too far away or the golem can't see the target and the current charge time is more than 0.
-		else if (this.chargeTime > 0) {
+		else if (this.fireballChargeTime > 0) {
 			// Decrease charge time until 0. (Which is the default)
-			--this.chargeTime;
+			--this.fireballChargeTime;
 		}
 
 		// 10 ticks before shooting, so while preparing to shoot, set the DataParameter charging to 'true'.
-		this.setCharging(this.chargeTime > 10);
+		this.setCharging(this.fireballChargeTime > 10);
+	}
+
+	/*********************************************************** Fireball Attack Data ********************************************************/
+
+	public void setCharging(boolean setCharging) {
+		this.entityData.set(DATA_IS_CHARGING, setCharging);
+	}
+
+	public int getExplosionPower() {
+		return this.explosionPower;
 	}
 
 	/*********************************************************** Hurt / Die ********************************************************/
 
 	/**
-	 * TODO Not being able to do damage while the golem is dormant.
+	 * TODO Maybe let players do more damage if they are close to the Golem compared to shooting it from far away to encourage close combat?
 	 */
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
-		//		this.reassessGolemGoals(); // Used for testing
-		int multiplier = this.isEnraged() ? 2 : 1;
-		boolean isHurt = super.hurt(source, damage * multiplier);
-		if (!this.isAwake()) {
+		if (!this.isDormant()) {
+			// this.reassessGolemGoals(); // Used for testing
+			int multiplier = this.isEnraged() ? 2 : 1;
+			return super.hurt(source, damage * multiplier);
+		} else if (source.isCreativePlayer()) {
 			this.setGolemState(AWAKE);
 		}
-		return isHurt;
+		// This makes sure the /kill command works.
+		return source.equals(DamageSource.OUT_OF_WORLD) ? super.hurt(source, damage) : false;
 	}
 
 	@Override
@@ -284,45 +444,65 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	/*********************************************************** AI Goals ********************************************************/
 
 	/**
-	 * Called in {@link MobEntity} Constructor
+	 * Called in the {@link MobEntity} constructor.
 	 */
 	@Override
 	protected void registerGoals() {
+		// Initialize new HashMaps and register Golem goals.
+		this.golemGoals = Maps.newHashMap();
+		this.golemTargets = Maps.newHashMap();
+		this.registerGolemGoals();
 		this.reassessGolemGoals();
 	}
-
-	private SwimGoal swimGoal = new SwimGoal(this);
-	private MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.0D, true);
-	private LookAtGoal lookAtGoal = new LookAtGoal(this, PlayerEntity.class, 8.0F);
-	// Probably not going to use this anymore, TODO delete
-	@SuppressWarnings("unused")
-	private GolemFireballAttackGoal fireballAttackGoal = new GolemFireballAttackGoal(this);
-	private HurtByTargetGoal hurtByTargetGoal = new HurtByTargetGoal(this);
-	private NearestAttackableTargetGoal<PlayerEntity> nearestAttackablePlayer = new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true, true);
 
 	/**
 	 * Method for adding/removing AI when changing GolemState.
 	 * (Not sure if this is the best way to do this, but lets see where we end up in the end)
 	 */
 	protected void reassessGolemGoals() {
-		//		BrassAmberBattleTowers.LOGGER.info("ReassesGoals"); // Used for testing
-		if (this.isDormant()) {
-			this.goalSelector.removeGoal(this.swimGoal);
-			this.goalSelector.removeGoal(this.meleeAttackGoal);
-			this.goalSelector.removeGoal(this.lookAtGoal);
-			//			this.goalSelector.removeGoal(this.fireballAttackGoal);
-			this.targetSelector.removeGoal(this.hurtByTargetGoal);
-			this.targetSelector.removeGoal(this.nearestAttackablePlayer);
-		} else if (!this.isDormant()) {
-			this.goalSelector.addGoal(0, this.swimGoal);
-			// Is also movement AI
-			// Pathfinding sucks, has problems with the walls on top of the tower if the player is behind them.
-			// (Should maybe be no problem after the explosion of blocks is added?)
-			this.goalSelector.addGoal(1, this.meleeAttackGoal);
-			this.goalSelector.addGoal(2, this.lookAtGoal);
-			//			this.goalSelector.addGoal(2, this.fireballAttackGoal);
-			this.targetSelector.addGoal(1, this.hurtByTargetGoal);
-			this.targetSelector.addGoal(2, this.nearestAttackablePlayer);
+		// Goals get registered on the server-side in the constructor.
+		if (!this.level.isClientSide()) {
+			// Prevent stupid crashes.
+			if (this.golemGoals == null || this.golemTargets == null) {
+				BrassAmberBattleTowers.LOGGER.error("Golem goal was \"null\". Preventing crash by not assigning any goals.");
+			} else {
+				if (this.isDormant()) {
+					this.golemGoals.values().forEach(tuple -> this.goalSelector.removeGoal(tuple.getB()));
+					this.golemTargets.values().forEach(tuple -> this.targetSelector.removeGoal(tuple.getB()));
+				} else if (!this.isDormant()) {
+					this.golemGoals.values().forEach(tuple -> this.goalSelector.addGoal(tuple.getA(), tuple.getB()));
+					this.golemTargets.values().forEach(tuple -> this.targetSelector.addGoal(tuple.getA(), tuple.getB()));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Register all goals that a Golem should have. Called in the {@link MobEntity} constructor.
+	 */
+	protected void registerGolemGoals() {
+		this.addGolemGoal(0, new SwimGoal(this));
+		/**
+		 * TODO Work in progress -->
+		 * Is also movement AI
+		 * Pathfinding sucks, has problems with the walls on top of the tower if the player is behind them.
+		 * (Should maybe be no problem after the explosion of blocks is added?)
+		 */
+		this.addGolemGoal(1, new MeleeAttackGoal(this, 1.0D, true));
+		this.addGolemGoal(2, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		this.addGolemTargetGoal(1, new HurtByTargetGoal(this));
+		this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
+	}
+
+	protected void addGolemGoal(int priority, Goal goal) {
+		if (this.golemGoals != null) {
+			this.golemGoals.put(golemGoals.size(), new Tuple<>(priority, goal));
+		}
+	}
+
+	protected void addGolemTargetGoal(int priority, Goal goal) {
+		if (this.golemTargets != null) {
+			this.golemTargets.put(this.golemTargets.size(), new Tuple<>(priority, goal));
 		}
 	}
 
@@ -333,11 +513,9 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
 
-		// Start coordinates centered on the spawning Block
-		// Seems to initialize the server-side values and then it takes 3? ticks to update the client
+		// Set spawn position and direction centered on the spawning Block.
 		this.setSpawnPos(this.blockPosition());
 		this.setSpawnDirection(this.yRot);
-
 		return spawnDataIn;
 	}
 
@@ -447,16 +625,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		return ItemStack.EMPTY;
 	}
 
-	/*********************************************************** Fireball Attack ********************************************************/
-
-	public void setCharging(boolean setCharging) {
-		this.entityData.set(DATA_IS_CHARGING, setCharging);
-	}
-
-	public int getExplosionPower() {
-		return this.explosionPower;
-	}
-
 	/*********************************************************** Awake / Dormant ********************************************************/
 
 	/**
@@ -515,7 +683,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	private void faceSpawnDirection() {
 		this.faceDirection(this.getSpawnDirection());
 	}
-	
+
 	/*
 	 * Make the Golem face the defined spawn direction.
 	 */
@@ -524,7 +692,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		this.setYHeadRot(direction);
 		this.setYBodyRot(direction);
 	}
-	
+
 	/**
 	 * Define the spawn position.
 	 */
@@ -535,7 +703,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	/**
 	 * Get the defined spawn position.
 	 */
-	private BlockPos getSpawnPos() {
+	protected BlockPos getSpawnPos() {
 		return this.entityData.get(SPAWN_POS);
 	}
 

@@ -79,7 +79,8 @@ public class MonolithItem extends Item {
 	 */
 	private float getPlacementDirection(ItemUseContext context) {
 		float angle = context.getHorizontalDirection().toYRot();
-		return (angle == 90 || angle == 270) ? angle + 180 : angle;
+		// Invert placement facing east and west.
+		return angle == 90 ? 270 : angle == 270 ? 90 : angle;
 	}
 
 	/**

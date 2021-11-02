@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
+    "parent": "ba_bt:item/monolith_template",
     "textures": {
-        "layer0": "ba_bt:item/monolith"
+        "texture": "ba_bt:entity/monolith/sky_monolith/sky_monolith_0"
     }
 }
