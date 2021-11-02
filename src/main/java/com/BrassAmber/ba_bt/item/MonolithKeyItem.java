@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.item.item;
+package com.BrassAmber.ba_bt.item;
 
 import java.util.List;
 
