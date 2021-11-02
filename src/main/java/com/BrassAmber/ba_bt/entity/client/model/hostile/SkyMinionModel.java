@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.entity.client.model;
+package com.BrassAmber.ba_bt.entity.client.model.hostile;
 
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
 import com.google.common.collect.ImmutableList;

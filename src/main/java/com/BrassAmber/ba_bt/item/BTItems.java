@@ -49,7 +49,7 @@ public class BTItems {
 	// Note: Materials ItemGroup.
 	public static final Item SILVER_INGOT = registerItem("silver_ingot", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
 	public static final Item SILVER_SHARD = registerItem("silver_shard", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
-	
+
 	// Note: Combat ItemGroup.
 	public static final Item SILVER_SWORD = registerItem("silver_sword", new SwordItem(BTItemTier.SILVER, 3, -2.4F, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 	public static final Item SILVER_HELMET = registerItem("silver_helmet", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));

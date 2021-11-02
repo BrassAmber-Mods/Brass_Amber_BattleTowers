@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.entity.client.model.golem;
+package com.BrassAmber.ba_bt.entity.client.model.hostile;
 
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.google.common.collect.ImmutableList;
