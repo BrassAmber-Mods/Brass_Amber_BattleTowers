@@ -24,7 +24,7 @@ public class BTItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final Item SILVER_SKELETON_SPAWN_EGG = registerItem("silver_skeleton_spawn_egg", new SpawnEggItem(BTEntityTypes.SILVER_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
-	
+
 	public static final Item LAND_MONOLOITH_KEY = registerMonolithKey("monolith_key_land");
 	public static final Item CORE_MONOLOITH_KEY = registerMonolithKey("monolith_key_core");
 	public static final Item NETHER_MONOLOITH_KEY = registerMonolithKey("monolith_key_nether");
@@ -56,7 +56,7 @@ public class BTItems {
 	public static final Item SILVER_CHESTPLATE = registerItem("silver_chestplate", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 	public static final Item SILVER_LEGGINGS = registerItem("silver_leggings", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 	public static final Item SILVER_BOOTS = registerItem("silver_boots", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.FEET, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	
+
 	/**
 	 * Helper method for registering all Items
 	 */
