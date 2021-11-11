@@ -121,10 +121,8 @@ public class BrassAmberBattleTowers {
 		RegistryKey key = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
 		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.WET) || BiomeDictionary.hasType(key, BiomeDictionary.Type.DEAD) || BiomeDictionary.hasType(key, BiomeDictionary.Type.COLD) || BiomeDictionary.hasType(key, BiomeDictionary.Type.HOT) || BiomeDictionary.hasType(key, BiomeDictionary.Type.RIVER)) {
 
-		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.NETHER)) {
-
-		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.END)) {
-
+		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.OCEAN)) {
+			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_OCEAN_BATTLE_TOWER);
 		} else {
 			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
 		}
@@ -175,6 +173,7 @@ public class BrassAmberBattleTowers {
 			Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkSource().generator.getSettings().structureConfig());
 			if (serverWorld.dimension().equals(World.OVERWORLD)) {
 				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+				tempMap.putIfAbsent(BTStructures.OCEAN_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
 				tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
 			} else if (serverWorld.dimension().equals(World.NETHER)) {
 
