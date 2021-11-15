@@ -31,6 +31,7 @@
 	"block.ba_bt.golem_chest": "Golem Chest",
 	"block.ba_bt.stone_chest": "Stone Chest",
 	"block.ba_bt.totem": "Totem",
+	"block.ba_bt.bt_spawner" : "BTSpawner",
 	
 	// Containers
 	"container.ba_bt.golem_chest": "Golem Chest",

@@ -35,7 +35,7 @@ public class BTBlocks {
 	public static final Block STONE_CHEST = registerChestBlock("stone_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
 	
 	public static final Block TOTEM = registerBlock("totem", new TotemBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
-	public static final Block BTSPAWNER = registerBlock("btspawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+	public static final Block BT_SPAWNER = registerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
 	/**
 	 * Helper method for registering all Blocks and Items
@@ -43,7 +43,11 @@ public class BTBlocks {
 	private static Block registerBlock(String registryName, Block block) {
 		BLOCKS.register(registryName, () -> block);
 		// Blocks are registered before Items
-		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+		if (registryName == "bt_spawner") {
+			BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties()));
+		} else {
+			BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_MISC)));
+		}
 		return block;
 	}
 	
