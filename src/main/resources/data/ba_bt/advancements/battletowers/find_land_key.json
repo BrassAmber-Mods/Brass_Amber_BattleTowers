@@ -1,15 +1,14 @@
 {
-    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "parent": "ba_bt:battletowers/land_tower_found",
     "display": {
         "title": {
             "text": "I hope you know what you're doing.....",
-            "color": "dark_green",
-            "bold": true,
+            "color": "white",
             "italic": true
         },
         "description": {
             "text": "-Find a Monolith Key",
-            "color": "green",
+            "color": "grey",
             "italic": true
         },
         "icon": {
@@ -26,21 +25,14 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "ba_bt:monolith_key_land",
-                        "count": 1,
-                        "data": 0
+                        "item": "ba_bt:monolith_key_land"
                     }
                 ]
             }
         }
     },
-    "requirements": [
-        [
-            "Find Key"
-        ]
-    ],
     "rewards": {
         "experience": 56
-    },
-    "parent": "ba_bt:battletowers/root"
+    }
+
 }

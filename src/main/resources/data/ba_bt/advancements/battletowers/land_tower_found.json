@@ -1,13 +1,13 @@
 {
-    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
     "display": {
         "title": {
             "text": "Howling Towers",
-            "color": "dark_green"
+            "color": "white"
         },
         "description": {
             "text": "-Infiltrate the Land Tower ",
-            "color": "gray"
+            "color": "gray",
+            "italic": true
         },
         "icon": {
             "item": "minecraft:wooden_sword"
@@ -15,14 +15,17 @@
         "frame": "task",
         "show_toast": true,
         "announce_to_chat": true,
-        "hidden": true
+        "hidden": false,
+        "background": "ba_bt:textures/gui/advancements/backgrounds/stone_bricks.png"
     },
+
     "criteria": {
         "Find Land Tower": {
             "trigger": "minecraft:location",
             "conditions": {
-                "dimension": "overworld",
-                "feature": "village"
+                "location": {
+                    "feature": "ba_bt:land_battle_tower"
+                }
             }
         }
     },
@@ -33,6 +36,5 @@
     ],
     "rewards": {
         "experience": 56
-    },
-    "parent": "ba_bt:battletowers/root"
+    }
 }
