@@ -69,37 +69,41 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
     public void tick() {
         this.spawner.tick();
         if (!foundChest) {
-            findChest(this.getBlockPos());
+            findChest(this.worldPosition);
         }
-    }
-
-    public BlockPos getChestPos() {
-        return this.chestPos;
     }
 
     private void findChest(BlockPos spawnerPos) {
         World world = this.level;
         for (int x = -15; x<26; x++) {
+            if (this.foundChest) {
+                break;
+            }
             for (int z = -15; z<26; z++) {
-                BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
-                Block block = world.getBlockState(newBlockPos).getBlock();
-                try {
-                    StoneChestBlock stoneChestBlock = (StoneChestBlock) block;
-                    this.chestTileEntity = (StoneChestTileEntity) world.getBlockEntity(newBlockPos);
-                    this.chestPos = newBlockPos;
-                    foundChest = true;
-                    BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "found chest at " + this.chestPos.getX() + " " + this.chestPos.getZ());
-
-                } catch (Exception e) {
-                    BrassAmberBattleTowers.LOGGER.log(Level.DEBUG,"Didn't find chest");
-                }
-
                 if (this.foundChest) {
                     break;
                 }
-            }
-            if (this.foundChest) {
-                break;
+                BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
+                TileEntity newTileEntity = world.getBlockEntity(newBlockPos);
+                TileEntity down = world.getBlockEntity(newBlockPos.below());
+                TileEntity up = world.getBlockEntity(newBlockPos.above());
+
+                if (down != null && down.getType() == BTTileEntityTypes.STONE_CHEST) {
+                    this.chestTileEntity = (StoneChestTileEntity) down;
+                    this.foundChest = true;
+
+                } else if (newTileEntity != null && newTileEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
+                    this.chestTileEntity = (StoneChestTileEntity) newTileEntity;
+                    this.foundChest = true;
+
+                } else if (up != null && up.getType() == BTTileEntityTypes.STONE_CHEST) {
+                    this.chestTileEntity = (StoneChestTileEntity) up;
+                    this.foundChest = true;
+
+                } else {
+                    this.chestTileEntity = null;
+                }
+
             }
         }
         this.foundChest = true;

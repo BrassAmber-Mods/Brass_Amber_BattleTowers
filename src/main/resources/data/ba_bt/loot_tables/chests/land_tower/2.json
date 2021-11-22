@@ -3,6 +3,70 @@
   "pools": [
     {
       "rolls": {
+        "min": 2.0,
+        "max": 3.0,
+        "type": "minecraft:uniform"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:saddle"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "name": "minecraft:leather_horse_armor"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:cobblestone"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:wooden_shovel"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:wooden_pickaxe"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:wooden_axe"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:wooden_sword"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "minecraft:leather_helmet"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "minecraft:leather_chestplate"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "minecraft:leather_leggings"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "minecraft:leather_boots"
+        }
+      ]
+    },
+    {
+      "rolls": {
         "min": 1.0,
         "max": 3.0,
         "type": "minecraft:uniform"
@@ -10,97 +74,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:saddle"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:golden_apple"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:enchanted_golden_apple"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:music_disc_13"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:music_disc_cat"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:name_tag"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "name": "minecraft:golden_horse_armor"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:iron_horse_armor"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 5,
-          "name": "minecraft:diamond_horse_armor"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:book"
-        }
-      ]
-    },
-    {
-      "rolls": {
-        "min": 1.0,
-        "max": 4.0,
-        "type": "minecraft:uniform"
-      },
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
           "name": "minecraft:iron_ingot"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:gold_ingot"
         },
         {
           "type": "minecraft:item",
@@ -113,11 +88,7 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
+              "count": 3
             }
           ],
           "name": "minecraft:wheat"
@@ -125,22 +96,17 @@
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "minecraft:bucket"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
-                "max": 4.0,
+                "min": 4.0,
+                "max": 6.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:redstone"
+          "name": "minecraft:clay"
         },
         {
           "type": "minecraft:item",
@@ -149,7 +115,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
+                "min": 2.0,
                 "max": 4.0,
                 "type": "minecraft:uniform"
               }
@@ -214,7 +180,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
+                "min": 3.0,
                 "max": 8.0,
                 "type": "minecraft:uniform"
               }
@@ -229,7 +195,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
+                "min": 3.0,
                 "max": 8.0,
                 "type": "minecraft:uniform"
               }
@@ -244,8 +210,8 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
-                "max": 8.0,
+                "min": 2.0,
+                "max": 6.0,
                 "type": "minecraft:uniform"
               }
             }
@@ -259,8 +225,8 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
-                "max": 8.0,
+                "min": 2.0,
+                "max": 6.0,
                 "type": "minecraft:uniform"
               }
             }
