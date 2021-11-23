@@ -10,11 +10,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:saddle"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 15,
           "name": "minecraft:golden_apple"
         },
@@ -22,36 +17,6 @@
           "type": "minecraft:item",
           "weight": 2,
           "name": "minecraft:enchanted_golden_apple"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:music_disc_13"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:music_disc_cat"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:name_tag"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "name": "minecraft:golden_horse_armor"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:iron_horse_armor"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "name": "minecraft:diamond_horse_armor"
         },
         {
           "type": "minecraft:item",
@@ -67,8 +32,8 @@
     },
     {
       "rolls": {
-        "min": 1.0,
-        "max": 4.0,
+        "min": 3.0,
+        "max": 5.0,
         "type": "minecraft:uniform"
       },
       "entries": [
@@ -104,31 +69,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:bread"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:wheat"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "name": "minecraft:bucket"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 15,
           "functions": [
             {
@@ -141,6 +81,26 @@
             }
           ],
           "name": "minecraft:redstone"
+        }
+      ]
+    },
+    {
+      "rolls": 3,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2.0,
+                "max": 4.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:experience_bottle"
         },
         {
           "type": "minecraft:item",
@@ -165,62 +125,12 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 2.0,
-                "max": 4.0,
+                "max": 6.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:melon_seeds"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 2.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:pumpkin_seeds"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 2.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:beetroot_seeds"
-        }
-      ]
-    },
-    {
-      "rolls": 3,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 8.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:bone"
+          "name": "minecraft:emerald"
         },
         {
           "type": "minecraft:item",
@@ -230,12 +140,12 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 8.0,
+                "max": 3.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:gunpowder"
+          "name": "minecraft:clay_block"
         },
         {
           "type": "minecraft:item",
@@ -244,13 +154,13 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
-                "max": 8.0,
+                "min": 8.0,
+                "max": 16.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:rotten_flesh"
+          "name": "minecraft:stone_bricks"
         },
         {
           "type": "minecraft:item",
@@ -259,13 +169,13 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
-                "max": 8.0,
+                "min": 8.0,
+                "max": 16.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:string"
+          "name": "minecraft:polished_stone_bricks"
         }
       ]
     }

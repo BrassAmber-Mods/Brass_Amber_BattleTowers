@@ -11,6 +11,11 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "name": "minecraft:glass_bottle"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
           "name": "minecraft:stone_shovel"
         },
         {
@@ -31,22 +36,22 @@
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:leather_helmet"
+          "name": "minecraft:chain_helmet"
         },
         {
           "type": "minecraft:item",
           "weight": 20,
-          "name": "minecraft:leather_chestplate"
+          "name": "minecraft:chain_chestplate"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:leather_leggings"
+          "name": "minecraft:chain_leggings"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:leather_boots"
+          "name": "minecraft:chain_boots"
         }
       ]
     },
@@ -59,7 +64,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 10,
+          "weight": 15,
           "name": "minecraft:iron_ingot"
         },
         {
@@ -80,7 +85,7 @@
               }
             }
           ],
-          "name": "minecraft:brick"
+          "name": "minecraft:cookie"
         },
         {
           "type": "minecraft:item",
@@ -129,12 +134,12 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 6.0,
+                "max": 3.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:gunpowder"
+          "name": "minecraft:arrow"
         },
         {
           "type": "minecraft:item",

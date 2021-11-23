@@ -10,43 +10,43 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:stone_shovel"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:stone_pickaxe"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:stone_axe"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:stone_sword"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:leather_helmet"
+          "weight": 20,
+          "name": "minecraft:lead"
         },
         {
           "type": "minecraft:item",
           "weight": 20,
-          "name": "minecraft:leather_chestplate"
+          "name": "minecraft:honey_block"
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:leather_leggings"
+          "weight": 20,
+          "name": "minecraft:honey_bottle"
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
-          "name": "minecraft:leather_boots"
+          "weight": 10,
+          "name": "minecraft:iron_shovel"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:iron_pickaxe"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:iron_axe"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:iron_sword"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "minecraft:golden_hoe"
         }
       ]
     },
@@ -60,27 +60,12 @@
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "minecraft:iron_ingot"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:bread"
+          "name": "minecraft:bucket"
         },
         {
           "type": "minecraft:item",
           "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4.0,
-                "max": 6.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:brick"
+          "name": "minecraft:painting"
         },
         {
           "type": "minecraft:item",
@@ -89,13 +74,18 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 4.0,
-                "max": 6.0,
+                "min": 2.0,
+                "max": 5.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:coal"
+          "name": "minecraft:iron_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "name": "minecraft:iron_horse_armor"
         }
       ]
     },
@@ -114,12 +104,12 @@
               "function": "minecraft:set_count",
               "count": {
                 "min": 1.0,
-                "max": 6.0,
+                "max": 4.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:bone"
+          "name": "minecraft:cooked_porkchop"
         },
         {
           "type": "minecraft:item",
@@ -128,28 +118,18 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
-                "max": 6.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:gunpowder"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
+                "min": 2.0,
                 "max": 4.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:string"
+          "name": "minecraft:arrow"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "name": "minecraft:name_tag"
         }
       ]
     }
