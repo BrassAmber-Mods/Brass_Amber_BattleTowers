@@ -80,7 +80,7 @@
               }
             }
           ],
-          "name": "minecraft:brick"
+          "name": "minecraft:iron_nugget"
         },
         {
           "type": "minecraft:item",

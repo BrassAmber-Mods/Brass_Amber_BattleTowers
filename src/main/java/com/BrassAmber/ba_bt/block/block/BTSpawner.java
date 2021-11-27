@@ -29,6 +29,7 @@ public class BTSpawner extends SpawnerBlock {
     public BTSpawner(AbstractBlock.Properties p_i48364_1_) {
         super(p_i48364_1_);
 
+
     }
 
     public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
@@ -41,6 +42,9 @@ public class BTSpawner extends SpawnerBlock {
             StoneChestTileEntity entity = this.mobSpawnerEntity.chestTileEntity;
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG,"Chest " + entity);
             entity.spawnerDestroyed();
+
+
+            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockState.is(BTBlocks.BT_SPAWNER));
 
         } catch (Exception e) {
 
