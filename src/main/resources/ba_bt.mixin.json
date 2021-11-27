@@ -3,7 +3,6 @@
   "package": "com.BrassAmber.ba_bt.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "MixinEggs"
   ],
   "injectors": {
     "defaultRequire": 1
