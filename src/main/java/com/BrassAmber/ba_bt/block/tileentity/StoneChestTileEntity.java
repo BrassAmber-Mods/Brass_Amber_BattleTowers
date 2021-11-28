@@ -49,7 +49,6 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 		}
 	}
 
-
 	/**
 	 * Single chest inventory name
 	 */
