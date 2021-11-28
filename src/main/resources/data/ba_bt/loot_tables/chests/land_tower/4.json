@@ -36,22 +36,22 @@
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_helmet"
+          "name": "minecraft:chainmail_helmet"
         },
         {
           "type": "minecraft:item",
           "weight": 20,
-          "name": "minecraft:chain_chestplate"
+          "name": "minecraft:chainmail_chestplate"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_leggings"
+          "name": "minecraft:chainmail_leggings"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_boots"
+          "name": "minecraft:chainmail_boots"
         }
       ]
     },

@@ -10,7 +10,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 20,
+          "weight": 15,
           "name": "minecraft:compass"
         },
         {
@@ -20,7 +20,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 20,
+          "weight": 15,
           "name": "minecraft:honey_block"
         },
         {
@@ -46,22 +46,22 @@
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_helmet"
+          "name": "minecraft:chainmail_helmet"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_chestplate"
+          "name": "minecraft:chainmail_chestplate"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_leggings"
+          "name": "minecraft:chainmail_leggings"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:chain_boots"
+          "name": "minecraft:chainmail_boots"
         },
         {
           "type": "minecraft:item",
@@ -123,7 +123,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 35,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -138,7 +138,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
+          "weight": 30,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -153,7 +153,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 15,
           "name": "minecraft:writable_book"
         },
         {
@@ -206,7 +206,6 @@
           "weight": 5,
           "name": "minecraft:music_disc_wait"
         }
-
       ]
     }
   ]

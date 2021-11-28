@@ -93,7 +93,7 @@
     {
       "rolls": {
         "min": 1.0,
-        "max": 3.0,
+        "max": 2.0,
         "type": "minecraft:uniform"
       },
       "entries": [
@@ -129,7 +129,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 5,
           "name": "minecraft:redstone_block"
         }
       ]
@@ -154,7 +154,7 @@
               }
             }
           ],
-          "name": "minecraft:empty_map"
+          "name": "minecraft:map"
         },
         {
           "type": "minecraft:item",

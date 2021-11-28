@@ -85,7 +85,7 @@
       ]
     },
     {
-      "rolls": 3,
+      "rolls": 2,
       "entries": [
         {
           "type": "minecraft:item",
@@ -139,14 +139,39 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "min": 4.0,
+                "max": 8.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:chiseled_stone_bricks"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
                 "min": 1.0,
                 "max": 3.0,
                 "type": "minecraft:uniform"
               }
             }
           ],
-          "name": "minecraft:clay_block"
-        },
+          "name": "minecraft:clay"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
         {
           "type": "minecraft:item",
           "weight": 10,
@@ -161,21 +186,6 @@
             }
           ],
           "name": "minecraft:stone_bricks"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 8.0,
-                "max": 16.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:polished_stone_bricks"
         }
       ]
     }
