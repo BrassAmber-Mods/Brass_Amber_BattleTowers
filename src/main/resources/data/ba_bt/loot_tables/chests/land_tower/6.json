@@ -132,6 +132,16 @@
           "name": "minecraft:name_tag"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "ba_bt:monolith_key_land"
+        }
+      ]
     }
   ]
 }

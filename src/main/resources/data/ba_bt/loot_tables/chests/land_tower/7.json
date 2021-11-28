@@ -153,12 +153,12 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 20,
           "name": "minecraft:writable_book"
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 10,
           "name": "minecraft:music_disc_cat"
         },
         {
@@ -168,7 +168,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 10,
           "name": "minecraft:music_disc_chirp"
         },
         {
@@ -178,7 +178,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 10,
           "name": "minecraft:music_disc_mall"
         },
         {
@@ -188,7 +188,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 10,
           "name": "minecraft:music_disc_stal"
         },
         {
@@ -198,13 +198,18 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 10,
           "name": "minecraft:music_disc_ward"
         },
         {
           "type": "minecraft:item",
           "weight": 5,
           "name": "minecraft:music_disc_wait"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "ba_bt:monolith_key_land"
         }
       ]
     }

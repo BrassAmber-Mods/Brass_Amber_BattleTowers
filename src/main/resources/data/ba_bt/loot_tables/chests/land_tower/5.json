@@ -177,6 +177,16 @@
           "name": "minecraft:white_wool"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "ba_bt:monolith_key_land"
+        }
+      ]
     }
   ]
 }
