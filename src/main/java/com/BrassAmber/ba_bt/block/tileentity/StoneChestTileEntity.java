@@ -61,7 +61,7 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 	public void spawnerDestroyed() {
 		BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.SpawnersDestroyed);
 		this.SpawnersDestroyed = this.SpawnersDestroyed + .5D;
-		if (this.SpawnersDestroyed == 3) {
+		if (this.SpawnersDestroyed == 2) {
 			setNoLockKey(true);
 		}
 		BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.SpawnersDestroyed);
