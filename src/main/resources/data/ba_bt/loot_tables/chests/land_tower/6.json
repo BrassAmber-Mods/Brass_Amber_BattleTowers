@@ -138,7 +138,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 10,
           "name": "ba_bt:monolith_key_land"
         }
       ]

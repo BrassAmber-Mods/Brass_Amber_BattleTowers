@@ -26,6 +26,7 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
     private Boolean foundChest = false;
     private BlockPos chestPos;
     public StoneChestTileEntity chestTileEntity;
+    private int tickCount = 0;
 
 
     private final AbstractSpawner spawner = new AbstractSpawner() {
@@ -68,8 +69,12 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
 
     public void tick() {
         this.spawner.tick();
-        if (!foundChest) {
+        if (!foundChest && tickCount == 0) {
             findChest(this.worldPosition);
+        }
+        tickCount++;
+        if (tickCount == 100) {
+            tickCount= 0;
         }
     }
 
@@ -106,8 +111,6 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
 
             }
         }
-        this.foundChest = true;
-
     }
 
     @Nullable
