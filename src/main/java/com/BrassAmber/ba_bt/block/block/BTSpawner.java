@@ -39,10 +39,9 @@ public class BTSpawner extends SpawnerBlock {
 
     public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
         try {
-            StoneChestTileEntity entity = this.mobSpawnerEntity.chestTileEntity;
+            StoneChestTileEntity entity = (StoneChestTileEntity) world.getBlockEntity(this.mobSpawnerEntity.chestTileEntityPos);
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG,"Chest " + entity);
             entity.spawnerDestroyed();
-
 
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockState.is(BTBlocks.BT_SPAWNER));
 

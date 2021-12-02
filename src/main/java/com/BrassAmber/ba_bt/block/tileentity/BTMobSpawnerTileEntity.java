@@ -25,7 +25,7 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
 
     private Boolean foundChest = false;
     private BlockPos chestPos;
-    public StoneChestTileEntity chestTileEntity;
+    public BlockPos chestTileEntityPos;
     private int tickCount = 0;
 
 
@@ -69,8 +69,10 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
 
     public void tick() {
         this.spawner.tick();
-        if (!foundChest && tickCount == 0) {
+        if (!this.foundChest && tickCount == 0) {
             findChest(this.worldPosition);
+        } else if (this.foundChest && tickCount == 99) {
+            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.chestTileEntityPos);
         }
         tickCount++;
         if (tickCount == 100) {
@@ -94,19 +96,19 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
                 TileEntity up = world.getBlockEntity(newBlockPos.above());
 
                 if (down != null && down.getType() == BTTileEntityTypes.STONE_CHEST) {
-                    this.chestTileEntity = (StoneChestTileEntity) down;
+                    this.chestTileEntityPos = newBlockPos.below();
                     this.foundChest = true;
 
                 } else if (newTileEntity != null && newTileEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
-                    this.chestTileEntity = (StoneChestTileEntity) newTileEntity;
+                    this.chestTileEntityPos =  newBlockPos;
                     this.foundChest = true;
 
                 } else if (up != null && up.getType() == BTTileEntityTypes.STONE_CHEST) {
-                    this.chestTileEntity = (StoneChestTileEntity) up;
+                    this.chestTileEntityPos = newBlockPos.above();
                     this.foundChest = true;
 
                 } else {
-                    this.chestTileEntity = null;
+                    this.chestTileEntityPos = null;
                 }
 
             }

@@ -38,15 +38,7 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 
 	public void setNoLockKey() {
 		this.lockKey = LockCode.NO_LOCK;
-	}
-
-	public void setNoLockKey(Boolean firstIn) {
-		Boolean first = firstIn;
-		this.lockKey = LockCode.NO_LOCK;
-		if (this.type != ChestType.SINGLE) {
-			StoneChestTileEntity entity = (StoneChestTileEntity) this.level.getBlockEntity(this.worldPosition.relative(this.connectedDirection));
-			entity.setNoLockKey();
-		}
+		BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.lockKey);
 	}
 
 	/**
@@ -58,10 +50,9 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 	}
 
 	public void spawnerDestroyed() {
-		BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.SpawnersDestroyed);
-		this.SpawnersDestroyed = this.SpawnersDestroyed + .5D;
+		this.SpawnersDestroyed = this.SpawnersDestroyed + 1D;
 		if (this.SpawnersDestroyed == 2) {
-			setNoLockKey(true);
+			setNoLockKey();
 		}
 		BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.SpawnersDestroyed);
 	}
