@@ -24,14 +24,13 @@ import javax.annotation.Nullable;
 public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileEntity {
 
     private Boolean foundChest = false;
-    private BlockPos chestPos;
     public BlockPos chestTileEntityPos;
     private int tickCount = 0;
 
 
     private final AbstractSpawner spawner = new AbstractSpawner() {
         public void broadcastEvent(int p_98267_1_) {
-            BTMobSpawnerTileEntity.this.level.blockEvent(BTMobSpawnerTileEntity.this.worldPosition, Blocks.SPAWNER, p_98267_1_, 0);
+            BTMobSpawnerTileEntity.this.level.blockEvent(BTMobSpawnerTileEntity.this.worldPosition, BTBlocks.BT_SPAWNER, p_98267_1_, 0);
         }
 
         public World getLevel() {

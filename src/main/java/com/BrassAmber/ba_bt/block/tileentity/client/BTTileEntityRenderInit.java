@@ -5,6 +5,7 @@ import com.BrassAmber.ba_bt.block.tileentity.client.renderer.BTMobSpawnerTileEnt
 import com.BrassAmber.ba_bt.block.tileentity.client.renderer.GolemChestTileEntityRenderer;
 import com.BrassAmber.ba_bt.block.tileentity.client.renderer.StoneChestTileEntityRenderer;
 
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
