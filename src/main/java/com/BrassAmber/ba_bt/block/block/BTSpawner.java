@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.block.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.BTBlocks;
+import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.BTMobSpawnerTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import net.minecraft.block.*;
@@ -24,6 +25,8 @@ import java.util.Random;
 
 public class BTSpawner extends ContainerBlock {
     private BTMobSpawnerTileEntity mobSpawnerEntity;
+    private Boolean foundChest = false;
+    public BlockPos chestTileEntityPos;
 
     public BTSpawner(AbstractBlock.Properties p_i48364_1_) {
         super(p_i48364_1_);
@@ -50,13 +53,64 @@ public class BTSpawner extends ContainerBlock {
         return ItemStack.EMPTY;
     }
 
-    public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
+    public void checkPos(IWorld world, BlockPos pos) {
+        TileEntity posEntity = world.getBlockEntity(pos);
+
+        if (posEntity != null && posEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
+            this.chestTileEntityPos = pos;
+
+        }
+    }
+
+    public void destroy(IWorld iWorld, BlockPos spawnerPos, BlockState blockState) {
+        this.foundChest = false;
+        this.chestTileEntityPos = null;
+        World world = this.mobSpawnerEntity.getLevel();
+        for (int x = -30; x<31; x++) {
+            if (this.foundChest) {
+                break;
+            }
+            for (int z = -30; z<31; z++) {
+                if (this.foundChest) {
+                    break;
+                }
+                BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
+                checkPos(world, newBlockPos);
+                checkPos(world, newBlockPos.below());
+                checkPos(world, newBlockPos.above());
+                if (this.chestTileEntityPos != null) {
+                    this.foundChest = true;
+                }
+            }
+        }
+        if (this.chestTileEntityPos == null) {
+            for (int x = -5; x<6; x++) {
+                if (this.foundChest) {
+                    break;
+                }
+                for (int z = -5; z < 6; z++) {
+                    if (this.foundChest) {
+                        break;
+                    }
+                    BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
+                    checkPos(world, newBlockPos);
+                    checkPos(world, newBlockPos.below(1));
+                    checkPos(world, newBlockPos.below(2));
+                    checkPos(world, newBlockPos.below(3));
+                    checkPos(world, newBlockPos.below(4));
+                    checkPos(world, newBlockPos.below(5));
+                    checkPos(world, newBlockPos.below(6));
+                    checkPos(world, newBlockPos.below(7));
+                    if (this.chestTileEntityPos != null) {
+                        this.foundChest = true;
+                    }
+                }
+            }
+        }
         try {
-            StoneChestTileEntity entity = (StoneChestTileEntity) world.getBlockEntity(this.mobSpawnerEntity.chestTileEntityPos);
+            StoneChestTileEntity entity = (StoneChestTileEntity) world.getBlockEntity(this.chestTileEntityPos);
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG,"Chest " + entity);
             entity.spawnerDestroyed();
-
-            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockState.is(BTBlocks.BT_SPAWNER));
 
         } catch (Exception e) {
 

@@ -23,10 +23,6 @@ import javax.annotation.Nullable;
 
 public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileEntity {
 
-    private Boolean foundChest = false;
-    public BlockPos chestTileEntityPos;
-    private int tickCount = 0;
-
 
     private final AbstractSpawner spawner = new AbstractSpawner() {
         public void broadcastEvent(int p_98267_1_) {
@@ -68,53 +64,9 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
 
     public void tick() {
         this.spawner.tick();
-        if (!this.foundChest && tickCount == 0) {
-            findChest(this.worldPosition);
-        } else if (this.foundChest && tickCount == 99) {
-            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.chestTileEntityPos);
-        }
-        tickCount++;
-        if (tickCount == 100) {
-            tickCount= 0;
-        }
     }
 
-    private void findChest(BlockPos spawnerPos) {
-        World world = this.level;
-        for (int x = -15; x<26; x++) {
-            if (this.foundChest) {
-                break;
-            }
-            for (int z = -15; z<26; z++) {
-                if (this.foundChest) {
-                    break;
-                }
-                BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
-                TileEntity newTileEntity = world.getBlockEntity(newBlockPos);
-                TileEntity down = world.getBlockEntity(newBlockPos.below());
-                TileEntity up = world.getBlockEntity(newBlockPos.above());
-
-                if (down != null && down.getType() == BTTileEntityTypes.STONE_CHEST) {
-                    this.chestTileEntityPos = newBlockPos.below();
-                    this.foundChest = true;
-
-                } else if (newTileEntity != null && newTileEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
-                    this.chestTileEntityPos =  newBlockPos;
-                    this.foundChest = true;
-
-                } else if (up != null && up.getType() == BTTileEntityTypes.STONE_CHEST) {
-                    this.chestTileEntityPos = newBlockPos.above();
-                    this.foundChest = true;
-
-                } else {
-                    this.chestTileEntityPos = null;
-                }
-
-            }
-        }
-    }
-
-    @Nullable
+        @Nullable
     public SUpdateTileEntityPacket getUpdatePacket() {
         return new SUpdateTileEntityPacket(this.worldPosition, 1, this.getUpdateTag());
     }
