@@ -134,7 +134,7 @@ public class SkyGolemEntity extends BTGolemEntityAbstract {
 	 * Register all goals that a Golem should have. Called in the {@link MobEntity} constructor.
 	 */
 	@Override
-	protected void registerGolemGoals() {
+	protected void registerGoals() {
 		this.addGolemGoal(0, new SwimGoal(this));
 		// TODO Doesn't charge yet and stuff.
 		this.addGolemGoal(1, new SkyGolemEntity.ChargeAttackGoal());
