@@ -1,7 +1,5 @@
 package com.BrassAmber.ba_bt.entity.ai.goal;
 
-import java.util.EnumSet;
-
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
@@ -25,7 +23,6 @@ public class GolemFireballAttackGoal extends Goal {
 
 	public GolemFireballAttackGoal(BTGolemEntityAbstract golem) {
 		this.golem = golem;
-		this.setFlags(EnumSet.of(Goal.Flag.LOOK));
 	}
 
 	/**
@@ -74,7 +71,7 @@ public class GolemFireballAttackGoal extends Goal {
 			}
 
 			// Shoot fireball
-			if (this.chargeTime == 20) {
+			if (this.chargeTime >= 20) {
 				// Calculation for fireball trajectory and positioning.
 				Vector3d vector3d = this.golem.getViewVector(1.0F);
 				double xPower = targetLivingEntity.getX() - this.golem.getX();
@@ -101,7 +98,7 @@ public class GolemFireballAttackGoal extends Goal {
 				world.addFreshEntity(fireballentity);
 
 				// set firing timeout between shoots
-				this.chargeTime = -40;
+				this.chargeTime = this.golem.getGolemState() == BTGolemEntityAbstract.SPECIAL ? -20 : -40;
 			}
 		}
 
