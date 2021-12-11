@@ -452,7 +452,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		 * Pathfinding sucks, has problems with the walls on top of the tower if the player is behind them.
 		 * (Should maybe be no problem after the explosion of blocks is added?)
 		 */
-		this.addGolemGoal(1, new MeleeAttackGoal(this, 1.0D, true){
+		this.addGolemGoal(5, new MeleeAttackGoal(this, 1.0D, true){
 			@Override
 			public boolean canUse() {
 				if(BTGolemEntityAbstract.this.isDormant()) {
@@ -461,7 +461,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 				return super.canUse();
 			}
 		});
-		this.addGolemGoal(2, new LookAtGoal(this, PlayerEntity.class, 8.0F) {
+		this.addGolemGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F) {
 			@Override
 			public boolean canUse() {
 				if(BTGolemEntityAbstract.this.isDormant()) {
@@ -471,7 +471,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			}
 		});
 		
-		this.addGolemGoal(2, new GolemFireballAttackGoal(this));
+		this.addGolemGoal(6, new GolemFireballAttackGoal(this));
 		
 		this.addGolemTargetGoal(1, new HurtByTargetGoal(this));
 		//this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
