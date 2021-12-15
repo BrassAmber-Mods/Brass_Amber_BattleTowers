@@ -1,0 +1,33 @@
+{
+  "name": "ba_bt:land_tower/land_overgrown",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 46,
+      "element": {
+        "location": "ba_bt:land_tower/variants/overgrown_1",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 46,
+      "element": {
+        "location": "ba_bt:land_tower/variants/overgrown_2",
+        "processors": "minecraft:empty",
+		"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "location": "ba_bt:land_tower/variants/overgrown_integrated",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

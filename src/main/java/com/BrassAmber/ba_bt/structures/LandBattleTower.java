@@ -232,8 +232,22 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                     true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
 
-            if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP) {
+            if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP || biomeIn.getBiomeCategory() == Biome.Category.JUNGLE) {
                 //add code here to start the spawning of the overgrown add-on
+                BTJigsawManager.addPieces(
+                        dynamicRegistryManager,
+                        new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool_overgrown")),
+                                7),
+                        AbstractVillagePiece::new,
+                        chunkGenerator,
+                        templateManagerIn,
+                        centerPos, // Position of the structure. Y value is ignored if last parameter is set to true.
+                        this.pieces, // The list that will be populated with the jigsaw pieces after this method.
+                        this.random,
+                        false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
+                        // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
+                        true);
             }
 
             // **THE FOLLOWING TWO LINES ARE OPTIONAL**
