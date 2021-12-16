@@ -42,10 +42,12 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 public class BTJigsawManager {
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static void addPieces(DynamicRegistries registries, VillageConfig config, BTJigsawManager.IPieceFactory p_242837_2_, ChunkGenerator p_242837_3_, TemplateManager p_242837_4_, BlockPos p_242837_5_, List<? super AbstractVillagePiece> p_242837_6_, Random p_242837_7_, boolean p_242837_8_, boolean p_242837_9_) {
+	public static void addPieces(DynamicRegistries registries, VillageConfig config, BTJigsawManager.IPieceFactory p_242837_2_, ChunkGenerator p_242837_3_, TemplateManager p_242837_4_, BlockPos p_242837_5_, List<? super AbstractVillagePiece> p_242837_6_, Random p_242837_7_, boolean p_242837_8_, boolean p_242837_9_, Rotation rotation) {
 		Structure.bootstrap();
         MutableRegistry<JigsawPattern> mutableregistry = registries.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        Rotation rotation = Rotation.getRandom(p_242837_7_);
+        rotation = rotation != null ? rotation : Rotation.getRandom(p_242837_7_);
+        // sets rotation to the given rotation, if given is null choose a random rotation
+
         JigsawPattern jigsawpattern = config.startPool().get();
         JigsawPiece jigsawpiece = jigsawpattern.getRandomTemplate(p_242837_7_);
         AbstractVillagePiece abstractvillagepiece = p_242837_2_.create(p_242837_4_, jigsawpiece, p_242837_5_, jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(p_242837_4_, p_242837_5_, rotation));
