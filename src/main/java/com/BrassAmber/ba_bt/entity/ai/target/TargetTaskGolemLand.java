@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends NearestAttackableTargetGoal<PlayerEntity> {
 
-	protected int cooldown = 30;
+	protected int cooldown = 5;
 	
 	public TargetTaskGolemLand(M p_i50313_1_) {
 		//It does not need to be able to see the target!
@@ -19,7 +19,9 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	@Override
 	public boolean canUse() {
 		if(((M)this.mob).getGolemState() == BTGolemEntityAbstract.DORMANT) {
-			this.cooldown--;
+			if(this.cooldown > 0) {
+				this.cooldown--;
+			}
 			return this.cooldown <= 0;
 		}
 		return super.canUse();
@@ -50,7 +52,7 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	
 	@Override
 	public void stop() {
-		this.cooldown = 100;
+		this.cooldown = 10;
 		super.stop();
 	}
 

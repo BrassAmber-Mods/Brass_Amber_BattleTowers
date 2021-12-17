@@ -349,13 +349,17 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			}
 		});
 		
-		this.addGolemGoal(6, new GolemFireballAttackGoal(this));
+		this.addGolemGoal(6, this.createFireballAttackGoal());
 		
 		this.addGolemTargetGoal(1, new HurtByTargetGoal(this));
 		//this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
 		this.addGolemTargetGoal(2, new TargetTaskGolemLand<BTGolemEntityAbstract>(this));
 	}
 
+	protected GolemFireballAttackGoal createFireballAttackGoal() {
+		return new GolemFireballAttackGoal(this);
+	}
+	
 	protected void addGolemGoal(int priority, Goal goal) {
 		this.goalSelector.addGoal(priority, goal);
 	}
