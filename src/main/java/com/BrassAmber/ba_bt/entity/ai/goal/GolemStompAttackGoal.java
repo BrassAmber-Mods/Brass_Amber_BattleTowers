@@ -19,7 +19,7 @@ public class GolemStompAttackGoal extends Goal {
 	
 	protected boolean jumpingInProgress = false;
 	
-	protected static final int WARMUP_TICKS = 20;
+	protected static final int WARMUP_TICKS = 10;
 	
 	protected int warmup = WARMUP_TICKS;
 	
