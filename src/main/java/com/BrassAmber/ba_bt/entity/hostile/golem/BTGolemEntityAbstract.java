@@ -27,14 +27,11 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -51,10 +48,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -78,7 +73,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 	private int explosionPower = 1;
-	private int fireballChargeTime = 0;
 
 	// Data Strings
 	private final String spawnPosName = "SpawnPos";
@@ -220,55 +214,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		}
 	}
 
-	/*********************************************************** Attack Ticks ********************************************************/
-
-	/**
-	 * Handles Golem attacks.
-	 * Can be overridden by other Golems with different functionalities.
-	 * 
-	 * TODO Reset if there's no target for some time.
-	 * TODO Destroy floors and blocks to get to the player.
-	 */
-	protected void golemAttackTick() {
-		if (this.getTarget() instanceof LivingEntity && !this.level.getDifficulty().equals(Difficulty.PEACEFUL)) {
-			this.doFireballAttack();
-		}
-
-		// TODO Destroy block stuff
-		if (!this.level.isClientSide()) {
-			// TODO delete
-			//			this.checkWalls(this.getBoundingBox());
-
-			// TODO Note: Golem now keeps track of target through walls and stuff.
-			// We can start to use that to destroy blocks and stuff.
-			if (this.getTarget() != null) {
-				for (Object goal : this.targetSelector.getRunningGoals().toArray()) {
-					PrioritizedGoal prioGoal = (PrioritizedGoal) goal;
-					if (prioGoal.getGoal() instanceof TargetGoal) {
-						// TargetGoal targetGoal = (TargetGoal) prioGoal.getGoal();
-						this.canReach(this.getTarget());
-						// BrassAmberBattleTowers.LOGGER.info("Can reach: " + this.canReach(this.getTarget()));
-						// If the Golem is not creating new Paths and can't reach the target.
-						if (!this.isPathFinding() && !this.canReach(this.getTarget())) {
-							this.checkWalls(this.getBoundingBox());
-						}
-					}
-				}
-			}
-
-			// Check if the Golem is looking for a path to reach the target.
-			// Is false for example when able to attack or not able to see the player.
-			// BrassAmberBattleTowers.LOGGER.info(this.isPathFinding());
-			//			
-
-			//			BrassAmberBattleTowers.LOGGER.info(this.goalSelector.getRunningGoals().count());
-			//			this.goalSelector.getRunningGoals().forEach((goal) -> BrassAmberBattleTowers.LOGGER.info(goal.getGoal()));
-			//			
-			//			BrassAmberBattleTowers.LOGGER.info(this.targetSelector.getRunningGoals().count());
-			//			this.targetSelector.getRunningGoals().forEach((goal) -> BrassAmberBattleTowers.LOGGER.info(goal.getGoal()));
-		}
-	}
-
 	/*********************************************************** Attacks ********************************************************
 	
 	/**
@@ -337,73 +282,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	}
 
 	/*********************************************************** Fireball Attack ********************************************************/
-
-	/**
-	 * Shoot fireballs.
-	 * TODO Maybe shoot a fireball at the target's last known location?
-	 */
-	private void doFireballAttack() {
-		LivingEntity targetLivingEntity = this.getTarget();
-		// Look at the target.
-		this.getLookControl().setLookAt(targetLivingEntity, 30.0F, 30.0F);
-
-		// Set the max shooting distance
-		double maxShootingDistance = 64.0D;
-		// We need to square it since we're using that value for calculations.
-		maxShootingDistance *= maxShootingDistance;
-
-		// Check if the target is within range and if the Golem is able to see the target.
-		if (targetLivingEntity.distanceToSqr(this) < maxShootingDistance && this.canSee(targetLivingEntity)) {
-			// Increase attack time
-			++this.fireballChargeTime;
-
-			// Prepare to shoot. (10 more ticks, or 0.5 seconds)
-			if (this.fireballChargeTime == 10 && !this.isSilent()) {
-				// Play charging sound
-				this.playSoundEventWithVariation(BTSoundEvents.ENTITY_GOLEM_CHARGE);
-			}
-
-			// Shoot fireball
-			if (this.fireballChargeTime == 20) {
-				// Calculation for fireball trajectory and positioning.
-				Vector3d vector3d = this.getViewVector(1.0F);
-				double xPower = targetLivingEntity.getX() - this.getX();
-				double yPower = targetLivingEntity.getY(0.5D) - (0.5D + this.getY(0.5D));
-				double zPower = targetLivingEntity.getZ() - this.getZ();
-
-				// Get golem world
-				World world = this.level;
-
-				// Play shooting sound
-				if (!this.isSilent()) {
-					world.levelEvent((PlayerEntity) null, 1016, this.blockPosition(), 0);
-				}
-
-				// Create fireball
-				FireballEntity fireballentity = new FireballEntity(world, this, xPower, yPower, zPower);
-				// Set explosion power
-				fireballentity.explosionPower = this.getExplosionPower();
-				// Set fireball initial position
-				double lateralSpawnPositionOffset = 1.2D;
-				double verticalSpawnPositionOffset = 0.5D;
-				fireballentity.setPos(this.getX() + vector3d.x * lateralSpawnPositionOffset, this.getY(0.5D) + verticalSpawnPositionOffset, fireballentity.getZ() + vector3d.z * lateralSpawnPositionOffset);
-				// Add fireball to the world
-				world.addFreshEntity(fireballentity);
-
-				// set firing timeout between shoots. (Doubles if the Golem is enraged)
-				this.fireballChargeTime = this.isEnraged() ? -20 : -40;
-			}
-		}
-
-		// If target is too far away or the golem can't see the target and the current charge time is more than 0.
-		else if (this.fireballChargeTime > 0) {
-			// Decrease charge time until 0. (Which is the default)
-			--this.fireballChargeTime;
-		}
-
-		// 10 ticks before shooting, so while preparing to shoot, set the DataParameter charging to 'true'.
-		this.setCharging(this.fireballChargeTime > 10);
-	}
 
 	/*********************************************************** Fireball Attack Data ********************************************************/
 
