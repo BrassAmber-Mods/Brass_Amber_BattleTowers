@@ -19,7 +19,7 @@ import net.minecraft.world.World;
  * TODO Doesn't seem to work together with {@link MeleeAttackGoal}
  */
 public class GolemFireballAttackGoal extends Goal {
-	private final BTGolemEntityAbstract golem;
+	protected final BTGolemEntityAbstract golem;
 	public int chargeTime;
 
 	public GolemFireballAttackGoal(BTGolemEntityAbstract golem) {
