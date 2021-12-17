@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.DamagingProjectileEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -18,7 +19,7 @@ import net.minecraft.world.World;
  * TODO Doesn't seem to work together with {@link MeleeAttackGoal}
  */
 public class GolemFireballAttackGoal extends Goal {
-	private final BTGolemEntityAbstract golem;
+	protected final BTGolemEntityAbstract golem;
 	public int chargeTime;
 
 	public GolemFireballAttackGoal(BTGolemEntityAbstract golem) {
@@ -87,9 +88,7 @@ public class GolemFireballAttackGoal extends Goal {
 				}
 
 				// Create fireball
-				FireballEntity fireballentity = new FireballEntity(world, this.golem, xPower, yPower, zPower);
-				// Set explosion power
-				fireballentity.explosionPower = this.golem.getExplosionPower();
+				DamagingProjectileEntity fireballentity = this.createFireBall(world, xPower, yPower, zPower);
 				// Set fireball initial position
 				double lateralSpawnPositionOffset = 1.2D;
 				double verticalSpawnPositionOffset = 0.5D;
@@ -110,5 +109,12 @@ public class GolemFireballAttackGoal extends Goal {
 
 		// 10 ticks before shooting, so while preparing to shoot, set the DataParameter charging to 'true'.
 		this.golem.setCharging(this.chargeTime > 10);
+	}
+	
+	protected DamagingProjectileEntity createFireBall(World world, double xPower, double yPower, double zPower) {
+		FireballEntity fb = new FireballEntity(world, this.golem, xPower, yPower, zPower);
+		fb.explosionPower = this.golem.getExplosionPower();
+		
+		return fb;
 	}
 }
