@@ -31,6 +31,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -190,6 +191,9 @@ public class MonolithEntity extends Entity {
 			lightningboltentity.moveTo(this.getX(), this.getY(), this.getZ());
 			lightningboltentity.setVisualOnly(true);
 			serverworld.addFreshEntity(lightningboltentity);
+
+			this.level.explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Explosion.Mode.BREAK);
+			this.level.explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Explosion.Mode.BREAK);
 
 			// Get the correct GolemEntityType.
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);

@@ -261,6 +261,27 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                         this.pieces.get(0).getRotation() // pass in the rotation of the base piece of the tower
                         // This makes the overgrown tower correctly overlap the base tower. 
                 );
+                BTJigsawManager.addPieces(
+                        dynamicRegistryManager,
+                        new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool_overgrown_roof")),
+                                1),
+                        AbstractVillagePiece::new,
+                        chunkGenerator,
+                        templateManagerIn,
+                        centerPos.above(88),
+                        this.pieces,
+                        this.random,
+                        false,
+                        true,
+                        this.pieces.get(0).getRotation()
+                );
+            }
+            else if (biomeIn.getBiomeCategory() == Biome.Category.DESERT) {
+
+            }
+            else if (biomeIn.getPrecipitation() == Biome.RainType.SNOW) {
+
             }
 
             // Right here, you can do interesting stuff with the pieces in this.pieces such as offset the
@@ -273,7 +294,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             this.pieces.forEach(piece -> piece.move(0, -2, 0));
             this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 2);
             this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 2);
-            // Sets the bounds of the structure once you are finished. 
+            // Sets the bounds of the structure once you are finished. --TelepathicGrunt
             this.calculateBoundingBox();
 
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + this.pieces.get(0).getBoundingBox().x0 + " "
