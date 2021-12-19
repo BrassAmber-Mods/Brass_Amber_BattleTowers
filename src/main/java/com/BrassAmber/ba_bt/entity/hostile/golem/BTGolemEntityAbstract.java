@@ -9,9 +9,7 @@ import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
 import com.BrassAmber.ba_bt.item.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
@@ -28,7 +26,6 @@ import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -38,22 +35,20 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathPoint;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
+import net.minecraftforge.common.util.Constants;
 
 /**
  * FIXME Can still be pushed by players. (Doesn't really matter in Survival, because he will become awake. However you can still bump him off an edge while fighting)
@@ -79,7 +74,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	private final String spawnDirectionName = "SpawnDirection";
 	private final String golemStateName = "GolemState";
 	private final String explosionPowerName = "ExplosionPower";
-
+	
 	protected BTGolemEntityAbstract(EntityType<? extends MonsterEntity> type, World worldIn, BossInfo.Color bossbarColor) {
 		super(type, worldIn);
 		// Initializes the bossbar with the correct color.
@@ -89,6 +84,8 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 		String clientOrServer = worldIn.isClientSide() ? "Client" : "Server";
 		BrassAmberBattleTowers.LOGGER.info(clientOrServer + ", Create Entity!");
+		
+		this.maxUpStep = 1.5F;
 	}
 
 	/*********************************************************** Data ********************************************************/
@@ -160,6 +157,10 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 					}
 				}
 			}
+		} else {
+			if(this.tickCount > 0 && this.tickCount % 20 == 0 && !this.level.isClientSide) {
+				this.destroyBlocksNearby();
+			}
 		}
 
 		// Reset the Golem if its to far from it's spawn location and not close to a player.
@@ -191,13 +192,17 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		//TODO: Move this to the target selector!!
 		
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
-		int maxDistanceToNearestPlayer = 32;
+		int maxDistanceToNearestPlayer = 32 * 32;
 		// Doesn't include Spectators. (Does include Creative mode)
-		PlayerEntity nearestPlayer = this.level.getNearestPlayer(this, maxDistanceToNearestPlayer);
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (nearestPlayer == null && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection())) {
+		if (this.getTarget() != null && this.distanceToSqr(this.getTarget().getX(), this.getY(), this.getTarget().getZ()) >= maxDistanceToNearestPlayer && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection()) ) {
 			this.resetGolem();
 		}
+	}
+	
+	@Override
+	protected boolean isAffectedByFluids() {
+		return false;
 	}
 
 	/**
@@ -214,77 +219,35 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		}
 	}
 
-	/*********************************************************** Attacks ********************************************************
-	
-	/**
-	 * Check if the Golem can physically walk close enough to the target's position.
-	 */
-	private boolean canReach(LivingEntity targetEntity) {
-		//	      this.reachCacheTime = 10 + this.getRandom().nextInt(5);
-		Path path = this.getNavigation().createPath(targetEntity, 0);
-		if (path == null) {
-			return false;
-		} else {
-			PathPoint pathpoint = path.getEndNode();
-			if (pathpoint == null) {
-				// Check if there is even a path.
-				return false;
-			} else if (pathpoint.y - MathHelper.floor(targetEntity.getY()) > 2.5D) {
-				// Target is too far on Y coordinate.
-				return false;
-			} else {
-				int x = pathpoint.x - MathHelper.floor(targetEntity.getX());
-				int z = pathpoint.z - MathHelper.floor(targetEntity.getZ());
-				// Checks if target is too far horizontally.
-				return (double) (x * x + z * z) <= 2.25D;
-			}
-		}
-	}
-
-	/**
-	 * Referenced from {@link EnderDragonEntity#checkWalls}
-	 */
-	@SuppressWarnings("deprecation")
-	private boolean checkWalls(AxisAlignedBB boundingBox) {
-		int minX = MathHelper.floor(boundingBox.minX);
-		int minY = MathHelper.floor(boundingBox.minY);
-		int minZ = MathHelper.floor(boundingBox.minZ);
-		int maxX = MathHelper.floor(boundingBox.maxX);
-		int maxY = MathHelper.floor(boundingBox.maxY);
-		int maxZ = MathHelper.floor(boundingBox.maxZ);
-		boolean isStuckInWall = false;
-		boolean canDestroyBlock = false;
-
-		for (int x = minX - 1; x <= maxX + 1; ++x) {
-			for (int y = minY; y <= maxY + 1; ++y) {
-				for (int z = minZ - 1; z <= maxZ + 1; ++z) {
-					BlockPos blockpos = new BlockPos(x, y, z);
-					BlockState blockstate = this.level.getBlockState(blockpos);
-					Block block = blockstate.getBlock();
-					if (!blockstate.isAir(this.level, blockpos) && blockstate.getMaterial() != Material.FIRE) {
-						if (net.minecraftforge.common.ForgeHooks.canEntityDestroy(this.level, blockpos, this) && !BlockTags.DRAGON_IMMUNE.contains(block)) {
-							canDestroyBlock = this.level.destroyBlock(blockpos, false) || canDestroyBlock;
-						} else {
-							isStuckInWall = true;
+	private void destroyBlocksNearby() {
+		if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) && this.getTarget() != null && this.isAwake()) {
+			final Vector3d offset = this.getLookAngle().normalize().scale(0.5);
+			
+			int ox = MathHelper.floor(this.getX() + offset.x);
+			int oy = MathHelper.floor(this.getY() + 0.25);
+			int oz = MathHelper.floor(this.getZ() + offset.z);
+			
+			int width = MathHelper.ceil(this.getBbWidth() / 2);
+			int height = MathHelper.ceil(this.getBbHeight());
+			boolean playEffectFlag = false;
+			for(int ix = ox - width; ix <= ox + width; ix++) {
+				for(int iy = oy; iy <= oy + height; iy++) {
+					for(int iz = oz - width; iz <= oz + width; iz++) {
+						BlockPos pos = new BlockPos(ix, iy, iz);
+						BlockState state = this.level.getBlockState(pos);
+						if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
+							playEffectFlag |= this.level.destroyBlock(pos, true, this);
 						}
 					}
 				}
 			}
+			
+			if(playEffectFlag) {
+				this.level.levelEvent(Constants.WorldEvents.WITHER_BREAK_BLOCK_SOUND, this.blockPosition(), 0);
+			}
 		}
-
-		if (canDestroyBlock) {
-			BlockPos blockpos1 = new BlockPos(minX + this.random.nextInt(maxX - minX + 1), minY + this.random.nextInt(maxY - minY + 1), minZ + this.random.nextInt(maxZ - minZ + 1));
-			// Block destroy/explode particles.
-			this.level.levelEvent(2008, blockpos1, 0);
-		}
-
-		return isStuckInWall;
 	}
-
-	/*********************************************************** Fireball Attack ********************************************************/
-
-	/*********************************************************** Fireball Attack Data ********************************************************/
-
+	
 	public void setCharging(boolean setCharging) {
 		this.entityData.set(DATA_IS_CHARGING, setCharging);
 	}
@@ -350,8 +313,10 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		});
 		
 		this.addGolemGoal(6, this.createFireballAttackGoal());
-		
-		this.addGolemTargetGoal(1, new HurtByTargetGoal(this));
+		//Ignore damage from non-player entities
+		this.addGolemTargetGoal(1, new HurtByTargetGoal(this, MonsterEntity.class) {
+			
+		});
 		//this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
 		this.addGolemTargetGoal(2, new TargetTaskGolemLand<BTGolemEntityAbstract>(this));
 	}
@@ -516,7 +481,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 * Check to see if the golem is awake, but not enraged.
 	 */
 	public boolean isAwake() {
-		return this.getGolemState() == AWAKE;
+		return !this.isDormant();
 	}
 
 	/**
@@ -536,6 +501,28 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		this.faceSpawnDirection();
 		this.setGolemState(DORMANT);
+	}
+	
+	@Override
+	public void setTarget(LivingEntity p_70624_1_) {
+		if(p_70624_1_ == null && this.getTarget() != null) {
+			double tx = this.getTarget().getX();
+			tx -= this.getX();
+			tx *= tx;
+			double tz = this.getTarget().getZ();
+			tz -= this.getZ();
+			tz *= tz;
+			if(p_70624_1_ instanceof PlayerEntity && ((PlayerEntity)p_70624_1_).isCreative()) {
+				this.resetGolem();
+			}
+			else if((tx + tz) < (32 * 32) && this.getTarget().isAlive()) {
+				//DOn't reset the target when it is still in reach!
+				return;
+			} else {
+				this.resetGolem();
+			}
+		}
+		super.setTarget(p_70624_1_);
 	}
 
 	/*
