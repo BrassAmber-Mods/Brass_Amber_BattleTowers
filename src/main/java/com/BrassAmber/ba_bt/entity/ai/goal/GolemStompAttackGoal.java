@@ -51,7 +51,7 @@ public class GolemStompAttackGoal extends Goal {
 				return false;
 			}
 			
-			if(distHorizontal > this.minVertDistance / 2) {
+			if(distHorizontal > this.minVertDistance * 5) {
 				return false;
 			}
 
@@ -68,7 +68,11 @@ public class GolemStompAttackGoal extends Goal {
 		
 		this.golem.setDeltaMovement(Vector3d.ZERO);
 		this.golem.setDeltaMovement(Vector3d.ZERO.add(0, this.explosionStrength / 3, 0));
+		
+		this.jumpingInProgress = true;
 	}
+	
+	
 	
 	@Override
 	public void tick() {

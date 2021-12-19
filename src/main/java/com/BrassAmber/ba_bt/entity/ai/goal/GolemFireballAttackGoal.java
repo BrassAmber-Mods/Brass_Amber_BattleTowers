@@ -30,7 +30,7 @@ public class GolemFireballAttackGoal extends Goal {
 	 * Returns whether execution should begin. You can also read and cache any state necessary for execution in this method as well.
 	 */
 	public boolean canUse() {
-		return this.golem.getTarget() != null;
+		return this.golem.getTarget() != null && !this.golem.isDormant();
 	}
 
 	/**
