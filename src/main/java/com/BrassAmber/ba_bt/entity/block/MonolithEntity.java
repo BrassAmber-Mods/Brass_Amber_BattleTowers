@@ -210,6 +210,9 @@ public class MonolithEntity extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.yRot);
 
+				// Create the DestroyTower variable in the AbstractGolemEntity
+				newGolemEntity.createDestroyTower(this);
+
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
@@ -280,6 +283,7 @@ public class MonolithEntity extends Entity {
 	 * 
 	 * Used in: {@link PistonTileEntity.moveCollidedEntities method}
 	 */
+	@SuppressWarnings("JavadocReference")
 	@Override
 	public PushReaction getPistonPushReaction() {
 		return PushReaction.IGNORE;

@@ -5,9 +5,11 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
+import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
 import com.BrassAmber.ba_bt.item.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
+import com.BrassAmber.ba_bt.util.DestroyTower;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
@@ -63,6 +65,8 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 	private int explosionPower = 1;
+
+	private DestroyTower destroyTower;
 
 	// Data Strings
 	private final String spawnPosName = "SpawnPos";
@@ -279,6 +283,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public void die(DamageSource source) {
 		super.die(source);
+		this.destroyTower.start();
 	}
 
 	/*********************************************************** AI Goals ********************************************************/
@@ -350,6 +355,15 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public CreatureAttribute getMobType() {
 		return BATTLE_GOLEM;
+	}
+
+	/**
+	 * Sets up the DestroyTower class (which is called to remove a tower) and passes in a monolithEntity that DestroyTower
+	 * uses to set the correct tower type
+	 * @param monolithEntity
+	 */
+	public void createDestroyTower(MonolithEntity monolithEntity) {
+		this.destroyTower = new DestroyTower(monolithEntity, this.getSpawnPos(), this.level);
 	}
 
 	/**
