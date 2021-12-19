@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends NearestAttackableTargetGoal<PlayerEntity> {
 
-	protected int cooldown = 5;
+	protected int cooldown = 20;
 	
 	public TargetTaskGolemLand(M p_i50313_1_) {
 		//It does not need to be able to see the target!
@@ -22,7 +22,8 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 			if(this.cooldown > 0) {
 				this.cooldown--;
 			}
-			return this.cooldown <= 0;
+			//necessary, super.canUse() calls teh findTarget method...
+			return this.cooldown <= 0 && super.canUse();
 		}
 		return super.canUse();
 	}
@@ -34,20 +35,16 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	
 	@Override
 	protected boolean canReach(LivingEntity p_75295_1_) {
-		return super.canReach(p_75295_1_);
+		return Math.sqrt(this.mob.distanceToSqr(p_75295_1_.getX(), this.mob.getY(), p_75295_1_.getZ())) <= this.getFollowDistance() / 2;
 	}
 	
 	@Override
 	public void tick() {
-		if(this.target == null) {
-			return;
-		}
-		if(this.mob.distanceTo(this.target) > this.getFollowDistance()) {
+		super.tick();
+		if(this.target != null && this.mob.distanceTo(this.target) > this.getFollowDistance()) {
 			this.stop();
 			return;
 		}
-		
-		super.tick();
 	}
 	
 	@Override
