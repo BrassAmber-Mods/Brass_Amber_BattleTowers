@@ -16,6 +16,6 @@ public class BTGolemEntity extends BTGolemEntityAbstract {
 	protected void registerGoals() {
 		super.registerGoals();
 		
-		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 8));
+		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));
 	}
 }
