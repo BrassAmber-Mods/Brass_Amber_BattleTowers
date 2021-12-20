@@ -87,6 +87,18 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		
 		this.maxUpStep = 1.5F;
 	}
+	
+	public int getAllowedTowerRange() {
+		return 32;
+	}
+	
+	public int getWakeUpRange() {
+		return 6;
+	}
+	
+	public int getTargetingRange() {
+		return this.getAllowedTowerRange();
+	}
 
 	/*********************************************************** Data ********************************************************/
 
@@ -151,8 +163,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		if (this.isDormant()) {
 			if (!this.level.isClientSide()) {
 				if(this.getTarget() != null) {
-					//TODO: Move this to a constant
-					if(this.distanceTo(this.getTarget()) <= 6.0D) {
+					if(this.distanceTo(this.getTarget()) <= this.getWakeUpRange()) {
 						this.wakeUpGolem();
 					}
 				}
@@ -179,7 +190,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 */
 	protected void resetGolemTick() {
 		// Reset to spawn position if the golem is too far away
-		int maxDistanceFromSpawn = 32;
+		int maxDistanceFromSpawn = this.getAllowedTowerRange();
 		// We need the max distance squared.
 		maxDistanceFromSpawn *= maxDistanceFromSpawn;
 		BlockPos spawnPos = this.getSpawnPos();
@@ -189,13 +200,11 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			this.resetGolem();
 		}
 
-		//TODO: Move this to the target selector!!
 		
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
-		int maxDistanceToNearestPlayer = 32 * 32;
 		// Doesn't include Spectators. (Does include Creative mode)
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (this.getTarget() != null && this.distanceToSqr(this.getTarget().getX(), this.getY(), this.getTarget().getZ()) >= maxDistanceToNearestPlayer && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection()) ) {
+		if (this.getTarget() != null && this.distanceToSqr(this.getTarget().getX(), this.getY(), this.getTarget().getZ()) >= maxDistanceFromSpawn && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection()) ) {
 			this.resetGolem();
 		}
 	}
@@ -518,7 +527,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			double tz = this.getTarget().getZ();
 			tz -= this.getZ();
 			tz *= tz;
-			if((tx + tz) < (32 * 32) && this.getTarget().isAlive()) {
+			if((tx + tz) < (this.getTargetingRange() * this.getTargetingRange()) && this.getTarget().isAlive()) {
 				//DOn't reset the target when it is still in reach!
 				return;
 			} else {

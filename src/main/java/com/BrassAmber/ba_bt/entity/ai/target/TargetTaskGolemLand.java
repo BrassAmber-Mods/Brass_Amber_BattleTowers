@@ -48,7 +48,7 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	
 	@Override
 	protected boolean canReach(LivingEntity p_75295_1_) {
-		return Math.sqrt(this.mob.distanceToSqr(p_75295_1_.getX(), this.mob.getY(), p_75295_1_.getZ())) <= this.getFollowDistance() / 2;
+		return Math.sqrt(this.mob.distanceToSqr(p_75295_1_.getX(), this.mob.getY(), p_75295_1_.getZ())) <= ((BTGolemEntityAbstract) this.mob).getTargetingRange() / 2;
 	}
 	
 	@Override
