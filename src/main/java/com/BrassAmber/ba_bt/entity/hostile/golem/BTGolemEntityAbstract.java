@@ -314,7 +314,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		
 		this.addGolemGoal(6, this.createFireballAttackGoal());
 		//Ignore damage from non-player entities
-		this.addGolemTargetGoal(1, new HurtByTargetGoal(this, MonsterEntity.class) {
+		this.addGolemTargetGoal(1, new HurtByTargetGoal(this) {
 			
 		});
 		//this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
@@ -505,6 +505,12 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	
 	@Override
 	public void setTarget(LivingEntity p_70624_1_) {
+		if(this.getTarget() instanceof PlayerEntity && ((PlayerEntity)this.getTarget()).isCreative()) {
+			super.setTarget(null);
+		}
+		if(p_70624_1_ instanceof PlayerEntity && ((PlayerEntity)p_70624_1_).isCreative()) {
+			return;
+		}
 		if(p_70624_1_ == null && this.getTarget() != null) {
 			double tx = this.getTarget().getX();
 			tx -= this.getX();
@@ -512,10 +518,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			double tz = this.getTarget().getZ();
 			tz -= this.getZ();
 			tz *= tz;
-			if(p_70624_1_ instanceof PlayerEntity && ((PlayerEntity)p_70624_1_).isCreative()) {
-				this.resetGolem();
-			}
-			else if((tx + tz) < (32 * 32) && this.getTarget().isAlive()) {
+			if((tx + tz) < (32 * 32) && this.getTarget().isAlive()) {
 				//DOn't reset the target when it is still in reach!
 				return;
 			} else {

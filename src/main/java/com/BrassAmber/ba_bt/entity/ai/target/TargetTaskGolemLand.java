@@ -1,7 +1,10 @@
 package com.BrassAmber.ba_bt.entity.ai.target;
 
+import java.util.function.Predicate;
+
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 
+import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,6 +16,16 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	public TargetTaskGolemLand(M p_i50313_1_) {
 		//It does not need to be able to see the target!
 		super(p_i50313_1_, PlayerEntity.class, false);
+		
+		this.targetConditions = (new EntityPredicate()).range(this.getFollowDistance()).selector(new Predicate<LivingEntity>() {
+
+			@Override
+			public boolean test(LivingEntity t) {
+				if(t instanceof PlayerEntity) {
+					return !((PlayerEntity) t).isCreative();
+				}
+				return true;
+			}});
 	}
 	
 	@SuppressWarnings("unchecked")
