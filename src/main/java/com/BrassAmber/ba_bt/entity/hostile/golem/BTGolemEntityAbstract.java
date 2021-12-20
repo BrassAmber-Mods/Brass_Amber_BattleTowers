@@ -26,6 +26,7 @@ import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -506,10 +507,18 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 * Reset the Golem to its defined spawn location.
 	 */
 	private void resetGolem() {
+		final double x = this.getX();
+		final double y = this.getY();
+		final double z = this.getZ();
 		BlockPos spawnPos = this.getSpawnPos();
 		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		this.faceSpawnDirection();
 		this.setGolemState(DORMANT);
+		
+		LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, this.level);
+		lightning.setPos(x, y, z);
+		lightning.setDamage(0.0F);
+		this.level.addFreshEntity(lightning);
 	}
 	
 	@Override
