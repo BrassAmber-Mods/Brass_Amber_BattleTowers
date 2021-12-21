@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.util.GolemType;
 
@@ -37,6 +38,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.lwjgl.system.CallbackI;
 
 /*
  * Test swimming and sounds from Entity
@@ -210,12 +212,18 @@ public class MonolithEntity extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.yRot);
 
+
+
 				// Create the DestroyTower variable in the AbstractGolemEntity
-				newGolemEntity.createDestroyTower(this);
 
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
+
+			Entity entity1 = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level);
+			entity1.setPos(this.getX(), this.getY() + 6, this.getZ());
+			entity1.invulnerableTime = 999999999;
+			serverworld.addFreshEntity(entity1);
 		}
 	}
 

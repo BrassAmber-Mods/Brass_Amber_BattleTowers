@@ -32,20 +32,19 @@ public enum TowerSpecs implements IStringSerializable {
         return this.height;
     }
 
-    public static TowerSpecs getTowerFromMonolith(MonolithEntity monolithEntity) {
-        EntityType<?> entityType = monolithEntity.getEntity().getType();
-        if (entityType != null) {
-            if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+    public static TowerSpecs getTowerFromGolem(GolemType golemType) {
+        if (golemType != null) {
+            if (golemType.equals(GolemType.LAND)) {
                 return LAND;
-            } else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+            } else if (golemType.equals(GolemType.OCEAN)) {
                 return OCEAN;
-            } else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
+            } else if (golemType.equals(GolemType.NETHER)) {
                 return NETHER;
-            } else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+            } else if (golemType.equals(GolemType.CORE)) {
                 return CORE;
-            } else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+            } else if (golemType.equals(GolemType.END)) {
                 return END;
-            } else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+            } else if (golemType.equals(GolemType.SKY)) {
                 return SKY;
             }
         }

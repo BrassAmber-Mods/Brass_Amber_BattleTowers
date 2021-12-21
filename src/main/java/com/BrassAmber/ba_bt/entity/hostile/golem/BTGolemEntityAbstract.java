@@ -4,22 +4,14 @@ import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
-import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
 import com.BrassAmber.ba_bt.item.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-import com.BrassAmber.ba_bt.util.DestroyTower;
+import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -40,6 +32,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -51,6 +44,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
+import org.apache.logging.log4j.Level;
 
 /**
  * TODO Break blocks in his way like enderdragen, also explode blocks players hide behind
@@ -65,8 +59,8 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 	private int explosionPower = 1;
+	private DestroyTowerEntity destroyTower;
 
-	private DestroyTower destroyTower;
 
 	// Data Strings
 	private final String spawnPosName = "SpawnPos";
@@ -80,6 +74,9 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		this.bossbar = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), bossbarColor, BossInfo.Overlay.PROGRESS)).setCreateWorldFog(false);
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 500;
+
+
+
 
 		String clientOrServer = worldIn.isClientSide() ? "Client" : "Server";
 		BrassAmberBattleTowers.LOGGER.info(clientOrServer + ", Create Entity!");
@@ -137,6 +134,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public void tick() {
 		super.tick();
+
 		// Update the bossbar to display the health correctly.
 		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
 
@@ -282,8 +280,10 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 	@Override
 	public void die(DamageSource source) {
-		super.die(source);
+		this.destroyTower = (DestroyTowerEntity) this.level.getLoadedEntitiesOfClass(DestroyTowerEntity.class,
+				new AxisAlignedBB(this.getSpawnPos().getX(),this.getSpawnPos().getY(),this.getSpawnPos().getZ(), this.getSpawnPos().getX(),this.getSpawnPos().above(6).getY(),this.getSpawnPos().getZ())).get(0);
 		this.destroyTower.start();
+		super.die(source);
 	}
 
 	/*********************************************************** AI Goals ********************************************************/
@@ -355,15 +355,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public CreatureAttribute getMobType() {
 		return BATTLE_GOLEM;
-	}
-
-	/**
-	 * Sets up the DestroyTower class (which is called to remove a tower) and passes in a monolithEntity that DestroyTower
-	 * uses to set the correct tower type
-	 * @param monolithEntity
-	 */
-	public void createDestroyTower(MonolithEntity monolithEntity) {
-		this.destroyTower = new DestroyTower(monolithEntity, this.getSpawnPos(), this.level);
 	}
 
 	/**
