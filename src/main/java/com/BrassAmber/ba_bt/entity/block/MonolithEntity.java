@@ -210,7 +210,7 @@ public class MonolithEntity extends Entity {
 				// Set the Golem to spawn Dormant.
 				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
 				// Spawn the Golem facing the same direction as the Monolith.
-				newGolemEntity.faceDirection(this.yRot);
+				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.yRot));
 
 
 
@@ -225,6 +225,14 @@ public class MonolithEntity extends Entity {
 			entity1.invulnerableTime = 999999999;
 			serverworld.addFreshEntity(entity1);
 		}
+	}
+
+	/**
+	 * Returns the correct spawn rotation for the Golem.
+	 */
+	private float getGolemSpawnDirection(float monolithRotation) {
+		// Invert placement facing north and south.
+		return monolithRotation == 0 ? 180 : monolithRotation == 180 ? 0 : monolithRotation;
 	}
 
 	/*********************************************************** Check Blocks ********************************************************/
