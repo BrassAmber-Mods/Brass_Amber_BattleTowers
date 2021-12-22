@@ -1,7 +1,9 @@
-Bottom Floor: Milamber - Inspired by medieval castle entry halls/throne rooms
+Land Tower:
 
-Cult Floor: Brass_Herbalist - Inspired by ?
+    Bottom Floor: Milamber - Inspired by medieval castle entry halls/throne rooms
 
-Barracks Floor: PlsLetMeRest (aided by Milamber) - Inspired by ?
+    Cult Floor: Brass_Herbalist - Inspired by ?
 
-Alchemy Floor: Milamber (inspiration by Brass Herbalist) - Inspired by Blackreach from Skyrim
+    Barracks Floor: PlsLetMeRest (aided by Milamber) - Inspired by general medievl
+
+    Alchemy Floor: Milamber (inspiration by Brass Herbalist) - Inspired by Blackreach from Skyrim

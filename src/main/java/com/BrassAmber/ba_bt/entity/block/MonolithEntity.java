@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.util.GolemType;
 
@@ -31,11 +32,13 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.lwjgl.system.CallbackI;
 
 /*
  * Test swimming and sounds from Entity
@@ -191,6 +194,9 @@ public class MonolithEntity extends Entity {
 			lightningboltentity.setVisualOnly(true);
 			serverworld.addFreshEntity(lightningboltentity);
 
+			this.level.explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Explosion.Mode.BREAK);
+			this.level.explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Explosion.Mode.BREAK);
+
 			// Get the correct GolemEntityType.
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
 			// Create a new GolemEntity.
@@ -206,9 +212,18 @@ public class MonolithEntity extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.yRot));
 
+
+
+				// Create the DestroyTower variable in the AbstractGolemEntity
+
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
+
+			Entity entity1 = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level);
+			entity1.setPos(this.getX(), this.getY() + 6, this.getZ());
+			entity1.invulnerableTime = 999999999;
+			serverworld.addFreshEntity(entity1);
 		}
 	}
 
@@ -284,6 +299,7 @@ public class MonolithEntity extends Entity {
 	 * 
 	 * Used in: {@link PistonTileEntity.moveCollidedEntities method}
 	 */
+	@SuppressWarnings("JavadocReference")
 	@Override
 	public PushReaction getPistonPushReaction() {
 		return PushReaction.IGNORE;
