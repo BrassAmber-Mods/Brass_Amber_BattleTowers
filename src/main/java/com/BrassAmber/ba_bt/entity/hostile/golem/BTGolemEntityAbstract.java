@@ -288,8 +288,13 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 	@Override
 	public void die(DamageSource source) {
-		this.destroyTower = (DestroyTowerEntity) this.level.getLoadedEntitiesOfClass(DestroyTowerEntity.class,
-				new AxisAlignedBB(this.getSpawnPos().getX(),this.getSpawnPos().getY(),this.getSpawnPos().getZ(), this.getSpawnPos().getX(),this.getSpawnPos().above(6).getY(),this.getSpawnPos().getZ())).get(0);
+
+		this.destroyTower = (DestroyTowerEntity) this.level.getEntities(null,
+				new AxisAlignedBB(this.getSpawnPos().getX()-1,this.getSpawnPos().getY() + 4,
+						this.getSpawnPos().getZ()-1, this.getSpawnPos().getX() + 1,
+						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
+		this.destroyTower.setGolemDead(true);
+
 		super.die(source);
 	}
 

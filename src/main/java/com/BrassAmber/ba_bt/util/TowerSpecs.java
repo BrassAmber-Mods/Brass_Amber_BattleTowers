@@ -25,7 +25,7 @@ public enum TowerSpecs implements IStringSerializable {
     }
 
     public int getCrumbleSpeed() {
-        return Math.round(this.crumbleSpeed * 20);
+        return Math.round(this.crumbleSpeed * 10);
     }
 
     public int getHeight() {
