@@ -2,7 +2,8 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 
 import java.util.EnumSet;
 
-import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
+import com.BrassAmber.ba_bt.entity.ai.goal.skygolem.SkyGolemFireballAttackGoal;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -14,22 +15,24 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.DragonFireballEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class SkyGolemEntity extends BTGolemEntityAbstract {
-	private int lingeringFireballChargeTime = 0;
 
 	public SkyGolemEntity(EntityType<? extends SkyGolemEntity> type, World worldIn) {
 		super(type, worldIn, BossInfo.Color.WHITE);
 		this.moveControl = new SkyGolemEntity.MoveHelperController(this);
+	}
+	
+	@Override
+	protected GolemFireballAttackGoal createFireballAttackGoal() {
+		return new SkyGolemFireballAttackGoal(this);
 	}
 
 	/*********************************************************** Ticks ********************************************************/
@@ -42,80 +45,6 @@ public class SkyGolemEntity extends BTGolemEntityAbstract {
 		this.setNoGravity(true);
 	}
 
-	/*********************************************************** Attack Ticks ********************************************************/
-
-	@Override
-	protected void golemAttackTick() {
-		if (this.getTarget() instanceof LivingEntity && !this.level.getDifficulty().equals(Difficulty.PEACEFUL)) {
-			this.doLingeringFireballAttack();
-		}
-	}
-
-	/**
-	 * Shoot fireballs.
-	 * TODO Make them explode mid-air for players that are also like flying around.
-	 * TODO Make them linger in a 3D area instead of flat 2D.
-	 */
-	private void doLingeringFireballAttack() {
-		LivingEntity targetLivingEntity = this.getTarget();
-		// Look at the target.
-		this.getLookControl().setLookAt(targetLivingEntity, 30.0F, 30.0F);
-
-		// Set the max shooting distance
-		double maxShootingDistance = 64.0D;
-		// We need to square it since we're using that value for calculations.
-		maxShootingDistance *= maxShootingDistance;
-
-		// Check if the target is within range and if the Golem is able to see the target.
-		if (targetLivingEntity.distanceToSqr(this) < maxShootingDistance && this.canSee(targetLivingEntity)) {
-			// Increase attack time
-			++this.lingeringFireballChargeTime;
-
-			// Prepare to shoot. (10 more ticks, or 0.5 seconds)
-			if (this.lingeringFireballChargeTime == 10 && !this.isSilent()) {
-				// Play charging sound
-				this.playSoundEventWithVariation(BTSoundEvents.ENTITY_GOLEM_CHARGE);
-			}
-
-			// Shoot fireball
-			if (this.lingeringFireballChargeTime == 20) {
-				// Calculation for fireball trajectory and positioning.
-				Vector3d vector3d = this.getViewVector(1.0F);
-				double xPower = targetLivingEntity.getX() - this.getX();
-				double yPower = targetLivingEntity.getY(0.5D) - (0.5D + this.getY(0.5D));
-				double zPower = targetLivingEntity.getZ() - this.getZ();
-
-				// Get golem world
-				World world = this.level;
-
-				// Play shooting sound
-				if (!this.isSilent()) {
-					world.levelEvent((PlayerEntity) null, 1016, this.blockPosition(), 0);
-				}
-
-				// Create fireball
-				DragonFireballEntity fireballentity = new DragonFireballEntity(world, this, xPower, yPower, zPower);
-				// Set fireball initial position
-				double lateralSpawnPositionOffset = 1.2D;
-				double verticalSpawnPositionOffset = 0.5D;
-				fireballentity.setPos(this.getX() + vector3d.x * lateralSpawnPositionOffset, this.getY(0.5D) + verticalSpawnPositionOffset, fireballentity.getZ() + vector3d.z * lateralSpawnPositionOffset);
-				// Add fireball to the world
-				world.addFreshEntity(fireballentity);
-
-				// set firing timeout between shoots. (Doubles if the Golem is enraged)
-				this.lingeringFireballChargeTime = this.isEnraged() ? -20 : -40;
-			}
-		}
-
-		// If target is too far away or the golem can't see the target and the current charge time is more than 0.
-		else if (this.lingeringFireballChargeTime > 0) {
-			// Decrease charge time until 0. (Which is the default)
-			--this.lingeringFireballChargeTime;
-		}
-
-		// 10 ticks before shooting, so while preparing to shoot, set the DataParameter charging to 'true'.
-		this.setCharging(this.lingeringFireballChargeTime > 10);
-	}
 
 	/*********************************************************** Hurt / Die ********************************************************/
 
@@ -134,7 +63,7 @@ public class SkyGolemEntity extends BTGolemEntityAbstract {
 	 * Register all goals that a Golem should have. Called in the {@link MobEntity} constructor.
 	 */
 	@Override
-	protected void registerGolemGoals() {
+	protected void registerGoals() {
 		this.addGolemGoal(0, new SwimGoal(this));
 		// TODO Doesn't charge yet and stuff.
 		this.addGolemGoal(1, new SkyGolemEntity.ChargeAttackGoal());
