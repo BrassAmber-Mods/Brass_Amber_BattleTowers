@@ -290,7 +290,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public void die(DamageSource source) {
 		this.destroyTower = (DestroyTowerEntity) this.level.getLoadedEntitiesOfClass(DestroyTowerEntity.class,
 				new AxisAlignedBB(this.getSpawnPos().getX(),this.getSpawnPos().getY(),this.getSpawnPos().getZ(), this.getSpawnPos().getX(),this.getSpawnPos().above(6).getY(),this.getSpawnPos().getZ())).get(0);
-		this.destroyTower.start();
 		super.die(source);
 	}
 

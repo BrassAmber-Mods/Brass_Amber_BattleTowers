@@ -212,10 +212,6 @@ public class MonolithEntity extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.yRot));
 
-
-
-				// Create the DestroyTower variable in the AbstractGolemEntity
-
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
