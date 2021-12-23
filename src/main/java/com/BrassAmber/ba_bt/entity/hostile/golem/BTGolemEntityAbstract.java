@@ -54,10 +54,10 @@ import net.minecraftforge.common.util.Constants;
 /**
  * FIXME Can still be pushed by players. (Doesn't really matter in Survival, because he will become awake. However you can still bump him off an edge while fighting)
  * 
- * TODO Break blocks in his way like enderdragen, also explode blocks players hide behind.
+ * DONE Break blocks in his way like enderdragen, also explode blocks players hide behind.
  * TODO If players splash the Golem with potions before the fight they I want to clear all effects.
  * 
- * TODO Pathfind to the player when not able to see the player.
+ * DONE? Pathfind to the player when not able to see the player.
  */
 public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	private static final DataParameter<BlockPos> SPAWN_POS = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BLOCK_POS);
@@ -297,12 +297,6 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	protected void registerGoals() {
 		this.addGolemGoal(0, new SwimGoal(this));
-		/**
-		 * TODO Work in progress -->
-		 * Is also movement AI
-		 * Pathfinding sucks, has problems with the walls on top of the tower if the player is behind them.
-		 * (Should maybe be no problem after the explosion of blocks is added?)
-		 */
 		this.addGolemGoal(5, new MeleeAttackGoal(this, 1.0D, true){
 			@Override
 			public boolean canUse() {
