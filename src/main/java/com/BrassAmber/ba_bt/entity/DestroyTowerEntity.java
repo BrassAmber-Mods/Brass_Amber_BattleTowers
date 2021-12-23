@@ -126,7 +126,7 @@ public class DestroyTowerEntity extends Entity {
             }
             // if the current number of ticks is greater than the wait time before the crumbling starts
             // also check that the number of ticks is equal to the crumble speed (so that this isn't called every tick)
-            if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0 && this.getCurrentRow() != this.rows) {
+            if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0 && this.getCurrentRow() < this.rows) {
                 if (this.blocksToRemove.size() == 0) {
                     this.getNextRow();
                 } else {
