@@ -6,26 +6,26 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.IStringSerializable;
 
 public enum TowerSpecs implements IStringSerializable {
-    EMPTY("",0,0F),
-    LAND("land", 112, 1.0F),
-    OCEAN("ocean", 112, 1.2F),
-    NETHER("nether", 112, 1.4F),
-    CORE("core", 112, 1.6F),
-    END("end", 112, 1.8F),
-    SKY("sky", 112, 2.0F);
+    EMPTY("",0,0),
+    LAND("land", 112, 2),
+    OCEAN("ocean", 112, 2),
+    NETHER("nether", 112, 2),
+    CORE("core", 112, 1),
+    END("end", 112, 1),
+    SKY("sky", 112, 1);
 
     private String name;
     private int height;
-    private float crumbleSpeed;
+    private int crumbleSpeed;
 
-    TowerSpecs(String name, int height, float crumbleSpeed) {
+    TowerSpecs(String name, int height, int crumbleSpeed) {
         this.name = name;
         this.height = height;
         this.crumbleSpeed = crumbleSpeed;
     }
 
     public int getCrumbleSpeed() {
-        return Math.round(this.crumbleSpeed * 10);
+        return this.crumbleSpeed;
     }
 
     public int getHeight() {

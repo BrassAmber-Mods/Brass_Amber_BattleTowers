@@ -177,7 +177,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                 + " " + t +" " + f + " "+ noWater);
 
         // if there are more flat areas than not flat areas and no water return true 
-        return (t > f) && noWater;
+        return ((t + 1) % (f + 1) < 2) && noWater;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
@@ -290,10 +290,10 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             // holds just the piece's size and positions. Blocks will be placed later in JigsawManager.
             // --TelepathicGrunt
 
-            // In this case, we do `piece.offset` down by 2 to overcome problems with slight hills 
-            this.pieces.forEach(piece -> piece.move(0, -2, 0));
-            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 2);
-            this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 2);
+            // In this case, we do `piece.offset` down by 4 to overcome problems with slight hills
+            this.pieces.forEach(piece -> piece.move(0, -3, 0));
+            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 3);
+            this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 3);
             // Sets the bounds of the structure once you are finished. --TelepathicGrunt
             this.calculateBoundingBox();
 
