@@ -256,7 +256,7 @@ public class DestroyTowerEntity extends Entity {
         this.golemType = GolemType.getTypeForName(compound.getString("GolemType"));
         this.setGolemDead(true);
         this.setInitialized(true);
-        this.currentTicks = 260;
+        this.currentTicks = 350;
     }
 
 

@@ -27,7 +27,7 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 
 	public StoneChestTileEntity() {
 		super(BTTileEntityTypes.STONE_CHEST);
-		//this.lockKey = new LockCode("BTSpawner");
+		this.lockKey = new LockCode("BTSpawner");
 		if (this.hasLevel()) {
 			BlockState state = this.level.getBlockState(this.getBlockPos());
 			this.type = state.getValue(BlockStateProperties.CHEST_TYPE);
@@ -37,7 +37,7 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 	}
 
 	public void setNoLockKey() {
-		//this.lockKey = LockCode.NO_LOCK;
+		this.lockKey = LockCode.NO_LOCK;
 		//BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.lockKey);
 	}
 
