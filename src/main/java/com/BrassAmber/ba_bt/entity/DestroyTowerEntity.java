@@ -1,13 +1,20 @@
 package com.BrassAmber.ba_bt.entity;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import org.apache.logging.log4j.Level;
+
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.util.TowerSpecs;
+
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -15,32 +22,27 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.Constants.BlockFlags;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.apache.logging.log4j.Level;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class DestroyTowerEntity extends Entity {
     // Parameters that must be saved
     private static final DataParameter<BlockPos> CRUMBLE_START_CORNER = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.BLOCK_POS);
     private static final DataParameter<Integer> CRUMBLE_BOTTOM = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
     private static final DataParameter<Integer> CRUMBLE_SPEED = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
+   //Why do you need these values on the client?! If you don't need something on the client you don't need to use data parameters!
     private static final DataParameter<Integer> CURRENT_ROW = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
     private static final DataParameter<Boolean> INITIALIZED = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.BOOLEAN);
 
     //Other Parameters
     private TowerSpecs specs;
     private GolemType golemType;
-    private  ArrayList<BlockPos> blocksToRemove = new ArrayList<>();
+    private List<BlockPos> blocksToRemove = new ArrayList<>();
     private int rows;
     private int startTicks = 400;
     private int currentTicks = 0;
@@ -48,6 +50,8 @@ public class DestroyTowerEntity extends Entity {
     private Random random = new Random();
     private BlockPos removeBlock;
 
+    private final double destroyPercentOfTower;
+    
     // Data Strings
     private final String crumbleStartName = "CrumbleStart";
     private final String crumbleBottomName = "CrumbleBottom";
@@ -58,20 +62,22 @@ public class DestroyTowerEntity extends Entity {
 
     public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
         super(type, world);
+        this.destroyPercentOfTower = 0.75D;
     }
 
-    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level) {
+    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level, final double percentageOfTowerToCrumble) {
         super(BTEntityTypes.DESTROY_TOWER, level);
 
         this.golemType = golemType;
-
+        this.destroyPercentOfTower = percentageOfTowerToCrumble;
+        
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
         this.setCrumbleStart(golemSpawn.offset(-15, 6, -15));
     }
 
 
     public void getNextRow() {
-        BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "In getNextRow");
+        //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "In getNextRow");
         // Find the corner of the next row of blocks (3 y levels per row)
         BlockPos rowCorner = this.getCrumbleStart().below(this.getCurrentRow() * 3);
 
@@ -87,30 +93,39 @@ public class DestroyTowerEntity extends Entity {
                     }
                 }
             }
-            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
+            //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
         }
         // add 1 to the row counter so that next time this is called it adds the blocks on the next row
         this.setCurrentRow(this.getCurrentRow() + 1);
     }
 
+    private void init() {
+    	BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Initializing");
+        this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
+        this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
+        this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
+        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3);
+        this.setInitialized(true);
+
+        // this.level.setBlock(this.getCrumbleStart(), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
+        // this.level.setBlock(this.getCrumbleStart().offset(15, 1, 15), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
+        // this.level.setBlock(this.getCrumbleStart().offset(30, 1, 30), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
+    }
+    
+    private Set<BlockPos> allRemovedBlocks = new HashSet<>();
+    
     @Override
     public void tick() {
+    	if(this.level.isClientSide) {
+    		return;
+    	}
         super.tick();
         if (this.golemDead) {
             this.currentTicks++;
 
             // Check to see if data parameters have been initialized.
             if (!this.getInitialized()) {
-                BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Initializing");
-                this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
-                this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
-                this.setCrumbleBottom(this.getCrumbleStart().getY() - this.specs.getHeight());
-                this.rows = (int) Math.floor(this.specs.getHeight() / 3);
-                this.setInitialized(true);
-
-                // this.level.setBlock(this.getCrumbleStart(), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
-                // this.level.setBlock(this.getCrumbleStart().offset(15, 1, 15), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
-                // this.level.setBlock(this.getCrumbleStart().offset(30, 1, 30), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
+                this.init();
             }
             if (this.currentTicks == 0) {
 
@@ -130,32 +145,32 @@ public class DestroyTowerEntity extends Entity {
                 if (this.blocksToRemove.size() == 0) {
                     this.getNextRow();
                 } else {
-                    BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
-                    for (int i = 0; i < 35; i++) {
-                        if (this.blocksToRemove.size() == 0) {
+                   // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
+                    if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
+                    	//Fancy physics stuff
+                    	ExplosionPhysicsEntity explosion = new ExplosionPhysicsEntity(BTEntityTypes.PHYSICS_EXPLOSION, this.level);
+                    	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
+                    	
+                    	this.level.addFreshEntity(explosion);
+                    }
+                	for (int i = 0; i < 35; i++) {
+                        if (this.blocksToRemove.isEmpty()) {
                             break;
                         } else if (this.blocksToRemove.size() == 1) {
                             this.removeBlock = this.blocksToRemove.remove(0);
                             this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
                         } else {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
+                            //If the block is water => Add dirt around it and add the surroundings to the list
+                            //TODO: Change this to remove the entire body of water
                             if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
-                                this.level.setBlock(this.removeBlock, Blocks.DIRT.defaultBlockState(), BlockFlags.DEFAULT);
-                                this.level.setBlock(this.removeBlock.east(), Blocks.DIRT.defaultBlockState(), BlockFlags.DEFAULT);
-                                this.level.setBlock(this.removeBlock.west(), Blocks.DIRT.defaultBlockState(), BlockFlags.DEFAULT);
-                                this.level.setBlock(this.removeBlock.north(), Blocks.DIRT.defaultBlockState(), BlockFlags.DEFAULT);
-                                this.level.setBlock(this.removeBlock.south(), Blocks.DIRT.defaultBlockState(), BlockFlags.DEFAULT);
-                                this.blocksToRemove.add(this.removeBlock.east());
-                                this.blocksToRemove.add(this.removeBlock.west());
-                                this.blocksToRemove.add(this.removeBlock.south());
-                                this.blocksToRemove.add(this.removeBlock.north());
+                                this.removeBodyOfWater(this.removeBlock);
                             }
                             this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                            this.allRemovedBlocks.add(this.removeBlock);
                         }
                         if (i == 20) {
-                            this.level.addParticle(ParticleTypes.EXPLOSION,
-                                    this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ(),
-                                    .2D, .3D, .2D);
+                    		this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, this.removeBlock, 0);
                             this.level.playSound(null, this.removeBlock,
                                     SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS,2.0F,
                                     1.0F);
@@ -163,7 +178,11 @@ public class DestroyTowerEntity extends Entity {
 
                     }
                 }
-            } else if (this.getCurrentRow() == this.rows){
+            } else if (this.getCurrentRow() >= this.rows){
+            	this.allRemovedBlocks.forEach((pos) -> {
+           			this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), BlockFlags.BLOCK_UPDATE);
+            	}
+            	);
                 // stop if we have done the final row already
                 this.remove();
             }
@@ -177,7 +196,31 @@ public class DestroyTowerEntity extends Entity {
     }
 
 
-    /**************************************************** DATA ****************************************************/
+    private void removeBodyOfWater(BlockPos start) {
+    	Set<BlockPos> waterPositions = new HashSet<>();
+    	removeBodyOWater(waterPositions, start);
+    	
+    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT));
+	}
+    
+    private void removeBodyOWater(Set<BlockPos> storage, BlockPos position) {
+    	if(!this.level.getBlockState(position).getFluidState().isSource()) {
+    		return;
+    	}
+    	if(!storage.contains(position)) {
+    		storage.add(position);
+    	} else {
+    		return;
+    	}
+    	removeBodyOWater(storage, position.north());
+    	removeBodyOWater(storage, position.east());
+    	removeBodyOWater(storage, position.south());
+    	removeBodyOWater(storage, position.west());
+    	removeBodyOWater(storage, position.above());
+    	removeBodyOWater(storage, position.below());
+    }
+
+	/**************************************************** DATA ****************************************************/
 
 
 

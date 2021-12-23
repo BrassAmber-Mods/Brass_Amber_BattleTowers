@@ -216,7 +216,7 @@ public class MonolithEntity extends Entity {
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
-			Entity entity1 = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level);
+			Entity entity1 = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level, 0.75D);
 			entity1.setPos(this.getX(), this.getY() + 6, this.getZ());
 			entity1.invulnerableTime = 999999999;
 			serverworld.addFreshEntity(entity1);

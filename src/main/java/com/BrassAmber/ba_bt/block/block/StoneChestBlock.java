@@ -36,7 +36,7 @@ public class StoneChestBlock extends GolemChestBlock {
 
 	@Override
 	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
-		if (chestTileEntity.lockKey.equals(LockCode.NO_LOCK)) {
+		if (false /*chestTileEntity.lockKey.equals(LockCode.NO_LOCK)*/) {
 			return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 		} else	{
 			return false;

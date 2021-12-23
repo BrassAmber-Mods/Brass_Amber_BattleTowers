@@ -7,9 +7,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class DestroyTowerRenderer extends EntityRenderer {
+public class NoRenderEntity extends EntityRenderer {
 
-	public DestroyTowerRenderer(EntityRendererManager renderManagerIn) {
+	public NoRenderEntity(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn);
 
 	}

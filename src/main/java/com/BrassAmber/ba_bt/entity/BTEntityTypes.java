@@ -52,7 +52,10 @@ public class BTEntityTypes {
 	public static final EntityType<DestroyTowerEntity> DESTROY_TOWER = buildEntityType("destroy_tower",
 			EntityType.Builder.<DestroyTowerEntity>of(DestroyTowerEntity::new, EntityClassification.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT));
-
+	public static final EntityType<ExplosionPhysicsEntity> PHYSICS_EXPLOSION = buildEntityType("explosion_physics",
+			EntityType.Builder.<ExplosionPhysicsEntity>of(ExplosionPhysicsEntity::new, EntityClassification.MISC)
+			.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave());
+	
 	/**
 	 * Register Spawn Rules
 	 */
