@@ -111,8 +111,7 @@ public class DestroyTowerEntity extends Entity {
         // this.level.setBlock(this.getCrumbleStart().offset(15, 1, 15), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
         // this.level.setBlock(this.getCrumbleStart().offset(30, 1, 30), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
     }
-    
-    private Set<BlockPos> allRemovedBlocks = new HashSet<>();
+
     
     @Override
     public void tick() {
@@ -167,7 +166,7 @@ public class DestroyTowerEntity extends Entity {
                                 this.removeBodyOfWater(this.removeBlock);
                             }
                             this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
-                            this.allRemovedBlocks.add(this.removeBlock);
+
                         }
                         if (i == 20) {
                     		this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, this.removeBlock, 0);
@@ -179,10 +178,6 @@ public class DestroyTowerEntity extends Entity {
                     }
                 }
             } else if (this.getCurrentRow() >= this.rows){
-            	this.allRemovedBlocks.forEach((pos) -> {
-           			this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), BlockFlags.BLOCK_UPDATE);
-            	}
-            	);
                 // stop if we have done the final row already
                 this.remove();
             }
