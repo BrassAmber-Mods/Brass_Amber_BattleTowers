@@ -152,14 +152,14 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		super.tick();
 		// Update the bossbar to display the health correctly.
 		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
-
+		
 		// Set the golemState to enraged when health drops below 1/3.
-		if (this.getHealth() / this.getMaxHealth() < 0.33 && !this.isDormant()) {
+		if (this.getHealth() / this.getMaxHealth() < 0.33 && !this.isEnraged() && this.isAwake()) {
 			// TODO Maybe stand still for a moment with hands up growling?
-			// this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_CHARGE); // LOUD AF
+			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL); // LOUD AF
 			this.setGolemState(SPECIAL);
 		}
-
+		
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
 			if (!this.level.isClientSide()) {
@@ -205,7 +205,11 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators. (Does include Creative mode)
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (this.getTarget() != null && this.distanceToSqr(this.getTarget().getX(), this.getY(), this.getTarget().getZ()) >= maxDistanceFromSpawn && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection()) ) {
+		if(this.getTarget() != null && (!this.getTarget().isAlive() || (this.getTarget() instanceof PlayerEntity && ((PlayerEntity)this.getTarget()).isSpectator()))) {
+			this.resetGolem();
+			return;
+		}
+		if (this.getTarget() == null || (this.getTarget() != null && this.distanceToSqr(this.getTarget().getX(), this.getY(), this.getTarget().getZ()) >= this.getTargetingRange() && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection()))) {
 			this.resetGolem();
 		}
 	}
@@ -277,7 +281,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			// this.reassessGolemGoals(); // Used for testing
 			int multiplier = this.isEnraged() ? 2 : 1;
 			return super.hurt(source, damage * multiplier);
-		} else if (source.isCreativePlayer()) {
+		} else if (source.isCreativePlayer() && !this.isAwake()) {
 			this.setGolemState(AWAKE);
 		}
 		// This makes sure the /kill command works.
@@ -485,7 +489,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 * Check to see if the golem is awake, but not enraged.
 	 */
 	public boolean isAwake() {
-		return !this.isDormant();
+		return !this.isDormant() || this.getTarget() != null;
 	}
 
 	/**
@@ -501,10 +505,16 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	 * Reset the Golem to its defined spawn location.
 	 */
 	private void resetGolem() {
+		if(this.isDormant()) {
+			return;
+		}
 		final double x = this.getX();
 		final double y = this.getY();
 		final double z = this.getZ();
 		BlockPos spawnPos = this.getSpawnPos();
+		if(this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) <= 4) {
+			return;
+		}
 		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		this.faceSpawnDirection();
 		this.setGolemState(DORMANT);
@@ -520,7 +530,11 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 		if(this.getTarget() instanceof PlayerEntity && ((PlayerEntity)this.getTarget()).isCreative()) {
 			super.setTarget(null);
 		}
-		if(p_70624_1_ instanceof PlayerEntity && ((PlayerEntity)p_70624_1_).isCreative()) {
+		if(p_70624_1_ instanceof PlayerEntity && !((PlayerEntity)p_70624_1_).isSpectator()) {
+			super.setTarget(p_70624_1_);
+			if(this.isDormant()) {
+				this.wakeUpGolem();
+			}
 			return;
 		}
 		if(p_70624_1_ == null && this.getTarget() != null) {
@@ -530,7 +544,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			double tz = this.getTarget().getZ();
 			tz -= this.getZ();
 			tz *= tz;
-			if((tx + tz) < (this.getTargetingRange() * this.getTargetingRange()) && this.getTarget().isAlive()) {
+			if((tx + tz) < (this.getTargetingRange() * this.getTargetingRange()) && this.getTarget().isAlive() && !(this.getTarget() instanceof PlayerEntity && ((PlayerEntity)this.getTarget()).isSpectator())) {
 				//DOn't reset the target when it is still in reach!
 				return;
 			} else {
@@ -667,6 +681,10 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 	private float getSmallPitchVariation() {
 		return (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+	}
+
+	public boolean isEnragedBasedOnHP() {
+		return this.getHealth() / this.getMaxHealth() < 0.33F || this.isEnraged();
 	}
 	
 }
