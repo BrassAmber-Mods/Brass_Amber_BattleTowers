@@ -154,7 +154,7 @@ public class DestroyTowerEntity extends Entity {
                                 + "The tower will collapse...\",\"color\":\"" + this.specs.getColorCode() + "\"}");
             } else if (this.currentTicks == 400) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6F, 1F);
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6.0F, 1F);
             }
 
 

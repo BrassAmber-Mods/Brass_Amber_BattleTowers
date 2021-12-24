@@ -4,8 +4,12 @@ import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.block.*;
+import com.BrassAmber.ba_bt.block.block.BTSpawner;
+import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
+import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
+import com.BrassAmber.ba_bt.block.block.TabIconBlock;
+import com.BrassAmber.ba_bt.block.block.TotemBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.client.renderer.inventory.BTChestItemRenderer;
@@ -46,7 +50,7 @@ public class BTBlocks {
 
 	public static final Block TAB_ICON = registerBlockNoGroup("tab_icon", new TabIconBlock(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
 
-  	public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL)));
+    public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL)));
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
