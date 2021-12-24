@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.BTMobSpawnerTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import net.minecraft.block.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -18,6 +19,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
@@ -53,7 +56,7 @@ public class BTSpawner extends ContainerBlock {
         return ItemStack.EMPTY;
     }
 
-    public void checkPos(IWorld world, BlockPos pos) {
+    public void checkPos(World world, BlockPos pos) {
         TileEntity posEntity = world.getBlockEntity(pos);
 
         if (posEntity != null && posEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
@@ -65,7 +68,7 @@ public class BTSpawner extends ContainerBlock {
     public void destroy(IWorld iWorld, BlockPos spawnerPos, BlockState blockState) {
         this.foundChest = false;
         this.chestTileEntityPos = null;
-        World world = this.mobSpawnerEntity.getLevel();
+        World world = Minecraft.getInstance().getSingleplayerServer().overworld();
         for (int x = -30; x<31; x++) {
             if (this.foundChest) {
                 break;

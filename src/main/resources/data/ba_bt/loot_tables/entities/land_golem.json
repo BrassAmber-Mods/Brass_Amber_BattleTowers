@@ -78,6 +78,16 @@
           "name": "minecraft:redstone"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "count" : 1,
+          "name": "ba_bt:guardian_eye_land"
+        }
+      ]
     }
   ]
 }

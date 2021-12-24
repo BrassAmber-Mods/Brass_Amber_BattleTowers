@@ -84,10 +84,10 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
     
     public boolean isFlatLand(ChunkGenerator chunk, BlockPos pos) {
         //Create block positions to check 
-        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+12);
-        BlockPos east = new BlockPos(pos.getX()+12, 0, pos.getZ());
-        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-12);
-        BlockPos west = new BlockPos(pos.getX()-12, 0, pos.getZ());
+        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+15);
+        BlockPos east = new BlockPos(pos.getX()+15, 0, pos.getZ());
+        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-15);
+        BlockPos west = new BlockPos(pos.getX()-15, 0, pos.getZ());
         // create arraylist to allow easy iteration over BlockPos 
         ArrayList<BlockPos> list = new ArrayList<>(5);
         list.add(pos);
@@ -177,7 +177,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                 + " " + t +" " + f + " "+ noWater);
 
         // if there are more flat areas than not flat areas and no water return true 
-        return ((t + 1) % (f + 1) < 2) && noWater;
+        return t > 3 && noWater;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
@@ -210,37 +210,41 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              */
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
-            BTJigsawManager.addPieces(
-                    dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
-                            // The path to the starting Template Pool JSON file to read.
-                            //
-                            // Note, this is "ba_bt:land_tower/start_pool"
-                            // the game will automatically look into the following path for the template pool:
-                            // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json" -- TelepathicGrunt (modified by M)
+            try {
+                BTJigsawManager.addPieces(
+                        dynamicRegistryManager,
+                        new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                // The path to the starting Template Pool JSON file to read.
+                                //
+                                // Note, this is "ba_bt:land_tower/start_pool"
+                                // the game will automatically look into the following path for the template pool:
+                                // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json" -- TelepathicGrunt (modified by M)
 
-                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
+                                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
 
-                            // How many pieces outward from center this recursive jigsaw structure can spawn.
-                            // Technically (testing needed) I think I could have this value down at 9, since there are 7 structure floor connections-
-                            // - and each spawner only extends that number to 8 connections at the top floor.
-                            // However no testing of this has been done (yet)  and I would rather be on the safe side.
-                            // Since the tower is not a completely recursive structure, this number could technically be as high as I wanted it to be (within integer limits ofc)
-                            // As long as it is more than the total number of possible connections the tower will spawn correctly.
-                            10),
-                    AbstractVillagePiece::new,
-                    chunkGenerator,
-                    templateManagerIn,
-                    centerPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                    this.pieces, // The list that will be populated with the jigsaw pieces after this method. --TelepathicGrunt
-                    this.random,
-                    false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
-                    // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way. --TelepathicGrunt
-                    true,// Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-                    // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                    // --TelepathicGrunt
-                    null // null here == random rotation. 
-            );
+                                // How many pieces outward from center this recursive jigsaw structure can spawn.
+                                // Technically (testing needed) I think I could have this value down at 9, since there are 7 structure floor connections-
+                                // - and each spawner only extends that number to 8 connections at the top floor.
+                                // However no testing of this has been done (yet)  and I would rather be on the safe side.
+                                // Since the tower is not a completely recursive structure, this number could technically be as high as I wanted it to be (within integer limits ofc)
+                                // As long as it is more than the total number of possible connections the tower will spawn correctly.
+                                10),
+                        AbstractVillagePiece::new,
+                        chunkGenerator,
+                        templateManagerIn,
+                        centerPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
+                        this.pieces, // The list that will be populated with the jigsaw pieces after this method. --TelepathicGrunt
+                        this.random,
+                        false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
+                        // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way. --TelepathicGrunt
+                        true,// Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+                        // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
+                        // --TelepathicGrunt
+                        null // null here == random rotation.
+                );
+            } catch (Exception e) {
+                BrassAmberBattleTowers.LOGGER.warn(this.pieces.get(this.pieces.size() - 1).toString());
+            }
 
 
             if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP || biomeIn.getBiomeCategory() == Biome.Category.JUNGLE) {

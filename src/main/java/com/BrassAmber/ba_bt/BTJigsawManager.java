@@ -259,7 +259,7 @@ public class BTJigsawManager {
                         BTJigsawManager.LOGGER.warn("Empty or none existent fallback pool: {}", (Object)resourcelocation1);
                     }
                 } else {
-                    BTJigsawManager.LOGGER.warn("Empty or none existent pool: {} -{} -{}", (Object)resourcelocation, p_236831_4_, p_236831_3_);
+                    BTJigsawManager.LOGGER.warn("Empty or none existent pool: {} -{} -{} -{} {}", (Object)resourcelocation, p_236831_4_, p_236831_3_, jigsawpiece.toString(), mutableboundingbox.y0);
                 }
             }
 

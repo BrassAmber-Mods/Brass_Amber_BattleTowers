@@ -136,9 +136,9 @@ public class BrassAmberBattleTowers {
 			}
 		}
 
-		if (!BiomeDictionary.hasType(key, BiomeDictionary.Type.MOUNTAIN)) {
+		/**if (!BiomeDictionary.hasType(key, BiomeDictionary.Type.MOUNTAIN)) {
 			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_SKY_BATTLE_TOWER);
-		}
+		}*/
 	}
 
 	private static Method GETCODEC_METHOD;
@@ -185,7 +185,7 @@ public class BrassAmberBattleTowers {
 			Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkSource().generator.getSettings().structureConfig());
 			if (serverWorld.dimension().equals(World.OVERWORLD)) {
 				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
-				tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
+				// tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
 			} else if (serverWorld.dimension().equals(World.NETHER)) {
 
 			} else if (serverWorld.dimension().equals(World.END)) {
