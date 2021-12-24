@@ -143,7 +143,7 @@ public class DestroyTowerEntity extends Entity {
                 Minecraft.getInstance().player.chat("/title @a[distance=0..120] title \"\"");
                 Minecraft.getInstance().player.chat(
                         "/title @a[distance=0..120] subtitle {\"text\":\"Without it's energy... "
-                        + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
+                        + "\",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
 
@@ -151,7 +151,7 @@ public class DestroyTowerEntity extends Entity {
                 Minecraft.getInstance().player.chat("/title @a[distance=0..120] title \"\"");
                 Minecraft.getInstance().player.chat(
                         "/title @a[distance=0..120] subtitle {\"text\":\""
-                                + "The tower will collapse...\",\"color\":\"" + this.specs.getColorCode() + "\"}");
+                                + "The tower will collapse...\",\"color\":\"#aa0000\"}");
             } else if (this.currentTicks == 400) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6.0F, 1F);
