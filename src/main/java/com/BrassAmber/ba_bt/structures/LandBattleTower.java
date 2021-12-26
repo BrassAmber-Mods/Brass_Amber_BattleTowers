@@ -36,9 +36,12 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+
+// Comments from TelepathicGrunts
 
 public class LandBattleTower extends Structure<NoFeatureConfig> {
     public LandBattleTower(Codec<NoFeatureConfig> codec) {
@@ -61,31 +64,31 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         biomeIn = biome;
         BlockPos cornerOfChunk = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 
-        // Grab height of land. Will stop at first non-air block.
+        // Grab height of land. Will stop at first non-air block. --TelepathicGrunt
         int landHeight = chunkGenerator.getFirstOccupiedHeight(cornerOfChunk.getX(), cornerOfChunk.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
         // Grabs column of blocks at given position. In overworld, this column will be made of stone, water, and air.
         // In nether, it will be netherrack, lava, and air. End will only be endstone and air. It depends on what block
-        // the chunk generator will place for that dimension.
+        // the chunk generator will place for that dimension. --TelepathicGrunt
         IBlockReader columnOfBlocks = chunkGenerator.getBaseColumn(cornerOfChunk.getX(), cornerOfChunk.getZ());
 
-        // Combine the column of blocks with land height and you get the top block itself which you can test.
+        // Combine the column of blocks with land height and you get the top block itself which you can test. --TelepathicGrunt
         BlockState topBlock = columnOfBlocks.getBlockState(cornerOfChunk.above(landHeight));
 
         
-        // Now we test to make sure our structure is not spawning on water or other fluids.
+        // Now we test to make sure our structure is not spawning on water or other fluids. --TelepathicGrunt
 
-        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower.
+        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower. 
         return isFlatLand(chunkGenerator, new BlockPos(cornerOfChunk.getX(), 0, cornerOfChunk.getZ())) && landHeight <= 150 ; //;
     }
     
     public boolean isFlatLand(ChunkGenerator chunk, BlockPos pos) {
-        //Create block positions to check
-        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+12);
-        BlockPos east = new BlockPos(pos.getX()+12, 0, pos.getZ());
-        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-12);
-        BlockPos west = new BlockPos(pos.getX()-12, 0, pos.getZ());
-        // create arraylist to allow easy iteration over BlockPos
+        //Create block positions to check 
+        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+15);
+        BlockPos east = new BlockPos(pos.getX()+15, 0, pos.getZ());
+        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-15);
+        BlockPos west = new BlockPos(pos.getX()-15, 0, pos.getZ());
+        // create arraylist to allow easy iteration over BlockPos 
         ArrayList<BlockPos> list = new ArrayList<>(5);
         list.add(pos);
         list.add(north);
@@ -94,18 +97,18 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         list.add(west);
 
 
-        // Create arraylists to hold the output of the iteration checks below
+        // Create arraylists to hold the output of the iteration checks below 
         ArrayList<Boolean> isFlat = new ArrayList<>(5);
         ArrayList<Boolean> hasWater = new ArrayList<>(5);
         ArrayList<Boolean> sameHeight = new ArrayList<>(4);
 
-        // create integers to hold how many landheights are the same and how many isFlat are true/false
+        // create integers to hold how many landheights are the same and how many isFlat are true/false 
         int t = 0;
         int f = 0;
 
-        // Check that a + sign of blocks at each position is all the same level. (flat)
+        // Check that a + sign of blocks at each position is all the same level. (flat) 
         for (BlockPos x: list) {
-            // get land height for each blcok on the +
+            // get land height for each block on the +  
             int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
             int landheight1 = chunk.getFirstOccupiedHeight(x.getX()-1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
             int landheight2 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()-1, Heightmap.Type.WORLD_SURFACE_WG);
@@ -122,7 +125,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             sameHeight.add(landHeight == landheight3);
             sameHeight.add(landHeight == landheight4);
 
-            // check how many landheights are the same
+            // check how many landheights are the same 
             for (Boolean tf: sameHeight) {
                 if (tf) {
                     t += 1;
@@ -131,7 +134,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
                 }
             }
 
-            // check if most BlockPos are the same height and add false to the list if not
+            // check if most BlockPos are the same height and add false to the list if not 
             isFlat.add(t > f);
         }
 
@@ -139,7 +142,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         t = 0;
         f = 0;
 
-        // iterate over isFlat array and count how many are true and how many are false
+        // iterate over isFlat array and count how many are true and how many are false 
         for (Boolean tf: isFlat) {
             if (tf) {
                 t += 1;
@@ -148,24 +151,24 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             }
         }
 
-        // check that there is no water at any of the Blockpos
+        // check that there is no water at any of the Blockpos 
         for (BlockPos x: list) {
             // get landheight
             int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
-            // get collum of blocks at blockpos
+            // get column of blocks at blockpos.
             IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
 
             // combine the column of blocks with land height and you get the top block itself which you can test.
             BlockState topBlock = columnOfBlocks.getBlockState(x.above(landHeight));
 
-            // check whether the topblock is a sourceblock of water
+            // check whether the topBlock is a source block of water.
             hasWater.add(topBlock.getFluidState().isSource());
         }
-        // set the base output to be true
+        // set the base output to be true.
         boolean noWater = true;
 
-        // check if any of the blockpos have water
+        // check if any of the blockpos have water.
         if (hasWater.contains(true)) {
             noWater = false;
         }
@@ -173,8 +176,8 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + pos.getX() + " " + pos.getZ()
                 + " " + t +" " + f + " "+ noWater);
 
-        // if there are more flat areas than not flat areas and no water return true
-        return (t > f) && noWater;
+        // if there are more flat areas than not flat areas and no water return true 
+        return t > 3 && noWater;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
@@ -184,7 +187,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
 
         public void generatePieces(DynamicRegistries dynamicRegistryManager, ChunkGenerator chunkGenerator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn, NoFeatureConfig config) {
 
-            // Turns the chunk coordinates into actual coordinates we can use
+            // Turns the chunk coordinates into actual coordinates we can use -- TelepathicGrunt
             int x = chunkX * 16;
             int z = chunkZ * 16;
 
@@ -193,6 +196,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              * If addPieces's last parameter is true, blockpos's Y value is ignored and the
              * structure will spawn at terrain height instead. Set that parameter to false to
              * force the structure to spawn at blockpos's Y value instead. You got options here!
+             * -- TelepathicGrunt
              */
             BlockPos centerPos = new BlockPos(x, 0, z);
 
@@ -202,58 +206,99 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
              * Then loop through it and look for land with air above it and set blockpos's Y value to it.
              * Make sure to set the final boolean in JigsawManager.addPieces to false so
              * that the structure spawns at blockpos's y value instead of placing the structure on the Bedrock roof!
+             * -- TelepathicGrunt
              */
 
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
-            BTJigsawManager.addPieces(
-                    dynamicRegistryManager,
-                    new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
-                            // The path to the starting Template Pool JSON file to read.
-                            //
-                            // Note, this is "ba_bt:land_tower/start_pool"
-                            // the game will automatically look into the following path for the template pool:
-                            // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json"
+            try {
+                BTJigsawManager.addPieces(
+                        dynamicRegistryManager,
+                        new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                // The path to the starting Template Pool JSON file to read.
+                                //
+                                // Note, this is "ba_bt:land_tower/start_pool"
+                                // the game will automatically look into the following path for the template pool:
+                                // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json" -- TelepathicGrunt (modified by M)
 
-                            .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
+                                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
 
-                            // How many pieces outward from center can a recursive jigsaw structure spawn.
-                            // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.
-                            // However, I recommend you keep this a decent value like 10 so people can use datapacks to add additional pieces to your structure easily.
-                            // But don't make it too large for recursive structures like villages or you'll crash server due to hundreds of pieces attempting to generate!
-                            10),
-                    AbstractVillagePiece::new,
-                    chunkGenerator,
-                    templateManagerIn,
-                    centerPos, // Position of the structure. Y value is ignored if last parameter is set to true.
-                    this.pieces, // The list that will be populated with the jigsaw pieces after this method.
-                    this.random,
-                    false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
-                    // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way.
-                    true);  // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-            // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-
-            if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP) {
-                //add code here to start the spawning of the overgrown add-on
+                                // How many pieces outward from center this recursive jigsaw structure can spawn.
+                                // Technically (testing needed) I think I could have this value down at 9, since there are 7 structure floor connections-
+                                // - and each spawner only extends that number to 8 connections at the top floor.
+                                // However no testing of this has been done (yet)  and I would rather be on the safe side.
+                                // Since the tower is not a completely recursive structure, this number could technically be as high as I wanted it to be (within integer limits ofc)
+                                // As long as it is more than the total number of possible connections the tower will spawn correctly.
+                                10),
+                        AbstractVillagePiece::new,
+                        chunkGenerator,
+                        templateManagerIn,
+                        centerPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
+                        this.pieces, // The list that will be populated with the jigsaw pieces after this method. --TelepathicGrunt
+                        this.random,
+                        false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting.
+                        // Either not intersecting or fully contained will make children pieces spawn just fine. It's easier that way. --TelepathicGrunt
+                        true,// Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+                        // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
+                        // --TelepathicGrunt
+                        null // null here == random rotation.
+                );
+            } catch (Exception e) {
+                BrassAmberBattleTowers.LOGGER.warn(this.pieces.get(this.pieces.size() - 1).toString());
             }
 
-            // **THE FOLLOWING TWO LINES ARE OPTIONAL**
-            //
+
+            if (biomeIn.getBiomeCategory() == Biome.Category.SWAMP || biomeIn.getBiomeCategory() == Biome.Category.JUNGLE) {
+                //add code here to start the spawning of the overgrown add-on
+                BTJigsawManager.addPieces(
+                        dynamicRegistryManager,
+                        new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool_overgrown")),
+                                7),
+                        AbstractVillagePiece::new,
+                        chunkGenerator,
+                        templateManagerIn,
+                        centerPos,
+                        this.pieces, // Thankfully passing the same list as above just adds the new pieces at the end of the list. 
+                        this.random,
+                        false,
+                        true,
+                        this.pieces.get(0).getRotation() // pass in the rotation of the base piece of the tower
+                        // This makes the overgrown tower correctly overlap the base tower. 
+                );
+                BTJigsawManager.addPieces(
+                        dynamicRegistryManager,
+                        new VillageConfig(() -> dynamicRegistryManager.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY)
+                                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool_overgrown_roof")),
+                                1),
+                        AbstractVillagePiece::new,
+                        chunkGenerator,
+                        templateManagerIn,
+                        centerPos.above(88),
+                        this.pieces,
+                        this.random,
+                        false,
+                        true,
+                        this.pieces.get(0).getRotation()
+                );
+            }
+            else if (biomeIn.getBiomeCategory() == Biome.Category.DESERT) {
+
+            }
+            else if (biomeIn.getPrecipitation() == Biome.RainType.SNOW) {
+
+            }
+
             // Right here, you can do interesting stuff with the pieces in this.pieces such as offset the
             // center piece by 50 blocks up for no reason, remove repeats of a piece or add a new piece so
             // only 1 of that piece exists, etc. But you do not have access to the piece's blocks as this list
             // holds just the piece's size and positions. Blocks will be placed later in JigsawManager.
-            //
-            // In this case, we do `piece.offset` to raise pieces up by 1 block so that the house is not right on
-            // the surface of water or sunken into land a bit.
-            //
-            // Then we extend the bounding box down by 1 by doing `piece.getBoundingBox().minY` which will cause the
-            // land formed around the structure to be lowered and not cover the doorstep. You can raise the bounding
-            // box to force the structure to be buried as well. This bounding box stuff with land is only for structures
-            // that you added to Structure.NOISE_AFFECTING_FEATURES field handles adding land around the base of structures.
-            this.pieces.forEach(piece -> piece.move(0, -2, 0));
-            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 2);
-            this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 2);
-            // Sets the bounds of the structure once you are finished.
+            // --TelepathicGrunt
+
+            // In this case, we do `piece.offset` down by 4 to overcome problems with slight hills
+            this.pieces.forEach(piece -> piece.move(0, -3, 0));
+            this.pieces.forEach(piece -> piece.getBoundingBox().y0 -= 3);
+            this.pieces.forEach(piece -> piece.getBoundingBox().y1 -= 3);
+            // Sets the bounds of the structure once you are finished. --TelepathicGrunt
             this.calculateBoundingBox();
 
             BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + this.pieces.get(0).getBoundingBox().x0 + " "

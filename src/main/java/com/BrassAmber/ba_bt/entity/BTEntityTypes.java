@@ -10,6 +10,7 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.EndGolemEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.OceanGolemEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.SkyGolemEntity;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -48,6 +49,14 @@ public class BTEntityTypes {
 	public static final EntityType<MonolithEntity> END_MONOLITH = buildMonolithEntityType("end_monolith");
 	public static final EntityType<MonolithEntity> SKY_MONOLITH = buildMonolithEntityType("sky_monolith");
 
+	public static final EntityType<DestroyTowerEntity> DESTROY_TOWER = buildEntityType("destroy_tower",
+			EntityType.Builder.<DestroyTowerEntity>of(DestroyTowerEntity::new, EntityClassification.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT));
+	public static final EntityType<ExplosionPhysicsEntity> PHYSICS_EXPLOSION = buildEntityType("explosion_physics",
+			EntityType.Builder.<ExplosionPhysicsEntity>of(ExplosionPhysicsEntity::new, EntityClassification.MISC)
+					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave());
+
+	
 	/**
 	 * Register Spawn Rules
 	 */

@@ -2,7 +2,9 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.block.BlockState;
@@ -31,11 +33,13 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.lwjgl.system.CallbackI;
 
 /*
  * Test swimming and sounds from Entity
@@ -52,6 +56,7 @@ public class MonolithEntity extends Entity {
 	private int nextStageCounter = 0;
 	private int livingSoundTime;
 	private int floatingRotation;
+	private boolean playedSpawnSound = false;
 
 	public MonolithEntity(EntityType<? extends MonolithEntity> type, World world) {
 		super(type, world);
@@ -108,14 +113,18 @@ public class MonolithEntity extends Entity {
 		}
 		// Checks for keys.
 		else if (this.getKeyCountInEntity() >= 3 && (this.isEyeSlotDisplayed() || isLandMonolith)) {
+			if (!this.playedSpawnSound) {
+				this.playSpawnSound();
+				this.playedSpawnSound = true;
+			}
 			// Hold this for 5 seconds before Golem Spawns
-			this.nextStageCounter++;
 			int seconds = 5;
 			if (this.nextStageCounter >= (seconds * 20)) {
 				//	Spawn Golem and remove this entity
 				this.spawnGolem();
 				this.remove();
 			}
+			this.nextStageCounter++;
 		}
 
 		// Checks if there are any blocks inside the hit-box and deletes them.
@@ -191,6 +200,9 @@ public class MonolithEntity extends Entity {
 			lightningboltentity.setVisualOnly(true);
 			serverworld.addFreshEntity(lightningboltentity);
 
+			this.level.explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Explosion.Mode.BREAK);
+			this.level.explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Explosion.Mode.BREAK);
+
 			// Get the correct GolemEntityType.
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
 			// Create a new GolemEntity.
@@ -209,6 +221,11 @@ public class MonolithEntity extends Entity {
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
+
+			Entity entity1 = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level, 0.75D);
+			entity1.setPos(this.getX(), this.getY() + 6, this.getZ());
+			entity1.invulnerableTime = 999999999;
+			serverworld.addFreshEntity(entity1);
 		}
 	}
 
@@ -284,6 +301,7 @@ public class MonolithEntity extends Entity {
 	 * 
 	 * Used in: {@link PistonTileEntity.moveCollidedEntities method}
 	 */
+	@SuppressWarnings("JavadocReference")
 	@Override
 	public PushReaction getPistonPushReaction() {
 		return PushReaction.IGNORE;
@@ -376,7 +394,7 @@ public class MonolithEntity extends Entity {
 	 * Returns the volume for the sounds this mob makes.
 	 */
 	private float getSoundVolume() {
-		return 0.8F;
+		return 0.6F;
 	}
 
 	/**
@@ -419,5 +437,9 @@ public class MonolithEntity extends Entity {
 	private void playDestroySound() {
 		this.playSound(SoundEvents.IRON_GOLEM_STEP, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
 		this.playSound(SoundEvents.RESPAWN_ANCHOR_DEPLETE, this.getSoundVolume(), this.getSoundPitch() + 1.5F);
+	}
+
+	private void playSpawnSound() {
+		this.playSound(BTSoundEvents.MONOLITH_SPAWN_GOLEM, this.getSoundVolume(), 1F);
 	}
 }

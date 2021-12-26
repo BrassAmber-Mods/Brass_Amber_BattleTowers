@@ -177,6 +177,26 @@ public enum GolemType implements IStringSerializable {
 
 	/*********************************************************** Extra ********************************************************/
 
+	public static GolemType getTypeForName(String name) {
+		switch (name) {
+			case "empty":
+			default:
+				return null;
+			case "land":
+				return LAND;
+			case "ocean":
+				return OCEAN;
+			case "nether":
+				return NETHER;
+			case "core":
+				return CORE;
+			case "end":
+				return END;
+			case "sky":
+				return SKY;
+		}
+	}
+
 	@Override
 	public String getSerializedName() {
 		return this.name;

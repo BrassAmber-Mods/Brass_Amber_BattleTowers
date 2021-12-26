@@ -78,7 +78,8 @@
 		"sounds": [
 			{
 				"name": "ba_bt:entity/golem/towerbreakstart",
-				"volume": 0.6
+				"volume": 0.6,
+				"stream": true
 			}
 		]
 	},
@@ -88,7 +89,20 @@
 		"sounds": [
 			{
 				"name": "ba_bt:entity/golem/towercrumble",
-				"volume": 0.6
+				"volume": 0.6,
+				"stream": true
+			}
+		]
+	},
+
+	"monolith.spawn.golem": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.monolith.spawn.golem",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/monolithimplode",
+				"volume": 0.6,
+				"stream": true
 			}
 		]
 	}
