@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.BrassAmber.ba_bt.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "b_bt.mixin-refmap.json"
+}

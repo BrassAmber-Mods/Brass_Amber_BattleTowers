@@ -19,6 +19,8 @@
 	"entity.ba_bt.end_monolith": "End Monolith",
 	"entity.ba_bt.sky_monolith": "Sky Monolith",
 	"entity.ba_bt.ocean_monolith": "Ocean Monolith",
+
+	"entity.ba_bt.destroy_tower": "Destroy Tower",
 	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
@@ -35,8 +37,11 @@
 	"block.ba_bt.golem_chest": "Golem Chest",
 	"block.ba_bt.stone_chest": "Stone Chest",
 	"block.ba_bt.totem": "Totem",
+
 	"block.ba_bt.silver_block": "Silver Block",
 	"block.ba_bt.silver_tiles": "Silver Tiles",
+
+	"block.ba_bt.bt_spawner" : "BTSpawner",
 	
 	// Containers
 	"container.ba_bt.golem_chest": "Golem Chest",
