@@ -10,11 +10,13 @@ import net.minecraft.world.gen.FlatGenerationSettings;
 public class BTConfiguredStructures {
 
     public static StructureFeature<?, ?> CONFIGURED_LAND_BATTLE_TOWER = BTStructures.LAND_BATTLE_TOWER.get().configured(IFeatureConfig.NONE);
+    public static StructureFeature<?, ?> CONFIGURED_OCEAN_BATTLE_TOWER = BTStructures.OCEAN_BATTLE_TOWER.get().configured(IFeatureConfig.NONE);
     public static StructureFeature<?, ?> CONFIGURED_SKY_BATTLE_TOWER = BTStructures.SKY_BATTLE_TOWER.get().configured(IFeatureConfig.NONE);
 
     public static void registerConfiguredStructures() {
         Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry.register(registry, new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "bottom_floor_1"), CONFIGURED_LAND_BATTLE_TOWER);
+        Registry.register(registry, new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "ocean_bottom_floor"), CONFIGURED_OCEAN_BATTLE_TOWER);
         Registry.register(registry, new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "sky_base"), CONFIGURED_SKY_BATTLE_TOWER);
 
         /* Ok so, this part may be hard to grasp but basically, just add your structure to this to
@@ -33,6 +35,7 @@ public class BTConfiguredStructures {
          * Requires AccessTransformer ( see resources/META-INF/accesstransformer.cfg )
          */
         FlatGenerationSettings.STRUCTURE_FEATURES.put(BTStructures.LAND_BATTLE_TOWER.get(), CONFIGURED_LAND_BATTLE_TOWER);
+        FlatGenerationSettings.STRUCTURE_FEATURES.put(BTStructures.LAND_BATTLE_TOWER.get(), CONFIGURED_OCEAN_BATTLE_TOWER);
         FlatGenerationSettings.STRUCTURE_FEATURES.put(BTStructures.SKY_BATTLE_TOWER.get(), CONFIGURED_SKY_BATTLE_TOWER);
     }
 }

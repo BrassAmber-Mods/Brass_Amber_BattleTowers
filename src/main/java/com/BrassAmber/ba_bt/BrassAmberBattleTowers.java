@@ -186,6 +186,7 @@ public class BrassAmberBattleTowers {
 			if (serverWorld.dimension().equals(World.OVERWORLD)) {
 				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
 				// tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
+
 			} else if (serverWorld.dimension().equals(World.NETHER)) {
 
 			} else if (serverWorld.dimension().equals(World.END)) {
