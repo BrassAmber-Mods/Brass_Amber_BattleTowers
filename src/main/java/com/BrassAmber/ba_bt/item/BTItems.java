@@ -8,6 +8,8 @@ import com.BrassAmber.ba_bt.item.item.MonolithItem;
 import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
 import com.BrassAmber.ba_bt.util.GolemType;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StructureBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
@@ -16,8 +18,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.SwordItem;
+
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class BTItems {
 	private static final ItemGroup BATLETOWERSTAB = BrassAmberBattleTowers.BATLETOWERSTAB;
@@ -50,8 +54,10 @@ public class BTItems {
 	public static final Item SILVER_INGOT = registerItem("silver_ingot", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
 	public static final Item SILVER_SHARD = registerItem("silver_shard", new Item((new Item.Properties()).tab(ItemGroup.TAB_MATERIALS)));
 
+
 	// Note: Combat ItemGroup.
 	public static final Item SILVER_SWORD = registerItem("silver_sword", new SwordItem(BTItemTier.SILVER, 3, -2.4F, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+
 	public static final Item SILVER_HELMET = registerItem("silver_helmet", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 	public static final Item SILVER_CHESTPLATE = registerItem("silver_chestplate", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 	public static final Item SILVER_LEGGINGS = registerItem("silver_leggings", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));

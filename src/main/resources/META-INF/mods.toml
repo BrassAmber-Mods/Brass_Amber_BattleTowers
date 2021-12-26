@@ -33,9 +33,9 @@ credits="Mod Inspired by BattleTower Mod in YogBox" #optional
 # A text field displayed in the mod UI
 authors="Brass_Herbalist and Milamber" #optional
 # The description text for the mod (multi line!) (#mandatory)
-description='''BattleTowers Mod  YogBox/Tekkit days with revamped towers and bosses.
-Stays true to the core of BattleTowers with new item textures made by Brass_Herbalist, and new towers designed by
-Brass_Herbalist and built by Milamber.
+description='''Revamped BattleTowers Mod from YogBox/Tekkit days with reworked towers and bosses.
+Stays true to the core of BattleTowers with new item textures made by Brass_Herbalist, new towers designed by
+Brass_Herbalist and built by Milamber, and new Golem ai done by XratedJunior.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.ba_bt]] #optional

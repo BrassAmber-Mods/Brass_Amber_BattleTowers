@@ -1,0 +1,40 @@
+{
+    "display": {
+        "title": {
+            "text": "Howling Towers",
+            "color": "white"
+        },
+        "description": {
+            "text": "-Infiltrate the Land Tower ",
+            "color": "gray",
+            "italic": true
+        },
+        "icon": {
+            "item": "minecraft:wooden_sword"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false,
+        "background": "ba_bt:textures/gui/advancements/backgrounds/stone_bricks.png"
+    },
+
+    "criteria": {
+        "Find Land Tower": {
+            "trigger": "minecraft:location",
+            "conditions": {
+                "location": {
+                    "feature": "ba_bt:land_battle_tower"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "Find Land Tower"
+        ]
+    ],
+    "rewards": {
+        "experience": 56
+    }
+}

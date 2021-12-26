@@ -1,0 +1,41 @@
+{
+    "parent": "ba_bt:battletowers/find_land_key",
+    "display": {
+        "icon": {
+            "item": "ba_bt:guardian_eye_ocean"
+        },
+        "title": {
+            "text": "The ocean depths begin to stir...",
+            "color": "white",
+            "italic": true
+        },
+        "description": {
+            "text": "-Destroy Bahrynz'muul, Bound Guardian of the Tower",
+            "color": "grey",
+            "italic": true
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": true
+    },
+    "criteria": {
+        "killed_golem": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "id" : "ba_bt:land_golem",
+                "entity": {
+                    "type": "ba_bt:land_golem"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "killed_golem"
+        ]
+    ],
+    "rewards": {
+        "experience": 56
+    }
+}

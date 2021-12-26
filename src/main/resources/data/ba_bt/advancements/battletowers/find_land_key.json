@@ -1,0 +1,38 @@
+{
+    "parent": "ba_bt:battletowers/land_tower_found",
+    "display": {
+        "title": {
+            "text": "I hope you know what you're doing.....",
+            "color": "white",
+            "italic": true
+        },
+        "description": {
+            "text": "-Find a Monolith Key",
+            "color": "grey",
+            "italic": true
+        },
+        "icon": {
+            "item": "ba_bt:monolith_key_land"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "Find Key": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "ba_bt:monolith_key_land"
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "experience": 56
+    }
+
+}
