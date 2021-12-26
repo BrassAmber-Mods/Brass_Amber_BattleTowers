@@ -1,4 +1,7 @@
 {
+	"itemGroup.ba_bt": "BrassAmber Battletowers",
+	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+
 	// Entities
 	"entity.ba_bt.land_golem": "Land Golem",
 	"entity.ba_bt.core_golem": "Core Golem",
@@ -8,6 +11,7 @@
 	"entity.ba_bt.ocean_golem": "Ocean Golem",
 	
 	"entity.ba_bt.sky_minion": "Sky Minion",
+	"entity.ba_bt.silver_skeleton": "Silver Skeleton",
 	
 	"entity.ba_bt.land_monolith": "Land Monolith",
 	"entity.ba_bt.core_monolith": "Core Monolith",
@@ -15,6 +19,8 @@
 	"entity.ba_bt.end_monolith": "End Monolith",
 	"entity.ba_bt.sky_monolith": "Sky Monolith",
 	"entity.ba_bt.ocean_monolith": "Ocean Monolith",
+
+	"entity.ba_bt.destroy_tower": "Destroy Tower",
 	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
@@ -31,6 +37,11 @@
 	"block.ba_bt.golem_chest": "Golem Chest",
 	"block.ba_bt.stone_chest": "Stone Chest",
 	"block.ba_bt.totem": "Totem",
+
+	"block.ba_bt.silver_block": "Silver Block",
+	"block.ba_bt.silver_tiles": "Silver Tiles",
+
+	"block.ba_bt.bt_spawner" : "BTSpawner",
 	
 	// Containers
 	"container.ba_bt.golem_chest": "Golem Chest",
@@ -69,7 +80,7 @@
 	"item.ba_bt.silver_leggings": "Silver Leggings",
 	"item.ba_bt.silver_boots": "Silver Boots",
 
-	"item.ba_bt.battle_tower_icon" : "BattleTower Icon",
+	"item.ba_bt.silver_skeleton_spawn_egg": "Silver Skeleton Spawn Egg",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",

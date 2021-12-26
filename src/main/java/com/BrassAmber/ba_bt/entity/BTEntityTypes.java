@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.entity;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.entity.hostile.SilverSkeletonEntity;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
@@ -9,12 +10,14 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.EndGolemEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.OceanGolemEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.SkyGolemEntity;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.Builder;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -37,7 +40,8 @@ public class BTEntityTypes {
 	public static final EntityType<SkyGolemEntity> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolemEntity::new);
 
 	public static final EntityType<SkyMinionEntity> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinionEntity::new, EntityClassification.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
-
+	public static final EntityType<SilverSkeletonEntity> SILVER_SKELETON = buildEntityType("silver_skeleton", EntityType.Builder.of(SilverSkeletonEntity::new, EntityClassification.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
+	
 	public static final EntityType<MonolithEntity> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
 	public static final EntityType<MonolithEntity> OCEAN_MONOLITH = buildMonolithEntityType("ocean_monolith");
 	public static final EntityType<MonolithEntity> NETHER_MONOLITH = buildMonolithEntityType("nether_monolith");
@@ -45,6 +49,14 @@ public class BTEntityTypes {
 	public static final EntityType<MonolithEntity> END_MONOLITH = buildMonolithEntityType("end_monolith");
 	public static final EntityType<MonolithEntity> SKY_MONOLITH = buildMonolithEntityType("sky_monolith");
 
+	public static final EntityType<DestroyTowerEntity> DESTROY_TOWER = buildEntityType("destroy_tower",
+			EntityType.Builder.<DestroyTowerEntity>of(DestroyTowerEntity::new, EntityClassification.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT));
+	public static final EntityType<ExplosionPhysicsEntity> PHYSICS_EXPLOSION = buildEntityType("explosion_physics",
+			EntityType.Builder.<ExplosionPhysicsEntity>of(ExplosionPhysicsEntity::new, EntityClassification.MISC)
+					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave());
+
+	
 	/**
 	 * Register Spawn Rules
 	 */
@@ -58,6 +70,7 @@ public class BTEntityTypes {
 		registerSpawnPlacement(SKY_GOLEM, MobEntity::checkMobSpawnRules);
 
 		registerSpawnPlacement(SKY_MINION, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(SILVER_SKELETON, MonsterEntity::checkMonsterSpawnRules);
 	}
 
 	/**
@@ -73,6 +86,7 @@ public class BTEntityTypes {
 		event.put(SKY_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 
 		event.put(SKY_MINION, SkyMinionEntity.createAttributes().build());
+		event.put(SILVER_SKELETON, SilverSkeletonEntity.createAttributes().build());
 	}
 
 	/**

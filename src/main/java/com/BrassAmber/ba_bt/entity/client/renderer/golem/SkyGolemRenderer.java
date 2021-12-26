@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.entity.client.renderer.golem;
 
-import com.BrassAmber.ba_bt.entity.client.model.golem.SkyGolemModel;
+import com.BrassAmber.ba_bt.entity.client.model.hostile.SkyGolemModel;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
