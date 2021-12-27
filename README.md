@@ -19,7 +19,7 @@ by Telepathic Grunt and have be marked as such.
 - Land Golem avoids fire and can be kited using the fire created from its own fireball attacks
 
 
-####This mod is currently for vanilla, but will also have a version released sepcifcally for the ModPack Excalibur's Crate, whose Discord can be found here: https://discord.gg/DMZD5BsY
+#### This mod is currently for vanilla, but will also have a version released sepcifcally for the ModPack Excalibur's Crate, whose Discord can be found here: https://discord.gg/DMZD5BsY
 This is also a great place to ask questions regarding the mod.
 
 
