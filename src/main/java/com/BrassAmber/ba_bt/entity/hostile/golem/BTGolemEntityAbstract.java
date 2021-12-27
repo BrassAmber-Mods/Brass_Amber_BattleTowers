@@ -4,21 +4,15 @@ import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
 import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
 import com.BrassAmber.ba_bt.item.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
+import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
@@ -39,6 +33,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -50,6 +45,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 import net.minecraftforge.common.util.Constants;
+import org.apache.logging.log4j.Level;
 
 /**
  * @author Xrated_junior, DerToaster
@@ -74,6 +70,8 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossInfo bossbar;
 	private int explosionPower = 1;
+	private DestroyTowerEntity destroyTower;
+
 
 	// Data Strings
 	private final String spawnPosName = "SpawnPos";
@@ -162,6 +160,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	@Override
 	public void tick() {
 		super.tick();
+
 		// Update the bossbar to display the health correctly.
 		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
 
@@ -339,6 +338,13 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 
 	@Override
 	public void die(DamageSource source) {
+
+		this.destroyTower = (DestroyTowerEntity) this.level.getEntities(null,
+				new AxisAlignedBB(this.getSpawnPos().getX()-1,this.getSpawnPos().getY() + 4,
+						this.getSpawnPos().getZ()-1, this.getSpawnPos().getX() + 1,
+						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
+		this.destroyTower.setGolemDead(true);
+
 		super.die(source);
 	}
 

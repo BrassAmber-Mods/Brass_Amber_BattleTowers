@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.block.BTSpawner;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
@@ -43,10 +44,13 @@ public class BTBlocks {
 
 	public static final Block TOTEM = registerBlock("totem", new TotemBlock(AbstractBlock.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
 
+
 	public static final Block SILVER_BLOCK = registerBlock("silver_block", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
 	public static final Block SILVER_TILES = registerBlock("silver_tiles", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
 
 	public static final Block TAB_ICON = registerBlockNoGroup("tab_icon", new TabIconBlock(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
+
+    public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL)));
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
@@ -94,6 +98,16 @@ public class BTBlocks {
 	 */
 	private static Block registerChestBlock(String registryName, Block block, Supplier<Callable<ItemStackTileEntityRenderer>> renderMethod) {
 		return registerBlock(registryName, block, new BlockItem(block, new Item.Properties().tab(BrassAmberBattleTowers.BATLETOWERSTAB).setISTER(renderMethod)));
+	}
+
+	/**
+	 * Helper method for registering Spawner
+	 */
+	private static Block registerSpawnerBlock(String registryName, Block block) {
+		BLOCKS.register(registryName, () -> block);
+		// Blocks are registered before Items
+		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties()));
+		return block;
 	}
 
 	@OnlyIn(Dist.CLIENT)

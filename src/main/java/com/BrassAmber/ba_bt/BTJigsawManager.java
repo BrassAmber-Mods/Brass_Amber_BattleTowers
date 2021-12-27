@@ -42,35 +42,41 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 public class BTJigsawManager {
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static void addPieces(DynamicRegistries registries, VillageConfig config, BTJigsawManager.IPieceFactory p_242837_2_, ChunkGenerator p_242837_3_, TemplateManager p_242837_4_, BlockPos p_242837_5_, List<? super AbstractVillagePiece> p_242837_6_, Random p_242837_7_, boolean p_242837_8_, boolean p_242837_9_) {
+	public static void addPieces(DynamicRegistries registries, VillageConfig config,
+                                 BTJigsawManager.IPieceFactory pieceFactory, ChunkGenerator chunkGenerator,
+                                 TemplateManager templateManager, BlockPos blockPos,
+                                 List<? super AbstractVillagePiece> pieceList, Random random, boolean boundaryAdjust,
+                                 boolean useSurfaceHeight, Rotation rotation) {
 		Structure.bootstrap();
         MutableRegistry<JigsawPattern> mutableregistry = registries.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        Rotation rotation = Rotation.getRandom(p_242837_7_);
+        rotation = rotation != null ? rotation : Rotation.getRandom(random);
+        // sets rotation to the given rotation, if given is null choose a random rotation
+
         JigsawPattern jigsawpattern = config.startPool().get();
-        JigsawPiece jigsawpiece = jigsawpattern.getRandomTemplate(p_242837_7_);
-        AbstractVillagePiece abstractvillagepiece = p_242837_2_.create(p_242837_4_, jigsawpiece, p_242837_5_, jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(p_242837_4_, p_242837_5_, rotation));
+        JigsawPiece jigsawpiece = jigsawpattern.getRandomTemplate(random);
+        AbstractVillagePiece abstractvillagepiece = pieceFactory.create(templateManager, jigsawpiece, blockPos, jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(templateManager, blockPos, rotation));
         MutableBoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
         int i = (mutableboundingbox.x1 + mutableboundingbox.x0) / 2;
         int j = (mutableboundingbox.z1 + mutableboundingbox.z0) / 2;
         int k;
-        if (p_242837_9_) {
-            k = p_242837_5_.getY() + p_242837_3_.getFirstFreeHeight(i, j, Heightmap.Type.WORLD_SURFACE_WG);
+        if (useSurfaceHeight) {
+            k = blockPos.getY() + chunkGenerator.getFirstFreeHeight(i, j, Heightmap.Type.WORLD_SURFACE_WG);
         } else {
-            k = p_242837_5_.getY();
+            k = blockPos.getY();
         }
 
         int l = mutableboundingbox.y0 + abstractvillagepiece.getGroundLevelDelta();
         abstractvillagepiece.move(0, k - l, 0);
-        p_242837_6_.add(abstractvillagepiece);
+        pieceList.add(abstractvillagepiece);
         if (config.maxDepth() > 0) {
             int i1 = 80;
             AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)(i - 80), (double)(k - 80), (double)(j - 80), (double)(i + 80 + 1), (double)(k + 120 + 1), (double)(j + 80 + 1));
-            BTJigsawManager.Assembler jigsawmanager$assembler = new BTJigsawManager.Assembler(mutableregistry, config.maxDepth(), p_242837_2_, p_242837_3_, p_242837_4_, p_242837_6_, p_242837_7_);
+            BTJigsawManager.Assembler jigsawmanager$assembler = new BTJigsawManager.Assembler(mutableregistry, config.maxDepth(), pieceFactory, chunkGenerator, templateManager, pieceList, random);
             jigsawmanager$assembler.placing.addLast(new BTJigsawManager.Entry(abstractvillagepiece, new MutableObject<>(VoxelShapes.join(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.of(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + 120, 0));
 
             while(!jigsawmanager$assembler.placing.isEmpty()) {
                 BTJigsawManager.Entry jigsawmanager$entry = jigsawmanager$assembler.placing.removeFirst();
-                jigsawmanager$assembler.tryPlacingChildren(jigsawmanager$entry.piece, jigsawmanager$entry.free, jigsawmanager$entry.boundsTop, jigsawmanager$entry.depth, p_242837_8_);
+                jigsawmanager$assembler.tryPlacingChildren(jigsawmanager$entry.piece, jigsawmanager$entry.free, jigsawmanager$entry.boundsTop, jigsawmanager$entry.depth, boundaryAdjust);
             }
 
         }
@@ -253,7 +259,7 @@ public class BTJigsawManager {
                         BTJigsawManager.LOGGER.warn("Empty or none existent fallback pool: {}", (Object)resourcelocation1);
                     }
                 } else {
-                    BTJigsawManager.LOGGER.warn("Empty or none existent pool: {} -{} -{}", (Object)resourcelocation, p_236831_4_, p_236831_3_);
+                    BTJigsawManager.LOGGER.warn("Empty or none existent pool: {} -{} -{} -{} {}", (Object)resourcelocation, p_236831_4_, p_236831_3_, jigsawpiece.toString(), mutableboundingbox.y0);
                 }
             }
 

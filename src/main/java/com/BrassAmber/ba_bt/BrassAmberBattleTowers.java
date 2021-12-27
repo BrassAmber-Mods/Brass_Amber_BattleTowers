@@ -119,16 +119,26 @@ public class BrassAmberBattleTowers {
 		 * registrykey. Then that can be fed into the dictionary to get the biome's types.
 		 */
 		RegistryKey key = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
-		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.WET) || BiomeDictionary.hasType(key, BiomeDictionary.Type.DEAD) || BiomeDictionary.hasType(key, BiomeDictionary.Type.COLD) || BiomeDictionary.hasType(key, BiomeDictionary.Type.HOT) || BiomeDictionary.hasType(key, BiomeDictionary.Type.RIVER)) {
 
-		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.NETHER)) {
+		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.NETHER) ||
+				BiomeDictionary.hasType(key, BiomeDictionary.Type.END) ||
+						BiomeDictionary.hasType(key, BiomeDictionary.Type.MOUNTAIN)) {
 
-		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.END)) {
-
-		} else {
-			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
+		} else if (BiomeDictionary.hasType(key, BiomeDictionary.Type.OVERWORLD)) {
+			if (BiomeDictionary.hasType(key, BiomeDictionary.Type.SWAMP)
+					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.FOREST)
+					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.SAVANNA)
+					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.PLAINS)
+					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.SANDY)
+					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.JUNGLE))
+			{
+				event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
+			}
 		}
-		event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_SKY_BATTLE_TOWER);
+
+		/**if (!BiomeDictionary.hasType(key, BiomeDictionary.Type.MOUNTAIN)) {
+			event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_SKY_BATTLE_TOWER);
+		}*/
 	}
 
 	private static Method GETCODEC_METHOD;
@@ -175,7 +185,7 @@ public class BrassAmberBattleTowers {
 			Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkSource().generator.getSettings().structureConfig());
 			if (serverWorld.dimension().equals(World.OVERWORLD)) {
 				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
-				tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
+				// tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
 			} else if (serverWorld.dimension().equals(World.NETHER)) {
 
 			} else if (serverWorld.dimension().equals(World.END)) {
