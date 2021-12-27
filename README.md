@@ -20,7 +20,7 @@ by Telepathic Grunt and have be marked as such.
 
 
 #### This mod is currently for vanilla, but will also have a version released sepcifcally for the ModPack Excalibur's Crate, whose Discord can be found here: https://discord.gg/DMZD5BsY
-This is also a great place to ask questions regarding the mod.
+This ^ is also a great place to ask questions regarding the mod.
 
 
 
