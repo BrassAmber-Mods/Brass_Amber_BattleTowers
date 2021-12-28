@@ -31,7 +31,7 @@ public abstract class BTAbstractGolemRenderer<E extends BTGolemEntityAbstract, M
 
 	@Override
 	public ResourceLocation getTextureLocation(BTGolemEntityAbstract entity) {
-		return entity.isAwake() ? golemTexturesAwaken : entity.isEnraged() ? golemTexturesEnraged : golemTexturesDormant;
+		return entity.isEnraged() ? golemTexturesEnraged : entity.isAwake() ? golemTexturesAwaken : golemTexturesDormant;
 	}
 
 	protected void setGolemTextures(String dormant, String awake, String special) {
