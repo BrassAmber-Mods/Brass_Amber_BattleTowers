@@ -97,7 +97,7 @@ public class GolemFireballAttackGoal extends Goal {
 				world.addFreshEntity(fireballentity);
 
 				// set firing timeout between shoots
-				this.chargeTime = this.golem.getGolemState() == BTGolemEntityAbstract.SPECIAL ? -20 : -40;
+				this.chargeTime = this.golem.isEnraged() ? -20 : -40;
 			}
 		}
 
