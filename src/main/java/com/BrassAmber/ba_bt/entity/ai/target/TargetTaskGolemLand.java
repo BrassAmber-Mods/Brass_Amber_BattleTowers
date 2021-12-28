@@ -10,33 +10,33 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends NearestAttackableTargetGoal<PlayerEntity> {
-
 	protected int cooldown = 20;
 	
-	public TargetTaskGolemLand(M p_i50313_1_) {
+	public TargetTaskGolemLand(M mobEntity) {
 		//It does not need to be able to see the target!
-		super(p_i50313_1_, PlayerEntity.class, false);
+		super(mobEntity, PlayerEntity.class, false);
 		
 		this.targetConditions = (new EntityPredicate()).range(this.getFollowDistance()).selector(new Predicate<LivingEntity>() {
 
 			@Override
-			public boolean test(LivingEntity t) {
-				if(t instanceof PlayerEntity) {
-					return !((PlayerEntity) t).isCreative();
+			public boolean test(LivingEntity livingEntity) {
+				if(livingEntity instanceof PlayerEntity) {
+					// Also doesn't include spectators.
+					return !((PlayerEntity) livingEntity).isCreative();
 				}
 				return true;
 			}});
 	}
 	
+	/**
+	 * Called when trying to start this Goal.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean canUse() {
-		if(((M)this.mob).getGolemState() == BTGolemEntityAbstract.DORMANT) {
-			if(this.cooldown > 0) {
-				this.cooldown--;
-			}
-			//necessary, super.canUse() calls teh findTarget method...
-			return this.cooldown <= 0 && super.canUse();
+//		BrassAmberBattleTowers.LOGGER.info("Target.canUse()");
+		if(((M)this.mob).isDormant()) {
+			return false;
 		}
 		return super.canUse();
 	}
@@ -47,13 +47,29 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	}
 	
 	@Override
-	protected boolean canReach(LivingEntity p_75295_1_) {
-		return Math.sqrt(this.mob.distanceToSqr(p_75295_1_.getX(), this.mob.getY(), p_75295_1_.getZ())) <= ((BTGolemEntityAbstract) this.mob).getTargetingRange() / 2;
+	protected boolean canReach(LivingEntity livingEntity) {
+		return Math.sqrt(this.mob.distanceToSqr(livingEntity.getX(), this.mob.getY(), livingEntity.getZ())) <= ((BTGolemEntityAbstract) this.mob).getTargetingRange() / 2;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean canContinueToUse() {
+//		BrassAmberBattleTowers.LOGGER.info("Target.canContinueToUse()");
+
+		return ((M)this.mob).isDormant() ? false : super.canContinueToUse();
+	}
+	
+	/**
+	 * TODO switch targets when another player is much closer. 
+	 * Or maybe if another player is visible and the current target is not.
+	 * (Switch when another target is favorable)
+	 */
 	@Override
 	public void tick() {
+//		BrassAmberBattleTowers.LOGGER.info("Target.tick()");
+//		BrassAmberBattleTowers.LOGGER.info(this.target);
 		super.tick();
+		// Stop targeting if the target is lost, or the target is too far away.
 		if(this.target != null && this.mob.distanceTo(this.target) > this.getFollowDistance()) {
 			this.stop();
 			return;
@@ -62,6 +78,7 @@ public class TargetTaskGolemLand<M extends BTGolemEntityAbstract> extends Neares
 	
 	@Override
 	public void stop() {
+//		BrassAmberBattleTowers.LOGGER.info("Target.stop()");
 		this.cooldown = 10;
 		super.stop();
 	}
