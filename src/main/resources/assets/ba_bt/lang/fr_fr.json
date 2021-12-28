@@ -1,0 +1,85 @@
+{
+	"itemGroup.ba_bt": "BrassAmber Battletowers",
+	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+
+	// Entities
+	"entity.ba_bt.land_golem": "Golem de Pierre",
+	"entity.ba_bt.core_golem": "Golem de Noyau",
+	"entity.ba_bt.nether_golem": "Golem du Nether",
+	"entity.ba_bt.end_golem": "Golem de l'Ender",
+	"entity.ba_bt.sky_golem": "Golem du Ciel",
+	"entity.ba_bt.ocean_golem": "Golem Océanique",
+	
+	"entity.ba_bt.sky_minion": "Minion du Ciel",
+	"entity.ba_bt.silver_skeleton": "Squelette Argenté",
+	
+	"entity.ba_bt.land_monolith": "Monolithe de Pierre",
+	"entity.ba_bt.core_monolith": "Monolithe de Noyau",
+	"entity.ba_bt.nether_monolith": "Monolithe du Nether",
+	"entity.ba_bt.end_monolith": "Monolithe de l'Ender",
+	"entity.ba_bt.sky_monolith": "Monolithe du Ciel",
+	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
+	
+	// Golem Sounds
+	"ba_bt.subtitle.golem.hurt": "Golem blessé",
+	"ba_bt.subtitle.golem.death": "Golem meurt",
+	"ba_bt.subtitle.golem.charge": "Golem charges",
+	"ba_bt.subtitle.golem.awaken": "Golem se réveille",
+	"ba_bt.subtitle.golem.ambient": "Golem grogne",
+	"ba_bt.subtitle.golem.special": "Golem attaques",
+	
+	"ba_bt.subtitle.tower.break.start": "La tour commence à se briser",
+	"ba_bt.subtitle.tower.break.crumble": "La tour s'écroule",
+	
+	// Blocks
+	"block.ba_bt.golem_chest": "Coffre de Golem",
+	"block.ba_bt.stone_chest": "Coffre en Pierre",
+	"block.ba_bt.totem": "Totem",
+
+	"block.ba_bt.silver_block": "Bloc d'Argent",
+	"block.ba_bt.silver_tiles": "Carreaux d'Argent",
+	
+	// Containers
+	"container.ba_bt.golem_chest": "Coffre de Golem",
+	"container.ba_bt.golem_chest_double": "Grand Coffre de Golem",
+	"container.ba_bt.stone_chest": "Coffre en Pierre",
+	"container.ba_bt.stone_chest_double": "Grand Coffre en Pierre",
+	
+	// Items
+	"item.ba_bt.monolith_key_land": "Clé du Monolithe en Pierre",
+	"item.ba_bt.monolith_key_core": "Clé du Monolithe Noyau",
+	"item.ba_bt.monolith_key_nether": "Clé du Monolithe du Nether",
+	"item.ba_bt.monolith_key_end": "Clé du Monolithe de l'Ender",
+	"item.ba_bt.monolith_key_sky": "Clé du Monolithe du Ciel",
+	"item.ba_bt.monolith_key_ocean": "Clé du Monolithe Océanique",
+	
+	"item.ba_bt.guardian_eye_land": "Oeil de Golem de Pierre",
+	"item.ba_bt.guardian_eye_core": "Oeil de Golem Noyau",
+	"item.ba_bt.guardian_eye_nether": "Oeil de Golem du Nether",
+	"item.ba_bt.guardian_eye_end": "Oeil de Golem de l'Ender",
+	"item.ba_bt.guardian_eye_sky": "Oeil de Golem du Ciel",
+	"item.ba_bt.guardian_eye_ocean": "Oeil de Golem Océanique",
+	
+	"item.ba_bt.monolith_land": "Monolithe de Pierre",
+	"item.ba_bt.monolith_core": "Monolithe de Noyau",
+	"item.ba_bt.monolith_nether": "Monolithe du Nether",
+	"item.ba_bt.monolith_end": "Monolithe de l'Ender",
+	"item.ba_bt.monolith_sky": "Monolithe du Ciel",
+	"item.ba_bt.monolith_ocean": "Monolithe Océanique",
+
+	"item.ba_bt.silver_ingot": "Lingot d'Argent",
+	"item.ba_bt.silver_shard": "Éclat d'Argent",
+	"item.ba_bt.silver_sword": "Épée en Argent",
+
+	"item.ba_bt.silver_helmet": "Casque en Argent",
+	"item.ba_bt.silver_chestplate": "Plastron en Argent",
+	"item.ba_bt.silver_leggings": "Jambière en Argent",
+	"item.ba_bt.silver_boots": "Bottes en Argent",
+
+	"item.ba_bt.silver_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Argenté",
+	
+	// Item Tooltips
+	"tooltip.battletowers.hold_shift": "Maintenez la Maj pour plus d'informations.",
+	"tooltip.battletowers.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
+	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat."
+}
