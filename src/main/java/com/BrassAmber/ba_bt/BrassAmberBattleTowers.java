@@ -50,6 +50,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(BrassAmberBattleTowers.MOD_ID)
@@ -198,6 +200,9 @@ public class BrassAmberBattleTowers {
 	// Do something that can only be done on the client
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		// Register Entity Renderers
+		//Render Type Spawner
+		RenderTypeLookup.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+
 		BTEntityRender.init();
 		// Register TileEntity Renderers
 		BTTileEntityRenderInit.bindTileEntityRenderers(event);
