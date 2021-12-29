@@ -50,7 +50,7 @@ public class BTBlocks {
 
 	public static final Block TAB_ICON = registerBlockNoGroup("tab_icon", new TabIconBlock(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
 
-    public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL)));
+    public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
