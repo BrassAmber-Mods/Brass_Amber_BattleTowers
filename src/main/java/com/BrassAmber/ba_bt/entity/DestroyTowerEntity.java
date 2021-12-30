@@ -193,13 +193,14 @@ public class DestroyTowerEntity extends Entity {
                             this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
 
                         }
-                        if (i == 20) {
-                    		this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, this.removeBlock, 0);
-                            this.level.playSound(null, this.removeBlock,
-                                    SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS,3.0F,
-                                    1.0F);
-                        }
 
+
+                    }
+                    if (this.currentTicks % 6 == 0) {
+                        this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, this.removeBlock, 0);
+                        this.level.playSound(null, this.removeBlock,
+                                SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS,2.0F,
+                                1.0F);
                     }
 
                 }

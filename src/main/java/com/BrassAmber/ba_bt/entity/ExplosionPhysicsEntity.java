@@ -7,10 +7,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 public class ExplosionPhysicsEntity extends TNTEntity {
 
@@ -60,6 +63,10 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 					fallingBlock.setDeltaMovement(velocity);
 					
 					physicObjects.add(fallingBlock);
+
+					this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, pos, 0);
+					this.level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS,
+							2.0F, 1.0F);
 				}
 			}
 			expl.clearToBlow();
@@ -80,7 +87,7 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 	}
 	
 	protected Explosion explosion() {
-		Explosion explosion = new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.Mode.BREAK);
+		Explosion explosion = new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.Mode.DESTROY);
 		return explosion;
 	}
 	

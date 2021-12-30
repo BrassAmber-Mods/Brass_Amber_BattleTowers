@@ -29,6 +29,8 @@
 	"ba_bt.subtitle.golem.awaken": "Golem awakens",
 	"ba_bt.subtitle.golem.ambient": "Golem growls",
 	"ba_bt.subtitle.golem.special": "Golem attacks",
+
+	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 	
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
