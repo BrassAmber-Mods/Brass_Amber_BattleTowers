@@ -87,7 +87,7 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 	}
 	
 	protected Explosion explosion() {
-		Explosion explosion = new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.Mode.BREAK);
+		Explosion explosion = new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.Mode.DESTROY);
 		return explosion;
 	}
 	
