@@ -1,0 +1,1450 @@
+[33mcommit ae9e4dd403daa655e9c293f1287879fa87072e25[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Dec 31 00:01:18 2021 -0700
+
+    Fix null playerentity in fireball attack goal crashing the game, added check for if target entity is null
+
+[33mcommit 70220fa0e272cd71436a23de0a3e548bbd219318[m
+Merge: e501429 2de63c6
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Thu Dec 30 13:24:05 2021 -0700
+
+    Merge pull request #50 from JMilamber/sound_patch
+    
+    Explosion sound volume reduction and general timing/amount cleanup. Spawn golem sound subtitle fixed
+
+[33mcommit 2de63c679e38a002fe6177f4b16bf47a8c584fce[m[33m ([m[1;31morigin/sound_patch[m[33m, [m[1;32msound_patch[m[33m)[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 30 03:46:56 2021 -0700
+
+    Change Explosion mode to 'DESTROY' so less block items are created during tower crumble
+
+[33mcommit 813d4f792de97b5c3f92fc7dbdc2ebd7da66f5b3[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 30 03:36:06 2021 -0700
+
+    Explosion sound volume reduction and general timing/amount cleanup. Spawn golem sound subtitle fixed
+
+[33mcommit e50142963868203e19eb3953755c392c4233889d[m
+Merge: d780923 aa38801
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Dec 29 23:00:06 2021 -0700
+
+    Merge pull request #48 from Samlegamer/patch-3
+    
+    Fix Spawner Render Bug (V2) !
+
+[33mcommit aa38801ac0c1eb3cfcc4e39c5202ce854d5a6767[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Dec 29 22:59:41 2021 -0700
+
+    Update Version
+
+[33mcommit 065bc5cab9a2929ea5ded6d3dfa849c56e029b0c[m
+Author: Samlegamer <83614614+Samlegamer@users.noreply.github.com>
+Date:   Wed Dec 29 23:04:24 2021 +0100
+
+    Fix Spawner Render Bug (V2) !
+    
+    The spawner block allows you to see through the floors of the tower and also the floor of the world.
+    To fix it I added a .noOcclusion() to the block declaration.
+
+[33mcommit d7809237e5b86d31ce3d1cedd5ea965456aca40f[m
+Merge: 662c223 e8f5b0a
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Dec 29 01:15:46 2021 -0700
+
+    Merge pull request #47 from JMilamber/JMilamber-patch-1
+    
+    Change version to reflect addition of French Translation and Spawner Render fix
+
+[33mcommit e8f5b0a7640146d4e1d1861a30872a40b443ca7c[m[33m ([m[1;32mJMilamber-patch-1[m[33m)[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Dec 28 22:53:58 2021 -0700
+
+    Correct misnumbered version
+
+[33mcommit 0726de583efa958f27aa3b33e90f8afccbe6199b[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Dec 28 22:44:42 2021 -0700
+
+    Changed version to reflect addition of French Translation and Spaner Render fix
+
+[33mcommit 662c223525d6afd1f46a0caf7e1a7c649aafb184[m
+Merge: 786adad 17038f8
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Tue Dec 28 12:12:50 2021 -0700
+
+    Merge pull request #42 from JMilamber/JMilamber-patch-1
+
+[33mcommit 17038f840465e144f15cba396bf3c53a33dea78d[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Tue Dec 28 09:58:50 2021 -0700
+
+    Add SamleGamer Credits
+
+[33mcommit 786adad7046cf910ad1039718696717d93107b30[m
+Merge: 148435c b18269a
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Tue Dec 28 09:21:16 2021 -0700
+
+    Merge pull request #39 from Samlegamer/patch-1
+
+[33mcommit 148435cbae8696f499703e10426f9eb7128e42a6[m
+Merge: 0d8492f f8b5abd
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Tue Dec 28 09:19:28 2021 -0700
+
+    Merge pull request #40 from Samlegamer/patch-2
+
+[33mcommit f8b5abd38c828dbc1078f2397576f47d3c707e27[m
+Author: Samlegamer <83614614+Samlegamer@users.noreply.github.com>
+Date:   Tue Dec 28 13:12:34 2021 +0100
+
+    French Translation !
+
+[33mcommit b18269ad21850d08be79afed0d764fe5598f5080[m
+Author: Samlegamer <83614614+Samlegamer@users.noreply.github.com>
+Date:   Tue Dec 28 11:33:28 2021 +0100
+
+    Fix Spawner Render
+    
+    I noticed while playing the mod that the spawner had a small rendering problem unlike the vanilla spawner.
+    
+    With the RenderType implemented in the client the problem should be fixed (if there is an error add a .get())
+
+[33mcommit 0d8492f34ff1abaf6e28eb9721346782f27caa1e[m
+Merge: c613df3 bf27017
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Dec 27 23:18:16 2021 -0700
+
+    Merge pull request #38 from JMilamber/Golem-Dev
+    
+    Merge Golem-dev into main
+
+[33mcommit bf27017df1f3c1b25601713d443920430a77bf95[m[33m ([m[1;32mGolem-Dev[m[33m)[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Dec 27 22:55:29 2021 -0700
+
+    Change version to 1.0.1, Golem looks good
+
+[33mcommit 68312acdcb0f523efe42cdf01da0b6cc375ac750[m
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Mon Dec 27 22:28:13 2021 +0100
+
+    Update BTAbstractGolemRenderer.java
+    
+    Fix texture bug?
+
+[33mcommit 27fd88e3b9ba3a76f07accc9b0161af3d0aae298[m
+Merge: d8be84e c613df3
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Mon Dec 27 20:40:14 2021 +0100
+
+    Merge branch 'main' into Golem-Dev
+
+[33mcommit c613df33ceaf85f9baa838a5e989b281ab311d34[m
+Merge: 7251ff2 9597553
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Dec 27 10:13:57 2021 -0700
+
+    Merge pull request #36 from JMilamber/Update-Readme
+
+[33mcommit 9597553d74161488c013a31a8da453d99ca43edf[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 22:24:53 2021 -0700
+
+    Update README.md
+
+[33mcommit 1fc6f8b8d2fe28d4c170da5802d99ae10eae176c[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 22:24:34 2021 -0700
+
+    Update README.md
+
+[33mcommit ce0abaed14aaec36d6dc5fa7f6784dbf97733779[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 22:24:25 2021 -0700
+
+    Update README.md
+
+[33mcommit 5c3653c58f89dde284c91fc65cd2bc4976d861f9[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 22:24:09 2021 -0700
+
+    Update README.md
+
+[33mcommit 2a36a2412bd85afcf992af5e12aba27dc9e0f666[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 22:23:25 2021 -0700
+
+    Update README.md
+
+[33mcommit d2384c5e954b6eb37e885ff10cb1fe9411bdb785[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 22:20:15 2021 -0700
+
+    Update Readme
+    
+    Update Readme to contain base features needed for forge release
+
+[33mcommit 7251ff21b620b5a61122132ccbd14b7915f37ba8[m
+Merge: d53c98d ca58af6
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Dec 26 00:55:58 2021 -0700
+
+    Merge pull request #32 from JMilamber/Land-Tower-Room-Fixes
+    
+    Land tower room fixes
+
+[33mcommit d8be84ece57736bea45647dc0e8c0bfae1360286[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Dec 25 14:29:30 2021 +0100
+
+    Fixed some bugs
+    
+    Still needs a bit of improvement. I'll keep working on it some more.
+
+[33mcommit 34668008ba61960f001b3c67635a91b7cc381843[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 24 11:45:28 2021 +0100
+
+    patch golem texture and going dormant
+    
+    TODO: Golem now always seems to be dormant
+
+[33mcommit ca58af6e59fcd76601af0dd37ec3ca871ded257a[m[33m ([m[1;32mLand-Tower-Room-Fixes[m[33m)[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Dec 24 01:28:08 2021 -0700
+
+    Version 0.4.0 -> 1.0.0 and Title color change
+
+[33mcommit 15735bf45e9f0cb3e78842580de9e38efcaafc5f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Dec 24 01:11:57 2021 -0700
+
+    Some extra fixes
+
+[33mcommit dc294bb9177d6ca55400c24ed89876456d919d0c[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Dec 24 01:10:31 2021 -0700
+
+    Final Fixes to Destroy tower
+    
+    Cleaned up extra blocks created by explosions
+    
+    Added titles and sounds
+    
+    Edited Land tower spawn check slightly
+    
+    Added color hexcodes to towerSpecs
+    
+    Fixed two bugs, one in jigsaw building, sometime would incorrectly load a piece and crash. Added try/catch to stop crash.
+    
+     Second bug was spawner bug, sometimes level would be null for unknown reasons. Fixed by changing where level was referenced from
+
+[33mcommit 5d55d3e4522e1dc2c604defe5fcbd0886f952648[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 23 10:42:55 2021 -0700
+
+    Removed 'allRemovedBlocks' and sebsequent call to re-remove them at end as it causes floating, un un-updating water
+
+[33mcommit ec2531e7742dd63468e111e774bb01b6a8c513cb[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 23 10:40:08 2021 -0700
+
+    Re-add lockcodes on chests and set current ticks to 350 on load from save
+
+[33mcommit 1f4c6d66e8f4131b8c2b4b926c488a7d0fb5d1f9[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Thu Dec 23 12:56:43 2021 +0100
+
+    various improvements to the tower crumbling
+    
+    - explosion physics
+    - percentage based destruction
+    
+    explosion physics are still a bit buggy.
+    
+    Possible solution: Move the creation of the falling blocks to an event
+    handler and check if the exploder is an instance of the
+    ExplosionPhysicsEntity
+    
+    TODO: Add in a check for the falling blocks that if they're in the tower to not place a block (maybe own falling block entity?)
+
+[33mcommit ffcd493afc12e7c1ee702f32770f798503fd0bac[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Thu Dec 23 10:13:53 2021 +0100
+
+    use < instead of !=, that is more reliable
+
+[33mcommit 9ee2d518d0ea800f6fc45ab330ba27685877f9a4[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Thu Dec 23 10:00:05 2021 +0100
+
+    update todo marks
+
+[33mcommit 7092cb66337c426e1aadf1ab63641325048f3d56[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 23 01:49:58 2021 -0700
+
+    Bigggest update to tower crumble, all is working except for particles, clearnup to happen fro Der toaster
+
+[33mcommit 735787426d1bdbf91ad027b9ed57e80cc2714aef[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Dec 22 16:06:45 2021 -0700
+
+    Theoretically everything is working, except that the blockPos for the blocks to be removed are not being added >:/, will look again tonight
+
+[33mcommit 8c011040ea9e878495566a40a2b624555180269b[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Dec 22 03:37:49 2021 -0700
+
+    Mostly set up for tower destruction, a few hicups to iron out
+
+[33mcommit dd9c5bb570467817499a675a715902abfec88a33[m
+Merge: c2ca9be 1d89693
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Dec 22 01:49:19 2021 -0700
+
+    Merge pull request #31 from JMilamber/Merge-into-Land_Tower-fixes
+    
+    Merge Main into Land-Tower-Room-Fixes
+
+[33mcommit 1d89693f22cbb01e5b3db8d64e649d3b6aff11c2[m
+Merge: d53c98d c2ca9be
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Dec 22 01:47:50 2021 -0700
+
+    Merge branch 'Land-Tower-Room-Fixes' into Merge-into-Land_Tower-fixes
+
+[33mcommit d53c98df4f0df42f67f242bbe8c56bd591646d52[m
+Merge: 1509106 1cc28ff
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Dec 22 00:33:40 2021 -0700
+
+    Merge pull request #30 from JMilamber/Golem-Dev
+    
+    Merge golems into master
+
+[33mcommit 1cc28ffc8e4600e0cc6005c4c348fcde2a17c350[m
+Merge: 7bca16e 1fc9c9f
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Dec 22 00:13:25 2021 -0700
+
+    Merge branch 'Golem-Dev' of github.com:JMilamber/Brass_Amber_BattleTowers into Golem-Dev
+
+[33mcommit 7bca16e1b6b34e13b3de5fb2f81cccc1cafe1a81[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Dec 22 00:12:11 2021 -0700
+
+    Change versioning to better represent mods status.
+    
+     First number refers to MajorMod changes (0 = alpha), Second number refers to minor chnages (all changes before 1.0.0 are considered minor), Third number refers to patches (bugfixes)
+    
+    New version 0.3.0 represents the fact that the towers were created (0.1.0) the Golems were added (0.2.0) and then the golems being reworked (0.3.0). When Land Tower rework is merged version will become 0.4.0
+
+[33mcommit c2ca9bea188fa030e01f3c1e1cc912bd6f9b023a[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Dec 21 04:39:52 2021 -0700
+
+    Changed Destroy Tower to an Entity (invisible) that is spawned above where the monolith was on the tower when the golem is spaned.
+
+[33mcommit 1fc9c9fc05a4d3b05c18ee01e818c9450bb33f2e[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Mon Dec 20 17:16:17 2021 +0100
+
+    small effect when the golem teleports back up
+
+[33mcommit a69d6dc3fb51bd90a4a370826b9646c97c5b7de3[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Mon Dec 20 17:06:43 2021 +0100
+
+    move things to constants
+
+[33mcommit eba4a7c6c04d3498dba036b4657831eb5ca31bb4[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Mon Dec 20 17:01:32 2021 +0100
+
+    patch targeting
+
+[33mcommit 8eb0e598a3f34646833f09a06b7709a01c35e2e5[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sun Dec 19 17:25:53 2021 +0100
+
+    patching and block breaking
+
+[33mcommit 9bb5c8520867b4dea28b83fbfb82f685a052840a[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sun Dec 19 17:05:23 2021 +0100
+
+    tweaks
+
+[33mcommit e9a35f583a2f415682abe6f3ed322ddb23975115[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sun Dec 19 16:27:24 2021 +0100
+
+    tweaking and polishing
+
+[33mcommit 51bc75f45cbe36ea62975bb5de3162ab5fa20110[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sun Dec 19 16:27:14 2021 +0100
+
+    fix target selector
+
+[33mcommit fae5ed9c29a835493f6b382de44d4479b2130930[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Dec 19 03:17:33 2021 -0700
+
+    Base class/enum for the tower crumble and added preliminary code to BTGolemAbstractEntity and MonolithEntity to correctly setup and call Destroy tower class
+
+[33mcommit f2b29755df5bce70d34c1f3b253274abfb28b7bc[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Dec 18 13:32:00 2021 -0700
+
+    Finished adding overgrown rooms- overgrown roof noew spawns
+    
+    added explosion to golem extrance to break out of tree shell on overgrown tower
+    
+    Fixed random dirt block on cult_even_1_2
+
+[33mcommit dc328435218101f89a5bc3e6c2dbdfaf2399e929[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:10:38 2021 +0100
+
+    change golem field to protected
+
+[33mcommit 496b07617249f8d892131d0b9c51a7af49a165e3[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:06:41 2021 +0100
+
+    update logic
+
+[33mcommit ab3904ff2285ff262d4b114ffcb6f1e4a78eefa9[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:06:35 2021 +0100
+
+    forgot to save that
+
+[33mcommit c6b32cbff68d0cdcd438e0fffc334fc94059b05d[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:06:28 2021 +0100
+
+    properly implement things
+
+[33mcommit 2c01742b798ad415a855a6a0ba3218d17609c825[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:05:57 2021 +0100
+
+    add sky golem fireball attack
+
+[33mcommit 4aeb204b03503bdcce67793f5d0ad12d90064349[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:05:49 2021 +0100
+
+    make extensible
+
+[33mcommit 7aa73a997e298e3999827ec245937375b003d1a4[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:05:43 2021 +0100
+
+    polish
+
+[33mcommit be9ec7ae161223381c938e2c0efadd1f5c36e6d9[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Fri Dec 17 19:00:14 2021 +0100
+
+    remove old attack code
+
+[33mcommit bbe3737fe680bdf968d4c44879d778c09bcaa972[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 16 03:39:47 2021 -0700
+
+    Updated version number to reflect Jigsamanager code change
+
+[33mcommit 83b2bb971e882430ab82176d9b90fdef0e4a3f75[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Dec 16 03:35:24 2021 -0700
+
+    Added flipped version of all overgrown varaints
+    
+    Fixed rotation bug for overgrown shell overlay.
+    
+    Edited BTJigsawManager to allow for the spcification of a rotation for all pieces.
+    
+    Added specification in LandBattleTower for which comments are from TelepathicGrunt's tutorial
+
+[33mcommit dda930358a9e371d03482072673bfded4150c55b[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Dec 15 03:26:45 2021 -0700
+
+    added overgrown varaints and corrected spawning problems. Needs 180 version of all 3 current varaints and the top floor to be added as well.
+
+[33mcommit 059de9943059f097ebe309de35b994053cc13d80[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 16:25:12 2021 +0100
+
+    adjust task priorities
+
+[33mcommit 5ae29fa168b667be54c70105789f4d32ebe82a29[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 16:25:01 2021 +0100
+
+    add stomp task to golem
+
+[33mcommit 11a3c60ef08c523f195f46c84fde8d55e956bec7[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 16:24:12 2021 +0100
+
+    add golem stomp attack
+
+[33mcommit 96b227ed9c724b1f25a30019c7b4fe9c831b361f[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 15:50:16 2021 +0100
+
+    adapt to removed method
+
+[33mcommit 077b5eb969ded41bc27c955ef2e25140c8fec808[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 15:49:40 2021 +0100
+
+    use new tasks
+
+[33mcommit 23c88183a0b10684c02dcf4204c1f68c4a69733c[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 15:49:33 2021 +0100
+
+    add in AT's
+
+[33mcommit 1d4f59b08dab82582b9759910d9a94bbb5d9b228[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 15:49:24 2021 +0100
+
+    properly implement the fireball task
+
+[33mcommit fb45150133b00532dae320da858bc6ec7902dab8[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Sat Dec 11 15:49:11 2021 +0100
+
+    own target AI for golems
+
+[33mcommit 55347ffda28a6a5cbd0e19a40f41e101c6bb010d[m
+Author: DerToaster98 <seiler.oli@web.de>
+Date:   Thu Dec 9 17:36:30 2021 +0100
+
+    make project usable under eclipse
+
+[33mcommit c014ab35b5c9a8f232d259587040ff04a43fdcff[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Dec 5 03:33:42 2021 -0700
+
+    Added all spawners to all floors, refactored spawner finding chest code, now works as intended.
+
+[33mcommit 895b177efc5d06e0689e26e11a9e7377fdd9cdcb[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Dec 4 16:32:53 2021 -0700
+
+    Tried to fix Spawner texture- no luck. Added witch spawners to pools and updated jigsaw block names
+    
+    Updated jigsaw blocks for vindicator, pillager, and withc from spawner_slow* (slow/normal/fast) to (name)_(slow/normal/fast). I.e. 'witch_slow'
+
+[33mcommit 810ed0e9a2cbe9331c56438cce20bbb31665d429[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Dec 1 23:59:45 2021 -0700
+
+    Fixed chest unlocking via spawner
+
+[33mcommit 13afe35e891bdb9168c57bcd8f3164e005df6cf9[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Nov 30 01:51:08 2021 -0700
+
+    fixed keys not spawning in chests, sped up all spawners.
+
+[33mcommit 48b27fe8254e6b7b2784a2abc9f1597002b4a282[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Nov 28 03:16:20 2021 -0700
+
+    Made chest unbreakable while locked
+
+[33mcommit 9d1057d96b6650f4aee5a2b3bbc6949aae6db98f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Nov 28 01:52:58 2021 -0700
+
+    Added land keys to loot tables
+
+[33mcommit 6e304ed3028c1de8188f9566c600b4c58fc03b33[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Nov 28 01:38:06 2021 -0700
+
+    Spawner sturctures & pools, bottom floor, stonechest changed
+    
+    Spawner structure and pool files added
+    
+    Bottom floor now has 2 slow spawners
+    
+    Stonechest base spawners needed changed from 3 -> 2 until nbt saving of the number of spawners needed to unlock is implemented
+
+[33mcommit f52796126ace3f4cf45080d110b3692387ab0a5f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Nov 27 22:59:38 2021 -0700
+
+    Final LootTable spawning work, all loottables correctly spawn in their designated chests
+
+[33mcommit 341937db8bd597767ed5a0676dc5494e0678ae6b[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Nov 27 15:11:47 2021 -0700
+
+    Updated all Land Tower Structure files with Loot, spawners next
+
+[33mcommit 08a5114a73e05d93e68adadcbad3afe22872bcb6[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Nov 27 00:25:24 2021 -0700
+
+    Removed SpawnEgg mixin, kept mixin in build.gradle and mixin folder
+    
+    SpawnEggMixin bypassed using nbt data, mixins may be useful for something else in the future, keeping until we are sure they are not needed
+
+[33mcommit 74ffcce073b92c90a54a7ee03b4c8ffb1be7a204[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Nov 26 17:34:09 2021 -0700
+
+    added mixins to try to get spawneggs toa ctually add entities to the spawner block
+
+[33mcommit 00d97cdb60b6540456ad46ad39eb8ae075ff3874[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Nov 23 01:09:34 2021 -0700
+
+    all land_tower loot tables finished
+
+[33mcommit 1b100cab94bcace229f9bfa968efd6018fe04c65[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Nov 22 01:19:28 2021 -0700
+
+    Loot for first 2 floor are spawning, chests need to be changed
+    
+    loot tables for first 3 floors are one
+
+[33mcommit 09a31581460edce13a0ff5bc22b9765f847104ca[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Nov 20 18:01:07 2021 -0700
+
+    Added land tower base loot tables, and chnaged the loottable of the first floor chest
+    
+    loot tables are based of of minecrafts:chests/simple_dungeon. only '1' in the land folder has actual changes.
+    
+    Edited the nbt file for the bottom floor of the land tower so that the chests spawn using the land_tower/1 loot table
+
+[33mcommit 55d40cf1dc9d01c0494c84b6f294af24ec710c38[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Nov 15 01:17:07 2021 -0700
+
+    spawner unlocking chest works currently if spawners are placed on the same y level as the chest.
+    
+    Unfortunatley, it currently does not work when the StoneChest is a doublechest
+
+[33mcommit 1509106e687a2844ada139eea4509884483be7cc[m
+Merge: 6718f14 eff8358
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Thu Nov 4 09:03:24 2021 -0600
+
+    Merge pull request #27 from JMilamber/Item_Texture_Update
+
+[33mcommit eff83582d0c449172452cd39dc7678fa7a2103aa[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Nov 4 01:14:54 2021 -0600
+
+    Move Nether guardian Eye to correct folder, remove old eye, and rename new eye file.
+
+[33mcommit f3d1bcd76a58c66737c09b0a5e5640dfcc35abfe[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Nov 4 01:13:34 2021 -0600
+
+    Brass_Geo retexture of Keys, silver, an eye and a totem
+    
+    Keys: Core, End, Sky
+    
+    Silver: Ingot and Shard
+    
+    Totem: Nether
+    
+    Eye: Nether
+
+[33mcommit 6718f1407cc601236a8110c2c8c46eef0184edd7[m
+Merge: cf838c9 50605ff
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Tue Nov 2 16:22:47 2021 +0100
+
+    Merge pull request #26 from JMilamber/Merge-Golem-FIx
+    
+    Merge "Merge golem fix" into Main
+    
+    (Used to be monolith-golem-dev)
+
+[33mcommit 50605ff21933c36cfbfd0b4ebfc3427a72d5f9bd[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Tue Nov 2 16:14:54 2021 +0100
+
+    Final Merge Fix?
+
+[33mcommit ec92d133cfe47618ebefa6be935e46a404dc37c6[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Tue Nov 2 16:11:55 2021 +0100
+
+    Merge Fix?
+
+[33mcommit cf838c9aca73198f9ed3443dcfa8e94a543ef236[m
+Merge: 92788d7 c804b6d
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Tue Nov 2 15:48:49 2021 +0100
+
+    Merge pull request #25 from JMilamber/main-copy
+    
+    Update Golem Notes.txt
+
+[33mcommit c804b6dff876ac77adea6e52e70d04282f67a591[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Tue Nov 2 15:41:31 2021 +0100
+
+    Update Golem Notes.txt
+
+[33mcommit 5192c9e70a18c342538756a81a20e6f3e696e721[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Tue Nov 2 15:34:16 2021 +0100
+
+    Merge Fix?
+
+[33mcommit 92788d76b81b4e3148045b5d521ffcea38a2c3db[m
+Merge: 189c00f a841d01
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Nov 1 14:28:00 2021 -0600
+
+    Merge pull request #22 from JMilamber/Skeleton-And-TabIcon
+
+[33mcommit a841d01b5774b06d7c76686c53712e6244ab05ff[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Mon Nov 1 19:12:47 2021 +0100
+
+    Added Silver blocks
+
+[33mcommit 5eaeae01917f4a54352b453d2e5e26425952d337[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Mon Nov 1 18:37:52 2021 +0100
+
+    Some renaming, re-added the Tab Icon as a block for now and created a mod logo.
+
+[33mcommit c5a91f2a92a5788b06b3527705364dcef69f0a98[m
+Merge: 76ba924 189c00f
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Nov 1 02:22:00 2021 -0600
+
+    Merge pull request #21 from JMilamber/main
+    
+    Merge main into skeleton and tabIcon
+
+[33mcommit 76ba9242c3e50c13309ec360ea4b525b7b104f62[m[33m ([m[1;32mSkeleton-And-TabIcon[m[33m)[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Nov 1 02:20:18 2021 -0600
+
+    Changed Tab_Icon to a an OperatorOnlyItem Item instead of a block and added new tab_icon.png
+    
+    Also updated items to correctly use the new tab
+    
+    By using an OperatorOnlyItem, the player can only acces it via commands (i.e like a spawner or structure block)
+
+[33mcommit 9044f0595aefcdc46868816b813688fcd526f0cb[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Oct 21 23:19:08 2021 -0600
+
+    created BTSpawner.java for configured spawner block that connects to a nearby Stone_Chest
+
+[33mcommit 8dd0cf4126f51f9d648f4d711acdf136e29b8674[m
+Merge: 592b249 189c00f
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Oct 20 21:50:44 2021 -0600
+
+    Merge pull request #20 from JMilamber/main
+    
+    Merge main into Land_Tower
+
+[33mcommit 189c00f1bb8f56c6e2871534cc3612a081bab199[m
+Merge: bd0c416 98761e6
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Oct 20 19:06:34 2021 -0600
+
+    Merge pull request #18 from JMilamber/silver-items
+    
+    Merge Silver items Into Main
+
+[33mcommit d37fb35a902c8537c3106a26ca948af32db9bd25[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 20 18:59:00 2021 +0200
+
+    Initial addition of Silver Skeleton and Item Tab.
+    
+    + Work In Progress, but maybe you have some ideas.
+
+[33mcommit 98761e63b515175aaf82460c171b532982732c2f[m
+Merge: e8adf1f d876b81
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Oct 20 10:12:34 2021 -0600
+
+    Merge pull request #19 from JMilamber/silver-items-tweaks
+
+[33mcommit d876b81741cac987257d1a79ae8040dfb996d9e2[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 20 15:44:15 2021 +0200
+
+    Compacted Silver Ingot smelting/blasting recipe files and halved cooking time for Blast Furnace to be the same as Vanilla.
+
+[33mcommit 8b19396c9a11578b1a38a3e9b42d2af513aa3d93[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 20 15:22:44 2021 +0200
+
+    Implement '@Override' in BTArmorMaterial.
+    
+    + Will help us find errors when updating the mod in future versions.
+
+[33mcommit 98ce0a0dece7c0eabdfa80b0b9ee783e7536e292[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 20 15:18:14 2021 +0200
+
+    Implement '@Override' in BTItemTier
+    
+    + Will help us find errors when updating the mod in future versions.
+
+[33mcommit 93c634836476de61924bb3d3dce3bdd319dd246e[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 20 15:05:09 2021 +0200
+
+    Removed BTSwordItem (never used), and moved Item classes to a separate package.
+
+[33mcommit e8adf1f03407fce6ce39fd00c1d47492fe7be1bd[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 20 02:23:45 2021 -0600
+
+    changed version in build.gradle to Alpha 1.2.3
+
+[33mcommit 43da8240f96d8cac963743026aa710a9881d7942[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 20 02:19:16 2021 -0600
+
+    added blasting and smelting recipes for silver ingot from sword/armor
+
+[33mcommit aac9adbeec312836d8ab740cfdf8c1ad56c36cda[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 20 02:04:53 2021 -0600
+
+    Added Recipes
+
+[33mcommit 751d54b8e7caced8f2472bb3d3d87a4e61b65804[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 20 01:48:34 2021 -0600
+
+    added all silver items/armor
+
+[33mcommit 74318c4e2840b07e36f76ce376e7da8a312c7aaf[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Oct 19 23:12:50 2021 -0600
+
+    added silver item textures
+
+[33mcommit 592b249c6c31d293a4d489809495f2283c1cbb1f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 18 23:31:55 2021 -0600
+
+    Item redux textures
+
+[33mcommit 0ff5ec7f94af20c52766add4eecfafbe1d2978e1[m
+Merge: f6e3414 bd0c416
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Oct 18 23:16:24 2021 -0600
+
+    Merge pull request #16 from JMilamber/main
+    
+    Merge main into Land-Tower-Room-Fixes
+
+[33mcommit bd0c41616e814dac4a7e6d7b4c129bbcd84106da[m
+Merge: a507f61 f6e3414
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Oct 18 23:16:13 2021 -0600
+
+    Merge branch 'Land-Tower-Room-Fixes' into main
+
+[33mcommit a507f61e781e444f947027089705051004494d7c[m
+Merge: f43a449 63f41ba
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Oct 18 22:33:34 2021 -0600
+
+    Merge pull request #15 from JMilamber/Sky-Tower
+    
+    Sky Tower first stable version
+
+[33mcommit 63f41bae77faa81e32a2a6e5996ae019abb6b610[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 18 22:27:27 2021 -0600
+
+    Added monolith to Roof of land and sky tower.
+    
+    Also added stone chests and keys/eyes needed to summon golems on miniboss floor
+
+[33mcommit 08a7d44e86088fd3321b9090849d25b219d5338c[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 18 02:18:09 2021 -0600
+
+    Updated Build version in the build.gradle version to refelct the addition of the Sky Tower- Alpha 1.1.2 -> Alpha 1.2.2
+
+[33mcommit e24ed98c3a816701f311de04543e372b11d2c34e[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 18 02:01:34 2021 -0600
+
+    Fixed up garden rooms, and finalized spawning of Sky_Towers
+
+[33mcommit f6e3414451296bef1fc0b4645f39f8488016b9f8[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 17 23:51:43 2021 -0600
+
+    Refactored land tower spawn code and added comments
+
+[33mcommit d4f18103db4645fd81a0444da081215d0ee0f41d[m
+Merge: 47fb470 f43a449
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Oct 17 21:28:00 2021 -0600
+
+    Merge pull request #14 from JMilamber/main
+    
+    Merge Main into Land-Toer-Room-Fixes
+
+[33mcommit 66656dcac2e068184b850356436683a05bf0dca5[m
+Merge: 65417ee f43a449
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Oct 17 21:27:02 2021 -0600
+
+    Merge pull request #13 from JMilamber/main
+    
+    Merge Main into Sky Tower
+
+[33mcommit f43a449313c11c196d896e45b0174112eaeed82d[m
+Merge: ddd5be8 fdb9471
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Sun Oct 17 13:19:32 2021 +0200
+
+    Merge pull request #12 from JMilamber/monolith-golem-dev
+    
+    Merge Monolith golem dev into Main
+
+[33mcommit 47fb470caaf3108e7784e1702428b4291ae33ebc[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Oct 16 17:34:13 2021 -0600
+
+    Edited land Tower Spawning, both in requirements and distance apart per check
+
+[33mcommit fdb9471122b992ebe3f23b01c6ca6a734ed81705[m[33m ([m[1;32mmonolith-golem-dev[m[33m)[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Oct 16 12:06:24 2021 +0200
+
+    Fixed the order of Golems in all the code.
+
+[33mcommit 6ab1b04bd14558421af32c9131a6405548fce392[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Oct 16 11:50:23 2021 +0200
+
+    Update GolemType.java
+    
+    + Sorry this went a bit wrong.
+
+[33mcommit be5671c34a1a29ea91a3738099932af5d4048324[m
+Merge: 37ab063 b2b293a
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Oct 16 11:48:21 2021 +0200
+
+    Merge branch 'monolith-golem-dev' of https://github.com/JMilamber/Brass_Amber_BattleTowers into monolith-golem-dev
+
+[33mcommit 37ab063c661bf1600d6ca7bde9ed599a60a123a1[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Oct 16 11:48:06 2021 +0200
+
+    Fix the Guardian Eye inputs for Monoliths, moved some code and added an initial Sky Minion..
+    
+    + Initial addition of the Sky Minion.
+    + Moved code for Golems back into a Hostile mob package.
+
+[33mcommit 678dd90a5797faf5c2bd610cf8f8423429087456[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Oct 16 02:29:45 2021 -0600
+
+    Messe with Land Tower Spawning
+    
+    Shouldnt spawn on sides of mountains anymore, also cahnged how usable biomes are checked
+
+[33mcommit b2b293a97c0665dd5157e1f4bc7f662085d4466f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Oct 15 00:27:01 2021 -0400
+
+    Edited getEyeFor to return the correct eye fro the Monolith for each Golem
+    
+    Land: no eye - Ocean: Land Eye - Nether: Ocean Eye - Core: Nether Eye - End: Core Eye - Sky: End Eye
+
+[33mcommit 1edaa27da2f0000925c92e3bebad371506a7ca22[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Thu Oct 14 15:49:02 2021 +0200
+
+    Update Golem Notes.txt
+
+[33mcommit ef6647ee012437bd2cb2b484ac5043c27811652f[m
+Merge: 1607186 708e086
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Thu Oct 14 14:08:13 2021 +0200
+
+    Merge pull request #11 from JMilamber/Monolith-Extension
+    
+    Merge Monolith extension into monolith-golem-dev
+
+[33mcommit 708e08686125e861f5404f6d0443022befce45e6[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Thu Oct 14 14:03:19 2021 +0200
+
+    Monoliths are now correctly rendered
+    
+    - Removed all unnecessary (old) textures.
+
+[33mcommit 8f4b9a1629e86314c783944b6c37b4c5c16d3164[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Thu Oct 14 12:48:10 2021 +0200
+
+    Implemented enum GolemType for easier code
+    
+    - Removed EYES DataParameter.
+
+[33mcommit b95e505cf8c381aa0d24cd7c81778ab287a2150f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Oct 14 02:56:18 2021 -0400
+
+    Added Brass's new textures to seperate folders
+    
+    Folders are new type_new and old folders are still there- this is under assets/textures/entity/monolith
+
+[33mcommit 69de01317fe04f0ea79e4f6d238b7c68f22382b3[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Oct 14 02:33:40 2021 -0400
+
+    Monoliths past Land now require 2 keys and 1 eye
+    
+    This is a code only implementation currently (I am hoping you can do the renderer/texture part X :P)
+
+[33mcommit 1607186b0b581d75547d17501cb724da7bdd0722[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Thu Oct 14 00:31:26 2021 +0200
+
+    Added all the Monoliths and some Golem AI fixing
+    
+    + Added a lot of helper methods for Item and Entity creation.
+    + Added textures for the Core Monolith and Sky Monolith.
+    * Golems now check for a distance to the closest player.
+
+[33mcommit bb996855cb8a4af9aa0712e3b47e493de722bafc[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 13 20:20:51 2021 +0200
+
+    Moved golem textures to be on par with the code
+    
+    * Changed golem renderers to improve simplicity and workflow for future texture relocation
+
+[33mcommit b490222e708d959add4ad26eae9eab0111be0299[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 13 19:45:30 2021 +0200
+
+    Golems shoot fireballs and become awake when the player is close
+
+[33mcommit b6c80cc216f625b06bd7f1be99f61bb12cbf2577[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 13 15:14:47 2021 +0200
+
+    Golems now reset to their spawn position and have basic AI features
+    
+    + Monolith translation
+    * Improved Golem spawning from the Monolith
+
+[33mcommit 65417ee4ec0ad0b8eb380f72f8ab87d87eba0ad7[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 13 03:43:14 2021 -0400
+
+    Added SkyBattleTower.java
+    
+    still editing some spawning rules so that the structures spawn less frequanetly and not in each other, but otherwise the tower is spawning
+
+[33mcommit fd1b3cd188c91663fa99b13b5db627b7cc417610[m
+Merge: 925c8eb ddd5be8
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Tue Oct 12 23:54:37 2021 -0600
+
+    Merge pull request #10 from JMilamber/main
+    
+    merge Main into Sky Tower
+
+[33mcommit 925c8eb76c173f79127b730bc3477f9099d3fb00[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 13 01:52:57 2021 -0400
+
+    Added all Sky Structure files
+    
+    Also added worldgen template files to template_pool/sky_twoer.
+
+[33mcommit ddd5be88462a95759dc7681f25201cc508d63e7e[m
+Merge: ff8983d 9d03296
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Tue Oct 12 11:11:16 2021 +0200
+
+    Merge pull request #9 from JMilamber/monolith-golem-dev
+    
+    Merge Monolith golem dev into Main
+
+[33mcommit 9d03296a67df3a35f9366888abc0ff9096d27431[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Oct 12 04:15:07 2021 -0400
+
+    Change build.gradle jar version from Alpha-1.0 to Alpha-1.1.2
+
+[33mcommit ca8c108643ba89891219b746ba6fa25a4c53c6bc[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Tue Oct 12 04:10:00 2021 -0400
+
+    Edited Tower Gen Notes
+
+[33mcommit b6de9af927d6ed78838f744fef0ea06300eac731[m
+Merge: 577c4ab ff8983d
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Mon Oct 11 23:41:07 2021 +0200
+
+    Merge pull request #8 from JMilamber/main
+    
+    Merge Main pull request #6 into Monolith golem dev
+
+[33mcommit 577c4ab876d8438af1fd850f09a84b056ad61fbf[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Mon Oct 11 23:38:45 2021 +0200
+
+    Added Totem, Keys, Eyes and Monolith
+    
+    + Also stone_chest loottable
+
+[33mcommit c15ee6ab60752fe9b2241be34838e706666c72de[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Mon Oct 11 14:08:50 2021 +0200
+
+    Added initial golem animations and functionality
+
+[33mcommit 00e3202ba0c29f867577df4134ecb6157ea7df21[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Mon Oct 11 11:54:37 2021 +0200
+
+    Added Stone Chest and Future Chest Type Compatibility
+
+[33mcommit ff8983de7aaa4ccbb1837c4c8906df74817ea252[m
+Merge: e58fe2a 8df9e19
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Mon Oct 11 09:32:43 2021 +0200
+
+    Merge pull request #6 from JMilamber/monolith-golem-dev
+    
+    Merge Monolith golem dev into Main
+
+[33mcommit 8df9e19995740a74ced99023140837b25f833ce9[m
+Author: Xratedjunior <58085557+Xratedjunior@users.noreply.github.com>
+Date:   Mon Oct 11 09:24:38 2021 +0200
+
+    Removed double private Biome biomeIn;
+
+[33mcommit fc58e6cacf6499652274e8bafd095f78d49e41f6[m
+Merge: ee31089 52e2080
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 11 02:30:44 2021 -0400
+
+    Merge remote-tracking branch 'origin/Sky-Tower' into Sky-Tower
+    
+    # Conflicts:
+    #       Tower Generation Notes.txt
+
+[33mcommit ee310897677fa5d07b0180a762d151098bba58a3[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 11 02:30:00 2021 -0400
+
+    Added sky tower generation notes to notes file
+
+[33mcommit 52e2080f0a6e173e95a758544fc31b3d14b375a4[m
+Merge: cd2baad e58fe2a
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Oct 10 21:04:44 2021 -0600
+
+    Merge pull request #7 from JMilamber/main
+    
+    Merge Main into Sky Tower branch
+
+[33mcommit 67f10ee500cd26ff285d6f50453b36880bd2d38b[m
+Merge: 0d294a3 e58fe2a
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Oct 10 15:47:02 2021 -0600
+
+    Merge branch 'main' into monolith-golem-dev
+
+[33mcommit 0d294a3dec1f2dd3c4fe9c91e1a976509c81a8c6[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sun Oct 10 21:42:10 2021 +0200
+
+    Finished Adding Golem Textures, Models and Entities
+
+[33mcommit 4f3241392dc2a4c6875f872f5016ecf96dc5744c[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sun Oct 10 20:48:27 2021 +0200
+
+    Added Golem Model and Textures
+    
+    + Added merge code from #5 (Not the resources)
+
+[33mcommit e58fe2a44fd7c795d741562c040b5131c442ece8[m
+Merge: cd2baad 25ec302
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Oct 10 09:17:13 2021 -0600
+
+    Merge pull request #5 from JMilamber/abandoned-rooms
+
+[33mcommit b2a8b23bb68309f1729795b8e10783e037c177fd[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Oct 9 13:55:08 2021 +0200
+
+    Formatting Tweaks
+
+[33mcommit 39543629e2164f3d390403088a094365e8691b51[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Sat Oct 9 11:59:12 2021 +0200
+
+    Added Golem functionality
+    
+    + Enraged state, golem now uses byte ID's instead of a boolean.
+    + Drops have been moved to a json file.
+
+[33mcommit 25ec302feb97c43657970ff5fe6813d65b51b3cb[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sat Oct 9 05:37:43 2021 -0400
+
+    Finished adding spawners
+    
+    all 1_3 floors and the miniboss have functioning spawners
+
+[33mcommit 04db978d3d501ba1830c4aba87ba655c517b03b2[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Fri Oct 8 22:50:20 2021 +0200
+
+    Working chests
+
+[33mcommit 3d08262670f37a6c69538b691fceaaf68042492f[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Fri Oct 8 17:47:29 2021 +0200
+
+    Removed some test textures
+    
+    + Removed temporary textures
+
+[33mcommit 8dc32c858e85688e880e033a15b703840773497b[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Fri Oct 8 17:45:49 2021 +0200
+
+    Initial Attempt at Chests
+    
+    + I couldn't get the textures working since it's my first time working with chests and TileEntities.
+
+[33mcommit 09de36fa1afe04080ff333708714799add3fb654[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Fri Oct 8 14:03:13 2021 +0200
+
+    Initial Addition of the Land Golem
+
+[33mcommit 10316ca11c540935b30e778bb3437e7fdde3de11[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Fri Oct 8 02:35:00 2021 -0400
+
+    Spawners for some floors added, top_floor_lamp removed
+    
+    Specifically: Bottom_Floor_1 and all 1_2 rooms have initial spawners (may have changed spawning possibilities in the future) --------  Removed top_floor_lamp as top_floor now includes them in the structure without jigsaw blocks
+
+[33mcommit b03c9655ebccdaf4c3946ca925f58fc8b1f0876f[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Oct 7 23:56:27 2021 -0400
+
+    Update Forge version in build.gradle to 36.2.0
+
+[33mcommit 854894cf7d92c18d1d2b148d6069d1b6e7267d16[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Oct 7 04:24:40 2021 -0400
+
+    Barracks Open variation added, all floor walls changed to Stone Bricks
+    
+    Base floor of tower now has a base udner it, and can be surrounded/buried slightly in the ground by 6 blocks, spacing increased from 8-10 chuncks to 10-12 chunks
+
+[33mcommit 3219b233de8951d523cfc39ea400c08b32febf2f[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 6 21:12:21 2021 +0200
+
+    SoundEvents now use DeferredRegister
+    
+    + Added Land Monolith Key Item to test SoundEvents
+
+[33mcommit 4c9fd2c75e78da4df482dc5115658b5ab82e519b[m
+Author: Xratedjunior <marnix@roomer.tv>
+Date:   Wed Oct 6 20:21:13 2021 +0200
+
+    Added sounds
+
+[33mcommit 8aa5e6cdae0b6b5b33a40fc5197fab37715e90ca[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Wed Oct 6 04:46:55 2021 -0400
+
+    Wrong branch oops, oh well, Stable build with rando spawners on first cult floor. Since spawners are still proof of concept, version doesnt change
+
+[33mcommit f404d6c164605f699148a7acc51ae25f596a56bb[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 4 03:33:01 2021 -0400
+
+    Added tower seperation to notes, and added forst as a spawnable biome, as well as chnaged the 'transform surrounding land' option to true until the tower base is built
+
+[33mcommit 4e9e02309ce50272055aed1589f12ea6cc259951[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 4 03:21:41 2021 -0400
+
+    Added abandoned Barracks rooms
+
+[33mcommit cd2baad127085ae0063efe79fbe6ddedc642dc9b[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Oct 4 01:18:01 2021 -0400
+
+    Update README.md
+
+[33mcommit 126a7a1efe5b83c9817bac586fd01ebac8dd126c[m
+Merge: 513ed0a f18c806
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Mon Oct 4 01:03:16 2021 -0400
+
+    Merge pull request #4 from JMilamber/Y_Limiter_Removal
+    
+    Y limiter removal (Finally fixed accidental earlier revert)
+
+[33mcommit f18c806d5a7631bcaadcec84a6b3791eaa73c09b[m
+Merge: 1ae39b0 44439c1
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Mon Oct 4 00:56:46 2021 -0400
+
+    Merge branch 'Y_Limiter_Removal' of github.com:JMilamber/Brass_Amber_BattleTowers into Y_Limiter_Removal
+
+[33mcommit 1ae39b062d91235c6511fbcc8bc311ff14123db1[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 19:09:00 2021 -0400
+
+    Single line in BTJigsawManger fixed Y value limit, Yung is a genius, much thanks to him for the fix
+
+[33mcommit 341c5c56a6c3de50590f5a74c4e600b0fcfe8781[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 04:28:30 2021 -0400
+
+    Edited Gradle.Build so that Jar is named correctly
+
+[33mcommit 3ad471028a1019295488d230fa3d2e84e86f2e83[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 00:23:26 2021 -0400
+
+    Big Changes, first working version. Removed -Yungs API (Sorry Yung I had a lot of trouble switching over to it from 1.16.5, 100% me not the API). Changed -Mappings are now the official 1.16.5 minecraft mappings (better readability for structure stuff) New - Towers spawn correctly with the top floor as intended
+
+[33mcommit 333d822f9364bc301430c061fd78877bbc47093a[m
+Author: Milamber <stringerj@allegheny.edu>
+Date:   Wed Sep 29 03:20:28 2021 -0400
+
+    Update README.md
+
+[33mcommit 513ed0ab68fa84ddd4773705eecdff1e0d2a3411[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 19:54:34 2021 -0400
+
+    Reverted Y limiter on accident readding
+
+[33mcommit bb74768e7bd2d0a2c1e98099d23be0312342b738[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Sun Oct 3 19:52:10 2021 -0400
+
+    Revert "Single line in BTJigsawManger fixed Y value limit, Yung is a genius"
+
+[33mcommit 44439c1c3fab0de94d634994b3864463c2b69249[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 19:54:34 2021 -0400
+
+    Reverted Y limiter on accident readding
+
+[33mcommit 9e5dbe536374089bd1852f2a5f837a5f78411e39[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 19:09:00 2021 -0400
+
+    Single line in BTJigsawManger fixed Y value limit, Yung is a genius, much thanks to him for the fix
+
+[33mcommit 794cf2375614be37ab5587aebf31062dd300d7e6[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 04:28:30 2021 -0400
+
+    Edited Gradle.Build so that Jar is named correctly
+
+[33mcommit 05d8090ca8d504880898aaf4ddd52e8b8e0d196c[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Sun Oct 3 00:23:26 2021 -0400
+
+    Big Changes, first working version. Removed -Yungs API (Sorry Yung I had a lot of trouble switching over to it from 1.16.5, 100% me not the API). Changed -Mappings are now the official 1.16.5 minecraft mappings (better readability for structure stuff) New - Towers spawn correctly with the top floor as intended
+
+[33mcommit 5740b454e0f4f051f82ffba1e7c20b95cae23fb7[m
+Merge: 5371fdb 8fe1d1f
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Sep 30 02:35:19 2021 -0400
+
+    Merge branch 'main' of github.com:JMilamber/Brass_Amber_BattleTowers into main
+
+[33mcommit 5371fdb89d4a00aad8dc6a0ff4e23f2fe17e3553[m
+Author: JMilamber <stringerj@allegheny.edu>
+Date:   Thu Sep 30 02:34:09 2021 -0400
+
+    Added Yungs API tot he modpack, switched mod over to snapshot 20210309-1.16.5 mappings in hopes of fixing a mixin error encountered after adding Yungs API
+
+[33mcommit 8fe1d1fe63d7a05c83b89275a4f8d03ce50462df[m
+Author: Milamber <stringerj@allegheny.edu>
+Date:   Wed Sep 29 03:20:28 2021 -0400
+
+    Update README.md
+
+[33mcommit e55eb06bfd85bb1ccdf5e80c568da97d3f51997f[m
+Author: Milamber <stringerj@allegheny.edu>
+Date:   Wed Sep 29 02:06:26 2021 -0400
+
+    Update README.md
+
+[33mcommit 1a9a98a09b9d87af5ceb4a2f7401af3abbfcf8c1[m
+Author: Milamber <stringerj@allegheny.edu>
+Date:   Wed Sep 29 01:50:25 2021 -0400
+
+    Update README.md
+
+[33mcommit e742f3d05b93f3ab4017c3c51b9164ebd4fa527c[m
+Author: Milamber <stringerj@allegheny.edu>
+Date:   Wed Sep 29 01:47:06 2021 -0400
+
+    create gitignore
+
+[33mcommit 4a0e41ecf54efbc23d8b2f3dfd84d4dd2953a050[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Sep 29 01:46:01 2021 -0400
+
+    Initial Repo Setup
+
+[33mcommit 846e9da407f28a9264d7af51b992d213556eaf47[m
+Author: Milamber <stringerj@allegheny.edu>
+Date:   Wed Sep 29 01:41:12 2021 -0400
+
+    Update README.md
+
+[33mcommit 3a319edca4667795d44efcffd448df202436bcd7[m
+Author: Milamber <socky79.turbulance@gmail.com>
+Date:   Wed Sep 29 01:39:41 2021 -0400
+
+    Initial commit
