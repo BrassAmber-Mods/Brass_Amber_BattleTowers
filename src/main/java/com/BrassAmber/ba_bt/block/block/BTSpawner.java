@@ -56,69 +56,70 @@ public class BTSpawner extends ContainerBlock {
         return ItemStack.EMPTY;
     }
 
-    public void checkPos(World world, BlockPos pos) {
+    public void checkPos(IWorld world, BlockPos pos) {
         TileEntity posEntity = world.getBlockEntity(pos);
 
         if (posEntity != null && posEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
             this.chestTileEntityPos = pos;
-
         }
     }
 
     public void destroy(IWorld iWorld, BlockPos spawnerPos, BlockState blockState) {
         this.foundChest = false;
         this.chestTileEntityPos = null;
-        World world = Minecraft.getInstance().getSingleplayerServer().overworld();
-        for (int x = -30; x<31; x++) {
-            if (this.foundChest) {
-                break;
-            }
-            for (int z = -30; z<31; z++) {
+        if (!iWorld.isClientSide()) {
+            for (int x = -30; x<31; x++) {
                 if (this.foundChest) {
                     break;
                 }
-                BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
-                checkPos(world, newBlockPos);
-                checkPos(world, newBlockPos.below());
-                checkPos(world, newBlockPos.above());
-                if (this.chestTileEntityPos != null) {
-                    this.foundChest = true;
-                }
-            }
-        }
-        if (this.chestTileEntityPos == null) {
-            for (int x = -5; x<6; x++) {
-                if (this.foundChest) {
-                    break;
-                }
-                for (int z = -5; z < 6; z++) {
+                for (int z = -30; z<31; z++) {
                     if (this.foundChest) {
                         break;
                     }
                     BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
-                    checkPos(world, newBlockPos);
-                    checkPos(world, newBlockPos.below(1));
-                    checkPos(world, newBlockPos.below(2));
-                    checkPos(world, newBlockPos.below(3));
-                    checkPos(world, newBlockPos.below(4));
-                    checkPos(world, newBlockPos.below(5));
-                    checkPos(world, newBlockPos.below(6));
-                    checkPos(world, newBlockPos.below(7));
+                    checkPos(iWorld, newBlockPos);
+                    checkPos(iWorld, newBlockPos.below());
+                    checkPos(iWorld, newBlockPos.above());
                     if (this.chestTileEntityPos != null) {
                         this.foundChest = true;
                     }
                 }
             }
+            if (this.chestTileEntityPos == null) {
+                for (int x = -5; x<6; x++) {
+                    if (this.foundChest) {
+                        break;
+                    }
+                    for (int z = -5; z < 6; z++) {
+                        if (this.foundChest) {
+                            break;
+                        }
+                        BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
+                        checkPos(iWorld, newBlockPos);
+                        checkPos(iWorld, newBlockPos.below(1));
+                        checkPos(iWorld, newBlockPos.below(2));
+                        checkPos(iWorld, newBlockPos.below(3));
+                        checkPos(iWorld, newBlockPos.below(4));
+                        checkPos(iWorld, newBlockPos.below(5));
+                        checkPos(iWorld, newBlockPos.below(6));
+                        checkPos(iWorld, newBlockPos.below(7));
+                        if (this.chestTileEntityPos != null) {
+                            this.foundChest = true;
+                        }
+                    }
+                }
+            }
+            try {
+                StoneChestTileEntity entity = (StoneChestTileEntity) iWorld.getBlockEntity(this.chestTileEntityPos);
+                BrassAmberBattleTowers.LOGGER.log(Level.DEBUG,"Chest " + entity);
+                entity.spawnerDestroyed();
+
+            } catch (Exception e) {
+
+            }
+
         }
-        try {
-            StoneChestTileEntity entity = (StoneChestTileEntity) world.getBlockEntity(this.chestTileEntityPos);
-            BrassAmberBattleTowers.LOGGER.log(Level.DEBUG,"Chest " + entity);
-            entity.spawnerDestroyed();
-
-        } catch (Exception e) {
-
-        }
-
     }
+
 
 }

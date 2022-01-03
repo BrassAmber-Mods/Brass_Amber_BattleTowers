@@ -4,10 +4,13 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+
 
 @EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Bus.MOD)
 public class BTChestTextures {
@@ -17,7 +20,8 @@ public class BTChestTextures {
 	/**
 	 * We need to stitch the textures before we can use them. Otherwise they'll just appear as missing textures.
 	 */
-	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent()
 	public static void textureStitch(TextureStitchEvent.Pre event) {
 		if (event.getMap().location().equals(Atlases.CHEST_SHEET)) {
 			stitchAll(event, GOLEM_CHEST_TEXTURES);
