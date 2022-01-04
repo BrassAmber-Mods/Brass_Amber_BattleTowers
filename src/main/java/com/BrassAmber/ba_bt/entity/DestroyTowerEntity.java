@@ -1,15 +1,18 @@
 package com.BrassAmber.ba_bt.entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.FallingBlockEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.play.client.CChatMessagePacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import org.apache.logging.log4j.Level;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
@@ -119,7 +122,7 @@ public class DestroyTowerEntity extends Entity {
     
     @Override
     public void tick() {
-    	if(this.level.isClientSide) {
+    	if(this.level.isClientSide()) {
     		return;
     	}
         super.tick();
@@ -131,28 +134,37 @@ public class DestroyTowerEntity extends Entity {
                 this.init();
             }
             if (this.currentTicks == 1) {
-                Minecraft.getInstance().player.chat("/gamerule sendCommandFeedback false");
-                Minecraft.getInstance().player.chat("/title @a[distance=0..120] times 30 40 20");
-                Minecraft.getInstance().player.chat("/title @a[distance=0..120] title \"\"");
-                Minecraft.getInstance().player.chat(
-                        "/title @a[distance=0..120] subtitle {\"text\":\"" + this.specs.getCapitalizedName()
-                                + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}");
+
+                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                     ) {
+                    player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback false"));
+                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] times 30 40 20"));
+                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] title \"\""));
+                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\"" + this.specs.getCapitalizedName()
+                            + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}"));
+                }
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
             } else if (this.currentTicks == 200) {
-                Minecraft.getInstance().player.chat("/title @a[distance=0..120] title \"\"");
-                Minecraft.getInstance().player.chat(
-                        "/title @a[distance=0..120] subtitle {\"text\":\"Without it's energy... "
-                        + "\",\"color\":\"#aaaaaa\"}");
+                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                ) {
+                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] title \"\""));
+                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\"Without it's energy... "
+                            + "\",\"color\":\"#aaaaaa\"}"));
+
+                }
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
 
-            } else if (this.currentTicks == 300) {
-                Minecraft.getInstance().player.chat("/title @a[distance=0..120] title \"\"");
-                Minecraft.getInstance().player.chat(
-                        "/title @a[distance=0..120] subtitle {\"text\":\""
-                                + "The tower will collapse...\",\"color\":\"#aa0000\"}");
-            } else if (this.currentTicks == 400) {
+            }  else if (this.currentTicks == 300) {
+                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                ) {
+                    player.connection.handleChat(new CChatMessagePacket("/title @p[distance=0..2] title \"\""));
+                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\""
+                            + "The tower will collapse...\",\"color\":\"#aa0000\"}"));
+                    player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback true"));
+                }
+            }else if (this.currentTicks == 400) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6.0F, 1F);
             }

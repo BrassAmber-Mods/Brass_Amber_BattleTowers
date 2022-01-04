@@ -12,7 +12,10 @@ import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.spawner.AbstractSpawner;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class BTMobSpawnerTileEntityRenderer extends TileEntityRenderer<BTMobSpawnerTileEntity> {
     public BTMobSpawnerTileEntityRenderer(TileEntityRendererDispatcher p_i226016_1_) {
         super(p_i226016_1_);

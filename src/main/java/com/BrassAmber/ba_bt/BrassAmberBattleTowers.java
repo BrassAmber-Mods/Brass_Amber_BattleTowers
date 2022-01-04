@@ -1,10 +1,15 @@
 package com.BrassAmber.ba_bt;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -85,8 +90,11 @@ public class BrassAmberBattleTowers {
 		eventBus.addListener(this::enqueueIMC);
 		// Register the processIMC method for modloading
 		eventBus.addListener(this::processIMC);
+
 		// Register the doClientStuff method for modloading
+		// the check for client only is isnide the method.
 		eventBus.addListener(this::doClientStuff);
+
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
@@ -199,13 +207,19 @@ public class BrassAmberBattleTowers {
 
 	// Do something that can only be done on the client
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		// Register Entity Renderers
-		//Render Type Spawner
-		RenderTypeLookup.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+		try {
+			boolean isClient = event.getMinecraftSupplier().get().level.isClientSide();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Register Entity Renderers
+			//Render Type Spawner
+			RenderTypeLookup.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
 
-		BTEntityRender.init();
-		// Register TileEntity Renderers
-		BTTileEntityRenderInit.bindTileEntityRenderers(event);
+			BTEntityRender.init();
+			// Register TileEntity Renderers
+			BTTileEntityRenderInit.bindTileEntityRenderers(event);
+		}
+
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -230,16 +244,5 @@ public class BrassAmberBattleTowers {
 
 	public static ResourceLocation locate(String name) {
 		return new ResourceLocation(MOD_ID, name);
-	}
-
-	// You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-	// Event bus for receiving Registry Events)
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class RegistryEvents {
-		@SubscribeEvent
-		public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-			// register a new block here
-			LOGGER.info("HELLO from Register Block");
-		}
 	}
 }

@@ -132,8 +132,12 @@ public class MonolithEntity extends Entity {
 
 		// Handles the floating animation
 		++this.floatingRotation;
-		// Animate particles.
-		this.animateTick();
+
+		if (this.level.isClientSide()) {
+			// Animate particles.
+			this.animateTick();
+		}
+
 
 		// Play ambient sounds at random intervals.
 		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {

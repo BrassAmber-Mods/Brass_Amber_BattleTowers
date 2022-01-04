@@ -23,6 +23,9 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 	
 	@Override
 	public void tick() {
+		if(this.level.isClientSide) {
+			return;
+		}
 		if(this.firstTick) {
 			this.firstTick = false;
 			return;
