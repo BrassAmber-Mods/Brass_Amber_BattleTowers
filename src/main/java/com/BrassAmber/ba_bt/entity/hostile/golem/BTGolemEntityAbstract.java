@@ -3,6 +3,9 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import com.BrassAmber.ba_bt.entity.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
@@ -30,6 +33,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -39,10 +43,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.BossInfo;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerBossInfo;
 import net.minecraftforge.common.util.Constants;
 import org.apache.logging.log4j.Level;
@@ -78,7 +79,8 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	private final String spawnDirectionName = "SpawnDirection";
 	private final String golemStateName = "GolemState";
 	private final String explosionPowerName = "ExplosionPower";
-	
+	private BlockPos chestTileEntityPos;
+
 	protected BTGolemEntityAbstract(EntityType<? extends MonsterEntity> type, World worldIn, BossInfo.Color bossbarColor) {
 		super(type, worldIn);
 		// Initializes the bossbar with the correct color.
@@ -345,7 +347,39 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
 		this.destroyTower.setGolemDead(true);
 
+		if (!this.level.isClientSide()) {
+			BlockPos spawnPos = this.getSpawnPos();
+			BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, spawnPos);
+
+			checkPos(spawnPos.north(12).below());
+			checkPos(spawnPos.east(12).below());
+			checkPos(spawnPos.south(12).below());
+			checkPos(spawnPos.west(12).below());
+			try {
+				TileEntity entity = this.level.getBlockEntity(this.chestTileEntityPos);
+				if (entity != null) {
+					GolemChestTileEntity chestEntity = (GolemChestTileEntity) this.level.getBlockEntity(this.chestTileEntityPos);
+					BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Chest " + entity);
+					chestEntity.setNoLockKey();
+				}
+
+			} catch (Exception ignored) {
+
+			}
+		}
+
 		super.die(source);
+	}
+
+	public void checkPos(BlockPos pos) {
+		TileEntity posEntity = this.level.getBlockEntity(pos);
+
+		if (posEntity != null && posEntity.getType() == BTTileEntityTypes.GOLEM_CHEST) {
+			this.chestTileEntityPos = pos;
+		}
+		else {
+			BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, pos + " - " + posEntity);
+		}
 	}
 
 	/*********************************************************** AI Goals ********************************************************/

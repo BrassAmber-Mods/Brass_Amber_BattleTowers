@@ -6,6 +6,7 @@ import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.LockCode;
 
 public class GolemChestTileEntity extends ChestTileEntity {
 
@@ -16,6 +17,12 @@ public class GolemChestTileEntity extends ChestTileEntity {
 
 	protected <TE extends ChestTileEntity> GolemChestTileEntity(TileEntityType<TE> chestTileEntity) {
 		super(chestTileEntity);
+		this.lockKey = new LockCode("BTSpawner");
+	}
+
+	public void setNoLockKey() {
+		this.lockKey = LockCode.NO_LOCK;
+		//BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.lockKey);
 	}
 
 	/**

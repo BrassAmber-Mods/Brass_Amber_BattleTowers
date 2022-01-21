@@ -3,16 +3,9 @@ package com.BrassAmber.ba_bt.entity;
 import java.util.*;
 
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.client.CChatMessagePacket;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import org.apache.logging.log4j.Level;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
@@ -42,7 +35,6 @@ public class DestroyTowerEntity extends Entity {
     private static final DataParameter<BlockPos> CRUMBLE_START_CORNER = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.BLOCK_POS);
     private static final DataParameter<Integer> CRUMBLE_BOTTOM = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
     private static final DataParameter<Integer> CRUMBLE_SPEED = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
-   //Why do you need these values on the client?! If you don't need something on the client you don't need to use data parameters!
     private static final DataParameter<Integer> CURRENT_ROW = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
 
     //Other Parameters
@@ -51,7 +43,7 @@ public class DestroyTowerEntity extends Entity {
     private GolemType golemType;
     private List<BlockPos> blocksToRemove = new ArrayList<>();
     private int rows;
-    private int startTicks = 400;
+    private int startTicks = 600;
     private int currentTicks = 0;
     private boolean golemDead = false;
     private Random random = new Random();
@@ -145,7 +137,7 @@ public class DestroyTowerEntity extends Entity {
                 }
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
-            } else if (this.currentTicks == 200) {
+            } else if (this.currentTicks == 400) {
                 for (ServerPlayerEntity player : this.level.getServer().overworld().players()
                 ) {
                     player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] title \"\""));
@@ -156,7 +148,7 @@ public class DestroyTowerEntity extends Entity {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
 
-            }  else if (this.currentTicks == 300) {
+            }  else if (this.currentTicks == 500) {
                 for (ServerPlayerEntity player : this.level.getServer().overworld().players()
                 ) {
                     player.connection.handleChat(new CChatMessagePacket("/title @p[distance=0..2] title \"\""));
@@ -164,7 +156,7 @@ public class DestroyTowerEntity extends Entity {
                             + "The tower will collapse...\",\"color\":\"#aa0000\"}"));
                     player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback true"));
                 }
-            }else if (this.currentTicks == 400) {
+            }else if (this.currentTicks == 600) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6.0F, 1F);
             }
@@ -323,7 +315,7 @@ public class DestroyTowerEntity extends Entity {
         this.golemType = GolemType.getTypeForName(compound.getString("GolemType"));
         this.setGolemDead(true);
         this.initialized = false;
-        this.currentTicks = 350;
+        this.currentTicks = 580;
     }
 
 
