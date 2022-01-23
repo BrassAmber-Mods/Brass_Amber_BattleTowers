@@ -10,6 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,13 +89,12 @@ public class BrassAmberBattleTowers {
 
 		eventBus.addListener(this::setup);
 		// Register the enqueueIMC method for modloading
-		eventBus.addListener(this::enqueueIMC);
-		// Register the processIMC method for modloading
-		eventBus.addListener(this::processIMC);
 
 		// Register the doClientStuff method for modloading
 		// the check for client only is isnide the method.
 		eventBus.addListener(this::doClientStuff);
+
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC, "ba-battletowers-config.toml");
 
 
 		// Register ourselves for server and other game events we are interested in
@@ -222,18 +223,6 @@ public class BrassAmberBattleTowers {
 
 	}
 
-	private void enqueueIMC(final InterModEnqueueEvent event) {
-		// some example code to dispatch IMC to another mod
-		InterModComms.sendTo("ba_bt", "helloworld", () -> {
-			LOGGER.info("Hello world from the MDK");
-			return "Hello world";
-		});
-	}
-
-	private void processIMC(final InterModProcessEvent event) {
-		// some example code to receive and process InterModComms from other mods
-		LOGGER.info("Got IMC {}", event.getIMCStream().map(m -> m.getMessageSupplier().get()).collect(Collectors.toList()));
-	}
 
 	// You can use SubscribeEvent and let the Event Bus discover methods to call
 	@SubscribeEvent
