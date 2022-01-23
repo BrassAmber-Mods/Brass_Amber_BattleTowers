@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
 
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
-import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.FluidState;
@@ -20,6 +20,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMerger;
@@ -29,12 +30,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 
 public class GolemChestBlock extends ChestBlock {
-
-	private GolemChestTileEntity chestTileEntity;
 
 	private final TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>> menu_provider_combiner = new TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>>() {
 		public Optional<INamedContainerProvider> acceptDouble(final ChestTileEntity chestTileEntity1, final ChestTileEntity chestTileEntity2) {
@@ -87,8 +85,7 @@ public class GolemChestBlock extends ChestBlock {
 	
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		this.chestTileEntity = BTTileEntityTypes.GOLEM_CHEST.create();
-		return this.chestTileEntity;
+		return BTTileEntityTypes.GOLEM_CHEST.create();
 	}
 
 	@Override
@@ -104,6 +101,20 @@ public class GolemChestBlock extends ChestBlock {
 	
 	public BTChestType getChestType() {
 		return this.chestType;
+	}
+
+	@Override
+	public void setPlacedBy(World world, BlockPos blockPos, BlockState blockState, LivingEntity livingEntity, ItemStack itemStack) {
+		super.setPlacedBy(world, blockPos, blockState, livingEntity, itemStack);
+		try {
+			PlayerEntity player = (PlayerEntity) livingEntity;
+			if (!player.isCreative()) {
+				GolemChestTileEntity chestTileEntity = (GolemChestTileEntity) world.getBlockEntity(blockPos);
+				chestTileEntity.setNoLockKey();
+			}
+		} catch (Exception ignored) {
+
+		}
 	}
 
 	public enum BTChestType {
@@ -129,14 +140,12 @@ public class GolemChestBlock extends ChestBlock {
 
 	@Override
 	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
-		if (chestTileEntity.lockKey.equals(LockCode.NO_LOCK)) {
+		GolemChestTileEntity chestTileEntity = (GolemChestTileEntity) world.getBlockEntity(pos);
+		if (chestTileEntity.isUnlocked()) {
 			return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
-		} else	{
+		}
+		else {
 			return false;
 		}
-	}
-
-	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid, StoneChestTileEntity chest) {
-		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 	}
 }
