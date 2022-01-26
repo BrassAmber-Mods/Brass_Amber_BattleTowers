@@ -2,7 +2,10 @@ package com.BrassAmber.ba_bt.entity;
 
 import java.util.*;
 
+import com.BrassAmber.ba_bt.BattleTowersConfig;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.client.CChatMessagePacket;
@@ -48,7 +51,7 @@ public class DestroyTowerEntity extends Entity {
     private boolean golemDead = false;
     private Random random = new Random();
     private BlockPos removeBlock;
-    private List<FallingBlockEntity> explosionBlocks = new ArrayList<>();
+    private boolean checkForGolem = true;
 
     private final double destroyPercentOfTower;
     
@@ -59,16 +62,17 @@ public class DestroyTowerEntity extends Entity {
     private final String currentRowName = "CurrentFloor";
 
 
+
     public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
         super(type, world);
-        this.destroyPercentOfTower = 0.75D;
+        this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
     }
 
-    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level, final double percentageOfTowerToCrumble) {
+    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level) {
         super(BTEntityTypes.DESTROY_TOWER, level);
 
         this.golemType = golemType;
-        this.destroyPercentOfTower = percentageOfTowerToCrumble;
+        this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
         
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
         this.setCrumbleStart(golemSpawn.offset(-15, 6, -15));
@@ -118,6 +122,17 @@ public class DestroyTowerEntity extends Entity {
     		return;
     	}
         super.tick();
+        if (this.checkForGolem) {
+
+            BTGolemEntityAbstract golem = this.level.getNearestEntity(BTGolemEntityAbstract.class, EntityPredicate.DEFAULT, null, this.getX(), this.getY(), this. getZ(), this.getBoundingBox().inflate(15.0D, 10.0D, 15.0D));
+            if (golem == null) {
+                this.setGolemDead(true);
+
+            } else {
+                this.setGolemDead(false);
+                this.currentTicks = 0;
+            }
+        }
         if (this.golemDead) {
             this.currentTicks++;
 
@@ -313,7 +328,8 @@ public class DestroyTowerEntity extends Entity {
         this.setCrumbleSpeed(compound.getInt(this.crumbleSpeedName));
         this.setCurrentRow(compound.getInt(this.currentRowName) - 1);
         this.golemType = GolemType.getTypeForName(compound.getString("GolemType"));
-        this.setGolemDead(true);
+        this.setGolemDead(false);
+        this.checkForGolem = true;
         this.initialized = false;
         this.currentTicks = 580;
     }

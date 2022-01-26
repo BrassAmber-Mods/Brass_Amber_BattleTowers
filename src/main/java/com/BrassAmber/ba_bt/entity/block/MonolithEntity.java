@@ -39,7 +39,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.lwjgl.system.CallbackI;
 
 /*
  * Test swimming and sounds from Entity
@@ -226,12 +225,19 @@ public class MonolithEntity extends Entity {
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
-			Entity entity1 = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level, 0.75D);
-			entity1.setPos(this.getX(), this.getY() + 6, this.getZ());
-			entity1.invulnerableTime = 999999999;
-			serverworld.addFreshEntity(entity1);
+			// Moved to a function so that it can be extended and or tested without needing the spawn golem code
+			this.createDestroyTowerEntity(serverworld);
+
 		}
 	}
+
+	protected void createDestroyTowerEntity(ServerWorld serverWorld) {
+		Entity destroyTowerEntity = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level);
+		destroyTowerEntity.setPos(this.getX(), this.getY() + 6, this.getZ());
+		destroyTowerEntity.invulnerableTime = 999999999;
+		serverWorld.addFreshEntity(destroyTowerEntity);
+	}
+
 
 	/**
 	 * Returns the correct spawn rotation for the Golem.

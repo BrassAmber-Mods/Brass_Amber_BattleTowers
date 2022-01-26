@@ -335,7 +335,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			this.setGolemState(AWAKE);
 		}
 		// This makes sure the /kill command works.
-		return source.equals(DamageSource.OUT_OF_WORLD) ? super.hurt(source, damage) : false;
+		return source.equals(DamageSource.OUT_OF_WORLD) && super.hurt(source, damage);
 	}
 
 	@Override
