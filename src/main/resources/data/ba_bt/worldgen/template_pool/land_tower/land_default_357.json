@@ -32,7 +32,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:land_tower/alchemy_odd_1_2",
+        "location": "ba_bt:land_tower/library_odd_1_2",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -68,7 +68,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:land_tower/alchemy_odd_1_3",
+        "location": "ba_bt:land_tower/library_odd_1_3",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
