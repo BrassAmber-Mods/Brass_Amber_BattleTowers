@@ -32,8 +32,8 @@
 	"ba_bt.subtitle.tower.break.crumble": "La tour s'écroule",
 	
 	// Blocks
-	"block.ba_bt.golem_chest": "Coffre de Golem",
-	"block.ba_bt.stone_chest": "Coffre en Pierre",
+	"block.ba_bt.land_golem_chest": "Coffre de Golem",
+	"block.ba_bt.land_chest": "Coffre en Pierre",
 	"block.ba_bt.totem": "Totem",
 
 	"block.ba_bt.silver_block": "Bloc d'Argent",

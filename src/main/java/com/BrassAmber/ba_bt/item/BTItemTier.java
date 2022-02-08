@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.item;
 
 import java.util.function.Supplier;
 
+import com.BrassAmber.ba_bt.init.BTItems;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.crafting.Ingredient;

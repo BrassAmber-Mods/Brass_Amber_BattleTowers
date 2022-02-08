@@ -3,17 +3,15 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
-import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
-import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
 import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
-import com.BrassAmber.ba_bt.item.BTItems;
+import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -374,7 +372,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	public void checkPos(BlockPos pos) {
 		TileEntity posEntity = this.level.getBlockEntity(pos);
 
-		if (posEntity != null && posEntity.getType() == BTTileEntityTypes.GOLEM_CHEST) {
+		if (posEntity != null && posEntity.getType() == BTTileEntityTypes.LAND_GOLEM_CHEST) {
 			this.chestTileEntityPos = pos;
 		}
 		else {

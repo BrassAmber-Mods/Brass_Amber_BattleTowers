@@ -36,8 +36,8 @@
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
 	
 	// Blocks
-	"block.ba_bt.golem_chest": "Golem Chest",
-	"block.ba_bt.stone_chest": "Stone Chest",
+	"block.ba_bt.land_golem_chest": "Golem Chest",
+	"block.ba_bt.land_chest": "Land Chest",
 	"block.ba_bt.totem": "Totem",
 
 	"block.ba_bt.silver_block": "Silver Block",

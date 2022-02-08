@@ -1,12 +1,13 @@
 package com.BrassAmber.ba_bt.block.block;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
 
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
 import net.minecraft.block.BlockState;
@@ -21,6 +22,7 @@ import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMerger;
@@ -74,7 +76,7 @@ public class GolemChestBlock extends ChestBlock {
 	
 	public GolemChestBlock(BTChestType chestType, Properties properties) {
 		this(chestType, properties, () -> {
-			return BTTileEntityTypes.GOLEM_CHEST;
+			return BTTileEntityTypes.LAND_GOLEM_CHEST;
 		});
 	}
 	
@@ -85,7 +87,7 @@ public class GolemChestBlock extends ChestBlock {
 	
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return BTTileEntityTypes.GOLEM_CHEST.create();
+		return BTTileEntityTypes.LAND_GOLEM_CHEST.create();
 	}
 
 	@Override

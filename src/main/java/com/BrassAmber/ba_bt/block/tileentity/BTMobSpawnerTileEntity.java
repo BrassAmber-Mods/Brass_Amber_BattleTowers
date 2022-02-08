@@ -1,23 +1,16 @@
 package com.BrassAmber.ba_bt.block.tileentity;
 
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.BTBlocks;
-import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
-import com.BrassAmber.ba_bt.block.block.StoneChestBlock;
-import net.minecraft.block.Block;
+import com.BrassAmber.ba_bt.init.BTBlocks;
+import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.spawner.AbstractSpawner;
-import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
 

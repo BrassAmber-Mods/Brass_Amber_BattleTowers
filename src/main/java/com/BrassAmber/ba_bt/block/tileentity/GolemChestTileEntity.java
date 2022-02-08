@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.block.tileentity;
 
-import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -15,7 +15,7 @@ public class GolemChestTileEntity extends ChestTileEntity {
 	protected boolean unlocked = false;
 
 	public GolemChestTileEntity() {
-		this(BTTileEntityTypes.GOLEM_CHEST);
+		this(BTTileEntityTypes.LAND_GOLEM_CHEST);
 	}
 	
 

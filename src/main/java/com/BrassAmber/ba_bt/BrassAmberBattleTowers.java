@@ -1,30 +1,21 @@
 package com.BrassAmber.ba_bt;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
+import com.BrassAmber.ba_bt.client.BTTileEntityRender;
+import com.BrassAmber.ba_bt.init.*;
+import com.BrassAmber.ba_bt.util.BTItemGroup;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.BrassAmber.ba_bt.block.BTBlocks;
-import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
-import com.BrassAmber.ba_bt.block.tileentity.client.BTTileEntityRenderInit;
-import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.client.BTEntityRender;
-import com.BrassAmber.ba_bt.item.BTItems;
+import com.BrassAmber.ba_bt.client.BTEntityRender;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.RegistryKey;
@@ -42,19 +33,15 @@ import net.minecraft.world.gen.settings.StructureSeparationSettings;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraft.client.renderer.RenderType;
@@ -218,7 +205,7 @@ public class BrassAmberBattleTowers {
 
 			BTEntityRender.init();
 			// Register TileEntity Renderers
-			BTTileEntityRenderInit.bindTileEntityRenderers(event);
+			BTTileEntityRender.bindTileEntityRenderers(event);
 		}
 
 	}
