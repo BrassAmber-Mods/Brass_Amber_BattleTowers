@@ -19,6 +19,8 @@
 	"entity.ba_bt.end_monolith": "Monolithe de l'Ender",
 	"entity.ba_bt.sky_monolith": "Monolithe du Ciel",
 	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
+
+	"entity.ba_bt.destroy_tower": "Destroy Tower",
 	
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem blessé",
@@ -27,6 +29,8 @@
 	"ba_bt.subtitle.golem.awaken": "Golem se réveille",
 	"ba_bt.subtitle.golem.ambient": "Golem grogne",
 	"ba_bt.subtitle.golem.special": "Golem attaques",
+
+	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 	
 	"ba_bt.subtitle.tower.break.start": "La tour commence à se briser",
 	"ba_bt.subtitle.tower.break.crumble": "La tour s'écroule",
@@ -38,6 +42,8 @@
 
 	"block.ba_bt.silver_block": "Bloc d'Argent",
 	"block.ba_bt.silver_tiles": "Carreaux d'Argent",
+
+	"block.ba_bt.bt_spawner": "BTSpawner",
 	
 	// Containers
 	"container.ba_bt.land_golem_chest": "Coffre de Golem",
@@ -81,5 +87,5 @@
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Maintenez la Maj pour plus d'informations.",
 	"tooltip.battletowers.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
-	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat."
+	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat.",
 }
