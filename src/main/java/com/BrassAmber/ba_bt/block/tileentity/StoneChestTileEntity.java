@@ -20,7 +20,7 @@ public class StoneChestTileEntity extends GolemChestTileEntity {
 	 */
 	@Override
 	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container.ba_bt.stone_chest");
+		return new TranslationTextComponent("container.ba_bt.land_chest");
 	}
 
 	public void spawnerDestroyed() {

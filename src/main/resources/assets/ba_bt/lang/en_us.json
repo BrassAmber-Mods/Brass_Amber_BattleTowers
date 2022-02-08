@@ -46,10 +46,10 @@
 	"block.ba_bt.bt_spawner" : "BTSpawner",
 	
 	// Containers
-	"container.ba_bt.golem_chest": "Golem Chest",
-	"container.ba_bt.golem_chest_double": "Large Golem Chest",
-	"container.ba_bt.stone_chest": "Stone Chest",
-	"container.ba_bt.stone_chest_double": "Large Stone Chest",
+	"container.ba_bt.land_golem_chest": "Land Golem Chest",
+	"container.ba_bt.land_golem_chest_double": "Large Land Golem Chest",
+	"container.ba_bt.land_chest": "Land Chest",
+	"container.ba_bt.land_chest_double": "Large Land Chest",
 	
 	// Items
 	"item.ba_bt.monolith_key_land": "Land Monolith Key",

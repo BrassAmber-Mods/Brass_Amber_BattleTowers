@@ -61,7 +61,7 @@ public class GolemChestTileEntity extends ChestTileEntity {
 	 */
 	@Override
 	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container.ba_bt.golem_chest");
+		return new TranslationTextComponent("container.ba_bt.land_golem_chest");
 	}
 
 	public boolean isUnlocked() {
