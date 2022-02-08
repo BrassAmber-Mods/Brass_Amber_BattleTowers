@@ -82,10 +82,12 @@
 	"item.ba_bt.silver_leggings": "Jambière en Argent",
 	"item.ba_bt.silver_boots": "Bottes en Argent",
 
+	"item.ba_bt.land_chest_shard": "Land Chest Shard",
+
 	"item.ba_bt.silver_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Argenté",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Maintenez la Maj pour plus d'informations.",
 	"tooltip.battletowers.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
-	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat.",
+	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat."
 }
