@@ -2,11 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": {
-        "min": 2.0,
-        "max": 2.0,
-        "type": "minecraft:uniform"
-      },
+      "rolls": 2,
       "entries": [
         {
           "type": "minecraft:item",
