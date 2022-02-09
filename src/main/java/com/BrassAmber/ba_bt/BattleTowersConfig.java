@@ -20,7 +20,7 @@ public class BattleTowersConfig {
         BUILDER.push("General Settings");
         landMinimumDistance =
                 BUILDER.comment("The minimum distance apart in chunks that land towers can spawn. Default: 16 chunks")
-                .define("Land minimum distance", 20);
+                .define("Land minimum distance", 16);
 
         BUILDER.pop();
 
@@ -32,7 +32,7 @@ public class BattleTowersConfig {
                 + " above to get the average distance between Land Towers for spawning",
                 "I.E. if you leave the minimum distance at 20, and change this value to 10 then Land Towers would spawn"
                         + " a minimum of 20 chunks apart, and on average 30 chunks apart")
-                .defineInRange("Land average modifier", 5, 1, 100);
+                .defineInRange("Land average modifier", 4, 1, 100);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

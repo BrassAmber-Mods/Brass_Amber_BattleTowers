@@ -124,7 +124,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             }
 
             // check if most BlockPos are the same height and add false to the list if not 
-            isFlat.add(t > f);
+            isFlat.add(t == 4);
         }
 
         // set t and f to 0
