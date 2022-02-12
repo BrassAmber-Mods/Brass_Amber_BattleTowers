@@ -141,12 +141,12 @@ public enum GolemType implements IStringSerializable {
 			return EMPTY;
 		case OCEAN:
 			return LAND;
-		case NETHER:
-			return OCEAN;
 		case CORE:
-			return NETHER;
+			return OCEAN;
+		case NETHER:
+			return CORE ;
 		case END:
-			return CORE;
+			return NETHER;
 		case SKY:
 			return END;
 		}
@@ -164,10 +164,10 @@ public enum GolemType implements IStringSerializable {
 			return BTItems.LAND_MONOLOITH_KEY;
 		case OCEAN:
 			return BTItems.OCEAN_MONOLOITH_KEY;
-		case NETHER:
-			return BTItems.NETHER_MONOLOITH_KEY;
 		case CORE:
 			return BTItems.CORE_MONOLOITH_KEY;
+		case NETHER:
+			return BTItems.NETHER_MONOLOITH_KEY;
 		case END:
 			return BTItems.END_MONOLOITH_KEY;
 		case SKY:

@@ -80,7 +80,7 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		event.put(LAND_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
+		event.put(LAND_GOLEM, BTGolemEntity.createBattleGolemAttributes().build());
 		event.put(OCEAN_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 		event.put(NETHER_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 		event.put(CORE_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
