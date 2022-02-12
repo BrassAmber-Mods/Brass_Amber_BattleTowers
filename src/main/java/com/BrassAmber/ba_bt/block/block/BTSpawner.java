@@ -1,30 +1,17 @@
 package com.BrassAmber.ba_bt.block.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.BTBlocks;
-import com.BrassAmber.ba_bt.block.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.BTMobSpawnerTileEntity;
 import com.BrassAmber.ba_bt.block.tileentity.StoneChestTileEntity;
 import net.minecraft.block.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.Level;
-
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BTSpawner extends ContainerBlock {
     private BTMobSpawnerTileEntity mobSpawnerEntity;
@@ -59,7 +46,7 @@ public class BTSpawner extends ContainerBlock {
     public void checkPos(IWorld world, BlockPos pos) {
         TileEntity posEntity = world.getBlockEntity(pos);
 
-        if (posEntity != null && posEntity.getType() == BTTileEntityTypes.STONE_CHEST) {
+        if (posEntity != null && posEntity.getType() == BTTileEntityTypes.LAND_CHEST) {
             this.chestTileEntityPos = pos;
         }
     }

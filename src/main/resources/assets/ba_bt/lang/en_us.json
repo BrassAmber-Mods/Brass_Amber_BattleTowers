@@ -36,8 +36,8 @@
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
 	
 	// Blocks
-	"block.ba_bt.golem_chest": "Golem Chest",
-	"block.ba_bt.stone_chest": "Stone Chest",
+	"block.ba_bt.land_golem_chest": "Golem Chest",
+	"block.ba_bt.land_chest": "Land Chest",
 	"block.ba_bt.totem": "Totem",
 
 	"block.ba_bt.silver_block": "Silver Block",
@@ -46,10 +46,10 @@
 	"block.ba_bt.bt_spawner" : "BTSpawner",
 	
 	// Containers
-	"container.ba_bt.golem_chest": "Golem Chest",
-	"container.ba_bt.golem_chest_double": "Large Golem Chest",
-	"container.ba_bt.stone_chest": "Stone Chest",
-	"container.ba_bt.stone_chest_double": "Large Stone Chest",
+	"container.ba_bt.land_golem_chest": "Land Golem Chest",
+	"container.ba_bt.land_golem_chest_double": "Large Land Golem Chest",
+	"container.ba_bt.land_chest": "Land Chest",
+	"container.ba_bt.land_chest_double": "Large Land Chest",
 	
 	// Items
 	"item.ba_bt.monolith_key_land": "Land Monolith Key",
@@ -81,6 +81,8 @@
 	"item.ba_bt.silver_chestplate": "Silver Chestplate",
 	"item.ba_bt.silver_leggings": "Silver Leggings",
 	"item.ba_bt.silver_boots": "Silver Boots",
+
+	"item.ba_bt.land_chest_shard": "Land Chest Shard",
 
 	"item.ba_bt.silver_skeleton_spawn_egg": "Silver Skeleton Spawn Egg",
 	
