@@ -47,7 +47,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(BrassAmberBattleTowers.MOD_ID)
@@ -203,7 +203,7 @@ public class BrassAmberBattleTowers {
 			e.printStackTrace();
 			// Register Entity Renderers
 			//Render Type Spawner
-			RenderTypeLookup.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
 
 			BTEntityRender.init();
 			// Register TileEntity Renderers
