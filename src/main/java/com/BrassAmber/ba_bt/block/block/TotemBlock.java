@@ -16,6 +16,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 public class TotemBlock extends Block {
 	public static final EnumProperty<GolemType> TOTEM = EnumProperty.create("totem", GolemType.class);

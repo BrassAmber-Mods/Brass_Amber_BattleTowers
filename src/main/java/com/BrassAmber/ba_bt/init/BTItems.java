@@ -7,7 +7,6 @@ import com.BrassAmber.ba_bt.item.BTItemTier;
 import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
 import com.BrassAmber.ba_bt.item.item.MonolithItem;
 import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
-import com.BrassAmber.ba_bt.util.BTItemGroup;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.entity.EntityType;

@@ -3,12 +3,13 @@ package com.BrassAmber.ba_bt.util;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 
-public class BTItemGroup extends ItemGroup {
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
-	public BTItemGroup() {
+public class BTCreativeTab extends CreativeModeTab {
+
+	public BTCreativeTab() {
 		super(BrassAmberBattleTowers.MOD_ID);
 	}
 

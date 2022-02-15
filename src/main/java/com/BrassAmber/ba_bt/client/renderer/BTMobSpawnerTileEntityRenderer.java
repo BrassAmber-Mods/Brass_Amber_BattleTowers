@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.client.renderer;
 
-import com.BrassAmber.ba_bt.block.tileentity.BTMobSpawnerTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -14,12 +14,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BTMobSpawnerTileEntityRenderer extends TileEntityRenderer<BTMobSpawnerTileEntity> {
+public class BTMobSpawnerTileEntityRenderer extends TileEntityRenderer<BTSpawnerBlockEntity> {
     public BTMobSpawnerTileEntityRenderer(TileEntityRendererDispatcher p_i226016_1_) {
         super(p_i226016_1_);
     }
 
-    public void render(BTMobSpawnerTileEntity btMobSpawnerTileEntity, float x, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int lightCoords, int p_225616_6_) {
+    public void render(BTSpawnerBlockEntity btMobSpawnerTileEntity, float x, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int lightCoords, int p_225616_6_) {
         matrixStack.pushPose();
         matrixStack.translate(0.5D, 0.0D, 0.5D);
         AbstractSpawner abstractspawner = btMobSpawnerTileEntity.getSpawner();

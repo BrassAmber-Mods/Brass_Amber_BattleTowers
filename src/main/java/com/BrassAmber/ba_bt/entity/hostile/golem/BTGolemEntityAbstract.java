@@ -3,8 +3,8 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
-import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
@@ -356,7 +356,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 			try {
 				TileEntity entity = this.level.getBlockEntity(this.chestTileEntityPos);
 				if (entity != null) {
-					GolemChestTileEntity chestEntity = (GolemChestTileEntity) this.level.getBlockEntity(this.chestTileEntityPos);
+					GolemChestBlockEntity chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.chestTileEntityPos);
 					BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Chest " + entity);
 					chestEntity.setNoLockKey();
 				}

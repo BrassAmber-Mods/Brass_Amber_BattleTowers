@@ -1,11 +1,9 @@
 package com.BrassAmber.ba_bt.block.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
 
 /**
  * TODO(OLD) Prevent placement in the world.
@@ -13,12 +11,7 @@ import net.minecraft.world.IBlockReader;
  */
 public class TabIconBlock extends Block {
 
-	public TabIconBlock(Properties blockProperties) {
+	public TabIconBlock(BlockBehaviour.Properties blockProperties) {
 		super(blockProperties);
-	}
-
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
-		return Block.box(0.0D, 0.0D, 7.5D, 16.0D, 16.0D, 8.5D);
 	}
 }

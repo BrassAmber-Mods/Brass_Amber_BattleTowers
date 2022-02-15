@@ -6,10 +6,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
-public class StoneChestBlock extends GolemChestBlock {
+public class TowerChestBlock extends GolemChestBlock {
 
 
-	public StoneChestBlock(BTChestType chestType, Properties properties) {
+	public TowerChestBlock(BTChestType chestType, Properties properties) {
 		super(chestType, properties, () -> {
 			return BTTileEntityTypes.LAND_CHEST;
 		});

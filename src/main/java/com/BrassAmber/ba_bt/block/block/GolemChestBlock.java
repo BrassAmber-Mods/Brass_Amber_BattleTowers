@@ -1,117 +1,132 @@
 package com.BrassAmber.ba_bt.block.block;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 
-import com.BrassAmber.ba_bt.block.tileentity.GolemChestTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.inventory.DoubleSidedInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ChestContainer;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMerger;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.CompoundContainer;
+import net.minecraft.world.Container;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.DoubleBlockCombiner;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
 
 public class GolemChestBlock extends ChestBlock {
 
-	private final TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>> menu_provider_combiner = new TileEntityMerger.ICallback<ChestTileEntity, Optional<INamedContainerProvider>>() {
-		public Optional<INamedContainerProvider> acceptDouble(final ChestTileEntity chestTileEntity1, final ChestTileEntity chestTileEntity2) {
-			final IInventory iinventory = new DoubleSidedInventory(chestTileEntity1, chestTileEntity2);
-			return Optional.of(new INamedContainerProvider() {
+	public static final BTChestType BT_CHEST_TYPE = BTChestType.GOLEM;
+
+	private static final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<Container>> CHEST_COMBINER = new DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<Container>>() {
+		public Optional<Container> acceptDouble(ChestBlockEntity p_51591_, ChestBlockEntity p_51592_) {
+			return Optional.of(new CompoundContainer(p_51591_, p_51592_));
+		}
+
+		public Optional<Container> acceptSingle(ChestBlockEntity p_51589_) {
+			return Optional.of(p_51589_);
+		}
+
+		public Optional<Container> acceptNone() {
+			return Optional.empty();
+		}
+	};
+	private static final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>>() {
+		public Optional<MenuProvider> acceptDouble(final ChestBlockEntity p_51604_, final ChestBlockEntity p_51605_) {
+			final Container container = new CompoundContainer(p_51604_, p_51605_);
+			return Optional.of(new MenuProvider() {
 				@Nullable
-				public Container createMenu(int containerId, PlayerInventory playerInventory, PlayerEntity playerIn) {
-					if (chestTileEntity1.canOpen(playerIn) && chestTileEntity2.canOpen(playerIn)) {
-						chestTileEntity1.unpackLootTable(playerInventory.player);
-						chestTileEntity2.unpackLootTable(playerInventory.player);
-						return ChestContainer.sixRows(containerId, playerInventory, iinventory);
+				public AbstractContainerMenu createMenu(int p_51622_, Inventory p_51623_, Player p_51624_) {
+					if (p_51604_.canOpen(p_51624_) && p_51605_.canOpen(p_51624_)) {
+						p_51604_.unpackLootTable(p_51623_.player);
+						p_51605_.unpackLootTable(p_51623_.player);
+						return ChestMenu.sixRows(p_51622_, p_51623_, container);
 					} else {
 						return null;
 					}
 				}
 
-				// Naming of double chests
-				public ITextComponent getDisplayName() {
-					if (chestTileEntity1.hasCustomName()) {
-						return chestTileEntity1.getDisplayName();
+				public Component getDisplayName() {
+					if (p_51604_.hasCustomName()) {
+						return p_51604_.getDisplayName();
 					} else {
-						return (ITextComponent) (chestTileEntity2.hasCustomName() ? chestTileEntity2.getDisplayName() : new TranslationTextComponent("container.ba_bt."+getChestType().getName()+"_chest_double"));
+						return (Component)(p_51605_.hasCustomName() ? p_51605_.getDisplayName() : new TranslatableComponent("container.ba_bt."+BT_CHEST_TYPE.getName()+"_chest_double"));
 					}
 				}
 			});
 		}
 
-		public Optional<INamedContainerProvider> acceptSingle(ChestTileEntity chestTileEntity) {
-			return Optional.of(chestTileEntity);
+		public Optional<MenuProvider> acceptSingle(ChestBlockEntity p_51602_) {
+			return Optional.of(p_51602_);
 		}
 
-		public Optional<INamedContainerProvider> acceptNone() {
+		public Optional<MenuProvider> acceptNone() {
 			return Optional.empty();
 		}
 	};
+
 
 //	protected static TileEntityType<? extends GolemChestTileEntity> CHEST_TILE_ENTITY_TYPE = BTTileEntityTypes.GOLEM_CHEST;
 	private final BTChestType chestType;
 	
 	public GolemChestBlock(BTChestType chestType, Properties properties) {
-		this(chestType, properties, () -> {
-			return BTTileEntityTypes.LAND_GOLEM_CHEST;
-		});
+		this(chestType, properties, () -> BTBlockEntityTypes.LAND_GOLEM_CHEST);
 	}
-	
-	public GolemChestBlock(BTChestType chestType, Properties properties, Supplier<TileEntityType<? extends ChestTileEntity>> chestSupplier) {
+
+	public GolemChestBlock(BTChestType chestType, Properties properties, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier) {
 		super(properties, chestSupplier);
 		this.chestType = chestType;
 	}
-	
+
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return BTTileEntityTypes.LAND_GOLEM_CHEST.create();
+	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+		return BTBlockEntityTypes.LAND_GOLEM_CHEST.create(blockPos, blockState);
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
+	public BlockEntity cr(BlockState state, LevelAccessor world) {
+		;
 	}
 
 	@Override
-	@Nullable
-	public INamedContainerProvider getMenuProvider(BlockState state, World worldIn, BlockPos pos) {
-		return this.combine(state, worldIn, pos, false).<Optional<INamedContainerProvider>>apply(this.menu_provider_combiner).orElse((INamedContainerProvider) null);
+	public void entityInside(BlockState p_60495_, Level p_60496_, BlockPos p_60497_, Entity p_60498_) {
+		super.entityInside(p_60495_, p_60496_, p_60497_, p_60498_);
 	}
-	
+
+
+
 	public BTChestType getChestType() {
 		return this.chestType;
 	}
 
 	@Override
-	public void setPlacedBy(World world, BlockPos blockPos, BlockState blockState, LivingEntity livingEntity, ItemStack itemStack) {
+	public void setPlacedBy(Level world, BlockPos blockPos, BlockState blockState, LivingEntity livingEntity, ItemStack itemStack) {
 		super.setPlacedBy(world, blockPos, blockState, livingEntity, itemStack);
 		try {
-			PlayerEntity player = (PlayerEntity) livingEntity;
+			Player player = (Player) livingEntity;
 			if (!player.isCreative()) {
-				GolemChestTileEntity chestTileEntity = (GolemChestTileEntity) world.getBlockEntity(blockPos);
+				GolemChestBlockEntity chestTileEntity = (GolemChestBlockEntity) world.getBlockEntity(blockPos);
 				chestTileEntity.setNoLockKey();
 			}
 		} catch (Exception ignored) {
@@ -119,7 +134,7 @@ public class GolemChestBlock extends ChestBlock {
 		}
 	}
 
-	public enum BTChestType {
+	public enum BTChestType implements StringRepresentable {
 		GOLEM("golem"),
 		STONE("stone");
 		
@@ -138,16 +153,22 @@ public class GolemChestBlock extends ChestBlock {
 		public static BTChestType getRandomChestType(Random rand) {
 			return Util.getRandom(ALL_CHEST_TYPES, rand);
 		}
+
+		@Override
+		public String getSerializedName() {
+			return typeName;
+		}
 	}
 
 	@Override
-	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
-		GolemChestTileEntity chestTileEntity = (GolemChestTileEntity) world.getBlockEntity(pos);
+	public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+		GolemChestBlockEntity chestTileEntity = (GolemChestBlockEntity) world.getBlockEntity(pos);
 		if (chestTileEntity.isUnlocked()) {
-			return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
+			return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
 		}
 		else {
 			return false;
 		}
+
 	}
 }

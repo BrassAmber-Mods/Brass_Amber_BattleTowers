@@ -6,7 +6,9 @@ import java.util.Map;
 
 import com.BrassAmber.ba_bt.client.BTTileEntityRender;
 import com.BrassAmber.ba_bt.init.*;
-import com.BrassAmber.ba_bt.util.BTItemGroup;
+import com.BrassAmber.ba_bt.util.BTCreativeTab;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
@@ -52,11 +54,11 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 public class BrassAmberBattleTowers {
 
 	public static final String MOD_ID = "ba_bt";
-	public static final ItemGroup BATLETOWERSTAB = new BTItemGroup();
+	public static final CreativeModeTab BATLETOWERSTAB = new BTCreativeTab();
 	// Directly reference a log4j logger
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public static final ITextComponent HOLD_SHIFT_TOOLTIP = (new TranslationTextComponent("tooltip.battletowers.hold_shift").withStyle(TextFormatting.DARK_GRAY));
+	public static final TextComponent HOLD_SHIFT_TOOLTIP = (new TranslationTextComponent("tooltip.battletowers.hold_shift").withStyle(TextFormatting.DARK_GRAY));
 
 	public BrassAmberBattleTowers() {
 		// Register the setup method for modloading
