@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.entity.hostile;
 
 import com.BrassAmber.ba_bt.entity.ai.goal.DualMeleeAttackGoal;
-import com.BrassAmber.ba_bt.item.BTItems;
+import com.BrassAmber.ba_bt.init.BTItems;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.RangedBowAttackGoal;

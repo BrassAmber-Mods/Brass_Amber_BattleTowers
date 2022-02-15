@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.item;
 
 import java.util.function.Supplier;
 
+import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
 import net.minecraft.inventory.EquipmentSlotType;

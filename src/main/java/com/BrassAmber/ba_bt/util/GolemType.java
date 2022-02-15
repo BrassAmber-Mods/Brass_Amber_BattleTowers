@@ -2,9 +2,9 @@ package com.BrassAmber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.BrassAmber.ba_bt.entity.BTEntityTypes;
+import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
-import com.BrassAmber.ba_bt.item.BTItems;
+import com.BrassAmber.ba_bt.init.BTItems;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;

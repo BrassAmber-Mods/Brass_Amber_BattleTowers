@@ -1,11 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
-import com.BrassAmber.ba_bt.entity.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.IStringSerializable;
-
-import java.util.Locale;
 
 public enum TowerSpecs implements IStringSerializable {
     EMPTY("",0,0, ""),
