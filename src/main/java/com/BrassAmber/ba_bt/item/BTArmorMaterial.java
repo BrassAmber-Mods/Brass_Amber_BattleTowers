@@ -5,20 +5,22 @@ import java.util.function.Supplier;
 import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.LazyValue;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
 
 /**
  * Reference from {@link ArmorMaterial}
  */
-public enum BTArmorMaterial implements IArmorMaterial {
+public enum BTArmorMaterial implements ArmorMaterial {
 	SILVER("silver", 11, new int[] { 2, 5, 6, 2 }, 20, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
 		return Ingredient.of(BTItems.SILVER_INGOT);
 	});
@@ -31,7 +33,7 @@ public enum BTArmorMaterial implements IArmorMaterial {
 	private final SoundEvent sound;
 	private final float toughness;
 	private final float knockbackResistance;
-	private final LazyValue<Ingredient> repairIngredient;
+	private final LazyLoadedValue<Ingredient> repairIngredient;
 
 	private BTArmorMaterial(String name, int durabilityMultiplier, int[] slotProtections, int enchantmentValue, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
 		this.name = name;
@@ -41,16 +43,16 @@ public enum BTArmorMaterial implements IArmorMaterial {
 		this.sound = equipSound;
 		this.toughness = toughness;
 		this.knockbackResistance = knockbackResistance;
-		this.repairIngredient = new LazyValue<>(repairIngredient);
+		this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
 	}
 
 	@Override
-	public int getDurabilityForSlot(EquipmentSlotType equipmentSlotType) {
+	public int getDurabilityForSlot(EquipmentSlot equipmentSlotType) {
 		return HEALTH_PER_SLOT[equipmentSlotType.getIndex()] * this.durabilityMultiplier;
 	}
 
 	@Override
-	public int getDefenseForSlot(EquipmentSlotType equipmentSlotType) {
+	public int getDefenseForSlot(EquipmentSlot equipmentSlotType) {
 		return this.slotProtections[equipmentSlotType.getIndex()];
 	}
 
@@ -60,18 +62,18 @@ public enum BTArmorMaterial implements IArmorMaterial {
 	}
 
 	@Override
-	public SoundEvent getEquipSound() {
+	public @NotNull SoundEvent getEquipSound() {
 		return this.sound;
 	}
 
 	@Override
-	public Ingredient getRepairIngredient() {
+	public @NotNull Ingredient getRepairIngredient() {
 		return this.repairIngredient.get();
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public String getName() {
+	public @NotNull String getName() {
 		return BrassAmberBattleTowers.MOD_ID + ":" + this.name;
 	}
 

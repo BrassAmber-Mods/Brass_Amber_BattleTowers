@@ -10,11 +10,12 @@ import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BTChestItemRenderer<T extends TileEntity> extends ItemStackTileEntityRenderer {
+public class BTChestItemRenderer<T extends BlockEntity> extends BlockEntityRE {
 	private final Supplier<T> tileEntity;
 
 	public BTChestItemRenderer(Supplier<T> tileEntity) {

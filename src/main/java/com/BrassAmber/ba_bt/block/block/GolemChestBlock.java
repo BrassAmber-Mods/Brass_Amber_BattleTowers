@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 
@@ -29,6 +30,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,13 +40,14 @@ import net.minecraft.world.level.material.FluidState;
 public class GolemChestBlock extends ChestBlock {
 
 	public static final BTChestType BT_CHEST_TYPE = BTChestType.GOLEM;
+	private final BTChestType chestType;
 
-	private static final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<Container>> CHEST_COMBINER = new DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<Container>>() {
-		public Optional<Container> acceptDouble(ChestBlockEntity p_51591_, ChestBlockEntity p_51592_) {
+	private static final DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<Container>> CHEST_COMBINER = new DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<Container>>() {
+		public Optional<Container> acceptDouble(GolemChestBlockEntity p_51591_, GolemChestBlockEntity p_51592_) {
 			return Optional.of(new CompoundContainer(p_51591_, p_51592_));
 		}
 
-		public Optional<Container> acceptSingle(ChestBlockEntity p_51589_) {
+		public Optional<Container> acceptSingle(GolemChestBlockEntity p_51589_) {
 			return Optional.of(p_51589_);
 		}
 
@@ -52,8 +55,8 @@ public class GolemChestBlock extends ChestBlock {
 			return Optional.empty();
 		}
 	};
-	private static final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>>() {
-		public Optional<MenuProvider> acceptDouble(final ChestBlockEntity p_51604_, final ChestBlockEntity p_51605_) {
+	private static final DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<MenuProvider>>() {
+		public Optional<MenuProvider> acceptDouble(final GolemChestBlockEntity p_51604_, final GolemChestBlockEntity p_51605_) {
 			final Container container = new CompoundContainer(p_51604_, p_51605_);
 			return Optional.of(new MenuProvider() {
 				@Nullable
@@ -71,13 +74,13 @@ public class GolemChestBlock extends ChestBlock {
 					if (p_51604_.hasCustomName()) {
 						return p_51604_.getDisplayName();
 					} else {
-						return (Component)(p_51605_.hasCustomName() ? p_51605_.getDisplayName() : new TranslatableComponent("container.ba_bt."+BT_CHEST_TYPE.getName()+"_chest_double"));
+						return p_51605_.hasCustomName() ? p_51605_.getDisplayName() : new TranslatableComponent("container.ba_bt."+BT_CHEST_TYPE.getName()+"_chest_double");
 					}
 				}
 			});
 		}
 
-		public Optional<MenuProvider> acceptSingle(ChestBlockEntity p_51602_) {
+		public Optional<MenuProvider> acceptSingle(GolemChestBlockEntity p_51602_) {
 			return Optional.of(p_51602_);
 		}
 
@@ -87,8 +90,6 @@ public class GolemChestBlock extends ChestBlock {
 	};
 
 
-//	protected static TileEntityType<? extends GolemChestTileEntity> CHEST_TILE_ENTITY_TYPE = BTTileEntityTypes.GOLEM_CHEST;
-	private final BTChestType chestType;
 	
 	public GolemChestBlock(BTChestType chestType, Properties properties) {
 		this(chestType, properties, () -> BTBlockEntityTypes.LAND_GOLEM_CHEST);
@@ -99,22 +100,20 @@ public class GolemChestBlock extends ChestBlock {
 		this.chestType = chestType;
 	}
 
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(net.minecraft.world.level.Level level, BlockState p_154684_, BlockEntityType<T> p_154685_) {
+		return createTickerHelper(p_154685_, BTBlockEntityTypes.LAND_GOLEM_CHEST, level.isClientSide ? GolemChestBlockEntity::clientTick : GolemChestBlockEntity::serverTick);
+	}
+
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return BTBlockEntityTypes.LAND_GOLEM_CHEST.create(blockPos, blockState);
 	}
 
 	@Override
-	public BlockEntity cr(BlockState state, LevelAccessor world) {
-		;
-	}
-
-	@Override
 	public void entityInside(BlockState p_60495_, Level p_60496_, BlockPos p_60497_, Entity p_60498_) {
 		super.entityInside(p_60495_, p_60496_, p_60497_, p_60498_);
 	}
-
-
 
 	public BTChestType getChestType() {
 		return this.chestType;
@@ -136,7 +135,7 @@ public class GolemChestBlock extends ChestBlock {
 
 	public enum BTChestType implements StringRepresentable {
 		GOLEM("golem"),
-		STONE("stone");
+		TOWER("tower");
 		
 		private String typeName;
 

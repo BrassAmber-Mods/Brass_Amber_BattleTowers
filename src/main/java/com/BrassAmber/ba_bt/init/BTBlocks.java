@@ -8,7 +8,7 @@ import com.BrassAmber.ba_bt.block.block.*;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.block.tileentity.TowerChestTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.client.renderer.inventory.BTChestItemRenderer;
 
 import net.minecraft.block.Block;
@@ -27,6 +27,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,7 +44,7 @@ public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final Block LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest", new GolemChestBlock(BTChestType.GOLEM, Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(GolemChestBlockEntity::new));
-	public static final Block LAND_CHEST = registerChestBlock("land_chest", new TowerChestBlock(BTChestType.STONE, Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(TowerChestTileEntity::new));
+	public static final Block LAND_CHEST = registerChestBlock("land_chest", new TowerChestBlock(BTChestType.TOWER, Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)), () -> chestItemRenderer(TowerChestBlockEntity::new));
 
 	public static final Block TOTEM = registerBlock("totem", new TotemBlock(Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE)));
 
@@ -114,7 +115,7 @@ public class BTBlocks {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private static <T extends TileEntity> Callable<ItemStackTileEntityRenderer> chestItemRenderer(Supplier<T> tileEntitySupplier) {
-		return () -> new BTChestItemRenderer<>(tileEntitySupplier);
+	private static <T extends BlockEntity> Callable<ItemStackHandler> chestItemRenderer(Supplier<T> chestItemRenderer) {
+		return () -> new BTChestItemRenderer<>(chestItemRenderer);
 	}
 }

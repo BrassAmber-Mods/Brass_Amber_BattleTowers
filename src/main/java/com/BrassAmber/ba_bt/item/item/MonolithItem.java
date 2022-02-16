@@ -7,24 +7,24 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -42,34 +42,34 @@ public class MonolithItem extends Item {
 	 * Called when this item is used when targetting a Block
 	 */
 	@Override
-	public ActionResultType useOn(ItemUseContext context) {
-		World world = context.getLevel();
+	public InteractionResult useOn(UseOnContext context) {
+		Level level = context.getLevel();
 		BlockPos clickedPos = context.getClickedPos();
 		Direction clickedBlockFace = context.getClickedFace();
 		BlockPos newPlacementPos = clickedBlockFace.equals(Direction.DOWN) ? clickedPos.relative(clickedBlockFace, 3) : clickedPos.relative(clickedBlockFace);
-		if (!this.hasEnoughSpace(world, newPlacementPos, clickedBlockFace)) {
-			return ActionResultType.FAIL;
+		if (!this.hasEnoughSpace(level, newPlacementPos, clickedBlockFace)) {
+			return InteractionResult.FAIL;
 		} else {
 			double x = (double) newPlacementPos.getX();
 			double y = (double) newPlacementPos.getY();
 			double z = (double) newPlacementPos.getZ();
-			List<Entity> list = world.getEntities((Entity) null, new AxisAlignedBB(x, y, z, x + 1.0D, y + 3.0D, z + 1.0D));
+			List<Entity> list = level.getEntities((Entity) null, new AABB(x, y, z, x + 1.0D, y + 3.0D, z + 1.0D));
 			if (!list.isEmpty()) {
-				return ActionResultType.FAIL;
+				return InteractionResult.FAIL;
 			} else {
-				if (world instanceof ServerWorld) {
+				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, world, x + centerOnBlock, y, z + centerOnBlock);
+					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, level, x + centerOnBlock, y, z + centerOnBlock);
 					newMonolithEntity.yRot = this.getPlacementDirection(context);
-					world.addFreshEntity(newMonolithEntity);
+					level.addFreshEntity(newMonolithEntity);
 				}
 
 				// TODO Fix subtitles
-				world.playSound(null, newPlacementPos, SoundEvents.IRON_GOLEM_STEP, SoundCategory.BLOCKS, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
-				world.playSound(null, newPlacementPos, SoundEvents.ANVIL_PLACE, SoundCategory.BLOCKS, this.getSoundVolume() - 0.7F, this.getSoundPitch());
-				world.playSound(null, newPlacementPos, SoundEvents.RESPAWN_ANCHOR_CHARGE, SoundCategory.BLOCKS, this.getSoundVolume() - 0.25F, this.getSoundPitch());
+				level.playSound(null, newPlacementPos, SoundEvents.IRON_GOLEM_STEP, SoundSource.BLOCKS, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
+				level.playSound(null, newPlacementPos, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, this.getSoundVolume() - 0.7F, this.getSoundPitch());
+				level.playSound(null, newPlacementPos, SoundEvents.RESPAWN_ANCHOR_CHARGE, SoundSource.BLOCKS, this.getSoundVolume() - 0.25F, this.getSoundPitch());
 				context.getItemInHand().shrink(1);
-				return ActionResultType.sidedSuccess(world.isClientSide());
+				return InteractionResult.sidedSuccess(level.isClientSide());
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class MonolithItem extends Item {
 	/**
 	 * Returns the correct placement rotation for the entity
 	 */
-	private float getPlacementDirection(ItemUseContext context) {
+	private float getPlacementDirection(UseOnContext context) {
 		float angle = context.getHorizontalDirection().toYRot();
 		// Invert placement facing east and west.
 		return angle == 90 ? 270 : angle == 270 ? 90 : angle;
@@ -86,7 +86,7 @@ public class MonolithItem extends Item {
 	/**
 	 * Checks if there are any Blocks in the way
 	 */
-	private boolean hasEnoughSpace(World world, BlockPos pos, Direction clickedBlockFace) {
+	private boolean hasEnoughSpace(Level world, BlockPos pos, Direction clickedBlockFace) {
 		for (int height = 0; height < 3; height++) {
 			if (!world.isEmptyBlock(pos.offset(0, height, 0))) {
 				return false;
@@ -101,9 +101,9 @@ public class MonolithItem extends Item {
 	 * allows items to add custom lines of information to the mouseover description
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void addInformation(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(new TranslationTextComponent("tooltip.battletowers.monolith").withStyle(TextFormatting.ITALIC).withStyle(TextFormatting.GRAY));
+			tooltip.add(new TranslatableComponent("tooltip.battletowers.monolith").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BrassAmberBattleTowers.HOLD_SHIFT_TOOLTIP);
 		}

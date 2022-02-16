@@ -20,7 +20,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.Builder;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -41,8 +44,8 @@ public class BTEntityTypes {
 	public static final EntityType<EndGolemEntity> END_GOLEM = buildGolemEntityType("end_golem", EndGolemEntity::new);
 	public static final EntityType<SkyGolemEntity> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolemEntity::new);
 
-	public static final EntityType<SkyMinionEntity> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinionEntity::new, EntityClassification.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
-	public static final EntityType<SilverSkeletonEntity> SILVER_SKELETON = buildEntityType("silver_skeleton", EntityType.Builder.of(SilverSkeletonEntity::new, EntityClassification.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
+	public static final EntityType<SkyMinionEntity> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinionEntity::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
+	public static final EntityType<SilverSkeletonEntity> SILVER_SKELETON = buildEntityType("silver_skeleton", EntityType.Builder.of(SilverSkeletonEntity::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
 	
 	public static final EntityType<MonolithEntity> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
 	public static final EntityType<MonolithEntity> OCEAN_MONOLITH = buildMonolithEntityType("ocean_monolith");
@@ -52,10 +55,10 @@ public class BTEntityTypes {
 	public static final EntityType<MonolithEntity> SKY_MONOLITH = buildMonolithEntityType("sky_monolith");
 
 	public static final EntityType<DestroyTowerEntity> DESTROY_TOWER = buildEntityType("destroy_tower",
-			EntityType.Builder.<DestroyTowerEntity>of(DestroyTowerEntity::new, EntityClassification.MISC)
+			EntityType.Builder.<DestroyTowerEntity>of(DestroyTowerEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT));
 	public static final EntityType<ExplosionPhysicsEntity> PHYSICS_EXPLOSION = buildEntityType("explosion_physics",
-			EntityType.Builder.<ExplosionPhysicsEntity>of(ExplosionPhysicsEntity::new, EntityClassification.MISC)
+			EntityType.Builder.<ExplosionPhysicsEntity>of(ExplosionPhysicsEntity::new, MobCategory.MISC)
 					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave());
 
 	

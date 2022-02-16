@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.item.item;
 
 import com.BrassAmber.ba_bt.util.GolemType;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class GuardianEyeItem extends Item {
 	private GolemType golemType;

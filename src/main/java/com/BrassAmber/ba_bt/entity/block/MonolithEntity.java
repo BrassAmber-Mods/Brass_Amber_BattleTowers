@@ -10,6 +10,8 @@ import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.PushReaction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
@@ -19,26 +21,50 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tileentity.PistonTileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Mth;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 
 /*
  * Test swimming and sounds from Entity
@@ -46,7 +72,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
  * Make particles appear like destroying blocks when removing
  */
 public class MonolithEntity extends Entity {
-	public static final DataParameter<Integer> KEYS = EntityDataManager.defineId(MonolithEntity.class, DataSerializers.INT);
+	public static final EntityDataAccessor<Integer> KEYS = SynchedEntityData.defineId(MonolithEntity.class, EntityDataSerializers.INT);
 	private final EntityType<?> monolithType;
 	private final GolemType golemType;
 	private final Item correctMonolithKey;
@@ -57,8 +83,8 @@ public class MonolithEntity extends Entity {
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
 
-	public MonolithEntity(EntityType<? extends MonolithEntity> type, World world) {
-		super(type, world);
+	public MonolithEntity(EntityType<? extends MonolithEntity> type, Level level) {
+		super(type, level);
 		this.blocksBuilding = true;
 		this.floatingRotation = this.random.nextInt(100_000);
 		this.monolithType = this.getType();
@@ -67,8 +93,8 @@ public class MonolithEntity extends Entity {
 		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
 	}
 
-	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, World worldIn, double x, double y, double z) {
-		this(monolithEntityType, worldIn);
+	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, Level levelIn, double x, double y, double z) {
+		this(monolithEntityType, levelIn);
 		this.setPos(x, y, z);
 	}
 
@@ -80,12 +106,12 @@ public class MonolithEntity extends Entity {
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundNBT compound) {
+	protected void readAdditionalSaveData(CompoundTag compound) {
 		this.setKeyCountInEntity(compound.getInt("Keys"));
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundNBT compound) {
+	protected void addAdditionalSaveData(CompoundTag compound) {
 		compound.putInt("Keys", this.getKeyCountInEntity());
 	}
 
@@ -121,7 +147,7 @@ public class MonolithEntity extends Entity {
 			if (this.nextStageCounter >= (seconds * 20)) {
 				//	Spawn Golem and remove this entity
 				this.spawnGolem();
-				this.remove();
+				this.remove(RemovalReason.DISCARDED);
 			}
 			this.nextStageCounter++;
 		}
@@ -151,7 +177,7 @@ public class MonolithEntity extends Entity {
 	 * Applies the given player interaction to this Entity.
 	 */
 	@Override
-	public ActionResultType interact(PlayerEntity player, Hand hand) {
+	public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
 		if (this.monolithType != null) {
 			// Get the item in the player's hand.
 			Item itemInHand = player.getItemInHand(hand).getItem();
@@ -162,14 +188,14 @@ public class MonolithEntity extends Entity {
 				if (this.getKeyCountInEntity() < keysNeeded) {
 					// Increase Keys by one.
 					this.increaseKeyCount(player, hand);
-					return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
+					return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 				}
 			}
 
 			// Test for a chance to insert a Guardian Eye.
 			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityTypes.LAND_MONOLITH) && this.isEyeSlotDisplayed()) {
 				this.increaseKeyCount(player, hand);
-				return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
+				return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 			}
 		}
 
@@ -180,7 +206,7 @@ public class MonolithEntity extends Entity {
 	/**
 	 * Increase the amount of keys by 1.
 	 */
-	private void increaseKeyCount(PlayerEntity player, Hand hand) {
+	private void increaseKeyCount(Player player, InteractionHand hand) {
 		this.setKeyCountInEntity(this.getKeyCountInEntity() + 1);
 		this.playKeyInteractionSound();
 		if (!player.isCreative()) {
@@ -195,16 +221,16 @@ public class MonolithEntity extends Entity {
 	 */
 	private void spawnGolem() {
 		if (!this.level.isClientSide()) {
-			ServerWorld serverworld = (ServerWorld) this.level;
+			ServerLevel serverworld = (ServerLevel) this.level;
 
 			// Spawn visual lightning
-			LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(serverworld);
-			lightningboltentity.moveTo(this.getX(), this.getY(), this.getZ());
-			lightningboltentity.setVisualOnly(true);
-			serverworld.addFreshEntity(lightningboltentity);
+			LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(serverworld);
+			lightningbolt.moveTo(this.getX(), this.getY(), this.getZ());
+			lightningbolt.setVisualOnly(true);
+			serverworld.addFreshEntity(lightningbolt);
 
-			this.level.explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Explosion.Mode.BREAK);
-			this.level.explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Explosion.Mode.BREAK);
+			this.level.explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Explosion.BlockInteraction.BREAK);
+			this.level.explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Explosion.BlockInteraction.BREAK);
 
 			// Get the correct GolemEntityType.
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
@@ -219,9 +245,9 @@ public class MonolithEntity extends Entity {
 				// Set the Golem to spawn Dormant.
 				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
 				// Spawn the Golem facing the same direction as the Monolith.
-				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.yRot));
+				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
-				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), SpawnReason.TRIGGERED, (ILivingEntityData) null, (CompoundNBT) null);
+				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
@@ -231,7 +257,7 @@ public class MonolithEntity extends Entity {
 		}
 	}
 
-	protected void createDestroyTowerEntity(ServerWorld serverWorld) {
+	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
 		Entity destroyTowerEntity = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level);
 		destroyTowerEntity.setPos(this.getX(), this.getY() + 6, this.getZ());
 		destroyTowerEntity.invulnerableTime = 999999999;
@@ -269,7 +295,7 @@ public class MonolithEntity extends Entity {
 	 * counts the amount of keys in the entity. used in rendering.
 	 */
 	public final int getKeyCountInEntity() {
-		return MathHelper.clamp(this.entityData.get(KEYS), 0, 3);
+		return Mth.clamp(this.entityData.get(KEYS), 0, 3);
 	}
 
 	/**
@@ -301,7 +327,7 @@ public class MonolithEntity extends Entity {
 	 * (Empty ItemStack is an ItemStack of '(Item) null')
 	 */
 	@Override
-	public ItemStack getPickedResult(RayTraceResult target) {
+	public ItemStack getPickedResult( target) {
 		return new ItemStack(GolemType.getMonolithItemFor(this.golemType));
 	}
 
@@ -362,7 +388,7 @@ public class MonolithEntity extends Entity {
 		} else {
 			if (this.isAlive() && !this.level.isClientSide() && source.isCreativePlayer()) {
 				this.playDestroySound();
-				this.remove();
+				this.remove(RemovalReason.KILLED);
 			}
 			return true;
 		}
@@ -388,7 +414,7 @@ public class MonolithEntity extends Entity {
 	//	TODO Check the networking section on the Forge Docs
 
 	@Override
-	public IPacket<?> getAddEntityPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
@@ -396,8 +422,8 @@ public class MonolithEntity extends Entity {
 	// TODO Fix subtitles for all sounds.
 
 	@Override
-	public SoundCategory getSoundSource() {
-		return SoundCategory.BLOCKS;
+	public SoundSource getSoundSource() {
+		return SoundSource.BLOCKS;
 	}
 
 	/**

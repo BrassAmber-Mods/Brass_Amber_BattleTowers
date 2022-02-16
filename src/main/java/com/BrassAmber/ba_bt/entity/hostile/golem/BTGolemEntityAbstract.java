@@ -42,6 +42,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.server.ServerBossInfo;
 import net.minecraftforge.common.util.Constants;
 import org.apache.logging.log4j.Level;
@@ -59,7 +60,7 @@ import org.apache.logging.log4j.Level;
  * TODO Can see invisible players
  * TODO Fix pathfinding to last known target location after golem reset. (Rare bug)
  */
-public abstract class BTGolemEntityAbstract extends MonsterEntity {
+public abstract class BTGolemEntityAbstract extends Monster {
 	private static final DataParameter<BlockPos> SPAWN_POS = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BLOCK_POS);
 	private static final DataParameter<Float> SPAWN_DIRECTION = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.FLOAT);
 	private static final DataParameter<Byte> GOLEM_STATE = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BYTE);

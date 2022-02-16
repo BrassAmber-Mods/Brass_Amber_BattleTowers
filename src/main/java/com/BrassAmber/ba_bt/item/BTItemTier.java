@@ -6,12 +6,17 @@ import com.BrassAmber.ba_bt.init.BTItems;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.util.LazyValue;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.crafting.Ingredient;
+
+import javax.swing.*;
 
 /**
- * Reference from {@link ItemTier}
+ * Reference from {@link Tiers}
  */
-public enum BTItemTier implements IItemTier {
+public enum BTItemTier implements Tiers {
 	SILVER(1, 200, 12.0F, 1.0F, 14, () -> {
 		return Ingredient.of(BTItems.SILVER_INGOT);
 	});
@@ -21,7 +26,7 @@ public enum BTItemTier implements IItemTier {
 	private final float speed;
 	private final float damage;
 	private final int enchantmentValue;
-	private final LazyValue<Ingredient> repairIngredient;
+	private final LazyLoadedValue<Ingredient> repairIngredient;
 
 	private BTItemTier(int miningLevel, int durability, float miningSpeed, float attackDamageBonus, int enchantmentValue, Supplier<Ingredient> repairIngredient) {
 		this.level = miningLevel;
@@ -29,7 +34,7 @@ public enum BTItemTier implements IItemTier {
 		this.speed = miningSpeed;
 		this.damage = attackDamageBonus;
 		this.enchantmentValue = enchantmentValue;
-		this.repairIngredient = new LazyValue<>(repairIngredient);
+		this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
 	}
 
 	/**

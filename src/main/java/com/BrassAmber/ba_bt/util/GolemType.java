@@ -6,11 +6,15 @@ import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
 import com.BrassAmber.ba_bt.init.BTItems;
 
+import net.minecraft.commands.synchronization.brigadier.StringArgumentSerializer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 
-public enum GolemType implements IStringSerializable {
+public enum GolemType implements StringRepresentable {
 	EMPTY("empty"),
 	LAND("land"),
 	OCEAN("ocean"),

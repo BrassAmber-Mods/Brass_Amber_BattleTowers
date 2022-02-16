@@ -3,7 +3,7 @@ package com.BrassAmber.ba_bt.init;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.block.tileentity.TowerChestTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.BlockEntityType;
@@ -16,7 +16,7 @@ public class BTBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, BrassAmberBattleTowers.MOD_ID);
 
 	public static final BlockEntityType<GolemChestBlockEntity> LAND_GOLEM_CHEST = registerBlockEntity("land_golem_chest", BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST));
-	public static final BlockEntityType<TowerChestTileEntity> LAND_CHEST = registerBlockEntity("land_chest", BlockEntityType.Builder.of(TowerChestTileEntity::new, BTBlocks.LAND_CHEST));
+	public static final BlockEntityType<TowerChestBlockEntity> LAND_CHEST = registerBlockEntity("land_chest", BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST));
 	public static final BlockEntityType<BTSpawnerBlockEntity> BT_MOB_SPAWNER = registerBlockEntity("bt_spawner", BlockEntityType.Builder.of(BTSpawnerBlockEntity::new, BTBlocks.BT_SPAWNER));
 
 	/**

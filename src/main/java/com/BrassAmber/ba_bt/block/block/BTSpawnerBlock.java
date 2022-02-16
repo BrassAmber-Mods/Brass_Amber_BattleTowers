@@ -1,14 +1,13 @@
 package com.BrassAmber.ba_bt.block.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.tileentity.TowerChestTileEntity;
+import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.SpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -99,7 +98,7 @@ public class BTSpawnerBlock extends SpawnerBlock {
                 }
             }
             try {
-                TowerChestTileEntity entity = (TowerChestTileEntity) level.getBlockEntity(this.chestTileEntityPos);
+                TowerChestBlockEntity entity = (TowerChestBlockEntity) level.getBlockEntity(this.chestTileEntityPos);
                 BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG,"Chest " + entity);
                 entity.spawnerDestroyed();
 

@@ -10,11 +10,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.apache.logging.log4j.Level;
 
-public class TowerChestTileEntity extends GolemChestBlockEntity {
+public class TowerChestBlockEntity extends GolemChestBlockEntity {
 
 	private Double SpawnersDestroyed = 0D;
 
-	public TowerChestTileEntity() {
+	public TowerChestBlockEntity() {
 		super(BTBlockEntityTypes.LAND_CHEST);
 	}
 

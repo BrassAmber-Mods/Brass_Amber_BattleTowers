@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.sound;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

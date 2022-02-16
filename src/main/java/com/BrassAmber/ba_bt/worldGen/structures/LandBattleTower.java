@@ -1,6 +1,11 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.worldGen.BTJigsawManager;
+import com.sun.jna.Structure;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.apache.logging.log4j.Level;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
@@ -32,15 +37,15 @@ import java.util.ArrayList;
 
 // Comments from TelepathicGrunts
 
-public class LandBattleTower extends Structure<NoFeatureConfig> {
-    public LandBattleTower(Codec<NoFeatureConfig> codec) {
+public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
+    public LandBattleTower(Codec<JigsawConfiguration> codec) {
         super(codec);
     }
     
     private Biome biomeIn;
 
     @Override
-    public IStartFactory<NoFeatureConfig> getStartFactory() {
+    public Fac<JigsawConfiguration> getStartFactory() {
         return LandBattleTower.Start::new;
     }
 

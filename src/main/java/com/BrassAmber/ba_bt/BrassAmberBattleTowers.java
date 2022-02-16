@@ -7,10 +7,28 @@ import java.util.Map;
 import com.BrassAmber.ba_bt.client.BTTileEntityRender;
 import com.BrassAmber.ba_bt.init.*;
 import com.BrassAmber.ba_bt.util.BTCreativeTab;
-import net.minecraft.network.chat.TextComponent;
+import com.google.common.collect.HashMultimap;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.FlatLevelSource;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.StructureSettings;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +57,6 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -58,7 +75,7 @@ public class BrassAmberBattleTowers {
 	// Directly reference a log4j logger
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public static final TextComponent HOLD_SHIFT_TOOLTIP = (new TranslationTextComponent("tooltip.battletowers.hold_shift").withStyle(TextFormatting.DARK_GRAY));
+	public static final Component HOLD_SHIFT_TOOLTIP = (new TranslatableComponent("tooltip.battletowers.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
 
 	public BrassAmberBattleTowers() {
 		// Register the setup method for modloading
@@ -70,7 +87,7 @@ public class BrassAmberBattleTowers {
 		// Register Blocks
 		BTBlocks.BLOCKS.register(eventBus);
 		// Register TileEntityTypes
-		BTTileEntityTypes.TILE_ENTITY_TYPES.register(eventBus);
+		BTBlockEntityTypes.TILE_ENTITY_TYPES.register(eventBus);
 		// Register SoundEvents
 		BTSoundEvents.SOUND_EVENTS.register(eventBus);
 		// Register EntityTypes
@@ -118,7 +135,7 @@ public class BrassAmberBattleTowers {
 		 * RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName()) to get the biome's
 		 * registrykey. Then that can be fed into the dictionary to get the biome's types.
 		 */
-		RegistryKey key = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
+		ResourceKey key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
 
 		if (BiomeDictionary.hasType(key, BiomeDictionary.Type.NETHER) ||
 				BiomeDictionary.hasType(key, BiomeDictionary.Type.END) ||
@@ -132,7 +149,7 @@ public class BrassAmberBattleTowers {
 					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.SANDY)
 					|| BiomeDictionary.hasType(key, BiomeDictionary.Type.JUNGLE))
 			{
-				event.getGeneration().getStructures().add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
+				event.getGeneration().getFeatures(GenerationStep.Decoration.SURFACE_STRUCTURES).add(() -> BTConfiguredStructures.CONFIGURED_LAND_BATTLE_TOWER);
 			}
 		}
 
@@ -142,27 +159,15 @@ public class BrassAmberBattleTowers {
 	}
 
 	private static Method GETCODEC_METHOD;
-
 	public void addDimensionalSpacing(final WorldEvent.Load event) {
-		if (event.getWorld() instanceof ServerWorld) {
-			ServerWorld serverWorld = (ServerWorld) event.getWorld();
+		if (event.getWorld() instanceof ServerLevel) {
+			ServerLevel serverLevel = (ServerLevel) event.getWorld();
 
-			/*
-			 * Skip Terraforged's chunk generator as they are a special case of a mod locking down their chunkgenerator.
-			 * They will handle your structure spacing for your if you add to WorldGenRegistries.NOISE_GENERATOR_SETTINGS in your structure's registration.
-			 * This here is done with reflection as this tutorial is not about setting up and using Mixins.
-			 * If you are using mixins, you can call the codec method with an invoker mixin instead of using reflection.
-			 */
+			ChunkGenerator chunkGenerator = serverLevel.getChunkSource().getGenerator();
 
-			try {
-				if (GETCODEC_METHOD == null)
-					GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
-				ResourceLocation cgRL = Registry.CHUNK_GENERATOR.getKey((Codec<? extends ChunkGenerator>) GETCODEC_METHOD.invoke(serverWorld.getChunkSource().generator));
-				if (cgRL != null && cgRL.getNamespace().equals("terraforged")) {
-					return;
-				}
-			} catch (Exception e) {
-				BrassAmberBattleTowers.LOGGER.error("Was unable to check if " + serverWorld.getChunkSource().generator + " is using Terraforged's ChunkGenerator.");
+			// Skip superflat worlds to prevent issues with it. Plus, users don't want structures clogging up their superflat worlds.
+			if (chunkGenerator instanceof FlatLevelSource && serverLevel.dimension().equals(serverLevel.OVERWORLD)) {
+				return;
 			}
 
 			/*
@@ -170,9 +175,7 @@ public class BrassAmberBattleTowers {
 			 * people seem to want their superflat worlds free of modded structures.
 			 * Also that vanilla superflat is really tricky and buggy to work with in my experience.
 			 */
-			if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && serverWorld.dimension().equals(World.OVERWORLD)) {
-				return;
-			}
+
 
 			/*
 			 * putIfAbsent so people can override the spacing with dimension datapacks themselves if they wish to customize spacing more precisely per dimension.
@@ -182,16 +185,17 @@ public class BrassAmberBattleTowers {
 			 * already added your default structure spacing to some dimensions. You would need to override the spacing with .put(...)
 			 * And if you want to do dimension blacklisting, you need to remove the spacing entry entirely from the map below to prevent generation safely.
 			 */
-			Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-			if (serverWorld.dimension().equals(World.OVERWORLD)) {
-				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+			// Create a mutable map we will use for easier adding to biomes
+			HashMap<StructureFeature<?>, HashMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> STStructureToMultiMap = new HashMap<>();
+			if (serverLevel.dimension().equals(Level.OVERWORLD)) {
+				tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), StructureSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
 				// tempMap.putIfAbsent(BTStructures.SKY_BATTLE_TOWER.get(), DimensionStructuresSettings.DEFAULTS.get(BTStructures.SKY_BATTLE_TOWER.get()));
-			} else if (serverWorld.dimension().equals(World.NETHER)) {
+			} else if (serverLevel.dimension().equals(Level.NETHER)) {
 
-			} else if (serverWorld.dimension().equals(World.END)) {
+			} else if (serverLevel.dimension().equals(Level.END)) {
 
 			}
-			serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
+			serverLevel.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
 	}
 
@@ -213,12 +217,6 @@ public class BrassAmberBattleTowers {
 	}
 
 
-	// You can use SubscribeEvent and let the Event Bus discover methods to call
-	@SubscribeEvent
-	public void onServerStarting(FMLServerStartingEvent event) {
-		// do something when the server starts
-		LOGGER.info("HELLO from server starting");
-	}
 
 	public static ResourceLocation locate(String name) {
 		return new ResourceLocation(MOD_ID, name);

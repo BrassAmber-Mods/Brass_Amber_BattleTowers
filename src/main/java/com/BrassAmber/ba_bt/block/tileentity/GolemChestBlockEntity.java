@@ -28,8 +28,9 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import org.jetbrains.annotations.NotNull;
 
-public class GolemChestBlockEntity extends RandomizableContainerBlockEntity implements LidBlockEntity {
+public class GolemChestBlockEntity extends ChestBlockEntity {
 	private LockCode lockKey = new LockCode("bt_spawner");
 	protected boolean unlocked = false;
 
@@ -63,16 +64,6 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 		super(blockEntityType, blockPos, blockState);
 	}
 
-	@Override
-	protected NonNullList<ItemStack> getItems() {
-		return null;
-	}
-
-	@Override
-	protected void setItems(NonNullList<ItemStack> p_59625_) {
-
-	}
-
 	public GolemChestBlockEntity(BlockPos blockPos, BlockState blockState) {
 		this(BTBlockEntityTypes.LAND_GOLEM_CHEST, blockPos, blockState);
 	}
@@ -90,17 +81,13 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 		return new TranslatableComponent("container.ba_bt.land_golem_chest");
 	}
 
-	@Override
-	protected AbstractContainerMenu createMenu(int p_58627_, Inventory p_58628_) {
-		return null;
-	}
-
 	public void load(CompoundTag compoundTag) {
 		super.load(compoundTag);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(compoundTag)) {
 			ContainerHelper.loadAllItems(compoundTag, this.items);
 		}
+		this.unlocked = compoundTag.getBoolean("Unlocked");
 
 	}
 
@@ -110,15 +97,10 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 			ContainerHelper.saveAllItems(compoundTag, this.items);
 		}
 		compoundTag.putBoolean("Unlocked", this.unlocked);
-
-	}
-
-	public static void lidAnimateTick(Level level, BlockPos blockPos, BlockState blockState, GolemChestBlockEntity chestBlockEntity) {
-		chestBlockEntity.chestLidController.tickLid();
 	}
 
 	static void playSound(Level p_155339_, BlockPos p_155340_, BlockState p_155341_, SoundEvent p_155342_) {
-		ChestBlock.Ches chesttype = p_155341_.getValue(GolemChestBlock.TYPE);
+		ChestType chesttype = p_155341_.getValue(ChestBlock.TYPE);
 		if (chesttype != ChestType.LEFT) {
 			double d0 = (double)p_155340_.getX() + 0.5D;
 			double d1 = (double)p_155340_.getY() + 0.5D;
@@ -133,36 +115,6 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 		}
 	}
 
-	public boolean triggerEvent(int p_59114_, int p_59115_) {
-		if (p_59114_ == 1) {
-			this.chestLidController.shouldBeOpen(p_59115_ > 0);
-			return true;
-		} else {
-			return super.triggerEvent(p_59114_, p_59115_);
-		}
-	}
-
-	private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> chestHandler;
-	@Override
-	public void setBlockState(BlockState p_155251_) {
-		super.setBlockState(p_155251_);
-		if (this.chestHandler != null) {
-			net.minecraftforge.common.util.LazyOptional<?> oldHandler = this.chestHandler;
-			this.chestHandler = null;
-			oldHandler.invalidate();
-		}
-	}
-
-	@Override
-	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> cap, Direction side) {
-		if (!this.remove && cap == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if (this.chestHandler == null)
-				this.chestHandler = net.minecraftforge.common.util.LazyOptional.of(this::createHandler);
-			return this.chestHandler.cast();
-		}
-		return super.getCapability(cap, side);
-	}
-
 	private net.minecraftforge.items.IItemHandlerModifiable createHandler() {
 		BlockState state = this.getBlockState();
 		if (!(state.getBlock() instanceof GolemChestBlock)) {
@@ -171,28 +123,6 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 		Container inv = GolemChestBlock.getContainer((GolemChestBlock) state.getBlock(), state, getLevel(), getBlockPos(), true);
 		return new net.minecraftforge.items.wrapper.InvWrapper(inv == null ? this : inv);
 	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		if (chestHandler != null) {
-			chestHandler.invalidate();
-			chestHandler = null;
-		}
-	}
-
-	public void recheckOpen() {
-		if (!this.remove) {
-			this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
-		}
-
-	}
-
-	protected void signalOpenCount(Level level, BlockPos blockPos, BlockState blockState, int i, int i1) {
-		Block block = blockState.getBlock();
-		level.blockEvent(blockPos, block, 1, i1);
-	}
-
 
 	public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, GolemChestBlockEntity golemChestBlockEntity) {
 		if (golemChestBlockEntity.unlocked && golemChestBlockEntity.lockKey != LockCode.NO_LOCK) {
@@ -203,20 +133,14 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 		}
 	}
 
+	public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, GolemChestBlockEntity golemChestBlockEntity) {
+
+	}
+
 	public void setNoLockKey() {
 		this.lockKey = LockCode.NO_LOCK;
 		this.unlocked = true;
 		//BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.lockKey);
-	}
-
-
-	public void tick() {
-		if (this.unlocked && this.lockKey != LockCode.NO_LOCK) {
-			this.setNoLockKey();
-
-		} else if (!this.unlocked && this.lockKey == LockCode.NO_LOCK){
-			this.lockKey = new LockCode(("BTSpawner"));
-		}
 	}
 
 	public boolean isUnlocked() {
@@ -224,7 +148,7 @@ public class GolemChestBlockEntity extends RandomizableContainerBlockEntity impl
 	}
 
 	@Override
-	public BlockPos getBlockPos() {
+	public @NotNull BlockPos getBlockPos() {
 		return this.worldPosition;
 	}
 
