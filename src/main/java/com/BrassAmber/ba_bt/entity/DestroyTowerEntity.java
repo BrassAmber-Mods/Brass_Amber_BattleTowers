@@ -6,10 +6,20 @@ import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.client.CChatMessagePacket;
-import org.apache.logging.log4j.Level;
+import net.minecraft.network.protocol.game.ServerboundChatPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.GolemType;
@@ -29,16 +39,20 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.Constants.BlockFlags;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class DestroyTowerEntity extends Entity {
     // Parameters that must be saved
-    private static final DataParameter<BlockPos> CRUMBLE_START_CORNER = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.BLOCK_POS);
-    private static final DataParameter<Integer> CRUMBLE_BOTTOM = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
-    private static final DataParameter<Integer> CRUMBLE_SPEED = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
-    private static final DataParameter<Integer> CURRENT_ROW = EntityDataManager.defineId(DestroyTowerEntity.class, DataSerializers.INT);
+    private static final EntityDataAccessor<BlockPos> CRUMBLE_START_CORNER = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Integer> CRUMBLE_BOTTOM = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CRUMBLE_SPEED = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CURRENT_ROW = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.INT);
 
     //Other Parameters
     private Boolean initialized = false;
@@ -63,12 +77,12 @@ public class DestroyTowerEntity extends Entity {
 
 
 
-    public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
-        super(type, world);
+    public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, Level level) {
+        super(type, level);
         this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
     }
 
-    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level) {
+    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, Level level) {
         super(BTEntityTypes.DESTROY_TOWER, level);
 
         this.golemType = golemType;
@@ -103,7 +117,7 @@ public class DestroyTowerEntity extends Entity {
     }
 
     private void init() {
-    	BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Initializing");
+    	BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
@@ -124,7 +138,7 @@ public class DestroyTowerEntity extends Entity {
         super.tick();
         if (this.checkForGolem) {
 
-            BTGolemEntityAbstract golem = this.level.getNearestEntity(BTGolemEntityAbstract.class, EntityPredicate.DEFAULT, null, this.getX(), this.getY(), this. getZ(), this.getBoundingBox().inflate(15.0D, 10.0D, 15.0D));
+            BTGolemEntityAbstract golem = this.level.getNearestEntity(BTGolemEntityAbstract.class, TargetingConditions.DEFAULT, null, this.getX(), this.getY(), this. getZ(), this.getBoundingBox().inflate(15.0D, 10.0D, 15.0D));
             if (golem == null) {
                 this.setGolemDead(true);
 
@@ -142,38 +156,38 @@ public class DestroyTowerEntity extends Entity {
             }
             if (this.currentTicks == 1) {
 
-                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                for (ServerPlayer player : this.level.getServer().overworld().players()
                      ) {
-                    player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback false"));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] times 30 40 20"));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] title \"\""));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\"" + this.specs.getCapitalizedName()
+                    player.connection.handleChat(new ServerboundChatPacket("/gamerule sendCommandFeedback false"));
+                    player.connection.handleChat(new ServerboundChatPacket("/title @a[distance=0..2] times 30 40 20"));
+                    player.connection.handleChat(new ServerboundChatPacket("/title @a[distance=0..2] title \"\""));
+                    player.connection.handleChat(new ServerboundChatPacket("/title @a[distance=0..2] subtitle {\"text\":\"" + this.specs.getCapitalizedName()
                             + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}"));
                 }
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 6.0F, 1F);
             } else if (this.currentTicks == 400) {
-                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                for (ServerPlayer player : this.level.getServer().overworld().players()
                 ) {
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] title \"\""));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\"Without it's energy... "
+                    player.connection.handleChat(new ServerboundChatPacket("/title @a[distance=0..2] title \"\""));
+                    player.connection.handleChat(new ServerboundChatPacket("/title @a[distance=0..2] subtitle {\"text\":\"Without it's energy... "
                             + "\",\"color\":\"#aaaaaa\"}"));
 
                 }
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 6.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
-                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                for (ServerPlayer player : this.level.getServer().overworld().players()
                 ) {
-                    player.connection.handleChat(new CChatMessagePacket("/title @p[distance=0..2] title \"\""));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\""
+                    player.connection.handleChat(new ServerboundChatPacket("/title @p[distance=0..2] title \"\""));
+                    player.connection.handleChat(new ServerboundChatPacket("/title @a[distance=0..2] subtitle {\"text\":\""
                             + "The tower will collapse...\",\"color\":\"#aa0000\"}"));
-                    player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback true"));
+                    player.connection.handleChat(new ServerboundChatPacket("/gamerule sendCommandFeedback true"));
                 }
             }else if (this.currentTicks == 600) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 6.0F, 1F);
             }
 
 
@@ -182,7 +196,7 @@ public class DestroyTowerEntity extends Entity {
             if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0 && this.getCurrentRow() < this.rows) {
                 if (this.currentTicks % 240 == 0) {
                     this.level.playSound(null, this.getCrumbleStart().below(this.getCurrentRow()*3),
-                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6F, 1F);
+                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 6F, 1F);
                 }
                 if (this.blocksToRemove.size() == 0) {
                     this.getNextRow();
@@ -201,7 +215,7 @@ public class DestroyTowerEntity extends Entity {
                             break;
                         } else if (this.blocksToRemove.size() == 1) {
                             this.removeBlock = this.blocksToRemove.remove(0);
-                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(),  1);
                         } else {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
                             //If the block is water => Add dirt around it and add the surroundings to the list
@@ -209,7 +223,7 @@ public class DestroyTowerEntity extends Entity {
                             if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
                                 this.removeBodyOfWater(this.removeBlock);
                             }
-                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 64);
 
                         }
 

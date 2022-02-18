@@ -3,22 +3,21 @@ package com.BrassAmber.ba_bt.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.FallingBlockEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.B
 
-public class ExplosionPhysicsEntity extends TNTEntity {
+public class ExplosionPhysicsEntity extends PrimedTnt {
 
-	public ExplosionPhysicsEntity(EntityType<? extends TNTEntity> p_i50216_1_, World p_i50216_2_) {
-		super(p_i50216_1_, p_i50216_2_);
+	public ExplosionPhysicsEntity(EntityType<? extends PrimedTnt> tnt, Level level) {
+		super(tnt, level);
 	}
 	
 	@Override
@@ -34,14 +33,14 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 		if(expl != null) {
 			//calculates the blocks to explode
 			expl.explode();
-			final Vector3d vo = this.position();
+			final Vec3 vo = this.position();
 			List<FallingBlockEntity> physicObjects = new ArrayList<>();
 			for(BlockPos pos : expl.getToBlow()) {
 				BlockState state = this.level.getBlockState(pos);
-				if(!state.getBlock().isAir(state, this.level, pos) && this.level.getBlockEntity(pos) == null && !state.getFluidState().isSource()) {
+				if(!state.isAir() && this.level.getBlockEntity(pos) == null && !state.getFluidState().isSource()) {
 					double vx = pos.getX() - vo.x;
 					double vz = pos.getZ() - vo.z;
-					final Vector3d velocity = new Vector3d(vx / Math.abs(vx) * 0.5D, 0.5D, vz / Math.abs(vz) * 0.5D);
+					final Vec3 velocity = new Vec3(vx / Math.abs(vx) * 0.5D, 0.5D, vz / Math.abs(vz) * 0.5D);
 					
 					this.level.removeBlock(pos, true);
 					
@@ -53,12 +52,12 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 							state
 					) {
 						@Override
-						public void remove() {
+						public void setRemoved(Entity.RemovalReason removalReason) {
 							//Dirty workaround to avoid the sudden disappearance of the entity
 							if(this.tickCount <= 5 && !this.level.isClientSide && this.tickCount < 60) {
 								return;
 							}
-							super.remove();
+							super.setRemoved(removalReason);
 						}
 					};
 					fallingBlock.setInvulnerable(true);
@@ -67,8 +66,8 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 					
 					physicObjects.add(fallingBlock);
 
-					this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, pos, 0);
-					this.level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS,
+					this.level.gameEvent(GameEvent.EXPLODE, pos);
+					this.level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
 							2.0F, 1.0F);
 				}
 			}
@@ -80,7 +79,7 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 			
 			expl.finalizeExplosion(true);
 			
-			this.remove();
+			this.setRemoved(RemovalReason.DISCARDED);
 		}
 	}
 	
@@ -90,7 +89,7 @@ public class ExplosionPhysicsEntity extends TNTEntity {
 	}
 	
 	protected Explosion explosion() {
-		Explosion explosion = new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.Mode.DESTROY);
+		Explosion explosion = new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.BlockInteraction.DESTROY);
 		return explosion;
 	}
 	

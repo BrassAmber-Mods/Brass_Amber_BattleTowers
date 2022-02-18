@@ -2,20 +2,25 @@ package com.BrassAmber.ba_bt.block.tileentity;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
-import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
 
+
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.Level;
 
 public class TowerChestBlockEntity extends GolemChestBlockEntity {
 
 	private Double SpawnersDestroyed = 0D;
 
-	public TowerChestBlockEntity() {
-		super(BTBlockEntityTypes.LAND_CHEST);
+	protected TowerChestBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+		super(blockEntityType, blockPos, blockState);
+	}
+
+	public TowerChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+		this(BTBlockEntityTypes.LAND_CHEST, blockPos, blockState);
 	}
 
 	/**

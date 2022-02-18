@@ -5,8 +5,6 @@ import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

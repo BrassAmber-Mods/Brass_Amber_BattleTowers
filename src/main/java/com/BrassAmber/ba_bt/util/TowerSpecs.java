@@ -1,8 +1,8 @@
 package com.BrassAmber.ba_bt.util;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
-public enum TowerSpecs implements IStringSerializable {
+public enum TowerSpecs implements StringRepresentable {
     EMPTY("",0,0, ""),
     LAND("land", 112, 2, "#9BDAE7"),
     OCEAN("ocean", 112, 2, "#EAE78A"),

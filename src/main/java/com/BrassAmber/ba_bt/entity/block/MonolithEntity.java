@@ -59,6 +59,7 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -327,9 +328,10 @@ public class MonolithEntity extends Entity {
 	 * (Empty ItemStack is an ItemStack of '(Item) null')
 	 */
 	@Override
-	public ItemStack getPickedResult( target) {
+	public ItemStack getPickedResult(HitResult target) {
 		return new ItemStack(GolemType.getMonolithItemFor(this.golemType));
 	}
+
 
 	/**
 	 * {@link PushReaction.IGNORE} is the only valid option for an entity I think to stop piston interaction
