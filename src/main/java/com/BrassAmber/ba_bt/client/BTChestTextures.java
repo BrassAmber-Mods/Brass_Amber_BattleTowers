@@ -3,6 +3,11 @@ package com.BrassAmber.ba_bt.client;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
 import net.minecraft.client.renderer.Atlases;
+import net.minecraft.client.renderer.texture.AtlasSet;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.TextureAtlasHolder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,7 +29,7 @@ public class BTChestTextures {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
 	public static void textureStitch(TextureStitchEvent.Pre event) {
-		if (event.getMap().location().equals(Atlases.CHEST_SHEET)) {
+		if (event.getAtlas().equals(TextureManager)) {
 			stitchAll(event, LAND_GOLEM_CHEST_TEXTURES);
 			stitchAll(event, LAND_CHEST_TEXTURES);
 		}

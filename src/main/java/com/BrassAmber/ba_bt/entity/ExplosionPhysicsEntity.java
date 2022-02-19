@@ -12,13 +12,17 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.B
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 
 public class ExplosionPhysicsEntity extends PrimedTnt {
 
 	public ExplosionPhysicsEntity(EntityType<? extends PrimedTnt> tnt, Level level) {
 		super(tnt, level);
 	}
+
+	//TODO REWRITE THIS TO BE CREATED ONCE PER FLOOR TO MAKE 2-4 EXPLOSIONS
 	
 	@Override
 	public void tick() {
@@ -81,11 +85,6 @@ public class ExplosionPhysicsEntity extends PrimedTnt {
 			
 			this.setRemoved(RemovalReason.DISCARDED);
 		}
-	}
-	
-	@Override
-	protected void explode() {
-		//NOPE
 	}
 	
 	protected Explosion explosion() {

@@ -7,15 +7,15 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.client.CChatMessagePacket;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundChatPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -25,27 +25,12 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.util.TowerSpecs;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.Constants.BlockFlags;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 
 public class DestroyTowerEntity extends Entity {
     // Parameters that must be saved
@@ -204,6 +189,7 @@ public class DestroyTowerEntity extends Entity {
                    // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                     if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
                     	//Fancy physics stuff
+                        // TODO ONCE ENTITY IS REWORKED, ONLY CALL ONCE PER FLOOR
                     	ExplosionPhysicsEntity explosion = new ExplosionPhysicsEntity(BTEntityTypes.PHYSICS_EXPLOSION, this.level);
                     	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
                     	
@@ -215,7 +201,7 @@ public class DestroyTowerEntity extends Entity {
                             break;
                         } else if (this.blocksToRemove.size() == 1) {
                             this.removeBlock = this.blocksToRemove.remove(0);
-                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(),  1);
+                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(),  2);
                         } else {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
                             //If the block is water => Add dirt around it and add the surroundings to the list
@@ -230,29 +216,28 @@ public class DestroyTowerEntity extends Entity {
 
                     }
                     if (this.currentTicks % 6 == 0) {
-                        this.level.levelEvent(Constants.WorldEvents.SPAWN_EXPLOSION_PARTICLE, this.removeBlock, 0);
-                        this.level.playSound(null, this.removeBlock,
-                                SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS,2.0F,
-                                1.0F);
+                        this.level.gameEvent(GameEvent.EXPLODE, this.removeBlock);
+                        this.level.playSound(null, this.removeBlock, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
+                                2.0F, 1.0F);
                     }
 
                 }
             } else if (this.getCurrentRow() >= this.rows){
                 // stop if we have done the final row already
-                BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "In Ending Sequence");
+                BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "In Ending Sequence");
                 this.getNextRow();
                 for (int i = 0; i < 60; i++) {
                     if (this.blocksToRemove.isEmpty()) {
                         break;
                     } else if (this.blocksToRemove.size() == 1) {
                         this.removeBlock = this.blocksToRemove.remove(0);
-                        this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                        this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
                     } else {
                         this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
                         if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
                             this.removeBodyOfWater(this.removeBlock);
                         }
-                        this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                        this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
 
                     }
                 }
@@ -272,14 +257,14 @@ public class DestroyTowerEntity extends Entity {
                     //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
                 }
                 for (BlockPos clear: shouldBeEmptySpace) {
-                    this.level.setBlock(clear, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                    this.level.setBlock(clear, Blocks.AIR.defaultBlockState(), 2);
                 }
-                this.remove();
+                this.remove(RemovalReason.DISCARDED);
             }
 
             // log the current ticks, crumble speed, and row
             if (this.currentTicks % 30 == 0 ){
-                BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.currentTicks + " Ticks | CrumbleSpeed " +
+                BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, this.currentTicks + " Ticks | CrumbleSpeed " +
                         this.getCrumbleSpeed() + "  Row: " + this.getCurrentRow());
             }
         }
@@ -290,7 +275,7 @@ public class DestroyTowerEntity extends Entity {
     	Set<BlockPos> waterPositions = new HashSet<>();
     	removeBodyOWater(waterPositions, start);
     	
-    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT));
+    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2));
 	}
     
     private void removeBodyOWater(Set<BlockPos> storage, BlockPos position) {
@@ -323,7 +308,7 @@ public class DestroyTowerEntity extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT compound) {
+    protected void addAdditionalSaveData(CompoundTag compound) {
         compound.put(this.crumbleStartName, this.newDoubleList(this.getCrumbleStart().getX(), this.getCrumbleStart().getY(), this.getCrumbleStart().getZ()));
         compound.putInt(this.crumbleBottomName, this.getCrumbleBottom());
         compound.putInt(this.crumbleSpeedName, this.getCrumbleSpeed());
@@ -332,8 +317,8 @@ public class DestroyTowerEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT compound) {
-        ListNBT startPos = compound.getList(this.crumbleStartName, 6);
+    protected void readAdditionalSaveData(CompoundTag compound) {
+        ListTag startPos = compound.getList(this.crumbleStartName, 6);
         double x = startPos.getDouble(0);
         double y = startPos.getDouble(1);
         double z = startPos.getDouble(2);
@@ -416,7 +401,7 @@ public class DestroyTowerEntity extends Entity {
 
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }
