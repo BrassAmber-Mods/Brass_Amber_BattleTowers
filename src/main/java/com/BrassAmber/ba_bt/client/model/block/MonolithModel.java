@@ -1,53 +1,49 @@
 package com.BrassAmber.ba_bt.client.model.block;
 
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MonolithModel extends EntityModel<MonolithEntity> {
-	private final ModelRenderer monolith;
+public class MonolithModel<T extends MonolithEntity> extends EntityModel<T> {
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static ModelLayerLocation LAYER_LOCATION;
+	private final ModelPart monolith;
 
-	public MonolithModel() {
-		this(0.0f);
+	public MonolithModel(ModelPart root, ModelLayerLocation location) {
+		this.monolith = root.getChild("monolith");
+		this.LAYER_LOCATION = location;
 	}
 
-	public MonolithModel(float scale) {
-		this.texWidth = 128;
-		this.texHeight = 64;
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		monolith = new ModelRenderer(this);
-		monolith.setPos(0.0F, 8.0F, 0.0F);
-		monolith.texOffs(16, 0).addBox(-4.0F, -16.0F, -4.0F, 8.0F, 4.0F, 8.0F, 0.0F, false);
-		monolith.texOffs(8, 14).addBox(-6.0F, -12.0F, -6.0F, 12.0F, 4.0F, 12.0F, 0.0F, false);
-		monolith.texOffs(0, 32).addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F, 0.0F, false);
-		monolith.texOffs(60, 14).addBox(-6.0F, 8.0F, -6.0F, 12.0F, 4.0F, 12.0F, 0.0F, false);
-		monolith.texOffs(52, 0).addBox(-4.0F, 12.0F, -4.0F, 8.0F, 4.0F, 8.0F, 0.0F, false);
+		PartDefinition monolith = partdefinition.addOrReplaceChild("monolith", CubeListBuilder.create().texOffs(16, 0).addBox(-4.0F, -16.0F, -4.0F, 8.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 14).addBox(-6.0F, -12.0F, -6.0F, 12.0F, 4.0F, 12.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 32).addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(60, 14).addBox(-6.0F, 8.0F, -6.0F, 12.0F, 4.0F, 12.0F, new CubeDeformation(0.0F))
+				.texOffs(52, 0).addBox(-4.0F, 12.0F, -4.0F, 8.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 8.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
-
-	/*********************************************************** Animations ********************************************************/
 
 	@Override
-	public void setupAnim(MonolithEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		// Previously the render function, render code was moved to a method below.	
-	}
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
-	/*********************************************************** Render ********************************************************/
+	}
 
 	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		this.monolith.render(matrixStack, buffer, packedLight, packedOverlay);
-	}
-
-	@SuppressWarnings("unused")
-	private void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		monolith.render(poseStack, buffer, packedLight, packedOverlay);
 	}
 }

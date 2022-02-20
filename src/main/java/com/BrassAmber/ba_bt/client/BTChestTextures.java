@@ -29,10 +29,8 @@ public class BTChestTextures {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
 	public static void textureStitch(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().equals(TextureManager)) {
-			stitchAll(event, LAND_GOLEM_CHEST_TEXTURES);
-			stitchAll(event, LAND_CHEST_TEXTURES);
-		}
+		stitchAll(event, LAND_GOLEM_CHEST_TEXTURES);
+		stitchAll(event, LAND_CHEST_TEXTURES);
 	}
 
 	/**

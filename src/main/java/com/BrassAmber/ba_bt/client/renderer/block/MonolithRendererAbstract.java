@@ -6,52 +6,58 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
 import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEntity> {
-	private final MonolithModel monolith = new MonolithModel();
+	private final MonolithModel monolith;
 	private List<ResourceLocation> monolithTextures = Lists.newArrayList();
+	private List<ModelLayerLocation> monolithLayers = Lists.newArrayList();
 	private String monolithType;
 
-	public MonolithRendererAbstract(EntityRendererManager renderManagerIn, String monolithType) {
-		super(renderManagerIn);
+	public MonolithRendererAbstract(EntityRendererProvider.Context context, String monolithType) {
+		super(context);
 		this.monolithType = monolithType;
 		// Set the correct textures for each Monolith type.
 		this.setMonolithTextures();
+		this.monolith = new MonolithModel(
+				context.bakeLayer(this.monolithLayers.get(0)),
+				monolithLayers.get(0));
+
+
 	}
 
 	/**
-	 * Referenced from {@link LivingRenderer#render()}
+	 * Referenced from {@link net.minecraft.client.renderer.entity.LivingEntityRenderer}
 	 */
 	@Override
-	public void render(MonolithEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(MonolithEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		/*********************************************************** Animations ********************************************************/
 		float speedModifier = 32.0f;
 		float amplitude = 0.25F;
 		float defaultHeight = 0.5f;
 
 		float floatingInput = entityIn.getFloatingRotation() / speedModifier;
-		float floatingWave = amplitude * MathHelper.sin(floatingInput) + defaultHeight;
+		float floatingWave = amplitude * Mth.sin(floatingInput) + defaultHeight;
 
 		//	Bobbing up and down animation.
 		matrixStackIn.translate(0.0D, (double) (floatingWave), 0.0D);
 
 		//	Rotate the Monolith [N,E,S,W] during placement.
-		float yaw = entityIn.yRot;
+		float yaw = entityIn.getYRot();
 		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
 		// TODO make the smaller parts of the monolith rotate 
@@ -68,8 +74,8 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 		// Move model to the middle of the hit-box.
 		matrixStackIn.translate(0.0D, 0.5D, 0.0D);
 		// Render the textures.
-		IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(entityIn)));
-		this.monolith.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		VertexConsumer vertexConsumer = bufferIn.getBuffer(RenderType.entitySolid(this.getTextureLocation(entityIn)));
+		this.monolith.renderToBuffer(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 		// Finish.
 		matrixStackIn.popPose();
 		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
@@ -90,7 +96,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 	 */
 	private ResourceLocation getMonolithTexture(int textureLocation) {
 		int maxAmountOfTextures = this.isLandMonolith() ? 3 : 4;
-		return this.monolithTextures.get(MathHelper.clamp(textureLocation, 0, maxAmountOfTextures));
+		return this.monolithTextures.get(Mth.clamp(textureLocation, 0, maxAmountOfTextures));
 	}
 
 	/**
@@ -99,7 +105,9 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 	private void setMonolithTextures() {
 		int maxTextures = this.isLandMonolith() ? 3 : 4;
 		for (int x = 0; x <= maxTextures; x++) {
-			this.monolithTextures.add(this.setMonolithTextureLocation(this.monolithType + "_" + x));
+			ResourceLocation textureLocation = this.setMonolithTextureLocation(this.monolithType + "_" + x);
+			this.monolithTextures.add(textureLocation);
+			this.monolithLayers.add(new ModelLayerLocation(textureLocation, "main"));
 		}
 	}
 

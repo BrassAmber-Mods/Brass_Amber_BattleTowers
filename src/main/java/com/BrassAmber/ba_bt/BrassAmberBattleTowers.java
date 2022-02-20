@@ -2,9 +2,7 @@ package com.BrassAmber.ba_bt;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Map;
 
-import com.BrassAmber.ba_bt.client.BTTileEntityRender;
 import com.BrassAmber.ba_bt.init.*;
 import com.BrassAmber.ba_bt.util.BTCreativeTab;
 import com.google.common.collect.HashMultimap;
@@ -25,16 +23,13 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.BrassAmber.ba_bt.client.BTEntityRender;
+import com.BrassAmber.ba_bt.client.ClientEvents;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
-import com.mojang.serialization.Codec;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
@@ -209,9 +204,9 @@ public class BrassAmberBattleTowers {
 			//Render Type Spawner
 			ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
 
-			BTEntityRender.init();
+			ClientEvents.init();
 			// Register TileEntity Renderers
-			BTTileEntityRender.bindTileEntityRenderers(event);
+			BTBlockEntityRenderers.bindTileEntityRenderers(event);
 		}
 
 	}

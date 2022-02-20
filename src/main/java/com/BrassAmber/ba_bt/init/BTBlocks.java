@@ -9,7 +9,6 @@ import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
-import com.BrassAmber.ba_bt.client.renderer.inventory.BTChestItemRenderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
