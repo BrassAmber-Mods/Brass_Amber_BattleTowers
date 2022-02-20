@@ -4,7 +4,10 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.resources.ResourceLocation;
@@ -20,14 +23,14 @@ public abstract class BTAbstractGolemRenderer<E extends BTGolemEntityAbstract, M
 	protected ResourceLocation golemTexturesEnraged;
 	private String golemType;
 
-	public BTAbstractGolemRenderer(EntityRendererManager renderManagerIn, M model, String golemType) {
-		super(renderManagerIn, model, 0.5F * SCALE);
+	public BTAbstractGolemRenderer(EntityRendererProvider.Context context, M model, String golemType) {
+		super(context, model, 0.5F * SCALE);
 		this.golemType = golemType;
 	}
 
 	@Override
-	protected void scale(E entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(SCALE, SCALE, SCALE);
+	protected void scale(E entitylivingbaseIn, PoseStack poseStack, float partialTickTime) {
+		poseStack.scale(SCALE, SCALE, SCALE);
 	}
 
 	@Override
