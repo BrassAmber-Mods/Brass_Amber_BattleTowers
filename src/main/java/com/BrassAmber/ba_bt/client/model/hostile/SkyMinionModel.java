@@ -1,48 +1,71 @@
 package com.BrassAmber.ba_bt.client.model.hostile;
 
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+
 
 public class SkyMinionModel extends EntityModel<SkyMinionEntity> {
-	private final ModelRenderer head;
-	private final ModelRenderer body;
-	private final ModelRenderer rightArm;
-	private final ModelRenderer leftArm;
-	private final ModelRenderer rightLeg;
-	private final ModelRenderer leftLeg;
+	public static ModelLayerLocation LAYER_LOCATION;
+	private final ModelPart head;
+	private final ModelPart body;
+	private final ModelPart rightArm;
+	private final ModelPart leftArm;
+	private final ModelPart rightLeg;
+	private final ModelPart leftLeg;
 
-	public SkyMinionModel() {
-		this.texWidth = 64;
-		this.texHeight = 32;
+	public SkyMinionModel(ModelPart root, ModelLayerLocation layer) {
+		this.head = root.getChild("head");
+		this.body = root.getChild("body");
+		this.rightArm = root.getChild("rightArm");
+		this.leftArm = root.getChild("leftArm");
+		this.rightLeg = root.getChild("rightLeg");
+		this.leftLeg = root.getChild("leftLeg");
+		this.LAYER_LOCATION = layer;
+	}
 
-		head = new ModelRenderer(this);
-		head.setPos(0.0F, 0.0F, 0.0F);
-		head.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		body = new ModelRenderer(this);
-		body.setPos(0.0F, 0.0F, 0.0F);
-		body.texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
+		PartDefinition head = partdefinition.addOrReplaceChild("head",
+				CubeListBuilder.create().texOffs(0, 0)
+						.addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F,
+								new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		rightArm = new ModelRenderer(this);
-		rightArm.setPos(-5.0F, 2.0F, 0.0F);
-		rightArm.texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		PartDefinition body = partdefinition.addOrReplaceChild("body",
+				CubeListBuilder.create().texOffs(16, 16)
+						.addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F,
+								new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		leftArm = new ModelRenderer(this);
-		leftArm.setPos(5.0F, 2.0F, 0.0F);
-		leftArm.texOffs(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm",
+				CubeListBuilder.create().texOffs(40, 16)
+						.addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F,
+								new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
 
-		rightLeg = new ModelRenderer(this);
-		rightLeg.setPos(-1.9F, 12.0F, 0.0F);
-		rightLeg.texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm",
+				CubeListBuilder.create().texOffs(40, 16)
+						.addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F,
+								new CubeDeformation(0.0F)), PartPose.offset(5.0F, 2.0F, 0.0F));
 
-		leftLeg = new ModelRenderer(this);
-		leftLeg.setPos(1.9F, 12.0F, 0.0F);
-		leftLeg.texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg",
+				CubeListBuilder.create().texOffs(0, 16)
+						.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F,
+								new CubeDeformation(0.0F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg",
+				CubeListBuilder.create().texOffs(0, 16)
+						.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F,
+								new CubeDeformation(0.0F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
 	@Override
@@ -53,26 +76,12 @@ public class SkyMinionModel extends EntityModel<SkyMinionEntity> {
 	/*********************************************************** Render ********************************************************/
 
 	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		this.headParts().forEach((headPart) -> {
-			headPart.render(matrixStack, buffer, packedLight, packedOverlay);
-		});
-		this.bodyParts().forEach((bodyPart) -> {
-			bodyPart.render(matrixStack, buffer, packedLight, packedOverlay);
-		});
-	}
-	
-	protected Iterable<ModelRenderer> headParts() {
-		return ImmutableList.of(this.head);
-	}
-
-	protected Iterable<ModelRenderer> bodyParts() {
-		return ImmutableList.of(this.body, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
-	}
-
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		head.render(poseStack, buffer, packedLight, packedOverlay);
+		body.render(poseStack, buffer, packedLight, packedOverlay);
+		rightArm.render(poseStack, buffer, packedLight, packedOverlay);
+		leftArm.render(poseStack, buffer, packedLight, packedOverlay);
+		rightLeg.render(poseStack, buffer, packedLight, packedOverlay);
+		leftLeg.render(poseStack, buffer, packedLight, packedOverlay);
 	}
 }

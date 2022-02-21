@@ -1,13 +1,14 @@
 package com.BrassAmber.ba_bt.entity.hostile;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.VexEntity;
-import net.minecraft.world.World;
 
-public class SkyMinionEntity extends VexEntity {
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Vex;
+import net.minecraft.world.level.Level;
 
-	public SkyMinionEntity(EntityType<? extends VexEntity> entity, World worldIn) {
-		super(entity, worldIn);
+public class SkyMinionEntity extends Vex {
+
+	public SkyMinionEntity(EntityType<? extends Vex> entity, Level levelIn) {
+		super(entity, levelIn);
 	}
 
 //	@Override

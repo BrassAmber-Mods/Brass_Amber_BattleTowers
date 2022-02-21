@@ -1,7 +1,8 @@
 package com.BrassAmber.ba_bt.entity.ai.goal;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+
 
 /**
  * TODO Maybe look for a way to implement a double attack or something?
@@ -9,9 +10,9 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
  */
 public class DualMeleeAttackGoal extends MeleeAttackGoal {
 	@SuppressWarnings("unused")
-	private final CreatureEntity attacker;
+	private final PathfinderMob attacker;
 
-	public DualMeleeAttackGoal(CreatureEntity attacker, double speedModifier, boolean followingTargetEvenIfNotSeen) {
+	public DualMeleeAttackGoal(PathfinderMob attacker, double speedModifier, boolean followingTargetEvenIfNotSeen) {
 		super(attacker, speedModifier, followingTargetEvenIfNotSeen);
 		this.attacker = attacker;
 	}

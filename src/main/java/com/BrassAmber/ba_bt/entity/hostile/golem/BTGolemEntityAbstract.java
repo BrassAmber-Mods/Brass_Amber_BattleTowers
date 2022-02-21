@@ -13,6 +13,8 @@ import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.client.gui.components.LerpingBossEvent;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -27,6 +29,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -42,10 +45,14 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.server.ServerBossInfo;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.Constants;
 import org.apache.logging.log4j.Level;
+
+import java.awt.*;
 
 /**
  * @author Xrated_junior, DerToaster
@@ -80,10 +87,10 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	private final String explosionPowerName = "ExplosionPower";
 	private BlockPos chestTileEntityPos;
 
-	protected BTGolemEntityAbstract(EntityType<? extends MonsterEntity> type, World worldIn, BossInfo.Color bossbarColor) {
-		super(type, worldIn);
+	protected BTGolemEntityAbstract(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossbarColor) {
+		super(type, levelIn);
 		// Initializes the bossbar with the correct color.
-		this.bossbar = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), bossbarColor, BossInfo.Overlay.PROGRESS)).setCreateWorldFog(false);
+		this.bossbar = new RenderGameOverlayEvent.BossInfo(this.getDisplayName(), bossbarColor, LerpingBossEvent.PROGRESS).setCreateWorldFog(false);
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 500;
 
@@ -127,7 +134,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
 		compound.put(this.spawnPosName, this.newDoubleList(this.getSpawnPos().getX(), this.getSpawnPos().getY(), this.getSpawnPos().getZ()));
 		compound.putFloat(this.spawnDirectionName, this.getSpawnDirection());

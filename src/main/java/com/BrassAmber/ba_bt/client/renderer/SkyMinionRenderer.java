@@ -4,23 +4,25 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.client.model.hostile.SkyMinionModel;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
 
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SkyMinionRenderer extends MobRenderer<SkyMinionEntity, SkyMinionModel> {
-	private static final ResourceLocation TEXTURE_LOCATION = BrassAmberBattleTowers.locate("textures/entity/sky_minion.png");
+	public static final ResourceLocation LOCATION = BrassAmberBattleTowers.locate("textures/entity/sky_minion.png");
+	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(LOCATION,"main");
 
-	public SkyMinionRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new SkyMinionModel(), 0.6f);
+	public SkyMinionRenderer(EntityRendererProvider.Context context) {
+		super(context, new SkyMinionModel(context.bakeLayer(TEXTURE),
+				TEXTURE), 0.6f);
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(SkyMinionEntity p_110775_1_) {
-		return TEXTURE_LOCATION;
+		return LOCATION;
 	}
 }

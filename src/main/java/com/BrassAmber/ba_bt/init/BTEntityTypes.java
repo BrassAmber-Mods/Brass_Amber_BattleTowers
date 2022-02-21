@@ -21,9 +21,13 @@ import net.minecraft.entity.EntityType.Builder;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -67,15 +71,15 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onRegisterEntityTypes(Register<EntityType<?>> event) {
-		registerSpawnPlacement(LAND_GOLEM, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(OCEAN_GOLEM, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(NETHER_GOLEM, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(CORE_GOLEM, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(END_GOLEM, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(SKY_GOLEM, MobEntity::checkMobSpawnRules);
+		registerSpawnPlacement(LAND_GOLEM, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(OCEAN_GOLEM, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(NETHER_GOLEM, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(CORE_GOLEM, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(END_GOLEM, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(SKY_GOLEM, Mob::checkMobSpawnRules);
 
-		registerSpawnPlacement(SKY_MINION, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(SILVER_SKELETON, MonsterEntity::checkMonsterSpawnRules);
+		registerSpawnPlacement(SKY_MINION, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(SILVER_SKELETON, Monster::checkMonsterSpawnRules);
 	}
 
 	/**
@@ -122,7 +126,7 @@ public class BTEntityTypes {
 	/**
 	 * Helper method for registering Entity Spawning
 	 */
-	private static <T extends MobEntity> void registerSpawnPlacement(EntityType<T> entityType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate) {
-		EntitySpawnPlacementRegistry.register(entityType, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, placementPredicate);
+	private static <T extends Mob> void registerSpawnPlacement(EntityType<T> entityType, SpawnPlacements.SpawnPredicate<T> placementPredicate) {
+		SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, placementPredicate);
 	}
 }

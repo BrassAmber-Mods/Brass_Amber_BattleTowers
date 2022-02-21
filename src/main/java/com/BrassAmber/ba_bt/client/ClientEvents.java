@@ -2,6 +2,10 @@ package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
+import com.BrassAmber.ba_bt.client.model.hostile.LandGolemModel;
+import com.BrassAmber.ba_bt.client.model.hostile.OceanGolemModel;
+import com.BrassAmber.ba_bt.client.model.hostile.SkyGolemModel;
+import com.BrassAmber.ba_bt.client.model.hostile.SkyMinionModel;
 import com.BrassAmber.ba_bt.client.renderer.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
@@ -19,6 +23,8 @@ import com.BrassAmber.ba_bt.client.renderer.golem.OceanGolemRenderer;
 import com.BrassAmber.ba_bt.client.renderer.golem.SkyGolemRenderer;
 
 
+import net.minecraft.client.model.SkeletonModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -68,15 +74,15 @@ public class ClientEvents {
 		event.registerLayerDefinition(EndMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 		event.registerLayerDefinition(SkyMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 
-		event.registerLayerDefinition(BTEntityTypes.SKY_MINION, SkyMinionRenderer::new);
-		event.registerLayerDefinition(BTEntityTypes.SILVER_SKELETON, SkeletonRenderer::new);
+		event.registerLayerDefinition(SkyMinionRenderer.TEXTURE, SkyMinionModel::createBodyLayer);
+		event.registerLayerDefinition(ModelLayers.SKELETON, SkeletonModel::createBodyLayer);
 
-		event.registerLayerDefinition(BTEntityTypes.LAND_MONOLITH, LandMonolithRenderer::new);
-		event.registerLayerDefinition(BTEntityTypes.CORE_MONOLITH, CoreMonolithRenderer::new);
-		event.registerLayerDefinition(BTEntityTypes.NETHER_MONOLITH, NetherMonolithRenderer::new);
-		event.registerLayerDefinition(BTEntityTypes.END_MONOLITH, EndMonolithRenderer::new);
-		event.registerLayerDefinition(BTEntityTypes.SKY_MONOLITH, SkyMonolithRenderer::new);
-		event.registerLayerDefinition(BTEntityTypes.OCEAN_MONOLITH, OceanMonolithRenderer::new);
+		event.registerLayerDefinition(LandGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(CoreGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(NetherGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(EndGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(SkyGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
+		event.registerLayerDefinition(OceanGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
 
 	}
 

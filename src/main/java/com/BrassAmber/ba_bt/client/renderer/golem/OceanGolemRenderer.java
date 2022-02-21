@@ -3,15 +3,19 @@ package com.BrassAmber.ba_bt.client.renderer.golem;
 import com.BrassAmber.ba_bt.client.model.hostile.OceanGolemModel;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class OceanGolemRenderer extends BTAbstractGolemRenderer<BTGolemEntityAbstract, OceanGolemModel> {
+	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/ocean_golem/ocean_golem_dormant");
+	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 
-	public OceanGolemRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new OceanGolemModel(), "ocean_golem");
+	public OceanGolemRenderer(EntityRendererProvider.Context context) {
+		super(context, new OceanGolemModel(context.bakeLayer(LAYER), LAYER),"ocean_golem");
 		this.setGolemTextures("ocean_golem_dormant", "ocean_golem", "ocean_golem");
 	}
 }

@@ -3,15 +3,19 @@ package com.BrassAmber.ba_bt.client.renderer.golem;
 import com.BrassAmber.ba_bt.client.model.hostile.LandGolemModel;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class CoreGolemRenderer extends BTAbstractGolemRenderer<BTGolemEntityAbstract, LandGolemModel> {
+	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/core_golem/core_golem_dormant");
+	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 
-	public CoreGolemRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new LandGolemModel(), "core_golem");
+	public CoreGolemRenderer(EntityRendererProvider.Context context) {
+		super(context, new LandGolemModel(context.bakeLayer(LAYER), LAYER), "core_golem");
 		this.setGolemTextures("core_golem_dormant", "core_golem", "core_golem_cracked");
 	}
 }
