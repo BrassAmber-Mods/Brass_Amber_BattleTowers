@@ -3,8 +3,9 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.init.BTTileEntityTypes;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
@@ -12,47 +13,43 @@ import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
 import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.gui.components.LerpingBossEvent;
-import net.minecraft.core.BlockPos;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.*;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.server.ServerBossInfo;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.util.Constants;
-import org.apache.logging.log4j.Level;
 
-import java.awt.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.EntityEvent;
+import org.jetbrains.annotations.NotNull;
+
 
 /**
  * @author Xrated_junior, DerToaster
@@ -68,14 +65,14 @@ import java.awt.*;
  * TODO Fix pathfinding to last known target location after golem reset. (Rare bug)
  */
 public abstract class BTGolemEntityAbstract extends Monster {
-	private static final DataParameter<BlockPos> SPAWN_POS = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BLOCK_POS);
-	private static final DataParameter<Float> SPAWN_DIRECTION = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.FLOAT);
-	private static final DataParameter<Byte> GOLEM_STATE = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BYTE);
-	private static final DataParameter<Boolean> DATA_IS_CHARGING = EntityDataManager.defineId(BTGolemEntityAbstract.class, DataSerializers.BOOLEAN);
-	public static final CreatureAttribute BATTLE_GOLEM = new CreatureAttribute();
+	private static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.BLOCK_POS);
+	private static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.BYTE);
+	private static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.BOOLEAN);
+	public static final MobType BATTLE_GOLEM = MobType.UNDEFINED;
 	public static final byte DORMANT = 0, AWAKE = 1, SPECIAL = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
-	private final ServerBossInfo bossbar;
+	private final ServerBossEvent bossBar;
 	private int explosionPower = 1;
 	private DestroyTowerEntity destroyTower;
 
@@ -85,12 +82,13 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	private final String spawnDirectionName = "SpawnDirection";
 	private final String golemStateName = "GolemState";
 	private final String explosionPowerName = "ExplosionPower";
-	private BlockPos chestTileEntityPos;
+	private BlockPos chestBlockEntityPos;
 
-	protected BTGolemEntityAbstract(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossbarColor) {
+	protected BTGolemEntityAbstract(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
-		// Initializes the bossbar with the correct color.
-		this.bossbar = new RenderGameOverlayEvent.BossInfo(this.getDisplayName(), bossbarColor, LerpingBossEvent.PROGRESS).setCreateWorldFog(false);
+		// Initializes the bossBar with the correct color.
+		this.bossBar = new ServerBossEvent(this.getDisplayName(), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
+		this.bossBar.setCreateWorldFog(false);
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 500;
 
@@ -146,9 +144,9 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	* (abstract) Protected helper method to read subclass entity data from NBT.
 	*/
 	@Override
-	public void readAdditionalSaveData(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
-		ListNBT spawnPos = compound.getList(this.spawnPosName, 6);
+		ListTag spawnPos = compound.getList(this.spawnPosName, 6);
 		double x = spawnPos.getDouble(0);
 		double y = spawnPos.getDouble(1);
 		double z = spawnPos.getDouble(2);
@@ -169,8 +167,8 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	public void tick() {
 		super.tick();
 
-		// Update the bossbar to display the health correctly.
-		this.bossbar.setPercent(this.getHealth() / this.getMaxHealth());
+		// Update the bossBar to display the health correctly.
+		this.bossBar.setProgress(this.getHealth() / this.getMaxHealth());
 
 		// Set the golemState to enraged when health drops below 1/3.
 		if (this.getHealth() / this.getMaxHealth() < 0.33 && !this.isEnraged() && this.isAwake()) {
@@ -182,11 +180,11 @@ public abstract class BTGolemEntityAbstract extends Monster {
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
 			if (!this.level.isClientSide()) {
-				PlayerEntity entityplayer = this.level.getNearestPlayer(this, this.getWakeUpRange());
+				Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
 				// Must be able to see the player and the player mustn't be in Creative mode.
-				if (entityplayer != null && !entityplayer.isCreative() && this.canSee(entityplayer)) {
+				if (player != null && !player.isCreative() && this.hasLineOfSight(player)) {
 					this.wakeUpGolem();
-					this.setTarget(entityplayer);
+					this.setTarget(player);
 				}
 			}
 		} else {
@@ -211,10 +209,10 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 */
 	@Override
 	public void setTarget(@Nullable LivingEntity livingEntity) {
-		if (this.getTarget() instanceof PlayerEntity && ((PlayerEntity) this.getTarget()).isCreative()) {
+		if (this.getTarget() instanceof Player && ((Player) this.getTarget()).isCreative()) {
 			super.setTarget(null);
 		}
-		if (livingEntity instanceof PlayerEntity && !((PlayerEntity) livingEntity).isSpectator()) {
+		if (livingEntity instanceof Player && !((Player) livingEntity).isSpectator()) {
 			super.setTarget(livingEntity);
 			return;
 		}
@@ -259,7 +257,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 		
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
-		PlayerEntity nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
+		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
 		if (nearestPlayer == null && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection())) {
 			this.resetGolem();
@@ -291,14 +289,14 @@ public abstract class BTGolemEntityAbstract extends Monster {
 
 	private void destroyBlocksNearby() {
 		if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) && this.getTarget() != null && this.isAwake()) {
-			final Vector3d offset = this.getLookAngle().normalize().scale(0.5);
+			final Vec3 offset = this.getLookAngle().normalize().scale(0.5);
 			
-			int ox = MathHelper.floor(this.getX() + offset.x);
-			int oy = MathHelper.floor(this.getY() + 0.25);
-			int oz = MathHelper.floor(this.getZ() + offset.z);
+			int ox = Mth.floor(this.getX() + offset.x);
+			int oy = Mth.floor(this.getY() + 0.25);
+			int oz = Mth.floor(this.getZ() + offset.z);
 			
-			int width = MathHelper.ceil(this.getBbWidth() / 2);
-			int height = MathHelper.ceil(this.getBbHeight());
+			int width = Mth.ceil(this.getBbWidth() / 2);
+			int height = Mth.ceil(this.getBbHeight());
 			boolean playEffectFlag = false;
 			for(int ix = ox - width; ix <= ox + width; ix++) {
 				for(int iy = oy; iy <= oy + height; iy++) {
@@ -313,7 +311,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 			}
 			
 			if(playEffectFlag) {
-				this.level.levelEvent(Constants.WorldEvents.WITHER_BREAK_BLOCK_SOUND, this.blockPosition(), 0);
+				this.level.gameEvent(GameEvent.BLOCK_DESTROY, this.blockPosition());
 			}
 		}
 	}
@@ -348,24 +346,24 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	public void die(DamageSource source) {
 
 		this.destroyTower = (DestroyTowerEntity) this.level.getEntities(null,
-				new AxisAlignedBB(this.getSpawnPos().getX()-1,this.getSpawnPos().getY() + 4,
+				new AABB(this.getSpawnPos().getX()-1,this.getSpawnPos().getY() + 4,
 						this.getSpawnPos().getZ()-1, this.getSpawnPos().getX() + 1,
 						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
 		this.destroyTower.setGolemDead(true);
 
 		if (!this.level.isClientSide()) {
 			BlockPos spawnPos = this.getSpawnPos();
-			BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, spawnPos);
+			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
 
 			checkPos(spawnPos.north(12).below());
 			checkPos(spawnPos.east(12).below());
 			checkPos(spawnPos.south(12).below());
 			checkPos(spawnPos.west(12).below());
 			try {
-				TileEntity entity = this.level.getBlockEntity(this.chestTileEntityPos);
+				BlockEntity entity = this.level.getBlockEntity(this.chestBlockEntityPos);
 				if (entity != null) {
-					GolemChestBlockEntity chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.chestTileEntityPos);
-					BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Chest " + entity);
+					GolemChestBlockEntity chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.chestBlockEntityPos);
+					BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + entity);
 					chestEntity.setNoLockKey();
 				}
 
@@ -378,24 +376,23 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	}
 
 	public void checkPos(BlockPos pos) {
-		TileEntity posEntity = this.level.getBlockEntity(pos);
+		BlockEntity posEntity = this.level.getBlockEntity(pos);
 
-		if (posEntity != null && posEntity.getType() == BTTileEntityTypes.LAND_GOLEM_CHEST) {
-			this.chestTileEntityPos = pos;
+		if (posEntity != null && posEntity.getType() == BTBlockEntityTypes.LAND_GOLEM_CHEST) {
+			this.chestBlockEntityPos = pos;
 		}
 		else {
-			BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, pos + " - " + posEntity);
+			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, pos + " - " + posEntity);
 		}
 	}
 
 	/*********************************************************** AI Goals ********************************************************/
 
 	/**
-	 * Called in the {@link MobEntity} constructor.
+	 * Called in the {@link net.minecraft.world.entity.Mob} constructor.
 	 */
 	@Override
 	protected void registerGoals() {
-		this.addGolemGoal(0, new SwimGoal(this));
 		this.addGolemGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
 			@Override
 			public boolean canUse() {
@@ -409,10 +406,10 @@ public abstract class BTGolemEntityAbstract extends Monster {
 			@Override
 			public boolean canContinueToUse() {
 //				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
-				return BTGolemEntityAbstract.this.isDormant() ? false : super.canContinueToUse();
+				return !BTGolemEntityAbstract.this.isDormant() && super.canContinueToUse();
 			}
 		});
-		this.addGolemGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F) {
+		this.addGolemGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F) {
 			@Override
 			public boolean canUse() {
 				if (BTGolemEntityAbstract.this.isDormant()) {
@@ -425,7 +422,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 			@Override
 			public boolean canContinueToUse() {
 //				BrassAmberBattleTowers.LOGGER.info("Look canContinueToUse()");
-				return BTGolemEntityAbstract.this.isDormant() ? false : super.canContinueToUse();
+				return !BTGolemEntityAbstract.this.isDormant() && super.canContinueToUse();
 			}
 		});
 
@@ -452,25 +449,25 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	/*********************************************************** Spawning ********************************************************/
 
 	@Override
-	public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		// TODO Delete, Testing
 		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
 
 		// Set spawn position and direction centered on the spawning Block.
 		this.setSpawnPos(this.blockPosition());
-		this.setSpawnDirection(this.yRot);
+		this.setSpawnDirection(this.getYRot());
 		return spawnDataIn;
 	}
 
-	/*********************************************************** Properties ********************************************************/
+	/*********************************************************** Properties @return********************************************************/
 
-	public static AttributeModifierMap.MutableAttribute createBattleGolemAttributes() {
-		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 100.0D);
+	public static AttributeSupplier.Builder createBattleGolemAttributes() {
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 100.0D);
 	}
 
 	@Override
-	public CreatureAttribute getMobType() {
+	public @NotNull MobType getMobType() {
 		return BATTLE_GOLEM;
 	}
 
@@ -515,7 +512,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	}
 
 	@Override
-	public boolean causeFallDamage(float damage, float multiplier) {
+	public boolean causeFallDamage(float damage, float multiplier, DamageSource source) {
 		return false;
 	}
 
@@ -543,10 +540,12 @@ public abstract class BTGolemEntityAbstract extends Monster {
 		return false;
 	}
 
+
 	@Override
-	protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+	protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
 		return sizeIn.height * 0.88F;
 	}
+
 
 	/**
 	 * Called when a user uses the creative pick block button on this entity.
@@ -555,8 +554,8 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 * @return An ItemStack to add to the player's inventory, empty ItemStack if nothing should be added.
 	 */
 	@Override
-	public ItemStack getPickedResult(RayTraceResult target) {
-		EntityType<?> entityType = this.getEntity().getType();
+	public ItemStack getPickedResult(HitResult target) {
+		EntityType<?> entityType = this.getType();
 		if (entityType != null) {
 			if (entityType.equals(BTEntityTypes.LAND_GOLEM)) {
 				return new ItemStack(BTItems.LAND_MONOLITH);
@@ -583,15 +582,15 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 * 0 = Dormant, 1 = Awake, 2 = Enraged
 	 */
 	public byte getGolemState() {
-		return (byte) MathHelper.clamp(this.entityData.get(GOLEM_STATE), 0, 2);
+		return (byte) Mth.clamp(this.entityData.get(GOLEM_STATE), 0, 2);
 	}
 
 	public void setGolemState(byte golemStateID) {
 		this.entityData.set(GOLEM_STATE, golemStateID);
-		if (golemStateID != DORMANT && !this.bossbar.isVisible()) {
-			this.bossbar.setVisible(true);
-		} else if (golemStateID == DORMANT && this.bossbar.isVisible()) {
-			this.bossbar.setVisible(false);
+		if (golemStateID != DORMANT && !this.bossBar.isVisible()) {
+			this.bossBar.setVisible(true);
+		} else if (golemStateID == DORMANT && this.bossBar.isVisible()) {
+			this.bossBar.setVisible(false);
 		}
 	}
 	
@@ -647,7 +646,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 		
 		// TODO Stop running goals
 		
-		LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, this.level);
+		LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level);
 		lightning.setPos(x, y, z);
 		lightning.setDamage(0.0F);
 		this.level.addFreshEntity(lightning);
@@ -664,7 +663,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 * Make the Golem face the defined spawn direction.
 	 */
 	public void faceDirection(float direction) {
-		this.yRot = direction;
+		this.setYRot(direction);
 		this.setYHeadRot(direction);
 		this.setYBodyRot(direction);
 	}
@@ -700,9 +699,9 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 * to view its associated boss bar.
 	 */
 	@Override
-	public void startSeenByPlayer(ServerPlayerEntity player) {
+	public void startSeenByPlayer(ServerPlayer player) {
 		super.startSeenByPlayer(player);
-		this.bossbar.addPlayer(player);
+		this.bossBar.addPlayer(player);
 	}
 
 	/**
@@ -710,16 +709,16 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 * more information on tracking.
 	 */
 	@Override
-	public void stopSeenByPlayer(ServerPlayerEntity player) {
+	public void stopSeenByPlayer(ServerPlayer player) {
 		super.stopSeenByPlayer(player);
-		this.bossbar.removePlayer(player);
+		this.bossBar.removePlayer(player);
 	}
 
 	@Override
-	public void setCustomName(@Nullable ITextComponent name) {
+	public void setCustomName(@Nullable Component name) {
 		super.setCustomName(name);
-		// Update the bossbar to display the correct name.
-		this.bossbar.setName(this.getDisplayName());
+		// Update the bossBar to display the correct name.
+		this.bossBar.setName(this.getDisplayName());
 	}
 
 	/*********************************************************** Sounds ********************************************************/
@@ -736,7 +735,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	 * Gets the pitch of living sounds in living entities.
 	 */
 	@Override
-	protected float getVoicePitch() {
+	public float getVoicePitch() {
 		return super.getVoicePitch();
 	}
 

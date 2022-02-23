@@ -2,14 +2,15 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.world.BossInfo;
-import net.minecraft.world.World;
+
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 
 public class BTGolemEntity extends BTGolemEntityAbstract {
 
-	public BTGolemEntity(EntityType<? extends BTGolemEntity> type, World worldIn) {
-		super(type, worldIn, BossInfo.Color.RED);
+	public BTGolemEntity(EntityType<? extends BTGolemEntity> type, Level levelIn) {
+		super(type, levelIn, BossEvent.BossBarColor.RED);
 	}
 	
 	@Override

@@ -3,18 +3,17 @@ package com.BrassAmber.ba_bt.entity.ai.goal;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.monster.GhastEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.DamagingProjectileEntity;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 /**
- * Reference: {@link GhastEntity.FireballAttackGoal}
+ * Reference: {@link Ghast.GhastShootFireballGoal}
  * 
  * TODO Doesn't seem to work together with {@link MeleeAttackGoal}
  */
@@ -62,7 +61,7 @@ public class GolemFireballAttackGoal extends Goal {
 			maxShootingDistance *= maxShootingDistance;
 
 			// Check if the target is within range and if the Golem is able to see the target.
-			if (targetLivingEntity.distanceToSqr(this.golem) < maxShootingDistance && this.golem.canSee(targetLivingEntity)) {
+			if (targetLivingEntity.distanceToSqr(this.golem) < maxShootingDistance && this.golem.hasLineOfSight(targetLivingEntity)) {
 				// Increase attack time
 				++this.chargeTime;
 
@@ -75,27 +74,27 @@ public class GolemFireballAttackGoal extends Goal {
 				// Shoot fireball
 				if (this.chargeTime >= 20) {
 					// Calculation for fireball trajectory and positioning.
-					Vector3d vector3d = this.golem.getViewVector(1.0F);
+					Vec3 vec3 = this.golem.getViewVector(1.0F);
 					double xPower = targetLivingEntity.getX() - this.golem.getX();
 					double yPower = targetLivingEntity.getY(0.5D) - (0.5D + this.golem.getY(0.5D));
 					double zPower = targetLivingEntity.getZ() - this.golem.getZ();
 
 					// Get golem world
-					World world = this.golem.level;
+					Level level = this.golem.level;
 
 					// Play shooting sound
 					if (!this.golem.isSilent()) {
-						world.levelEvent((PlayerEntity) null, 1016, this.golem.blockPosition(), 0);
+						level.levelEvent(null, 1016, this.golem.blockPosition(), 0);
 					}
 
 					// Create fireball
-					DamagingProjectileEntity fireballentity = this.createFireBall(world, xPower, yPower, zPower);
+					Projectile fireballentity = this.createFireBall(level, xPower, yPower, zPower);
 					// Set fireball initial position
 					double lateralSpawnPositionOffset = 1.2D;
 					double verticalSpawnPositionOffset = 0.5D;
-					fireballentity.setPos(this.golem.getX() + vector3d.x * lateralSpawnPositionOffset, this.golem.getY(0.5D) + verticalSpawnPositionOffset, fireballentity.getZ() + vector3d.z * lateralSpawnPositionOffset);
+					fireballentity.setPos(this.golem.getX() + vec3.x * lateralSpawnPositionOffset, this.golem.getY(0.5D) + verticalSpawnPositionOffset, fireballentity.getZ() + vec3.z * lateralSpawnPositionOffset);
 					// Add fireball to the world
-					world.addFreshEntity(fireballentity);
+					level.addFreshEntity(fireballentity);
 
 					// set firing timeout between shoots
 					this.chargeTime = this.golem.isEnraged() ? -20 : -40;
@@ -113,10 +112,8 @@ public class GolemFireballAttackGoal extends Goal {
 		}
 	}
 	
-	protected DamagingProjectileEntity createFireBall(World world, double xPower, double yPower, double zPower) {
-		FireballEntity fb = new FireballEntity(world, this.golem, xPower, yPower, zPower);
-		fb.explosionPower = this.golem.getExplosionPower();
-		
+	protected Projectile createFireBall(Level level, double xPower, double yPower, double zPower) {
+		Fireball fb = new LargeFireball(level, this.golem, xPower, yPower, zPower, this.golem.getExplosionPower());
 		return fb;
 	}
 }

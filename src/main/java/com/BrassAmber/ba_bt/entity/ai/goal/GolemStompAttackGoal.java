@@ -4,12 +4,12 @@ import java.util.EnumSet;
 
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion.Mode;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class GolemStompAttackGoal extends Goal {
 
@@ -42,8 +42,8 @@ public class GolemStompAttackGoal extends Goal {
 	public boolean canUse() {
 		if(this.golem.getTarget() != null && !this.golem.isDormant() && this.golem.isOnGround()) {
 			final LivingEntity target = this.golem.getTarget();
-			final Vector3d targetPos = target.position();
-			final Vector3d golemPos = this.golem.position();
+			final Vec3 targetPos = target.position();
+			final Vec3 golemPos = this.golem.position();
 			final double distHorizontal = Math.abs(((targetPos.x - golemPos.x) * ((targetPos.x - golemPos.x)) + (targetPos.z - golemPos.z) * (targetPos.z - golemPos.z)));
 			final double distVertical = golemPos.y - targetPos.y;
 			
@@ -66,8 +66,8 @@ public class GolemStompAttackGoal extends Goal {
 	public void start() {
 		super.start();
 		
-		this.golem.setDeltaMovement(Vector3d.ZERO);
-		this.golem.setDeltaMovement(Vector3d.ZERO.add(0, this.explosionStrength / 3, 0));
+		this.golem.setDeltaMovement(Vec3.ZERO);
+		this.golem.setDeltaMovement(Vec3.ZERO.add(0, this.explosionStrength / 3, 0));
 		
 		this.jumpingInProgress = true;
 	}
@@ -84,12 +84,12 @@ public class GolemStompAttackGoal extends Goal {
 		else if(this.jumpingInProgress && this.golem.isOnGround()) {
 			this.jumpingInProgress = false;
 			
-			AxisAlignedBB aabb = new AxisAlignedBB(this.golem.position().add(this.golem.getBbWidth(), 1, this.golem.getBbWidth()), this.golem.position().subtract(this.golem.getBbWidth(), 2, this.golem.getBbWidth()));
-			BlockPos.Mutable.betweenClosedStream(aabb).forEach((position) -> {
+			AABB aabb = new AABB(this.golem.position().add(this.golem.getBbWidth(), 1, this.golem.getBbWidth()), this.golem.position().subtract(this.golem.getBbWidth(), 2, this.golem.getBbWidth()));
+			BlockPos.MutableBlockPos.betweenClosedStream(aabb).forEach((position) -> {
 				this.golem.level.destroyBlock(position, true);
 			});
-			final Vector3d position = this.golem.position();
-			this.golem.level.explode(this.golem, position.x, position.y - 1, position.z, this.explosionStrength, Mode.BREAK);
+			final Vec3 position = this.golem.position();
+			this.golem.level.explode(this.golem, position.x, position.y - 1, position.z, this.explosionStrength, Explosion.BlockInteraction.BREAK);
 		}
 	}
 	
