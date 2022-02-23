@@ -92,7 +92,4 @@ public class ClientEvents {
 
 	}
 
-	@SubscribeEvent
-	public static void registerBlockRenderLayers(Event)
-
 }
