@@ -4,7 +4,7 @@ Re-vamp of the old BattleTowers mod from yogbox. Developed by Brass_Herbalist, M
 Some comments in LandTower.java are from the Structure Tutorial here: https://github.com/TelepathicGrunt/StructureTutorialMod/tree/e51cca9698110559f8f586b9c71ae9a4e655d786
 by Telepathic Grunt and have be marked as such.
 
-As of the 1.18.1 branch the licensing has changed to ALL RIGHTS RESERVED.
+**As of the 1.18.1 branch the licensing has changed to ALL RIGHTS RESERVED.**
 
 This does not change our stance of wanting to give everyone access to the code, this repo will remain public and open to assistance.
 However this does protect the mod from unauthorized use (such as redistributiion without consent and/or attribution for personal profit) 
