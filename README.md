@@ -5,6 +5,7 @@ Some comments in LandTower.java are from the Structure Tutorial here: https://gi
 by Telepathic Grunt and have be marked as such.
 
 As of the 1.18.1 branch the licensing has changed to ALL RIGHTS RESERVED.
+
 This does not change our stance of wanting to give everyone access to the code, this repo will remain public and open to assistance.
 However this does protect the mod from unauthorized use (such as redistributiion without consent and/or attribution for personal profit) 
 
