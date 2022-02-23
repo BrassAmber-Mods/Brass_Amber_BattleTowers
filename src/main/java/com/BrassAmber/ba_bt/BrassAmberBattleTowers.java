@@ -91,10 +91,6 @@ public class BrassAmberBattleTowers {
 		eventBus.addListener(this::setup);
 		// Register the enqueueIMC method for modloading
 
-		// Register the doClientStuff method for modloading
-		// the check for client only is isnide the method.
-		eventBus.addListener(this::doClientStuff);
-
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC, "ba-battletowers-config.toml");
 
 
@@ -192,23 +188,6 @@ public class BrassAmberBattleTowers {
 			}
 			serverLevel.getChunkSource().generator.getSettings().structureConfig = tempMap;
 		}
-	}
-
-	// Do something that can only be done on the client
-	private void doClientStuff(final FMLClientSetupEvent event) {
-		try {
-			boolean isClient = event.getMinecraftSupplier().get().level.isClientSide();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// Register Entity Renderers
-			//Render Type Spawner
-			ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
-
-			ClientEvents.init();
-			// Register TileEntity Renderers
-			BTBlockEntityRenderers.bindTileEntityRenderers(event);
-		}
-
 	}
 
 

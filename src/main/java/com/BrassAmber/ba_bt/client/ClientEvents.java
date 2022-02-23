@@ -8,6 +8,7 @@ import com.BrassAmber.ba_bt.client.model.hostile.SkyGolemModel;
 import com.BrassAmber.ba_bt.client.model.hostile.SkyMinionModel;
 import com.BrassAmber.ba_bt.client.renderer.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.client.renderer.block.CoreMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.block.EndMonolithRenderer;
@@ -25,9 +26,12 @@ import com.BrassAmber.ba_bt.client.renderer.golem.SkyGolemRenderer;
 
 import net.minecraft.client.model.SkeletonModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -84,6 +88,11 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
 		event.registerLayerDefinition(OceanGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
 
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+
 	}
+
+	@SubscribeEvent
+	public static void registerBlockRenderLayers(Event)
 
 }
