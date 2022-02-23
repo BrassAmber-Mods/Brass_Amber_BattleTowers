@@ -3,9 +3,9 @@ package com.BrassAmber.ba_bt.entity.ai.goal.skygolem;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
-import net.minecraft.entity.projectile.DamagingProjectileEntity;
-import net.minecraft.entity.projectile.DragonFireballEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.projectile.DragonFireball;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
 
 public class SkyGolemFireballAttackGoal extends GolemFireballAttackGoal {
 
@@ -14,10 +14,8 @@ public class SkyGolemFireballAttackGoal extends GolemFireballAttackGoal {
 	}
 	
 	@Override
-	protected DamagingProjectileEntity createFireBall(World world, double xPower, double yPower, double zPower) {
-		DragonFireballEntity fireballentity = new DragonFireballEntity(world, this.golem, xPower, yPower, zPower);
-		
-		return fireballentity;
+	protected Projectile createFireBall(Level level, double xPower, double yPower, double zPower) {
+		return new DragonFireball(level, this.golem, xPower, yPower, zPower);
 	}
 
 }
