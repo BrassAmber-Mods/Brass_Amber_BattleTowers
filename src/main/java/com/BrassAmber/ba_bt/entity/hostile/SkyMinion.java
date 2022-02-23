@@ -5,9 +5,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.level.Level;
 
-public class SkyMinionEntity extends Vex {
+public class SkyMinion extends Vex {
 
-	public SkyMinionEntity(EntityType<? extends Vex> entity, Level levelIn) {
+	public SkyMinion(EntityType<? extends Vex> entity, Level levelIn) {
 		super(entity, levelIn);
 	}
 

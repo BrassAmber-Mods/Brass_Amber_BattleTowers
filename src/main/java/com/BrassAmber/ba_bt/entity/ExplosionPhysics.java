@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
-public class ExplosionPhysicsEntity extends PrimedTnt {
+public class ExplosionPhysics extends PrimedTnt {
 
-	public ExplosionPhysicsEntity(EntityType<? extends PrimedTnt> tnt, Level level) {
+	public ExplosionPhysics(EntityType<? extends PrimedTnt> tnt, Level level) {
 		super(tnt, level);
 	}
 

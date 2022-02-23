@@ -7,9 +7,9 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-public class BTGolemEntity extends BTGolemEntityAbstract {
+public class BTGolem extends BTAbstractGolem {
 
-	public BTGolemEntity(EntityType<? extends BTGolemEntity> type, Level levelIn) {
+	public BTGolem(EntityType<? extends BTGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.RED);
 	}
 	

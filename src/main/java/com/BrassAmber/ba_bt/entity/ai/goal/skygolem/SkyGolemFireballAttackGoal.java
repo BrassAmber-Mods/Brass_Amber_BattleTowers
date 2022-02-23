@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.entity.ai.goal.skygolem;
 
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
 import net.minecraft.entity.projectile.DamagingProjectileEntity;
 import net.minecraft.entity.projectile.DragonFireballEntity;
@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class SkyGolemFireballAttackGoal extends GolemFireballAttackGoal {
 
-	public SkyGolemFireballAttackGoal(BTGolemEntityAbstract golem) {
+	public SkyGolemFireballAttackGoal(BTAbstractGolem golem) {
 		super(golem);
 	}
 	

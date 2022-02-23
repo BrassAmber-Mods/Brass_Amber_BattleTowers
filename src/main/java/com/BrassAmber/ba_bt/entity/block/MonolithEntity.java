@@ -1,9 +1,9 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 
@@ -207,14 +207,14 @@ public class MonolithEntity extends Entity {
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
 			// Create a new GolemEntity.
 			Entity entity = golemEntityType.create(this.level);
-			if (entity instanceof BTGolemEntityAbstract) {
-				BTGolemEntityAbstract newGolemEntity = (BTGolemEntityAbstract) entity;
+			if (entity instanceof BTAbstractGolem) {
+				BTAbstractGolem newGolemEntity = (BTAbstractGolem) entity;
 				// Set the position for the new Golem to the current position of the Monolith.
 				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
 				// Set the Golem to be invulnerable for x amount of ticks.
 				newGolemEntity.invulnerableTime = 60;
 				// Set the Golem to spawn Dormant.
-				newGolemEntity.setGolemState(BTGolemEntityAbstract.DORMANT);
+				newGolemEntity.setGolemState(BTAbstractGolem.DORMANT);
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
@@ -229,7 +229,7 @@ public class MonolithEntity extends Entity {
 	}
 
 	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
-		Entity destroyTowerEntity = new DestroyTowerEntity(this.golemType, this.blockPosition(), this.level);
+		Entity destroyTowerEntity = new DestroyTower(this.golemType, this.blockPosition(), this.level);
 		destroyTowerEntity.setPos(this.getX(), this.getY() + 6, this.getZ());
 		destroyTowerEntity.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(destroyTowerEntity);

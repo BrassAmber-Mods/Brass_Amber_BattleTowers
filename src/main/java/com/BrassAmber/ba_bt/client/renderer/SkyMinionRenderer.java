@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.client.renderer;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.client.model.hostile.SkyMinionModel;
-import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
+import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SkyMinionRenderer extends MobRenderer<SkyMinionEntity, SkyMinionModel> {
+public class SkyMinionRenderer extends MobRenderer<SkyMinion, SkyMinionModel> {
 	public static final ResourceLocation LOCATION = BrassAmberBattleTowers.locate("textures/entity/sky_minion.png");
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(LOCATION,"main");
 
@@ -22,7 +22,7 @@ public class SkyMinionRenderer extends MobRenderer<SkyMinionEntity, SkyMinionMod
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(SkyMinionEntity p_110775_1_) {
+	public ResourceLocation getTextureLocation(SkyMinion p_110775_1_) {
 		return LOCATION;
 	}
 }

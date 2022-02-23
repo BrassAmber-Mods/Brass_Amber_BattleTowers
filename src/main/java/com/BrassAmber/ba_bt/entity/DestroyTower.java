@@ -3,7 +3,7 @@ package com.BrassAmber.ba_bt.entity;
 import java.util.*;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.core.BlockPos;
@@ -32,12 +32,12 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.network.NetworkHooks;
 
-public class DestroyTowerEntity extends Entity {
+public class DestroyTower extends Entity {
     // Parameters that must be saved
-    private static final EntityDataAccessor<BlockPos> CRUMBLE_START_CORNER = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.BLOCK_POS);
-    private static final EntityDataAccessor<Integer> CRUMBLE_BOTTOM = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> CRUMBLE_SPEED = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> CURRENT_ROW = SynchedEntityData.defineId(DestroyTowerEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<BlockPos> CRUMBLE_START_CORNER = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Integer> CRUMBLE_BOTTOM = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CRUMBLE_SPEED = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CURRENT_ROW = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.INT);
 
     //Other Parameters
     private Boolean initialized = false;
@@ -62,12 +62,12 @@ public class DestroyTowerEntity extends Entity {
 
 
 
-    public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, Level level) {
+    public DestroyTower(EntityType<DestroyTower> type, Level level) {
         super(type, level);
         this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
     }
 
-    public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, Level level) {
+    public DestroyTower(GolemType golemType, BlockPos golemSpawn, Level level) {
         super(BTEntityTypes.DESTROY_TOWER, level);
 
         this.golemType = golemType;
@@ -123,7 +123,7 @@ public class DestroyTowerEntity extends Entity {
         super.tick();
         if (this.checkForGolem) {
 
-            BTGolemEntityAbstract golem = this.level.getNearestEntity(BTGolemEntityAbstract.class, TargetingConditions.DEFAULT, null, this.getX(), this.getY(), this. getZ(), this.getBoundingBox().inflate(15.0D, 10.0D, 15.0D));
+            BTAbstractGolem golem = this.level.getNearestEntity(BTAbstractGolem.class, TargetingConditions.DEFAULT, null, this.getX(), this.getY(), this. getZ(), this.getBoundingBox().inflate(15.0D, 10.0D, 15.0D));
             if (golem == null) {
                 this.setGolemDead(true);
 
@@ -190,7 +190,7 @@ public class DestroyTowerEntity extends Entity {
                     if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
                     	//Fancy physics stuff
                         // TODO ONCE ENTITY IS REWORKED, ONLY CALL ONCE PER FLOOR
-                    	ExplosionPhysicsEntity explosion = new ExplosionPhysicsEntity(BTEntityTypes.PHYSICS_EXPLOSION, this.level);
+                    	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityTypes.PHYSICS_EXPLOSION, this.level);
                     	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
                     	
                     	this.level.addFreshEntity(explosion);

@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.client.renderer.golem;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
@@ -12,8 +12,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BTAbstractGolemRenderer<E extends BTGolemEntityAbstract, M extends EntityModel<E>> extends MobRenderer<E, M> {
-	private static final float SCALE = BTGolemEntityAbstract.SCALE;
+public abstract class BTAbstractGolemRenderer<E extends BTAbstractGolem, M extends EntityModel<E>> extends MobRenderer<E, M> {
+	private static final float SCALE = BTAbstractGolem.SCALE;
 	protected ResourceLocation golemTexturesDormant;
 	protected ResourceLocation golemTexturesAwaken;
 	protected ResourceLocation golemTexturesEnraged;
@@ -30,7 +30,7 @@ public abstract class BTAbstractGolemRenderer<E extends BTGolemEntityAbstract, M
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(BTGolemEntityAbstract entity) {
+	public ResourceLocation getTextureLocation(BTAbstractGolem entity) {
 		return entity.isEnraged() ? golemTexturesEnraged : entity.isAwake() ? golemTexturesAwaken : golemTexturesDormant;
 	}
 

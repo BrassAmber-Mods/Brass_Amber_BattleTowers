@@ -14,22 +14,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
-public class SilverSkeletonEntity extends Skeleton {
+public class SilverSkeleton extends Skeleton {
 	// We don't need this if we decide the animation is enough.
-	private final RangedBowAttackGoal<SilverSkeletonEntity> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
+	private final RangedBowAttackGoal<SilverSkeleton> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
 	private final DualMeleeAttackGoal doubleMeleeGoal = new DualMeleeAttackGoal(this, 1.2D, false) {
 		public void stop() {
 			super.stop();
-			SilverSkeletonEntity.this.setAggressive(false);
+			SilverSkeleton.this.setAggressive(false);
 		}
 
 		public void start() {
 			super.start();
-			SilverSkeletonEntity.this.setAggressive(true);
+			SilverSkeleton.this.setAggressive(true);
 		}
 	};
 
-	public SilverSkeletonEntity(EntityType<? extends Skeleton> entityType, Level levelIn) {
+	public SilverSkeleton(EntityType<? extends Skeleton> entityType, Level levelIn) {
 		super(entityType, levelIn);
 	}
 

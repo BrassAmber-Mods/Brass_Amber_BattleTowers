@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.entity.ai.goal;
 
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
@@ -18,10 +18,10 @@ import net.minecraft.world.phys.Vec3;
  * TODO Doesn't seem to work together with {@link MeleeAttackGoal}
  */
 public class GolemFireballAttackGoal extends Goal {
-	protected final BTGolemEntityAbstract golem;
+	protected final BTAbstractGolem golem;
 	public int chargeTime;
 
-	public GolemFireballAttackGoal(BTGolemEntityAbstract golem) {
+	public GolemFireballAttackGoal(BTAbstractGolem golem) {
 		this.golem = golem;
 	}
 

@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.client.model.hostile;
 
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.google.common.collect.ImmutableList;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -24,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  *
  */
 @OnlyIn(Dist.CLIENT)
-public class LandGolemModel extends HumanoidModel<BTGolemEntityAbstract> {
+public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 	public static ModelLayerLocation LAYER_LOCATION;
 	private final ModelPart head;
 	private final ModelPart body;
@@ -85,7 +85,7 @@ public class LandGolemModel extends HumanoidModel<BTGolemEntityAbstract> {
 	/*********************************************************** Animations ********************************************************/
 
 	@Override
-	public void setupAnim(BTGolemEntityAbstract entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		boolean isFalling = entity.getFallFlyingTicks() > 4;
 		boolean isSwimming = entity.isVisuallySwimming();
 
@@ -167,7 +167,7 @@ public class LandGolemModel extends HumanoidModel<BTGolemEntityAbstract> {
 		// Swim animation
 	}
 
-	protected void setupAttackAnimation(BTGolemEntityAbstract entity, float ageInTicks) {
+	protected void setupAttackAnimation(BTAbstractGolem entity, float ageInTicks) {
 		if (!(this.attackTime <= 0.0F)) {
 			HumanoidArm humanoidarm = this.getAttackArm(entity);
 			ModelPart arm = this.getArm(humanoidarm);
@@ -199,7 +199,7 @@ public class LandGolemModel extends HumanoidModel<BTGolemEntityAbstract> {
 	/*********************************************************** Render ********************************************************/
 
 	@Override
-	public void prepareMobModel(BTGolemEntityAbstract entity, float limbSwing, float limbSwingAmount, float partialTick) {
+	public void prepareMobModel(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float partialTick) {
 		this.swimAmount = entity.getSwimAmount(partialTick);
 		super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 	}
@@ -260,14 +260,14 @@ public class LandGolemModel extends HumanoidModel<BTGolemEntityAbstract> {
 		return currentRotation + rotateAmount * f;
 	}
 
-	protected HumanoidArm getAttackArm(BTGolemEntityAbstract entity) {
+	protected HumanoidArm getAttackArm(BTAbstractGolem entity) {
 		HumanoidArm handside = entity.getMainArm();
 		return entity.swingingArm == InteractionHand.MAIN_HAND ? handside : handside.getOpposite();
 	}
 
 	
 
-	public void poseRightArm(BTGolemEntityAbstract entity) {
+	public void poseRightArm(BTAbstractGolem entity) {
 		switch (this.rightArmPose) {
 		case EMPTY:
 			this.leftArm.yRot = 0.0F;
@@ -299,7 +299,7 @@ public class LandGolemModel extends HumanoidModel<BTGolemEntityAbstract> {
 
 	}
 
-	private void poseLeftArm(BTGolemEntityAbstract entity) {
+	private void poseLeftArm(BTAbstractGolem entity) {
 		switch (this.leftArmPose) {
 		case EMPTY:
 			this.rightArm.yRot = 0.0F;

@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.client.model.hostile;
 
-import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
+import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
 
-public class SkyMinionModel extends EntityModel<SkyMinionEntity> {
+public class SkyMinionModel extends EntityModel<SkyMinion> {
 	public static ModelLayerLocation LAYER_LOCATION;
 	private final ModelPart head;
 	private final ModelPart body;
@@ -69,7 +69,7 @@ public class SkyMinionModel extends EntityModel<SkyMinionEntity> {
 	}
 
 	@Override
-	public void setupAnim(SkyMinionEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(SkyMinion entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		//previously the render function, render code was moved to a method below
 	}
 	

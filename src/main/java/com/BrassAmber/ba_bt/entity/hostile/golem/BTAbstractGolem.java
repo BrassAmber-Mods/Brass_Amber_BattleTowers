@@ -5,9 +5,9 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
+import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
 import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
 import com.BrassAmber.ba_bt.init.BTItems;
@@ -44,10 +44,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.EntityEvent;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -64,17 +62,17 @@ import org.jetbrains.annotations.NotNull;
  * TODO Can see invisible players
  * TODO Fix pathfinding to last known target location after golem reset. (Rare bug)
  */
-public abstract class BTGolemEntityAbstract extends Monster {
-	private static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.BLOCK_POS);
-	private static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.BYTE);
-	private static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTGolemEntityAbstract.class, EntityDataSerializers.BOOLEAN);
+public abstract class BTAbstractGolem extends Monster {
+	private static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BLOCK_POS);
+	private static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BYTE);
+	private static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BOOLEAN);
 	public static final MobType BATTLE_GOLEM = MobType.UNDEFINED;
 	public static final byte DORMANT = 0, AWAKE = 1, SPECIAL = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	private int explosionPower = 1;
-	private DestroyTowerEntity destroyTower;
+	private DestroyTower destroyTower;
 
 
 	// Data Strings
@@ -84,7 +82,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	private final String explosionPowerName = "ExplosionPower";
 	private BlockPos chestBlockEntityPos;
 
-	protected BTGolemEntityAbstract(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
+	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
 		this.bossBar = new ServerBossEvent(this.getDisplayName(), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
@@ -345,7 +343,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 	@Override
 	public void die(DamageSource source) {
 
-		this.destroyTower = (DestroyTowerEntity) this.level.getEntities(null,
+		this.destroyTower = (DestroyTower) this.level.getEntities(null,
 				new AABB(this.getSpawnPos().getX()-1,this.getSpawnPos().getY() + 4,
 						this.getSpawnPos().getZ()-1, this.getSpawnPos().getX() + 1,
 						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
@@ -396,7 +394,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 		this.addGolemGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
 			@Override
 			public boolean canUse() {
-				if (BTGolemEntityAbstract.this.isDormant()) {
+				if (BTAbstractGolem.this.isDormant()) {
 					return false;
 				}
 //				BrassAmberBattleTowers.LOGGER.info("Melee: " +getTarget());
@@ -406,13 +404,13 @@ public abstract class BTGolemEntityAbstract extends Monster {
 			@Override
 			public boolean canContinueToUse() {
 //				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
-				return !BTGolemEntityAbstract.this.isDormant() && super.canContinueToUse();
+				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
 		this.addGolemGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F) {
 			@Override
 			public boolean canUse() {
-				if (BTGolemEntityAbstract.this.isDormant()) {
+				if (BTAbstractGolem.this.isDormant()) {
 					return false;
 				}
 //				BrassAmberBattleTowers.LOGGER.info("Look");
@@ -422,7 +420,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 			@Override
 			public boolean canContinueToUse() {
 //				BrassAmberBattleTowers.LOGGER.info("Look canContinueToUse()");
-				return !BTGolemEntityAbstract.this.isDormant() && super.canContinueToUse();
+				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
 
@@ -431,7 +429,7 @@ public abstract class BTGolemEntityAbstract extends Monster {
 		this.addGolemTargetGoal(1, new HurtByTargetGoal(this));
 		// this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this,
 		// PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
-		this.addGolemTargetGoal(2, new TargetTaskGolemLand<BTGolemEntityAbstract>(this));
+		this.addGolemTargetGoal(2, new TargetTaskGolemLand<BTAbstractGolem>(this));
 	}
 
 	protected GolemFireballAttackGoal createFireballAttackGoal() {

@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.entity.ai.goal;
 
 import java.util.EnumSet;
 
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class GolemStompAttackGoal extends Goal {
 
-	protected final BTGolemEntityAbstract golem;
+	protected final BTAbstractGolem golem;
 	protected final float explosionStrength;
 	protected final double minVertDistance;
 	
@@ -23,7 +23,7 @@ public class GolemStompAttackGoal extends Goal {
 	
 	protected int warmup = WARMUP_TICKS;
 	
-	public GolemStompAttackGoal(BTGolemEntityAbstract golem, final float explosionStrength, final double minVertDistToTarget) {
+	public GolemStompAttackGoal(BTAbstractGolem golem, final float explosionStrength, final double minVertDistToTarget) {
 		super();
 		
 		this.golem = golem;
