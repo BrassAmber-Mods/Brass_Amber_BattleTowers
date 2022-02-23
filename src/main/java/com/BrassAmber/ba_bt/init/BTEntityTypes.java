@@ -12,20 +12,8 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.EndGolem;
 import com.BrassAmber.ba_bt.entity.hostile.golem.OceanGolem;
 import com.BrassAmber.ba_bt.entity.hostile.golem.SkyGolem;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EntityType.Builder;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -101,8 +89,8 @@ public class BTEntityTypes {
 	/**
 	 * Helper method for creating Golem EntityTypes
 	 */
-	private static <T extends BTAbstractGolem> EntityType<T> buildGolemEntityType(String registryName, EntityType.IFactory<T> typeFactory) {
-		Builder<T> golemBuilder = EntityType.Builder.of(typeFactory, EntityClassification.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune();
+	private static <T extends BTAbstractGolem> EntityType<T> buildGolemEntityType(String registryName, EntityType.EntityFactory<T> typeFactory) {
+		EntityType.Builder<T> golemBuilder = EntityType.Builder.of(typeFactory, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune();
 		return buildEntityType(registryName, golemBuilder);
 	}
 
@@ -110,7 +98,7 @@ public class BTEntityTypes {
 	 * Helper method for creating Monolith EntityTypes
 	 */
 	private static EntityType<MonolithEntity> buildMonolithEntityType(String registryName) {
-		EntityType.Builder<MonolithEntity> monolithBuilder = EntityType.Builder.<MonolithEntity>of(MonolithEntity::new, EntityClassification.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune();
+		EntityType.Builder<MonolithEntity> monolithBuilder = EntityType.Builder.<MonolithEntity>of(MonolithEntity::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune();
 		return buildEntityType(registryName, monolithBuilder);
 	}
 

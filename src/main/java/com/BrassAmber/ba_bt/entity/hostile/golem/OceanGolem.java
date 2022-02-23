@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 
 public class OceanGolem extends BTAbstractGolem {
 
-	public OceanGolem(EntityType<? extends EndGolem> type, Level levelIn) {
+	public OceanGolem(EntityType<? extends OceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.BLUE);
 	}
 }

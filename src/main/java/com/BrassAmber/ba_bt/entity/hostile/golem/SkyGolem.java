@@ -23,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class SkyGolem extends BTAbstractGolem {
 
-	public SkyGolem(EntityType<? extends EndGolem> type, Level levelIn) {
+	public SkyGolem(EntityType<? extends SkyGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
 		this.moveControl = new SkyGolem.MoveHelperController(this);
 	}
