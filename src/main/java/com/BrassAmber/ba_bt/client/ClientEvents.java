@@ -28,12 +28,14 @@ import net.minecraft.client.model.SkeletonModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 
 @Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
@@ -88,7 +90,22 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
 		event.registerLayerDefinition(OceanGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
 
+		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "land", 0),
+				LandChestTileEntityRenderer::createSingleBodyLayer);
+		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "land", 0),
+				LandChestTileEntityRenderer::createDoubleBodyLeftLayer);
+		event.registerLayerDefinition(BTChestTextures.locateChestLayer("tower", "land", 0),
+				LandChestTileEntityRenderer::createDoubleBodyRightLayer);
+
+		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 0),
+				LandGolemChestTileEntityRenderer::createSingleBodyLayer);
+		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 1),
+				LandGolemChestTileEntityRenderer::createDoubleBodyLeftLayer);
+		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 2),
+				LandGolemChestTileEntityRenderer::createDoubleBodyRightLayer);
+
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON, RenderType.cutout());
 
 	}
 

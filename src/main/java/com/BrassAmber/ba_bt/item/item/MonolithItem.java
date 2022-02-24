@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.item.item;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -60,7 +61,7 @@ public class MonolithItem extends Item {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
 					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, level, x + centerOnBlock, y, z + centerOnBlock);
-					newMonolithEntity.yRot = this.getPlacementDirection(context);
+					newMonolithEntity.setYRot(this.getPlacementDirection(context));
 					level.addFreshEntity(newMonolithEntity);
 				}
 
@@ -122,7 +123,9 @@ public class MonolithItem extends Item {
 	 * Gets the pitch of living sounds in living entities.
 	 */
 	private float getSoundPitch() {
+		Random random = new Random();
 		float avaragePitch = 0.0F;
 		return (random.nextFloat() - random.nextFloat()) * 0.2F + avaragePitch;
+
 	}
 }

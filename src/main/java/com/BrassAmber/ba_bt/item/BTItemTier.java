@@ -3,11 +3,8 @@ package com.BrassAmber.ba_bt.item;
 import java.util.function.Supplier;
 
 import com.BrassAmber.ba_bt.init.BTItems;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyLoadedValue;
-import net.minecraft.util.LazyValue;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -16,7 +13,7 @@ import javax.swing.*;
 /**
  * Reference from {@link Tiers}
  */
-public enum BTItemTier implements Tiers {
+public enum BTItemTier implements Tier {
 	SILVER(1, 200, 12.0F, 1.0F, 14, () -> {
 		return Ingredient.of(BTItems.SILVER_INGOT);
 	});

@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 
 /**
- * Reference from {@link ArmorMaterial}
+ * Reference from {@link ArmorMaterials}
  */
 public enum BTArmorMaterial implements ArmorMaterial {
 	SILVER("silver", 11, new int[] { 2, 5, 6, 2 }, 20, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {

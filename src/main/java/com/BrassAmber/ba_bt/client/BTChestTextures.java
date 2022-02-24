@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -45,5 +46,16 @@ public class BTChestTextures {
 			BrassAmberBattleTowers.locate("entity/chest/" + chestType + "_chest/" + chestName + "_left"),
 			BrassAmberBattleTowers.locate("entity/chest/" + chestType + "_chest/" + chestName + "_right")
 		};
+	}
+
+	public static ModelLayerLocation locateChestLayer(String chestType, String chestName, int side) {
+		if (side == 0) {
+			return new ModelLayerLocation(BrassAmberBattleTowers.locate("entity/chest/" + chestType + "_chest/" + chestName), "main");
+		} else if (side == 1) {
+			return  new ModelLayerLocation(BrassAmberBattleTowers.locate("entity/chest/" + chestType + "_chest/" + chestName + "_left"), "main");
+		} else if (side == 2) {
+			return  new ModelLayerLocation(BrassAmberBattleTowers.locate("entity/chest/" + chestType + "_chest/" + chestName + "_right"), "main");
+		}
+		return null;
 	}
 }

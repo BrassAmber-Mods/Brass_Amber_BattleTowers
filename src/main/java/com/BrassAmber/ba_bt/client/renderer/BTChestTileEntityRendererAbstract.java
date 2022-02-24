@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BTChestTileEntityRendererAbstract extends ChestRenderer<ChestBlockEntity> {
@@ -25,7 +26,7 @@ public abstract class BTChestTileEntityRendererAbstract extends ChestRenderer<Ch
 	}
 
 	@Override
-	protected Material getMaterial(ChestBlockEntity tileEntity, ChestType chestType) {
+	protected @NotNull Material getMaterial(@NotNull ChestBlockEntity tileEntity, @NotNull ChestType chestType) {
 		return chooseMaterial(chestType, this.singleChest, this.doubleChestLeft, this.doubleChestRight);
 	}
 

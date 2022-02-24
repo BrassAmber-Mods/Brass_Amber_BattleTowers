@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.client.renderer.blockentity.ChestRenderer;
 
 /**
  * Referenced from {@link HumanoidModel}
@@ -25,6 +26,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
+	/**
+	 * Look at {@link ChestRenderer} for example of doing multiple types of textures for an entity
+	 * Essentially create three separate sets of model parts (Dormant, Awake, Enraged) and register all of them with
+	 * 		separate createLayer methods in Client Events, then switch between them based off of Golem state.
+	 * 	Then make all anim/render methods check the Golem state and call the different model parts respectively.
+	 */
+
 	public static ModelLayerLocation LAYER_LOCATION;
 	private final ModelPart head;
 	private final ModelPart body;
