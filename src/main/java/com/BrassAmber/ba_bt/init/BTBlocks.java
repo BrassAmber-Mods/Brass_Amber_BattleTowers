@@ -38,7 +38,7 @@ public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final Block LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest", new GolemChestBlock(BTChestType.GOLEM, AbstractBlock.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE)), () -> chestItemRenderer(GolemChestTileEntity::new));
-	public static final Block LAND_CHEST = registerChestBlock("land_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
+	public static final Block LAND_CHEST = registerChestBlock("land_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F, 600.0F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
 
 
 	public static final Block SILVER_BLOCK = registerBlock("silver_block", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
