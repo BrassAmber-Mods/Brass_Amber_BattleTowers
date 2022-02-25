@@ -25,7 +25,9 @@ public class BTGolemEntity extends BTGolemEntityAbstract {
 
 	/*********************************************************** Properties ********************************************************/
 
+
+	// Override - Wont let me add @Override for some reason :/ but this does override a method in BTGolemEntityAbstract
 	public static AttributeModifierMap.MutableAttribute createBattleGolemAttributes() {
-		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.landGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 100.0D);
+		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.landGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 100.0D);
 	}
 }

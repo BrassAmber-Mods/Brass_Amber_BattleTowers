@@ -60,7 +60,7 @@ public class DestroyTowerEntity extends Entity {
     private final String crumbleBottomName = "CrumbleBottom";
     private final String crumbleSpeedName = "CrumbleSpeed";
     private final String currentRowName = "CurrentFloor";
-
+    private boolean hasPlayer;
 
 
     public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
@@ -124,8 +124,19 @@ public class DestroyTowerEntity extends Entity {
         super.tick();
         if (this.checkForGolem) {
 
-            BTGolemEntityAbstract golem = this.level.getNearestEntity(BTGolemEntityAbstract.class, EntityPredicate.DEFAULT, null, this.getX(), this.getY(), this. getZ(), this.getBoundingBox().inflate(15.0D, 10.0D, 15.0D));
-            if (golem == null) {
+            List<Entity> entities = this.level.getEntities(this, this.getBoundingBox().inflate(50.0D, 100.0D, 50.0D));
+            boolean deadGolem = true;
+            for (Entity entity: entities
+                 ) {
+                try {
+                    BTGolemEntityAbstract golem = (BTGolemEntityAbstract) entity;
+                    deadGolem = false;
+                } catch (Exception ignored) {
+
+                }
+            }
+
+            if (deadGolem) {
                 this.setGolemDead(true);
 
             } else {
@@ -133,7 +144,31 @@ public class DestroyTowerEntity extends Entity {
                 this.currentTicks = 0;
             }
         }
-        if (this.golemDead) {
+
+        List<ServerPlayerEntity> players = this.level.getServer().overworld().players();
+        for (ServerPlayerEntity player : players
+        ) {
+            double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
+            double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
+
+            boolean xClose = xDistance < 50;
+            boolean zClose = zDistance < 50;
+
+            List<Boolean> playersClose = new ArrayList<>();
+
+            if (!xClose || !zClose) {
+                playersClose.add(Boolean.FALSE);
+            }
+
+            if (Collections.frequency(playersClose, Boolean.FALSE) == players.size()) {
+                this.hasPlayer = false;
+
+            }  else {
+                this.hasPlayer = true;
+            }
+        }
+
+        if (this.golemDead && this.hasPlayer) {
             this.currentTicks++;
 
             // Check to see if data parameters have been initialized.
@@ -142,7 +177,7 @@ public class DestroyTowerEntity extends Entity {
             }
             if (this.currentTicks == 1) {
 
-                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
+                for (ServerPlayerEntity player : players
                      ) {
                     player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback false"));
                     player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] times 30 40 20"));
@@ -150,8 +185,9 @@ public class DestroyTowerEntity extends Entity {
                     player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\"" + this.specs.getCapitalizedName()
                             + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}"));
                 }
-                this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
+                this.level.playLocalSound(this.getCrumbleStart().below(6).getX(), this.getCrumbleStart().below(6).getY(),
+                        this.getCrumbleStart().below(6).getZ(), BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT,
+                        6.0F, 1F, false);
             } else if (this.currentTicks == 400) {
                 for (ServerPlayerEntity player : this.level.getServer().overworld().players()
                 ) {
@@ -160,8 +196,9 @@ public class DestroyTowerEntity extends Entity {
                             + "\",\"color\":\"#aaaaaa\"}"));
 
                 }
-                this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT, 6.0F, 1F);
+                this.level.playLocalSound(this.getCrumbleStart().below(6).getX(), this.getCrumbleStart().below(6).getY(),
+                        this.getCrumbleStart().below(6).getZ(), BTSoundEvents.TOWER_BREAK_START, SoundCategory.AMBIENT,
+                        6.0F, 1F, false);
 
             }  else if (this.currentTicks == 500) {
                 for (ServerPlayerEntity player : this.level.getServer().overworld().players()
@@ -172,8 +209,9 @@ public class DestroyTowerEntity extends Entity {
                     player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback true"));
                 }
             }else if (this.currentTicks == 600) {
-                this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6.0F, 1F);
+                this.level.playLocalSound(this.getCrumbleStart().below(6).getX(), this.getCrumbleStart().below(6).getY(),
+                        this.getCrumbleStart().below(6).getZ(), BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT,
+                        6.0F, 1F, false);
             }
 
 
@@ -181,8 +219,9 @@ public class DestroyTowerEntity extends Entity {
             // also check that the number of ticks is equal to the crumble speed (so that this isn't called every tick)
             if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0 && this.getCurrentRow() < this.rows) {
                 if (this.currentTicks % 240 == 0) {
-                    this.level.playSound(null, this.getCrumbleStart().below(this.getCurrentRow()*3),
-                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT, 6F, 1F);
+                    this.level.playLocalSound(this.getCrumbleStart().below(this.getCurrentRow()*3).getX(), this.getCrumbleStart().below(6).getY(),
+                            this.getCrumbleStart().below(6).getZ(), BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundCategory.AMBIENT,
+                            6.0F, 1F, false);
                 }
                 if (this.blocksToRemove.size() == 0) {
                     this.getNextRow();
