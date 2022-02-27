@@ -15,7 +15,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 
 
-version = "${minecraftVersion}-1.5.10"
+version = "${minecraftVersion}-1.5.15"
 group = 'com.brassAmber.ba_bt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'BrassAmberBattleTowers'
 
