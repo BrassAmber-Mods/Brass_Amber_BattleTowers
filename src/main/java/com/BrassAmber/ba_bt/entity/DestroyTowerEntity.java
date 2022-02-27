@@ -9,6 +9,7 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.mojang.brigadier.Command;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.network.play.client.CChatMessagePacket;
@@ -66,7 +67,7 @@ public class DestroyTowerEntity extends Entity {
     private final String currentRowName = "CurrentFloor";
     private boolean hasPlayer;
 
-    private CommandSource source = createCommandSourceStack().withPermission(2).withSuppressedOutput();
+    private CommandSource source = createCommandSourceStack().withPermission(4);
 
 
     public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
@@ -113,7 +114,7 @@ public class DestroyTowerEntity extends Entity {
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
-        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3);
+        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3F);
         this.initialized = true;
 
         // this.level.setBlock(this.getCrumbleStart(), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
@@ -124,6 +125,10 @@ public class DestroyTowerEntity extends Entity {
     public void doCommand(String command) {
 
         this.level.getServer().getCommands().performCommand(this.source, command);
+    }
+
+    public void doNoOutputCommand(String command) {
+        this.level.getServer().getCommands().performCommand(this.source.withSuppressedOutput(), command);
     }
 
     
@@ -190,33 +195,26 @@ public class DestroyTowerEntity extends Entity {
 
 
                 this.doCommand("/gamerule sendCommandFeedback false");
-                this.doCommand("/title @a[distance=0..2] times 30 40 20");
-                this.doCommand("/title @a[distance=0..2] title \"\"");
-                this.doCommand("/title @a[distance=0..2] subtitle {\"text\":\"" + this.specs.getCapitalizedName()
+                this.doCommand("/title @a times 30 40 20");
+                this.doCommand("/title @a title \"\"");
+                this.doCommand("/title @a subtitle {\"text\":\"" + this.specs.getCapitalizedName()
                         + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level.playSound(null, this.getCrumbleStart().below(6), BTSoundEvents.TOWER_BREAK_START,
                         SoundCategory.AMBIENT, 6.0F, 1F);
 
             } else if (this.currentTicks == 400) {
-                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
-                ) {
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] title \"\""));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\"Without it's energy... "
-                            + "\",\"color\":\"#aaaaaa\"}"));
-
-                }
+                this.doCommand("/title @a[distance=0..2] title \"\"");
+                this.doCommand("/title @a[distance=0..2] subtitle {\"text\":\"Without it's energy... "
+                        + "\",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6), BTSoundEvents.TOWER_BREAK_START,
                         SoundCategory.AMBIENT, 6.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
-                for (ServerPlayerEntity player : this.level.getServer().overworld().players()
-                ) {
-                    player.connection.handleChat(new CChatMessagePacket("/title @p[distance=0..2] title \"\""));
-                    player.connection.handleChat(new CChatMessagePacket("/title @a[distance=0..2] subtitle {\"text\":\""
-                            + "The tower will collapse...\",\"color\":\"#aa0000\"}"));
-                    player.connection.handleChat(new CChatMessagePacket("/gamerule sendCommandFeedback true"));
-                }
+                this.doCommand("/title @p[distance=0..2] title \"\"");
+                this.doCommand("/title @a[distance=0..2] subtitle {\"text\":\""
+                        + "The tower will collapse...\",\"color\":\"#aa0000\"}");
+                this.doNoOutputCommand("/gamerule sendCommandFeedback true");
             }else if (this.currentTicks == 600) {
                 this.level.playSound(null, this.getCrumbleStart().below(6), BTSoundEvents.TOWER_BREAK_CRUMBLE,
                         SoundCategory.AMBIENT, 6.0F, 1F);
