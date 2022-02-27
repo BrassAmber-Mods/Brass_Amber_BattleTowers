@@ -167,8 +167,8 @@ public class DestroyTowerEntity extends Entity {
             double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
             double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
 
-            boolean xClose = xDistance < 50;
-            boolean zClose = zDistance < 50;
+            boolean xClose = xDistance < 125;
+            boolean zClose = zDistance < 125;
 
             List<Boolean> playersClose = new ArrayList<>();
 
