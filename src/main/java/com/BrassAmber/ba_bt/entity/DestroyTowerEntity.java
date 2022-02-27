@@ -204,15 +204,15 @@ public class DestroyTowerEntity extends Entity {
                         SoundCategory.AMBIENT, 6.0F, 1F);
 
             } else if (this.currentTicks == 400) {
-                this.doCommand("/title @a[distance=0..2] title \"\"");
-                this.doCommand("/title @a[distance=0..2] subtitle {\"text\":\"Without it's energy... "
+                this.doCommand("/title @a title \"\"");
+                this.doCommand("/title @a subtitle {\"text\":\"Without it's energy... "
                         + "\",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6), BTSoundEvents.TOWER_BREAK_START,
                         SoundCategory.AMBIENT, 6.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
-                this.doCommand("/title @p[distance=0..2] title \"\"");
-                this.doCommand("/title @a[distance=0..2] subtitle {\"text\":\""
+                this.doCommand("/title @a title \"\"");
+                this.doCommand("/title @a subtitle {\"text\":\""
                         + "The tower will collapse...\",\"color\":\"#aa0000\"}");
                 this.doNoOutputCommand("/gamerule sendCommandFeedback true");
             }else if (this.currentTicks == 600) {

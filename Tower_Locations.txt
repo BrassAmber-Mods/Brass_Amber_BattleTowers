@@ -25,13 +25,13 @@
 
 -Sky Tower-
 
--generates from block limit to base of tower clouds [as high as you can place this thing, my guy]
+-generates from block limit to base of tower clouds
 
 --------------------------------------------------
 
 -Core Tower-
 
--generates from bedrock up [ontop of the last layer[y=1] 
+-generates from bedrock up
 -this may leaves holes under the base floor into the void [lore]
 
 --------------------------------------------------
@@ -40,13 +40,12 @@
 
 -spawns in Nether Wastes/Basalt Deltas
 -does not generate in Warped/Crimson Forest/Soulsand Valley [these areas are hard enough, barren areas is the idea]
--should generate from  lava ocean level and up [hopefully there's enough room for this before the bedrock roof]
+-should generate from lava ocean level and up
 
 --------------------------------------------------
 
 -End Tower-
 
--generates in chorus fruit end valleys [the fuck is the biome name?]
--floating above the biomes by 2 chunks [or outwards off the coast in the landless sea of void]
+-generates in chorus fruit end valleys
 
 --------------------------------------------------

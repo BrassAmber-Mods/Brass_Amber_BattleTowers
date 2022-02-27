@@ -2,8 +2,17 @@ Land Tower:
 
     Bottom Floor: Milamber - Inspired by medieval castle entry halls/throne rooms
 
-    Cult Floor: Brass_Herbalist - Inspired by ?
+    Cult Floor: Original by Brass_Herbalist, revamped by Milamber - Original inspiration ?, revamp Inspired by the Gathering Hall
+                                                                                            from the HarperHall in Anne McCaffrey's book DragonSinger
 
-    Barracks Floor: PlsLetMeRest (aided by Milamber) - Inspired by general medievl
+    Barracks Floor: PlsLetMeRest (aided by Milamber) - Inspired by general Medieval theme
 
-    Alchemy Floor: Milamber (inspiration by Brass Herbalist) - Inspired by Blackreach from Skyrim
+    Library Floor: Milamber (Color/Texture advice from PlsLetMeRest) - Inspired by Medieval Libraries which are much more compact than modern libraries
+                                                                       as well as Fantasy/Medieval Libraries which often have floor to ceiling bookshelves.
+
+    Kitchen Floor: Milamber - Inspired by Medieval Kitchens (Brick Oven) loot room modeled after a wak-in freezer/cold storage.
+
+
+Nether Tower:
+
+    Alchemy Floor: Milamber (Inspiration by Brass Herbalist) - Inspired by Blackreach from Skyrim
