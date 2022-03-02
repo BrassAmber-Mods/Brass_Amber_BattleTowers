@@ -3,7 +3,7 @@ package com.BrassAmber.ba_bt.client.renderer.block;
 import java.util.List;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
 import com.google.common.collect.Lists;
 
@@ -22,29 +22,27 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEntity> {
+public abstract class MonolithRendererAbstract extends EntityRenderer<BTMonolith> {
 	private final MonolithModel monolith;
 	private List<ResourceLocation> monolithTextures = Lists.newArrayList();
 	private List<ModelLayerLocation> monolithLayers = Lists.newArrayList();
 	private String monolithType;
 
-	public MonolithRendererAbstract(EntityRendererProvider.Context context, String monolithType) {
+	public MonolithRendererAbstract(EntityRendererProvider.Context context, String monolithType, ModelLayerLocation location) {
 		super(context);
 		this.monolithType = monolithType;
 		// Set the correct textures for each Monolith type.
 		this.setMonolithTextures();
 		this.monolith = new MonolithModel(
-				context.bakeLayer(this.monolithLayers.get(0)),
-				monolithLayers.get(0));
-
-
+				context.bakeLayer(location),
+				location);
 	}
 
 	/**
 	 * Referenced from {@link net.minecraft.client.renderer.entity.LivingEntityRenderer}
 	 */
 	@Override
-	public void render(MonolithEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+	public void render(BTMonolith entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		/*********************************************************** Animations ********************************************************/
 		float speedModifier = 32.0f;
 		float amplitude = 0.25F;
@@ -85,7 +83,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<MonolithEn
 	 * Returns the correct texture according to the amount of keys or eyes.
 	 */
 	@Override
-	public ResourceLocation getTextureLocation(MonolithEntity entityIn) {
+	public ResourceLocation getTextureLocation(BTMonolith entityIn) {
 		int eyeSlotIncrement = entityIn.isEyeSlotDisplayed() ? 1 : 0;
 		int textureLocation = entityIn.getKeyCountInEntity() + eyeSlotIncrement;
 		return this.getMonolithTexture(textureLocation);

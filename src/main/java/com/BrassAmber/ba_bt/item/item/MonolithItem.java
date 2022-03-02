@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -30,9 +30,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MonolithItem extends Item {
-	private final EntityType<MonolithEntity> monolithEntityType;
+	private final EntityType<BTMonolith> monolithEntityType;
 
-	public MonolithItem(EntityType<MonolithEntity> monolithEntityType, Item.Properties builder) {
+	public MonolithItem(EntityType<BTMonolith> monolithEntityType, Item.Properties builder) {
 		super(builder);
 		this.monolithEntityType = monolithEntityType;
 	}
@@ -60,9 +60,9 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, level, x + centerOnBlock, y, z + centerOnBlock);
-					newMonolithEntity.setYRot(this.getPlacementDirection(context));
-					level.addFreshEntity(newMonolithEntity);
+					BTMonolith newBTMonolithEntity = new BTMonolith(this.monolithEntityType, level, x + centerOnBlock, y, z + centerOnBlock);
+					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
+					level.addFreshEntity(newBTMonolithEntity);
 				}
 
 				// TODO Fix subtitles

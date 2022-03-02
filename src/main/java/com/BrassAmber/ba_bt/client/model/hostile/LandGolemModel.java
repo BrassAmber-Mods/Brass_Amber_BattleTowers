@@ -18,6 +18,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Referenced from {@link HumanoidModel}
  * ====>>
@@ -36,6 +39,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 	public static ModelLayerLocation LAYER_LOCATION;
 	private final ModelPart head;
 	private final ModelPart body;
+	private final ModelPart hat;
 	private final ModelPart rightArm;
 	private final ModelPart leftArm;
 	private final ModelPart rightLeg;
@@ -49,10 +53,11 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 		this.LAYER_LOCATION = location;
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
-		this.rightArm = root.getChild("rightArm");
-		this.leftArm = root.getChild("leftArm");
-		this.rightLeg = root.getChild("rightLeg");
-		this.leftLeg = root.getChild("leftLeg");
+		this.hat = root.getChild("hat");
+		this.rightArm = root.getChild("right_arm");
+		this.leftArm = root.getChild("left_arm");
+		this.rightLeg = root.getChild("right_leg");
+		this.leftLeg = root.getChild("left_leg");
 	}
 	
 
@@ -65,24 +70,26 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 						.addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(0.0F, -32.0F, 0.0F));
 
+		PartDefinition hat = partdefinition.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(128, 64).addBox(0F, 0F, 0F, 0F, 0F, 0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
 		PartDefinition body = partdefinition.addOrReplaceChild("body",
 				CubeListBuilder.create().texOffs(32, 32)
 						.addBox(-8.0F, 0.0F, -4.0F, 16.0F, 24.0F, 8.0F,
 								new CubeDeformation(0.0F)), PartPose.offset(0.0F, -24.0F, 0.0F));
 
-		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm",
+		PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm",
 				CubeListBuilder.create().texOffs(0, 32)
 						.addBox(-6.0F, -4.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-10.0F, -20.0F, 0.0F));
 
-		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm",
+		PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm",
 				CubeListBuilder.create().texOffs(80, 32)
 						.addBox(-2.0F, -4.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(10.0F, -20.0F, 0.0F));
 
-		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg",
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("right_leg",
 				CubeListBuilder.create().texOffs(80, 32)
 						.addBox(-4.2F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.8F, 0.0F, 0.0F));
 
-		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg",
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("left_leg",
 				CubeListBuilder.create().texOffs(0, 32)
 						.addBox(-3.8F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(3.8F, 0.0F, 0.0F));
 

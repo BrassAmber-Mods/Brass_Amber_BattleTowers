@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class ExplosionPhysics extends PrimedTnt {
 
@@ -56,7 +57,7 @@ public class ExplosionPhysics extends PrimedTnt {
 							state
 					) {
 						@Override
-						public void setRemoved(Entity.RemovalReason removalReason) {
+						public void setRemoved(Entity.@NotNull RemovalReason removalReason) {
 							//Dirty workaround to avoid the sudden disappearance of the entity
 							if(this.tickCount <= 5 && !this.level.isClientSide && this.tickCount < 60) {
 								return;

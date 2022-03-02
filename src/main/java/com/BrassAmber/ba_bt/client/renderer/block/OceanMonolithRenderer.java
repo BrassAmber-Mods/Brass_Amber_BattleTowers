@@ -12,6 +12,6 @@ public class OceanMonolithRenderer extends MonolithRendererAbstract {
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(new ResourceLocation("textures/entity/monolith/ocean_monolith/ocean_monolith_0.png"), "main");
 
 	public OceanMonolithRenderer(EntityRendererProvider.Context context) {
-		super(context, OCEAN_MONOLITH);
+		super(context, OCEAN_MONOLITH, TEXTURE);
 	}
 }

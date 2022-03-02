@@ -17,10 +17,14 @@ public class BTSoundEvents {
 	public static final SoundEvent ENTITY_GOLEM_AMBIENT = registerSoundEvent("entity.golem.ambient");
 	public static final SoundEvent ENTITY_GOLEM_SPECIAL = registerSoundEvent("entity.golem.special");
 
+	public static final SoundEvent MUSIC_GOLEM_FIGHT = registerSoundEvent("entity.golem.fight");
+
+
 	public static final SoundEvent MONOLITH_SPAWN_GOLEM = registerSoundEvent("monolith.spawn.golem");
 
 	public static final SoundEvent TOWER_BREAK_START = registerSoundEvent("tower.break.start");
 	public static final SoundEvent TOWER_BREAK_CRUMBLE = registerSoundEvent("tower.break.crumble");
+	public static final SoundEvent MUSIC_TOWER = registerSoundEvent("tower.ambient.music");
 
 	/**
 	 * Helper method for registering all SoundEvents

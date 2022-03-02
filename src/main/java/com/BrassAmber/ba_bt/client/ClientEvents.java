@@ -2,10 +2,7 @@ package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
-import com.BrassAmber.ba_bt.client.model.hostile.LandGolemModel;
-import com.BrassAmber.ba_bt.client.model.hostile.OceanGolemModel;
-import com.BrassAmber.ba_bt.client.model.hostile.SkyGolemModel;
-import com.BrassAmber.ba_bt.client.model.hostile.SkyMinionModel;
+import com.BrassAmber.ba_bt.client.model.hostile.*;
 import com.BrassAmber.ba_bt.client.renderer.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
@@ -62,6 +59,13 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityTypes.SKY_MONOLITH, SkyMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.OCEAN_MONOLITH, OceanMonolithRenderer::new);
 
+		event.registerEntityRenderer(BTEntityTypes.LAND_OBELISK, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_OBELISK, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.CORE_OBELISK, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.NETHER_OBELISK, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.END_OBELISK, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.SKY_OBELISK, NoRenderEntity::new);
+
 		event.registerEntityRenderer(BTEntityTypes.DESTROY_TOWER, NoRenderEntity::new);
 		event.registerEntityRenderer(BTEntityTypes.PHYSICS_EXPLOSION, NoRenderEntity::new);
 
@@ -81,7 +85,6 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 
 		event.registerLayerDefinition(SkyMinionRenderer.TEXTURE, SkyMinionModel::createBodyLayer);
-		event.registerLayerDefinition(ModelLayers.SKELETON, SkeletonModel::createBodyLayer);
 
 		event.registerLayerDefinition(LandGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
 		event.registerLayerDefinition(CoreGolemRenderer.LAYER, LandGolemModel::createBodyLayer);

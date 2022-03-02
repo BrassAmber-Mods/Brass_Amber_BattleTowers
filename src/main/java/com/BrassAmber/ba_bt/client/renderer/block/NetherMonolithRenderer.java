@@ -12,6 +12,6 @@ public class NetherMonolithRenderer extends MonolithRendererAbstract {
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(new ResourceLocation("textures/entity/monolith/nether_monolith/nether_monolith_0.png"), "main");
 
 	public NetherMonolithRenderer(EntityRendererProvider.Context context) {
-		super(context, NETHER_MONOLITH);
+		super(context, NETHER_MONOLITH, TEXTURE);
 	}
 }

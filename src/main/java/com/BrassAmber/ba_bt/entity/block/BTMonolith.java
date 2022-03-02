@@ -42,8 +42,8 @@ import org.jetbrains.annotations.NotNull;
  * 
  * Make particles appear like destroying blocks when removing
  */
-public class MonolithEntity extends Entity {
-	public static final EntityDataAccessor<Integer> KEYS = SynchedEntityData.defineId(MonolithEntity.class, EntityDataSerializers.INT);
+public class BTMonolith extends Entity {
+	public static final EntityDataAccessor<Integer> KEYS = SynchedEntityData.defineId(BTMonolith.class, EntityDataSerializers.INT);
 	private final EntityType<?> monolithType;
 	private final GolemType golemType;
 	private final Item correctMonolithKey;
@@ -54,7 +54,7 @@ public class MonolithEntity extends Entity {
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
 
-	public MonolithEntity(EntityType<? extends MonolithEntity> type, Level level) {
+	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
 		super(type, level);
 		this.blocksBuilding = true;
 		this.floatingRotation = this.random.nextInt(100_000);
@@ -64,7 +64,7 @@ public class MonolithEntity extends Entity {
 		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
 	}
 
-	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, Level levelIn, double x, double y, double z) {
+	public BTMonolith(EntityType<BTMonolith> monolithEntityType, Level levelIn, double x, double y, double z) {
 		this(monolithEntityType, levelIn);
 		this.setPos(x, y, z);
 	}

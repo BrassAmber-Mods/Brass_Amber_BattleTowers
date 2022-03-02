@@ -71,6 +71,17 @@
 			}
 		]
 	},
+	"entity.golem.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/boss_fight",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
 		
 	"tower.break.start": {
 		"category": "ambient",
@@ -89,6 +100,17 @@
 		"sounds": [
 			{
 				"name": "ba_bt:entity/golem/towercrumble",
+				"volume": 0.6,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/ancestry",
 				"volume": 0.6,
 				"stream": true
 			}

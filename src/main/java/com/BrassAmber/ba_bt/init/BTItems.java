@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.init;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
+import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.item.BTArmorMaterial;
 import com.BrassAmber.ba_bt.item.BTItemTier;
 import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
@@ -80,7 +80,7 @@ public class BTItems {
 	/**
 	 * Helper method for creating Monolith items.
 	 */
-	private static Item registerMonolith(String registryName, EntityType<MonolithEntity> monolithEntityType) {
+	private static Item registerMonolith(String registryName, EntityType<BTMonolith> monolithEntityType) {
 		Item newMonolithItem = new MonolithItem(monolithEntityType, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB));
 		return registerItem(registryName, newMonolithItem);
 	}

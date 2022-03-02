@@ -50,9 +50,9 @@ public class BTSpawnerBlock extends SpawnerBlock {
         }
     }
 
-    public void playerDestroy(@NotNull Level level, Player p_49828_, @NotNull BlockPos spawnerPos, @NotNull BlockState p_49830_, @Nullable BlockEntity p_49831_, @NotNull ItemStack p_49832_) {
-        p_49828_.awardStat(Stats.BLOCK_MINED.get(this));
-        p_49828_.causeFoodExhaustion(0.005F);
+
+    public void playerDestroy(@NotNull Level level, Player player, @NotNull BlockPos spawnerPos, @NotNull BlockState state, @Nullable BlockEntity blockEntity, @NotNull ItemStack itemStack) {
+        super.playerDestroy(level, player, spawnerPos, state,blockEntity, itemStack);
         this.foundChest = false;
         this.chestTileEntityPos = null;
         if (!level.isClientSide()) {
@@ -107,6 +107,5 @@ public class BTSpawnerBlock extends SpawnerBlock {
             }
 
         }
-        dropResources(p_49830_, level, spawnerPos, p_49831_, p_49828_, p_49832_);
     }
 }

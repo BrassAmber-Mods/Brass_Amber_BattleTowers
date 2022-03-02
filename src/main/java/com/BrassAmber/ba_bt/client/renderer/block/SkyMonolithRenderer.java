@@ -12,6 +12,6 @@ public class SkyMonolithRenderer extends MonolithRendererAbstract {
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(new ResourceLocation("textures/entity/monolith/sky_monolith/sky_monolith_0.png"), "main");
 
 	public SkyMonolithRenderer(EntityRendererProvider.Context context) {
-		super(context, SKY_MONOLITH);
+		super(context, SKY_MONOLITH, TEXTURE);
 	}
 }

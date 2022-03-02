@@ -12,6 +12,6 @@ public class EndMonolithRenderer extends MonolithRendererAbstract {
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(new ResourceLocation("textures/entity/monolith/end_monolith/end_monolith_0.png"), "main");
 
 	public EndMonolithRenderer(EntityRendererProvider.Context context) {
-		super(context, END_MONOLITH);
+		super(context, END_MONOLITH, TEXTURE);
 	}
 }

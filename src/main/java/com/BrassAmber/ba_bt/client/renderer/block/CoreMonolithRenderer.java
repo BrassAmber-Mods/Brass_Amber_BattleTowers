@@ -12,6 +12,6 @@ public class CoreMonolithRenderer extends MonolithRendererAbstract {
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(new ResourceLocation("textures/entity/monolith/core_monolith/core_monolith_0.png"), "main");
 
 	public CoreMonolithRenderer(EntityRendererProvider.Context context) {
-		super(context, CORE_MONOLITH);
+		super(context, CORE_MONOLITH, TEXTURE);
 	}
 }
