@@ -100,11 +100,6 @@ public class GolemChestBlock extends ChestBlock {
 		this.chestType = chestType;
 	}
 
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(net.minecraft.world.level.Level level, BlockState p_154684_, BlockEntityType<T> p_154685_) {
-		return createTickerHelper(p_154685_, BTBlockEntityTypes.LAND_GOLEM_CHEST, level.isClientSide ? GolemChestBlockEntity::clientTick : GolemChestBlockEntity::serverTick);
-	}
-
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return BTBlockEntityTypes.LAND_GOLEM_CHEST.create(blockPos, blockState);
@@ -126,7 +121,7 @@ public class GolemChestBlock extends ChestBlock {
 			Player player = (Player) livingEntity;
 			if (!player.isCreative()) {
 				GolemChestBlockEntity chestTileEntity = (GolemChestBlockEntity) world.getBlockEntity(blockPos);
-				chestTileEntity.setNoLockKey();
+				chestTileEntity.setUnlocked(true);
 			}
 		} catch (Exception ignored) {
 

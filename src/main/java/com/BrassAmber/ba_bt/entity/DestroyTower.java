@@ -27,6 +27,7 @@ import com.BrassAmber.ba_bt.util.TowerSpecs;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.network.NetworkHooks;
@@ -311,7 +312,7 @@ public class DestroyTower extends Entity {
     	Set<BlockPos> waterPositions = new HashSet<>();
     	removeBodyOWater(waterPositions, start);
     	
-    	waterPositions.forEach((pos) -> this.level.removeBlock(pos, false));
+    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2));
 	}
     
     private void removeBodyOWater(Set<BlockPos> storage, BlockPos position) {

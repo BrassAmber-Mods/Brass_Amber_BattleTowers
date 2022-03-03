@@ -186,10 +186,9 @@ public abstract class BTAbstractGolem extends Monster {
 			this.setGolemState(SPECIAL);
 		}
 
-		if (this.tickCount - this.musicStart == 4900) {
+		if (this.tickCount - this.musicStart >= 4900) {
 			this.musicStart = tickCount;
-			this.musicManager.stopPlaying();
-			this.musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
+			Minecraft.getInstance().getMusicManager().startPlaying(BTMusics.GOLEM_FIGHT);
 		}
 
 		if (this.level.isClientSide()) {
@@ -384,7 +383,7 @@ public abstract class BTAbstractGolem extends Monster {
 				BlockEntity entity = this.level.getBlockEntity(this.chestBlockEntityPos);
 				if (entity instanceof GolemChestBlockEntity chestEntity) {
 					BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + entity);
-					chestEntity.setNoLockKey();
+					chestEntity.setUnlocked(true);
 				}
 
 			} catch (Exception ignored) {
@@ -413,32 +412,11 @@ public abstract class BTAbstractGolem extends Monster {
 	 */
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
-			@Override
-			public boolean canUse() {
-				if (BTAbstractGolem.this.isDormant()) {
-					return false;
-				}
-//				BrassAmberBattleTowers.LOGGER.info("Melee: " +getTarget());
-				return super.canUse();
-			}
-			
-			@Override
-			public boolean canContinueToUse() {
-//				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
-				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
-			}
-		});
-		this.goalSelector.addGoal(6, this.createFireballAttackGoal());
-
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F) {
 			@Override
 			public boolean canUse() {
-				if (BTAbstractGolem.this.isDormant()) {
-					return false;
-				}
 //				BrassAmberBattleTowers.LOGGER.info("Look");
-				return super.canUse();
+				return !BTAbstractGolem.this.isDormant() && super.canUse();
 			}
 
 			@Override
@@ -447,25 +425,39 @@ public abstract class BTAbstractGolem extends Monster {
 				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true) {
-			@Override
-			public boolean canUse() {
-				if (BTAbstractGolem.this.isDormant()) {
-					return false;
-				}
-				return super.canUse();
-			}
-		});
 		// Ignore damage from non-player entities
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		// this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this,
-		// PlayerEntity.class, false /*mustSee*/, false /*mustReach*/));
-		this.targetSelector.addGoal(2, new TargetTaskGolemLand<BTAbstractGolem>(this));
+		this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Player.class, true) {
+			@Override
+			public boolean canUse() {
+				return !BTAbstractGolem.this.isDormant() && super.canUse();
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
+			}
+		});
+		this.addBehaviorGoals();
 	}
 
-	protected GolemFireballAttackGoal createFireballAttackGoal() {
-		return new GolemFireballAttackGoal(this);
+	protected void addBehaviorGoals() {
+		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
+			@Override
+			public boolean canUse() {
+				return !BTAbstractGolem.this.isDormant() && super.canUse();
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+//				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
+				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
+			}
+		});
+
+		this.goalSelector.addGoal(6, new GolemFireballAttackGoal(this));
 	}
+
 
 	/*********************************************************** Spawning ********************************************************/
 
@@ -484,7 +476,7 @@ public abstract class BTAbstractGolem extends Monster {
 	/*********************************************************** Properties @return********************************************************/
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 100.0D);
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 40);
 	}
 
 	@Override
@@ -775,6 +767,7 @@ public abstract class BTAbstractGolem extends Monster {
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		playSoundEvent(BTSoundEvents.ENTITY_GOLEM_HURT);
 		return SoundEvents.NETHER_BRICKS_BREAK;
 	}
 
@@ -785,7 +778,7 @@ public abstract class BTAbstractGolem extends Monster {
 
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState blockIn) {
-		this.playSound(SoundEvents.IRON_GOLEM_STEP, this.getSoundVolume(), this.getVoicePitch());
+		this.playSoundEvent(SoundEvents.IRON_GOLEM_STEP);
 	}
 
 

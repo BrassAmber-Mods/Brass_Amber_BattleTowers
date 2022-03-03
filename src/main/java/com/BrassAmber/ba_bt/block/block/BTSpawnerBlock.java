@@ -5,9 +5,7 @@ import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.stats.Stats;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.SpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -15,7 +13,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 
 import javax.annotation.Nullable;
@@ -43,16 +40,16 @@ public class BTSpawnerBlock extends SpawnerBlock {
         return 15 + RANDOM.nextInt(15) + RANDOM.nextInt(15);
     }
 
-    public void checkPos(Level world, BlockPos pos) {
+    public void checkPos(LevelAccessor world, BlockPos pos) {
         BlockEntity posEntity = world.getBlockEntity(pos);
-        if (posEntity != null && posEntity.getType() == BTBlockEntityTypes.LAND_CHEST) {
+        if (posEntity instanceof TowerChestBlockEntity) {
             this.chestTileEntityPos = pos;
         }
     }
 
-
-    public void playerDestroy(@NotNull Level level, Player player, @NotNull BlockPos spawnerPos, @NotNull BlockState state, @Nullable BlockEntity blockEntity, @NotNull ItemStack itemStack) {
-        super.playerDestroy(level, player, spawnerPos, state,blockEntity, itemStack);
+    @Override
+    public void destroy(LevelAccessor level, BlockPos spawnerPos, BlockState state) {
+        super.destroy(level, spawnerPos, state);
         this.foundChest = false;
         this.chestTileEntityPos = null;
         if (!level.isClientSide()) {
@@ -97,15 +94,15 @@ public class BTSpawnerBlock extends SpawnerBlock {
                     }
                 }
             }
-            try {
-                TowerChestBlockEntity entity = (TowerChestBlockEntity) level.getBlockEntity(this.chestTileEntityPos);
-                BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG,"Chest " + entity);
-                entity.spawnerDestroyed();
-
-            } catch (Exception e) {
-
+            if (this.chestTileEntityPos == null) {
+                this.chestTileEntityPos = spawnerPos;
+            }
+            if (level.getBlockEntity(this.chestTileEntityPos) instanceof TowerChestBlockEntity towerChestBlockEntity) {
+                BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG,"Chest " + towerChestBlockEntity);
+                towerChestBlockEntity.spawnerDestroyed();
             }
 
         }
     }
+
 }

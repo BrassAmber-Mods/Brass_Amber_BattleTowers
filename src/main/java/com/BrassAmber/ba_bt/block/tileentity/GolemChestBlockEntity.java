@@ -124,23 +124,25 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 		return new net.minecraftforge.items.wrapper.InvWrapper(inv == null ? this : inv);
 	}
 
-	public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, GolemChestBlockEntity golemChestBlockEntity) {
-		if (golemChestBlockEntity.unlocked && golemChestBlockEntity.lockKey != LockCode.NO_LOCK) {
-			golemChestBlockEntity.setNoLockKey();
-
-		} else if (!golemChestBlockEntity.unlocked && golemChestBlockEntity.lockKey == LockCode.NO_LOCK){
-			golemChestBlockEntity.lockKey = new LockCode(("BTSpawner"));
-		}
-	}
-
-	public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, GolemChestBlockEntity golemChestBlockEntity) {
-
-	}
-
-	public void setNoLockKey() {
-		this.lockKey = LockCode.NO_LOCK;
-		this.unlocked = true;
+	public void setUnlocked(boolean tf) {
+		this.unlocked = tf;
 		//BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.lockKey);
+	}
+
+	@Override
+	public boolean canOpen(Player p_58645_) {
+		return canUnlock(p_58645_, this.getDisplayName());
+	}
+
+	public boolean canUnlock(Player player, Component component) {
+		if (!this.unlocked && !player.isSpectator()) {
+			player.displayClientMessage(new TranslatableComponent("container.isLocked", component), true);
+			player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public boolean isUnlocked() {
@@ -156,6 +158,8 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	public float getOpenNess(float p_59604_) {
 		return 0;
 	}
+
+
 }
 
 

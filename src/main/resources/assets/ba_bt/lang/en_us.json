@@ -4,21 +4,29 @@
 
 	// Entities
 	"entity.ba_bt.land_golem": "Land Golem",
+	"entity.ba_bt.ocean_golem": "Ocean Golem",
 	"entity.ba_bt.core_golem": "Core Golem",
 	"entity.ba_bt.nether_golem": "Nether Golem",
 	"entity.ba_bt.end_golem": "End Golem",
 	"entity.ba_bt.sky_golem": "Sky Golem",
-	"entity.ba_bt.ocean_golem": "Ocean Golem",
+
 	
 	"entity.ba_bt.sky_minion": "Sky Minion",
 	"entity.ba_bt.silver_skeleton": "Silver Skeleton",
 	
 	"entity.ba_bt.land_monolith": "Land Monolith",
+	"entity.ba_bt.ocean_monolith": "Ocean Monolith",
 	"entity.ba_bt.core_monolith": "Core Monolith",
 	"entity.ba_bt.nether_monolith": "Nether Monolith",
 	"entity.ba_bt.end_monolith": "End Monolith",
 	"entity.ba_bt.sky_monolith": "Sky Monolith",
-	"entity.ba_bt.ocean_monolith": "Ocean Monolith",
+
+	"entity.ba_bt.land_obelisk": "Land Obelisk",
+	"entity.ba_bt.ocean_obelisk": "Ocean Obelisk",
+	"entity.ba_bt.core_obelisk": "Core Obelisk",
+	"entity.ba_bt.nether_obelisk": "Nether Obelisk",
+	"entity.ba_bt.end_obelisk": "End Obelisk",
+	"entity.ba_bt.sky_obelisk": "Sky Obelisk",
 
 	"entity.ba_bt.destroy_tower": "Destroy Tower",
 	
@@ -29,11 +37,13 @@
 	"ba_bt.subtitle.golem.awaken": "Golem awakens",
 	"ba_bt.subtitle.golem.ambient": "Golem growls",
 	"ba_bt.subtitle.golem.special": "Golem attacks",
+	"ba_bt.subtitle.golem.fight": "Golem Boss Music",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 	
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
+	"ba_bt.subtitle.tower.ambient.music": "Tower Ambient Music",
 	
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Golem Chest",

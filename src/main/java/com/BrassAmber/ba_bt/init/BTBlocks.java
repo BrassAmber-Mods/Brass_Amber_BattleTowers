@@ -21,14 +21,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+
 public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final Block LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest",
-			new GolemChestBlock(BTChestType.GOLEM, Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion()));
-	public static final Block LAND_CHEST = registerChestBlock("land_chest",
-			new TowerChestBlock(BTChestType.TOWER, Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion()));
+	public static final Block LAND_GOLEM_CHEST = registerBlock("land_golem_chest",
+			new GolemChestBlock(BTChestType.GOLEM, Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)));
+	public static final Block LAND_CHEST = registerBlock("land_chest",
+			new TowerChestBlock(BTChestType.TOWER, Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)));
 
 
 
@@ -75,15 +75,6 @@ public class BTBlocks {
 		// Blocks are registered before Items
 		BTItems.registerItem(registryName, item);
 		return block;
-	}
-
-	/*********************************************************** Chest Stuff ********************************************************/
-
-	/**
-	 * Helper method for registering Chests
-	 */
-	private static Block registerChestBlock(String registryName, Block block) {
-		return registerBlock(registryName, block, new BlockItem(block, new Item.Properties().tab(BrassAmberBattleTowers.BATLETOWERSTAB)));
 	}
 
 	/**

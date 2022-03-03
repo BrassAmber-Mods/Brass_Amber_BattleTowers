@@ -35,7 +35,7 @@ public class TowerChestBlockEntity extends GolemChestBlockEntity {
 	public void spawnerDestroyed() {
 		this.SpawnersDestroyed = this.SpawnersDestroyed + 1D;
 		if (this.SpawnersDestroyed == 2) {
-			setNoLockKey();
+			setUnlocked(true);
 		}
 		BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.SpawnersDestroyed);
 	}

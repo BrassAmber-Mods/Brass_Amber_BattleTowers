@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -26,11 +27,25 @@ public class SkyGolem extends BTAbstractGolem {
 	public SkyGolem(EntityType<? extends SkyGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
 		this.moveControl = new SkyGolem.MoveHelperController(this);
+
 	}
-	
+
 	@Override
-	protected GolemFireballAttackGoal createFireballAttackGoal() {
-		return new SkyGolemFireballAttackGoal(this);
+	protected void addBehaviorGoals() {
+		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
+			@Override
+			public boolean canUse() {
+				return !SkyGolem.this.isDormant() && super.canUse();
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+//				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
+				return !SkyGolem.this.isDormant() && super.canContinueToUse();
+			}
+		});
+
+		this.goalSelector.addGoal(6, new SkyGolemFireballAttackGoal(this));
 	}
 
 	/*********************************************************** Ticks ********************************************************/
@@ -62,11 +77,11 @@ public class SkyGolem extends BTAbstractGolem {
 	 */
 	@Override
 	protected void registerGoals() {
-		this.addGolemGoal(1, new SkyGolem.ChargeAttackGoal());
-		this.addGolemGoal(2, new SkyGolem.MoveRandomGoal());
-		this.addGolemGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		this.addGolemTargetGoal(1, new HurtByTargetGoal(this));
-		this.addGolemTargetGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false /*mustSee*/, false /*mustReach*/));
+		this.goalSelector.addGoal(1, new SkyGolem.ChargeAttackGoal());
+		this.goalSelector.addGoal(2, new SkyGolem.MoveRandomGoal());
+		this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false /*mustSee*/, false /*mustReach*/));
 	}
 
 	class ChargeAttackGoal extends Goal {

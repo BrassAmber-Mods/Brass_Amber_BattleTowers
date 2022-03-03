@@ -107,6 +107,8 @@ public class ClientEvents {
 		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "land_golem", 2),
 				LandGolemChestTileEntityRenderer::createDoubleBodyRightLayer);
 
+
+
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON, RenderType.cutout());
 

@@ -2,8 +2,11 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
+import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +15,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -23,18 +27,26 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class BTObelisk extends Entity {
     // Parameters that must be saved
     private static final EntityDataAccessor<BlockPos> TOWER_CENTER = SynchedEntityData.defineId(BTObelisk.class, EntityDataSerializers.BLOCK_POS);
 
     //Other Parameters
     private boolean initialized = false;
+    private MusicManager musicManager;
+    private boolean hasPlayer;
+
 
     // Data Strings
     private final String towercenterName = "TowerCenter";
 
 
     private final CommandSourceStack source = createCommandSourceStack().withPermission(4);
+
 
     public BTObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -60,14 +72,39 @@ public class BTObelisk extends Entity {
         }
         if (!this.initialized) {
             findChestsAndSpawners();
+            this.musicManager = Minecraft.getInstance().getMusicManager();
             this.initialized = true;
         }
 
-        if (this.tickCount == 0 || this.tickCount % 7200 == 0) {
-            this.level.playSound(null, this.getTowerCenter().above(10), BTSoundEvents.TOWER_MUSIC, SoundSource.MUSIC, 5F, 1F);
+        List<ServerPlayer> players = this.level.getServer().overworld().players();
+        for (ServerPlayer player : players
+        ) {
+            double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
+            double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
+
+            boolean xClose = xDistance < 125;
+            boolean zClose = zDistance < 125;
+
+            List<Boolean> playersClose = new ArrayList<>();
+
+            if (!xClose || !zClose) {
+                playersClose.add(Boolean.FALSE);
+            }
+
+            if (Collections.frequency(playersClose, Boolean.FALSE) == players.size()) {
+                this.hasPlayer = false;
+
+            }  else {
+                this.hasPlayer = true;
+            }
         }
 
-
+        if (this.tickCount == 0 || this.tickCount % 7200 == 0 && this.hasPlayer) {
+            if (!this.musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+                this.musicManager.stopPlaying();
+                this.musicManager.startPlaying(BTMusics.TOWER);
+            }
+        }
     }
 
     @Override
