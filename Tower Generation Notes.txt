@@ -1,19 +1,17 @@
 Floor Structure -- Land Tower:
 name_towertype_spawners
 
-Bottom Floor 1 -> Cult Room even 1-2 -> Odd Floor 1-2 -> Even Floor 1-2 -> Cult Room odd 1-3 -> Even Floor 1-3 -> Odd Floor 1-3 -> Mini Boss 1-4
+Bottom Floor 1 -> Cult Room-2 -> Odd Floor 2 -> Even Floor 2 -> Cult Room-3 -> Even Floor 3 -> Odd Floor 3 -> Mini Boss 4
 
-Land_Default_246 = Cult Room even 1-2, , Barracks Even 1-2, Barracks Even 1-3, MiniBoss 1-4
-Land_Default_357 =  Cult Room odd-3, Barracks Odd -2, Barracks Odd -3
+Land_Default_246 = Cult Room-2, Barracks Even-2, Library Even-2, Kitchen Even-2, Barracks Even-3, Library Even-3, Kitchen Even-3, Mini Boss -4
+Land_Default_357 = Barracks Odd-2, Library Odd-2, Kitchen Odd-2, Cult Room-3, Barracks Odd-3, Library Odd-3, Kitchen Odd-3,
 
 
 --- End of Land Tower ---
 
-Floor Structure -- Sky Tower
+Floor Structure -- Sky Tower:
 
-Base & Praising Room 2 -> Random Room Odd 1_3 -> Random Room Even 3 -> Random Room Odd 2_3 -> Random Room Even 4 -> Praising Room 4 -> Miniboss 4 & Roof
-
-
+Base & Praising Room 2 -> Random Room Odd 1_3 -> Random Room Even 3 -> Random Room Odd 2_3 -> Random Room Even 4 -> Praising Room 4 -> Miniboss 4 & Room
 
 
 Biome Specific stuff - Tower generates from the bottom floor up so, very long-term plan is to have a seperate .json pool that 
@@ -46,12 +44,3 @@ Biome Specific stuff - Tower generates from the bottom floor up so, very long-te
     floor 2- skeleton, silver skeleton
     floor 1- skeleton, silver skeleton
 	Sky_Airy = No Iron Bars on windows, all 4 walls are windows
-
-
-
-	land tower rarity: common [8-10 chunks apart]
-    ocean tower rarity: uncommon 10-11chunks apart]
-    core tower rarity:  uncommon [10-12 chunks apart]
-    nether tower rarity: rare [ 14-15 chunks apart]
-    end tower rarity:  extremely rare: [18-20 chunks apart]
-    sky tower rarity: angelic [20-24 chunks apart]

@@ -17,7 +17,7 @@ All Golems:
 ========================================================================
 
 Land Golem
-HP: 300 Hearts
+HP: 250 Hearts
 
 Attacks:
 -Fireball
