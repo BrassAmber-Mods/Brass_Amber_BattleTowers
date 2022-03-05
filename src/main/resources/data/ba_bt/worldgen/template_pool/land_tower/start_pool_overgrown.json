@@ -12,11 +12,9 @@
   // Do note that configured features needs a special element entry stuff.
   "elements": [
     {
-
       // How likely out of all the element for this one to be chosen.
       "weight": 1,
       "element": {
-
         // The Identifier of the nbt file itself of the structure piece.
         // Note, this will automatically check into the 'structures' folder for the nbt file.
         // The final path would look like 'resources/data/structure_tutorial/structures/run_down_house_left_side.nbt'

@@ -16,6 +16,7 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.CritParticle;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -54,6 +55,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.PlayerTeam;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -71,25 +73,24 @@ import org.jetbrains.annotations.NotNull;
  * TODO Fix pathfinding to last known target location after golem reset. (Rare bug)
  */
 public abstract class BTAbstractGolem extends Monster {
-	private static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BLOCK_POS);
-	private static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BYTE);
-	private static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BOOLEAN);
+	protected static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BLOCK_POS);
+	protected static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.FLOAT);
+	protected static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BYTE);
+	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BOOLEAN);
 	public static final MobType BATTLE_GOLEM = MobType.UNDEFINED;
 	public static final byte DORMANT = 0, AWAKE = 1, SPECIAL = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
-	private int explosionPower = 1;
-	private final MusicManager musicManager;
-
+	protected int explosionPower = 1;
+	protected final MusicManager musicManager;
 
 	// Data Strings
-	private final String spawnPosName = "SpawnPos";
-	private final String spawnDirectionName = "SpawnDirection";
-	private final String golemStateName = "GolemState";
-	private final String explosionPowerName = "ExplosionPower";
-	private BlockPos chestBlockEntityPos;
-	private int musicStart = 0;
+	protected final String spawnPosName = "SpawnPos";
+	protected final String spawnDirectionName = "SpawnDirection";
+	protected final String golemStateName = "GolemState";
+	protected final String explosionPowerName = "ExplosionPower";
+	protected BlockPos chestBlockEntityPos;
+	protected int musicStart = 0;
 
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
@@ -180,7 +181,7 @@ public abstract class BTAbstractGolem extends Monster {
 		this.bossBar.setProgress(this.getHealth() / this.getMaxHealth());
 
 		// Set the golemState to enraged when health drops below 1/3.
-		if (this.getHealth() / this.getMaxHealth() < 0.33 && !this.isEnraged() && this.isAwake()) {
+		if (this.isEnragedBasedOnHP() && !this.isEnraged() && this.isAwake()) {
 			// TODO Maybe stand still for a moment with hands up growling?
 			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL, 0.5f); // LOUD AF (Still? I adjusted the volume)
 			this.setGolemState(SPECIAL);
@@ -198,8 +199,9 @@ public abstract class BTAbstractGolem extends Monster {
 		if (this.isDormant()) {
 			Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
 			// Must be able to see the player and the player mustn't be in Creative mode.
-			if (player != null && !player.isCreative() && this.hasLineOfSight(player)) {
+			if (player != null && !(player.isCreative() || player.isSpectator()) && this.hasLineOfSight(player)) {
 				this.wakeUpGolem();
+				this.setTarget(player);
 			}
 		} else {
 			if (this.tickCount > 0 && this.tickCount % 20 == 0) {
@@ -224,28 +226,11 @@ public abstract class BTAbstractGolem extends Monster {
 	 */
 	@Override
 	public void setTarget(@Nullable LivingEntity livingEntity) {
-		if (this.getTarget() instanceof Player player) {
-			if (player.isCreative() || player.isSpectator()) {
-				super.setTarget(null);
-			}
-			else {
-				super.setTarget(player);
-			}
-
+		if (livingEntity instanceof Player player && (player.isCreative() || player.isSpectator())) {
+			super.setTarget(null);
 		} else {
 			super.setTarget(livingEntity);
 		}
-		// TODO Re-implement
-//		if (livingEntity == null && this.getTarget() != null) {
-//			double horizontalDistanceToTarget = this.horizontalDistanceToSqr(this.getTarget().getX(), this.getTarget().getZ());
-//			if (horizontalDistanceToTarget <= (this.getTargetingRange() * this.getTargetingRange()) && this.getTarget().isAlive()
-//					&& !(this.getTarget() instanceof PlayerEntity && ((PlayerEntity) this.getTarget()).isSpectator())) {
-//				// DOn't reset the target when it is still in reach!
-//				return;
-//			} else {
-//				this.resetGolem();
-//			}
-//		}
 	}
 	
 	/**
@@ -271,23 +256,15 @@ public abstract class BTAbstractGolem extends Monster {
 		if (this.horizontalDistanceToSqr(spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
 			this.resetGolem();
 		}
-		
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
 		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (nearestPlayer == null && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection())) {
+		if (nearestPlayer == null && (this.blockPosition().distSqr(this.getSpawnPos()) > 1 || this.yBodyRot != this.getSpawnDirection())) {
 			this.resetGolem();
+			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "reset golem from tick");
 		}
-		
-		// TODO Resets too often.
-//		if(this.getTarget() != null && (!this.getTarget().isAlive() || (this.getTarget() instanceof PlayerEntity && ((PlayerEntity)this.getTarget()).isSpectator()))) {
-//			this.resetGolem();
-//			return;
-//		}
-//		if (this.getTarget() == null || (this.getTarget() != null && this.distanceToSqr(this.getTarget().getX(), this.getY(), this.getTarget().getZ()) >= this.getTargetingRange() && (!this.blockPosition().equals(spawnPos) || this.yBodyRot != this.getSpawnDirection()))) {
-//			this.resetGolem();
-//		}
+
 	}
 
 	/**
@@ -426,8 +403,8 @@ public abstract class BTAbstractGolem extends Monster {
 			}
 		});
 		// Ignore damage from non-player entities
-		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Player.class, true) {
+		this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Player.class, true, true) {
 			@Override
 			public boolean canUse() {
 				return !BTAbstractGolem.this.isDormant() && super.canUse();
@@ -479,6 +456,7 @@ public abstract class BTAbstractGolem extends Monster {
 		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 40);
 	}
 
+
 	@Override
 	public @NotNull MobType getMobType() {
 		return BATTLE_GOLEM;
@@ -497,6 +475,10 @@ public abstract class BTAbstractGolem extends Monster {
 		} else {
 			return false;
 		}
+	}
+
+	public Component getDisplayName() {
+		return PlayerTeam.formatNameForTeam(this.getTeam(), this.getName()).withStyle((p_185975_) -> p_185975_.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID()));
 	}
 
 	/**
@@ -806,7 +788,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public boolean isEnragedBasedOnHP() {
-		return this.getHealth() / this.getMaxHealth() < 0.33F || this.isEnraged();
+		return this.getHealth() / this.getMaxHealth() < 0.33F;
 	}
 	
 }

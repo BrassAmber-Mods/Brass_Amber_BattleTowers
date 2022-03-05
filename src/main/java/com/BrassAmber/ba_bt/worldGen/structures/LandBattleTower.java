@@ -18,8 +18,6 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.feature.structures.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
@@ -81,23 +79,32 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
     
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
         //Create block positions to check 
-        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+7);
-        BlockPos east = new BlockPos(pos.getX()+7, 0, pos.getZ());
-        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-7);
-        BlockPos west = new BlockPos(pos.getX()-7, 0, pos.getZ());
+        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+8);
+        BlockPos northEast = new BlockPos(pos.getX()+4, 0, pos.getZ()+4);
+        BlockPos east = new BlockPos(pos.getX()+8, 0, pos.getZ());
+        BlockPos southEast = new BlockPos(pos.getX()+4, 0, pos.getZ()-4);
+        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-8);
+        BlockPos southWest = new BlockPos(pos.getX()-4, 0, pos.getZ()-4);
+        BlockPos west = new BlockPos(pos.getX()-8, 0, pos.getZ());
+        BlockPos northWest = new BlockPos(pos.getX()-4, 0, pos.getZ()+4);
         // create arraylist to allow easy iteration over BlockPos 
         ArrayList<BlockPos> list = new ArrayList<>(5);
         list.add(pos);
         list.add(north);
+        list.add(northEast);
         list.add(east);
+        list.add(southEast);
         list.add(south);
+        list.add(southWest);
         list.add(west);
+        list.add(northWest);
 
 
         // Create arraylists to hold the output of the iteration checks below 
-        ArrayList<Boolean> isFlat = new ArrayList<>(5);
+        boolean isFlat;
         ArrayList<Boolean> hasWater = new ArrayList<>(5);
-        ArrayList<Boolean> sameHeight = new ArrayList<>(4);
+
+        int landHeight = chunk.getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
 
         // create integers to hold how many landheights are the same and how many isFlat are true/false 
         int t = 0;
@@ -106,58 +113,32 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // Check that a + sign of blocks at each position is all the same level. (flat) 
         for (BlockPos x: list) {
             // get land height for each block on the +  
-            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-            int landheight1 = chunk.getFirstOccupiedHeight(x.getX()-1, x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-            int landheight2 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()-1, Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-            int landheight3 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()+1, Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-            int landheight4 = chunk.getFirstOccupiedHeight(x.getX()+1, x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
+            int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
 
             // set t and f to 0
             t = 0;
             f = 0;
 
-            // add landheights to arraylist
-            sameHeight.add(landHeight == landheight1);
-            sameHeight.add(landHeight == landheight2);
-            sameHeight.add(landHeight == landheight3);
-            sameHeight.add(landHeight == landheight4);
-
-            // check how many landheights are the same 
-            for (Boolean tf: sameHeight) {
-                if (tf) {
-                    t += 1;
-                } else {
-                    f += 1;
-                }
-            }
-
-            // check if most BlockPos are the same height and add false to the list if not 
-            isFlat.add(t >= 3);
-        }
-
-        // set t and f to 0
-        t = 0;
-        f = 0;
-
-        // iterate over isFlat array and count how many are true and how many are false 
-        for (Boolean tf: isFlat) {
-            if (tf) {
+            // check that the new landheight is the same as the center of the chunk
+            if (landHeight == newLandHeight) {
                 t += 1;
             } else {
                 f += 1;
             }
         }
+        // check if most BlockPos are the same height and add false to the list if not
+        isFlat = t > f;
 
         // check that there is no water at any of the Blockpos 
         for (BlockPos x: list) {
             // get landheight
-            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
+            int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
 
             // get column of blocks at blockpos.
             NoiseColumn columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ(), heightAccessor);
 
             // combine the column of blocks with land height and you get the top block itself which you can test.
-            BlockState topBlock = columnOfBlocks.getBlock(landHeight);
+            BlockState topBlock = columnOfBlocks.getBlock(newLandHeight);
 
             // check whether the topBlock is a source block of water.
             hasWater.add(topBlock.getFluidState().isSource());
@@ -174,7 +155,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                 + " " + t +" " + f + " "+ noWater);
 
         // if there are more flat areas than not flat areas and no water return true 
-        return t > 3 && noWater;
+        return isFlat && noWater;
     }
 
     private static final Lazy<List<MobSpawnSettings.SpawnerData>> STRUCTURE_MONSTERS = Lazy.of(() -> ImmutableList.of(
@@ -306,8 +287,8 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         if (biome.isHumid() && !biome.getBiomeCategory().equals(Biome.BiomeCategory.UNDERGROUND)) {
             //add code here to start the spawning of the overgrown add-on
              piecesGenerator =
-                    BTLandJigsawPlacement.addAllPieces(
-                            towerContexts, // Used for JigsawPlacement to get all the proper behaviors done.
+                    BTLandJigsawPlacement.addPieces(
+                            towerContexts.get(1), // Used for JigsawPlacement to get all the proper behaviors done.
                             PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
                             centerPos,
                             false,
@@ -315,7 +296,6 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                             null // pass in the rotation of the base tower
                     // This makes the overgrown tower correctly overlap the base tower.
             );
-
         } else {
             piecesGenerator =
                     BTLandJigsawPlacement.addPieces(

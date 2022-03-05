@@ -22,9 +22,9 @@ public class BattleTowersConfig {
         BUILDER.push("General Settings -- Negative values are ignored");
         landMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. Default: 16 chunks")
-                .define("Land minimum separation", 16);
+                .define("Land minimum separation", 64);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 32 chunks ")
-                .define("First Tower Distance", 32);
+                .define("First Tower Distance", 96);
 
         BUILDER.pop();
 
@@ -35,12 +35,12 @@ public class BattleTowersConfig {
         BUILDER.comment("Capped at 1800 because more than 900 hearts is absurd.");
         landTowerCrumblePercent =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 75% of tower.")
-                        .defineInRange("Percent of Land Tower to destroy", .75D, 0,1);
+                        .defineInRange("Percent of Land Tower to destroy", .9D, 0,1);
         landAverageSeperationModifier = BUILDER.comment("This value is added to the Land Tower minimum separation"
                 + " above to get the average separation between Land Towers for spawning measured in chunks.",
                 "I.E. if you leave the minimum separation at 16, and change this value to 10 then Land Towers would spawn"
                         + " on average 26 chunks apart and a minimum of 20 chunks apart.")
-                .defineInRange("Land average separation modifier", 4, 1, 100);
+                .defineInRange("Land average separation modifier", 32, 1, 100);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

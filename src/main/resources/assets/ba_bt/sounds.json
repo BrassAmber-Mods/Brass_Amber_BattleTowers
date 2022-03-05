@@ -76,7 +76,7 @@
 		"subtitle": "ba_bt.subtitle.golem.fight",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/boss_fight",
+				"name": "ba_bt:entity/golem/monolithimplode",
 				"volume": 1.0,
 				"stream": true
 			}
@@ -110,7 +110,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/ancestry",
+				"name": "ba_bt:entity/golem/monolithimplode",
 				"volume": 0.6,
 				"stream": true
 			}

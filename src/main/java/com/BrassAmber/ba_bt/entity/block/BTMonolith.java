@@ -218,6 +218,8 @@ public class BTMonolith extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
+				newGolemEntity.setCustomName(this.golemType.getDisplayName());
+
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
@@ -231,6 +233,7 @@ public class BTMonolith extends Entity {
 	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
 		Entity destroyTowerEntity = new DestroyTower(this.golemType, this.blockPosition(), this.level);
 		destroyTowerEntity.setPos(this.getX(), this.getY() + 6, this.getZ());
+		destroyTowerEntity.setInvulnerable(true);
 		destroyTowerEntity.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(destroyTowerEntity);
 	}

@@ -12,11 +12,12 @@ public class BTGolem extends BTAbstractGolem {
 	public BTGolem(EntityType<? extends BTGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.RED);
 	}
-	
+
 	@Override
-	protected void registerGoals() {
-		super.registerGoals();
-		
+	protected void addBehaviorGoals() {
+		super.addBehaviorGoals();
 		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));
 	}
+
+
 }

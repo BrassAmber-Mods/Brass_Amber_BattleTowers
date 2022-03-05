@@ -7,24 +7,29 @@ import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTItems;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public enum GolemType implements StringRepresentable {
-	EMPTY("empty"),
-	LAND("land"),
-	OCEAN("ocean"),
-	NETHER("nether"),
-	CORE("core"),
-	END("end"),
-	SKY("sky");
+	EMPTY("empty", "Empty"),
+	LAND("land", "Bahrynz'muul, entombed watcher"),
+	OCEAN("ocean", "Moraizu'un, idol of the depths"),
+	CORE("core", "Vraag'iidra, wrath incarnate"),
+	NETHER("nether", "Obthu'ryn, god of the core"),
+	END("end", "Shul'losniir, warped guardian"),
+	SKY("sky", "Veyhz'kriin, sky goddess");
 
-	private String name;
+	private final String name;
+	private final String displayName;
 
-	GolemType(String name) {
+	GolemType(String name, String displayName) {
 		this.name = name;
+		this.displayName = displayName;
 	}
 
 	/*********************************************************** Monolith Spawning ********************************************************/
@@ -202,5 +207,9 @@ public enum GolemType implements StringRepresentable {
 	@Override
 	public String getSerializedName() {
 		return this.name;
+	}
+
+	public Component getDisplayName() {
+		return Component.nullToEmpty(displayName);
 	}
 }
