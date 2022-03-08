@@ -66,6 +66,13 @@ public class BTSpawner extends ContainerBlock {
                     BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
                     checkPos(iWorld, newBlockPos);
                     checkPos(iWorld, newBlockPos.below());
+                    checkPos(iWorld, newBlockPos.below(1));
+                    checkPos(iWorld, newBlockPos.below(2));
+                    checkPos(iWorld, newBlockPos.below(3));
+                    checkPos(iWorld, newBlockPos.below(4));
+                    checkPos(iWorld, newBlockPos.below(5));
+                    checkPos(iWorld, newBlockPos.below(6));
+                    checkPos(iWorld, newBlockPos.below(7));
                     checkPos(iWorld, newBlockPos.above());
                     if (this.chestTileEntityPos != null) {
                         this.foundChest = true;
@@ -73,28 +80,7 @@ public class BTSpawner extends ContainerBlock {
                 }
             }
             if (this.chestTileEntityPos == null) {
-                for (int x = -5; x<6; x++) {
-                    if (this.foundChest) {
-                        break;
-                    }
-                    for (int z = -5; z < 6; z++) {
-                        if (this.foundChest) {
-                            break;
-                        }
-                        BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
-                        checkPos(iWorld, newBlockPos);
-                        checkPos(iWorld, newBlockPos.below(1));
-                        checkPos(iWorld, newBlockPos.below(2));
-                        checkPos(iWorld, newBlockPos.below(3));
-                        checkPos(iWorld, newBlockPos.below(4));
-                        checkPos(iWorld, newBlockPos.below(5));
-                        checkPos(iWorld, newBlockPos.below(6));
-                        checkPos(iWorld, newBlockPos.below(7));
-                        if (this.chestTileEntityPos != null) {
-                            this.foundChest = true;
-                        }
-                    }
-                }
+                this.chestTileEntityPos = spawnerPos;
             }
             try {
                 StoneChestTileEntity entity = (StoneChestTileEntity) iWorld.getBlockEntity(this.chestTileEntityPos);
@@ -102,7 +88,7 @@ public class BTSpawner extends ContainerBlock {
                 entity.spawnerDestroyed();
 
             } catch (Exception e) {
-
+                BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, e);
             }
 
         }

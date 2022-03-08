@@ -72,14 +72,14 @@ public class DestroyTowerEntity extends Entity {
 
     public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
         super(type, world);
-        this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
+        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
     }
 
     public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level) {
         super(BTEntityTypes.DESTROY_TOWER, level);
 
         this.golemType = golemType;
-        this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
+        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
         
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
         this.setCrumbleStart(golemSpawn.offset(-15, 6, -15));
@@ -250,7 +250,7 @@ public class DestroyTowerEntity extends Entity {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
                             //If the block is water => Add dirt around it and add the surroundings to the list
                             //TODO: Change this to remove the entire body of water
-                            if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
+                            if (this.level.isWaterAt(removeBlock)) {
                                 this.removeBodyOfWater(this.removeBlock);
                             }
                             this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
@@ -279,7 +279,7 @@ public class DestroyTowerEntity extends Entity {
                         this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
                     } else {
                         this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                        if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
+                        if (this.level.isWaterAt(removeBlock)) {
                             this.removeBodyOfWater(this.removeBlock);
                         }
                         this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
@@ -292,8 +292,7 @@ public class DestroyTowerEntity extends Entity {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()
-                                    && this.level.getBlockState(blockToAdd).getFluidState() != Fluids.FLOWING_WATER.defaultFluidState()) {
+                            if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }
@@ -302,7 +301,12 @@ public class DestroyTowerEntity extends Entity {
                     //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
                 }
                 for (BlockPos clear: shouldBeEmptySpace) {
-                    this.level.setBlock(clear, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                    if (this.level.isWaterAt(clear)) {
+                        this.removeBodyOfWater(clear);
+                    }
+                    else {
+                        this.level.setBlock(clear, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
+                    }
                 }
                 this.remove();
             }
@@ -324,7 +328,7 @@ public class DestroyTowerEntity extends Entity {
 	}
     
     private void removeBodyOWater(Set<BlockPos> storage, BlockPos position) {
-    	if(!this.level.getBlockState(position).getFluidState().isSource()) {
+    	if(!this.level.isWaterAt(position)) {
     		return;
     	}
     	if(!storage.contains(position)) {
