@@ -118,7 +118,7 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
             IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
 
             // combine the column of blocks with land height and you get the top block itself which you can test.
-            BlockState topBlock = columnOfBlocks.getBlockState(x.above(landHeight));
+            BlockState topBlock = columnOfBlocks.getBlockState(x.above(newLandHeight));
 
             // check whether the topBlock is a source block of water.
             hasWater.add(topBlock.getFluidState().isSource());

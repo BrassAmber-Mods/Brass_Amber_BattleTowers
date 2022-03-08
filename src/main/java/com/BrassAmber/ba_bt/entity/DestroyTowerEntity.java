@@ -9,6 +9,7 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.mojang.brigadier.Command;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.ServerPlayNetHandler;
@@ -283,7 +284,6 @@ public class DestroyTowerEntity extends Entity {
                             this.removeBodyOfWater(this.removeBlock);
                         }
                         this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), BlockFlags.DEFAULT);
-
                     }
                 }
                 List<BlockPos> shouldBeEmptySpace = new ArrayList<>();

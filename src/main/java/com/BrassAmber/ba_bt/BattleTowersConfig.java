@@ -22,8 +22,8 @@ public class BattleTowersConfig {
 
         BUILDER.push("General Settings -- Negative values are ignored");
         landMinimumSeperation =
-                BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. Default: 32 chunks")
-                        .define("Land minimum separation", 32);
+                BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. Default: 24 chunks")
+                        .define("Land minimum separation", 24);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 96 chunks ")
                 .define("First Tower Distance", 96);
 
@@ -35,12 +35,12 @@ public class BattleTowersConfig {
                         .defineInRange("Total health of the Land Golem", 250D, 200, 1800);
         BUILDER.comment("Capped at 1800 because more than 900 hearts is absurd.");
         landTowerCrumblePercent =
-                BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 75% of tower.")
+                BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 83% of tower.")
                         .defineInRange("Percent of Land Tower to destroy", .83D, 0,1);
         landAverageSeperationModifier = BUILDER.comment("This value is added to the Land Tower minimum separation"
                                 + " above to get the average separation between Land Towers for spawning measured in chunks.",
-                        "I.E. if you leave the minimum separation at 16, and change this value to 10 then Land Towers would spawn"
-                                + " on average 26 chunks apart and a minimum of 20 chunks apart.")
+                        "I.E. if you leave the minimum separation at 24, and change this value to 10 then Land Towers would spawn"
+                                + " on average 34 chunks apart and a minimum of 24 chunks apart.")
                 .defineInRange("Land average separation modifier", 16, 1, 100);
         BUILDER.pop();
 
