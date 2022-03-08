@@ -72,14 +72,14 @@ public class DestroyTowerEntity extends Entity {
 
     public DestroyTowerEntity(EntityType<DestroyTowerEntity> type, World world) {
         super(type, world);
-        this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
+        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
     }
 
     public DestroyTowerEntity(GolemType golemType, BlockPos golemSpawn, World level) {
         super(BTEntityTypes.DESTROY_TOWER, level);
 
         this.golemType = golemType;
-        this.destroyPercentOfTower = BattleTowersConfig.towerCrumblePercent.get();
+        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
         
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
         this.setCrumbleStart(golemSpawn.offset(-15, 6, -15));
