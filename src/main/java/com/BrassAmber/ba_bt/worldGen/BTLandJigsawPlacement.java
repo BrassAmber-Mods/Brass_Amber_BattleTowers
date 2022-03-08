@@ -38,8 +38,10 @@ import java.util.function.Predicate;
 public class BTLandJigsawPlacement {
     private static final Logger LOGGER = BrassAmberBattleTowers.LOGGER;
 
+    private static boolean watered;
 
-    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos placementPos, boolean boundaryAdjust, boolean useHeightMap, @Nullable Rotation copyRotation) {
+
+    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos placementPos, boolean boundaryAdjust, boolean useHeightMap, boolean water) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
@@ -50,12 +52,8 @@ public class BTLandJigsawPlacement {
         Predicate<Biome> predicate = context.validBiome();
         StructureFeature.bootstrap();
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        Rotation rotation;
-        if (copyRotation == null) {
-            rotation = Rotation.getRandom(worldgenrandom);
-        } else {
-            rotation = copyRotation;
-        }
+        Rotation rotation = Rotation.getRandom(worldgenrandom);
+        watered = water;
 
         StructureTemplatePool structuretemplatepool = jigsawconfiguration.startPool().get();
         StructurePoolElement structurepoolelement = structuretemplatepool.getRandomTemplate(worldgenrandom);
@@ -71,6 +69,9 @@ public class BTLandJigsawPlacement {
                 ppY = placementPos.getY() + chunkgenerator.getFirstFreeHeight(bbX, bbZ, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor);
             } else {
                 ppY = placementPos.getY();
+            }
+            if (watered) {
+                poolelementstructurepiece.move(0, -5, 0);
             }
 
             if (!predicate.test(chunkgenerator.getNoiseBiome(QuartPos.fromBlock(bbX), QuartPos.fromBlock(ppY), QuartPos.fromBlock(bbZ)))) {
@@ -91,92 +92,10 @@ public class BTLandJigsawPlacement {
                             BTLandJigsawPlacement.PieceState BTLandJigsawPlacement$piecestate = BTLandJigsawPlacement$placer.placing.removeFirst();
                             BTLandJigsawPlacement$placer.tryPlacingChildren(BTLandJigsawPlacement$piecestate.piece, BTLandJigsawPlacement$piecestate.free, BTLandJigsawPlacement$piecestate.depth, boundaryAdjust, levelheightaccessor);
                         }
-
                         list.forEach(piecesBuilder::addPiece);
                     }
                 });
             }
-        }
-    }
-
-    public static Optional<PieceGenerator<BTJigsawConfiguration>> addAllPieces(List<PieceGeneratorSupplier.Context<BTJigsawConfiguration>> contexts, PieceFactory pieceFactory, BlockPos placementPos, boolean boundaryAdjust, boolean useHeightMap, @Nullable Rotation copyRotation) {
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-        worldgenrandom.setLargeFeatureSeed(contexts.get(0).seed(), contexts.get(0).chunkPos().x, contexts.get(0).chunkPos().z);
-        RegistryAccess registryaccess = contexts.get(0).registryAccess();
-        List<BTJigsawConfiguration> jigsawconfigurations = new ArrayList<>();
-        for (PieceGeneratorSupplier.Context<BTJigsawConfiguration> context : contexts) {
-            jigsawconfigurations.add(context.config());
-        }
-        ChunkGenerator chunkgenerator = contexts.get(0).chunkGenerator();
-        StructureManager structuremanager = contexts.get(0).structureManager();
-        LevelHeightAccessor levelheightaccessor = contexts.get(0).heightAccessor();
-        Predicate<Biome> predicate = contexts.get(0).validBiome();
-        StructureFeature.bootstrap();
-        Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        Rotation rotation;
-        if (copyRotation == null) {
-            rotation = Rotation.getRandom(worldgenrandom);
-        } else {
-            rotation = copyRotation;
-        }
-
-        List<StructureTemplatePool> structuretemplatepools = new ArrayList<>();
-        for (BTJigsawConfiguration config : jigsawconfigurations) {
-            structuretemplatepools.add(config.startPool().get());
-        }
-        List<StructurePoolElement> structurepoolelements = new ArrayList<>();
-        for (StructureTemplatePool templatePool : structuretemplatepools) {
-            structurepoolelements.add(templatePool.getRandomTemplate(worldgenrandom));
-        }
-        if (structurepoolelements.get(0) == EmptyPoolElement.INSTANCE) {
-            return Optional.empty();
-        } else {
-            List<PoolElementStructurePiece> poolelementstructurepieces = new ArrayList<>();
-            for (StructurePoolElement element: structurepoolelements) {
-                poolelementstructurepieces.add(pieceFactory.create(structuremanager, element, placementPos, element.getGroundLevelDelta(), rotation,element.getBoundingBox(structuremanager, placementPos, rotation)));
-            }
-            int f = 0;
-            StructurePiecesBuilder builder = new StructurePiecesBuilder();
-            List<PoolElementStructurePiece> pieces = Lists.newArrayList();
-
-            for (PoolElementStructurePiece poolelementstructurepiece: poolelementstructurepieces) {
-                BoundingBox boundingbox = poolelementstructurepiece.getBoundingBox();
-                int bbX = (boundingbox.maxX() + boundingbox.minX()) / 2;
-                int bbZ = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
-                int y;
-                if (useHeightMap) {
-                    y = placementPos.getY() + chunkgenerator.getFirstFreeHeight(bbX, bbZ, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor);
-                } else {
-                    y = placementPos.getY();
-                }
-
-                if (!predicate.test(chunkgenerator.getNoiseBiome(QuartPos.fromBlock(bbX), QuartPos.fromBlock(y), QuartPos.fromBlock(bbZ)))) {
-                    return Optional.empty();
-                } else {
-                    int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
-                    poolelementstructurepiece.move(0, y - l, 0);
-                    pieces.add(poolelementstructurepiece);
-                    if (jigsawconfigurations.get(f).maxDepth() > 0) {
-                        int sizeLimit = 120;
-                        AABB aabb = new AABB(bbX - sizeLimit, y - sizeLimit, bbZ - sizeLimit, bbX + sizeLimit + 1, y + sizeLimit + 1, bbZ + sizeLimit + 1);
-                        BTLandJigsawPlacement.Placer BTLandJigsawPlacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfigurations.get(f).maxDepth(), pieceFactory, chunkgenerator, structuremanager, pieces, worldgenrandom);
-                        BTLandJigsawPlacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
-
-                        while(!BTLandJigsawPlacement$placer.placing.isEmpty()) {
-                            BTLandJigsawPlacement.PieceState BTLandJigsawPlacement$piecestate = BTLandJigsawPlacement$placer.placing.removeFirst();
-                            BTLandJigsawPlacement$placer.tryPlacingChildren(BTLandJigsawPlacement$piecestate.piece, BTLandJigsawPlacement$piecestate.free, BTLandJigsawPlacement$piecestate.depth, boundaryAdjust, levelheightaccessor);
-                        }
-
-                        pieces.forEach(builder::addPiece);
-                    }
-                }
-                f++;
-            }
-
-            return Optional.of((b, p) -> {
-                b = builder;
-                p = new PieceGenerator.Context<>(jigsawconfigurations.get(0), chunkgenerator, structuremanager, contexts.get(0).chunkPos(), levelheightaccessor, worldgenrandom, worldgenrandom.nextLong());
-            });
         }
     }
 

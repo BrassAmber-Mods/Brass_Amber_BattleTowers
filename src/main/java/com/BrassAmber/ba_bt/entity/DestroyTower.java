@@ -194,13 +194,13 @@ public class DestroyTower extends Entity {
                         + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 6.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
                 this.doCommand("/title @a title \"\"");
                 this.doCommand("/title @a subtitle {\"text\":\"Without it's energy... "
                         + "\",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 6.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
                 this.doCommand("/title @a title \"\"");
@@ -210,7 +210,7 @@ public class DestroyTower extends Entity {
 
             }else if (this.currentTicks == 600) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 6.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4.0F, 1F);
             }
 
 
@@ -219,7 +219,7 @@ public class DestroyTower extends Entity {
             if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0 && this.getCurrentRow() < this.rows) {
                 if (this.currentTicks % 240 == 0) {
                     this.level.playSound(null, this.getCrumbleStart().below(this.getCurrentRow()*3),
-                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 6F, 1F);
+                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
                 }
                 if (this.blocksToRemove.size() == 0) {
                     this.getNextRow();
@@ -227,7 +227,6 @@ public class DestroyTower extends Entity {
                    // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                     if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
                     	//Fancy physics stuff
-                        // TODO ONCE ENTITY IS REWORKED, ONLY CALL ONCE PER FLOOR
                     	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityTypes.PHYSICS_EXPLOSION, this.level);
                     	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
                     	this.level.addFreshEntity(explosion);
@@ -241,8 +240,7 @@ public class DestroyTower extends Entity {
                             this.level.removeBlock(this.removeBlock, false);
                         } else {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                            //If the block is water => Add dirt around it and add the surroundings to the list
-                            //TODO: Change this to remove the entire body of water
+                            //If the block is water add it and its surroundings to the list
                             if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
                                 this.removeBodyOfWater(this.removeBlock);
                             }
@@ -271,7 +269,7 @@ public class DestroyTower extends Entity {
                         this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
                     } else {
                         this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                        if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
+                        if (this.level.isWaterAt(this.removeBlock)) {
                             this.removeBodyOfWater(this.removeBlock);
                         }
                         this.level.removeBlock(this.removeBlock, false);
@@ -284,8 +282,7 @@ public class DestroyTower extends Entity {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()
-                                    && this.level.getBlockState(blockToAdd).getFluidState() != Fluids.FLOWING_WATER.defaultFluidState()) {
+                            if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }
@@ -294,7 +291,12 @@ public class DestroyTower extends Entity {
                     //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
                 }
                 for (BlockPos clear: shouldBeEmptySpace) {
-                    this.level.removeBlock(clear, false);
+                    if (this.level.isWaterAt(clear)) {
+                        this.removeBodyOfWater(clear);
+                    } else {
+                        this.level.removeBlock(clear, false);
+                    }
+
                 }
                 this.remove(RemovalReason.DISCARDED);
             }
@@ -312,11 +314,11 @@ public class DestroyTower extends Entity {
     	Set<BlockPos> waterPositions = new HashSet<>();
     	removeBodyOWater(waterPositions, start);
     	
-    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2));
+    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 64));
 	}
     
     private void removeBodyOWater(Set<BlockPos> storage, BlockPos position) {
-    	if(!this.level.getBlockState(position).getFluidState().isSource()) {
+    	if(!this.level.isWaterAt(position)) {
     		return;
     	}
     	if(!storage.contains(position)) {

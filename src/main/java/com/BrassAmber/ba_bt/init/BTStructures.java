@@ -4,6 +4,7 @@ import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.structures.LandBattleTower;
+import com.BrassAmber.ba_bt.worldGen.structures.OvergrownLandTower;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.data.BuiltinRegistries;
@@ -24,6 +25,7 @@ public class BTStructures {
     public static final DeferredRegister<StructureFeature<?>> DEFERRED_REGISTRY_STRUCTURE = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, BrassAmberBattleTowers.MOD_ID);
 
     public static final RegistryObject<StructureFeature<BTJigsawConfiguration>> LAND_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("land_battle_tower", () -> (new LandBattleTower(BTJigsawConfiguration.CODEC)));
+    //public static final RegistryObject<StructureFeature<BTJigsawConfiguration>> OVERGROWN_LAND_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("overgrown_land_battle_tower", () -> (new OvergrownLandTower(BTJigsawConfiguration.CODEC)));
     // public static final RegistryObject<StructureFeature<JigsawConfiguration>> SKY_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("sky_battle_tower", () -> (new SkyBattleTower(JigsawConfiguration.CODEC)));
 
     /**
@@ -40,6 +42,13 @@ public class BTStructures {
                         774562107 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */
                 ),
                 true);
+        //setupMapSpacingAndLand(
+                //OVERGROWN_LAND_BATTLE_TOWER.get(), /* The instance of the structure */
+                //new StructureFeatureConfiguration(landAverage /* average distance apart in chunks between spawn attempts */,
+                        //landMinimum /* minimum distance apart in chunks between spawn attempts. MUST BE LESS THAN ABOVE VALUE*/,
+                        //774562102 /* this modifies the seed of the structure so no two structures always spawn over each-other. Make this large and unique. */
+                //),
+                //true);
         // setupMapSpacingAndLand(
                 // SKY_BATTLE_TOWER.get(),
                 // new StructureFeatureConfiguration(26

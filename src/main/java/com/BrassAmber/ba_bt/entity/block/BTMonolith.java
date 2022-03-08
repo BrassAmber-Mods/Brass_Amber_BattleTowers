@@ -218,7 +218,8 @@ public class BTMonolith extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
-				newGolemEntity.setCustomName(this.golemType.getDisplayName());
+				newGolemEntity.setBossBarName(this.golemType.getDisplayName());
+				newGolemEntity.setCustomNameVisible(false);
 
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);

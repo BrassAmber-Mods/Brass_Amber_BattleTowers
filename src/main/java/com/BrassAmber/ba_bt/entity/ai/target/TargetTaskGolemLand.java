@@ -8,7 +8,6 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 
 public class TargetTaskGolemLand<M extends BTAbstractGolem> extends NearestAttackableTargetGoal<Player> {
-	protected int cooldown = 20;
 	
 	public TargetTaskGolemLand(M mobEntity) {
 		//It does not need to be able to see the target!
@@ -62,15 +61,7 @@ public class TargetTaskGolemLand<M extends BTAbstractGolem> extends NearestAttac
 		// Stop targeting if the target is lost, or the target is too far away.
 		if(this.target != null && this.mob.distanceTo(this.target) > this.getFollowDistance()) {
 			this.stop();
-			return;
 		}
-	}
-	
-	@Override
-	public void stop() {
-//		BrassAmberBattleTowers.LOGGER.info("Target.stop()");
-		this.cooldown = 10;
-		super.stop();
 	}
 
 }

@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 
-@EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Bus.MOD)
+@EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class BTChestTextures {
 	public static final ResourceLocation[] LAND_GOLEM_CHEST_TEXTURES = locateChestTextures("golem", "land_golem");
 	public static final ResourceLocation[] LAND_CHEST_TEXTURES = locateChestTextures("tower", "land");

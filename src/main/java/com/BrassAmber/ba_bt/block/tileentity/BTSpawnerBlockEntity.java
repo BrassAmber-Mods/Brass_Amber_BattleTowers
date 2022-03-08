@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 
 public class BTSpawnerBlockEntity extends BlockEntity {
 
-    private final BaseSpawner spawner = new BaseSpawner() {
+    private final BTBaseSpawner spawner = new BTBaseSpawner() {
         public void broadcastEvent(Level p_155767_, BlockPos p_155768_, int p_155769_) {
             p_155767_.blockEvent(p_155768_, Blocks.SPAWNER, p_155769_, 0);
         }

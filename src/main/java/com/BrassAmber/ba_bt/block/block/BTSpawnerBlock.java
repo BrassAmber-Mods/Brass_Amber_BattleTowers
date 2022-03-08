@@ -64,6 +64,13 @@ public class BTSpawnerBlock extends SpawnerBlock {
                     BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
                     checkPos(level, newBlockPos);
                     checkPos(level, newBlockPos.below());
+                    checkPos(level, newBlockPos.below(1));
+                    checkPos(level, newBlockPos.below(2));
+                    checkPos(level, newBlockPos.below(3));
+                    checkPos(level, newBlockPos.below(4));
+                    checkPos(level, newBlockPos.below(5));
+                    checkPos(level, newBlockPos.below(6));
+                    checkPos(level, newBlockPos.below(7));
                     checkPos(level, newBlockPos.above());
                     if (this.chestTileEntityPos != null) {
                         this.foundChest = true;
@@ -71,38 +78,12 @@ public class BTSpawnerBlock extends SpawnerBlock {
                 }
             }
             if (this.chestTileEntityPos == null) {
-                for (int x = -5; x<6; x++) {
-                    if (this.foundChest) {
-                        break;
-                    }
-                    for (int z = -5; z < 6; z++) {
-                        if (this.foundChest) {
-                            break;
-                        }
-                        BlockPos newBlockPos = new BlockPos(spawnerPos.getX() + x, spawnerPos.getY(), spawnerPos.getZ() + z);
-                        checkPos(level, newBlockPos);
-                        checkPos(level, newBlockPos.below(1));
-                        checkPos(level, newBlockPos.below(2));
-                        checkPos(level, newBlockPos.below(3));
-                        checkPos(level, newBlockPos.below(4));
-                        checkPos(level, newBlockPos.below(5));
-                        checkPos(level, newBlockPos.below(6));
-                        checkPos(level, newBlockPos.below(7));
-                        if (this.chestTileEntityPos != null) {
-                            this.foundChest = true;
-                        }
-                    }
-                }
-            }
-            if (this.chestTileEntityPos == null) {
                 this.chestTileEntityPos = spawnerPos;
             }
             if (level.getBlockEntity(this.chestTileEntityPos) instanceof TowerChestBlockEntity towerChestBlockEntity) {
-                BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG,"Chest " + towerChestBlockEntity);
+                BrassAmberBattleTowers.LOGGER.info("Chest " + towerChestBlockEntity);
                 towerChestBlockEntity.spawnerDestroyed();
             }
-
         }
     }
-
 }

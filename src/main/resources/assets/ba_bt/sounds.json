@@ -76,7 +76,7 @@
 		"subtitle": "ba_bt.subtitle.golem.fight",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/monolithimplode",
+				"name": "ba_bt:entity/golem/golemspecial1",
 				"volume": 1.0,
 				"stream": true
 			}

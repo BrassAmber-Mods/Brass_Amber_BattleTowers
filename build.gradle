@@ -15,7 +15,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 
 
-version = "${minecraftVersion}-2.0.0"
+version = "${minecraftVersion}-2.0.1"
 group = 'com.brassAmber.ba_bt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'BrassAmberBattleTowers'
 
@@ -70,7 +70,6 @@ minecraft {
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
-            arg "-mixin.config=ba_bt.mixin.json"
 
             mods {
                 ba_bt {
@@ -114,7 +113,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.76'
+    minecraft 'net.minecraftforge:forge:1.18.1-39.1.0'
 
 
     // You may put jars on which you depend on in ./libs or you may define them like so..

@@ -28,6 +28,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,6 +40,7 @@ public class ClientEvents {
 
 	private ClientEvents() {}
 
+	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		// ENTITIES
@@ -75,6 +77,7 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_MOB_SPAWNER, BTSpawnerBlockEntityRenderer::new);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(LandMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
@@ -111,7 +114,6 @@ public class ClientEvents {
 
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON, RenderType.cutout());
-
 	}
 
 }

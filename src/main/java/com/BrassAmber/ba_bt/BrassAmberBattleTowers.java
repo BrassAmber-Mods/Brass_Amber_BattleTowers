@@ -130,7 +130,7 @@ public class BrassAmberBattleTowers {
 			// Create a mutable map we will use for easier adding to biomes
 			HashMap<StructureFeature<?>, HashMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> BTStructureToMultiMap = new HashMap<>();
 
-			ImmutableSet<ResourceKey<Biome>> overworldBiomes = ImmutableSet.<ResourceKey<Biome>>builder()
+			ImmutableSet<ResourceKey<Biome>> landTowerBiomes = ImmutableSet.<ResourceKey<Biome>>builder()
 					.add(Biomes.FOREST)
 					.add(Biomes.FLOWER_FOREST)
 					.add(Biomes.BIRCH_FOREST)
@@ -142,9 +142,7 @@ public class BrassAmberBattleTowers {
 					.add(Biomes.SAVANNA)
                     .add(Biomes.SNOWY_PLAINS)
 					.add(Biomes.SUNFLOWER_PLAINS)
-                    .add(Biomes.SWAMP)
 					.add(Biomes.DESERT)
-					.add(Biomes.JUNGLE)
                     .add(Biomes.TAIGA)
 					.add(Biomes.SNOWY_TAIGA)
 					.add(Biomes.OLD_GROWTH_PINE_TAIGA)
@@ -153,7 +151,16 @@ public class BrassAmberBattleTowers {
 					.add(Biomes.WINDSWEPT_HILLS)
 					.add(Biomes.WINDSWEPT_GRAVELLY_HILLS)
                     .build();
-            overworldBiomes.forEach(biomeKey -> associateBiomeToConfiguredStructure(BTStructureToMultiMap, BTConfiguredStructures.CONFIGURED_LAND_TOWER, biomeKey));
+
+			ImmutableSet<ResourceKey<Biome>> overgrownTowerBiomes = ImmutableSet.<ResourceKey<Biome>>builder()
+					.add(Biomes.SWAMP)
+					.add(Biomes.JUNGLE)
+					.add(Biomes.SPARSE_JUNGLE)
+					.add(Biomes.BAMBOO_JUNGLE)
+					.build();
+
+            landTowerBiomes.forEach(biomeKey -> associateBiomeToConfiguredStructure(BTStructureToMultiMap, BTConfiguredStructures.CONFIGURED_LAND_TOWER, biomeKey));
+			//overgrownTowerBiomes.forEach(biomeKey -> associateBiomeToConfiguredStructure(BTStructureToMultiMap, BTConfiguredStructures.CONFIGURED_OVERGROWN_LAND_TOWER, biomeKey));
 
 			ImmutableMap.Builder<StructureFeature<?>, ImmutableMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> tempStructureToMultiMap = ImmutableMap.builder();
 			worldStructureConfig.configuredStructures.entrySet().stream().filter(entry -> !BTStructureToMultiMap.containsKey(entry.getKey())).forEach(tempStructureToMultiMap::put);
@@ -190,9 +197,11 @@ public class BrassAmberBattleTowers {
 			 */
 			Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(worldStructureConfig.structureConfig());
 			tempMap.putIfAbsent(BTStructures.LAND_BATTLE_TOWER.get(), StructureSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+			//tempMap.putIfAbsent(BTStructures.OVERGROWN_LAND_BATTLE_TOWER.get(), StructureSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
 
 			if (chunkGenerator.getBiomeSource().possibleBiomes().contains(Biomes.SMALL_END_ISLANDS) || chunkGenerator.getBiomeSource().possibleBiomes().contains(Biomes.NETHER_WASTES)) {
 				tempMap.remove(BTStructures.LAND_BATTLE_TOWER.get(), StructureSettings.DEFAULTS.get(BTStructures.LAND_BATTLE_TOWER.get()));
+				//tempMap.remove(BTStructures.OVERGROWN_LAND_BATTLE_TOWER.get(), StructureSettings.DEFAULTS.get(BTStructures.OVERGROWN_LAND_BATTLE_TOWER.get()));
 			}
 
 			worldStructureConfig.structureConfig = tempMap;

@@ -207,6 +207,13 @@ public abstract class BTAbstractGolem extends Monster {
 			if (this.tickCount > 0 && this.tickCount % 20 == 0) {
 				this.destroyBlocksNearby();
 			}
+			if (this.getTarget() == null) {
+				Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
+				// Must be able to see the player and the player mustn't be in Creative mode.
+				if (player != null && !(player.isCreative() || player.isSpectator()) && this.hasLineOfSight(player)) {
+					this.setTarget(player);
+				}
+			}
 
 		}
 
@@ -258,11 +265,15 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
-		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
+		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), false);
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (nearestPlayer == null && (this.blockPosition().distSqr(this.getSpawnPos()) > 1 || this.yBodyRot != this.getSpawnDirection())) {
+		if (nearestPlayer == null && this.blockPosition().distSqr(this.getSpawnPos()) > 1) {
 			this.resetGolem();
-			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "reset golem from tick");
+			BrassAmberBattleTowers.LOGGER.info("reset golem from tick");
+		}
+		if (!(nearestPlayer == null) && this.horizontalDistanceToSqr(nearestPlayer.getX(), getZ()) > maxDistanceFromSpawn && nearestPlayer.isCreative()) {
+			this.resetGolem();
+			BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + this.horizontalDistanceToSqr(nearestPlayer.getX(), getZ()) + " " + maxDistanceFromSpawn);
 		}
 
 	}
@@ -403,18 +414,8 @@ public abstract class BTAbstractGolem extends Monster {
 			}
 		});
 		// Ignore damage from non-player entities
-		this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Player.class, true, true) {
-			@Override
-			public boolean canUse() {
-				return !BTAbstractGolem.this.isDormant() && super.canUse();
-			}
-
-			@Override
-			public boolean canContinueToUse() {
-				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
-			}
-		});
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(7, new TargetTaskGolemLand<>(this));
 		this.addBehaviorGoals();
 	}
 
@@ -636,6 +637,7 @@ public abstract class BTAbstractGolem extends Monster {
 		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		this.faceSpawnDirection();
 		this.setGolemState(DORMANT);
+		this.setTarget(null);
 		
 		this.getNavigation().stop();
 		
@@ -709,12 +711,11 @@ public abstract class BTAbstractGolem extends Monster {
 		this.bossBar.removePlayer(player);
 	}
 
-	@Override
-	public void setCustomName(@Nullable Component name) {
-		super.setCustomName(name);
+	public void setBossBarName(@Nullable Component name) {
 		// Update the bossBar to display the correct name.
 		this.bossBar.setName(this.getDisplayName());
 	}
+
 
 	/*********************************************************** Sounds ********************************************************/
 

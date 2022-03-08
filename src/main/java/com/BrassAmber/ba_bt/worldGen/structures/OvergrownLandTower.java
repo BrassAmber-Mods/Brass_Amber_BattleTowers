@@ -1,57 +1,35 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
-import com.BrassAmber.ba_bt.init.BTStructures;
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
-import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.event.world.StructureSpawnListGatherEvent;
 import org.apache.logging.log4j.Level;
-
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.mojang.serialization.Codec;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
-// Comments from TelepathicGrunts
-
-public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
-    public LandBattleTower(Codec<BTJigsawConfiguration> codec) {
-        super(codec, LandBattleTower::createPiecesGenerator, PostPlacementProcessor.NONE);
+public class OvergrownLandTower extends LandBattleTower{
+    public OvergrownLandTower(Codec<BTJigsawConfiguration> codec) {
+        super(codec, true);
     }
 
-    public LandBattleTower(Codec<BTJigsawConfiguration> codec, boolean tower) {
-        super(codec, OvergrownLandTower::createPiecesGenerator, PostPlacementProcessor.NONE);
-    }
-
-    @Override
-    public GenerationStep.Decoration step() {
-        return GenerationStep.Decoration.SURFACE_STRUCTURES;
-    }
-
+    private static boolean watered;
 
     public static boolean isFeatureChunk(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
 
@@ -71,15 +49,15 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // Combine the column of blocks with land height and you get the top block itself which you can test. --TelepathicGrunt
         BlockState topBlock = columnOfBlocks.getBlock(landHeight);
 
-        
+
         // Now we test to make sure our structure is not spawning on water or other fluids. --TelepathicGrunt
 
-        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower. 
+        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower.
         return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor()) && landHeight <= 210 ; //;
     }
-    
+
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
-        //Create block positions to check 
+        //Create block positions to check
         BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+8);
         BlockPos northEast = new BlockPos(pos.getX()+4, 0, pos.getZ()+4);
         BlockPos east = new BlockPos(pos.getX()+8, 0, pos.getZ());
@@ -88,7 +66,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         BlockPos southWest = new BlockPos(pos.getX()-4, 0, pos.getZ()-4);
         BlockPos west = new BlockPos(pos.getX()-8, 0, pos.getZ());
         BlockPos northWest = new BlockPos(pos.getX()-4, 0, pos.getZ()+4);
-        // create arraylist to allow easy iteration over BlockPos 
+        // create arraylist to allow easy iteration over BlockPos
         ArrayList<BlockPos> list = new ArrayList<>(9);
         list.add(pos);
         list.add(north);
@@ -101,19 +79,19 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         list.add(northWest);
 
 
-        // Create arraylists to hold the output of the iteration checks below 
+        // Create arraylists to hold the output of the iteration checks below
         boolean isFlat;
         ArrayList<Boolean> hasWater = new ArrayList<>(9);
 
         int landHeight = chunk.getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
 
-        // create integers to hold how many landheights are the same and how many isFlat are true/false 
-        int t = 0;
+        // create integers to hold how many landheights are the same and how many isFlat are true/false
+        int t = 4;
         int f = 0;
 
-        // Check that a + sign of blocks at each position is all the same level. (flat) 
+        // Check that a + sign of blocks at each position is all the same level. (flat)
         for (BlockPos x: list) {
-            // get land height for each block on the +  
+            // get land height for each block on the +
             int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
 
             // check that the new landheight is the same as the center of the chunk
@@ -124,9 +102,9 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             }
         }
         // check if most BlockPos are the same height and add false to the list if not
-        isFlat = t > f;
+        isFlat = t > 3;
 
-        // check that there is no water at any of the Blockpos 
+        // check that there is no water at any of the Blockpos
         for (BlockPos x: list) {
             // get landheight
             int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
@@ -141,42 +119,35 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             hasWater.add(topBlock.getFluidState().isSource());
         }
         // set the base output to be true.
-        boolean noWater = !hasWater.contains(true);
+        int water = 0;
+
+        for (boolean d : hasWater) {
+            if(d) {
+                water++;
+            }
+        }
+        boolean noWater = water < 3;
 
         // check if any of the blockpos have water.
 
-        BrassAmberBattleTowers.LOGGER.info("Land Battle Tower at " + pos.getX() + " " + pos.getZ()
+        BrassAmberBattleTowers.LOGGER.info("Overgrown Land Battle Tower at " + pos.getX() + " " + pos.getZ()
                 + " " + t +" " + f + " "+ noWater);
 
-        // if there are more flat areas than not flat areas and no water return true 
-        return isFlat && noWater;
-    }
-
-    private static final Lazy<List<MobSpawnSettings.SpawnerData>> STRUCTURE_MONSTERS = Lazy.of(() -> ImmutableList.of(
-            new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 100, 4, 4),
-            new MobSpawnSettings.SpawnerData(EntityType.CREEPER, 100, 4, 4),
-            new MobSpawnSettings.SpawnerData(EntityType.SKELETON, 100, 4, 4),
-            new MobSpawnSettings.SpawnerData(EntityType.HUSK, 80, 4, 4),
-            new MobSpawnSettings.SpawnerData(EntityType.SPIDER, 100, 4, 4),
-            new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN, 100, 1, 4)
-    ));
-
-    // Hooked up in StructureTutorialMain. You can move this elsewhere or change it up.
-    public static void setupStructureSpawns(final StructureSpawnListGatherEvent event) {
-        if(event.getStructure() == BTStructures.LAND_BATTLE_TOWER.get()) {
-            for (MobSpawnSettings.SpawnerData data : STRUCTURE_MONSTERS.get()) {
-                event.removeEntitySpawn(MobCategory.MONSTER, data);
-            }
+        // if there are more flat areas than not flat areas and no water return true
+        if (!hasWater.contains(true)) {
+            watered = true;
         }
+        return isFlat;
     }
 
 
     public static @NotNull Optional<PieceGenerator<BTJigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
         // Check if the spot is valid for our structure. This is just as another method for cleanness.
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
-        if (!LandBattleTower.isFeatureChunk(context)) {
+        if (!OvergrownLandTower.isFeatureChunk(context)) {
             return Optional.empty();
         }
+
         /*
          * We pass this into addPieces to tell it where to generate the structure.
          * If addPieces's last parameter is true, blockpos's Y value is ignored and the
@@ -192,7 +163,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                 // the game will automatically look into the following path for the template pool:
                 // "resources/data/ba_bt/worldgen/template_pool/land_tower/start_pool.json" -- TelepathicGrunt (modified by M)
 
-                .get(new ResourceLocation(BrassAmberBattleTowers.MOD_ID, "land_tower/start_pool")),
+                .get(BrassAmberBattleTowers.locate("land_tower/start_pool_overgrown")),
 
                 // How many pieces outward from center this recursive jigsaw structure can spawn.
                 // Technically (testing needed) I think I could have this value down at 9, since there are 7 structure floor connections-
@@ -200,7 +171,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                 // However, no testing of this has been done (yet)  and I would rather be on the safe side.
                 // Since the tower is not a completely recursive structure, this number could technically be as high as I wanted it to be (within integer limits ofc)
                 // As long as it is more than the total number of possible connections the tower will spawn correctly.
-                12);
+                8);
 
         PieceGeneratorSupplier.Context<BTJigsawConfiguration> baseTower = new PieceGeneratorSupplier.Context<>(
                 context.chunkGenerator(),
@@ -229,14 +200,16 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                         true,// Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
                         // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
                         // --TelepathicGrunt
-                        false // null here == random rotation.
+                        watered // null here == random rotation.
                 );
+
+
 
 
         if(piecesGenerator.isPresent()) {
             // I use to debug and quickly find out if the structure is spawning or not and where it is.
             // This is returning the coordinates of the center starting piece.
-            BrassAmberBattleTowers.LOGGER.info("Land Tower at " + centerPos);
+            BrassAmberBattleTowers.LOGGER.info("Overgrown Land Tower at " + centerPos);
         }
 
         // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces.
