@@ -66,8 +66,8 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         BlockState topBlock = columnOfBlocks.getBlockState(cornerOfChunk.above(landHeight));
 
 
-        boolean distance = (BattleTowersConfig.firstTowerDistance.get() <= cornerOfChunk.getZ()) ||
-                (BattleTowersConfig.firstTowerDistance.get() <= cornerOfChunk.getX());
+        boolean distance = (BattleTowersConfig.firstTowerDistance.get() <=  Math.abs(cornerOfChunk.getZ())) ||
+                (BattleTowersConfig.firstTowerDistance.get() <= Math.abs(cornerOfChunk.getX()));
         
         // Now we test to make sure our structure is not spawning on water or other fluids. --TelepathicGrunt
 
