@@ -41,12 +41,12 @@ public class BTBlocks {
 	public static final Block LAND_CHEST = registerChestBlock("land_chest", new StoneChestBlock(BTChestType.STONE, AbstractBlock.Properties.of(Material.STONE).strength(2.5F, 6.0F).sound(SoundType.STONE)), () -> chestItemRenderer(StoneChestTileEntity::new));
 
 
-	public static final Block SILVER_BLOCK = registerBlock("silver_block", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
-	public static final Block SILVER_TILES = registerBlock("silver_tiles", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
+	public static final Block PLATINUM_BLOCK = registerBlock("platinum_block", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
+	public static final Block PLATINUM_TILES = registerBlock("platinum_tiles", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.METAL)), ItemGroup.TAB_BUILDING_BLOCKS);
 
 	public static final Block TAB_ICON = registerBlockNoGroup("tab_icon", new TabIconBlock(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
 
-    public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+    public static final Block BT_LAND_SPAWNER = registerSpawnerBlock("bt_land_spawner", new BTSpawner(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()

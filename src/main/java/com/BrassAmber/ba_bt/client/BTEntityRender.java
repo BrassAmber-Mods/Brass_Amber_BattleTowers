@@ -36,7 +36,7 @@ public class BTEntityRender {
 		registerEntityRenderer(BTEntityTypes.SKY_GOLEM, SkyGolemRenderer::new);
 
 		registerEntityRenderer(BTEntityTypes.SKY_MINION, SkyMinionRenderer::new);
-		registerEntityRenderer(BTEntityTypes.SILVER_SKELETON, SkeletonRenderer::new);
+		registerEntityRenderer(BTEntityTypes.PLATINUM_SKELETON, SkeletonRenderer::new);
 
 		registerEntityRenderer(BTEntityTypes.LAND_MONOLITH, LandMonolithRenderer::new);
 		registerEntityRenderer(BTEntityTypes.CORE_MONOLITH, CoreMonolithRenderer::new);

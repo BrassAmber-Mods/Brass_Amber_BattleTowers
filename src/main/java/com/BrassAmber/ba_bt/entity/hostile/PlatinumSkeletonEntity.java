@@ -14,35 +14,35 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class SilverSkeletonEntity extends SkeletonEntity {
+public class PlatinumSkeletonEntity extends SkeletonEntity {
 	// We don't need this if we decide the animation is enough.
-	private final RangedBowAttackGoal<SilverSkeletonEntity> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
+	private final RangedBowAttackGoal<PlatinumSkeletonEntity> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
 	private final DualMeleeAttackGoal doubleMeleeGoal = new DualMeleeAttackGoal(this, 1.2D, false) {
 		public void stop() {
 			super.stop();
-			SilverSkeletonEntity.this.setAggressive(false);
+			PlatinumSkeletonEntity.this.setAggressive(false);
 		}
 
 		public void start() {
 			super.start();
-			SilverSkeletonEntity.this.setAggressive(true);
+			PlatinumSkeletonEntity.this.setAggressive(true);
 		}
 	};
 
-	public SilverSkeletonEntity(EntityType<? extends SkeletonEntity> entityType, World worldIn) {
+	public PlatinumSkeletonEntity(EntityType<? extends SkeletonEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
 
 	@Override
 	protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
 		// Give swords.
-		this.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(BTItems.SILVER_SWORD));
-		this.setItemSlot(EquipmentSlotType.OFFHAND, new ItemStack(BTItems.SILVER_SWORD));
+		this.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(BTItems.PLATINUM_SWORD));
+		this.setItemSlot(EquipmentSlotType.OFFHAND, new ItemStack(BTItems.PLATINUM_SWORD));
 		// Give armor.
-		this.setItemSlot(EquipmentSlotType.HEAD, new ItemStack(BTItems.SILVER_HELMET));
-		this.setItemSlot(EquipmentSlotType.CHEST, new ItemStack(BTItems.SILVER_CHESTPLATE));
-		this.setItemSlot(EquipmentSlotType.LEGS, new ItemStack(BTItems.SILVER_LEGGINGS));
-		this.setItemSlot(EquipmentSlotType.FEET, new ItemStack(BTItems.SILVER_BOOTS));
+		this.setItemSlot(EquipmentSlotType.HEAD, new ItemStack(BTItems.PLATINUM_HELMET));
+		this.setItemSlot(EquipmentSlotType.CHEST, new ItemStack(BTItems.PLATINUM_CHESTPLATE));
+		this.setItemSlot(EquipmentSlotType.LEGS, new ItemStack(BTItems.PLATINUM_LEGGINGS));
+		this.setItemSlot(EquipmentSlotType.FEET, new ItemStack(BTItems.PLATINUM_BOOTS));
 	}
 
 	@Override

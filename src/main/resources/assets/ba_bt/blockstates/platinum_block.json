@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "ba_bt:block/silver_block"
+      "model": "ba_bt:block/platinum_block"
     }
   }
 }

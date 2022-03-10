@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "silver_block",
+  "group": "platinum_ingot",
   "pattern": [
     "###",
     "###",
@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "ba_bt:silver_ingot"
+      "item": "ba_bt:platinum_shard"
     }
   },
   "result": {
-    "item": "ba_bt:silver_block"
+    "item": "ba_bt:platinum_ingot"
   }
 }

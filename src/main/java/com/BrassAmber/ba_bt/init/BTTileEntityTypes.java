@@ -15,7 +15,7 @@ public class BTTileEntityTypes {
 
 	public static final TileEntityType<GolemChestTileEntity> LAND_GOLEM_CHEST = registerTileEntity("land_golem_chest", TileEntityType.Builder.of(GolemChestTileEntity::new, BTBlocks.LAND_GOLEM_CHEST));
 	public static final TileEntityType<StoneChestTileEntity> LAND_CHEST = registerTileEntity("land_chest", TileEntityType.Builder.of(StoneChestTileEntity::new, BTBlocks.LAND_CHEST));
-	public static final TileEntityType<BTMobSpawnerTileEntity> BT_MOB_SPAWNER = registerTileEntity("bt_spawner", TileEntityType.Builder.of(BTMobSpawnerTileEntity::new, BTBlocks.BT_SPAWNER));
+	public static final TileEntityType<BTMobSpawnerTileEntity> BT_MOB_SPAWNER = registerTileEntity("bt_spawner", TileEntityType.Builder.of(BTMobSpawnerTileEntity::new, BTBlocks.BT_LAND_SPAWNER));
 
 	/**
 	 * Helper method for registering Tile Entities

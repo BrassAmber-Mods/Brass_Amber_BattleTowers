@@ -11,7 +11,7 @@
 	"entity.ba_bt.ocean_golem": "Ocean Golem",
 	
 	"entity.ba_bt.sky_minion": "Sky Minion",
-	"entity.ba_bt.silver_skeleton": "Silver Skeleton",
+	"entity.ba_bt.platinum_skeleton": "Platinum Skeleton",
 	
 	"entity.ba_bt.land_monolith": "Land Monolith",
 	"entity.ba_bt.core_monolith": "Core Monolith",
@@ -39,10 +39,10 @@
 	"block.ba_bt.land_golem_chest": "Golem Chest",
 	"block.ba_bt.land_chest": "Land Chest",
 
-	"block.ba_bt.silver_block": "Silver Block",
-	"block.ba_bt.silver_tiles": "Silver Tiles",
+	"block.ba_bt.platinum_block": "Platinum Block",
+	"block.ba_bt.platinum_tiles": "Platinum Tiles",
 
-	"block.ba_bt.bt_spawner" : "BTSpawner",
+	"block.ba_bt.bt_land_spawner" : "Land Spawner",
 	
 	// Containers
 	"container.ba_bt.land_golem_chest": "Land Golem Chest",
@@ -72,18 +72,18 @@
 	"item.ba_bt.monolith_sky": "Sky Monolith",
 	"item.ba_bt.monolith_ocean": "Ocean Monolith",
 
-	"item.ba_bt.silver_ingot": "Silver Ingot",
-	"item.ba_bt.silver_shard": "Silver Shard",
-	"item.ba_bt.silver_sword": "Silver Sword",
+	"item.ba_bt.platinum_ingot": "Platinum Ingot",
+	"item.ba_bt.platinum_shard": "Platinum Shard",
+	"item.ba_bt.platinum_sword": "Platinum Sword",
 
-	"item.ba_bt.silver_helmet": "Silver Helmet",
-	"item.ba_bt.silver_chestplate": "Silver Chestplate",
-	"item.ba_bt.silver_leggings": "Silver Leggings",
-	"item.ba_bt.silver_boots": "Silver Boots",
+	"item.ba_bt.platinum_helmet": "Platinum Helmet",
+	"item.ba_bt.platinum_chestplate": "Platinum Chestplate",
+	"item.ba_bt.platinum_leggings": "Platinum Leggings",
+	"item.ba_bt.platinum_boots": "Platinum Boots",
 
 	"item.ba_bt.land_chest_shard": "Land Chest Shard",
 
-	"item.ba_bt.silver_skeleton_spawn_egg": "Silver Skeleton Spawn Egg",
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Skeleton Spawn Egg",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",

@@ -7,7 +7,6 @@ import com.BrassAmber.ba_bt.item.BTItemTier;
 import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
 import com.BrassAmber.ba_bt.item.item.MonolithItem;
 import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
-import com.BrassAmber.ba_bt.util.BTItemGroup;
 import com.BrassAmber.ba_bt.util.GolemType;
 
 import net.minecraft.entity.EntityType;
@@ -25,7 +24,7 @@ public class BTItems {
 	private static final ItemGroup BATLETOWERSTAB = BrassAmberBattleTowers.BATLETOWERSTAB;
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final Item SILVER_SKELETON_SPAWN_EGG = registerItem("silver_skeleton_spawn_egg", new SpawnEggItem(BTEntityTypes.SILVER_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
+	public static final Item PLATINUM_SKELETON_SPAWN_EGG = registerItem("platinum_skeleton_spawn_egg", new SpawnEggItem(BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
 
 	public static final Item LAND_MONOLOITH_KEY = registerMonolithKey("monolith_key_land");
 	public static final Item CORE_MONOLOITH_KEY = registerMonolithKey("monolith_key_core");
@@ -49,15 +48,15 @@ public class BTItems {
 	public static final Item OCEAN_MONOLITH = registerMonolith("monolith_ocean", BTEntityTypes.OCEAN_MONOLITH);
 
 	// Note: Materials ItemGroup.
-	public static final Item SILVER_INGOT = registerItem("silver_ingot", new Item(new Item.Properties().tab(ItemGroup.TAB_MATERIALS)));
-	public static final Item SILVER_SHARD = registerItem("silver_shard", new Item(new Item.Properties().tab(ItemGroup.TAB_MATERIALS)));
+	public static final Item PLATINUM_INGOT = registerItem("platinum_ingot", new Item(new Item.Properties().tab(ItemGroup.TAB_MATERIALS)));
+	public static final Item PLATINUM_SHARD = registerItem("platinum_shard", new Item(new Item.Properties().tab(ItemGroup.TAB_MATERIALS)));
 
 	// Note: Combat ItemGroup.
-	public static final Item SILVER_SWORD = registerItem("silver_sword", new SwordItem(BTItemTier.SILVER, 3, -2.4F, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item SILVER_HELMET = registerItem("silver_helmet", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item SILVER_CHESTPLATE = registerItem("silver_chestplate", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item SILVER_LEGGINGS = registerItem("silver_leggings", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-	public static final Item SILVER_BOOTS = registerItem("silver_boots", new ArmorItem(BTArmorMaterial.SILVER, EquipmentSlotType.FEET, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item PLATINUM_SWORD = registerItem("platinum_sword", new SwordItem(BTItemTier.PLATINUM, 3, -2.4F, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item PLATINUM_HELMET = registerItem("platinum_helmet", new ArmorItem(BTArmorMaterial.PLATINUM, EquipmentSlotType.HEAD, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item PLATINUM_CHESTPLATE = registerItem("platinum_chestplate", new ArmorItem(BTArmorMaterial.PLATINUM, EquipmentSlotType.CHEST, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item PLATINUM_LEGGINGS = registerItem("platinum_leggings", new ArmorItem(BTArmorMaterial.PLATINUM, EquipmentSlotType.LEGS, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+	public static final Item PLATINUM_BOOTS = registerItem("platinum_boots", new ArmorItem(BTArmorMaterial.PLATINUM, EquipmentSlotType.FEET, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
 	public static final Item LAND_CHEST_SHARD = registerItem("land_chest_shard", new Item(new Item.Properties().stacksTo(16).tab(BATLETOWERSTAB)));
 	/**

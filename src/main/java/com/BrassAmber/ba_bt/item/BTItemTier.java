@@ -12,8 +12,8 @@ import net.minecraft.util.LazyValue;
  * Reference from {@link ItemTier}
  */
 public enum BTItemTier implements IItemTier {
-	SILVER(1, 200, 12.0F, 1.0F, 14, () -> {
-		return Ingredient.of(BTItems.SILVER_INGOT);
+	PLATINUM(1, 200, 12.0F, 1.0F, 14, () -> {
+		return Ingredient.of(BTItems.PLATINUM_INGOT);
 	});
 
 	private final int level;
@@ -23,7 +23,7 @@ public enum BTItemTier implements IItemTier {
 	private final int enchantmentValue;
 	private final LazyValue<Ingredient> repairIngredient;
 
-	private BTItemTier(int miningLevel, int durability, float miningSpeed, float attackDamageBonus, int enchantmentValue, Supplier<Ingredient> repairIngredient) {
+	BTItemTier(int miningLevel, int durability, float miningSpeed, float attackDamageBonus, int enchantmentValue, Supplier<Ingredient> repairIngredient) {
 		this.level = miningLevel;
 		this.uses = durability;
 		this.speed = miningSpeed;
