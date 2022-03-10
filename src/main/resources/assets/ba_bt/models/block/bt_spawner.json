@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "top": "ba_bt:block/spawner/cult_tower_spawner_top",
-    "side": "ba_bt:block/spawner/cult_tower_spawner"
-  }
-}

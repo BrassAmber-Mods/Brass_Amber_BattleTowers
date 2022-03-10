@@ -22,8 +22,8 @@ import javax.swing.*;
  * Reference from {@link ArmorMaterials}
  */
 public enum BTArmorMaterial implements ArmorMaterial {
-	SILVER("silver", 11, new int[] { 2, 5, 6, 2 }, 20, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
-		return Ingredient.of(BTItems.SILVER_INGOT);
+	PLATINUM("platinum", 11, new int[] { 2, 5, 6, 2 }, 20, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
+		return Ingredient.of(BTItems.PLATINUM_INGOT);
 	});
 
 	private static final int[] HEALTH_PER_SLOT = new int[] { 13, 15, 16, 11 };

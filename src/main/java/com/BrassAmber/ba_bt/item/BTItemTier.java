@@ -14,8 +14,8 @@ import javax.swing.*;
  * Reference from {@link Tiers}
  */
 public enum BTItemTier implements Tier {
-	SILVER(1, 200, 12.0F, 1.0F, 14, () -> {
-		return Ingredient.of(BTItems.SILVER_INGOT);
+	PLATINUM(1, 200, 12.0F, 1.0F, 14, () -> {
+		return Ingredient.of(BTItems.PLATINUM_INGOT);
 	});
 
 	private final int level;

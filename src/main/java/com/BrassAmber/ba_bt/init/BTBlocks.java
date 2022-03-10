@@ -32,17 +32,17 @@ public class BTBlocks {
 
 
 
-	public static final Block SILVER_BLOCK = registerBlock("silver_block",
+	public static final Block PLATINUM_BLOCK = registerBlock("platinum_block",
 			new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops()
 					.strength(4.0F, 6.0F).sound(SoundType.METAL)), CreativeModeTab.TAB_BUILDING_BLOCKS);
-	public static final Block SILVER_TILES = registerBlock("silver_tiles",
+	public static final Block PLATINUM_TILES = registerBlock("platinum_tiles",
 			new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops()
 					.strength(4.0F, 6.0F).sound(SoundType.METAL)), CreativeModeTab.TAB_BUILDING_BLOCKS);
 
 	public static final Block TAB_ICON = registerBlockNoGroup("tab_icon",
 			new TabIconBlock(Block.Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
 
-    public static final Block BT_SPAWNER = registerSpawnerBlock("bt_spawner",
+    public static final Block BT_LAND_SPAWNER = registerSpawnerBlock("bt_land_spawner",
 			new BTSpawnerBlock(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
 

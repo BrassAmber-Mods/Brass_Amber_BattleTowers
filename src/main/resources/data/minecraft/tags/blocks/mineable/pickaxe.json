@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "ba_bt:bt_land_spawner",
     "#ba_bt:platinum_blocks"
   ]
 }

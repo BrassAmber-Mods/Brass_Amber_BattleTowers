@@ -5,7 +5,7 @@ import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.entity.ExplosionPhysics;
 import com.BrassAmber.ba_bt.entity.block.BTObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
-import com.BrassAmber.ba_bt.entity.hostile.SilverSkeleton;
+import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolem;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
@@ -38,7 +38,7 @@ public class BTEntityTypes {
 	public static final EntityType<SkyGolem> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolem::new);
 
 	public static final EntityType<SkyMinion> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinion::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
-	public static final EntityType<SilverSkeleton> SILVER_SKELETON = buildEntityType("silver_skeleton", EntityType.Builder.of(SilverSkeleton::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
+	public static final EntityType<PlatinumSkeleton> PLATINUM_SKELETON = buildEntityType("platinum_skeleton", EntityType.Builder.of(PlatinumSkeleton::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
 	
 	public static final EntityType<BTMonolith> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
 	public static final EntityType<BTMonolith> OCEAN_MONOLITH = buildMonolithEntityType("ocean_monolith");
@@ -78,7 +78,7 @@ public class BTEntityTypes {
 		registerSpawnPlacement(SKY_GOLEM, Mob::checkMobSpawnRules);
 
 		registerSpawnPlacement(SKY_MINION, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(SILVER_SKELETON, Monster::checkMonsterSpawnRules);
+		registerSpawnPlacement(PLATINUM_SKELETON, Monster::checkMonsterSpawnRules);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class BTEntityTypes {
 		event.put(SKY_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
 
 		event.put(SKY_MINION, SkyMinion.createAttributes().build());
-		event.put(SILVER_SKELETON, SilverSkeleton.createAttributes().build());
+		event.put(PLATINUM_SKELETON, PlatinumSkeleton.createAttributes().build());
 	}
 
 	/**

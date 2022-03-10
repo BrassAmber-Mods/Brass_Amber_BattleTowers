@@ -21,16 +21,12 @@ import com.BrassAmber.ba_bt.client.renderer.golem.OceanGolemRenderer;
 import com.BrassAmber.ba_bt.client.renderer.golem.SkyGolemRenderer;
 
 
-import net.minecraft.client.model.SkeletonModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -52,7 +48,7 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityTypes.SKY_GOLEM, SkyGolemRenderer::new);
 
 		event.registerEntityRenderer(BTEntityTypes.SKY_MINION, SkyMinionRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.SILVER_SKELETON, SkeletonRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.PLATINUM_SKELETON, SkeletonRenderer::new);
 
 		event.registerEntityRenderer(BTEntityTypes.LAND_MONOLITH, LandMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.CORE_MONOLITH, CoreMonolithRenderer::new);
@@ -112,7 +108,7 @@ public class ClientEvents {
 
 
 
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_LAND_SPAWNER, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON, RenderType.cutout());
 	}
 

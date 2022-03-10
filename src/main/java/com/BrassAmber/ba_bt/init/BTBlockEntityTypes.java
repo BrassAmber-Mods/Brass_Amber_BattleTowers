@@ -15,7 +15,7 @@ public class BTBlockEntityTypes {
 
 	public static final BlockEntityType<GolemChestBlockEntity> LAND_GOLEM_CHEST = registerBlockEntity("land_golem_chest", BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST));
 	public static final BlockEntityType<TowerChestBlockEntity> LAND_CHEST = registerBlockEntity("land_chest", BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST));
-	public static final BlockEntityType<BTSpawnerBlockEntity> BT_MOB_SPAWNER = registerBlockEntity("bt_spawner", BlockEntityType.Builder.of(BTSpawnerBlockEntity::new, BTBlocks.BT_SPAWNER));
+	public static final BlockEntityType<BTSpawnerBlockEntity> BT_MOB_SPAWNER = registerBlockEntity("bt_spawner", BlockEntityType.Builder.of(BTSpawnerBlockEntity::new, BTBlocks.BT_LAND_SPAWNER));
 
 	/**
 	 * Helper method for registering Tile Entities

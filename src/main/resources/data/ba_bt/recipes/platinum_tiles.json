@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "platinum_tiles",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "ba_bt:platinum_block"
+    }
+  },
+  "result": {
+    "item": "ba_bt:platinum_tiles",
+    "count": 4
+  }
+}
