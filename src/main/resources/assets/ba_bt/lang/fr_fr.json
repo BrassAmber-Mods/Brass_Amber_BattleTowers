@@ -7,8 +7,8 @@
 	"entity.ba_bt.sky_golem": "Golem Angélique",
 	"entity.ba_bt.ocean_golem": "Golem Océanique",
 	
-	"entity.ba_bt.sky_minion": "Minion du Ciel",
-	"entity.ba_bt.silver_skeleton": "Squelette Argenté",
+	"entity.ba_bt.sky_minion": "Minion Angélique",
+	"entity.ba_bt.platinum_skeleton": "Squelette Platine",
 	
 	"entity.ba_bt.land_monolith": "Monolithe Terrestre",
 	"entity.ba_bt.core_monolith": "Monolithe Volcanique",
@@ -34,10 +34,10 @@
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"block.ba_bt.land_chest": "Coffre Terrestre",
 
-	"block.ba_bt.silver_block": "Bloc d'Argent",
-	"block.ba_bt.silver_tiles": "Carreaux d'Argent",
+	"block.ba_bt.platinum_block": "Bloc de platine",
+	"block.ba_bt.platinum_tiles": "Bloc de platine carrellée",
 
-	"block.ba_bt.bt_spawner": "BTSpawner",
+	"block.ba_bt.bt_land_spawner": "Spawner Terrestre",
 	
 	// Containers
 	"container.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
@@ -67,18 +67,18 @@
 	"item.ba_bt.monolith_sky": "Monolithe Angélique",
 	"item.ba_bt.monolith_ocean": "Monolithe Océanique",
 
-	"item.ba_bt.silver_ingot": "Lingot d'argent",
-	"item.ba_bt.silver_shard": "Éclat d'argent",
-	"item.ba_bt.silver_sword": "Épée en argent",
+	"item.ba_bt.platinum_ingot": "Lingot de platine",
+	"item.ba_bt.platinum_shard": "Éclat de platine",
+	"item.ba_bt.platinum_sword": "Épée en platine",
 
-	"item.ba_bt.silver_helmet": "Casque en argent",
-	"item.ba_bt.silver_chestplate": "Plastron en argent",
-	"item.ba_bt.silver_leggings": "Jambière en argent",
-	"item.ba_bt.silver_boots": "Bottes en argent",
+	"item.ba_bt.platinum_helmet": "Casque en platine",
+	"item.ba_bt.platinum_chestplate": "Plastron en platine",
+	"item.ba_bt.platinum_leggings": "Jambière en platine",
+	"item.ba_bt.platinum_boots": "Bottes en platine",
 
 	"item.ba_bt.land_chest_shard": "Éclat de Coffre Terrestre",
 
-	"item.ba_bt.silver_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Argenté",
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
 	
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Maintenez la Maj pour plus d'informations.",
