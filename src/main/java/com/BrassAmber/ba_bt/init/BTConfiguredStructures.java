@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfigura
 
 public class BTConfiguredStructures {
 
-    public static ConfiguredStructureFeature<?, ?> CONFIGURED_LAND_TOWER = BTStructures.LAND_BATTLE_TOWER.get().configured(new BTJigsawConfiguration(() -> PlainVillagePools.START, 7));;
+    public static ConfiguredStructureFeature<?, ?> CONFIGURED_LAND_TOWER = BTStructures.LAND_BATTLE_TOWER.get().configured();;
     //public static ConfiguredStructureFeature<?, ?> CONFIGURED_OVERGROWN_LAND_TOWER = BTStructures.OVERGROWN_LAND_BATTLE_TOWER.get().configured(new BTJigsawConfiguration(() -> PlainVillagePools.START, 7));;
     /* public static StructureFeature<?, ?> CONFIGURED_SKY_BATTLE_TOWER = BTStructures
             .SKY_BATTLE_TOWER.get().configured(IFeatureConfig.NONE); */
