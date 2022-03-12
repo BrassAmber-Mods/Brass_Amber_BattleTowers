@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -15,7 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 public class ExplosionPhysics extends PrimedTnt {
 
@@ -49,13 +47,15 @@ public class ExplosionPhysics extends PrimedTnt {
 					
 					this.level.removeBlock(pos, true);
 					
-					FallingBlockEntity fallingBlock = new FallingBlockEntity(
+					FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
 							this.level, 
-							pos.getX() + 0.5F, 
-							pos.getY(), 
-							pos.getZ() + 0.5F,
+							new BlockPos(
+									pos.getX() + 0.5F, 
+									pos.getY(), 
+									pos.getZ() + 0.5F
+							),
 							state
-					) {
+					);/* {
 						@Override
 						public void setRemoved(Entity.@NotNull RemovalReason removalReason) {
 							//Dirty workaround to avoid the sudden disappearance of the entity
@@ -64,7 +64,7 @@ public class ExplosionPhysics extends PrimedTnt {
 							}
 							super.setRemoved(removalReason);
 						}
-					};
+					};*/
 					fallingBlock.setInvulnerable(true);
 					fallingBlock.dropItem = false;
 					fallingBlock.setDeltaMovement(velocity);
