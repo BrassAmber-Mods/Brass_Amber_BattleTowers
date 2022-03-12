@@ -21,10 +21,6 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
@@ -49,12 +45,11 @@ public class BTLandJigsawPlacement {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
-
         BTJigsawConfiguration jigsawconfiguration = context.config();
         ChunkGenerator chunkgenerator = context.chunkGenerator();
         StructureManager structuremanager = context.structureManager();
         LevelHeightAccessor levelheightaccessor = context.heightAccessor();
-        Predicate<Holder<Biome>> predicate = context.validBiome();
+        Predicate<Biome> predicate = context.validBiome();
         StructureFeature.bootstrap();
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(worldgenrandom);

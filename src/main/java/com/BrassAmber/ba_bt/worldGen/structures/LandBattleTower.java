@@ -1,20 +1,14 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
-import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.init.BTStructures;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.StructureSets;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.biome.Biome;
@@ -24,10 +18,8 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraftforge.common.util.Lazy;
@@ -47,8 +39,8 @@ import java.util.Optional;
 // Comments from TelepathicGrunts
 
 public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
-    public LandBattleTower() {
-        super(BTJigsawConfiguration.CODEC, LandBattleTower::createPiecesGenerator, PostPlacementProcessor.NONE);
+    public LandBattleTower(Codec<BTJigsawConfiguration> codec) {
+        super(codec, LandBattleTower::createPiecesGenerator, PostPlacementProcessor.NONE);
     }
 
     public LandBattleTower(Codec<BTJigsawConfiguration> codec, boolean tower) {
@@ -63,37 +55,27 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
     public static boolean isFeatureChunk(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
 
-        ChunkPos chunkPos = context.chunkPos();
-        BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
 
-        boolean firstTowerDistanceCheck = BattleTowersConfig.firstTowerDistance.get() >= Mth.abs(centerOfChunk.getX())
-                || BattleTowersConfig.firstTowerDistance.get() >= Mth.abs(centerOfChunk.getZ());
+        BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
 
         context.chunkGenerator();
         // Grab height of land. Will stop at first non-air block. --TelepathicGrunt
         int landHeight = context.chunkGenerator().getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-        List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
-        vanillaStructures.add(BuiltinStructureSets.VILLAGES);
-        vanillaStructures.add(BuiltinStructureSets.DESERT_PYRAMIDS);
-        vanillaStructures.add(BuiltinStructureSets.IGLOOS);
-        vanillaStructures.add(BuiltinStructureSets.JUNGLE_TEMPLES);
-        vanillaStructures.add(BuiltinStructureSets.SWAMP_HUTS);
-        vanillaStructures.add(BuiltinStructureSets.PILLAGER_OUTPOSTS);
-        vanillaStructures.add(BuiltinStructureSets.WOODLAND_MANSIONS);
-        vanillaStructures.add(BuiltinStructureSets.RUINED_PORTALS);
-        vanillaStructures.add(BuiltinStructureSets.SHIPWRECKS);
-
-        boolean structureTooClose = false;
-
-        for (ResourceKey<StructureSet> set : vanillaStructures) {
-            if(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 10)) {
-                structureTooClose = true;
-            }
-        }
 
 
-        // We check using the isFlatLand() function below for water and spacing
-        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor()) && landHeight <= 210 && !structureTooClose && firstTowerDistanceCheck; //;
+        // Grabs column of blocks at given position. In overworld, this column will be made of stone, water, and air.
+        // In nether, it will be netherrack, lava, and air. End will only be endstone and air. It depends on what block
+        // the chunk generator will place for that dimension. --TelepathicGrunt
+        NoiseColumn columnOfBlocks = context.chunkGenerator().getBaseColumn(centerOfChunk.getX(), centerOfChunk.getZ(), context.heightAccessor());
+
+        // Combine the column of blocks with land height and you get the top block itself which you can test. --TelepathicGrunt
+        BlockState topBlock = columnOfBlocks.getBlock(landHeight);
+
+        
+        // Now we test to make sure our structure is not spawning on water or other fluids. --TelepathicGrunt
+
+        // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower. 
+        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor()) && landHeight <= 210 ; //;
     }
     
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
