@@ -11,6 +11,7 @@ import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,7 +19,7 @@ public class BTItems {
 	private static final CreativeModeTab BATLETOWERSTAB = BrassAmberBattleTowers.BATLETOWERSTAB;
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final Item PLATINUM_SKELETON_SPAWN_EGG = registerItem("platinum_skeleton_spawn_egg", new SpawnEggItem(BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
+	public static final Item PLATINUM_SKELETON_SPAWN_EGG = registerItem("platinum_skeleton_spawn_egg", new ForgeSpawnEggItem(() ->BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
 
 	public static final Item LAND_MONOLOITH_KEY = registerMonolithKey("monolith_key_land");
 	public static final Item CORE_MONOLOITH_KEY = registerMonolithKey("monolith_key_core");

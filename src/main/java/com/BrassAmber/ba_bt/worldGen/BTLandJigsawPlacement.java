@@ -15,16 +15,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.structures.*;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
@@ -34,7 +29,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.logging.log4j.Logger;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -45,11 +39,10 @@ public class BTLandJigsawPlacement {
     private static boolean watered;
 
 
-    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos placementPos, boolean boundaryAdjust, boolean useHeightMap, boolean water) {
+    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean villageBoundaryAdjust, boolean placeAtHeightMap, boolean isWatered) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
-
         BTJigsawConfiguration jigsawconfiguration = context.config();
         ChunkGenerator chunkgenerator = context.chunkGenerator();
         StructureManager structuremanager = context.structureManager();
@@ -58,66 +51,75 @@ public class BTLandJigsawPlacement {
         StructureFeature.bootstrap();
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(worldgenrandom);
-        watered = water;
-
-        StructureTemplatePool structuretemplatepool = jigsawconfiguration.startPool().get();
+        StructureTemplatePool structuretemplatepool = jigsawconfiguration.startPool().value();
         StructurePoolElement structurepoolelement = structuretemplatepool.getRandomTemplate(worldgenrandom);
+        watered = isWatered;
         if (structurepoolelement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
         } else {
-            PoolElementStructurePiece poolelementstructurepiece = pieceFactory.create(structuremanager, structurepoolelement, placementPos, structurepoolelement.getGroundLevelDelta(), rotation, structurepoolelement.getBoundingBox(structuremanager, placementPos, rotation));
+            PoolElementStructurePiece poolelementstructurepiece = pieceFactory.create(structuremanager, structurepoolelement, blockPos, structurepoolelement.getGroundLevelDelta(), rotation, structurepoolelement.getBoundingBox(structuremanager, blockPos, rotation));
             BoundingBox boundingbox = poolelementstructurepiece.getBoundingBox();
-            int bbX = (boundingbox.maxX() + boundingbox.minX()) / 2;
-            int bbZ = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
-            int ppY;
-            if (useHeightMap) {
-                ppY = placementPos.getY() + chunkgenerator.getFirstFreeHeight(bbX, bbZ, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor);
-            } else {
-                ppY = placementPos.getY();
-            }
-            if (watered) {
-                poolelementstructurepiece.move(0, -5, 0);
-            }
+            int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
+            int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
+            int k;
 
-            if (!predicate.test(chunkgenerator.getNoiseBiome(QuartPos.fromBlock(bbX), QuartPos.fromBlock(ppY), QuartPos.fromBlock(bbZ)))) {
+            if (watered) {
+                if (placeAtHeightMap) {
+                    k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - 5;
+                } else {
+                    k = blockPos.getY() - 5;
+                }
+            }
+            else {
+                if (placeAtHeightMap) {
+                    k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor);
+                } else {
+                    k = blockPos.getY();
+                }
+            }
+           
+            
+
+            if (!predicate.test(chunkgenerator.getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
                 return Optional.empty();
             } else {
-                int pieceYlevel = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
-                poolelementstructurepiece.move(0, ppY - pieceYlevel, 0);
-                return Optional.of((piecesBuilder, pieceGenContext) -> {
+                int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
+                poolelementstructurepiece.move(0, k - l, 0);
+                return Optional.of((p_210282_, p_210283_) -> {
                     List<PoolElementStructurePiece> list = Lists.newArrayList();
                     list.add(poolelementstructurepiece);
                     if (jigsawconfiguration.maxDepth() > 0) {
-                        int sizeLimit = 120;
-                        AABB aabb = new AABB(bbX - sizeLimit, ppY - sizeLimit, bbZ - sizeLimit, bbX + sizeLimit + 1, ppY + sizeLimit + 1, bbZ + sizeLimit + 1);
-                        BTLandJigsawPlacement.Placer BTLandJigsawPlacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
-                        BTLandJigsawPlacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
+                        int i1 = 120;
+                        AABB aabb = new AABB((double)(i - 80), (double)(k - 80), (double)(j - 80), (double)(i + 80 + 1), (double)(k + 80 + 1), (double)(j + 80 + 1));
+                        BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
+                        jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
 
-                        while(!BTLandJigsawPlacement$placer.placing.isEmpty()) {
-                            BTLandJigsawPlacement.PieceState BTLandJigsawPlacement$piecestate = BTLandJigsawPlacement$placer.placing.removeFirst();
-                            BTLandJigsawPlacement$placer.tryPlacingChildren(BTLandJigsawPlacement$piecestate.piece, BTLandJigsawPlacement$piecestate.free, BTLandJigsawPlacement$piecestate.depth, boundaryAdjust, levelheightaccessor);
+                        while(!jigsawplacement$placer.placing.isEmpty()) {
+                            BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
+                            jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth, villageBoundaryAdjust, levelheightaccessor);
                         }
-                        list.forEach(piecesBuilder::addPiece);
+
+                        list.forEach(p_210282_::addPiece);
                     }
                 });
             }
         }
     }
 
-    public static void addPieces(RegistryAccess p_161625_, PoolElementStructurePiece p_161626_, int p_161627_, BTLandJigsawPlacement.PieceFactory p_161628_, ChunkGenerator p_161629_, StructureManager p_161630_, List<? super PoolElementStructurePiece> p_161631_, Random p_161632_, LevelHeightAccessor p_161633_) {
-        Registry<StructureTemplatePool> registry = p_161625_.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        BTLandJigsawPlacement.Placer BTLandJigsawPlacement$placer = new BTLandJigsawPlacement.Placer(registry, p_161627_, p_161628_, p_161629_, p_161630_, p_161631_, p_161632_);
-        BTLandJigsawPlacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(p_161626_, new MutableObject<>(Shapes.INFINITY), 0));
+    public static void addPieces(RegistryAccess p_210291_, PoolElementStructurePiece p_210292_, int p_210293_, BTLandJigsawPlacement.PieceFactory p_210294_, ChunkGenerator p_210295_, StructureManager p_210296_, List<? super PoolElementStructurePiece> p_210297_, Random p_210298_, LevelHeightAccessor p_210299_) {
+        Registry<StructureTemplatePool> registry = p_210291_.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
+        BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, p_210293_, p_210294_, p_210295_, p_210296_, p_210297_, p_210298_);
+        jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(p_210292_, new MutableObject<>(Shapes.INFINITY), 0));
 
-        while(!BTLandJigsawPlacement$placer.placing.isEmpty()) {
-            BTLandJigsawPlacement.PieceState BTLandJigsawPlacement$piecestate = BTLandJigsawPlacement$placer.placing.removeFirst();
-            BTLandJigsawPlacement$placer.tryPlacingChildren(BTLandJigsawPlacement$piecestate.piece, BTLandJigsawPlacement$piecestate.free, BTLandJigsawPlacement$piecestate.depth, false, p_161633_);
+        while(!jigsawplacement$placer.placing.isEmpty()) {
+            BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
+            jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth, false, p_210299_);
         }
 
     }
 
     public interface PieceFactory {
-        PoolElementStructurePiece create(StructureManager p_68965_, StructurePoolElement p_68966_, BlockPos p_68967_, int p_68968_, Rotation rotation, BoundingBox p_68970_);
+        PoolElementStructurePiece create(StructureManager p_210301_, StructurePoolElement p_210302_, BlockPos p_210303_, int p_210304_, Rotation p_210305_, BoundingBox p_210306_);
     }
 
     static final class PieceState {
@@ -125,10 +127,10 @@ public class BTLandJigsawPlacement {
         final MutableObject<VoxelShape> free;
         final int depth;
 
-        PieceState(PoolElementStructurePiece p_191509_, MutableObject<VoxelShape> p_191510_, int p_191511_) {
-            this.piece = p_191509_;
-            this.free = p_191510_;
-            this.depth = p_191511_;
+        PieceState(PoolElementStructurePiece p_210311_, MutableObject<VoxelShape> p_210312_, int p_210313_) {
+            this.piece = p_210311_;
+            this.free = p_210312_;
+            this.depth = p_210313_;
         }
     }
 
@@ -142,32 +144,32 @@ public class BTLandJigsawPlacement {
         private final Random random;
         final Deque<BTLandJigsawPlacement.PieceState> placing = Queues.newArrayDeque();
 
-        Placer(Registry<StructureTemplatePool> templatePoolRegistry, int mDepth, BTLandJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> structurePieceList, Random random) {
-            this.pools = templatePoolRegistry;
-            this.maxDepth = mDepth;
-            this.factory = pieceFactory;
-            this.chunkGenerator = chunkGenerator;
-            this.structureManager = structureManager;
-            this.pieces = structurePieceList;
-            this.random = random;
+        Placer(Registry<StructureTemplatePool> p_210323_, int p_210324_, BTLandJigsawPlacement.PieceFactory p_210325_, ChunkGenerator p_210326_, StructureManager p_210327_, List<? super PoolElementStructurePiece> p_210328_, Random p_210329_) {
+            this.pools = p_210323_;
+            this.maxDepth = p_210324_;
+            this.factory = p_210325_;
+            this.chunkGenerator = p_210326_;
+            this.structureManager = p_210327_;
+            this.pieces = p_210328_;
+            this.random = p_210329_;
         }
 
-        void tryPlacingChildren(PoolElementStructurePiece structurePiece, MutableObject<VoxelShape> voxelShape, int depth, boolean p_191516_, LevelHeightAccessor p_191517_) {
-            StructurePoolElement structurepoolelement = structurePiece.getElement();
-            BlockPos blockpos = structurePiece.getPosition();
-            Rotation rotation = structurePiece.getRotation();
+        void tryPlacingChildren(PoolElementStructurePiece p_210334_, MutableObject<VoxelShape> p_210335_, int p_210336_, boolean p_210337_, LevelHeightAccessor p_210338_) {
+            StructurePoolElement structurepoolelement = p_210334_.getElement();
+            BlockPos blockpos = p_210334_.getPosition();
+            Rotation rotation = p_210334_.getRotation();
             StructureTemplatePool.Projection structuretemplatepool$projection = structurepoolelement.getProjection();
             boolean flag = structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID;
             MutableObject<VoxelShape> mutableobject = new MutableObject<>();
-            BoundingBox boundingbox = structurePiece.getBoundingBox();
-            int bbMinY = boundingbox.minY();
+            BoundingBox boundingbox = p_210334_.getBoundingBox();
+            int i = boundingbox.minY();
 
             label139:
             for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement.getShuffledJigsawBlocks(this.structureManager, blockpos, rotation, this.random)) {
                 Direction direction = JigsawBlock.getFrontFacing(structuretemplate$structureblockinfo.state);
                 BlockPos blockpos1 = structuretemplate$structureblockinfo.pos;
                 BlockPos blockpos2 = blockpos1.relative(direction);
-                int templateHeight = blockpos1.getY() - bbMinY;
+                int j = blockpos1.getY() - i;
                 int k = -1;
                 ResourceLocation resourcelocation = new ResourceLocation(structuretemplate$structureblockinfo.nbt.getString("pool"));
                 Optional<StructureTemplatePool> optional = this.pools.getOptional(resourcelocation);
@@ -183,11 +185,11 @@ public class BTLandJigsawPlacement {
                                 mutableobject.setValue(Shapes.create(AABB.of(boundingbox)));
                             }
                         } else {
-                            mutableobject1 = voxelShape;
+                            mutableobject1 = p_210335_;
                         }
 
                         List<StructurePoolElement> list = Lists.newArrayList();
-                        if (depth != this.maxDepth) {
+                        if (p_210336_ != this.maxDepth) {
                             list.addAll(optional.get().getShuffledTemplates(this.random));
                         }
 
@@ -202,21 +204,21 @@ public class BTLandJigsawPlacement {
                                 List<StructureTemplate.StructureBlockInfo> list1 = structurepoolelement1.getShuffledJigsawBlocks(this.structureManager, BlockPos.ZERO, rotation1, this.random);
                                 BoundingBox boundingbox1 = structurepoolelement1.getBoundingBox(this.structureManager, BlockPos.ZERO, rotation1);
                                 int l;
-                                if (p_191516_ && boundingbox1.getYSpan() <= 16) {
-                                    l = list1.stream().mapToInt((p_69032_) -> {
-                                        if (!boundingbox1.isInside(p_69032_.pos.relative(JigsawBlock.getFrontFacing(p_69032_.state)))) {
+                                if (p_210337_ && boundingbox1.getYSpan() <= 16) {
+                                    l = list1.stream().mapToInt((p_210332_) -> {
+                                        if (!boundingbox1.isInside(p_210332_.pos.relative(JigsawBlock.getFrontFacing(p_210332_.state)))) {
                                             return 0;
                                         } else {
-                                            ResourceLocation resourcelocation2 = new ResourceLocation(p_69032_.nbt.getString("pool"));
+                                            ResourceLocation resourcelocation2 = new ResourceLocation(p_210332_.nbt.getString("pool"));
                                             Optional<StructureTemplatePool> optional2 = this.pools.getOptional(resourcelocation2);
-                                            Optional<StructureTemplatePool> optional3 = optional2.flatMap((p_161646_) -> {
-                                                return this.pools.getOptional(p_161646_.getFallback());
+                                            Optional<StructureTemplatePool> optional3 = optional2.flatMap((p_210344_) -> {
+                                                return this.pools.getOptional(p_210344_.getFallback());
                                             });
-                                            int j3 = optional2.map((p_161644_) -> {
-                                                return p_161644_.getMaxSize(this.structureManager);
+                                            int j3 = optional2.map((p_210342_) -> {
+                                                return p_210342_.getMaxSize(this.structureManager);
                                             }).orElse(0);
-                                            int k3 = optional3.map((p_161635_) -> {
-                                                return p_161635_.getMaxSize(this.structureManager);
+                                            int k3 = optional3.map((p_210340_) -> {
+                                                return p_210340_.getMaxSize(this.structureManager);
                                             }).orElse(0);
                                             return Math.max(j3, k3);
                                         }
@@ -234,13 +236,13 @@ public class BTLandJigsawPlacement {
                                         StructureTemplatePool.Projection structuretemplatepool$projection1 = structurepoolelement1.getProjection();
                                         boolean flag2 = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
                                         int j1 = blockpos3.getY();
-                                        int k1 = templateHeight - j1 + JigsawBlock.getFrontFacing(structuretemplate$structureblockinfo.state).getStepY();
+                                        int k1 = j - j1 + JigsawBlock.getFrontFacing(structuretemplate$structureblockinfo.state).getStepY();
                                         int l1;
                                         if (flag && flag2) {
-                                            l1 = bbMinY + k1;
+                                            l1 = i + k1;
                                         } else {
                                             if (k == -1) {
-                                                k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_191517_);
+                                                k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_210338_);
                                             }
 
                                             l1 = k - j1;
@@ -256,7 +258,7 @@ public class BTLandJigsawPlacement {
 
                                         if (!Shapes.joinIsNotEmpty(mutableobject1.getValue(), Shapes.create(AABB.of(boundingbox3).deflate(0.25D)), BooleanOp.ONLY_SECOND)) {
                                             mutableobject1.setValue(Shapes.joinUnoptimized(mutableobject1.getValue(), Shapes.create(AABB.of(boundingbox3)), BooleanOp.ONLY_FIRST));
-                                            int i3 = structurePiece.getGroundLevelDelta();
+                                            int i3 = p_210334_.getGroundLevelDelta();
                                             int k2;
                                             if (flag2) {
                                                 k2 = i3 - k1;
@@ -267,22 +269,22 @@ public class BTLandJigsawPlacement {
                                             PoolElementStructurePiece poolelementstructurepiece = this.factory.create(this.structureManager, structurepoolelement1, blockpos5, k2, rotation1, boundingbox3);
                                             int l2;
                                             if (flag) {
-                                                l2 = bbMinY + templateHeight;
+                                                l2 = i + j;
                                             } else if (flag2) {
                                                 l2 = l1 + j1;
                                             } else {
                                                 if (k == -1) {
-                                                    k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_191517_);
+                                                    k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_210338_);
                                                 }
 
                                                 l2 = k + k1 / 2;
                                             }
 
-                                            structurePiece.addJunction(new JigsawJunction(blockpos2.getX(), l2 - templateHeight + i3, blockpos2.getZ(), k1, structuretemplatepool$projection1));
+                                            p_210334_.addJunction(new JigsawJunction(blockpos2.getX(), l2 - j + i3, blockpos2.getZ(), k1, structuretemplatepool$projection1));
                                             poolelementstructurepiece.addJunction(new JigsawJunction(blockpos1.getX(), l2 - j1 + k2, blockpos1.getZ(), -k1, structuretemplatepool$projection));
                                             this.pieces.add(poolelementstructurepiece);
-                                            if (depth + 1 <= this.maxDepth) {
-                                                this.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, mutableobject1, depth + 1));
+                                            if (p_210336_ + 1 <= this.maxDepth) {
+                                                this.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, mutableobject1, p_210336_ + 1));
                                             }
                                             continue label139;
                                         }
@@ -291,10 +293,10 @@ public class BTLandJigsawPlacement {
                             }
                         }
                     } else {
-                        LOGGER.warn("Empty or non-existent fallback pool: {}", (Object)resourcelocation1);
+                        BTLandJigsawPlacement.LOGGER.warn("Empty or non-existent fallback pool: {}", (Object)resourcelocation1);
                     }
                 } else {
-                    LOGGER.warn("Empty or non-existent pool: {}", (Object)resourcelocation);
+                    BTLandJigsawPlacement.LOGGER.warn("Empty or non-existent pool: {}", (Object)resourcelocation);
                 }
             }
 

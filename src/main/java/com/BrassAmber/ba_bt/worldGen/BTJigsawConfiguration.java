@@ -3,6 +3,7 @@ package com.BrassAmber.ba_bt.worldGen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
@@ -13,10 +14,12 @@ public class BTJigsawConfiguration implements FeatureConfiguration {
     private final Holder<StructureTemplatePool> startPool;
     private final int maxDepth;
 
-    public BTJigsawConfiguration(Holder<StructureTemplatePool> p_67761_, int p_67762_) {
-        this.startPool = p_67761_;
-        this.maxDepth = p_67762_;
+
+    public BTJigsawConfiguration(Holder<StructureTemplatePool> poolHolder, int maxDepthIn) {
+        this.startPool = poolHolder;
+        this.maxDepth = maxDepthIn;
     }
+
 
     public int maxDepth() {
         return this.maxDepth;
@@ -26,3 +29,4 @@ public class BTJigsawConfiguration implements FeatureConfiguration {
         return this.startPool;
     }
 }
+

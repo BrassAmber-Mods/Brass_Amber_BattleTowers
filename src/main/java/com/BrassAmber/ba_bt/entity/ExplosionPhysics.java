@@ -49,22 +49,11 @@ public class ExplosionPhysics extends PrimedTnt {
 					
 					this.level.removeBlock(pos, true);
 					
-					FallingBlockEntity fallingBlock = new FallingBlockEntity(
-							this.level, 
-							pos.getX() + 0.5F, 
-							pos.getY(), 
-							pos.getZ() + 0.5F,
+					FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
+							this.level,
+							pos,
 							state
-					) {
-						@Override
-						public void setRemoved(Entity.@NotNull RemovalReason removalReason) {
-							//Dirty workaround to avoid the sudden disappearance of the entity
-							if(this.tickCount <= 5 && !this.level.isClientSide && this.tickCount < 60) {
-								return;
-							}
-							super.setRemoved(removalReason);
-						}
-					};
+					);
 					fallingBlock.setInvulnerable(true);
 					fallingBlock.dropItem = false;
 					fallingBlock.setDeltaMovement(velocity);
