@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class OvergrownLandTower extends LandBattleTower{
-    public OvergrownLandTower(Codec<BTJigsawConfiguration> codec) {
-        super(codec, true);
+    public OvergrownLandTower() {
+        super(BTJigsawConfiguration.CODEC, true);
     }
 
     private static boolean watered;

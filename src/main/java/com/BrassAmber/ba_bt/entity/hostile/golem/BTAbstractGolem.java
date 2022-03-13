@@ -15,6 +15,9 @@ import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.CritParticle;
+import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,16 +29,22 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -73,6 +82,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
+	protected final MusicManager musicManager;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -80,6 +90,7 @@ public abstract class BTAbstractGolem extends Monster {
 	protected final String golemStateName = "GolemState";
 	protected final String explosionPowerName = "ExplosionPower";
 	protected BlockPos chestBlockEntityPos;
+	protected int musicStart = 0;
 
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
@@ -94,6 +105,7 @@ public abstract class BTAbstractGolem extends Monster {
 		// BrassAmberBattleTowers.LOGGER.info(clientOrServer + ", Create Entity!");
 		
 		this.maxUpStep = 1.5F;
+		this.musicManager = Minecraft.getInstance().getMusicManager();
 	}
 
 
@@ -175,6 +187,10 @@ public abstract class BTAbstractGolem extends Monster {
 			this.setGolemState(SPECIAL);
 		}
 
+		if (this.tickCount - this.musicStart >= 4900) {
+			this.musicStart = tickCount;
+			Minecraft.getInstance().getMusicManager().startPlaying(BTMusics.GOLEM_FIGHT);
+		}
 
 		if (this.level.isClientSide()) {
 			return;
@@ -337,15 +353,11 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void die(DamageSource source) {
 
-		try {
-			DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
-					new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
-							this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
-							this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
-			destroyTower.setGolemDead(true);
-		} catch (Exception ignored) {
-
-		}
+		DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
+				new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
+						this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
+						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
+		destroyTower.setGolemDead(true);
 
 		if (!this.level.isClientSide()) {
 			BlockPos spawnPos = this.getSpawnPos();
