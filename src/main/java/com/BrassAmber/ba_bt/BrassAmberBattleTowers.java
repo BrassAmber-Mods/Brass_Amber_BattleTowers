@@ -37,10 +37,10 @@ public class BrassAmberBattleTowers {
 		// Register the setup method for modloading
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		// Register Items
-		BTItems.ITEMS.register(eventBus);
 		// Register Blocks
 		BTBlocks.BLOCKS.register(eventBus);
+		// Register Items
+		BTItems.ITEMS.register(eventBus);
 		// Register TileEntityTypes
 		BTBlockEntityTypes.TILE_ENTITY_TYPES.register(eventBus);
 		// Register SoundEvents

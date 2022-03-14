@@ -554,17 +554,17 @@ public abstract class BTAbstractGolem extends Monster {
 		EntityType<?> entityType = this.getType();
 		if (entityType != null) {
 			if (entityType.equals(BTEntityTypes.LAND_GOLEM)) {
-				return new ItemStack(BTItems.LAND_MONOLITH);
+				return new ItemStack(BTItems.LAND_MONOLITH.get());
 			} else if (entityType.equals(BTEntityTypes.CORE_GOLEM)) {
-				return new ItemStack(BTItems.CORE_MONOLITH);
+				return new ItemStack(BTItems.CORE_MONOLITH.get());
 			} else if (entityType.equals(BTEntityTypes.NETHER_GOLEM)) {
-				return new ItemStack(BTItems.NETHER_MONOLITH);
+				return new ItemStack(BTItems.NETHER_MONOLITH.get());
 			} else if (entityType.equals(BTEntityTypes.END_GOLEM)) {
-				return new ItemStack(BTItems.END_MONOLITH);
+				return new ItemStack(BTItems.END_MONOLITH.get());
 			} else if (entityType.equals(BTEntityTypes.SKY_GOLEM)) {
-				return new ItemStack(BTItems.SKY_MONOLITH);
+				return new ItemStack(BTItems.SKY_MONOLITH.get());
 			} else if (entityType.equals(BTEntityTypes.OCEAN_GOLEM)) {
-				return new ItemStack(BTItems.OCEAN_MONOLITH);
+				return new ItemStack(BTItems.OCEAN_MONOLITH.get());
 			}
 		}
 

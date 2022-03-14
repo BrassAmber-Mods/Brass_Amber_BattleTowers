@@ -36,13 +36,13 @@ public class PlatinumSkeleton extends Skeleton {
 	@Override
 	protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
 		// Give swords.
-		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(BTItems.PLATINUM_SWORD));
-		this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(BTItems.PLATINUM_SWORD));
+		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(BTItems.PLATINUM_SWORD.get()));
+		this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(BTItems.PLATINUM_SWORD.get()));
 		// Give armor.
-		this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(BTItems.PLATINUM_HELMET));
-		this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(BTItems.PLATINUM_CHESTPLATE));
-		this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(BTItems.PLATINUM_LEGGINGS));
-		this.setItemSlot(EquipmentSlot.FEET, new ItemStack(BTItems.PLATINUM_BOOTS));
+		this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(BTItems.PLATINUM_HELMET.get()));
+		this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(BTItems.PLATINUM_CHESTPLATE.get()));
+		this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(BTItems.PLATINUM_LEGGINGS.get()));
+		this.setItemSlot(EquipmentSlot.FEET, new ItemStack(BTItems.PLATINUM_BOOTS.get()));
 	}
 
 	@Override

@@ -108,8 +108,8 @@ public class ClientEvents {
 
 
 
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_LAND_SPAWNER, RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_LAND_SPAWNER.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON.get(), RenderType.cutout());
 	}
 
 }

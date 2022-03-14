@@ -76,12 +76,12 @@ public enum GolemType implements StringRepresentable {
 	public static Item getMonolithItemFor(GolemType golemType) {
 		return switch (golemType) {
 			default -> null;
-			case LAND -> BTItems.LAND_MONOLITH;
-			case OCEAN -> BTItems.OCEAN_MONOLITH;
-			case NETHER -> BTItems.NETHER_MONOLITH;
-			case CORE -> BTItems.CORE_MONOLITH;
-			case END -> BTItems.END_MONOLITH;
-			case SKY -> BTItems.SKY_MONOLITH;
+			case LAND -> BTItems.LAND_MONOLITH.get();
+			case OCEAN -> BTItems.OCEAN_MONOLITH.get();
+			case NETHER -> BTItems.NETHER_MONOLITH.get();
+			case CORE -> BTItems.CORE_MONOLITH.get();
+			case END -> BTItems.END_MONOLITH.get();
+			case SKY -> BTItems.SKY_MONOLITH.get();
 		};
 	}
 
@@ -122,17 +122,17 @@ public enum GolemType implements StringRepresentable {
 		default:
 			return null;
 		case LAND:
-			return BTItems.LAND_GUARDIAN_EYE;
+			return BTItems.LAND_GUARDIAN_EYE.get();
 		case OCEAN:
-			return BTItems.OCEAN_GUARDIAN_EYE;
+			return BTItems.OCEAN_GUARDIAN_EYE.get();
 		case NETHER:
-			return BTItems.NETHER_GUARDIAN_EYE;
+			return BTItems.NETHER_GUARDIAN_EYE.get();
 		case CORE:
-			return BTItems.CORE_GUARDIAN_EYE;
+			return BTItems.CORE_GUARDIAN_EYE.get();
 		case END:
-			return BTItems.END_GUARDIAN_EYE;
+			return BTItems.END_GUARDIAN_EYE.get();
 		case SKY:
-			return BTItems.SKY_GUARDIAN_EYE;
+			return BTItems.SKY_GUARDIAN_EYE.get();
 		}
 	}
 
@@ -168,17 +168,17 @@ public enum GolemType implements StringRepresentable {
 		default:
 			return (Item) null;
 		case LAND:
-			return BTItems.LAND_MONOLOITH_KEY;
+			return BTItems.LAND_MONOLOITH_KEY.get();
 		case OCEAN:
-			return BTItems.OCEAN_MONOLOITH_KEY;
+			return BTItems.OCEAN_MONOLOITH_KEY.get();
 		case NETHER:
-			return BTItems.NETHER_MONOLOITH_KEY;
+			return BTItems.NETHER_MONOLOITH_KEY.get();
 		case CORE:
-			return BTItems.CORE_MONOLOITH_KEY;
+			return BTItems.CORE_MONOLOITH_KEY.get();
 		case END:
-			return BTItems.END_MONOLOITH_KEY;
+			return BTItems.END_MONOLOITH_KEY.get();
 		case SKY:
-			return BTItems.SKY_MONOLOITH_KEY;
+			return BTItems.SKY_MONOLOITH_KEY.get();
 		}
 	}
 

@@ -13,9 +13,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BTBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, BrassAmberBattleTowers.MOD_ID);
 
-	public static final BlockEntityType<GolemChestBlockEntity> LAND_GOLEM_CHEST = registerBlockEntity("land_golem_chest", BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST));
-	public static final BlockEntityType<TowerChestBlockEntity> LAND_CHEST = registerBlockEntity("land_chest", BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST));
-	public static final BlockEntityType<BTSpawnerBlockEntity> BT_MOB_SPAWNER = registerBlockEntity("bt_spawner", BlockEntityType.Builder.of(BTSpawnerBlockEntity::new, BTBlocks.BT_LAND_SPAWNER));
+	public static final BlockEntityType<GolemChestBlockEntity> LAND_GOLEM_CHEST = registerBlockEntity("land_golem_chest", BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST.get()));
+	public static final BlockEntityType<TowerChestBlockEntity> LAND_CHEST = registerBlockEntity("land_chest", BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST.get()));
+	public static final BlockEntityType<BTSpawnerBlockEntity> BT_MOB_SPAWNER = registerBlockEntity("bt_spawner", BlockEntityType.Builder.of(BTSpawnerBlockEntity::new, BTBlocks.BT_LAND_SPAWNER.get()));
 
 	/**
 	 * Helper method for registering Tile Entities

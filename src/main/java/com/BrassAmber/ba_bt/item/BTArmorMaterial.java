@@ -23,7 +23,7 @@ import javax.swing.*;
  */
 public enum BTArmorMaterial implements ArmorMaterial {
 	PLATINUM("platinum", 11, new int[] { 2, 5, 6, 2 }, 20, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
-		return Ingredient.of(BTItems.PLATINUM_INGOT);
+		return Ingredient.of(BTItems.PLATINUM_INGOT.get());
 	});
 
 	private static final int[] HEALTH_PER_SLOT = new int[] { 13, 15, 16, 11 };

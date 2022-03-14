@@ -13,12 +13,8 @@ public class BTCreativeTab extends CreativeModeTab {
 		super(BrassAmberBattleTowers.MOD_ID);
 	}
 
-	/**
-	 * TODO Takes an Item for now. I want this just to be a texture.
-	 * (Not sure if we should keep the block maybe? It doesn't really work with the new texture. Or we should make the texture 3D.)
-	 */
 	@Override
 	public ItemStack makeIcon() {
-		return new ItemStack(BTBlocks.TAB_ICON);
+		return new ItemStack(BTBlocks.TAB_ICON.get());
 	}
 }
