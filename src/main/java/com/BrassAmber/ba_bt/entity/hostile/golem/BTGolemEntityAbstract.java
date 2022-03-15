@@ -458,7 +458,7 @@ public abstract class BTGolemEntityAbstract extends MonsterEntity {
 	/*********************************************************** Properties ********************************************************/
 
 	public static AttributeModifierMap.MutableAttribute createBattleGolemAttributes() {
-		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 250.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 100.0D);
+		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 250.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 100.0D).add(Attributes.ARMOR, 2.0D);
 	}
 
 	@Override

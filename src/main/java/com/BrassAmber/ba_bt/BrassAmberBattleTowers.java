@@ -201,7 +201,7 @@ public class BrassAmberBattleTowers {
 			e.printStackTrace();
 			// Register Entity Renderers
 			//Render Type Spawner
-			RenderTypeLookup.setRenderLayer(BTBlocks.BT_SPAWNER, RenderType.cutout());
+			RenderTypeLookup.setRenderLayer(BTBlocks.BT_LAND_SPAWNER, RenderType.cutout());
 
 			BTEntityRender.init();
 			// Register TileEntity Renderers

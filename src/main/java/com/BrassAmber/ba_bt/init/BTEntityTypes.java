@@ -4,7 +4,7 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.DestroyTowerEntity;
 import com.BrassAmber.ba_bt.entity.ExplosionPhysicsEntity;
 import com.BrassAmber.ba_bt.entity.block.MonolithEntity;
-import com.BrassAmber.ba_bt.entity.hostile.SilverSkeletonEntity;
+import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeletonEntity;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinionEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolemEntityAbstract;
@@ -42,7 +42,7 @@ public class BTEntityTypes {
 	public static final EntityType<SkyGolemEntity> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolemEntity::new);
 
 	public static final EntityType<SkyMinionEntity> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinionEntity::new, EntityClassification.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
-	public static final EntityType<SilverSkeletonEntity> SILVER_SKELETON = buildEntityType("silver_skeleton", EntityType.Builder.of(SilverSkeletonEntity::new, EntityClassification.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
+	public static final EntityType<PlatinumSkeletonEntity> PLATINUM_SKELETON = buildEntityType("silver_skeleton", EntityType.Builder.of(PlatinumSkeletonEntity::new, EntityClassification.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
 	
 	public static final EntityType<MonolithEntity> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
 	public static final EntityType<MonolithEntity> OCEAN_MONOLITH = buildMonolithEntityType("ocean_monolith");
@@ -72,7 +72,7 @@ public class BTEntityTypes {
 		registerSpawnPlacement(SKY_GOLEM, MobEntity::checkMobSpawnRules);
 
 		registerSpawnPlacement(SKY_MINION, MobEntity::checkMobSpawnRules);
-		registerSpawnPlacement(SILVER_SKELETON, MonsterEntity::checkMonsterSpawnRules);
+		registerSpawnPlacement(PLATINUM_SKELETON, MonsterEntity::checkMonsterSpawnRules);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class BTEntityTypes {
 		event.put(SKY_GOLEM, BTGolemEntityAbstract.createBattleGolemAttributes().build());
 
 		event.put(SKY_MINION, SkyMinionEntity.createAttributes().build());
-		event.put(SILVER_SKELETON, SilverSkeletonEntity.createAttributes().build());
+		event.put(PLATINUM_SKELETON, PlatinumSkeletonEntity.createAttributes().build());
 	}
 
 	/**

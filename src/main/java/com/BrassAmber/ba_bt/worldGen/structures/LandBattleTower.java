@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
+import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawManager;
 import org.apache.logging.log4j.Level;
 
@@ -64,32 +65,44 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         // Combine the column of blocks with land height and you get the top block itself which you can test. --TelepathicGrunt
         BlockState topBlock = columnOfBlocks.getBlockState(cornerOfChunk.above(landHeight));
 
+
+        boolean distance = (BattleTowersConfig.firstTowerDistance.get() <=  Math.abs(cornerOfChunk.getZ())) ||
+                (BattleTowersConfig.firstTowerDistance.get() <= Math.abs(cornerOfChunk.getX()));
         
         // Now we test to make sure our structure is not spawning on water or other fluids. --TelepathicGrunt
 
         // We also check that canSpawn returned true and whether it is low enough (150 and below) to spawn the tower. 
-        return isFlatLand(chunkGenerator, new BlockPos(cornerOfChunk.getX(), 0, cornerOfChunk.getZ())) && landHeight <= 150 ; //;
+        return isFlatLand(chunkGenerator, new BlockPos(cornerOfChunk.getX(), 0, cornerOfChunk.getZ())) && landHeight <= 150 && distance; //;
     }
     
     public boolean isFlatLand(ChunkGenerator chunk, BlockPos pos) {
         //Create block positions to check 
-        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+15);
-        BlockPos east = new BlockPos(pos.getX()+15, 0, pos.getZ());
-        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-15);
-        BlockPos west = new BlockPos(pos.getX()-15, 0, pos.getZ());
-        // create arraylist to allow easy iteration over BlockPos 
-        ArrayList<BlockPos> list = new ArrayList<>(5);
+        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+8);
+        BlockPos northEast = new BlockPos(pos.getX()+4, 0, pos.getZ()+4);
+        BlockPos east = new BlockPos(pos.getX()+8, 0, pos.getZ());
+        BlockPos southEast = new BlockPos(pos.getX()+4, 0, pos.getZ()-4);
+        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-8);
+        BlockPos southWest = new BlockPos(pos.getX()-4, 0, pos.getZ()-4);
+        BlockPos west = new BlockPos(pos.getX()-8, 0, pos.getZ());
+        BlockPos northWest = new BlockPos(pos.getX()-4, 0, pos.getZ()+4);
+        // create arraylist to allow easy iteration over BlockPos
+        ArrayList<BlockPos> list = new ArrayList<>(9);
         list.add(pos);
         list.add(north);
+        list.add(northEast);
         list.add(east);
+        list.add(southEast);
         list.add(south);
+        list.add(southWest);
         list.add(west);
+        list.add(northWest);
 
 
-        // Create arraylists to hold the output of the iteration checks below 
-        ArrayList<Boolean> isFlat = new ArrayList<>(5);
-        ArrayList<Boolean> hasWater = new ArrayList<>(5);
-        ArrayList<Boolean> sameHeight = new ArrayList<>(4);
+        // Create arraylists to hold the output of the iteration checks below
+        boolean isFlat;
+        ArrayList<Boolean> hasWater = new ArrayList<>(9);
+
+        int landHeight = chunk.getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
         // create integers to hold how many landheights are the same and how many isFlat are true/false 
         int t = 0;
@@ -98,75 +111,36 @@ public class LandBattleTower extends Structure<NoFeatureConfig> {
         // Check that a + sign of blocks at each position is all the same level. (flat) 
         for (BlockPos x: list) {
             // get land height for each block on the +  
-            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
-            int landheight1 = chunk.getFirstOccupiedHeight(x.getX()-1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
-            int landheight2 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()-1, Heightmap.Type.WORLD_SURFACE_WG);
-            int landheight3 = chunk.getFirstOccupiedHeight(x.getX(), x.getZ()+1, Heightmap.Type.WORLD_SURFACE_WG);
-            int landheight4 = chunk.getFirstOccupiedHeight(x.getX()+1, x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
-            // set t and f to 0
-            t = 0;
-            f = 0;
+            int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
 
-            // add landheights to arraylist
-            sameHeight.add(landHeight == landheight1);
-            sameHeight.add(landHeight == landheight2);
-            sameHeight.add(landHeight == landheight3);
-            sameHeight.add(landHeight == landheight4);
+            // get column of blocks at blockpos.
+            IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
+
+            // combine the column of blocks with land height and you get the top block itself which you can test.
+            BlockState topBlock = columnOfBlocks.getBlockState(x.above(newLandHeight));
+
+            // check whether the topBlock is a source block of water.
+            hasWater.add(topBlock.getFluidState().isSource());
 
             // check how many landheights are the same 
-            for (Boolean tf: sameHeight) {
-                if (tf) {
-                    t += 1;
-                } else {
-                    f += 1;
-                }
-            }
-
-            // check if most BlockPos are the same height and add false to the list if not 
-            isFlat.add(t >= 3);
-        }
-
-        // set t and f to 0
-        t = 0;
-        f = 0;
-
-        // iterate over isFlat array and count how many are true and how many are false 
-        for (Boolean tf: isFlat) {
-            if (tf) {
+            if (landHeight == newLandHeight) {
                 t += 1;
             } else {
                 f += 1;
             }
         }
 
-        // check that there is no water at any of the Blockpos 
-        for (BlockPos x: list) {
-            // get landheight
-            int landHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Type.WORLD_SURFACE_WG);
+        isFlat = t > f;
 
-            // get column of blocks at blockpos.
-            IBlockReader columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ());
-
-            // combine the column of blocks with land height and you get the top block itself which you can test.
-            BlockState topBlock = columnOfBlocks.getBlockState(x.above(landHeight));
-
-            // check whether the topBlock is a source block of water.
-            hasWater.add(topBlock.getFluidState().isSource());
-        }
         // set the base output to be true.
-        boolean noWater = true;
-
-        // check if any of the blockpos have water.
-        if (hasWater.contains(true)) {
-            noWater = false;
-        }
+        boolean noWater = !hasWater.contains(true);
 
         BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Land Battle Tower at " + pos.getX() + " " + pos.getZ()
                 + " " + t +" " + f + " "+ noWater);
 
         // if there are more flat areas than not flat areas and no water return true 
-        return t > 3 && noWater;
+        return isFlat && noWater;
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {

@@ -30,8 +30,8 @@ public class BTStructures {
      * See the comments in below for more details.
      */
     public static void setupStructures() {
-        int landMinimum = BattleTowersConfig.landMinimumDistance.get();
-        int landAverage = BattleTowersConfig.landMinimumDistance.get() + BattleTowersConfig.landAverageDistanceModifier.get();
+        int landMinimum = BattleTowersConfig.landMinimumSeperation.get();
+        int landAverage = BattleTowersConfig.landMinimumSeperation.get() + BattleTowersConfig.landAverageSeperationModifier.get();
         setupMapSpacingAndLand(
                 LAND_BATTLE_TOWER.get(), /* The instance of the structure */
                 new StructureSeparationSettings(landAverage /* average distance apart in chunks between spawn attempts */,

@@ -19,7 +19,7 @@ public class BTMobSpawnerTileEntity extends TileEntity implements ITickableTileE
 
     private final AbstractSpawner spawner = new AbstractSpawner() {
         public void broadcastEvent(int p_98267_1_) {
-            BTMobSpawnerTileEntity.this.level.blockEvent(BTMobSpawnerTileEntity.this.worldPosition, BTBlocks.BT_SPAWNER, p_98267_1_, 0);
+            BTMobSpawnerTileEntity.this.level.blockEvent(BTMobSpawnerTileEntity.this.worldPosition, BTBlocks.BT_LAND_SPAWNER, p_98267_1_, 0);
         }
 
         public World getLevel() {
