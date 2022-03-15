@@ -107,7 +107,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         boolean noStructures = true;
 
         for (ResourceKey<StructureSet> set : vanillaStructures) {
-            if(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 10)) {
+            if(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
                 noStructures = false;
             }
         }

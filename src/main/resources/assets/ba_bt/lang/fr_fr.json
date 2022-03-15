@@ -17,6 +17,13 @@
 	"entity.ba_bt.sky_monolith": "Monolithe Angélique",
 	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
 
+	"entity.ba_bt.land_obelisk": "Land Obelisk",
+	"entity.ba_bt.ocean_obelisk": "Ocean Obelisk",
+	"entity.ba_bt.core_obelisk": "Core Obelisk",
+	"entity.ba_bt.nether_obelisk": "Nether Obelisk",
+	"entity.ba_bt.end_obelisk": "End Obelisk",
+	"entity.ba_bt.sky_obelisk": "Sky Obelisk",
+
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem blessé",
 	"ba_bt.subtitle.golem.death": "Golem meurt",
