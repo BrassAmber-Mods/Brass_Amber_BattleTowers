@@ -21,7 +21,7 @@ public class BTItems {
 	private static final CreativeModeTab BATLETOWERSTAB = BrassAmberBattleTowers.BATLETOWERSTAB;
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final RegistryObject<Item> PLATINUM_SKELETON_SPAWN_EGG = ITEMS.register("platinum_skeleton_spawn_egg", () -> new ForgeSpawnEggItem(() ->BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> PLATINUM_SKELETON_SPAWN_EGG = ITEMS.register("platinum_skeleton_spawn_egg", () -> new ForgeSpawnEggItem(BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
 
 	public static final RegistryObject<Item> LAND_MONOLOITH_KEY = ITEMS.register("monolith_key_land", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).tab(BATLETOWERSTAB)));
 	public static final RegistryObject<Item> CORE_MONOLOITH_KEY = ITEMS.register("monolith_key_core", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).tab(BATLETOWERSTAB)));
@@ -37,12 +37,12 @@ public class BTItems {
 	public static final RegistryObject<Item> SKY_GUARDIAN_EYE = ITEMS.register("guardian_eye_sky", () -> new GuardianEyeItem(GolemType.SKY, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
 	public static final RegistryObject<Item> OCEAN_GUARDIAN_EYE = ITEMS.register("guardian_eye_ocean", () -> new GuardianEyeItem(GolemType.OCEAN, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
 
-	public static final RegistryObject<Item> LAND_MONOLITH = ITEMS.register("monolith_land", () -> new MonolithItem(BTEntityTypes.LAND_MONOLITH, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
-	public static final RegistryObject<Item> CORE_MONOLITH = ITEMS.register("monolith_core", () -> new MonolithItem(BTEntityTypes.CORE_MONOLITH, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
-	public static final RegistryObject<Item> NETHER_MONOLITH = ITEMS.register("monolith_nether", () -> new MonolithItem(BTEntityTypes.NETHER_MONOLITH, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
-	public static final RegistryObject<Item> END_MONOLITH = ITEMS.register("monolith_end", () -> new MonolithItem(BTEntityTypes.END_MONOLITH, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
-	public static final RegistryObject<Item> SKY_MONOLITH = ITEMS.register("monolith_sky", () -> new MonolithItem(BTEntityTypes.SKY_MONOLITH, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
-	public static final RegistryObject<Item> OCEAN_MONOLITH = ITEMS.register("monolith_ocean", () -> new MonolithItem(BTEntityTypes.OCEAN_MONOLITH, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> LAND_MONOLITH = ITEMS.register("monolith_land", () -> new MonolithItem(GolemType.LAND, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> CORE_MONOLITH = ITEMS.register("monolith_core", () -> new MonolithItem(GolemType.OCEAN, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> NETHER_MONOLITH = ITEMS.register("monolith_nether", () -> new MonolithItem(GolemType.CORE, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> END_MONOLITH = ITEMS.register("monolith_end", () -> new MonolithItem(GolemType.NETHER, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> SKY_MONOLITH = ITEMS.register("monolith_sky", () -> new MonolithItem(GolemType.END, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> OCEAN_MONOLITH = ITEMS.register("monolith_ocean", () -> new MonolithItem(GolemType.SKY, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC).tab(BATLETOWERSTAB)));
 
 	// Note: Materials ItemGroup.
 	public static final RegistryObject<Item> PLATINUM_INGOT = ITEMS.register("platinum_ingot", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));

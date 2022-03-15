@@ -40,37 +40,37 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		// ENTITIES
-		event.registerEntityRenderer(BTEntityTypes.LAND_GOLEM, LandGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.OCEAN_GOLEM, OceanGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.NETHER_GOLEM, NetherGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.CORE_GOLEM, CoreGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.END_GOLEM, EndGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.SKY_GOLEM, SkyGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.LAND_GOLEM.get(), LandGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_GOLEM.get(), OceanGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.NETHER_GOLEM.get(), NetherGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.CORE_GOLEM.get(), CoreGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.END_GOLEM.get(), EndGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.SKY_GOLEM.get(), SkyGolemRenderer::new);
 
-		event.registerEntityRenderer(BTEntityTypes.SKY_MINION, SkyMinionRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.PLATINUM_SKELETON, SkeletonRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.SKY_MINION.get(), SkyMinionRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.PLATINUM_SKELETON.get(), SkeletonRenderer::new);
 
-		event.registerEntityRenderer(BTEntityTypes.LAND_MONOLITH, LandMonolithRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.CORE_MONOLITH, CoreMonolithRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.NETHER_MONOLITH, NetherMonolithRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.END_MONOLITH, EndMonolithRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.SKY_MONOLITH, SkyMonolithRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.OCEAN_MONOLITH, OceanMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.LAND_MONOLITH.get(), LandMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.CORE_MONOLITH.get(), CoreMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.NETHER_MONOLITH.get(), NetherMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.END_MONOLITH.get(), EndMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.SKY_MONOLITH.get(), SkyMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_MONOLITH.get(), OceanMonolithRenderer::new);
 
-		event.registerEntityRenderer(BTEntityTypes.LAND_OBELISK, NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.OCEAN_OBELISK, NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.CORE_OBELISK, NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.NETHER_OBELISK, NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.END_OBELISK, NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.SKY_OBELISK, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.LAND_OBELISK.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_OBELISK.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.CORE_OBELISK.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.NETHER_OBELISK.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.END_OBELISK.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.SKY_OBELISK.get(), NoRenderEntity::new);
 
-		event.registerEntityRenderer(BTEntityTypes.DESTROY_TOWER, NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.PHYSICS_EXPLOSION, NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.DESTROY_TOWER.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.PHYSICS_EXPLOSION.get(), NoRenderEntity::new);
 
 		// BLOCK ENTITIES
-		event.registerBlockEntityRenderer(BTBlockEntityTypes.LAND_GOLEM_CHEST, LandGolemChestTileEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityTypes.LAND_CHEST, LandChestTileEntityRenderer::new);
-		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_MOB_SPAWNER, BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.LAND_GOLEM_CHEST.get(), LandGolemChestTileEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.LAND_CHEST.get(), LandChestTileEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
 	}
 
 	@OnlyIn(Dist.CLIENT)

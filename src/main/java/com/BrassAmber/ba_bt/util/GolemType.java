@@ -39,12 +39,26 @@ public enum GolemType implements StringRepresentable {
 	 */
 	public static @NotNull EntityType<?> getGolemFor(GolemType golemType) {
 		return switch (golemType) {
-			default -> BTEntityTypes.LAND_GOLEM;
-			case OCEAN -> BTEntityTypes.OCEAN_GOLEM;
-			case NETHER -> BTEntityTypes.NETHER_GOLEM;
-			case CORE -> BTEntityTypes.CORE_GOLEM;
-			case END -> BTEntityTypes.END_GOLEM;
-			case SKY -> BTEntityTypes.SKY_GOLEM;
+			default -> BTEntityTypes.LAND_GOLEM.get();
+			case OCEAN -> BTEntityTypes.OCEAN_GOLEM.get();
+			case NETHER -> BTEntityTypes.NETHER_GOLEM.get();
+			case CORE -> BTEntityTypes.CORE_GOLEM.get();
+			case END -> BTEntityTypes.END_GOLEM.get();
+			case SKY -> BTEntityTypes.SKY_GOLEM.get();
+		};
+	}
+
+	/**
+	 * Get the correct Monolith key for the Correct Monolith Entity
+	 */
+	public static @NotNull EntityType<BTMonolith> getMonolithFor(GolemType golemType) {
+		return switch (golemType) {
+			default -> BTEntityTypes.LAND_MONOLITH.get();
+			case OCEAN -> BTEntityTypes.OCEAN_MONOLITH.get();
+			case NETHER -> BTEntityTypes.NETHER_MONOLITH.get();
+			case CORE -> BTEntityTypes.CORE_MONOLITH.get();
+			case END -> BTEntityTypes.END_MONOLITH.get();
+			case SKY -> BTEntityTypes.SKY_MONOLITH.get();
 		};
 	}
 
@@ -57,12 +71,12 @@ public enum GolemType implements StringRepresentable {
 	@NotNull
 	public static EntityType<BTObelisk> getObeliskFor(GolemType golemType) {
 		return switch (golemType) {
-			default -> BTEntityTypes.LAND_OBELISK;
-			case OCEAN -> BTEntityTypes.OCEAN_OBELISK;
-			case NETHER -> BTEntityTypes.NETHER_OBELISK;
-			case CORE -> BTEntityTypes.CORE_OBELISK;
-			case END -> BTEntityTypes.END_OBELISK;
-			case SKY -> BTEntityTypes.SKY_OBELISK;
+			default -> BTEntityTypes.LAND_OBELISK.get();
+			case OCEAN -> BTEntityTypes.OCEAN_OBELISK.get();
+			case NETHER -> BTEntityTypes.NETHER_OBELISK.get();
+			case CORE -> BTEntityTypes.CORE_OBELISK.get();
+			case END -> BTEntityTypes.END_OBELISK.get();
+			case SKY -> BTEntityTypes.SKY_OBELISK.get();
 		};
 	}
 
@@ -91,17 +105,17 @@ public enum GolemType implements StringRepresentable {
 	public static GolemType getTypeForMonolith(BTMonolith BTMonolithEntity) {
 		EntityType<?> entityType = BTMonolithEntity.getMonolithType();
 		if (entityType != null) {
-			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+			if (entityType.equals(BTEntityTypes.LAND_MONOLITH.get())) {
 				return LAND;
-			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH.get())) {
 				return OCEAN;
-			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH.get())) {
 				return NETHER;
-			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH.get())) {
 				return CORE;
-			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.END_MONOLITH.get())) {
 				return END;
-			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH.get())) {
 				return SKY;
 			}
 		}

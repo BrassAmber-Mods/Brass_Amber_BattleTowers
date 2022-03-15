@@ -6,6 +6,8 @@ import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -27,15 +29,19 @@ import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.world.StructureSpawnListGatherEvent;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.mojang.serialization.Codec;
+import net.minecraftforge.fluids.FluidAttributes;
 import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +57,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         super(codec, OvergrownLandTower::createPiecesGenerator, PostPlacementProcessor.NONE);
     }
 
-    private static ChunkPos lastSpawnPosition;
+    private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
 
     @Override
     public GenerationStep.@NotNull Decoration step() {
@@ -63,20 +69,27 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
         ChunkPos chunkPos = context.chunkPos();
 
-        if (lastSpawnPosition.getChessboardDistance(chunkPos) < BattleTowersConfig.landMinimumSeperation.get()) {
-            return false;
-        }
-
-        BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
-
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-        worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
-
-        boolean firstTowerDistanceCheck = BattleTowersConfig.firstTowerDistance.get() + worldgenrandom.nextInt(BattleTowersConfig.landAverageSeperationModifier.get()) >= Mth.absMax(chunkPos.x, chunkPos.z);
+        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= BattleTowersConfig.firstTowerDistance.get();
+        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
 
         if (!firstTowerDistanceCheck) {
             return false;
         }
+
+        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
+
+        int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get() + BattleTowersConfig.landAverageSeperationModifier.get();
+
+        int nextSeperation = BattleTowersConfig.landMinimumSeperation.get() + worldgenrandom.nextInt(seperationRange);
+
+        BrassAmberBattleTowers.LOGGER.info("distance from last " + lastSpawnPosition.getChessboardDistance(chunkPos) + "  config distance allowed " + nextSeperation);
+
+        if (lastSpawnPosition.getChessboardDistance(chunkPos) < nextSeperation) {
+            return false;
+        }
+
+        BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
 
         // Grab height of land. Will stop at first non-air block. --TelepathicGrunt
         int landHeight = context.chunkGenerator().getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
@@ -163,7 +176,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             BlockState topBlock = columnOfBlocks.getBlock(newLandHeight);
 
             // check whether the topBlock is a source block of water.
-            hasWater.add(topBlock.getFluidState().isSource());
+            hasWater.add(topBlock.getFluidState().is(Fluids.WATER) || topBlock.getFluidState().is(Fluids.FLOWING_WATER));
         }
         // set the base output to be true.
         boolean noWater = !hasWater.contains(true);

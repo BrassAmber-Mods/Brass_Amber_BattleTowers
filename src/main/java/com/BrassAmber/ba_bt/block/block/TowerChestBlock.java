@@ -77,7 +77,7 @@ public class TowerChestBlock extends GolemChestBlock {
 	};
 
 	public TowerChestBlock(BTChestType chestType, Properties properties) {
-		this(chestType, properties, () -> BTBlockEntityTypes.LAND_CHEST);
+		this(chestType, properties, () -> BTBlockEntityTypes.LAND_CHEST.get());
 
 	}
 
@@ -87,7 +87,7 @@ public class TowerChestBlock extends GolemChestBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return BTBlockEntityTypes.LAND_CHEST.create(blockPos, blockState);
+		return BTBlockEntityTypes.LAND_CHEST.get().create(blockPos, blockState);
 	}
 
 }

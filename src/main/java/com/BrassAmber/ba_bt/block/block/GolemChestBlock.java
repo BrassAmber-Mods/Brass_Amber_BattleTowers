@@ -92,7 +92,7 @@ public class GolemChestBlock extends ChestBlock {
 
 	
 	public GolemChestBlock(BTChestType chestType, Properties properties) {
-		this(chestType, properties, () -> BTBlockEntityTypes.LAND_GOLEM_CHEST);
+		this(chestType, properties, () -> BTBlockEntityTypes.LAND_GOLEM_CHEST.get());
 	}
 
 	public GolemChestBlock(BTChestType chestType, Properties properties, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier) {
@@ -102,7 +102,7 @@ public class GolemChestBlock extends ChestBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return BTBlockEntityTypes.LAND_GOLEM_CHEST.create(blockPos, blockState);
+		return BTBlockEntityTypes.LAND_GOLEM_CHEST.get().create(blockPos, blockState);
 	}
 
 	@Override

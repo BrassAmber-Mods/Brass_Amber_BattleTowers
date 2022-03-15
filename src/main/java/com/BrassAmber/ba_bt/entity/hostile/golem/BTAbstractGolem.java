@@ -385,7 +385,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public void checkPos(BlockPos pos) {
 		BlockEntity posEntity = this.level.getBlockEntity(pos);
 
-		if (posEntity != null && posEntity.getType() == BTBlockEntityTypes.LAND_GOLEM_CHEST) {
+		if (posEntity != null && posEntity.getType() == BTBlockEntityTypes.LAND_GOLEM_CHEST.get()) {
 			this.chestBlockEntityPos = pos;
 		}
 		else {

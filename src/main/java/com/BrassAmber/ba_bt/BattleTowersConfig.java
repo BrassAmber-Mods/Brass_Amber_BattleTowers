@@ -24,7 +24,7 @@ public class BattleTowersConfig {
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. Default: 32 chunks")
                 .define("Land minimum separation", 32);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 96 chunks ")
-                .define("First Tower Distance", 96);
+                .define("First Tower Distance", 64);
 
         BUILDER.pop();
 

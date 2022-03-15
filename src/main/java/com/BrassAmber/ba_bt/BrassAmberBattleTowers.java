@@ -3,12 +3,10 @@ package com.BrassAmber.ba_bt;
 import com.BrassAmber.ba_bt.init.*;
 import com.BrassAmber.ba_bt.util.BTCreativeTab;
 import net.minecraft.ChatFormatting;
-import net.minecraft.data.worldgen.StructureSets;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
@@ -39,14 +37,15 @@ public class BrassAmberBattleTowers {
 
 		// Register Blocks
 		BTBlocks.BLOCKS.register(eventBus);
+		// Register EntityTypes
+		BTEntityTypes.ENTITY_TYPES.register(eventBus);
 		// Register Items
 		BTItems.ITEMS.register(eventBus);
 		// Register TileEntityTypes
-		BTBlockEntityTypes.TILE_ENTITY_TYPES.register(eventBus);
+		BTBlockEntityTypes.BLOCK_ENTITY_TYPES.register(eventBus);
 		// Register SoundEvents
 		BTSoundEvents.SOUND_EVENTS.register(eventBus);
-		// Register EntityTypes
-		BTEntityTypes.ENTITY_TYPES.register(eventBus);
+
 		// Register Structures
 		BTStructures.DEFERRED_REGISTRY_STRUCTURE.register(eventBus);
 

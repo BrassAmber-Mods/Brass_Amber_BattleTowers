@@ -69,7 +69,7 @@ public class DestroyTower extends Entity {
     }
 
     public DestroyTower(GolemType golemType, BlockPos golemSpawn, Level level) {
-        super(BTEntityTypes.DESTROY_TOWER, level);
+        super(BTEntityTypes.DESTROY_TOWER.get(), level);
 
         this.golemType = golemType;
         this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
@@ -227,7 +227,7 @@ public class DestroyTower extends Entity {
                    // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                     if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
                     	//Fancy physics stuff
-                    	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityTypes.PHYSICS_EXPLOSION, this.level);
+                    	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityTypes.PHYSICS_EXPLOSION.get(), this.level);
                     	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
                     	this.level.addFreshEntity(explosion);
 

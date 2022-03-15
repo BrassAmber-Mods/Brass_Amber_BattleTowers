@@ -1,6 +1,6 @@
 {
   // The base structure class to use for the behavior of the structure. (Like extra terrain checks and such)
-  "type": "ba_bt:land_battle_tower",
+  "type": "ba_bt:overgrown_land_battle_tower",
 
   "config": {
     // the path to the template pool json file to use

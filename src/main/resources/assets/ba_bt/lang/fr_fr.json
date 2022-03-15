@@ -6,17 +6,17 @@
 	"entity.ba_bt.end_golem": "Golem de l'Ender",
 	"entity.ba_bt.sky_golem": "Golem Angélique",
 	"entity.ba_bt.ocean_golem": "Golem Océanique",
-	
-	"entity.ba_bt.sky_minion": "Minion du Ciel",
-	"entity.ba_bt.silver_skeleton": "Squelette Argenté",
-	
+
+	"entity.ba_bt.sky_minion": "Minion Angélique",
+	"entity.ba_bt.platinum_skeleton": "Squelette Platine",
+
 	"entity.ba_bt.land_monolith": "Monolithe Terrestre",
 	"entity.ba_bt.core_monolith": "Monolithe Volcanique",
 	"entity.ba_bt.nether_monolith": "Monolithe du Nether",
 	"entity.ba_bt.end_monolith": "Monolithe de l'Ender",
 	"entity.ba_bt.sky_monolith": "Monolithe Angélique",
 	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
-	
+
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem blessé",
 	"ba_bt.subtitle.golem.death": "Golem meurt",
@@ -26,26 +26,25 @@
 	"ba_bt.subtitle.golem.special": "Golem attaques",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Le golem commence à apparaître",
-	
+
 	"ba_bt.subtitle.tower.break.start": "La tour de combat commence à se briser",
 	"ba_bt.subtitle.tower.break.crumble": "La tour de combat s'écroule",
-	
+
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"block.ba_bt.land_chest": "Coffre Terrestre",
-	"block.ba_bt.totem": "Totem",
 
-	"block.ba_bt.silver_block": "Bloc d'Argent",
-	"block.ba_bt.silver_tiles": "Carreaux d'Argent",
+	"block.ba_bt.platinum_block": "Bloc de platine",
+	"block.ba_bt.platinum_tiles": "Bloc de platine carrellée",
 
-	"block.ba_bt.bt_spawner": "BTSpawner",
-	
+	"block.ba_bt.bt_land_spawner": "Spawner Terrestre",
+
 	// Containers
 	"container.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"container.ba_bt.land_golem_chest_double": "Grand Coffre de Golem Terrestre",
 	"container.ba_bt.land_chest": "Coffre Terrestre",
 	"container.ba_bt.land_chest_double": "Grand Coffre Terrestre",
-	
+
 	// Items
 	"item.ba_bt.monolith_key_land": "Clé du Monolithe Terrestre",
 	"item.ba_bt.monolith_key_core": "Clé du Monolithe Volcanique",
@@ -53,14 +52,14 @@
 	"item.ba_bt.monolith_key_end": "Clé du Monolithe de l'Ender",
 	"item.ba_bt.monolith_key_sky": "Clé du Monolithe Angélique",
 	"item.ba_bt.monolith_key_ocean": "Clé du Monolithe Océanique",
-	
+
 	"item.ba_bt.guardian_eye_land": "Oeil de Golem Terrestre",
 	"item.ba_bt.guardian_eye_core": "Oeil de Golem Volcanique",
 	"item.ba_bt.guardian_eye_nether": "Oeil de Golem du Nether",
 	"item.ba_bt.guardian_eye_end": "Oeil de Golem de l'Ender",
 	"item.ba_bt.guardian_eye_sky": "Oeil de Golem Angélique",
 	"item.ba_bt.guardian_eye_ocean": "Oeil de Golem Océanique",
-	
+
 	"item.ba_bt.monolith_land": "Monolithe Terrestre",
 	"item.ba_bt.monolith_core": "Monolithe Volcanique",
 	"item.ba_bt.monolith_nether": "Monolithe du Nether",
@@ -68,21 +67,22 @@
 	"item.ba_bt.monolith_sky": "Monolithe Angélique",
 	"item.ba_bt.monolith_ocean": "Monolithe Océanique",
 
-	"item.ba_bt.silver_ingot": "Lingot d'argent",
-	"item.ba_bt.silver_shard": "Éclat d'argent",
-	"item.ba_bt.silver_sword": "Épée en argent",
+	"item.ba_bt.platinum_ingot": "Lingot de platine",
+	"item.ba_bt.platinum_shard": "Éclat de platine",
+	"item.ba_bt.platinum_sword": "Épée en platine",
 
-	"item.ba_bt.silver_helmet": "Casque en argent",
-	"item.ba_bt.silver_chestplate": "Plastron en argent",
-	"item.ba_bt.silver_leggings": "Jambière en argent",
-	"item.ba_bt.silver_boots": "Bottes en argent",
+	"item.ba_bt.platinum_helmet": "Casque en platine",
+	"item.ba_bt.platinum_chestplate": "Plastron en platine",
+	"item.ba_bt.platinum_leggings": "Jambière en platine",
+	"item.ba_bt.platinum_boots": "Bottes en platine",
 
 	"item.ba_bt.land_chest_shard": "Éclat de Coffre Terrestre",
 
-	"item.ba_bt.silver_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Argenté",
-	
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
+
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Maintenez la Maj pour plus d'informations.",
 	"tooltip.battletowers.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
 	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat."
 }
+

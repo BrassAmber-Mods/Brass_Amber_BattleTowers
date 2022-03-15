@@ -35,7 +35,7 @@ public class BTSpawnerBlockEntity extends BlockEntity {
     };
 
     public BTSpawnerBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(BTBlockEntityTypes.BT_MOB_SPAWNER, blockPos, blockState);
+        super(BTBlockEntityTypes.BT_MOB_SPAWNER.get(), blockPos, blockState);
     }
 
     public void load(CompoundTag p_155760_) {

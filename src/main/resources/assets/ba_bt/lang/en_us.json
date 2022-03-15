@@ -10,10 +10,10 @@
 	"entity.ba_bt.end_golem": "End Golem",
 	"entity.ba_bt.sky_golem": "Sky Golem",
 
-	
+
 	"entity.ba_bt.sky_minion": "Sky Minion",
 	"entity.ba_bt.platinum_skeleton": "Platinum Skeleton",
-	
+
 	"entity.ba_bt.land_monolith": "Land Monolith",
 	"entity.ba_bt.ocean_monolith": "Ocean Monolith",
 	"entity.ba_bt.core_monolith": "Core Monolith",
@@ -29,7 +29,7 @@
 	"entity.ba_bt.sky_obelisk": "Sky Obelisk",
 
 	"entity.ba_bt.destroy_tower": "Destroy Tower",
-	
+
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem hurts",
 	"ba_bt.subtitle.golem.death": "Golem dies",
@@ -40,11 +40,11 @@
 	"ba_bt.subtitle.golem.fight": "Golem Boss Music",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
-	
+
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
 	"ba_bt.subtitle.tower.ambient.music": "Tower Ambient Music",
-	
+
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Golem Chest",
 	"block.ba_bt.land_chest": "Land Chest",
@@ -53,13 +53,13 @@
 	"block.ba_bt.platinum_tiles": "Platinum Tiles",
 
 	"block.ba_bt.bt_land_spawner" : "Land Spawner",
-	
+
 	// Containers
 	"container.ba_bt.land_golem_chest": "Land Golem Chest",
 	"container.ba_bt.land_golem_chest_double": "Large Land Golem Chest",
 	"container.ba_bt.land_chest": "Land Chest",
 	"container.ba_bt.land_chest_double": "Large Land Chest",
-	
+
 	// Items
 	"item.ba_bt.monolith_key_land": "Land Monolith Key",
 	"item.ba_bt.monolith_key_core": "Core Monolith Key",
@@ -67,14 +67,14 @@
 	"item.ba_bt.monolith_key_end": "End Monolith Key",
 	"item.ba_bt.monolith_key_sky": "Sky Monolith Key",
 	"item.ba_bt.monolith_key_ocean": "Ocean Monolith Key",
-	
+
 	"item.ba_bt.guardian_eye_land": "Land Guardian Eye",
 	"item.ba_bt.guardian_eye_core": "Core Guardian Eye",
 	"item.ba_bt.guardian_eye_nether": "Nether Guardian Eye",
 	"item.ba_bt.guardian_eye_end": "End Guardian Eye",
 	"item.ba_bt.guardian_eye_sky": "Sky Guardian Eye",
 	"item.ba_bt.guardian_eye_ocean": "Ocean Guardian Eye",
-	
+
 	"item.ba_bt.monolith_land": "Land Monolith",
 	"item.ba_bt.monolith_core": "Core Monolith",
 	"item.ba_bt.monolith_nether": "Nether Monolith",
@@ -94,7 +94,7 @@
 	"item.ba_bt.land_chest_shard": "Land Chest Shard",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Skeleton Spawn Egg",
-	
+
 	// Item Tooltips
 	"tooltip.battletowers.hold_shift": "Hold shift for more information.",
 	"tooltip.battletowers.monolith": "The Monolith is used to summon a Battle Golem.",

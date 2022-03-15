@@ -65,7 +65,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	}
 
 	public GolemChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BTBlockEntityTypes.LAND_GOLEM_CHEST, blockPos, blockState);
+		this(BTBlockEntityTypes.LAND_GOLEM_CHEST.get(), blockPos, blockState);
 	}
 
 	public int getContainerSize() {

@@ -20,7 +20,7 @@ public class TowerChestBlockEntity extends GolemChestBlockEntity {
 	}
 
 	public TowerChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BTBlockEntityTypes.LAND_CHEST, blockPos, blockState);
+		this(BTBlockEntityTypes.LAND_CHEST.get(), blockPos, blockState);
 	}
 
 	/**

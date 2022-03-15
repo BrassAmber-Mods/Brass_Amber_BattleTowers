@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -17,7 +18,7 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-public class BTSpawnerBlock extends SpawnerBlock {
+public class BTSpawnerBlock extends SpawnerBlock implements EntityBlock {
     private Boolean foundChest = false;
     public BlockPos chestTileEntityPos;
 
@@ -31,7 +32,7 @@ public class BTSpawnerBlock extends SpawnerBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(net.minecraft.world.level.Level level, BlockState p_154684_, BlockEntityType<T> p_154685_) {
-        return createTickerHelper(p_154685_, BTBlockEntityTypes.BT_MOB_SPAWNER, level.isClientSide ? BTSpawnerBlockEntity::clientTick : BTSpawnerBlockEntity::serverTick);
+        return createTickerHelper(p_154685_, BTBlockEntityTypes.BT_MOB_SPAWNER.get(), level.isClientSide ? BTSpawnerBlockEntity::clientTick : BTSpawnerBlockEntity::serverTick);
     }
 
 

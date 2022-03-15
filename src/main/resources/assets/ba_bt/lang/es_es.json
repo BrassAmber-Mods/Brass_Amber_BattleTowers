@@ -1,0 +1,102 @@
+{
+	"itemGroup.ba_bt": "BrassAmber Battletowers",
+	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+
+	// Entities
+	"entity.ba_bt.land_golem": "Gólem de Tierra",
+	"entity.ba_bt.ocean_golem": "Gólem del Océano",
+	"entity.ba_bt.core_golem": "Gólem del Núcleo",
+	"entity.ba_bt.nether_golem": "Gólem del Nether",
+	"entity.ba_bt.end_golem": "Gólem del End",
+	"entity.ba_bt.sky_golem": "Gólem del Cielo",
+
+
+	"entity.ba_bt.sky_minion": "Súbdito del cielo",
+	"entity.ba_bt.platinum_skeleton": "Esqueleto de platino",
+
+	"entity.ba_bt.land_monolith": "Monolito terrestre",
+	"entity.ba_bt.ocean_monolith": "Monolito oceánico",
+	"entity.ba_bt.core_monolith": "Monolito central",
+	"entity.ba_bt.nether_monolith": "Monolito del Nether",
+	"entity.ba_bt.end_monolith": "Monolito del End",
+	"entity.ba_bt.sky_monolith": "Monolito del cielo",
+
+	"entity.ba_bt.land_obelisk": "Obelisco terrestre",
+	"entity.ba_bt.ocean_obelisk": "Obelisco oceánico",
+	"entity.ba_bt.core_obelisk": "Obelisco central",
+	"entity.ba_bt.nether_obelisk": "Obelisco del Nether",
+	"entity.ba_bt.end_obelisk": "Obelisco del End",
+	"entity.ba_bt.sky_obelisk": "Obelisco del cielo",
+
+	"entity.ba_bt.destroy_tower": "Destruir Torre",
+
+	// Golem Sounds
+	"ba_bt.subtitle.golem.hurt": "El gólem sufre",
+	"ba_bt.subtitle.golem.death": "El gólem muere",
+	"ba_bt.subtitle.golem.charge": "El gólem carga",
+	"ba_bt.subtitle.golem.awaken": "El gólem despierta",
+	"ba_bt.subtitle.golem.ambient": "El gólem ruge",
+	"ba_bt.subtitle.golem.special": "El gólem ataca",
+	"ba_bt.subtitle.golem.fight": "Música del gólem",
+
+	"ba_bt.subtitle.monolith.spawn.golem": "El gólem aparece",
+
+	"ba_bt.subtitle.tower.break.start": "La torre está inestable",
+	"ba_bt.subtitle.tower.break.crumble": "La torre se derrumba",
+	"ba_bt.subtitle.tower.ambient.music": "Música ambiental de la torre",
+
+	// Blocks
+	"block.ba_bt.land_golem_chest": "Cofre del gólem",
+	"block.ba_bt.land_chest": "Cofre terrestre",
+
+	"block.ba_bt.platinum_block": "Bloque de platino",
+	"block.ba_bt.platinum_tiles": "Azulejos de platino",
+
+	"block.ba_bt.bt_land_spawner" : "Generador terrestre",
+
+	// Containers
+	"container.ba_bt.land_golem_chest": "Cofre del gólem terrestre",
+	"container.ba_bt.land_golem_chest_double": "Cofre del gólem terrestre grande",
+	"container.ba_bt.land_chest": "Cofre terrestre",
+	"container.ba_bt.land_chest_double": "Cofre terrestre grande",
+
+	// Items
+	"item.ba_bt.monolith_key_land": "Llave del monolito terrestre",
+	"item.ba_bt.monolith_key_core": "Llave del monolito central",
+	"item.ba_bt.monolith_key_nether": "Llave del monolito del Nether",
+	"item.ba_bt.monolith_key_end": "Llave del monolito del End",
+	"item.ba_bt.monolith_key_sky": "Llave del monolito del cielo",
+	"item.ba_bt.monolith_key_ocean": "Llave del monolito oceánico",
+
+	"item.ba_bt.guardian_eye_land": "Ojo del guardián terrestre",
+	"item.ba_bt.guardian_eye_core": "Ojo del guardían central",
+	"item.ba_bt.guardian_eye_nether": "Ojo del guardián del Nether",
+	"item.ba_bt.guardian_eye_end": "Ojo del guardián del End",
+	"item.ba_bt.guardian_eye_sky": "Ojo del guardián del cielo",
+	"item.ba_bt.guardian_eye_ocean": "Ojo del guardián oceánico",
+
+	"item.ba_bt.monolith_land": "Monolito terrestre",
+	"item.ba_bt.monolith_core": "Monolito central",
+	"item.ba_bt.monolith_nether": "Monolito del Nether",
+	"item.ba_bt.monolith_end": "Monolito del End",
+	"item.ba_bt.monolith_sky": "Monolito del cielo",
+	"item.ba_bt.monolith_ocean": "Monolito oceánico",
+
+	"item.ba_bt.platinum_ingot": "Lingote de platino",
+	"item.ba_bt.platinum_shard": "Fragmento de platino",
+	"item.ba_bt.platinum_sword": "Espada de platino",
+
+	"item.ba_bt.platinum_helmet": "Casco de platino",
+	"item.ba_bt.platinum_chestplate": "Peto de platino",
+	"item.ba_bt.platinum_leggings": "Grebas de platino",
+	"item.ba_bt.platinum_boots": "Botas de platino",
+
+	"item.ba_bt.land_chest_shard": "Fragmento de cofre terrestre",
+
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Generar esqueleto de platino",
+
+	// Item Tooltips
+	"tooltip.battletowers.hold_shift": "Mantén <§6§oShift§r> para más info.",
+	"tooltip.battletowers.monolith": "El monolito se utiliza para invocar un gólem de batalla",
+	"tooltip.battletowers.monolith_key": "Utiliza 3 llaves en un monolito para invocar un gólem de batalla"
+}

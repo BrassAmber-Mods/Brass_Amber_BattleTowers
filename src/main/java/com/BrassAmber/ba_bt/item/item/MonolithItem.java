@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 
+import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -28,13 +29,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.RegistryObject;
 
 public class MonolithItem extends Item {
-	private final EntityType<BTMonolith> monolithEntityType;
+	private final GolemType monolithType;
 
-	public MonolithItem(EntityType<BTMonolith> monolithEntityType, Item.Properties builder) {
+	public MonolithItem(GolemType type, Item.Properties builder) {
 		super(builder);
-		this.monolithEntityType = monolithEntityType;
+		this.monolithType = type;
 	}
 
 	/*********************************************************** Placement ********************************************************/
@@ -60,7 +62,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(this.monolithEntityType, level, x + centerOnBlock, y, z + centerOnBlock);
+					BTMonolith newBTMonolithEntity = new BTMonolith(GolemType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock);
 					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
 					level.addFreshEntity(newBTMonolithEntity);
 				}
