@@ -3,7 +3,7 @@
 	"entity.ba_bt.land_golem": "Golem Terrestre",
 	"entity.ba_bt.core_golem": "Golem Volcanique",
 	"entity.ba_bt.nether_golem": "Golem du Nether",
-	"entity.ba_bt.end_golem": "Golem de l'Ender",
+	"entity.ba_bt.end_golem": "Golem de l'End",
 	"entity.ba_bt.sky_golem": "Golem Angélique",
 	"entity.ba_bt.ocean_golem": "Golem Océanique",
 
@@ -13,16 +13,16 @@
 	"entity.ba_bt.land_monolith": "Monolithe Terrestre",
 	"entity.ba_bt.core_monolith": "Monolithe Volcanique",
 	"entity.ba_bt.nether_monolith": "Monolithe du Nether",
-	"entity.ba_bt.end_monolith": "Monolithe de l'Ender",
+	"entity.ba_bt.end_monolith": "Monolithe de l'End",
 	"entity.ba_bt.sky_monolith": "Monolithe Angélique",
 	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
 
-	"entity.ba_bt.land_obelisk": "Land Obelisk",
-	"entity.ba_bt.ocean_obelisk": "Ocean Obelisk",
-	"entity.ba_bt.core_obelisk": "Core Obelisk",
-	"entity.ba_bt.nether_obelisk": "Nether Obelisk",
-	"entity.ba_bt.end_obelisk": "End Obelisk",
-	"entity.ba_bt.sky_obelisk": "Sky Obelisk",
+	"entity.ba_bt.land_obelisk": "Obélisque Terrestre",
+	"entity.ba_bt.ocean_obelisk": "Obélisque Océanique",
+	"entity.ba_bt.core_obelisk": "Obélisque Volcanique",
+	"entity.ba_bt.nether_obelisk": "Obélisque du Nether",
+	"entity.ba_bt.end_obelisk": "Obélisque de l'End",
+	"entity.ba_bt.sky_obelisk": "Obélisque Angélique",
 
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem blessé",
@@ -31,11 +31,13 @@
 	"ba_bt.subtitle.golem.awaken": "Golem se réveille",
 	"ba_bt.subtitle.golem.ambient": "Golem grogne",
 	"ba_bt.subtitle.golem.special": "Golem attaques",
+	"ba_bt.subtitle.golem.fight": "Musique du Golem",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Le golem commence à apparaître",
 
 	"ba_bt.subtitle.tower.break.start": "La tour de combat commence à se briser",
 	"ba_bt.subtitle.tower.break.crumble": "La tour de combat s'écroule",
+	"ba_bt.subtitle.tower.ambient.music": "Musique d'ambiance de la tour",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
@@ -56,21 +58,21 @@
 	"item.ba_bt.monolith_key_land": "Clé du Monolithe Terrestre",
 	"item.ba_bt.monolith_key_core": "Clé du Monolithe Volcanique",
 	"item.ba_bt.monolith_key_nether": "Clé du Monolithe du Nether",
-	"item.ba_bt.monolith_key_end": "Clé du Monolithe de l'Ender",
+	"item.ba_bt.monolith_key_end": "Clé du Monolithe de l'End",
 	"item.ba_bt.monolith_key_sky": "Clé du Monolithe Angélique",
 	"item.ba_bt.monolith_key_ocean": "Clé du Monolithe Océanique",
 
 	"item.ba_bt.guardian_eye_land": "Oeil de Golem Terrestre",
 	"item.ba_bt.guardian_eye_core": "Oeil de Golem Volcanique",
 	"item.ba_bt.guardian_eye_nether": "Oeil de Golem du Nether",
-	"item.ba_bt.guardian_eye_end": "Oeil de Golem de l'Ender",
+	"item.ba_bt.guardian_eye_end": "Oeil de Golem de l'End",
 	"item.ba_bt.guardian_eye_sky": "Oeil de Golem Angélique",
 	"item.ba_bt.guardian_eye_ocean": "Oeil de Golem Océanique",
 
 	"item.ba_bt.monolith_land": "Monolithe Terrestre",
 	"item.ba_bt.monolith_core": "Monolithe Volcanique",
 	"item.ba_bt.monolith_nether": "Monolithe du Nether",
-	"item.ba_bt.monolith_end": "Monolithe de l'Ender",
+	"item.ba_bt.monolith_end": "Monolithe de l'End",
 	"item.ba_bt.monolith_sky": "Monolithe Angélique",
 	"item.ba_bt.monolith_ocean": "Monolithe Océanique",
 
