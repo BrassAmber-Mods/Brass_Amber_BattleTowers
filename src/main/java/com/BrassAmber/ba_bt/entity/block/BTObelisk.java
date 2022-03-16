@@ -42,8 +42,8 @@ public class BTObelisk extends Entity {
     private static final EntityDataAccessor<BlockPos> TOWER_CENTER = SynchedEntityData.defineId(BTObelisk.class, EntityDataSerializers.BLOCK_POS);
     private List<BlockPos> CHESTS = new ArrayList<>();
     private List<List<BlockPos>> SPAWNERS = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                                                            new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                                                            new ArrayList<>(), new ArrayList<>());
+            new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+            new ArrayList<>(), new ArrayList<>());
 
     private static final List<Integer> spawnerAmount = Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4);
 
@@ -83,8 +83,8 @@ public class BTObelisk extends Entity {
 
     public void findChestsAndSpawners(Level level) {
         BlockPos center = this.getTowerCenter();
-        BlockPos corner = center.offset(-10,0,-10);
-        BlockPos oppositeCorner = center.offset(10, 0,10);
+        BlockPos corner = center.offset(-10, 0, -10);
+        BlockPos oppositeCorner = center.offset(10, 0, 10);
 
         for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
@@ -107,8 +107,7 @@ public class BTObelisk extends Entity {
                     this.checkLayer += 1;
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest");
         }
     }
@@ -150,7 +149,7 @@ public class BTObelisk extends Entity {
             if (Collections.frequency(playersClose, Boolean.FALSE) == players.size()) {
                 this.hasPlayer = false;
 
-            }  else {
+            } else {
                 this.hasPlayer = true;
             }
         }
@@ -200,7 +199,7 @@ public class BTObelisk extends Entity {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-       tag.put(this.towercenterName, this.newDoubleList(this.getTowerCenter().getX(), this.getTowerCenter().getY(), this.getTowerCenter().getZ()));
+        tag.put(this.towercenterName, this.newDoubleList(this.getTowerCenter().getX(), this.getTowerCenter().getY(), this.getTowerCenter().getZ()));
     }
 
     @Override
@@ -227,22 +226,7 @@ public class BTObelisk extends Entity {
         this.entityData.set(TOWER_CENTER, center);
     }
 
-    public void setCHESTS(List<BlockPos> chestList) {
-        this.CHESTS = chestList;
-    }
-
-    public void setSPAWNERS(List<List<BlockPos>> spawnerList) {
-        this.SPAWNERS = spawnerList;
-    }
-
-
-    public BlockPos getTowerCenter() {return this.entityData.get(TOWER_CENTER);}
-
-    public List<BlockPos> getCHESTS() {
-        return CHESTS;
-    }
-
-    public List<List<BlockPos>> getSPAWNERS() {
-        return SPAWNERS;
+    public BlockPos getTowerCenter() {
+        return this.entityData.get(TOWER_CENTER);
     }
 }
