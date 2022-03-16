@@ -6,16 +6,18 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.monster.Pillager;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public abstract class BTBaseSpawner extends BaseSpawner {
 
-    public void serverTick(ServerLevel p_151312_, BlockPos p_151313_) {
+    public void serverTick(@NotNull ServerLevel p_151312_, @NotNull BlockPos p_151313_) {
         if (this.isNearPlayer(p_151312_, p_151313_)) {
             if (this.spawnDelay == -1) {
                 this.delay(p_151312_, p_151313_);
@@ -45,7 +47,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                             if (!optional.get().getCategory().isFriendly() && p_151312_.getDifficulty() == Difficulty.PEACEFUL) {
                                 continue;
                             }
-                        } else if (!SpawnPlacements.checkSpawnRules(optional.get(), p_151312_, MobSpawnType.SPAWNER, blockpos, p_151312_.getRandom())) {
+                        } else if (!SpawnPlacements.checkSpawnRules(EntityType.PILLAGER, p_151312_, MobSpawnType.SPAWNER, blockpos, p_151312_.getRandom())) {
                             continue;
                         }
 
@@ -66,7 +68,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
 
                         entity.moveTo(entity.getX(), entity.getY(), entity.getZ(), p_151312_.random.nextFloat() * 360.0F, 0.0F);
                         if (entity instanceof Mob) {
-                            Mob mob = (Mob)entity;
+                            Mob mob = (Mob) entity;
                             if (!net.minecraftforge.event.ForgeEventFactory.canEntitySpawnSpawner(mob, p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this)) {
                                 continue;
                             }

@@ -53,6 +53,7 @@ public class BTMonolith extends Entity {
 	private int livingSoundTime;
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
+	private boolean spawnedObelisk = false;
 
 	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
 		super(type, level);
@@ -79,11 +80,13 @@ public class BTMonolith extends Entity {
 	@Override
 	protected void readAdditionalSaveData(CompoundTag compound) {
 		this.setKeyCountInEntity(compound.getInt("Keys"));
+		this.spawnedObelisk = compound.getBoolean("Obelisk");
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag compound) {
 		compound.putInt("Keys", this.getKeyCountInEntity());
+		compound.putBoolean("Obelisk", this.spawnedObelisk);
 	}
 
 	/*********************************************************** Ticks ********************************************************/
@@ -94,8 +97,12 @@ public class BTMonolith extends Entity {
 	@Override
 	public void baseTick() {
 		super.baseTick();
+		if (!this.level.isClientSide() && !this.spawnedObelisk) {
+			ServerLevel serverworld = (ServerLevel) this.level;
+			this.spawnObelisk(serverworld);
+		}
 
-		boolean isLandMonolith = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH);
+		boolean isLandMonolith = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get());
 		if (this.getKeyCountInEntity() == 2 && !isLandMonolith) {
 			this.nextStageCounter++;
 			int seconds = 2;
@@ -154,7 +161,7 @@ public class BTMonolith extends Entity {
 			Item itemInHand = player.getItemInHand(hand).getItem();
 			if (itemInHand.equals(this.correctMonolithKey)) {
 				// Need 3 keys for the Land Monolith and 2 for the others.
-				int keysNeeded = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH) ? 3 : 2;
+				int keysNeeded = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get()) ? 3 : 2;
 				// Check how many keys are already in.
 				if (this.getKeyCountInEntity() < keysNeeded) {
 					// Increase Keys by one.
@@ -164,7 +171,7 @@ public class BTMonolith extends Entity {
 			}
 
 			// Test for a chance to insert a Guardian Eye.
-			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityTypes.LAND_MONOLITH) && this.isEyeSlotDisplayed()) {
+			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get()) && this.isEyeSlotDisplayed()) {
 				this.increaseKeyCount(player, hand);
 				return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 			}
@@ -207,8 +214,7 @@ public class BTMonolith extends Entity {
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
 			// Create a new GolemEntity.
 			Entity entity = golemEntityType.create(this.level);
-			if (entity instanceof BTAbstractGolem) {
-				BTAbstractGolem newGolemEntity = (BTAbstractGolem) entity;
+			if (entity instanceof BTAbstractGolem newGolemEntity) {
 				// Set the position for the new Golem to the current position of the Monolith.
 				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
 				// Set the Golem to be invulnerable for x amount of ticks.
@@ -239,6 +245,14 @@ public class BTMonolith extends Entity {
 		serverWorld.addFreshEntity(destroyTowerEntity);
 	}
 
+	protected void spawnObelisk(ServerLevel serverWorld) {
+		Entity obelisk = new BTObelisk(this.golemType, this.blockPosition(), this.level);
+		obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+		obelisk.setInvulnerable(true);
+		obelisk.invulnerableTime = 999999999;
+		serverWorld.addFreshEntity(obelisk);
+	}
+
 
 	/**
 	 * Returns the correct spawn rotation for the Golem.
@@ -248,7 +262,7 @@ public class BTMonolith extends Entity {
 		return monolithRotation == 0 ? 180 : monolithRotation == 180 ? 0 : monolithRotation;
 	}
 
-	/*********************************************************** Check Blocks ********************************************************/
+	/************************************************ Check Blocks ***************************************************/
 
 	/**
 	 * Checks if there are any Blocks in the way.
@@ -264,7 +278,7 @@ public class BTMonolith extends Entity {
 		}
 	}
 
-	/*********************************************************** Keys ********************************************************/
+	/******************************************************* Keys ****************************************************/
 
 	/**
 	 * counts the amount of keys in the entity. used in rendering.
@@ -280,7 +294,7 @@ public class BTMonolith extends Entity {
 		this.entityData.set(KEYS, count);
 	}
 
-	/*********************************************************** Golem Type Helpers ********************************************************/
+	/*********************************************** Golem Type Helpers *********************************************/
 
 	public EntityType<?> getMonolithType() {
 		return this.monolithType;
@@ -294,7 +308,7 @@ public class BTMonolith extends Entity {
 		return this.displayEye;
 	}
 
-	/*********************************************************** Characteristics & Properties ********************************************************/
+	/*************************************** Characteristics & Properties *******************************************/
 
 	/**
 	 * Called when a user uses the creative pick block button on this entity.
@@ -315,8 +329,8 @@ public class BTMonolith extends Entity {
 	 */
 	@SuppressWarnings("JavadocReference")
 	@Override
-	public PushReaction getPistonPushReaction() {
-		return PushReaction.IGNORE;
+	public @NotNull PushReaction getPistonPushReaction() {
+		return PushReaction.BLOCK;
 	}
 
 	@Override
@@ -341,7 +355,7 @@ public class BTMonolith extends Entity {
 		return this.isAlive();
 	}
 
-	/*********************************************************** Breaking ********************************************************/
+	/***************************************************** Breaking *************************************************/
 
 	/**
 	 * Called by the /kill command.
@@ -356,7 +370,7 @@ public class BTMonolith extends Entity {
 	 * Called when the entity is attacked.
 	 */
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurt(@NotNull DamageSource source, float amount) {
 		if (this.isInvulnerableTo(source)) {
 			return false;
 		} else if (!(source.getMsgId().equals("player"))) {
@@ -370,7 +384,7 @@ public class BTMonolith extends Entity {
 		}
 	}
 
-	/*********************************************************** Client ********************************************************/
+	/****************************************************** Client ***************************************************/
 
 	@OnlyIn(Dist.CLIENT)
 	public float getFloatingRotation() {
@@ -390,7 +404,7 @@ public class BTMonolith extends Entity {
 	//	TODO Check the networking section on the Forge Docs
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public @NotNull Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
@@ -398,7 +412,7 @@ public class BTMonolith extends Entity {
 	// TODO Fix subtitles for all sounds.
 
 	@Override
-	public SoundSource getSoundSource() {
+	public @NotNull SoundSource getSoundSource() {
 		return SoundSource.BLOCKS;
 	}
 
@@ -413,8 +427,7 @@ public class BTMonolith extends Entity {
 	 * Gets the pitch of living sounds in living entities.
 	 */
 	private float getSoundPitch() {
-		float avaragePitch = 0.5F;
-		return avaragePitch;
+		return 0.5F;
 	}
 
 	/**
