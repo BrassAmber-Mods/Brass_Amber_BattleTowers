@@ -1,0 +1,92 @@
+{
+	"itemGroup.ba_bt": "BrassAmber战斗高塔",
+	"block.ba_bt.tab_icon": "BrassAmber战斗高塔",
+
+	// Entities实体
+	"entity.ba_bt.land_golem": "大地魔像",
+	"entity.ba_bt.core_golem": "炉心魔像",
+	"entity.ba_bt.nether_golem": "下界魔像",
+	"entity.ba_bt.end_golem": "末影魔像",
+	"entity.ba_bt.sky_golem": "天空魔像",
+	"entity.ba_bt.ocean_golem": "海洋魔像",
+	
+	"entity.ba_bt.sky_minion": "天空仆从",
+	"entity.ba_bt.platinum_skeleton": "白金骷髅骑士",
+	
+	"entity.ba_bt.land_monolith": "大地石碑",
+	"entity.ba_bt.core_monolith": "炉心石碑",
+	"entity.ba_bt.nether_monolith": "下界石碑",
+	"entity.ba_bt.end_monolith": "末影石碑",
+	"entity.ba_bt.sky_monolith": "天空石碑",
+	"entity.ba_bt.ocean_monolith": "海洋石碑",
+
+	"entity.ba_bt.destroy_tower": "摧毁高塔",
+	
+	// Golem Sounds魔像音效
+	"ba_bt.subtitle.golem.hurt": "魔像受伤",
+	"ba_bt.subtitle.golem.death": "魔像死亡",
+	"ba_bt.subtitle.golem.charge": "魔像突袭",
+	"ba_bt.subtitle.golem.awaken": "魔像苏醒",
+	"ba_bt.subtitle.golem.ambient": "魔像咆哮",
+	"ba_bt.subtitle.golem.special": "魔像攻击",
+
+	"ba_bt.subtitle.monolith.spawn.golem": "开始生成魔像",
+	
+	"ba_bt.subtitle.tower.break.start": "高塔开始崩塌",
+	"ba_bt.subtitle.tower.break.crumble": "高塔崩塌",
+	
+	// Blocks方块
+	"block.ba_bt.land_golem_chest": "魔像宝箱",
+	"block.ba_bt.land_chest": "大地宝箱",
+
+	"block.ba_bt.platinum_block": "白金骑士方块",
+	"block.ba_bt.platinum_tiles": "白金骑士砖瓦",
+
+	"block.ba_bt.bt_land_spawner" : "大地刷怪笼",
+	
+	// Containers容器
+	"container.ba_bt.land_golem_chest": "大地魔像宝箱",
+	"container.ba_bt.land_golem_chest_double": "大型大地魔像宝箱",
+	"container.ba_bt.land_chest": "大地宝箱",
+	"container.ba_bt.land_chest_double": "大型大地宝箱",
+	
+	// Items物品
+	"item.ba_bt.monolith_key_land": "大地石碑之钥",
+	"item.ba_bt.monolith_key_core": "炉心石碑之钥",
+	"item.ba_bt.monolith_key_nether": "下界石碑之钥",
+	"item.ba_bt.monolith_key_end": "末影石碑之钥",
+	"item.ba_bt.monolith_key_sky": "天空石碑之钥",
+	"item.ba_bt.monolith_key_ocean": "海洋石碑之钥",
+	
+	"item.ba_bt.guardian_eye_land": "大地守卫之眼",
+	"item.ba_bt.guardian_eye_core": "炉心守卫之眼",
+	"item.ba_bt.guardian_eye_nether": "下界守卫之眼",
+	"item.ba_bt.guardian_eye_end": "末影守卫之眼",
+	"item.ba_bt.guardian_eye_sky": "天空守卫之眼",
+	"item.ba_bt.guardian_eye_ocean": "海洋守卫之眼",
+	
+	"item.ba_bt.monolith_land": "大地石碑",
+	"item.ba_bt.monolith_core": "炉心石碑",
+	"item.ba_bt.monolith_nether": "下界石碑",
+	"item.ba_bt.monolith_end": "末影石碑",
+	"item.ba_bt.monolith_sky": "天空石碑",
+	"item.ba_bt.monolith_ocean": "海洋石碑",
+
+	"item.ba_bt.platinum_ingot": "白金骑士锭",
+	"item.ba_bt.platinum_shard": "白金骑士碎片",
+	"item.ba_bt.platinum_sword": "白金骑士剑",
+
+	"item.ba_bt.platinum_helmet": "白金骑士头盔",
+	"item.ba_bt.platinum_chestplate": "白金骑士胸甲",
+	"item.ba_bt.platinum_leggings": "白金骑士护腿",
+	"item.ba_bt.platinum_boots": "白金骑士靴子",
+
+	"item.ba_bt.land_chest_shard": "大地宝箱碎片",
+
+	"item.ba_bt.platinum_skeleton_spawn_egg": "白金骷髅骑士刷怪蛋",
+	
+	// Item Tooltips物品描述
+	"tooltip.battletowers.hold_shift": "长按shift查看更多信息",
+	"tooltip.battletowers.monolith": "石碑用来召唤战斗魔像",
+	"tooltip.battletowers.monolith_key": "将3把钥匙插入石碑来召唤战斗魔像"
+}
