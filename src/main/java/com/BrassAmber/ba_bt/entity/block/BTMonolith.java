@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -100,6 +101,7 @@ public class BTMonolith extends Entity {
 		if (!this.level.isClientSide() && !this.spawnedObelisk) {
 			ServerLevel serverworld = (ServerLevel) this.level;
 			this.spawnObelisk(serverworld);
+			this.spawnedObelisk = true;
 		}
 
 		boolean isLandMonolith = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get());
@@ -246,8 +248,8 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
-		Entity obelisk = new BTObelisk(this.golemType, this.blockPosition(), this.level);
-		obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+		Entity obelisk = new BTObelisk(this.golemType, this.blockPosition().below(91), this.level);
+		obelisk.setPos(this.getX(), this.getY() - 91, this.getZ());
 		obelisk.setInvulnerable(true);
 		obelisk.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(obelisk);
@@ -465,6 +467,13 @@ public class BTMonolith extends Entity {
 	}
 
 	private void playSpawnSound() {
-		this.playSound(BTSoundEvents.MONOLITH_SPAWN_GOLEM, this.getSoundVolume(), 1F);
+		this.playSound(BTSoundEvents.MONOLITH_SPAWN_GOLEM, this.getSoundVolume() -.4F, 1F);
+	}
+
+	@Override
+	public void playSound(@NotNull SoundEvent p_19938_, float p_19939_, float p_19940_) {
+		if (!this.isSilent()) {
+			this.level.playSound(null, this, p_19938_, this.getSoundSource(), p_19939_, p_19940_);
+		}
 	}
 }

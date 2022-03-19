@@ -218,8 +218,19 @@ public enum GolemType implements StringRepresentable {
 		}
 	}
 
+	public static int getNumForType(GolemType type) {
+		return switch (type) {
+			case EMPTY, LAND -> 0;
+			case OCEAN -> 1;
+			case CORE -> 2;
+			case NETHER -> 3;
+			case END -> 4;
+			case SKY -> 5;
+		};
+	}
+
 	@Override
-	public String getSerializedName() {
+	public @NotNull String getSerializedName() {
 		return this.name;
 	}
 

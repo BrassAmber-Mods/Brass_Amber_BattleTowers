@@ -183,7 +183,7 @@ public abstract class BTAbstractGolem extends Monster {
 		// Set the golemState to enraged when health drops below 1/3.
 		if (this.isEnragedBasedOnHP() && !this.isEnraged() && this.isAwake()) {
 			// TODO Maybe stand still for a moment with hands up growling?
-			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL, 0.5f); // LOUD AF (Still? I adjusted the volume)
+			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL, 0.3f); // LOUD AF (Still? I adjusted the volume)
 			this.setGolemState(SPECIAL);
 		}
 
@@ -454,7 +454,7 @@ public abstract class BTAbstractGolem extends Monster {
 	/*********************************************************** Properties @return********************************************************/
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 40);
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 
