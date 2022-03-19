@@ -20,12 +20,12 @@
 	"entity.ba_bt.sky_monolith": "天空石碑",
 	"entity.ba_bt.ocean_monolith": "海洋石碑",
 
-	"entity.ba_bt.land_obelisk": "Land Obelisk",
-	"entity.ba_bt.ocean_obelisk": "Ocean Obelisk",
-	"entity.ba_bt.core_obelisk": "Core Obelisk",
-	"entity.ba_bt.nether_obelisk": "Nether Obelisk",
-	"entity.ba_bt.end_obelisk": "End Obelisk",
-	"entity.ba_bt.sky_obelisk": "Sky Obelisk",
+	"entity.ba_bt.land_obelisk": "大地方尖碑",
+	"entity.ba_bt.ocean_obelisk": "海洋方尖碑",
+	"entity.ba_bt.core_obelisk": "炉心方尖碑",
+	"entity.ba_bt.nether_obelisk": "下界方尖碑",
+	"entity.ba_bt.end_obelisk": "末影方尖碑",
+	"entity.ba_bt.sky_obelisk": "天空方尖碑",
 
 	"entity.ba_bt.destroy_tower": "摧毁高塔",
 	
