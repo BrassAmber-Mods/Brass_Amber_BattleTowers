@@ -248,8 +248,8 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
-		Entity obelisk = new BTObelisk(this.golemType, this.blockPosition().below(91), this.level);
-		obelisk.setPos(this.getX(), this.getY() - 91, this.getZ());
+		Entity obelisk = new BTObelisk(this.golemType, this.blockPosition().below(90), this.level);
+		obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
 		obelisk.setInvulnerable(true);
 		obelisk.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(obelisk);

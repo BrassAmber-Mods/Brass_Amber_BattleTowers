@@ -87,7 +87,7 @@ public class BTObelisk extends Entity {
         super(entityType, level);
         this.initialized = false;
         this.hasMusicPlayer = false;
-        this.checkLayer = 0;
+        this.checkLayer = 1;
         this.tower = 0;
         // this.blocksBuilding = true;
 
@@ -106,15 +106,13 @@ public class BTObelisk extends Entity {
 
         for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
-                for (int y = center.getY() + (this.checkLayer*11); y < center.getY() + (this.checkLayer*11) + 11; y++) {
+                for (int y = center.getY() + ((this.checkLayer - 1) * 11); y < center.getY() + (this.checkLayer * 11); y++) {
                     this.checkPos(new BlockPos(x, y, z), level);
                 }
             }
         }
 
-
-
-        if (this.checkLayer == 7) {
+        if (this.checkLayer == 8) {
             this.initialized = true;
         } else {
             this.checkLayer += 1;
@@ -216,7 +214,7 @@ public class BTObelisk extends Entity {
         }
 
         if (this.SPAWNERS.size() == f) {
-            if (level.getBlockEntity(this.CHESTS.get(8)) instanceof GolemChestBlockEntity chestBlockEntity) {
+            if (level.getBlockEntity(this.CHESTS.get(7)) instanceof GolemChestBlockEntity chestBlockEntity) {
                 chestBlockEntity.setUnlocked(true);
                 this.chestUnlockingSound(level);
             }
