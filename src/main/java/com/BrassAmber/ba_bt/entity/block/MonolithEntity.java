@@ -56,6 +56,7 @@ public class MonolithEntity extends Entity {
 	private int livingSoundTime;
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
+	private boolean fromItem;
 
 	public MonolithEntity(EntityType<? extends MonolithEntity> type, World world) {
 		super(type, world);
@@ -67,8 +68,13 @@ public class MonolithEntity extends Entity {
 		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
 	}
 
-	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, World worldIn, double x, double y, double z) {
+	public MonolithEntity(EntityType<MonolithEntity> monolithEntityType, World worldIn, double x, double y, double z, BlockState placedOnState) {
 		this(monolithEntityType, worldIn);
+		if (placedOnState == Blocks.CLAY.defaultBlockState()) {
+			this.fromItem = false;
+		} else {
+			this.fromItem = true;
+		}
 		this.setPos(x, y, z);
 	}
 
@@ -225,8 +231,10 @@ public class MonolithEntity extends Entity {
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
-			// Moved to a function so that it can be extended and or tested without needing the spawn golem code
-			this.createDestroyTowerEntity(serverworld);
+			if (!this.fromItem) {
+				// Moved to a function so that it can be extended and or tested without needing the spawn golem code
+				this.createDestroyTowerEntity(serverworld);
+			}
 
 		}
 	}

@@ -197,8 +197,7 @@ public class BrassAmberBattleTowers {
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		try {
 			boolean isClient = event.getMinecraftSupplier().get().level.isClientSide();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ignored) {
 			// Register Entity Renderers
 			//Render Type Spawner
 			RenderTypeLookup.setRenderLayer(BTBlocks.BT_LAND_SPAWNER, RenderType.cutout());
