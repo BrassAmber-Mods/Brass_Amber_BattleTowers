@@ -154,14 +154,14 @@ public class BTLandJigsawPlacement {
             this.random = p_210329_;
         }
 
-        void tryPlacingChildren(PoolElementStructurePiece p_210334_, MutableObject<VoxelShape> p_210335_, int p_210336_, boolean p_210337_, LevelHeightAccessor p_210338_) {
-            StructurePoolElement structurepoolelement = p_210334_.getElement();
-            BlockPos blockpos = p_210334_.getPosition();
-            Rotation rotation = p_210334_.getRotation();
+        void tryPlacingChildren(PoolElementStructurePiece structurePiece, MutableObject<VoxelShape> mutableObject, int currentDepth, boolean villageAdjust, LevelHeightAccessor heightAccessor) {
+            StructurePoolElement structurepoolelement = structurePiece.getElement();
+            BlockPos blockpos = structurePiece.getPosition();
+            Rotation rotation = structurePiece.getRotation();
             StructureTemplatePool.Projection structuretemplatepool$projection = structurepoolelement.getProjection();
             boolean flag = structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID;
             MutableObject<VoxelShape> mutableobject = new MutableObject<>();
-            BoundingBox boundingbox = p_210334_.getBoundingBox();
+            BoundingBox boundingbox = structurePiece.getBoundingBox();
             int i = boundingbox.minY();
 
             label139:
@@ -185,11 +185,11 @@ public class BTLandJigsawPlacement {
                                 mutableobject.setValue(Shapes.create(AABB.of(boundingbox)));
                             }
                         } else {
-                            mutableobject1 = p_210335_;
+                            mutableobject1 = mutableObject;
                         }
 
                         List<StructurePoolElement> list = Lists.newArrayList();
-                        if (p_210336_ != this.maxDepth) {
+                        if (currentDepth != this.maxDepth) {
                             list.addAll(optional.get().getShuffledTemplates(this.random));
                         }
 
@@ -204,7 +204,7 @@ public class BTLandJigsawPlacement {
                                 List<StructureTemplate.StructureBlockInfo> list1 = structurepoolelement1.getShuffledJigsawBlocks(this.structureManager, BlockPos.ZERO, rotation1, this.random);
                                 BoundingBox boundingbox1 = structurepoolelement1.getBoundingBox(this.structureManager, BlockPos.ZERO, rotation1);
                                 int l;
-                                if (p_210337_ && boundingbox1.getYSpan() <= 16) {
+                                if (villageAdjust && boundingbox1.getYSpan() <= 16) {
                                     l = list1.stream().mapToInt((p_210332_) -> {
                                         if (!boundingbox1.isInside(p_210332_.pos.relative(JigsawBlock.getFrontFacing(p_210332_.state)))) {
                                             return 0;
@@ -242,7 +242,7 @@ public class BTLandJigsawPlacement {
                                             l1 = i + k1;
                                         } else {
                                             if (k == -1) {
-                                                k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_210338_);
+                                                k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
                                             }
 
                                             l1 = k - j1;
@@ -258,7 +258,7 @@ public class BTLandJigsawPlacement {
 
                                         if (!Shapes.joinIsNotEmpty(mutableobject1.getValue(), Shapes.create(AABB.of(boundingbox3).deflate(0.25D)), BooleanOp.ONLY_SECOND)) {
                                             mutableobject1.setValue(Shapes.joinUnoptimized(mutableobject1.getValue(), Shapes.create(AABB.of(boundingbox3)), BooleanOp.ONLY_FIRST));
-                                            int i3 = p_210334_.getGroundLevelDelta();
+                                            int i3 = structurePiece.getGroundLevelDelta();
                                             int k2;
                                             if (flag2) {
                                                 k2 = i3 - k1;
@@ -274,17 +274,17 @@ public class BTLandJigsawPlacement {
                                                 l2 = l1 + j1;
                                             } else {
                                                 if (k == -1) {
-                                                    k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_210338_);
+                                                    k = this.chunkGenerator.getFirstFreeHeight(blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
                                                 }
 
                                                 l2 = k + k1 / 2;
                                             }
 
-                                            p_210334_.addJunction(new JigsawJunction(blockpos2.getX(), l2 - j + i3, blockpos2.getZ(), k1, structuretemplatepool$projection1));
+                                            structurePiece.addJunction(new JigsawJunction(blockpos2.getX(), l2 - j + i3, blockpos2.getZ(), k1, structuretemplatepool$projection1));
                                             poolelementstructurepiece.addJunction(new JigsawJunction(blockpos1.getX(), l2 - j1 + k2, blockpos1.getZ(), -k1, structuretemplatepool$projection));
                                             this.pieces.add(poolelementstructurepiece);
-                                            if (p_210336_ + 1 <= this.maxDepth) {
-                                                this.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, mutableobject1, p_210336_ + 1));
+                                            if (currentDepth + 1 <= this.maxDepth) {
+                                                this.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, mutableobject1, currentDepth + 1));
                                             }
                                             continue label139;
                                         }

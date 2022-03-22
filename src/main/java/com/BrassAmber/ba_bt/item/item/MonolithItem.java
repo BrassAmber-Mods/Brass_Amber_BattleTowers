@@ -62,7 +62,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(GolemType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock);
+					BTMonolith newBTMonolithEntity = new BTMonolith(GolemType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock, level.getBlockState(newPlacementPos.below()));
 					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
 					level.addFreshEntity(newBTMonolithEntity);
 				}

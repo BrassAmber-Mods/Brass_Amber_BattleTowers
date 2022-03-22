@@ -353,13 +353,18 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void die(DamageSource source) {
 
-		DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
-				new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
-						this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
-						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
-		destroyTower.setGolemDead(true);
-
 		if (!this.level.isClientSide()) {
+			try {
+				DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
+						new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
+								this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
+								this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
+				destroyTower.setGolemDead(true);
+			}
+			catch (Exception ignored) {
+
+			}
+
 			BlockPos spawnPos = this.getSpawnPos();
 			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
 

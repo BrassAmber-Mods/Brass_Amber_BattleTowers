@@ -55,6 +55,7 @@ public class BTMonolith extends Entity {
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
 	private boolean spawnedObelisk = false;
+	private boolean fromItem;
 
 	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
 		super(type, level);
@@ -66,9 +67,15 @@ public class BTMonolith extends Entity {
 		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
 	}
 
-	public BTMonolith(EntityType<BTMonolith> monolithEntityType, Level levelIn, double x, double y, double z) {
+	public BTMonolith(EntityType<BTMonolith> monolithEntityType, Level levelIn, double x, double y, double z, BlockState placedOnState) {
 		this(monolithEntityType, levelIn);
 		this.setPos(x, y, z);
+		if (placedOnState == Blocks.CLAY.defaultBlockState()) {
+			this.fromItem = false;
+		}
+		else {
+			this.fromItem = true;
+		}
 	}
 
 	/*********************************************************** Data ********************************************************/
@@ -98,7 +105,7 @@ public class BTMonolith extends Entity {
 	@Override
 	public void baseTick() {
 		super.baseTick();
-		if (!this.level.isClientSide() && !this.spawnedObelisk) {
+		if (!this.level.isClientSide() && !this.spawnedObelisk && !this.fromItem) {
 			ServerLevel serverworld = (ServerLevel) this.level;
 			this.spawnObelisk(serverworld);
 			this.spawnedObelisk = true;
@@ -233,8 +240,10 @@ public class BTMonolith extends Entity {
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
-			// Moved to a function so that it can be extended and or tested without needing the spawn golem code
-			this.createDestroyTowerEntity(serverworld);
+			if (!this.fromItem) {
+				// Moved to a function so that it can be extended and or tested without needing the spawn golem code
+				this.createDestroyTowerEntity(serverworld);
+			}
 
 		}
 	}
@@ -248,7 +257,7 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
-		Entity obelisk = new BTObelisk(this.golemType, this.blockPosition().below(90), this.level);
+		Entity obelisk = new BTObelisk(this.golemType, this.level);
 		obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
 		obelisk.setInvulnerable(true);
 		obelisk.invulnerableTime = 999999999;

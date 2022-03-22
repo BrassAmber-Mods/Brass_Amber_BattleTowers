@@ -1,41 +1,34 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
-import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTMusics;
-import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.TagTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.PlayerList;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
-import net.minecraft.util.datafix.fixes.BlockEntityKeepPacked;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
@@ -47,11 +40,7 @@ import java.util.List;
 
 public class BTObelisk extends Entity {
     // Parameters that must be saved
-    private static final EntityDataAccessor<BlockPos> TOWER_CENTER = SynchedEntityData.defineId(BTObelisk.class, EntityDataSerializers.BLOCK_POS);
-    private final List<BlockPos> CHESTS = new ArrayList<>();
-    private final List<List<BlockPos>> SPAWNERS = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-            new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-
+    private static final EntityDataAccessor<Integer> TOWER = SynchedEntityData.defineId(BTObelisk.class, EntityDataSerializers.INT);
     private final List<List<Integer>> towerSpawnerAmounts = Arrays.asList(
             Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4),
             Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4),
@@ -60,25 +49,23 @@ public class BTObelisk extends Entity {
             Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5),
             Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5)
     );
+    private List<BlockPos> CHESTS = new ArrayList<>(9);
+    private List<List<BlockPos>> SPAWNERS;
 
-    private final int tower;
 
     //Other Parameters
-    private boolean initialized = false;
+    private boolean initialized;
     private MusicManager musicManager;
     private boolean hasPlayer;
-    private boolean hasMusicPlayer = false;
-    private int spawnersDestroyed;
-
-
-
+    private boolean hasMusicPlayer;
 
     private int checkLayer;
+    private int currentFloorY;
+    private int spawnersFound;
 
     // Data Strings
     private final String towercenterName = "TowerCenter";
-    private final String chestsName = "Chests";
-    private final String spawerName = "Spawners";
+    private final String towerName = "Tower";
 
     private final CommandSourceStack source = createCommandSourceStack().withPermission(4);
 
@@ -88,25 +75,35 @@ public class BTObelisk extends Entity {
         this.initialized = false;
         this.hasMusicPlayer = false;
         this.checkLayer = 1;
-        this.tower = 0;
+        this.currentFloorY = this.getOnPos().getY();
         // this.blocksBuilding = true;
+        List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
+        SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
+                new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
+                new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
+                new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
 
     }
 
-    public BTObelisk(GolemType golemType, BlockPos towerCenter, Level level) {
-        super(GolemType.getObeliskFor(golemType), level);
-        this.setTowerCenter(towerCenter);
-        this.tower = GolemType.getNumForType(golemType);
+    public BTObelisk(GolemType golemType, Level level) {
+        this(GolemType.getObeliskFor(golemType), level);
+        this.setTower(GolemType.getNumForType(golemType));
+        List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
+        SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
+                new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
+                new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
+                new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
     }
 
     public void findChestsAndSpawners(Level level) {
-        BlockPos center = this.getTowerCenter();
+        BlockPos center = this.getOnPos();
+        int currentFloorTopY = this.currentFloorY + 10;
         BlockPos corner = center.offset(-15, 0, -15);
         BlockPos oppositeCorner = center.offset(15, 0, 15);
 
         for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
-                for (int y = center.getY() + ((this.checkLayer - 1) * 11); y < center.getY() + (this.checkLayer * 11); y++) {
+                for (int y = currentFloorY; y <= currentFloorTopY; y++) {
                     this.checkPos(new BlockPos(x, y, z), level);
                 }
             }
@@ -114,23 +111,30 @@ public class BTObelisk extends Entity {
 
         if (this.checkLayer == 8) {
             this.initialized = true;
-        } else {
+        }
+        else {
             this.checkLayer += 1;
+            this.currentFloorY = currentFloorTopY + 1;
+            this.spawnersFound = 0;
         }
 
     }
 
     public void checkPos(BlockPos toCheck, Level level) {
         try {
-            BlockEntity entity = level.getBlockEntity(toCheck);
-            if (entity instanceof GolemChestBlockEntity) {
-                this.CHESTS.add(toCheck);
+            Block block = level.getBlockState(toCheck).getBlock();
+            if (block == BTBlocks.LAND_CHEST.get() || block == BTBlocks.LAND_GOLEM_CHEST.get()) {
+                this.CHESTS.set(checkLayer-1, toCheck);
                 BrassAmberBattleTowers.LOGGER.info("Found chest");
-            } else if (entity instanceof BTSpawnerBlockEntity) {
-                this.SPAWNERS.get(this.checkLayer).add(toCheck);
+            } else if (block == BTBlocks.BT_LAND_SPAWNER.get()) {
+                this.SPAWNERS.get(this.checkLayer-1).set(this.spawnersFound, toCheck);
+                BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
+                this.spawnersFound += 1;
             }
         } catch (Exception e) {
-            BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner");
+            BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
+            e.printStackTrace();
+
         }
     }
 
@@ -145,7 +149,7 @@ public class BTObelisk extends Entity {
             return;
         }
         if (!this.initialized) {
-            BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + (this.checkLayer + 1));
+            BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
             this.findChestsAndSpawners(this.level);
         }
         else {
@@ -178,24 +182,14 @@ public class BTObelisk extends Entity {
             }
 
             if (this.tickCount == 0 || this.tickCount % 7200 == 0 && this.hasPlayer) {
-                if (!this.musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+                if (!this.musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT) && this.hasMusicPlayer) {
                     this.musicManager.stopPlaying();
                     this.musicManager.startPlaying(BTMusics.TOWER);
                 }
             }
         }
-
-
     }
 
-    private void chestUnlockingSound(Level level) {
-        List<ServerPlayer> players = level.getServer().getPlayerList().getPlayers();
-        for (ServerPlayer player: players) {
-            if (this.horizontalDistanceTo(player) < 30) {
-                level.playSound(null, player.blockPosition(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 1f, 1.5f);
-            }
-        }
-    }
 
     private void checkSpawners(Level level) {
         int f = 0;
@@ -221,6 +215,15 @@ public class BTObelisk extends Entity {
         }
     }
 
+    private void chestUnlockingSound(Level level) {
+        List<ServerPlayer> players = level.getServer().getPlayerList().getPlayers();
+        for (ServerPlayer player: players) {
+            if (this.horizontalDistanceTo(player) < 30) {
+                level.playSound(null, player.blockPosition(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 1f, 1.5f);
+            }
+        }
+    }
+
     /**
      * Returns the horizontal distance.
      */
@@ -232,21 +235,17 @@ public class BTObelisk extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(TOWER_CENTER, BlockPos.ZERO);
+        this.entityData.define(TOWER, 0);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        ListTag centerPos = tag.getList(this.towercenterName, 6);
-        double x = centerPos.getDouble(0);
-        double y = centerPos.getDouble(1);
-        double z = centerPos.getDouble(2);
-        this.setTowerCenter(new BlockPos(x, y, z));
+        this.setTower(tag.getInt(this.towerName));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.put(this.towercenterName, this.newDoubleList(this.getTowerCenter().getX(), this.getTowerCenter().getY(), this.getTowerCenter().getZ()));
+        tag.putInt(this.towerName, this.getTower());
     }
 
     @Override
@@ -269,12 +268,13 @@ public class BTObelisk extends Entity {
     /**
      * Define the tower center.
      */
-    public void setTowerCenter(BlockPos center) {
-        this.entityData.set(TOWER_CENTER, center);
+
+    public void setTower(int num) {
+        this.entityData.set(TOWER, num);
     }
 
-    public BlockPos getTowerCenter() {
-        return this.entityData.get(TOWER_CENTER);
+    public int getTower() {
+        return this.entityData.get(TOWER);
     }
 
     /************************************************** COMMANDS **************************************************/

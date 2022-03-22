@@ -201,10 +201,8 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // Get chunk center coordinates
         BlockPos centerPos = context.chunkPos().getMiddleBlockPosition(0);
 
-        Optional<PieceGenerator<BTJigsawConfiguration>> piecesGenerator;
         // All a structure has to do is call this method to turn it into a jigsaw based structure!
-
-        piecesGenerator =
+        Optional<PieceGenerator<BTJigsawConfiguration>> piecesGenerator =
                 BTLandJigsawPlacement.addPieces(
                         context, // Used for JigsawPlacement to get all the proper behaviors done.
                         PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
@@ -215,6 +213,8 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                         // --TelepathicGrunt
                         false
                 );
+
+
 
 
         if(piecesGenerator.isPresent()) {
