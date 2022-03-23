@@ -205,11 +205,6 @@
           "type": "minecraft:item",
           "weight": 5,
           "name": "minecraft:music_disc_wait"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "name": "ba_bt:monolith_key_land"
         }
       ]
     }

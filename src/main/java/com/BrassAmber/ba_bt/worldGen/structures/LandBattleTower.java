@@ -106,7 +106,8 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
 
         for (ResourceKey<StructureSet> set : vanillaStructures) {
-            if(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
+            BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
+            if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
                 return false;
             }
         }
