@@ -36,11 +36,13 @@
 	"ba_bt.subtitle.golem.awaken": "魔像苏醒",
 	"ba_bt.subtitle.golem.ambient": "魔像咆哮",
 	"ba_bt.subtitle.golem.special": "魔像攻击",
+	"ba_bt.subtitle.golem.fight": "魔像战斗音乐",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "开始生成魔像",
 	
 	"ba_bt.subtitle.tower.break.start": "高塔开始崩塌",
 	"ba_bt.subtitle.tower.break.crumble": "高塔崩塌",
+	"ba_bt.subtitle.tower.ambient.music": "高塔环境音乐",
 	
 	// Blocks方块
 	"block.ba_bt.land_golem_chest": "魔像宝箱",
