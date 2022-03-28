@@ -16,6 +16,7 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.CritParticle;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -82,7 +83,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
-	protected final MusicManager musicManager;
+	protected MusicManager musicManager;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -90,7 +91,9 @@ public abstract class BTAbstractGolem extends Monster {
 	protected final String golemStateName = "GolemState";
 	protected final String explosionPowerName = "ExplosionPower";
 	protected BlockPos chestBlockEntityPos;
-	protected int musicStart = 0;
+	protected int musicStart = 4900;
+	private boolean hasMusic = false;
+	private boolean stopMusic = false;
 
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
@@ -105,7 +108,6 @@ public abstract class BTAbstractGolem extends Monster {
 		// BrassAmberBattleTowers.LOGGER.info(clientOrServer + ", Create Entity!");
 		
 		this.maxUpStep = 1.5F;
-		this.musicManager = Minecraft.getInstance().getMusicManager();
 	}
 
 
@@ -187,9 +189,21 @@ public abstract class BTAbstractGolem extends Monster {
 			this.setGolemState(SPECIAL);
 		}
 
-		if (this.tickCount - this.musicStart >= 4900) {
-			this.musicStart = tickCount;
-			Minecraft.getInstance().getMusicManager().startPlaying(BTMusics.GOLEM_FIGHT);
+		if (this.level.isClientSide()) {
+			if (!this.hasMusic) {
+				this.musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
+				this.hasMusic = true;
+			}
+			if (this.stopMusic) {
+				if (this.musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+					this.musicManager.stopPlaying();
+					this.stopMusic = false;
+				}
+			} else if (this.tickCount - this.musicStart >= 4900) {
+				this.musicStart = tickCount;
+				this.musicManager.stopPlaying();
+				this.musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
+			}
 		}
 
 		if (this.level.isClientSide()) {
@@ -267,13 +281,15 @@ public abstract class BTAbstractGolem extends Monster {
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
 		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), false);
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (nearestPlayer == null && this.blockPosition().distSqr(this.getSpawnPos()) > 1) {
+		if (nearestPlayer == null && this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) > 1) {
 			this.resetGolem();
 			BrassAmberBattleTowers.LOGGER.info("reset golem from tick");
 		}
-		if (!(nearestPlayer == null) && this.horizontalDistanceToSqr(nearestPlayer.getX(), getZ()) > maxDistanceFromSpawn && nearestPlayer.isCreative()) {
-			this.resetGolem();
-			BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + this.horizontalDistanceToSqr(nearestPlayer.getX(), getZ()) + " " + maxDistanceFromSpawn);
+		if (!(nearestPlayer == null)) {
+			if (this.horizontalDistanceToSqr(nearestPlayer.getX(), nearestPlayer.getZ()) > maxDistanceFromSpawn && nearestPlayer.isCreative()) {
+				this.resetGolem();
+				BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + this.horizontalDistanceToSqr(this.getSpawnPos().getX(), this.getSpawnPos().getZ()) + " " + maxDistanceFromSpawn);
+			}
 		}
 
 	}
@@ -353,7 +369,10 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void die(DamageSource source) {
 
-		if (!this.level.isClientSide()) {
+		if (this.level.isClientSide()) {
+			this.musicManager.stopPlaying();
+		}
+		else {
 			try {
 				DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
 						new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
@@ -652,6 +671,7 @@ public abstract class BTAbstractGolem extends Monster {
 		lightning.setPos(x, y, z);
 		lightning.setDamage(0.0F);
 		this.level.addFreshEntity(lightning);
+		this.stopMusic = true;
 	}
 
 	/*

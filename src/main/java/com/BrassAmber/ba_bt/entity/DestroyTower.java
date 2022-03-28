@@ -5,7 +5,10 @@ import java.util.*;
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
+import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +51,7 @@ public class DestroyTower extends Entity {
     private int startTicks = 600;
     private int currentTicks = 0;
     private boolean golemDead = false;
-    private Random random = new Random();
+    private final Random random = new Random();
     private BlockPos removeBlock;
     private boolean checkForGolem = true;
     private boolean hasPlayer;
@@ -128,6 +131,10 @@ public class DestroyTower extends Entity {
     @Override
     public void tick() {
     	if(this.level.isClientSide()) {
+            MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
+            if (music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+                music.stopPlaying();
+            }
     		return;
     	}
         super.tick();

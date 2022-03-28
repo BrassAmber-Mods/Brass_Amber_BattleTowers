@@ -1,21 +1,14 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
-import com.BrassAmber.ba_bt.init.BTStructures;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
-import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -29,19 +22,14 @@ import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.event.world.StructureSpawnListGatherEvent;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.mojang.serialization.Codec;
-import net.minecraftforge.fluids.FluidAttributes;
-import org.checkerframework.checker.units.qual.C;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -183,7 +171,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
         // check if any of the blockpos have water.
 
-        BrassAmberBattleTowers.LOGGER.info("Land Battle Tower at " + pos.getX() + " " + pos.getZ()
+        BrassAmberBattleTowers.LOGGER.info("Land Tower tried at" + pos.getX() + " " + pos.getZ()
                 + " " + t +" " + f + " "+ noWater);
 
         // if there are more flat areas than not flat areas and no water return true 

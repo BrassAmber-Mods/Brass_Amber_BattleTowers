@@ -2,8 +2,11 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
+import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTItems;
+import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.Game;
 import net.minecraft.client.Minecraft;
@@ -18,6 +21,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -85,7 +89,9 @@ public class BTObelisk extends Entity {
     private final String golemTypeName = "GolemType";
 
     private final CommandSourceStack source = createCommandSourceStack().withPermission(4);
-
+    private int timeSinceAmbientMusic;
+    private int lastMusicStart;
+    private boolean canCheck;
 
 
     public BTObelisk(EntityType<?> entityType, Level level) {
@@ -104,6 +110,8 @@ public class BTObelisk extends Entity {
             this.totalSpawners += num;
         }
 
+        this.timeSinceAmbientMusic = 7000;
+        this.lastMusicStart = 0;
 
     }
 
@@ -172,48 +180,86 @@ public class BTObelisk extends Entity {
     @Override
     public void tick() {
         super.tick();
+        if (this.timeSinceAmbientMusic < 7000) {
+            this.timeSinceAmbientMusic = this.tickCount - this.lastMusicStart;
+        }
+
         if (this.level.isClientSide()) {
+            double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
+            boolean hasClientPlayer = playerDistance < 30;
             if (!this.hasMusic) {
                 this.music = ((ClientLevel) this.level).minecraft.getMusicManager();
                 this.hasMusic = true;
             }
+
+            if (!this.music.isPlayingMusic(BTMusics.TOWER) && !this.music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+
+                BrassAmberBattleTowers.LOGGER.info("Player: " + hasClientPlayer + " time since music: " + this.timeSinceAmbientMusic);
+                if (hasClientPlayer) {
+                    if (this.timeSinceAmbientMusic == 7000 && playerDistance < 17){
+                        this.music.stopPlaying();
+                        this.music.startPlaying(BTMusics.TOWER);
+                        this.lastMusicStart = this.tickCount;
+                        this.timeSinceAmbientMusic = 0;
+                    }
+                }
+            } else
+            if (!this.canCheck || !hasClientPlayer) {
+                this.music.stopPlaying();
+            }
             return;
         }
 
-        if (!this.initialized) {
-            BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
-            BrassAmberBattleTowers.LOGGER.info(BTItems.LAND_MONOLOITH_KEY.get().getRegistryName());
-            this.findChestsAndSpawners(this.level);
-        }
-        else {
-            List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
-            for (ServerPlayer player : players
-            ) {
-                double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
-                double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
-
-                boolean xClose = xDistance < 125;
-                boolean zClose = zDistance < 125;
-
-                List<Boolean> playersClose = new ArrayList<>();
-
-                if (!xClose || !zClose) {
-                    playersClose.add(Boolean.FALSE);
-                }
-
-                if (Collections.frequency(playersClose, Boolean.FALSE) == players.size()) {
-                    this.hasPlayer = false;
-
-                } else {
-                    this.hasPlayer = true;
+        try {
+            List<?> list = this.level.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
+            this.canCheck = !(list.size() == 0);
+            if (!this.canCheck) {
+                try {
+                    List<?> list2 = this.level.getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
+                    this.canCheck = !(list2.size() == 0);
+                } catch (Exception f) {
+                    BrassAmberBattleTowers.LOGGER.info("Exception finding Golem: " + f);
+                    this.canCheck = false;
                 }
             }
+        } catch (Exception e) {
+            BrassAmberBattleTowers.LOGGER.info("Exception finding Monolith: " + e);
+        }
 
-            if (this.tickCount % 20 == 0 && this.hasPlayer) {
-                BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
-                this.checkSpawners(this.level);
+
+        if (canCheck) {
+            if (!this.initialized) {
+                BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
+                BrassAmberBattleTowers.LOGGER.info(BTItems.LAND_MONOLOITH_KEY.get().getRegistryName());
+                this.findChestsAndSpawners(this.level);
+            }
+            else {
+                List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
+                for (ServerPlayer player : players
+                ) {
+
+                    List<Boolean> playersClose = new ArrayList<>();
+
+                    if (this.horizontalDistanceTo(player) > 30) {
+                        playersClose.add(Boolean.FALSE);
+                        BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
+                    }
+
+                    if (Collections.frequency(playersClose, Boolean.FALSE) == playersClose.size()) {
+                        this.hasPlayer = false;
+
+                    } else {
+                        this.hasPlayer = true;
+                    }
+                }
+
+                if (this.tickCount % 20 == 0 && this.hasPlayer) {
+                    // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
+                    this.checkSpawners(this.level);
+                }
             }
         }
+
     }
 
 

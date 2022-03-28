@@ -61,7 +61,6 @@ public class OvergrownLandTower extends LandBattleTower{
         int nextSeperation = BattleTowersConfig.landMinimumSeperation.get() + worldgenrandom.nextInt(seperationRange);
 
         BrassAmberBattleTowers.LOGGER.info("distance from last " + lastSpawnPosition.getChessboardDistance(chunkPos) + "  config distance allowed " + nextSeperation);
-        BrassAmberBattleTowers.LOGGER.info("block distance " + (lastSpawnPosition.getChessboardDistance(chunkPos) * 16));
 
         if (lastSpawnPosition.getChessboardDistance(chunkPos) < nextSeperation) {
             return false;

@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class BTMusics {
 
-    public static final Music GOLEM_FIGHT = new Music(BTSoundEvents.MUSIC_GOLEM_FIGHT, 6000, 24000, true);
-    public static final Music TOWER = new Music(BTSoundEvents.MUSIC_TOWER, 6000, 24000, true);
+    public static final Music GOLEM_FIGHT = new Music(BTSoundEvents.MUSIC_GOLEM_FIGHT, 5000, 6000, false);
+    public static final Music TOWER = new Music(BTSoundEvents.MUSIC_TOWER, 7000, 8000, false);
 
 }

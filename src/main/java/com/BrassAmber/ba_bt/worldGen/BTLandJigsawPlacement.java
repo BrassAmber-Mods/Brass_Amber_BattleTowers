@@ -77,8 +77,6 @@ public class BTLandJigsawPlacement {
                     k = blockPos.getY();
                 }
             }
-           
-            
 
             if (!predicate.test(chunkgenerator.getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
                 return Optional.empty();
@@ -106,20 +104,20 @@ public class BTLandJigsawPlacement {
         }
     }
 
-    public static void addPieces(RegistryAccess p_210291_, PoolElementStructurePiece p_210292_, int p_210293_, BTLandJigsawPlacement.PieceFactory p_210294_, ChunkGenerator p_210295_, StructureManager p_210296_, List<? super PoolElementStructurePiece> p_210297_, Random p_210298_, LevelHeightAccessor p_210299_) {
-        Registry<StructureTemplatePool> registry = p_210291_.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, p_210293_, p_210294_, p_210295_, p_210296_, p_210297_, p_210298_);
-        jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(p_210292_, new MutableObject<>(Shapes.INFINITY), 0));
+    public static void addPieces(RegistryAccess registryAccess, PoolElementStructurePiece structurePiece, int maxDepth, BTLandJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random, LevelHeightAccessor heightAccessor) {
+        Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
+        BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, maxDepth, pieceFactory, chunkGenerator, structureManager, pieces, random);
+        jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(structurePiece, new MutableObject<>(Shapes.INFINITY), 0));
 
         while(!jigsawplacement$placer.placing.isEmpty()) {
             BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
-            jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth, false, p_210299_);
+            jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth, false, heightAccessor);
         }
 
     }
 
     public interface PieceFactory {
-        PoolElementStructurePiece create(StructureManager p_210301_, StructurePoolElement p_210302_, BlockPos p_210303_, int p_210304_, Rotation p_210305_, BoundingBox p_210306_);
+        PoolElementStructurePiece create(StructureManager manager, StructurePoolElement poolElement, BlockPos blockPos, int groundLevel, Rotation rotation, BoundingBox boundingBox);
     }
 
     static final class PieceState {
@@ -127,10 +125,10 @@ public class BTLandJigsawPlacement {
         final MutableObject<VoxelShape> free;
         final int depth;
 
-        PieceState(PoolElementStructurePiece p_210311_, MutableObject<VoxelShape> p_210312_, int p_210313_) {
-            this.piece = p_210311_;
-            this.free = p_210312_;
-            this.depth = p_210313_;
+        PieceState(PoolElementStructurePiece pieceIn, MutableObject<VoxelShape> freeIn, int depthIn) {
+            this.piece = pieceIn;
+            this.free = freeIn;
+            this.depth = depthIn;
         }
     }
 
@@ -144,14 +142,14 @@ public class BTLandJigsawPlacement {
         private final Random random;
         final Deque<BTLandJigsawPlacement.PieceState> placing = Queues.newArrayDeque();
 
-        Placer(Registry<StructureTemplatePool> p_210323_, int p_210324_, BTLandJigsawPlacement.PieceFactory p_210325_, ChunkGenerator p_210326_, StructureManager p_210327_, List<? super PoolElementStructurePiece> p_210328_, Random p_210329_) {
-            this.pools = p_210323_;
-            this.maxDepth = p_210324_;
-            this.factory = p_210325_;
-            this.chunkGenerator = p_210326_;
-            this.structureManager = p_210327_;
-            this.pieces = p_210328_;
-            this.random = p_210329_;
+        Placer(Registry<StructureTemplatePool> poolsIn, int maxDepth, BTLandJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> structurePieces, Random random) {
+            this.pools = poolsIn;
+            this.maxDepth = maxDepth;
+            this.factory = pieceFactory;
+            this.chunkGenerator = chunkGenerator;
+            this.structureManager = structureManager;
+            this.pieces = structurePieces;
+            this.random = random;
         }
 
         void tryPlacingChildren(PoolElementStructurePiece structurePiece, MutableObject<VoxelShape> mutableObject, int currentDepth, boolean villageAdjust, LevelHeightAccessor heightAccessor) {
