@@ -79,10 +79,6 @@ public class BTObelisk extends Entity {
     private GolemType golemType;
     private boolean justSpawnedKey;
 
-    private MusicManager music;
-    private boolean hasMusic = false;
-
-
     // Data Strings
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
@@ -187,25 +183,20 @@ public class BTObelisk extends Entity {
         if (this.level.isClientSide()) {
             double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
             boolean hasClientPlayer = playerDistance < 30;
-            if (!this.hasMusic) {
-                this.music = ((ClientLevel) this.level).minecraft.getMusicManager();
-                this.hasMusic = true;
-            }
+            MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
 
-            if (!this.music.isPlayingMusic(BTMusics.TOWER) && !this.music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
-
+            if (!music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
                 BrassAmberBattleTowers.LOGGER.info("Player: " + hasClientPlayer + " time since music: " + this.timeSinceAmbientMusic);
-                if (hasClientPlayer) {
-                    if (this.timeSinceAmbientMusic == 7000 && playerDistance < 17){
-                        this.music.stopPlaying();
-                        this.music.startPlaying(BTMusics.TOWER);
-                        this.lastMusicStart = this.tickCount;
-                        this.timeSinceAmbientMusic = 0;
-                    }
+                if (hasClientPlayer && this.timeSinceAmbientMusic == 7000 && playerDistance < 24) {
+                    music.stopPlaying();
+                    ((ClientLevel) this.level).minecraft.getMusicManager().startPlaying(BTMusics.TOWER);
+                    this.lastMusicStart = this.tickCount;
+                    this.timeSinceAmbientMusic = 0;
                 }
             } else
-            if (!this.canCheck || !hasClientPlayer) {
-                this.music.stopPlaying();
+            if ((!this.canCheck || !hasClientPlayer) && music.isPlayingMusic(BTMusics.TOWER)) {
+                music.stopPlaying();
+                this.timeSinceAmbientMusic = 7000;
             }
             return;
         }
