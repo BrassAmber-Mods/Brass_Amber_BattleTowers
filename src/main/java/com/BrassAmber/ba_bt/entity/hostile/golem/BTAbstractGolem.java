@@ -26,7 +26,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -52,6 +54,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -83,7 +87,6 @@ public abstract class BTAbstractGolem extends Monster {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
-	protected MusicManager musicManager;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -92,7 +95,6 @@ public abstract class BTAbstractGolem extends Monster {
 	protected final String explosionPowerName = "ExplosionPower";
 	protected BlockPos chestBlockEntityPos;
 	protected int musicStart = 4900;
-	private boolean hasMusic = false;
 	private boolean stopMusic = false;
 
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
@@ -190,25 +192,20 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		if (this.level.isClientSide()) {
-			if (!this.hasMusic) {
-				this.musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
-				this.hasMusic = true;
-			}
-			if (this.stopMusic) {
-				if (this.musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
-					this.musicManager.stopPlaying();
-					this.stopMusic = false;
-				}
-			} else if (this.tickCount - this.musicStart >= 4900) {
-				this.musicStart = tickCount;
-				this.musicManager.stopPlaying();
-				this.musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
-			}
-		}
+			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
 
-		if (this.level.isClientSide()) {
+			if (this.isDormant()) {
+				if (musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+					musicManager.stopPlaying();
+				}
+			} else if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
+				this.musicStart = tickCount;
+				musicManager.stopPlaying();
+				musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
+			}
 			return;
 		}
+
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
 			Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
@@ -276,6 +273,7 @@ public abstract class BTAbstractGolem extends Monster {
 		// This way we get only the lateral distance
 		if (this.horizontalDistanceToSqr(spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
 			this.resetGolem();
+			return;
 		}
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
@@ -284,9 +282,10 @@ public abstract class BTAbstractGolem extends Monster {
 		if (nearestPlayer == null && this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) > 1) {
 			this.resetGolem();
 			BrassAmberBattleTowers.LOGGER.info("reset golem from tick");
+			return;
 		}
-		if (!(nearestPlayer == null)) {
-			if (this.horizontalDistanceToSqr(nearestPlayer.getX(), nearestPlayer.getZ()) > maxDistanceFromSpawn && nearestPlayer.isCreative()) {
+		if ((nearestPlayer != null)) {
+			if (this.horizontalDistanceToSqr(nearestPlayer.getX(), nearestPlayer.getZ()) > maxDistanceFromSpawn) {
 				this.resetGolem();
 				BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + this.horizontalDistanceToSqr(this.getSpawnPos().getX(), this.getSpawnPos().getZ()) + " " + maxDistanceFromSpawn);
 			}
@@ -368,9 +367,8 @@ public abstract class BTAbstractGolem extends Monster {
 
 	@Override
 	public void die(DamageSource source) {
-
 		if (this.level.isClientSide()) {
-			this.musicManager.stopPlaying();
+			((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
 		}
 		else {
 			try {

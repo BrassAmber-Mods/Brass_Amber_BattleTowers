@@ -186,15 +186,17 @@ public class BTObelisk extends Entity {
             MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
 
             if (!music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
-                BrassAmberBattleTowers.LOGGER.info("Player: " + hasClientPlayer + " time since music: " + this.timeSinceAmbientMusic);
+                // BrassAmberBattleTowers.LOGGER.info("Player: " + hasClientPlayer + " time since music: " + this.timeSinceAmbientMusic);
                 if (hasClientPlayer && this.timeSinceAmbientMusic == 7000 && playerDistance < 24) {
+                    music.nextSongDelay = 6900;
                     music.stopPlaying();
                     ((ClientLevel) this.level).minecraft.getMusicManager().startPlaying(BTMusics.TOWER);
                     this.lastMusicStart = this.tickCount;
                     this.timeSinceAmbientMusic = 0;
                 }
             } else
-            if ((!this.canCheck || !hasClientPlayer) && music.isPlayingMusic(BTMusics.TOWER)) {
+            if (!hasClientPlayer && music.isPlayingMusic(BTMusics.TOWER)) {
+                music.nextSongDelay = 500;
                 music.stopPlaying();
                 this.timeSinceAmbientMusic = 7000;
             }
@@ -221,27 +223,25 @@ public class BTObelisk extends Entity {
         if (canCheck) {
             if (!this.initialized) {
                 BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
-                BrassAmberBattleTowers.LOGGER.info(BTItems.LAND_MONOLOITH_KEY.get().getRegistryName());
                 this.findChestsAndSpawners(this.level);
             }
             else {
-                List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
+                List<ServerPlayer> players = this.level.getServer().getPlayerList().getPlayers();
+                List<Boolean> playersClose = new ArrayList<>();
                 for (ServerPlayer player : players
                 ) {
-
-                    List<Boolean> playersClose = new ArrayList<>();
-
-                    if (this.horizontalDistanceTo(player) > 30) {
-                        playersClose.add(Boolean.FALSE);
+                    if (this.horizontalDistanceTo(player) < 30) {
+                        playersClose.add(Boolean.TRUE);
                         BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
                     }
 
-                    if (Collections.frequency(playersClose, Boolean.FALSE) == playersClose.size()) {
-                        this.hasPlayer = false;
+                }
 
-                    } else {
-                        this.hasPlayer = true;
-                    }
+                if (Collections.frequency(playersClose, Boolean.TRUE) > 0) {
+                    this.hasPlayer = true;
+
+                } else {
+                    this.hasPlayer = false;
                 }
 
                 if (this.tickCount % 20 == 0 && this.hasPlayer) {
@@ -324,6 +324,9 @@ public class BTObelisk extends Entity {
         tag.putInt(this.towerName, this.getTower());
         tag.putInt(this.spawnersDestroyedName, this.getSpawnersDestroyed());
         tag.putString(this.golemTypeName, this.golemType.getSerializedName());
+        if (this.level.isClientSide()) {
+            ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
+        }
     }
 
     /*************************************** Characteristics & Properties *******************************************/
