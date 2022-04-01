@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class OvergrownLandTower extends LandBattleTower{
+public class OvergrownLandTower extends LandBattleTower {
     public OvergrownLandTower() {
         super(BTJigsawConfiguration.CODEC, true);
     }
@@ -82,7 +82,8 @@ public class OvergrownLandTower extends LandBattleTower{
         vanillaStructures.add(BuiltinStructureSets.SHIPWRECKS);
 
         for (ResourceKey<StructureSet> set : vanillaStructures) {
-            if(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 10)) {
+            // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
+            if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
                 return false;
             }
         }

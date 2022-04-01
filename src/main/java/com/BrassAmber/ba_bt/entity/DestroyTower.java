@@ -319,13 +319,14 @@ public class DestroyTower extends Entity {
 
     private void removeBodyOfWater(BlockPos start) {
     	Set<BlockPos> waterPositions = new HashSet<>();
-    	removeBodyOWater(waterPositions, start);
+        int recursion = 0;
+    	removeBodyOWater(waterPositions, start, recursion);
     	
     	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 64));
 	}
     
-    private void removeBodyOWater(Set<BlockPos> storage, BlockPos position) {
-    	if(!this.level.isWaterAt(position)) {
+    private void removeBodyOWater(Set<BlockPos> storage, BlockPos position, int recursion) {
+    	if(!this.level.isWaterAt(position) || recursion == 250) {
     		return;
     	}
     	if(!storage.contains(position)) {
@@ -333,12 +334,11 @@ public class DestroyTower extends Entity {
     	} else {
     		return;
     	}
-    	removeBodyOWater(storage, position.north());
-    	removeBodyOWater(storage, position.east());
-    	removeBodyOWater(storage, position.south());
-    	removeBodyOWater(storage, position.west());
-    	removeBodyOWater(storage, position.above());
-    	removeBodyOWater(storage, position.below());
+    	removeBodyOWater(storage, position.north(), recursion + 1);
+    	removeBodyOWater(storage, position.east(), recursion + 1);
+    	removeBodyOWater(storage, position.south(), recursion + 1);
+    	removeBodyOWater(storage, position.west(), recursion + 1);
+    	removeBodyOWater(storage, position.below(), recursion + 1);
     }
 
 	/**************************************************** DATA ****************************************************/
