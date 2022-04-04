@@ -3,7 +3,7 @@
   // If two or more structures in this list can spawn in a biome at a spot, a random one based on weight is chosen to spawn
   "structures": [
     {
-      "structure": "ba_bt:overgrown_land_tower",
+      "structure": "ba_bt:land_battle_tower",
       "weight": 1
     }
   ],

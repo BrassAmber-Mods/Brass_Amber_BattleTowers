@@ -5,6 +5,7 @@ import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.entity.ExplosionPhysics;
 import com.BrassAmber.ba_bt.entity.block.BTObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
+import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolem;
@@ -60,6 +61,7 @@ public class BTEntityTypes {
 	//*********************** TOWER MOBS *********************\\
 	public static final RegistryObject<EntityType<SkyMinion>> SKY_MINION = ENTITY_TYPES.register("sky_minion", () -> EntityType.Builder.of(SkyMinion::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8).build("sky_minion"));
 	public static final RegistryObject<EntityType<PlatinumSkeleton>> PLATINUM_SKELETON = ENTITY_TYPES.register("platinum_skeleton", () -> EntityType.Builder.of(PlatinumSkeleton::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8).build("platinum_skeleton"));
+	public static final RegistryObject<EntityType<BTCultist>> BT_CULTIST = ENTITY_TYPES.register("bt_cultist", () -> EntityType.Builder.of(BTCultist::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8).build("bt_cultist"));
 
 
 	//*********************** MISC ENTITIES *********************\\
@@ -86,6 +88,7 @@ public class BTEntityTypes {
 
 		registerSpawnPlacement(SKY_MINION.get(), Mob::checkMobSpawnRules);
 		registerSpawnPlacement(PLATINUM_SKELETON.get(), Monster::checkMonsterSpawnRules);
+		registerSpawnPlacement(BT_CULTIST.get(), Monster::checkMonsterSpawnRules);
 	}
 
 	/**
@@ -102,6 +105,7 @@ public class BTEntityTypes {
 
 		event.put(SKY_MINION.get(), SkyMinion.createAttributes().build());
 		event.put(PLATINUM_SKELETON.get(), PlatinumSkeleton.createAttributes().build());
+		event.put(BT_CULTIST.get(), BTCultist.createAttributes().build());
 	}
 	/**
 	 * Helper method for registering Entity Spawning

@@ -213,8 +213,5 @@ public class OvergrownLandTower extends LandBattleTower {
 
         // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces.
         return piecesGenerator;
-
-
-
     }
 }

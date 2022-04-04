@@ -21,9 +21,12 @@ import com.BrassAmber.ba_bt.client.renderer.golem.OceanGolemRenderer;
 import com.BrassAmber.ba_bt.client.renderer.golem.SkyGolemRenderer;
 
 
+import net.minecraft.client.model.SkeletonModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -35,6 +38,8 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEvents {
 
 	private ClientEvents() {}
+
+
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
@@ -49,6 +54,7 @@ public class ClientEvents {
 
 		event.registerEntityRenderer(BTEntityTypes.SKY_MINION.get(), SkyMinionRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.PLATINUM_SKELETON.get(), SkeletonRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.BT_CULTIST.get(), SkeletonRenderer::new);
 
 		event.registerEntityRenderer(BTEntityTypes.LAND_MONOLITH.get(), LandMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.CORE_MONOLITH.get(), CoreMonolithRenderer::new);
@@ -84,6 +90,7 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 
 		event.registerLayerDefinition(SkyMinionRenderer.TEXTURE, SkyMinionModel::createBodyLayer);
+		event.registerLayerDefinition(BTCultistModel.BT_CULTIST_TEXTURE, BTCultistModel::createBodyLayer);
 
 		event.registerLayerDefinition(LandGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
 		event.registerLayerDefinition(CoreGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
@@ -111,5 +118,6 @@ public class ClientEvents {
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_LAND_SPAWNER.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON.get(), RenderType.cutout());
 	}
+
 
 }

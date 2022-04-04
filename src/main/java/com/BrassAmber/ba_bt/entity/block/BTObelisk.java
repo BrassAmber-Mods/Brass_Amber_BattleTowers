@@ -4,24 +4,17 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
-import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
-import net.minecraft.client.Game;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -38,14 +31,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -89,23 +76,12 @@ public class BTObelisk extends Entity {
     private int lastMusicStart;
     private boolean canCheck;
 
-
     public BTObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.initialized = false;
         this.checkLayer = 1;
         this.currentFloorY = this.getBlockY() - 1;
-
         // this.blocksBuilding = true;
-        List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
-        this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
-                new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
-                new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
-                new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
-        for (int num:  spawnerAmounts) {
-            this.totalSpawners += num;
-        }
-
         this.timeSinceAmbientMusic = 7000;
         this.lastMusicStart = 0;
 
@@ -114,16 +90,7 @@ public class BTObelisk extends Entity {
     public BTObelisk(GolemType golemType, Level level) {
         this(GolemType.getObeliskFor(golemType), level);
         this.golemType = golemType;
-        this.setTower(GolemType.getNumForType(golemType));
-        List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
-        this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
-                new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
-                new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
-                new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
-        this.totalSpawners = 0;
-        for (int num:  spawnerAmounts) {
-            this.totalSpawners += num;
-        }
+        this.setTower(GolemType.getNumForType(this.golemType));
     }
 
     public void findChestsAndSpawners(Level level) {
@@ -187,7 +154,7 @@ public class BTObelisk extends Entity {
 
             if (!music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
                 // BrassAmberBattleTowers.LOGGER.info("Player: " + hasClientPlayer + " time since music: " + this.timeSinceAmbientMusic);
-                if (hasClientPlayer && this.timeSinceAmbientMusic == 7000 && playerDistance < 24) {
+                if (hasClientPlayer && this.timeSinceAmbientMusic == 7000 && playerDistance < 17) {
                     music.nextSongDelay = 6900;
                     music.stopPlaying();
                     ((ClientLevel) this.level).minecraft.getMusicManager().startPlaying(BTMusics.TOWER);
@@ -223,6 +190,14 @@ public class BTObelisk extends Entity {
         if (canCheck) {
             if (!this.initialized) {
                 BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
+                List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
+                this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
+                        new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
+                        new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
+                        new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
+                for (int num:  spawnerAmounts) {
+                    this.totalSpawners += num;
+                }
                 this.findChestsAndSpawners(this.level);
             }
             else {
@@ -232,7 +207,7 @@ public class BTObelisk extends Entity {
                 ) {
                     if (this.horizontalDistanceTo(player) < 30) {
                         playersClose.add(Boolean.TRUE);
-                        BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
+                        // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
                     }
 
                 }
@@ -317,6 +292,7 @@ public class BTObelisk extends Entity {
         this.setTower(tag.getInt(this.towerName));
         this.setSpawnersDestroyed(tag.getInt(this.spawnersDestroyedName));
         this.golemType = GolemType.getTypeForName(tag.getString(this.golemTypeName));
+        this.setTower(GolemType.getNumForType(this.golemType));
     }
 
     @Override

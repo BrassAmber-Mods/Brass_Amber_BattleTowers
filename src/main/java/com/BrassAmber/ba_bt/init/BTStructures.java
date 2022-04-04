@@ -19,8 +19,5 @@ public class BTStructures {
     public static final RegistryObject<StructureFeature<?>> LAND_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("land_battle_tower", LandBattleTower::new);
     public static final RegistryObject<StructureFeature<?>> OVERGROWN_LAND_BATTLE_TOWER = DEFERRED_REGISTRY_STRUCTURE.register("overgrown_land_battle_tower", OvergrownLandTower::new);
 
-    /**
-     * This is where we set the rarity of your structures and determine if land conforms to it.
-     * See the comments in below for more details.
-     */
+
 }

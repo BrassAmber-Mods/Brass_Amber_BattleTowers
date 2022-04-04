@@ -192,16 +192,23 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		if (this.level.isClientSide()) {
+			double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
+			boolean hasClientPlayer = playerDistance < 30;
 			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
 
 			if (this.isDormant()) {
 				if (musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
 					musicManager.stopPlaying();
 				}
-			} else if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
-				this.musicStart = tickCount;
-				musicManager.stopPlaying();
-				musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
+			} else {
+				if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
+					this.musicStart = tickCount;
+					musicManager.stopPlaying();
+					musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
+				}
+				if (!hasClientPlayer) {
+					musicManager.stopPlaying();
+				}
 			}
 			return;
 		}
@@ -252,12 +259,21 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 	
 	/**
-	 * Returns the horizontal distance.
+	 * Returns the squared horizontal distance.
 	 */
 	public double horizontalDistanceToSqr(double targetX, double targetZ) {
 		double dX = this.getX() - targetX;
 		double dZ = this.getZ() - targetZ;
 		return dX * dX + dZ * dZ;
+	}
+
+	/**
+	 * Returns the horizontal distance.
+	 */
+	public double horizontalDistanceTo(Entity entity) {
+		double dX = this.getX() - entity.getX();
+		double dZ = this.getZ() - entity.getZ();
+		return Math.abs(Math.sqrt(dX * dX + dZ * dZ));
 	}
 
 	/**
