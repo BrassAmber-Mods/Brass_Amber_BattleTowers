@@ -16,6 +16,7 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.SkyGolem;
 
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.RegistryEvent.Register;

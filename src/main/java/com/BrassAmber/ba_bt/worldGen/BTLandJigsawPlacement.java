@@ -87,7 +87,7 @@ public class BTLandJigsawPlacement {
                     list.add(poolelementstructurepiece);
                     if (jigsawconfiguration.maxDepth() > 0) {
                         int i1 = 120;
-                        AABB aabb = new AABB((double)(i - i1), (double)(k - i1), (double)(j - i1), (double)(i + i1 + 1), (double)(k + i1 + 1), (double)(j + i1 + 1));
+                        AABB aabb = new AABB(i - i1, k - i1, j - i1, i + i1 + 1, k + i1 + 1, j + i1 + 1);
                         BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
                         jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
 

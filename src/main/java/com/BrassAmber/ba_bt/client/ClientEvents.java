@@ -55,7 +55,7 @@ public class ClientEvents {
 
 		event.registerEntityRenderer(BTEntityTypes.SKY_MINION.get(), SkyMinionRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.PLATINUM_SKELETON.get(), SkeletonRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.BT_CULTIST.get(), SkeletonRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.BT_CULTIST.get(), BTCultistRenderer::new);
 
 		event.registerEntityRenderer(BTEntityTypes.LAND_MONOLITH.get(), LandMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.CORE_MONOLITH.get(), CoreMonolithRenderer::new);
@@ -91,7 +91,7 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 
 		event.registerLayerDefinition(SkyMinionRenderer.TEXTURE, SkyMinionModel::createBodyLayer);
-		event.registerLayerDefinition(BTCultistModel.BT_CULTIST_TEXTURE, BTCultistModel::createBodyLayer);
+		event.registerLayerDefinition(BTCultistRenderer.TEXTURE, BTCultistModel::createBodyLayer);
 
 		event.registerLayerDefinition(LandGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
 		event.registerLayerDefinition(CoreGolemRenderer.LAYER, LandGolemModel::createBodyLayer);

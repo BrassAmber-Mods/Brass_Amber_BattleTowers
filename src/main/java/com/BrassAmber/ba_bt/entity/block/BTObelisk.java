@@ -230,34 +230,36 @@ public class BTObelisk extends Entity {
 
 
     private void checkSpawners(Level level) {
-        for (int i = 0; i < this.SPAWNERS.size(); i++) {
-            if (this.SPAWNERS.get(i).size() == 0) {
-                if (level.getBlockEntity(this.CHESTS.get(i)) instanceof GolemChestBlockEntity chestBlockEntity) {
-                    if (!chestBlockEntity.isUnlocked()) {
-                        chestBlockEntity.setUnlocked(true);
-                        this.chestUnlockingSound(level);
+        if (!(this.CHESTS.size() == 0)) {
+            for (int i = 0; i < this.SPAWNERS.size(); i++) {
+                if (this.SPAWNERS.get(i).size() == 0) {
+                    if (level.getBlockEntity(this.CHESTS.get(i)) instanceof GolemChestBlockEntity chestBlockEntity) {
+                        if (!chestBlockEntity.isUnlocked()) {
+                            chestBlockEntity.setUnlocked(true);
+                            this.chestUnlockingSound(level);
+                        }
                     }
-                }
-            } else {
-                List<BlockPos> poss = this.SPAWNERS.get(i);
-                for (int x = 0; x < poss.size(); x++) {
-                    if (!(level.getBlockState(poss.get(x)).is(BTBlocks.BT_LAND_SPAWNER.get()))) {
-                        this.SPAWNERS.get(i).remove(poss.get(x));
-                        this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
-                        BrassAmberBattleTowers.LOGGER.info(this.getSpawnersDestroyed());
+                } else {
+                    List<BlockPos> poss = this.SPAWNERS.get(i);
+                    for (BlockPos blockPos : poss) {
+                        if (!(level.getBlockState(blockPos).is(BTBlocks.BT_LAND_SPAWNER.get()))) {
+                            this.SPAWNERS.get(i).remove(blockPos);
+                            this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
+                            BrassAmberBattleTowers.LOGGER.info(this.getSpawnersDestroyed());
+                        }
                     }
-                }
-                if (!this.justSpawnedKey && (this.getSpawnersDestroyed() == 6 || this.getSpawnersDestroyed() == 14 || this.getSpawnersDestroyed() == this.totalSpawners)) {
-                    if (level.getBlockEntity(this.CHESTS.get(i)) instanceof ChestBlockEntity chest) {
-                        chest.setLootTable(BrassAmberBattleTowers.locate("chests/land_tower/" + (i+1) + "key"), this.random.nextLong());
+                    if (!this.justSpawnedKey && (this.getSpawnersDestroyed() == 6 || this.getSpawnersDestroyed() == 14 || this.getSpawnersDestroyed() == this.totalSpawners)) {
+                        if (level.getBlockEntity(this.CHESTS.get(i)) instanceof ChestBlockEntity chest) {
+                            chest.setLootTable(BrassAmberBattleTowers.locate("chests/land_tower/" + (i+1) + "key"), this.random.nextLong());
+                        }
+                        else {
+                            this.doNoOutputPostionedCommand("give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                        }
+                        this.justSpawnedKey = true;
                     }
-                    else {
-                        this.doNoOutputPostionedCommand("give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                    else if (justSpawnedKey && (this.getSpawnersDestroyed() == 7 || this.getSpawnersDestroyed() == 15)) {
+                        this.justSpawnedKey = false;
                     }
-                    this.justSpawnedKey = true;
-                }
-                else if (justSpawnedKey && (this.getSpawnersDestroyed() == 7 || this.getSpawnersDestroyed() == 15)) {
-                    this.justSpawnedKey = false;
                 }
             }
         }
