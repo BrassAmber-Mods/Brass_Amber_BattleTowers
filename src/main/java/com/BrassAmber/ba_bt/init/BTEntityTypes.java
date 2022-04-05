@@ -53,10 +53,10 @@ public class BTEntityTypes {
 
 	public static final EntityType<DestroyTowerEntity> DESTROY_TOWER = buildEntityType("destroy_tower",
 			EntityType.Builder.<DestroyTowerEntity>of(DestroyTowerEntity::new, EntityClassification.MISC)
-					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT));
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon());
 	public static final EntityType<ExplosionPhysicsEntity> PHYSICS_EXPLOSION = buildEntityType("explosion_physics",
 			EntityType.Builder.<ExplosionPhysicsEntity>of(ExplosionPhysicsEntity::new, EntityClassification.MISC)
-					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave());
+					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave().noSummon());
 
 	
 	/**
@@ -95,7 +95,7 @@ public class BTEntityTypes {
 	 * Helper method for creating Golem EntityTypes
 	 */
 	private static <T extends BTGolemEntityAbstract> EntityType<T> buildGolemEntityType(String registryName, EntityType.IFactory<T> typeFactory) {
-		Builder<T> golemBuilder = EntityType.Builder.of(typeFactory, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE * 2 * 0.6F, BTGolemEntityAbstract.SCALE * 2 * 2).setTrackingRange(10).fireImmune();
+		Builder<T> golemBuilder = EntityType.Builder.of(typeFactory, EntityClassification.MONSTER).sized(BTGolemEntityAbstract.SCALE * 2 * 0.6F, BTGolemEntityAbstract.SCALE * 2 * 2).setTrackingRange(10).fireImmune().noSummon();
 		return buildEntityType(registryName, golemBuilder);
 	}
 

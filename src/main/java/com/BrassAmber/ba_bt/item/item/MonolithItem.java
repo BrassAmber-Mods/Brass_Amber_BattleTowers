@@ -59,7 +59,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (world instanceof ServerWorld) {
 					double centerOnBlock = 0.5D;
-					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, world, x + centerOnBlock, y, z + centerOnBlock);
+					MonolithEntity newMonolithEntity = new MonolithEntity(this.monolithEntityType, world, x + centerOnBlock, y, z + centerOnBlock, world.getBlockState(newPlacementPos.below()));
 					newMonolithEntity.yRot = this.getPlacementDirection(context);
 					world.addFreshEntity(newMonolithEntity);
 				}
