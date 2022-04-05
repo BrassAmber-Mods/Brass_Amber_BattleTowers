@@ -1,26 +1,30 @@
 package com.BrassAmber.ba_bt.init;
 
-import java.util.concurrent.Callable;
-import java.util.function.Supplier;
-
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.*;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 
 
+import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 
 public class BTBlocks {
@@ -85,4 +89,5 @@ public class BTBlocks {
 		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties()));
 		return regBlock;
 	}
+
 }

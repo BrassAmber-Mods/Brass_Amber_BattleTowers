@@ -38,50 +38,35 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 
 public class GolemChestBlock extends ChestBlock {
-
-	public static final BTChestType BT_CHEST_TYPE = BTChestType.GOLEM;
 	private final BTChestType chestType;
 
-	private static final DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<Container>> CHEST_COMBINER = new DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<Container>>() {
-		public Optional<Container> acceptDouble(GolemChestBlockEntity p_51591_, GolemChestBlockEntity p_51592_) {
-			return Optional.of(new CompoundContainer(p_51591_, p_51592_));
-		}
-
-		public Optional<Container> acceptSingle(GolemChestBlockEntity p_51589_) {
-			return Optional.of(p_51589_);
-		}
-
-		public Optional<Container> acceptNone() {
-			return Optional.empty();
-		}
-	};
-	private static final DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<GolemChestBlockEntity, Optional<MenuProvider>>() {
-		public Optional<MenuProvider> acceptDouble(final GolemChestBlockEntity p_51604_, final GolemChestBlockEntity p_51605_) {
-			final Container container = new CompoundContainer(p_51604_, p_51605_);
+	private final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>>() {
+		public Optional<MenuProvider> acceptDouble(final ChestBlockEntity chestBlockEntity1, final ChestBlockEntity chestBlockEntity2) {
+			final Container iinventory = new CompoundContainer(chestBlockEntity1, chestBlockEntity2);
 			return Optional.of(new MenuProvider() {
 				@Nullable
-				public AbstractContainerMenu createMenu(int p_51622_, Inventory p_51623_, Player p_51624_) {
-					if (p_51604_.canOpen(p_51624_) && p_51605_.canOpen(p_51624_)) {
-						p_51604_.unpackLootTable(p_51623_.player);
-						p_51605_.unpackLootTable(p_51623_.player);
-						return ChestMenu.sixRows(p_51622_, p_51623_, container);
+				public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player playerIn) {
+					if (chestBlockEntity1.canOpen(playerIn) && chestBlockEntity2.canOpen(playerIn)) {
+						chestBlockEntity1.unpackLootTable(playerInventory.player);
+						chestBlockEntity2.unpackLootTable(playerInventory.player);
+						return ChestMenu.sixRows(containerId, playerInventory, iinventory);
 					} else {
 						return null;
 					}
 				}
 
 				public Component getDisplayName() {
-					if (p_51604_.hasCustomName()) {
-						return p_51604_.getDisplayName();
+					if (chestBlockEntity1.hasCustomName()) {
+						return chestBlockEntity1.getDisplayName();
 					} else {
-						return p_51605_.hasCustomName() ? p_51605_.getDisplayName() : new TranslatableComponent("container.ba_bt."+BT_CHEST_TYPE.getName()+"_chest_double");
+						return chestBlockEntity2.hasCustomName() ? chestBlockEntity2.getDisplayName() : new TranslatableComponent("container.ba_bt."+getChestType().getName()+"_chest_double");
 					}
 				}
 			});
 		}
 
-		public Optional<MenuProvider> acceptSingle(GolemChestBlockEntity p_51602_) {
-			return Optional.of(p_51602_);
+		public Optional<MenuProvider> acceptSingle(ChestBlockEntity chestBlockEntity) {
+			return Optional.of(chestBlockEntity);
 		}
 
 		public Optional<MenuProvider> acceptNone() {
@@ -92,7 +77,7 @@ public class GolemChestBlock extends ChestBlock {
 
 	
 	public GolemChestBlock(BTChestType chestType, Properties properties) {
-		this(chestType, properties, () -> BTBlockEntityTypes.LAND_GOLEM_CHEST.get());
+		this(chestType, properties, BTBlockEntityTypes.LAND_GOLEM_CHEST::get);
 	}
 
 	public GolemChestBlock(BTChestType chestType, Properties properties, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier) {
@@ -106,8 +91,8 @@ public class GolemChestBlock extends ChestBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState p_60495_, Level p_60496_, BlockPos p_60497_, Entity p_60498_) {
-		super.entityInside(p_60495_, p_60496_, p_60497_, p_60498_);
+	public boolean hasAnalogOutputSignal(BlockState state) {
+		return true;
 	}
 
 	public BTChestType getChestType() {
