@@ -15,11 +15,14 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
@@ -34,13 +37,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class OvergrownLandTower extends LandBattleTower {
+public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> {
     public OvergrownLandTower() {
-        super(BTJigsawConfiguration.CODEC, true);
+        super(BTJigsawConfiguration.CODEC, OvergrownLandTower::createPiecesGenerator, PostPlacementProcessor.NONE);
     }
 
     private static boolean watered;
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
+
+    @Override
+    public GenerationStep.@NotNull Decoration step() {
+        return GenerationStep.Decoration.SURFACE_STRUCTURES;
+    }
+
+
 
     public static boolean isFeatureChunk(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
 
@@ -60,7 +70,7 @@ public class OvergrownLandTower extends LandBattleTower {
 
         int nextSeperation = BattleTowersConfig.landMinimumSeperation.get() + worldgenrandom.nextInt(seperationRange);
 
-        BrassAmberBattleTowers.LOGGER.info("distance from last " + lastSpawnPosition.getChessboardDistance(chunkPos) + "  config distance allowed " + nextSeperation);
+        BrassAmberBattleTowers.LOGGER.info("Overgrown distance from last " + lastSpawnPosition.getChessboardDistance(chunkPos) + "  config distance allowed " + nextSeperation);
 
         if (lastSpawnPosition.getChessboardDistance(chunkPos) < nextSeperation) {
             return false;

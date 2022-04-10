@@ -90,7 +90,7 @@ public class BTObelisk extends Entity {
     public BTObelisk(GolemType golemType, Level level) {
         this(GolemType.getObeliskFor(golemType), level);
         this.golemType = golemType;
-        this.setTower(GolemType.getNumForType(this.golemType));
+        this.setTower(GolemType.getNumForType(golemType));
     }
 
     public void findChestsAndSpawners(Level level) {
@@ -126,11 +126,12 @@ public class BTObelisk extends Entity {
         try {
             Block block = level.getBlockState(toCheck).getBlock();
             if (block == BTBlocks.LAND_CHEST.get() || block == BTBlocks.LAND_GOLEM_CHEST.get()) {
-                this.CHESTS.add(checkLayer-1, toCheck);
+                this.CHESTS.add(toCheck);
                 BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == BTBlocks.BT_LAND_SPAWNER.get()) {
-                this.SPAWNERS.get(this.checkLayer-1).add(this.spawnersFound, toCheck);
+                this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
+                BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
                 this.spawnersFound += 1;
             }
         } catch (Exception e) {
@@ -230,7 +231,7 @@ public class BTObelisk extends Entity {
 
 
     private void checkSpawners(Level level) {
-        if (!(this.CHESTS.size() == 0)) {
+        if (!(this.CHESTS.size() == 0) && !(this.SPAWNERS.size() == 0)) {
             for (int i = 0; i < this.SPAWNERS.size(); i++) {
                 if (this.SPAWNERS.get(i).size() == 0) {
                     if (level.getBlockEntity(this.CHESTS.get(i)) instanceof GolemChestBlockEntity chestBlockEntity) {
@@ -293,15 +294,12 @@ public class BTObelisk extends Entity {
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.setTower(tag.getInt(this.towerName));
         this.setSpawnersDestroyed(tag.getInt(this.spawnersDestroyedName));
-        this.golemType = GolemType.getTypeForName(tag.getString(this.golemTypeName));
-        this.setTower(GolemType.getNumForType(this.golemType));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt(this.towerName, this.getTower());
         tag.putInt(this.spawnersDestroyedName, this.getSpawnersDestroyed());
-        tag.putString(this.golemTypeName, this.golemType.getSerializedName());
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
         }

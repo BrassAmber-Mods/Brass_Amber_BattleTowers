@@ -47,7 +47,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -57,6 +59,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -105,11 +108,11 @@ public abstract class BTAbstractGolem extends Monster {
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 500;
 
-		// TODO Delete, testing purposes
-		// String clientOrServer = worldIn.isClientSide() ? "Client" : "Server";
-		// BrassAmberBattleTowers.LOGGER.info(clientOrServer + ", Create Entity!");
+		// Reference for disregarding fire taken from ZombiefiedPiglin
+
+		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
 		
-		this.maxUpStep = 1.5F;
+		this.maxUpStep = 2.0F;
 	}
 
 
@@ -367,12 +370,19 @@ public abstract class BTAbstractGolem extends Monster {
 	 */
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
+		// Disregard Fire Damage
+		if (source.isFire()) {
+			return super.hurt(source, 0.0F);
+		}
+		if (source.isExplosion()) {
+			return super.hurt(source, damage / 4f);
+		}
 		if (!this.isDormant()) {
-			int multiplier = this.isEnraged() ? 2 : 1;
+			float multiplier = this.isEnraged() ? .5f : 1f;
 			if (source.isProjectile()) {
-				return super.hurt(source, (damage / 2) * multiplier);
+				return super.hurt(source, damage * multiplier);
 			}
-			return super.hurt(source, damage * multiplier);
+			return super.hurt(source, damage / multiplier);
 		} else if (source.isCreativePlayer() && this.isDormant()) {
 			this.setGolemState(AWAKE);
 		}
