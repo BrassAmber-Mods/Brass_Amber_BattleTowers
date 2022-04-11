@@ -98,8 +98,13 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
             }
         }
 
+        if (landHeight > 200) {
+            BrassAmberBattleTowers.LOGGER.info("Overgrown LandHeight: " + landHeight + " at: " + centerOfChunk);
+            return false;
+        }
+
         // We check using the isFlatLand() function below for water and spacing
-        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor()) && landHeight <= 200;
+        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor());
     }
 
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
@@ -192,36 +197,36 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
         if (!OvergrownLandTower.isFeatureChunk(context)) {
             return Optional.empty();
+        } else {
+            lastSpawnPosition = context.chunkPos();
+
+            // Get chunk center coordinates
+            BlockPos centerPos = context.chunkPos().getMiddleBlockPosition(0);
+
+            Optional<PieceGenerator<BTJigsawConfiguration>> piecesGenerator;
+            // All a structure has to do is call this method to turn it into a jigsaw based structure!
+
+            piecesGenerator =
+                    BTLandJigsawPlacement.addPieces(
+                            context, // Used for JigsawPlacement to get all the proper behaviors done.
+                            PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
+                            centerPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
+                            false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting. --TelepathicGrunt
+                            true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+                            // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
+                            // --TelepathicGrunt
+                            watered
+                    );
+
+
+            if(piecesGenerator.isPresent()) {
+                // I use to debug and quickly find out if the structure is spawning or not and where it is.
+                // This is returning the coordinates of the center starting piece.
+                BrassAmberBattleTowers.LOGGER.info("Overgrown Land Tower at " + centerPos);
+            }
+
+            // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces.
+            return piecesGenerator;
         }
-
-        lastSpawnPosition = context.chunkPos();
-
-        // Get chunk center coordinates
-        BlockPos centerPos = context.chunkPos().getMiddleBlockPosition(0);
-
-        Optional<PieceGenerator<BTJigsawConfiguration>> piecesGenerator;
-        // All a structure has to do is call this method to turn it into a jigsaw based structure!
-
-        piecesGenerator =
-                BTLandJigsawPlacement.addPieces(
-                        context, // Used for JigsawPlacement to get all the proper behaviors done.
-                        PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                        centerPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                        false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting. --TelepathicGrunt
-                        true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-                        // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                        // --TelepathicGrunt
-                        watered
-                );
-
-
-        if(piecesGenerator.isPresent()) {
-            // I use to debug and quickly find out if the structure is spawning or not and where it is.
-            // This is returning the coordinates of the center starting piece.
-            BrassAmberBattleTowers.LOGGER.info("Overgrown Land Tower at " + centerPos);
-        }
-
-        // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces.
-        return piecesGenerator;
     }
 }

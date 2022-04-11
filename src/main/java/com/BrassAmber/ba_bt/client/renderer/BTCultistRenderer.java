@@ -11,13 +11,14 @@ import net.minecraft.resources.ResourceLocation;
 
 public class BTCultistRenderer extends IllagerRenderer<BTCultist> {
 
-    private static final ResourceLocation CULTIST = BrassAmberBattleTowers.locate("bt_cultist.png");
+    private static final ResourceLocation CULTIST = BrassAmberBattleTowers.locate("textures/entity/bt_cultist.png");
 
     public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(CULTIST, "main");
 
     public BTCultistRenderer(EntityRendererProvider.Context context) {
         super(context, new IllagerModel<>(context.bakeLayer(TEXTURE)), 0.5F);
         this.addLayer(new ItemInHandLayer<>(this));
+        this.model.getHat().visible = true;
     }
 
     @Override

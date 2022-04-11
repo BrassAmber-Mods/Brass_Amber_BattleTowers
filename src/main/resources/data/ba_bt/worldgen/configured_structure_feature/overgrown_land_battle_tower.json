@@ -25,10 +25,16 @@
       "bounding_box": "full",
       "spawns": [
         {
-          "type": "minecraft:pillager",
-          "weight": 1,
+          "type": "ba_bt:bt_cultist",
+          "weight": 40,
           "minCount": 1,
           "maxCount": 2
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 60,
+          "minCount": 1,
+          "maxCount": 1
         }
       ]
     }

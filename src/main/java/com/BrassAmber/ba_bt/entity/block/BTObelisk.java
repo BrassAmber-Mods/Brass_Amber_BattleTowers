@@ -62,6 +62,7 @@ public class BTObelisk extends Entity {
     private int currentFloorY;
     private int spawnersFound;
     private int totalSpawners;
+    private boolean createSpawnerList;
 
     private GolemType golemType;
     private boolean justSpawnedKey;
@@ -84,6 +85,7 @@ public class BTObelisk extends Entity {
         // this.blocksBuilding = true;
         this.timeSinceAmbientMusic = 7000;
         this.lastMusicStart = 0;
+        this.createSpawnerList = true;
 
     }
 
@@ -127,6 +129,7 @@ public class BTObelisk extends Entity {
             Block block = level.getBlockState(toCheck).getBlock();
             if (block == BTBlocks.LAND_CHEST.get() || block == BTBlocks.LAND_GOLEM_CHEST.get()) {
                 this.CHESTS.add(toCheck);
+                // This must use the insert version of add since the arraylist was already initialized
                 BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == BTBlocks.BT_LAND_SPAWNER.get()) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
@@ -171,33 +174,39 @@ public class BTObelisk extends Entity {
             return;
         }
 
-        try {
-            List<?> list = this.level.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
-            this.canCheck = !(list.size() == 0);
-            if (!this.canCheck) {
-                try {
-                    List<?> list2 = this.level.getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
-                    this.canCheck = !(list2.size() == 0);
-                } catch (Exception f) {
-                    BrassAmberBattleTowers.LOGGER.info("Exception finding Golem: " + f);
-                    this.canCheck = false;
+        if (this.canCheck) {
+            try {
+                List<?> list = this.level.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
+                this.canCheck = !(list.size() == 0);
+                if (!this.canCheck) {
+                    try {
+                        List<?> list2 = this.level.getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
+                        this.canCheck = !(list2.size() == 0);
+                    } catch (Exception f) {
+                        BrassAmberBattleTowers.LOGGER.info("Exception finding Golem: " + f);
+                        this.canCheck = false;
+                    }
                 }
+            } catch (Exception e) {
+                BrassAmberBattleTowers.LOGGER.info("Exception finding Monolith: " + e);
             }
-        } catch (Exception e) {
-            BrassAmberBattleTowers.LOGGER.info("Exception finding Monolith: " + e);
         }
+
 
 
         if (canCheck) {
             if (!this.initialized) {
                 BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
-                List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
-                this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
-                        new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
-                        new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
-                        new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
-                for (int num:  spawnerAmounts) {
-                    this.totalSpawners += num;
+                if (this.createSpawnerList) {
+                    List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
+                    this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
+                            new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
+                            new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
+                            new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
+                    for (int num:  spawnerAmounts) {
+                        this.totalSpawners += num;
+                    }
+                    this.createSpawnerList = false;
                 }
                 this.findChestsAndSpawners(this.level);
             }
@@ -242,7 +251,8 @@ public class BTObelisk extends Entity {
                     }
                 } else {
                     List<BlockPos> poss = this.SPAWNERS.get(i);
-                    for (BlockPos blockPos : poss) {
+                    for (int x = 0; x < poss.size(); x++) {
+                        BlockPos blockPos = poss.get(x);
                         if (!(level.getBlockState(blockPos).is(BTBlocks.BT_LAND_SPAWNER.get()))) {
                             this.SPAWNERS.get(i).remove(blockPos);
                             this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);

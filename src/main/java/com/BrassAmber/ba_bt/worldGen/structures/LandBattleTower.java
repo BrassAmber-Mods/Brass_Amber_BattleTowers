@@ -104,9 +104,12 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             }
         }
 
-        BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
+        if (landHeight > 215) {
+            BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
+            return false;
+        }
         // We check using the isFlatLand() function below for water and spacing
-        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor()) && landHeight <= 215;
+        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor());
     }
     
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
