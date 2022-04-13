@@ -38,7 +38,7 @@ public class BTLandJigsawPlacement {
 
     private static boolean watered;
 
-    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean villageBoundaryAdjust, boolean placeAtHeightMap, boolean isWatered) {
+    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean placeAtHeightMap, boolean isWatered) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
@@ -46,7 +46,6 @@ public class BTLandJigsawPlacement {
         ChunkGenerator chunkgenerator = context.chunkGenerator();
         StructureManager structuremanager = context.structureManager();
         LevelHeightAccessor levelheightaccessor = context.heightAccessor();
-        Predicate<Holder<Biome>> predicate = context.validBiome();
         StructureFeature.bootstrap();
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(worldgenrandom);
@@ -76,30 +75,25 @@ public class BTLandJigsawPlacement {
                     k = blockPos.getY();
                 }
             }
+            int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
+            poolelementstructurepiece.move(0, k - l, 0);
+            return Optional.of((p_210282_, p_210283_) -> {
+                List<PoolElementStructurePiece> list = Lists.newArrayList();
+                list.add(poolelementstructurepiece);
+                if (jigsawconfiguration.maxDepth() > 0) {
+                    int i1 = 120;
+                    AABB aabb = new AABB(i - i1, k - i1, j - i1, i + i1 + 1, k + i1 + 1, j + i1 + 1);
+                    BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
+                    jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
 
-            if (!predicate.test(chunkgenerator.getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
-                return Optional.empty();
-            } else {
-                int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
-                poolelementstructurepiece.move(0, k - l, 0);
-                return Optional.of((p_210282_, p_210283_) -> {
-                    List<PoolElementStructurePiece> list = Lists.newArrayList();
-                    list.add(poolelementstructurepiece);
-                    if (jigsawconfiguration.maxDepth() > 0) {
-                        int i1 = 120;
-                        AABB aabb = new AABB(i - i1, k - i1, j - i1, i + i1 + 1, k + i1 + 1, j + i1 + 1);
-                        BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
-                        jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
-
-                        while(!jigsawplacement$placer.placing.isEmpty()) {
-                            BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
-                            jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth,  levelheightaccessor);
-                        }
-
-                        list.forEach(p_210282_::addPiece);
+                    while(!jigsawplacement$placer.placing.isEmpty()) {
+                        BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
+                        jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth,  levelheightaccessor);
                     }
-                });
-            }
+
+                    list.forEach(p_210282_::addPiece);
+                }
+            });
         }
     }
 

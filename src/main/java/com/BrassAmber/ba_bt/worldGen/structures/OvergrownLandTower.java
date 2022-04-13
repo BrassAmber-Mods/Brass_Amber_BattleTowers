@@ -6,6 +6,8 @@ import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Predicate;
 
 public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> {
     public OvergrownLandTower() {
@@ -43,6 +47,7 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
     }
 
     private static boolean watered;
+    private static BlockPos SpawnPos;
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
 
     @Override
@@ -52,7 +57,7 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
 
 
 
-    public static boolean isFeatureChunk(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
+    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
 
         ChunkPos chunkPos = context.chunkPos();
 
@@ -103,8 +108,53 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
             return false;
         }
 
-        // We check using the isFlatLand() function below for water and spacing
-        return isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor());
+        // First Test the center chunk given by the context
+        boolean chunkOkay = isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor());
+        if (chunkOkay) {
+            SpawnPos = new BlockPos(centerOfChunk.getX(), landHeight, centerOfChunk.getZ());
+            return true;
+        }
+        // if false, check surrounding chunks for possible spawns
+
+        List<BlockPos> testables = new ArrayList<>(List.of(
+                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 32),
+                new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ() + 32),
+                new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ()),
+                new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ() - 32),
+                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() - 32),
+                new BlockPos(centerOfChunk.getX() - 32, centerOfChunk.getY(), centerOfChunk.getZ() - 32),
+                new BlockPos(centerOfChunk.getX() - 32, centerOfChunk.getY(), centerOfChunk.getZ()),
+                new BlockPos(centerOfChunk.getX() - 32, centerOfChunk.getY(), centerOfChunk.getZ() + 32)
+        ));
+        // North, Northeast, East, SouthEast, South, SouthWest, West, NorthWest
+        // X = Empty, T = Checked
+        // T X T X T
+        // X X X X X
+        // T X X X T
+        // X X X X X
+        // T X T X T
+
+        List<Boolean> possiblePositions =  new ArrayList<>();
+        List<BlockPos> usablePositions =  new ArrayList<>();
+
+        for (BlockPos pos : testables) {
+            possiblePositions.add(isFlatLand(context.chunkGenerator(), pos, context.heightAccessor()));
+        }
+
+        int i = 0;
+        for (boolean toTest : possiblePositions) {
+            if (toTest) {
+                usablePositions.add(testables.get(i));
+            }
+            i++;
+        }
+
+        if (usablePositions.size() > 0) {
+            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size()));
+            return true;
+        }
+
+        return false;
     }
 
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
@@ -195,14 +245,23 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
     public static @NotNull Optional<PieceGenerator<BTJigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
         // Check if the spot is valid for our structure. This is just as another method for cleanness.
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
-        if (!OvergrownLandTower.isFeatureChunk(context)) {
-            return Optional.empty();
-        } else {
-            lastSpawnPosition = context.chunkPos();
+        if (isSpawnableChunk(context)) {
+            // Moved Biome check in JigsawPlacement outside
+            Predicate<Holder<Biome>> predicate = context.validBiome();
+            int i;
+            int j;
+            int k;
+            try {
+                i = SpawnPos.getX();
+                j = SpawnPos.getX();
+                k = SpawnPos.getX() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+            } catch (Exception ignored) {
+                return Optional.empty();
+            }
 
-            // Get chunk center coordinates
-            BlockPos centerPos = context.chunkPos().getMiddleBlockPosition(0);
-
+            if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
+                return Optional.empty();
+            }
             Optional<PieceGenerator<BTJigsawConfiguration>> piecesGenerator;
             // All a structure has to do is call this method to turn it into a jigsaw based structure!
 
@@ -210,8 +269,7 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
                     BTLandJigsawPlacement.addPieces(
                             context, // Used for JigsawPlacement to get all the proper behaviors done.
                             PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                            centerPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                            false, // Special boundary adjustments for villages. It's... hard to explain. Keep this false and make your pieces not be partially intersecting. --TelepathicGrunt
+                            SpawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
                             true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
                             // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
                             // --TelepathicGrunt
@@ -222,11 +280,14 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
             if(piecesGenerator.isPresent()) {
                 // I use to debug and quickly find out if the structure is spawning or not and where it is.
                 // This is returning the coordinates of the center starting piece.
-                BrassAmberBattleTowers.LOGGER.info("Overgrown Land Tower at " + centerPos);
+                BrassAmberBattleTowers.LOGGER.info("Overgrown Land Tower at " + SpawnPos);
+                lastSpawnPosition = context.chunkPos();
             }
 
             // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces.
             return piecesGenerator;
+        } else {
+            return Optional.empty();
         }
     }
 }

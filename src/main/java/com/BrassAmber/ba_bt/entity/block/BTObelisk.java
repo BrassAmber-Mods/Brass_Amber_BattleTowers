@@ -63,6 +63,7 @@ public class BTObelisk extends Entity {
     private int spawnersFound;
     private int totalSpawners;
     private boolean createSpawnerList;
+    private boolean doCheck;
 
     private GolemType golemType;
     private boolean justSpawnedKey;
@@ -86,6 +87,7 @@ public class BTObelisk extends Entity {
         this.timeSinceAmbientMusic = 7000;
         this.lastMusicStart = 0;
         this.createSpawnerList = true;
+        this.doCheck = true;
 
     }
 
@@ -174,7 +176,7 @@ public class BTObelisk extends Entity {
             return;
         }
 
-        if (this.canCheck) {
+        if (this.doCheck) {
             try {
                 List<?> list = this.level.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
                 this.canCheck = !(list.size() == 0);
@@ -184,7 +186,6 @@ public class BTObelisk extends Entity {
                         this.canCheck = !(list2.size() == 0);
                     } catch (Exception f) {
                         BrassAmberBattleTowers.LOGGER.info("Exception finding Golem: " + f);
-                        this.canCheck = false;
                     }
                 }
             } catch (Exception e) {
@@ -273,6 +274,10 @@ public class BTObelisk extends Entity {
                     }
                 }
             }
+        }
+        if (this.SPAWNERS.size() == 0) {
+            this.doCheck = false;
+            this.canCheck = false;
         }
     }
 

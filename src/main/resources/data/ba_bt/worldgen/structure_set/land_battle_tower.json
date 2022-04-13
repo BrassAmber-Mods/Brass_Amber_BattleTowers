@@ -5,6 +5,10 @@
     {
       "structure": "ba_bt:land_battle_tower",
       "weight": 1
+    },
+    {
+      "structure": "ba_bt:overgrown_land_battle_tower",
+      "weight": 1
     }
   ],
   "placement": {
@@ -12,11 +16,11 @@
     "salt": 774562107,
 
     // The average distance apart in chunks for spawn attempts
-    "spacing": 4,
+    "spacing": 26,
 
     // Minimum distance apart in chunks for spawn attempts
     // MUST ALWAYS BE SMALLER THAN spacing ABOVE
-    "separation": 3,
+    "separation": 24,
 
     // The kind of placement to use. The other kind is ring based like strongholds use.
     "type": "minecraft:random_spread"
