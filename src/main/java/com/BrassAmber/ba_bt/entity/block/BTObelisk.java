@@ -153,7 +153,7 @@ public class BTObelisk extends Entity {
             this.timeSinceAmbientMusic = this.tickCount - this.lastMusicStart;
         }
 
-        if (this.level.isClientSide()) {
+        if (this.level.isClientSide() && ((ClientLevel)this.level).players().size() != 0) {
             double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
             boolean hasClientPlayer = playerDistance < 30;
             MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();

@@ -111,7 +111,7 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
         // First Test the center chunk given by the context
         boolean chunkOkay = isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor());
         if (chunkOkay) {
-            SpawnPos = new BlockPos(centerOfChunk.getX(), landHeight, centerOfChunk.getZ());
+            SpawnPos = new BlockPos(centerOfChunk.getX(), 0, centerOfChunk.getZ());
             return true;
         }
         // if false, check surrounding chunks for possible spawns
@@ -253,8 +253,8 @@ public class OvergrownLandTower extends StructureFeature<BTJigsawConfiguration> 
             int k;
             try {
                 i = SpawnPos.getX();
-                j = SpawnPos.getX();
-                k = SpawnPos.getX() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+                j = SpawnPos.getZ();
+                k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
             } catch (Exception ignored) {
                 return Optional.empty();
             }
