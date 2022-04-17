@@ -21,6 +21,9 @@ by Telepathic Grunt and have be marked as such.
 ### Community Credits
 
 - SamleGamer for both a French Translation and a fix to the BTSpawner render!
+- Spanish translation - RockYI
+- Chinese translation - Kzeroko
+- Italian Translation - BlackShadow77
 
 
 #### This mod is currently for vanilla, but will also have a version released sepcifcally for the ModPack Excalibur's Crate, whose Discord can be found here: https://discord.gg/DMZD5BsY
