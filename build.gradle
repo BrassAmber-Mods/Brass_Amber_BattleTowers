@@ -6,11 +6,9 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 
@@ -148,12 +146,9 @@ jar {
             "Implementation-Vendor" :"BrassAmber",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "TweakClass": "org.spongepowered.asm.lunch.MixinTweaker",
-            "TweakOrder": 0,
-            "MixingConfigs" : "ba_bt.mixin.json"
+            "TweakOrder": 0
         ])
     }
-
-    rename 'mixin.refmap.json', 'b_bt.mixin-refmap.json'
 }
 
 // Example configuration to allow publishing using the maven-publish task

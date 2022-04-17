@@ -97,7 +97,19 @@
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Skeleton Spawn Egg",
 
 	// Item Tooltips
-	"tooltip.battletowers.hold_shift": "Hold shift for more information.",
+	"tooltip.battletowers.hold_shift": "Hold §eSHIFT§r for more information.",
 	"tooltip.battletowers.monolith": "The Monolith is used to summon a Battle Golem.",
-	"tooltip.battletowers.monolith_key": "Place 3 keys in a Monolith to summon a Battle Golem."
+	"tooltip.battletowers.monolith_key": "Place 3 keys in a Monolith to summon a Battle Golem.",
+
+	// Overscreen titles
+	"title.battletowers.guardian_defeated_1": "Guardian Has Fallen",
+	"title.battletowers.guardian_defeated_2": "Without it's energy...",
+	"title.battletowers.guardian_defeated_3": "The tower will collapse...",
+
+	"name.battletowers.land": "land",
+	"name.battletowers.ocean": "ocean",
+	"name.battletowers.core": "core",
+	"name.battletowers.nether": "nether",
+	"name.battletowers.end": "end",
+	"name.battletowers.sky": "sky"
 }

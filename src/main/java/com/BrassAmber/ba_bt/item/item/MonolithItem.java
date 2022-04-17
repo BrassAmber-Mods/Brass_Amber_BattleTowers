@@ -30,6 +30,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 public class MonolithItem extends Item {
 	private final GolemType monolithType;
@@ -42,7 +43,7 @@ public class MonolithItem extends Item {
 	/*********************************************************** Placement ********************************************************/
 
 	/**
-	 * Called when this item is used when targetting a Block
+	 * Called when this item is used when targeting a Block
 	 */
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
@@ -100,11 +101,8 @@ public class MonolithItem extends Item {
 
 	/*********************************************************** Characteristics ********************************************************/
 
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 */
-	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(new TranslatableComponent("tooltip.battletowers.monolith").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {

@@ -13,6 +13,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -194,25 +195,26 @@ public class DestroyTower extends Entity {
             }
             if (this.currentTicks == 1) {
 
+
                 this.doCommand("/gamerule sendCommandFeedback false");
                 this.doCommand("/title @a times 30 40 20");
                 this.doCommand("/title @a title \"\"");
-                this.doCommand("/title @a subtitle {\"text\":\"" + this.specs.getCapitalizedName()
-                        + " Guardian Has Fallen\",\"color\":\"" + this.specs.getColorCode() + "\"}");
+                this.doCommand("/title @a subtitle {\"text\":\" " + this.specs.getTitleText1()
+                        + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
                 this.doCommand("/title @a title \"\"");
-                this.doCommand("/title @a subtitle {\"text\":\"Without it's energy... "
-                        + "\",\"color\":\"#aaaaaa\"}");
+                this.doCommand("/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
+                        + " \",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
                 this.doCommand("/title @a title \"\"");
-                this.doCommand("/title @a subtitle {\"text\":\""
-                        + "The tower will collapse...\",\"color\":\"#aa0000\"}");
+                this.doCommand("/title @a subtitle {\"text\":\"" + this.specs.getTitleText3()
+                        + "\",\"color\":\"#aa0000\"}");
                 this.doNoOutputCommand("/gamerule sendCommandFeedback true");
 
             }else if (this.currentTicks == 600) {

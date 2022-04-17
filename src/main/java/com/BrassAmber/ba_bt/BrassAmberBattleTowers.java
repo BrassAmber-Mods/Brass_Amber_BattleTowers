@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt;
 
+import com.BrassAmber.ba_bt.client.BTEvents;
 import com.BrassAmber.ba_bt.init.*;
 import com.BrassAmber.ba_bt.util.BTCreativeTab;
 import net.minecraft.ChatFormatting;
@@ -56,6 +57,11 @@ public class BrassAmberBattleTowers {
 
 		// For events that happen after initialization. This is probably going to be use a lot.
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+
+		@SuppressWarnings("InstantiationOfUtilityClass")
+		BTEvents btEvents = new BTEvents();
+
+		forgeBus.register(btEvents);
 
 	}
 

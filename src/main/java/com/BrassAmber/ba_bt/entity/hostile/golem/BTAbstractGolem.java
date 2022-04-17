@@ -61,6 +61,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -225,6 +226,7 @@ public abstract class BTAbstractGolem extends Monster {
 			if (this.tickCount > 0 && this.tickCount % 20 == 0) {
 				this.destroyBlocksNearby();
 			}
+
 			if (this.getTarget() == null) {
 				Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
 				// Must be able to see the player and the player mustn't be in Creative mode.
