@@ -104,7 +104,7 @@ public class MonolithItem extends Item {
 
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(new TranslatableComponent("tooltip.battletowers.monolith").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(new TranslatableComponent("tooltip.ba_bt.monolith").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BrassAmberBattleTowers.HOLD_SHIFT_TOOLTIP);
 		}

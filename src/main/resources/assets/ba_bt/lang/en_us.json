@@ -97,9 +97,11 @@
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Skeleton Spawn Egg",
 
 	// Item Tooltips
-	"tooltip.ba_btba_bt.hold_shift": "Hold §eSHIFT§r for more information.",
+	"tooltip.ba_bt.hold_shift": "Hold §eSHIFT§r for more information.",
 	"tooltip.ba_bt.monolith": "The Monolith is used to summon a Battle Golem.",
 	"tooltip.ba_bt.monolith_key": "Place 3 keys in a Monolith to summon a Battle Golem.",
+	"tooltip.ba_bt.tower_chest": "Break all spawners on its Tower floor to unlock. Can be placed 'unlocked' in survival",
+	"tooltip.ba_bt.golem_chest": "Defeat Golem to unlock",
 
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "Guardian Has Fallen",

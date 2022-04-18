@@ -30,7 +30,7 @@ public class BrassAmberBattleTowers {
 	// Directly reference a log4j logger
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public static final Component HOLD_SHIFT_TOOLTIP = (new TranslatableComponent("tooltip.battletowers.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
+	public static final Component HOLD_SHIFT_TOOLTIP = (new TranslatableComponent("tooltip.ba_bt.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
 
 	public BrassAmberBattleTowers() {
 		// Register the setup method for modloading
