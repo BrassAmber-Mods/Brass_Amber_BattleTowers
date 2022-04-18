@@ -2,7 +2,7 @@
 	"itemGroup.ba_bt": "BrassAmber Battletowers",
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
-	// Entities
+	// Entità (Entities)
 	"entity.ba_bt.land_golem": "Golem della landa",
 	"entity.ba_bt.ocean_golem": "Golem d'oceano",
 	"entity.ba_bt.core_golem": "Golem principale",
@@ -31,7 +31,7 @@
 
 	"entity.ba_bt.destroy_tower": "Distruggi la torre",
 
-	// Golem Sounds
+	// Suoni del Golem (Golem Sounds)
 	"ba_bt.subtitle.golem.hurt": "Golem ferito",
 	"ba_bt.subtitle.golem.death": "Morte del Golem",
 	"ba_bt.subtitle.golem.charge": "Carica del Golem",
@@ -46,7 +46,7 @@
 	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
 	"ba_bt.subtitle.tower.ambient.music": "Musica ambientale della torre",
 
-	// Blocks
+	// Blocchi (Blocks)
 	"block.ba_bt.land_golem_chest": "Baule del Golem",
 	"block.ba_bt.land_chest": "Baule della landa",
 
@@ -55,13 +55,13 @@
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
 
-	// Containers
+	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
 	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della Landa",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	// Items
+	// Oggetti (Items)
 	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
 	"item.ba_bt.monolith_key_ocean": "Chiave del monolite dell'oceano",
 	"item.ba_bt.monolith_key_core": "Chiave del monolite principale",
@@ -96,8 +96,22 @@
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore dello scheletro di platino",
 
-	// Item Tooltips
+	// Sottotitoli degli oggetti (Item Tooltips)
 	"tooltip.battletowers.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
 	"tooltip.battletowers.monolith": "Il Monolite serve ad evocare un Golem della battaglia.",
-	"tooltip.battletowers.monolith_key": "Posiziona 3 chiavi in un monolite per evocare un Golem della Battaglia."
+	"tooltip.battletowers.monolith_key": "Posiziona 3 chiavi in un monolite per evocare un Golem Guadiano."
+	"tooltip.ba_bt.tower_chest": "Distruggi tutti gli spawner su questo piano della torre per sbloccare. Può essere piazzata \"sbloccata\" in modalità sopravvivenza.",
+	"tooltip.ba_bt.golem_chest": "Sconfiggi il Golem per sbloccare",
+
+	// Scritte in sovraimpressione (Overscreen titles)
+	"title.ba_bt.guardian_defeated_1": "Il Guardiano è caduto.",
+	"title.ba_bt.guardian_defeated_2": "Senza la sua energia...",
+	"title.ba_bt.guardian_defeated_3": "...La torrè crollerà...",
+
+	"name.ba_bt.land": "Terra",
+	"name.ba_bt.ocean": "Oceano",
+	"name.ba_bt.core": "Principale",
+	"name.ba_bt.nether": "Nether",
+	"name.ba_bt.end": "End",
+	"name.ba_bt.sky": "Cielo"
 }
