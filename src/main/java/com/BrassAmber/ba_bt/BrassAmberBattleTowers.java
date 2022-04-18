@@ -62,7 +62,6 @@ public class BrassAmberBattleTowers {
 		BTEvents btEvents = new BTEvents();
 
 		forgeBus.register(btEvents);
-
 	}
 
 

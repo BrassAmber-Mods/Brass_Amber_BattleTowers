@@ -153,7 +153,10 @@ public class BTObelisk extends Entity {
             this.timeSinceAmbientMusic = this.tickCount - this.lastMusicStart;
         }
 
-        if (this.level.isClientSide() && ((ClientLevel)this.level).players().size() != 0) {
+        if (this.level.isClientSide()) {
+            if (((ClientLevel)this.level).players().size() == 0) {
+                return;
+            }
             double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
             boolean hasClientPlayer = playerDistance < 30;
             MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
@@ -166,13 +169,29 @@ public class BTObelisk extends Entity {
                     ((ClientLevel) this.level).minecraft.getMusicManager().startPlaying(BTMusics.TOWER);
                     this.lastMusicStart = this.tickCount;
                     this.timeSinceAmbientMusic = 0;
+                } else if (!hasClientPlayer && music.isPlayingMusic(BTMusics.TOWER)) {
+                    music.nextSongDelay = 500;
+                    music.stopPlaying();
+                    this.timeSinceAmbientMusic = 7000;
                 }
-            } else
-            if (!hasClientPlayer && music.isPlayingMusic(BTMusics.TOWER)) {
-                music.nextSongDelay = 500;
-                music.stopPlaying();
-                this.timeSinceAmbientMusic = 7000;
             }
+            return;
+        }
+
+        if (!this.initialized) {
+            BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
+            if (this.createSpawnerList) {
+                List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
+                this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
+                        new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
+                        new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
+                        new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
+                for (int num:  spawnerAmounts) {
+                    this.totalSpawners += num;
+                }
+                this.createSpawnerList = false;
+            }
+            this.findChestsAndSpawners(this.level);
             return;
         }
 
@@ -193,47 +212,23 @@ public class BTObelisk extends Entity {
             }
         }
 
-
-
         if (canCheck) {
-            if (!this.initialized) {
-                BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
-                if (this.createSpawnerList) {
-                    List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
-                    this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
-                            new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
-                            new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
-                            new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
-                    for (int num:  spawnerAmounts) {
-                        this.totalSpawners += num;
-                    }
-                    this.createSpawnerList = false;
+            List<ServerPlayer> players = this.level.getServer().getPlayerList().getPlayers();
+            List<Boolean> playersClose = new ArrayList<>();
+            for (ServerPlayer player : players
+            ) {
+                if (this.horizontalDistanceTo(player) < 30) {
+                    playersClose.add(Boolean.TRUE);
+                    // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
                 }
-                this.findChestsAndSpawners(this.level);
+
             }
-            else {
-                List<ServerPlayer> players = this.level.getServer().getPlayerList().getPlayers();
-                List<Boolean> playersClose = new ArrayList<>();
-                for (ServerPlayer player : players
-                ) {
-                    if (this.horizontalDistanceTo(player) < 30) {
-                        playersClose.add(Boolean.TRUE);
-                        // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
-                    }
 
-                }
+            this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
-                if (Collections.frequency(playersClose, Boolean.TRUE) > 0) {
-                    this.hasPlayer = true;
-
-                } else {
-                    this.hasPlayer = false;
-                }
-
-                if (this.tickCount % 20 == 0 && this.hasPlayer) {
-                    // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
-                    this.checkSpawners(this.level);
-                }
+            if (this.tickCount % 20 == 0 && this.hasPlayer) {
+                // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
+                this.checkSpawners(this.level);
             }
         }
 

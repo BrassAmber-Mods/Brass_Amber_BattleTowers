@@ -1,24 +1,28 @@
 package com.BrassAmber.ba_bt.util;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
 public enum TowerSpecs implements StringRepresentable {
-    EMPTY("",0,0, ""),
-    LAND(new TranslatableComponent("name.battletowers.land").toString(), 112, 2, "#9BDAE7"),
-    OCEAN(new TranslatableComponent("name.battletowers.ocean").toString(), 112, 2, "#EAE78A"),
-    NETHER(new TranslatableComponent("name.battletowers.core").toString(), 112, 2, "#88EB63"),
-    CORE(new TranslatableComponent("name.battletowers.nether").toString(), 112, 1, "#F79B3A"),
-    END(new TranslatableComponent("name.battletowers.end").toString(), 112, 1, "#BA49EF"),
-    SKY(new TranslatableComponent("name.battletowers.sky").toString(), 112, 1, "#FBC1EB");
+    EMPTY(null,0,0, ""),
+    LAND(new TranslatableComponent("name.ba_bt.land"), 112, 2, "#9BDAE7"),
+    OCEAN(new TranslatableComponent("name.ba_bt.ocean"), 112, 2, "#EAE78A"),
+    NETHER(new TranslatableComponent("name.ba_bt.core"), 112, 2, "#88EB63"),
+    CORE(new TranslatableComponent("name.ba_bt.nether"), 112, 1, "#F79B3A"),
+    END(new TranslatableComponent("name.ba_bt.end"), 112, 1, "#BA49EF"),
+    SKY(new TranslatableComponent("name.ba_bt.sky"), 112, 1, "#FBC1EB");
 
-    private final String name;
+    private final Component name;
     private final int height;
     private final int crumbleSpeed;
     private final String colorCode;
+    private final Component defeat1 = new TranslatableComponent("title.ba_bt.guardian_defeated_1");
+    private final Component defeat2 = new TranslatableComponent("title.ba_bt.guardian_defeated_2");
+    private final Component defeat3 = new TranslatableComponent("title.ba_bt.guardian_defeated_3");
 
-    TowerSpecs(String name, int height, int crumbleSpeed, String colorCode) {
+    TowerSpecs(Component name, int height, int crumbleSpeed, String colorCode) {
         this.name = name;
         this.height = height;
         this.crumbleSpeed = crumbleSpeed;
@@ -37,20 +41,20 @@ public enum TowerSpecs implements StringRepresentable {
         return this.colorCode;
     }
 
-    public String getCapitalizedName() {
-        return this.name.substring(0,1).toUpperCase() + this.name.substring(1);
+    public Component getCapitalizedName() {
+        return this.name;
     }
 
     public String getTitleText1() {
-        return this.getCapitalizedName() + new TranslatableComponent("title.battletowers.guardian_defeated_1");
+        return this.name.getString() + " " + this.defeat1.getString();
     }
 
     public String getTitleText2() {
-        return this.getCapitalizedName() + new TranslatableComponent("title.battletowers.guardian_defeated_2");
+        return this.defeat2.getString();
     }
 
     public String getTitleText3() {
-        return this.getCapitalizedName() + new TranslatableComponent("title.battletowers.guardian_defeated_3");
+        return this.defeat3.getString();
     }
 
 
@@ -77,6 +81,6 @@ public enum TowerSpecs implements StringRepresentable {
 
     @Override
     public @NotNull String getSerializedName() {
-        return this.name;
+        return this.name.getString();
     }
 }

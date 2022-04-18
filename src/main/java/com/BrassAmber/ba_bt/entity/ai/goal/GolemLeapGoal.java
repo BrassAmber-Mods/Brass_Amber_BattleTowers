@@ -20,9 +20,9 @@ public class GolemLeapGoal extends Goal {
 
     public GolemLeapGoal(BTAbstractGolem golemIn, float maxJumpHeight, float minimumLeap, float maximumLeap) {
         this.golem = golemIn;
+        this.maxJump = maxJumpHeight;
         this.minleap = minimumLeap;
         this.maxleap = maximumLeap;
-        this.maxJump = maxJumpHeight;
         this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
     }
 
@@ -39,7 +39,9 @@ public class GolemLeapGoal extends Goal {
                 } else {
                     double d0 = this.horizontalDistanceTo(this.target);
                     double d1 = this.target.getY() - this.golem.getY();
-                    if (!(d0 < this.minleap) && !(d0 > this.maxleap) && (0 < d1) && (d1 < this.maxJump)) {
+                    boolean horizontal = !(d0 < this.minleap) && !(d0 > this.maxleap) && (0 < d1) && (d1 < this.maxJump);
+                    boolean vertical = this.minleap < d1 && d1 < this.maxJump;
+                    if (horizontal || vertical) {
                         if (!this.golem.isOnGround()) {
                             return false;
                         } else {
@@ -71,7 +73,7 @@ public class GolemLeapGoal extends Goal {
         Vec3 vec3 = this.golem.getDeltaMovement();
         Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), (this.target.getY() + 6) - this.golem.getY(), this.target.getZ() - this.golem.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {
-            vec31 = vec31.normalize().scale(0.9D).add(vec3.scale(0.4D));
+            vec31 = vec31.normalize().add(vec3.scale(0.4D));
         }
 
         this.golem.setDeltaMovement(vec31.x, vec31.y, vec31.z);

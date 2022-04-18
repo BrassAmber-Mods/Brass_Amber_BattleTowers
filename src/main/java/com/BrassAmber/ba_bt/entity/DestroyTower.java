@@ -93,8 +93,10 @@ public class DestroyTower extends Entity {
             for (int x = rowCorner.getX(); x <= rowCorner.getX() + 30; x++) {
                 for(int z = rowCorner.getZ(); z <= rowCorner.getZ() + 30; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()
-                            && this.level.getBlockState(blockToAdd).getFluidState() != Fluids.FLOWING_WATER.defaultFluidState()) {
+                    if (this.level.getBlockState(blockToAdd).getFluidState() == Fluids.FLOWING_WATER.defaultFluidState()
+                            || this.level.getBlockState(blockToAdd).getFluidState() == Fluids.WATER.defaultFluidState()) {
+                        this.removeBodyOfWater(blockToAdd);
+                    } else if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()) {
                         this.blocksToRemove.add(blockToAdd);
                         // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                     }
@@ -231,6 +233,7 @@ public class DestroyTower extends Entity {
                             BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
                 }
                 if (this.blocksToRemove.size() == 0) {
+                    // Water checks/removal is done inside this method to prevent flowing water + explosions
                     this.getNextRow();
                 } else {
                    // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
@@ -249,10 +252,6 @@ public class DestroyTower extends Entity {
                             this.level.removeBlock(this.removeBlock, false);
                         } else {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                            //If the block is water add it and its surroundings to the list
-                            if (this.level.getBlockState(removeBlock).getFluidState().isSource()) {
-                                this.removeBodyOfWater(this.removeBlock);
-                            }
                             this.level.removeBlock(this.removeBlock, false);
 
                         }

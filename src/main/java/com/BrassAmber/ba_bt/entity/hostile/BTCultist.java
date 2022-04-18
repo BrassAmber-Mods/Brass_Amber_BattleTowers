@@ -72,7 +72,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
     protected void populateDefaultEquipmentSlots(DifficultyInstance p_32136_) {
         super.populateDefaultEquipmentSlots(p_32136_);
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.TIPPED_ARROW));
+        this.setItemSlot(EquipmentSlot.OFFHAND, Items.TIPPED_ARROW.getDefaultInstance());
     }
 
     @Nullable

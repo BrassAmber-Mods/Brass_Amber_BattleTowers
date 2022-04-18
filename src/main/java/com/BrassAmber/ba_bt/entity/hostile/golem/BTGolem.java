@@ -19,7 +19,7 @@ public class BTGolem extends BTAbstractGolem {
 	protected void addBehaviorGoals() {
 		super.addBehaviorGoals();
 		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));
-		this.goalSelector.addGoal(3, new GolemLeapGoal(this, 0.4F, 8F, 8F, 16F));
+		this.goalSelector.addGoal(3, new GolemLeapGoal(this,  8F, 8F, 16F));
 	}
 
 
