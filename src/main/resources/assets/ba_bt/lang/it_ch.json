@@ -1,0 +1,117 @@
+{
+	"itemGroup.ba_bt": "BrassAmber Battletowers",
+	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+
+	// Entità (Entities)
+	"entity.ba_bt.land_golem": "Golem della landa",
+	"entity.ba_bt.ocean_golem": "Golem d'oceano",
+	"entity.ba_bt.core_golem": "Golem principale",
+	"entity.ba_bt.nether_golem": "Golem del Nether",
+	"entity.ba_bt.end_golem": "Golem dell'End",
+	"entity.ba_bt.sky_golem": "Golem del cielo",
+
+
+	"entity.ba_bt.sky_minion": "Minion del cielo",
+	"entity.ba_bt.platinum_skeleton": "Scheletro di platino",
+	"entity.ba_bt.bt_cultist": "Cultista",
+
+	"entity.ba_bt.land_monolith": "Monolite della landa",
+	"entity.ba_bt.ocean_monolith": "Monolite d'oceano",
+	"entity.ba_bt.core_monolith": "Monolite principale",
+	"entity.ba_bt.nether_monolith": "Monolite del Nether",
+	"entity.ba_bt.end_monolith": "Monolite dell'End",
+	"entity.ba_bt.sky_monolith": "Monolite del cielo",
+
+	"entity.ba_bt.land_obelisk": "Obelisco della landa",
+	"entity.ba_bt.ocean_obelisk": "Obelisco dell'oceano",
+	"entity.ba_bt.core_obelisk": "Obelisco principale",
+	"entity.ba_bt.nether_obelisk": "Obelisco del Nether",
+	"entity.ba_bt.end_obelisk": "Obelisco dell'End",
+	"entity.ba_bt.sky_obelisk": "Obelisco del cielo",
+
+	"entity.ba_bt.destroy_tower": "Distruggi la torre",
+
+	// Suoni del Golem (Golem Sounds)
+	"ba_bt.subtitle.golem.hurt": "Golem ferito",
+	"ba_bt.subtitle.golem.death": "Morte del Golem",
+	"ba_bt.subtitle.golem.charge": "Carica del Golem",
+	"ba_bt.subtitle.golem.awaken": "Risveglio del Golem",
+	"ba_bt.subtitle.golem.ambient": "Crescita del Golem",
+	"ba_bt.subtitle.golem.special": "Attacco del Golem",
+	"ba_bt.subtitle.golem.fight": "Musica da boss del Golem",
+
+	"ba_bt.subtitle.monolith.spawn.golem": "Il Golem comincia ad apparire",
+
+	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
+	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
+	"ba_bt.subtitle.tower.ambient.music": "Musica ambientale della torre",
+
+	// Blocchi (Blocks)
+	"block.ba_bt.land_golem_chest": "Baule del Golem",
+	"block.ba_bt.land_chest": "Baule della landa",
+
+	"block.ba_bt.platinum_block": "Blocco di platino",
+	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
+
+	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
+
+	// Contenitori (Containers)
+	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
+	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della Landa",
+	"container.ba_bt.land_chest": "Baule della landa",
+	"container.ba_bt.land_chest_double": "Baule doppio della landa",
+
+	// Oggetti (Items)
+	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
+	"item.ba_bt.monolith_key_ocean": "Chiave del monolite dell'oceano",
+	"item.ba_bt.monolith_key_core": "Chiave del monolite principale",
+	"item.ba_bt.monolith_key_nether": "Chiave del monolite del Nether",
+	"item.ba_bt.monolith_key_end": "Chiave del monolite dell'End",
+	"item.ba_bt.monolith_key_sky": "Chiave del monolite del cielo",
+
+	"item.ba_bt.guardian_eye_land": "Occhio del guardiano della landa",
+	"item.ba_bt.guardian_eye_ocean": "Occhio del guardiano dell'oceano",
+	"item.ba_bt.guardian_eye_core": "Occhio del guardiano principale",
+	"item.ba_bt.guardian_eye_nether": "Occhio del guardiano del Nether",
+	"item.ba_bt.guardian_eye_end": "Occhio del guardiano dell'End",
+	"item.ba_bt.guardian_eye_sky": "Occhio del guardiano del cielo",
+
+	"item.ba_bt.monolith_land": "Monolite della landa",
+	"item.ba_bt.monolith_ocean": "Monolite d'oceano",
+	"item.ba_bt.monolith_core": "Monolite principale",
+	"item.ba_bt.monolith_nether": "Monolite del Nether",
+	"item.ba_bt.monolith_end": "Monolite dell'End",
+	"item.ba_bt.monolith_sky": "Monolite del cielo",
+
+	"item.ba_bt.platinum_ingot": "Lingotto di platino",
+	"item.ba_bt.platinum_shard": "Scheggia di platino",
+	"item.ba_bt.platinum_sword": "Spada di platino",
+
+	"item.ba_bt.platinum_helmet": "Elmo di platino",
+	"item.ba_bt.platinum_chestplate": "Armatura di platino",
+	"item.ba_bt.platinum_leggings": "Gambali di platino",
+	"item.ba_bt.platinum_boots": "Stivali di platino",
+
+	"item.ba_bt.land_chest_shard": "Frammento baule della landa",
+
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore dello scheletro di platino",
+
+	// Sottotitoli degli oggetti (Item Tooltips)
+	"tooltip.battletowers.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
+	"tooltip.battletowers.monolith": "Il Monolite serve ad evocare un Golem della battaglia.",
+	"tooltip.battletowers.monolith_key": "Posiziona 3 chiavi in un monolite per evocare un Golem Guadiano."
+	"tooltip.ba_bt.tower_chest": "Distruggi tutti gli spawner su questo piano della torre per sbloccare. Può essere piazzata \"sbloccata\" in modalità sopravvivenza.",
+	"tooltip.ba_bt.golem_chest": "Sconfiggi il Golem per sbloccare",
+
+	// Scritte in sovraimpressione (Overscreen titles)
+	"title.ba_bt.guardian_defeated_1": "Il Guardiano è caduto.",
+	"title.ba_bt.guardian_defeated_2": "Senza la sua energia...",
+	"title.ba_bt.guardian_defeated_3": "...la torrè crollerà...",
+
+	"name.ba_bt.land": "Terra",
+	"name.ba_bt.ocean": "Oceano",
+	"name.ba_bt.core": "Principale",
+	"name.ba_bt.nether": "Nether",
+	"name.ba_bt.end": "End",
+	"name.ba_bt.sky": "Cielo"
+}
