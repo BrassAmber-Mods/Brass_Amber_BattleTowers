@@ -99,6 +99,8 @@
 	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",
 	"title.ba_bt.guardian_defeated_2": "Sans son énergie...",
 	"title.ba_bt.guardian_defeated_3": "La tour va s'écrouler...",
+	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
+	"tooltip.ba_bt.golem_chest": "Battez le Golem pour déverrouiller",
 
 	"name.ba_bt.land": "terrestre",
 	"name.ba_bt.ocean": "océanique",
