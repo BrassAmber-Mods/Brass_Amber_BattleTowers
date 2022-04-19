@@ -97,9 +97,9 @@
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore dello scheletro di platino",
 
 	// Sottotitoli degli oggetti (Item Tooltips)
-	"tooltip.battletowers.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
-	"tooltip.battletowers.monolith": "Il Monolite serve ad evocare un Golem della battaglia.",
-	"tooltip.battletowers.monolith_key": "Posiziona 3 chiavi in un monolite per evocare un Golem Guadiano."
+	"tooltip.ba_bt.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
+	"tooltip.ba_bt.monolith": "Il Monolite serve ad evocare un Golem della battaglia.",
+	"tooltip.ba_bt.monolith_key": "Posiziona 3 chiavi in un monolite per evocare un Golem Guadiano."
 	"tooltip.ba_bt.tower_chest": "Distruggi tutti gli spawner su questo piano della torre per sbloccare. Può essere piazzata \"sbloccata\" in modalità sopravvivenza.",
 	"tooltip.ba_bt.golem_chest": "Sconfiggi il Golem per sbloccare",
 

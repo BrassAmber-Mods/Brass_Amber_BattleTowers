@@ -96,7 +96,21 @@
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Generar esqueleto de platino",
 
 	// Item Tooltips
-	"tooltip.battletowers.hold_shift": "Mantén <§6§oShift§r> para más info.",
-	"tooltip.battletowers.monolith": "El monolito se utiliza para invocar un gólem de batalla",
-	"tooltip.battletowers.monolith_key": "Utiliza 3 llaves en un monolito para invocar un gólem de batalla"
+	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
+	"tooltip.ba_bt.monolith": "El monolito se utiliza para invocar un gólem de batalla",
+	"tooltip.ba_bt.monolith_key": "Utiliza 3 llaves en un monolito para invocar un gólem de batalla",
+	"tooltip.ba_bt.tower_chest": "Break all spawners on its Tower floor to unlock. Can be placed 'unlocked' in survival",
+	"tooltip.ba_bt.golem_chest": "Defeat Golem to unlock",
+
+	// Overscreen titles
+	"title.ba_bt.guardian_defeated_1": "Guardian Has Fallen",
+	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
+	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
+
+	"name.ba_bt.land": "Land",
+	"name.ba_bt.ocean": "Ocean",
+	"name.ba_bt.core": "Core",
+	"name.ba_bt.nether": "Nether",
+	"name.ba_bt.end": "End",
+	"name.ba_bt.sky": "Sky"
 }

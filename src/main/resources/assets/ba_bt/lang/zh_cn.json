@@ -95,7 +95,21 @@
 	"item.ba_bt.platinum_skeleton_spawn_egg": "白金骷髅骑士刷怪蛋",
 	
 	// Item Tooltips物品描述
-	"tooltip.battletowers.hold_shift": "长按shift查看更多信息",
-	"tooltip.battletowers.monolith": "石碑用来召唤战斗魔像",
-	"tooltip.battletowers.monolith_key": "将3把钥匙插入石碑来召唤战斗魔像"
+	"tooltip.ba_bt.hold_shift": "长按shift查看更多信息",
+	"tooltip.ba_bt.monolith": "石碑用来召唤战斗魔像",
+	"tooltip.ba_bt.monolith_key": "将3把钥匙插入石碑来召唤战斗魔像",
+	"tooltip.ba_bt.tower_chest": "Break all spawners on its Tower floor to unlock. Can be placed 'unlocked' in survival",
+	"tooltip.ba_bt.golem_chest": "Defeat Golem to unlock",
+
+	// Overscreen titles
+	"title.ba_bt.guardian_defeated_1": "Guardian Has Fallen",
+	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
+	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
+
+	"name.ba_bt.land": "Land",
+	"name.ba_bt.ocean": "Ocean",
+	"name.ba_bt.core": "Core",
+	"name.ba_bt.nether": "Nether",
+	"name.ba_bt.end": "End",
+	"name.ba_bt.sky": "Sky"
 }
