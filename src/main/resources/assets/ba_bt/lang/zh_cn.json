@@ -101,7 +101,7 @@
 	"tooltip.ba_bt.tower_chest": "破坏当前所在层数的所有刷怪笼来解锁它。在生存模式放置时不会被锁住",
 	"tooltip.ba_bt.golem_chest": "击败魔像来解锁",
 
-	// Overscreen titles
+	// Overscreen titles全屏标题
 	"title.ba_bt.guardian_defeated_1": "守卫者已然倒下",
 	"title.ba_bt.guardian_defeated_2": "如果失去其能量……",
 	"title.ba_bt.guardian_defeated_3": "高塔将会崩塌……",
