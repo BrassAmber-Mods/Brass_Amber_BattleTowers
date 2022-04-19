@@ -27,7 +27,7 @@ However this does protect the mod from unauthorized use (such as redistributiion
 >- French Translation and BTSpawner render - @SamleGamer
 >- Spanish translation - @RockYI
 >- Chinese translation - @Kzeroko
->- Italian Translation - @BlackShadow77
+>- Italian & Italian (Swiss) Translation - @BlackShadow77
 
 #### This mod is currently for vanilla, but will also have a version released sepcifcally for the ModPack Excalibur's Crate, whose Discord can be found here: https://discord.gg/DMZD5BsY
 This ^ is also a great place to ask questions regarding the mod.
