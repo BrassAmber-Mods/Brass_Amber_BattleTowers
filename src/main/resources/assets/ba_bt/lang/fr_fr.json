@@ -9,6 +9,7 @@
 
 	"entity.ba_bt.sky_minion": "Minion Angélique",
 	"entity.ba_bt.platinum_skeleton": "Squelette Platine",
+	"entity.ba_bt.bt_cultist": "Cultiste",
 
 	"entity.ba_bt.land_monolith": "Monolithe Terrestre",
 	"entity.ba_bt.core_monolith": "Monolithe Volcanique",
@@ -90,8 +91,21 @@
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
 
 	// Item Tooltips
-	"tooltip.battletowers.hold_shift": "Maintenez la Maj pour plus d'informations.",
-	"tooltip.battletowers.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
-	"tooltip.battletowers.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat."
-}
+	"tooltip.ba_bt.hold_shift": "Maintenez §eMaj§r pour plus d'informations.",
+	"tooltip.ba_bt.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
+	"tooltip.ba_bt.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat.",
+	
+	// Overscreen titles
+	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",
+	"title.ba_bt.guardian_defeated_2": "Sans son énergie...",
+	"title.ba_bt.guardian_defeated_3": "La tour va s'écrouler...",
+	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
+	"tooltip.ba_bt.golem_chest": "Battez le Golem pour déverrouiller",
 
+	"name.ba_bt.land": "terrestre",
+	"name.ba_bt.ocean": "océanique",
+	"name.ba_bt.core": "volcanique",
+	"name.ba_bt.nether": "nether",
+	"name.ba_bt.end": "l'end",
+	"name.ba_bt.sky": "angélique"
+}
