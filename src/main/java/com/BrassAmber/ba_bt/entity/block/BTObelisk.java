@@ -2,8 +2,11 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
+import com.BrassAmber.ba_bt.entity.DestroyTower;
+import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
+import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,14 +18,13 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -226,6 +228,20 @@ public class BTObelisk extends Entity {
 
             this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
+            int timeCheck = this.random.nextInt(40,100);
+
+            if (this.tickCount % timeCheck == 0) {
+                List<BTCultist> cultists = this.level.getEntitiesOfClass(BTCultist.class, this.getBoundingBox().inflate(15, 110, 15));
+                if (cultists.size() < 10) {
+                    int floor = this.blockPosition().getY() + this.random.nextInt(0,8) * 11;
+                    int x = this.blockPosition().getX() + this.random.nextInt(-10, 10);
+                    int y = floor + this.random.nextInt(0, 10);
+                    int z = this.blockPosition().getZ() + this.random.nextInt(-10, 10);
+
+                    this.createCultistEntity((ServerLevel) this.level, new BlockPos(x, y, z));
+                }
+            }
+
             if (this.tickCount % 20 == 0 && this.hasPlayer) {
                 // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
                 this.checkSpawners(this.level);
@@ -234,6 +250,16 @@ public class BTObelisk extends Entity {
 
     }
 
+    protected void createCultistEntity(ServerLevel serverWorld, BlockPos spawn) {
+        BrassAmberBattleTowers.LOGGER.info("Tried to spawn cultist at: " + spawn);
+
+        boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
+        if (canSpawn) {
+            Entity cultist = BTEntityTypes.BT_CULTIST.get().create(this.level);
+            cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
+            serverWorld.addFreshEntity(cultist);
+        }
+    }
 
     private void checkSpawners(Level level) {
         if (!(this.CHESTS.size() == 0) && !(this.SPAWNERS.size() == 0)) {

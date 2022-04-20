@@ -193,6 +193,9 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		if (this.level.isClientSide()) {
+			if (((ClientLevel)this.level).players().size() < 1) {
+				return;
+			}
 			double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
 			boolean hasClientPlayer = playerDistance < 30;
 			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();

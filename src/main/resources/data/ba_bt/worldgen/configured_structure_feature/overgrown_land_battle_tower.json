@@ -20,17 +20,4 @@
   // What mobs can spawn over time in the structure.
   // Make sure you add the mob to the right category (monster, creature, etc)
   // bounding-box can be 'piece' or 'full'
-  "spawn_overrides": {
-    "monster": {
-      "bounding_box": "full",
-      "spawns": [
-        {
-          "type": "ba_bt:bt_cultist",
-          "weight": 65,
-          "minCount": 1,
-          "maxCount": 2
-        }
-      ]
-    }
-  }
 }

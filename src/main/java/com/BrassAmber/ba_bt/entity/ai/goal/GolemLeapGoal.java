@@ -39,7 +39,7 @@ public class GolemLeapGoal extends Goal {
                 } else {
                     double d0 = this.horizontalDistanceTo(this.target);
                     double d1 = this.target.getY() - this.golem.getY();
-                    boolean horizontal = !(d0 < this.minleap) && !(d0 > this.maxleap) && (0 < d1) && (d1 < this.maxJump);
+                    boolean horizontal =(this.minleap < d0) && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
                     boolean vertical = this.minleap < d1 && d1 < this.maxJump;
                     if (horizontal || vertical) {
                         if (!this.golem.isOnGround()) {
@@ -73,7 +73,7 @@ public class GolemLeapGoal extends Goal {
         Vec3 vec3 = this.golem.getDeltaMovement();
         Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), (this.target.getY() + 6) - this.golem.getY(), this.target.getZ() - this.golem.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {
-            vec31 = vec31.normalize().add(vec3.scale(0.4D));
+            vec31 = vec31.normalize().add(vec3.scale(1.4D));
         }
 
         this.golem.setDeltaMovement(vec31.x, vec31.y, vec31.z);
