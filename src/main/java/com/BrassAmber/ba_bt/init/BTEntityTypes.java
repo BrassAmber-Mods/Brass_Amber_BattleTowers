@@ -89,7 +89,7 @@ public class BTEntityTypes {
 
 		registerSpawnPlacement(SKY_MINION.get(), Mob::checkMobSpawnRules);
 		registerSpawnPlacement(PLATINUM_SKELETON.get(), Monster::checkMonsterSpawnRules);
-		registerSpawnPlacement(BT_CULTIST.get(), Monster::checkMonsterSpawnRules);
+		registerSpawnPlacement(BT_CULTIST.get(), Mob::checkMobSpawnRules);
 	}
 
 	/**

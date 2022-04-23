@@ -251,13 +251,19 @@ public class BTObelisk extends Entity {
     }
 
     protected void createCultistEntity(ServerLevel serverWorld, BlockPos spawn) {
-        BrassAmberBattleTowers.LOGGER.info("Tried to spawn cultist at: " + spawn);
+        BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
 
         boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
         if (canSpawn) {
-            Entity cultist = BTEntityTypes.BT_CULTIST.get().create(this.level);
-            cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
-            serverWorld.addFreshEntity(cultist);
+            Entity entity = BTEntityTypes.BT_CULTIST.get().create(serverWorld);
+            if (entity instanceof  BTCultist cultist) {
+                cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
+                cultist.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
+                serverWorld.addFreshEntity(cultist);
+                BrassAmberBattleTowers.LOGGER.info("Success");
+            }
+        } else {
+            BrassAmberBattleTowers.LOGGER.info("Fail");
         }
     }
 

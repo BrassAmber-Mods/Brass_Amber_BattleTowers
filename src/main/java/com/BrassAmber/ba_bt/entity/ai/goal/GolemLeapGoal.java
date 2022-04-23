@@ -31,25 +31,25 @@ public class GolemLeapGoal extends Goal {
         if (this.golem.isVehicle() || this.golem.isDormant() && !this.golem.isOnGround()) {
             return false;
         } else {
-            if (this.useChecked == 50) {
+            if (this.target == null) {
+                return false;
+            }
+
+            if (this.useChecked == 30) {
                 this.useChecked = 0;
                 this.target = this.golem.getTarget();
-                if (this.target == null) {
-                    return false;
-                } else {
-                    double d0 = this.horizontalDistanceTo(this.target);
-                    double d1 = this.target.getY() - this.golem.getY();
-                    boolean horizontal =(this.minleap < d0) && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
-                    boolean vertical = this.minleap < d1 && d1 < this.maxJump;
-                    if (horizontal || vertical) {
-                        if (!this.golem.isOnGround()) {
-                            return false;
-                        } else {
-                            return this.golem.getRandom().nextInt(reducedTickDelay(5)) == 0;
-                        }
-                    } else {
+                double d0 = this.horizontalDistanceTo(this.target);
+                double d1 = this.target.getY() - this.golem.getY();
+                boolean horizontal =(this.minleap < d0) && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
+                boolean vertical = this.minleap < d1 && d1 < this.maxJump;
+                if (horizontal || vertical) {
+                    if (!this.golem.isOnGround()) {
                         return false;
+                    } else {
+                        return this.golem.getRandom().nextInt(reducedTickDelay(5)) == 0;
                     }
+                } else {
+                    return false;
                 }
             } else {
                 this.useChecked += 1;
@@ -58,7 +58,7 @@ public class GolemLeapGoal extends Goal {
         }
     }
 
-    public double horizontalDistanceTo (LivingEntity entity) {
+    public double horizontalDistanceTo(LivingEntity entity) {
         double xDistance = Math.abs(this.golem.getX() - entity.getX());
         double zDistance = Math.abs(this.golem.getZ() -  entity.getZ());
 
@@ -71,7 +71,7 @@ public class GolemLeapGoal extends Goal {
 
     public void start() {
         Vec3 vec3 = this.golem.getDeltaMovement();
-        Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), (this.target.getY() + 6) - this.golem.getY(), this.target.getZ() - this.golem.getZ());
+        Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), (this.target.getY() - this.golem.getY()) + 4, this.target.getZ() - this.golem.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {
             vec31 = vec31.normalize().add(vec3.scale(1.4D));
         }

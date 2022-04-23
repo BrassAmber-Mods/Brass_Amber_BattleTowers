@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -21,10 +20,8 @@ import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.raid.Raid;
-import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -112,9 +109,9 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         }
     }
 
-    public void performRangedAttack(LivingEntity entity, float damage) {
-        ItemStack itemstack = this.getItemInHand(InteractionHand.OFF_HAND);
-        AbstractArrow abstractarrow = this.getArrow(entity, itemstack, damage);
+    public void performRangedAttack(LivingEntity entity, float power) {
+        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
+        AbstractArrow abstractarrow = this.getArrow(itemstack, power);
         if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
             abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
         double d0 = entity.getX() - this.getX();
@@ -122,27 +119,20 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         double d2 = entity.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
         abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
-        this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level.addFreshEntity(abstractarrow);
     }
 
-    protected AbstractArrow getArrow(LivingEntity entity, ItemStack itemStack, float damage) {
-        ArrowItem arrowitem = (ArrowItem)(itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-        AbstractArrow abstractarrow = arrowitem.createArrow(entity.level, itemStack, entity);
-        abstractarrow.setEnchantmentEffectsFromEntity(entity, damage);
-        if (itemStack.is(Items.TIPPED_ARROW) && abstractarrow instanceof Arrow) {
-            ((Arrow)abstractarrow).setEffectsFromItem(itemStack);
-        }
-
-        return abstractarrow;
+    protected AbstractArrow getArrow(ItemStack stack, float power) {
+        return ProjectileUtil.getMobArrow(this, stack, power);
     }
 
-    public boolean canFireProjectileWeapon(ProjectileWeaponItem p_32144_) {
-        return p_32144_ == Items.BOW;
+    public boolean canFireProjectileWeapon(ProjectileWeaponItem projectileWeaponItem) {
+        return projectileWeaponItem == Items.BOW;
     }
 
-    public void readAdditionalSaveData(CompoundTag p_32152_) {
-        super.readAdditionalSaveData(p_32152_);
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
         this.reassessWeaponGoal();
     }
 

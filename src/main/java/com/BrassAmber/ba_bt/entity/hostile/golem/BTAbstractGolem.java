@@ -51,6 +51,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -346,6 +348,9 @@ public abstract class BTAbstractGolem extends Monster {
 						BlockState state = this.level.getBlockState(pos);
 						if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
 							playEffectFlag |= this.level.destroyBlock(pos, true, this);
+						}
+						if (state.getBlock() instanceof FireBlock) {
+							this.level.destroyBlock(pos, false, this);
 						}
 					}
 				}

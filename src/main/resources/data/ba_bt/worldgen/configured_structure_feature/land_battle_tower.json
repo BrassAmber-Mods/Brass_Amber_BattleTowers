@@ -20,4 +20,5 @@
   // What mobs can spawn over time in the structure.
   // Make sure you add the mob to the right category (monster, creature, etc)
   // bounding-box can be 'piece' or 'full'
+  "spawn_overrides": {}
 }
