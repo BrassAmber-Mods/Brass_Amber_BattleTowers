@@ -5,7 +5,7 @@
       "color": "white"
     },
     "description": {
-      "text": "-Infiltrate the Land Tower ",
+      "text": "-Infiltrate the Land Tower",
       "color": "gray",
       "italic": true
     },
@@ -23,6 +23,7 @@
     "Find Land Tower": {
       "trigger": "minecraft:location",
       "conditions": {
+        "player": [],
         "location": {
           "feature": "ba_bt:land_battle_tower"
         }

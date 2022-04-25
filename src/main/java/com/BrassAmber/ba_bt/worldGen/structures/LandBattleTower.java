@@ -3,51 +3,45 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
-import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
-import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.material.Fluids;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.mojang.serialization.Codec;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static net.minecraft.util.Mth.abs;
+import static net.minecraft.util.Mth.square;
 
 
 // Comments from TelepathicGrunts
 
 public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
     public LandBattleTower() {
-        super(BTJigsawConfiguration.CODEC, LandBattleTower::createPiecesGenerator, PostPlacementProcessor.NONE);
+        super(BTJigsawConfiguration.CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
     }
 
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
@@ -289,4 +283,54 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             return Optional.empty();
         }
     }
+
+    private static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+        BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
+        int bbYStart = boundingbox.minY()-1;
+        BlockPos structureCenter = new BlockPos(boundingBox.getCenter().getX(), bbYStart, boundingBox.getCenter().getZ());
+        BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
+        if (abs(chunkCenter.getX() - structureCenter.getX()) < 2 && abs(chunkCenter.getZ() - structureCenter.getZ()) < 2) {
+            ArrayList<BlockPos> blocksToFill = getAirBlocks(worldGenLevel, chunkGenerator, structureCenter);
+            for (BlockPos pos: blocksToFill) {
+                worldGenLevel.setBlock(pos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
+            }
+        }
+        else {
+            BrassAmberBattleTowers.LOGGER.info("Post Processing: Spawn tried, no structure at: " + structureCenter + " in chunk: " + chunkPos.getMiddleBlockPosition(bbYStart));
+        }
+
+    }
+
+    private static ArrayList<BlockPos> getAirBlocks(WorldGenLevel worldGenLevel, ChunkGenerator chunkGenerator, BlockPos startPos) {
+
+        ArrayList<BlockPos> startBlocks = new ArrayList<>();
+        ArrayList<BlockPos> blocks = new ArrayList<>();
+        double startY = startPos.getY();
+        BrassAmberBattleTowers.LOGGER.info("Post Processing: get air blocks, startY =" + startY);
+
+        for (double x = -12; x <= 12; x++) {
+            for (double z =  -12; z <= 12; z++) {
+                if (Math.sqrt(square(Math.abs(x)) + square(Math.abs(z))) < 12.5) {
+                    startBlocks.add(new BlockPos(startPos.getX() + x, startY, startPos.getZ() + z));
+                }
+            }
+        }
+
+        for (BlockPos pos: startBlocks) {
+            double x = pos.getX();
+            double z = pos.getZ();
+            for (double y = startY; y > startY - 100; y--) {
+                BlockPos toCheck = new BlockPos(x, y, z);
+                if (worldGenLevel.getBlockState(toCheck).isAir()) {
+                    blocks.add(toCheck);
+                } else {
+                    blocks.add(toCheck);
+                    break;
+                }
+            }
+        }
+
+        return blocks;
+    }
+
 }

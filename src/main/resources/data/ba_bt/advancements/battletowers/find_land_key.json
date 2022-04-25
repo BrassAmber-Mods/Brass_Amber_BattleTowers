@@ -1,8 +1,10 @@
 {
-  "parent": "ba_bt:battletowers/land_tower_found",
   "display": {
+    "icon": {
+      "item": "ba_bt:monolith_key_land"
+    },
     "title": {
-      "text": "I hope you know what you're doing.....",
+      "text": "I hope you know what you're doing...",
       "color": "white",
       "italic": true
     },
@@ -11,28 +13,34 @@
       "color": "grey",
       "italic": true
     },
-    "icon": {
-      "item": "ba_bt:monolith_key_land"
-    },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
+  "parent": "ba_bt:battletowers/land_tower_found",
   "criteria": {
-    "Find Key": {
+    "Acquire Key": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
+        "player": {
+          "type": "minecraft:player"
+        },
         "items": [
           {
-            "item": "ba_bt:monolith_key_land"
+            "tag": "ba_bt:monolith_key_land",
+            "count": 1
           }
         ]
       }
     }
   },
+  "requirements": [
+    [
+      "Acquire Key"
+    ]
+  ],
   "rewards": {
     "experience": 56
   }
-
 }

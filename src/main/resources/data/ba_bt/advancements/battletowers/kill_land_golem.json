@@ -20,7 +20,7 @@
     "hidden": true
   },
   "criteria": {
-    "killed_golem": {
+    "Kill Golem": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "id" : "ba_bt:land_golem",
@@ -32,7 +32,7 @@
   },
   "requirements": [
     [
-      "killed_golem"
+      "Kill Golem"
     ]
   ],
   "rewards": {
