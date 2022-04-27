@@ -237,7 +237,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
 
 
-        if (LandBattleTower.isSpawnableChunk(context)) {
+        if (isSpawnableChunk(context)) {
                 // Moved Biome check in JigsawPlacement outside
             Predicate<Holder<Biome>> predicate = context.validBiome();
             int i;
@@ -247,11 +247,13 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
                 i = SpawnPos.getX();
                 j = SpawnPos.getZ();
                 k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-            } catch (Exception ignored) {
+            } catch (Exception f) {
+                BrassAmberBattleTowers.LOGGER.info(f);
                 return Optional.empty();
             }
 
             if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
+                BrassAmberBattleTowers.LOGGER.info("incorrect biome");
                 return Optional.empty();
             }
 
@@ -284,17 +286,15 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         }
     }
 
-    private static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+    public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY()-1;
         BlockPos structureCenter = new BlockPos(boundingBox.getCenter().getX(), bbYStart, boundingBox.getCenter().getZ());
         BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-
-
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        if (featureManager.hasAnyStructureAt(structureCenter.above()) && !piecesContainer.isEmpty()) {
+        if (featureManager.hasAnyStructureAt(structureCenter.above())) {
             ArrayList<BlockPos> blocksToFill = getAirBlocks(worldGenLevel, chunkGenerator, structureCenter);
             for (BlockPos pos: blocksToFill) {
                 blockpos$mutableblockpos.set(pos.getX(), pos.getY(), pos.getZ());
