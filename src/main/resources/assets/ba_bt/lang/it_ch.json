@@ -108,10 +108,10 @@
 	"title.ba_bt.guardian_defeated_2": "Senza la sua energia...",
 	"title.ba_bt.guardian_defeated_3": "...la torrè crollerà...",
 
-	"name.ba_bt.land": "Terra",
-	"name.ba_bt.ocean": "Oceano",
-	"name.ba_bt.core": "Principale",
-	"name.ba_bt.nether": "Nether",
-	"name.ba_bt.end": "End",
-	"name.ba_bt.sky": "Cielo"
+	"title.ba_bt.land": "Terra",
+	"title.ba_bt.ocean": "Oceano",
+	"title.ba_bt.core": "Principale",
+	"title.ba_bt.nether": "Nether",
+	"title.ba_bt.end": "End",
+	"title.ba_bt.sky": "Cielo"
 }

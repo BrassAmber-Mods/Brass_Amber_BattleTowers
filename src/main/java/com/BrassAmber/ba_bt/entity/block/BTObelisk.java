@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
+import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
@@ -41,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
+import static com.BrassAmber.ba_bt.util.BTUtil.horizontalDistanceTo;
 
 public class BTObelisk extends Entity {
     // Parameters that must be saved
@@ -118,7 +120,7 @@ public class BTObelisk extends Entity {
             }
         }
 
-        if (this.checkLayer == 9) {
+        if (this.checkLayer == 8) {
             this.initialized = true;
         }
         else {
@@ -132,7 +134,7 @@ public class BTObelisk extends Entity {
     public void checkPos(BlockPos toCheck, Level level) {
         try {
             Block block = level.getBlockState(toCheck).getBlock();
-            if (block == BTBlocks.LAND_CHEST.get() || block == BTBlocks.LAND_GOLEM_CHEST.get()) {
+            if (block == BTBlocks.LAND_CHEST.get()) {
                 this.CHESTS.add(toCheck);
                 // This must use the insert version of add since the arraylist was already initialized
                 BrassAmberBattleTowers.LOGGER.info("Found chest");
@@ -160,7 +162,7 @@ public class BTObelisk extends Entity {
             if (((ClientLevel)this.level).players().size() == 0) {
                 return;
             }
-            double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
+            double playerDistance = horizontalDistanceTo(this, ((ClientLevel)this.level).players().get(0));
             boolean hasClientPlayer = playerDistance < 30;
             MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
 
@@ -201,11 +203,11 @@ public class BTObelisk extends Entity {
         if (this.doCheck) {
             try {
                 List<?> list = this.level.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
-                this.canCheck = !(list.size() == 0);
+                this.canCheck = list.size() != 0;
                 if (!this.canCheck) {
                     try {
                         List<?> list2 = this.level.getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
-                        this.canCheck = !(list2.size() == 0);
+                        this.canCheck = list2.size() != 0;
                     } catch (Exception f) {
                         BrassAmberBattleTowers.LOGGER.info("Exception finding Golem: " + f);
                     }
@@ -216,11 +218,11 @@ public class BTObelisk extends Entity {
         }
 
         if (canCheck) {
-            List<ServerPlayer> players = this.level.getServer().getPlayerList().getPlayers();
+            List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
             List<Boolean> playersClose = new ArrayList<>();
             for (ServerPlayer player : players
             ) {
-                if (this.horizontalDistanceTo(player) < 30) {
+                if (horizontalDistanceTo(this, player) < 30) {
                     playersClose.add(Boolean.TRUE);
                     // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
                 } else {
@@ -255,7 +257,7 @@ public class BTObelisk extends Entity {
 
     protected void createCultistEntity(ServerLevel serverWorld, BlockPos spawn) {
         BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
-        double distance = BTUtil.horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
+        double distance = horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
 
         boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
         if (canSpawn && (distance < 11.5D || distance > 12.5) && serverWorld.getBlockState(spawn.above()).isAir()) {
@@ -275,7 +277,7 @@ public class BTObelisk extends Entity {
         if (!(this.CHESTS.size() == 0) && !(this.SPAWNERS.size() == 0)) {
             for (int i = 0; i < this.SPAWNERS.size(); i++) {
                 if (this.SPAWNERS.get(i).size() == 0) {
-                    if (level.getBlockEntity(this.CHESTS.get(i)) instanceof GolemChestBlockEntity chestBlockEntity) {
+                    if (level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chestBlockEntity) {
                         if (!chestBlockEntity.isUnlocked()) {
                             chestBlockEntity.setUnlocked(true);
                             this.chestUnlockingSound(level);
@@ -315,19 +317,10 @@ public class BTObelisk extends Entity {
     private void chestUnlockingSound(Level level) {
         List<ServerPlayer> players = Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers();
         for (ServerPlayer player: players) {
-            if (this.horizontalDistanceTo(player) < 30) {
+            if (horizontalDistanceTo(this, player) < 30) {
                 level.playSound(null, player.blockPosition(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 1f, 1.5f);
             }
         }
-    }
-
-    /**
-     * Returns the horizontal distance.
-     */
-    public double horizontalDistanceTo(Entity entity) {
-        double dX = this.getX() - entity.getX();
-        double dZ = this.getZ() - entity.getZ();
-        return Math.abs(Math.sqrt(dX * dX + dZ * dZ));
     }
 
     @Override

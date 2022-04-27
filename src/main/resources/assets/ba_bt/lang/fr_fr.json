@@ -1,4 +1,4 @@
-{
+title{
 	// Entities
 	"entity.ba_bt.land_golem": "Golem Terrestre",
 	"entity.ba_bt.core_golem": "Golem Volcanique",
@@ -103,10 +103,10 @@
 	"title.ba_bt.guardian_defeated_3": "...La tour va s'écrouler...",
 
 
-	"name.ba_bt.land": "terrestre",
-	"name.ba_bt.ocean": "océanique",
-	"name.ba_bt.core": "volcanique",
-	"name.ba_bt.nether": "nether",
-	"name.ba_bt.end": "l'end",
-	"name.ba_bt.sky": "angélique"
+	"title.ba_bt.land": "terrestre",
+	"title.ba_bt.ocean": "océanique",
+	"title.ba_bt.core": "volcanique",
+	"title.ba_bt.nether": "nether",
+	"title.ba_bt.end": "l'end",
+	"title.ba_bt.sky": "angélique"
 }

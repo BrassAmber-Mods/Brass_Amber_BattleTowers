@@ -1,4 +1,4 @@
-{
+title{
 	"itemGroup.ba_bt": "BrassAmber Battletowers",
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
@@ -107,10 +107,10 @@
 	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
 	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
 
-	"name.ba_bt.land": "Land",
-	"name.ba_bt.ocean": "Ocean",
-	"name.ba_bt.core": "Core",
-	"name.ba_bt.nether": "Nether",
-	"name.ba_bt.end": "End",
-	"name.ba_bt.sky": "Sky"
+	"title.ba_bt.land": "Land",
+	"title.ba_bt.ocean": "Ocean",
+	"title.ba_bt.core": "Core",
+	"title.ba_bt.nether": "Nether",
+	"title.ba_bt.end": "End",
+	"title.ba_bt.sky": "Sky"
 }
