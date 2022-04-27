@@ -96,10 +96,9 @@ public class DestroyTower extends Entity {
             for (int x = rowCorner.getX(); x <= rowCorner.getX() + 30; x++) {
                 for(int z = rowCorner.getZ(); z <= rowCorner.getZ() + 30; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    if (this.level.getBlockState(blockToAdd).getFluidState() == Fluids.FLOWING_WATER.defaultFluidState()
-                            || this.level.getBlockState(blockToAdd).getFluidState() == Fluids.WATER.defaultFluidState()) {
-                        this.removeBodyOfWater(blockToAdd);
-                    } else if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()) {
+                    if (this.level.isWaterAt(blockToAdd)) {
+                        removeBodyOfWater(blockToAdd);
+                    } else if (!this.level.getBlockState(blockToAdd).isAir()) {
                         this.blocksToRemove.add(blockToAdd);
                         // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                     }
@@ -225,7 +224,7 @@ public class DestroyTower extends Entity {
                     this.level.playSound(null, this.getCrumbleStart().below(this.getCurrentRow()*3),
                             BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
                 }
-                if (this.blocksToRemove.size() == 0) {
+                if (this.blocksToRemove.isEmpty()) {
                     // Water checks/removal is done inside this method to prevent flowing water + explosions
                     this.getNextRow();
                 } else {
@@ -283,7 +282,7 @@ public class DestroyTower extends Entity {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if (this.level.getBlockState(blockToAdd) != Blocks.AIR.defaultBlockState()) {
+                            if (!this.level.getBlockState(blockToAdd).isAir()) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }
@@ -316,7 +315,7 @@ public class DestroyTower extends Entity {
         int recursion = 0;
     	removeBodyOWater(waterPositions, start, recursion);
     	
-    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 64));
+    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0));
 	}
     
     private void removeBodyOWater(Set<BlockPos> storage, BlockPos position, int recursion) {

@@ -62,11 +62,12 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityTypes.BT_CULTIST.get(), BTCultistRenderer::new);
 
 		event.registerEntityRenderer(BTEntityTypes.LAND_MONOLITH.get(), LandMonolithRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_MONOLITH.get(), OceanMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.CORE_MONOLITH.get(), CoreMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.NETHER_MONOLITH.get(), NetherMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.END_MONOLITH.get(), EndMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityTypes.SKY_MONOLITH.get(), SkyMonolithRenderer::new);
-		event.registerEntityRenderer(BTEntityTypes.OCEAN_MONOLITH.get(), OceanMonolithRenderer::new);
+
 
 		event.registerEntityRenderer(BTEntityTypes.LAND_OBELISK.get(), NoRenderEntity::new);
 		event.registerEntityRenderer(BTEntityTypes.OCEAN_OBELISK.get(), NoRenderEntity::new);

@@ -46,7 +46,6 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
     private static BlockPos SpawnPos;
-    private static Boolean DoPlace;
 
     @Override
     public GenerationStep.@NotNull Decoration step() {
@@ -238,7 +237,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
 
 
-        if (isSpawnableChunk(context)) {
+        if (LandBattleTower.isSpawnableChunk(context)) {
                 // Moved Biome check in JigsawPlacement outside
             Predicate<Holder<Biome>> predicate = context.validBiome();
             int i;
@@ -291,9 +290,11 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         BlockPos structureCenter = new BlockPos(boundingBox.getCenter().getX(), bbYStart, boundingBox.getCenter().getZ());
         BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
+
+
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        if (featureManager.hasAnyStructureAt(structureCenter.above())) {
+        if (featureManager.hasAnyStructureAt(structureCenter.above()) && !piecesContainer.isEmpty()) {
             ArrayList<BlockPos> blocksToFill = getAirBlocks(worldGenLevel, chunkGenerator, structureCenter);
             for (BlockPos pos: blocksToFill) {
                 blockpos$mutableblockpos.set(pos.getX(), pos.getY(), pos.getZ());
@@ -317,7 +318,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             for (double z =  -12; z <= 12; z++) {
                 blockpos$mutableblockpos.set(x, startY, z);
 
-                if (Math.sqrt(square(Math.abs(x)) + square(Math.abs(z))) < 12.5 && worldGenLevel.isEmptyBlock(blockpos$mutableblockpos)) {
+                if (Math.sqrt(square(Math.abs(x)) + square(Math.abs(z))) < 12.5) {
                     startBlocks.add(blockpos$mutableblockpos);
                 }
             }
