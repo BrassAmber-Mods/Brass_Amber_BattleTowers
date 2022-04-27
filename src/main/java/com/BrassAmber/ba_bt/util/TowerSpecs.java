@@ -7,12 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 public enum TowerSpecs implements StringRepresentable {
     EMPTY(null,0,0, ""),
-    LAND(new TranslatableComponent("name.ba_bt.land"), 112, 2, "#9BDAE7"),
-    OCEAN(new TranslatableComponent("name.ba_bt.ocean"), 112, 2, "#EAE78A"),
-    NETHER(new TranslatableComponent("name.ba_bt.core"), 112, 2, "#88EB63"),
-    CORE(new TranslatableComponent("name.ba_bt.nether"), 112, 1, "#F79B3A"),
-    END(new TranslatableComponent("name.ba_bt.end"), 112, 1, "#BA49EF"),
-    SKY(new TranslatableComponent("name.ba_bt.sky"), 112, 1, "#FBC1EB");
+    LAND(new TranslatableComponent("title.ba_bt.land"), 112, 2, "#9BDAE7"),
+    OCEAN(new TranslatableComponent("title.ba_bt.ocean"), 112, 2, "#EAE78A"),
+    NETHER(new TranslatableComponent("title.ba_bt.core"), 112, 2, "#88EB63"),
+    CORE(new TranslatableComponent("title.ba_bt.nether"), 112, 1, "#F79B3A"),
+    END(new TranslatableComponent("title.ba_bt.end"), 112, 1, "#BA49EF"),
+    SKY(new TranslatableComponent("title.ba_bt.sky"), 112, 1, "#FBC1EB");
 
     private final Component name;
     private final int height;
@@ -39,10 +39,6 @@ public enum TowerSpecs implements StringRepresentable {
 
     public String getColorCode() {
         return this.colorCode;
-    }
-
-    public Component getCapitalizedName() {
-        return this.name;
     }
 
     public String getTitleText1() {

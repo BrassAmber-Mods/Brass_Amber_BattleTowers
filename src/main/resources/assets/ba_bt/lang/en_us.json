@@ -3,16 +3,16 @@
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
 	// Entities
-	"entity.ba_bt.land_golem": "Land Golem",
-	"entity.ba_bt.ocean_golem": "Ocean Golem",
-	"entity.ba_bt.core_golem": "Core Golem",
-	"entity.ba_bt.nether_golem": "Nether Golem",
-	"entity.ba_bt.end_golem": "End Golem",
-	"entity.ba_bt.sky_golem": "Sky Golem",
+	"entity.ba_bt.land_golem": "Bahrynz'muul, Entombed Watcher",
+	"entity.ba_bt.ocean_golem": "Moraizu'un, Idol of the Depths",
+	"entity.ba_bt.core_golem": "Obthu'ryn, God of the Core",
+	"entity.ba_bt.nether_golem": "Vraag'iidra, Wrath Incarnate",
+	"entity.ba_bt.end_golem": "Shul'losniir, Warped Guardian",
+	"entity.ba_bt.sky_golem": "Veyhz'kriin, Sky Goddess",
 
 
 	"entity.ba_bt.sky_minion": "Sky Minion",
-	"entity.ba_bt.platinum_skeleton": "Platinum Skeleton",
+	"entity.ba_bt.platinum_skeleton": "Platinum Knight",
 	"entity.ba_bt.bt_cultist": "Cultist",
 
 	"entity.ba_bt.land_monolith": "Land Monolith",
@@ -94,24 +94,24 @@
 
 	"item.ba_bt.land_chest_shard": "Land Chest Shard",
 
-	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Skeleton Spawn Egg",
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Knight Spawn Egg",
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Hold §eSHIFT§r for more information.",
-	"tooltip.ba_bt.monolith": "The Monolith is used to summon a Battle Golem.",
-	"tooltip.ba_bt.monolith_key": "Place 3 keys in a Monolith to summon a Battle Golem.",
-	"tooltip.ba_bt.tower_chest": "Break all spawners on its Tower floor to unlock. Can be placed 'unlocked' in survival",
-	"tooltip.ba_bt.golem_chest": "Defeat Golem to unlock",
+	"tooltip.ba_bt.monolith": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_key": "I hope you know what you're doing..",
+	"tooltip.ba_bt.tower_chest": "Unlocks when its floors spawners are broken.",
+	"tooltip.ba_bt.golem_chest": "Bound by the guardian's life force, it will not open!",
 
 	// Overscreen titles
-	"title.ba_bt.guardian_defeated_1": "Guardian Has Fallen",
+	"title.ba_bt.guardian_defeated_1": " Has Fallen",
 	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
 	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
 
-	"name.ba_bt.land": "Land",
-	"name.ba_bt.ocean": "Ocean",
-	"name.ba_bt.core": "Core",
-	"name.ba_bt.nether": "Nether",
-	"name.ba_bt.end": "End",
-	"name.ba_bt.sky": "Sky"
+	"title.ba_bt.land": "Bahrynz'muul, Land Guardian",
+	"title.ba_bt.ocean": "Moraizu'un, Ocean Guardian",
+	"title.ba_bt.core": "Obthu'uryn, Core God",
+	"title.ba_bt.nether": "Vrag'iidra, Nether Tyrant",
+	"title.ba_bt.end": "Shul'losniir, End Guardian",
+	"title.ba_bt.sky": "Veyhz'kriin, Sky Goddess"
 }

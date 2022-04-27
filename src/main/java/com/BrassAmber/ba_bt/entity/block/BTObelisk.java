@@ -2,12 +2,12 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTMusics;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
@@ -39,6 +39,8 @@ import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+
+import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
 
 public class BTObelisk extends Entity {
     // Parameters that must be saved
@@ -75,7 +77,6 @@ public class BTObelisk extends Entity {
     private final String spawnersDestroyedName = "SpawnersDestroyed";
     private final String golemTypeName = "GolemType";
 
-    private final CommandSourceStack source = createCommandSourceStack().withPermission(4);
     private int timeSinceAmbientMusic;
     private int lastMusicStart;
     private boolean canCheck;
@@ -222,21 +223,23 @@ public class BTObelisk extends Entity {
                 if (this.horizontalDistanceTo(player) < 30) {
                     playersClose.add(Boolean.TRUE);
                     // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
+                } else {
+                    playersClose.add(Boolean.FALSE);
                 }
 
             }
 
             this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
-            int timeCheck = this.random.nextInt(40,100);
+            int timeCheck = this.random.nextInt(4,10) * 10;
 
             if (this.tickCount % timeCheck == 0) {
                 List<BTCultist> cultists = this.level.getEntitiesOfClass(BTCultist.class, this.getBoundingBox().inflate(15, 110, 15));
                 if (cultists.size() < 10) {
                     int floor = this.blockPosition().getY() + this.random.nextInt(0,8) * 11;
-                    int x = this.blockPosition().getX() + this.random.nextInt(-10, 10);
+                    int x = this.blockPosition().getX() + this.random.nextInt(-14, 14);
                     int y = floor + this.random.nextInt(0, 10);
-                    int z = this.blockPosition().getZ() + this.random.nextInt(-10, 10);
+                    int z = this.blockPosition().getZ() + this.random.nextInt(-14, 14);
 
                     this.createCultistEntity((ServerLevel) this.level, new BlockPos(x, y, z));
                 }
@@ -252,9 +255,10 @@ public class BTObelisk extends Entity {
 
     protected void createCultistEntity(ServerLevel serverWorld, BlockPos spawn) {
         BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
+        double distance = BTUtil.horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
 
         boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
-        if (canSpawn) {
+        if (canSpawn && (distance < 11.5D || distance > 12.5) && serverWorld.getBlockState(spawn.above()).isAir()) {
             Entity entity = BTEntityTypes.BT_CULTIST.get().create(serverWorld);
             if (entity instanceof  BTCultist cultist) {
                 cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
@@ -292,7 +296,7 @@ public class BTObelisk extends Entity {
                             chest.setLootTable(BrassAmberBattleTowers.locate("chests/land_tower/" + (i+1) + "key"), this.random.nextLong());
                         }
                         else {
-                            this.doNoOutputPostionedCommand("give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                            doNoOutputPostionedCommand(this, "give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
                         }
                         this.justSpawnedKey = true;
                     }
@@ -450,18 +454,7 @@ public class BTObelisk extends Entity {
 
     /************************************************** COMMANDS **************************************************/
 
-    public void doCommand(String command) {
 
-        this.level.getServer().getCommands().performCommand(this.source, command);
-    }
-
-    public void doNoOutputCommand(String command) {
-        this.level.getServer().getCommands().performCommand(this.source.withSuppressedOutput(), command);
-    }
-
-    public void doNoOutputPostionedCommand(String command, Vec3 vec) {
-        this.level.getServer().getCommands().performCommand(this.source.withSuppressedOutput().withPosition(vec), command);
-    }
 
     @Override
     public @NotNull Packet<?> getAddEntityPacket() {

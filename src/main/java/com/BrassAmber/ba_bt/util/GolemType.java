@@ -8,6 +8,8 @@ import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTItems;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -16,18 +18,18 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public enum GolemType implements StringRepresentable {
-	EMPTY("empty", "Empty"),
-	LAND("land", "Bahrynz'muul, entombed watcher"),
-	OCEAN("ocean", "Moraizu'un, idol of the depths"),
-	CORE("core", "Vraag'iidra, wrath incarnate"),
-	NETHER("nether", "Obthu'ryn, god of the core"),
-	END("end", "Shul'losniir, warped guardian"),
-	SKY("sky", "Veyhz'kriin, sky goddess");
+	EMPTY("empty", new TextComponent("Empty")),
+	LAND("land", new TranslatableComponent("entity.ba_bt.land")),
+	OCEAN("ocean", new TranslatableComponent("entity.ba_bt.ocean")),
+	CORE("core", new TranslatableComponent("entity.ba_bt.core")),
+	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether")),
+	END("end", new TranslatableComponent("entity.ba_bt.end")),
+	SKY("sky", new TranslatableComponent("entity.ba_bt.sky"));
 
 	private final String name;
-	private final String displayName;
+	private final Component displayName;
 
-	GolemType(String name, String displayName) {
+	GolemType(String name, Component displayName) {
 		this.name = name;
 		this.displayName = displayName;
 	}
@@ -246,6 +248,6 @@ public enum GolemType implements StringRepresentable {
 	}
 
 	public Component getDisplayName() {
-		return Component.nullToEmpty(displayName);
+		return displayName;
 	}
 }

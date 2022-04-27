@@ -48,46 +48,4 @@ public class BTBlocks {
     public static final RegistryObject<Block> BT_LAND_SPAWNER = BLOCKS.register("bt_land_spawner",
 			() -> new BTSpawnerBlock(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
-
-	/**
-	 * Items without a group will not show up in the creative inventory and JEI.
-	 */
-	private static RegistryObject<Block> registerBlockNoGroup(String registryName, Block block) {
-		return registerBlock(registryName, block, (CreativeModeTab) null);
-	}
-
-	/**
-	 * Helper method for registering all Blocks and Items to the BattleTowers ItemGroup.
-	 */
-	private static RegistryObject<Block> registerBlock(String registryName, Block block) {
-		return registerBlock(registryName, block, BrassAmberBattleTowers.BATLETOWERSTAB);
-	}
-
-	/**
-	 * Helper method for registering all Blocks and Items with a custom ItemGroup.
-	 */
-	private static RegistryObject<Block> registerBlock(String registryName, Block block, CreativeModeTab creativeModeTab) {
-		return registerBlock(registryName, block, new BlockItem(block, new Item.Properties().tab(creativeModeTab)));
-	}
-
-	/**
-	 * Helper method for registering all Blocks and Items
-	 */
-	private static RegistryObject<Block> registerBlock(String registryName, Block block, Item item) {
-		RegistryObject<Block> regBlock = BLOCKS.register(registryName, () -> block);
-		// Blocks are registered before Items
-		BTItems.registerItem(registryName, item);
-		return regBlock;
-	}
-
-	/**
-	 * Helper method for registering Spawner
-	 */
-	private static RegistryObject<Block> registerSpawnerBlock(String registryName, Block block) {
-		RegistryObject<Block> regBlock = BLOCKS.register(registryName, () -> block);
-		// Blocks are registered before Items
-		BTItems.registerItem(registryName, new BlockItem(block, new Item.Properties()));
-		return regBlock;
-	}
-
 }

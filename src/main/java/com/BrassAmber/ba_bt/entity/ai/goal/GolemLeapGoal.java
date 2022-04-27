@@ -1,10 +1,9 @@
 package com.BrassAmber.ba_bt.entity.ai.goal;
 
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
@@ -16,7 +15,11 @@ public class GolemLeapGoal extends Goal {
     private final float maxleap;
     private final float maxJump;
 
-    private int useChecked = 0;
+    protected boolean jumpingInProgress = false;
+
+    protected static final int WARMUP_TICKS = 20;
+
+    private int warmup = WARMUP_TICKS;
 
     public GolemLeapGoal(BTAbstractGolem golemIn, float maxJumpHeight, float minimumLeap, float maximumLeap) {
         this.golem = golemIn;
@@ -28,54 +31,55 @@ public class GolemLeapGoal extends Goal {
 
 
     public boolean canUse() {
-        if (this.golem.isVehicle() || this.golem.isDormant() && !this.golem.isOnGround()) {
+        if (this.golem.isVehicle()) {
             return false;
-        } else {
-            if (this.target == null) {
-                return false;
-            }
-
-            if (this.useChecked == 30) {
-                this.useChecked = 0;
-                this.target = this.golem.getTarget();
-                double d0 = this.horizontalDistanceTo(this.target);
-                double d1 = this.target.getY() - this.golem.getY();
-                boolean horizontal =(this.minleap < d0) && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
-                boolean vertical = this.minleap < d1 && d1 < this.maxJump;
-                if (horizontal || vertical) {
-                    if (!this.golem.isOnGround()) {
-                        return false;
-                    } else {
-                        return this.golem.getRandom().nextInt(reducedTickDelay(5)) == 0;
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                this.useChecked += 1;
-                return false;
-            }
         }
-    }
+        if (this.golem.getTarget() != null && !this.golem.isDormant() && this.golem.isOnGround()) {
+            if (this.target == null || !this.golem.isOnGround()) {
+                return false;
+            }
 
-    public double horizontalDistanceTo(LivingEntity entity) {
-        double xDistance = Math.abs(this.golem.getX() - entity.getX());
-        double zDistance = Math.abs(this.golem.getZ() -  entity.getZ());
+            this.target = this.golem.getTarget();
+            double d0 = BTUtil.horizontalDistanceTo(this.golem, this.target);
+            double d1 = Math.abs(this.target.getY() - this.golem.getY());
+            boolean horizontal = this.minleap < d0 && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
+            boolean vertical = this.minleap < d1 && d1 < this.maxJump;
 
-        return Math.sqrt((xDistance * xDistance) + (zDistance * zDistance));
+            if (horizontal || vertical) {
+                this.warmup--;
+                return this.warmup <= 0;
+            } else {
+                return false;
+            }
+
+        }
+
+        return false;
     }
 
     public boolean canContinueToUse() {
         return !this.golem.isOnGround() && this.golem.isAwake();
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+    }
+
     public void start() {
         Vec3 vec3 = this.golem.getDeltaMovement();
+        this.golem.setDeltaMovement(Vec3.ZERO);
         Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), (this.target.getY() - this.golem.getY()) + 4, this.target.getZ() - this.golem.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {
             vec31 = vec31.normalize().add(vec3.scale(1.4D));
         }
 
         this.golem.setDeltaMovement(vec31.x, vec31.y, vec31.z);
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        this.warmup = WARMUP_TICKS;
     }
 }

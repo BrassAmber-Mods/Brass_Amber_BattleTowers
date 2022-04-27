@@ -46,6 +46,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
     private static BlockPos SpawnPos;
+    private static Boolean DoPlace;
 
     @Override
     public GenerationStep.@NotNull Decoration step() {
@@ -289,10 +290,14 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         int bbYStart = boundingbox.minY()-1;
         BlockPos structureCenter = new BlockPos(boundingBox.getCenter().getX(), bbYStart, boundingBox.getCenter().getZ());
         BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
-        if (abs(chunkCenter.getX() - structureCenter.getX()) < 2 && abs(chunkCenter.getZ() - structureCenter.getZ()) < 2) {
+
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+
+        if (featureManager.hasAnyStructureAt(structureCenter.above())) {
             ArrayList<BlockPos> blocksToFill = getAirBlocks(worldGenLevel, chunkGenerator, structureCenter);
             for (BlockPos pos: blocksToFill) {
-                worldGenLevel.setBlock(pos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
+                blockpos$mutableblockpos.set(pos.getX(), pos.getY(), pos.getZ());
+                worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
             }
         }
         else {
@@ -302,7 +307,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
     }
 
     private static ArrayList<BlockPos> getAirBlocks(WorldGenLevel worldGenLevel, ChunkGenerator chunkGenerator, BlockPos startPos) {
-
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         ArrayList<BlockPos> startBlocks = new ArrayList<>();
         ArrayList<BlockPos> blocks = new ArrayList<>();
         double startY = startPos.getY();
@@ -310,8 +315,10 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
         for (double x = -12; x <= 12; x++) {
             for (double z =  -12; z <= 12; z++) {
-                if (Math.sqrt(square(Math.abs(x)) + square(Math.abs(z))) < 12.5) {
-                    startBlocks.add(new BlockPos(startPos.getX() + x, startY, startPos.getZ() + z));
+                blockpos$mutableblockpos.set(x, startY, z);
+
+                if (Math.sqrt(square(Math.abs(x)) + square(Math.abs(z))) < 12.5 && worldGenLevel.isEmptyBlock(blockpos$mutableblockpos)) {
+                    startBlocks.add(blockpos$mutableblockpos);
                 }
             }
         }
@@ -319,12 +326,13 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         for (BlockPos pos: startBlocks) {
             double x = pos.getX();
             double z = pos.getZ();
+            blockpos$mutableblockpos.set(x, startY, z);
             for (double y = startY; y > startY - 100; y--) {
-                BlockPos toCheck = new BlockPos(x, y, z);
-                if (worldGenLevel.getBlockState(toCheck).isAir()) {
-                    blocks.add(toCheck);
+                blockpos$mutableblockpos.setY((int) y);
+                if (worldGenLevel.getBlockState(blockpos$mutableblockpos).isAir()) {
+                    blocks.add(blockpos$mutableblockpos);
                 } else {
-                    blocks.add(toCheck);
+                    blocks.add(blockpos$mutableblockpos);
                     break;
                 }
             }

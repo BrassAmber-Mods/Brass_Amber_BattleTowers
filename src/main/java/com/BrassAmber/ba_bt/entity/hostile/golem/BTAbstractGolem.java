@@ -15,9 +15,8 @@ import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
-import net.minecraft.client.Minecraft;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.CritParticle;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,44 +25,33 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -111,6 +99,8 @@ public abstract class BTAbstractGolem extends Monster {
 		// Reference for disregarding fire taken from ZombiefiedPiglin
 
 		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
+		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 8.0F);
+		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 8.0F);
 		
 		this.maxUpStep = 2.0F;
 	}
@@ -198,7 +188,7 @@ public abstract class BTAbstractGolem extends Monster {
 			if (((ClientLevel)this.level).players().size() < 1) {
 				return;
 			}
-			double playerDistance = this.horizontalDistanceTo(((ClientLevel)this.level).players().get(0));
+			double playerDistance = BTUtil.horizontalDistanceTo(this, ((ClientLevel)this.level).players().get(0));
 			boolean hasClientPlayer = playerDistance < 30;
 			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
 
@@ -265,23 +255,7 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 	}
 	
-	/**
-	 * Returns the squared horizontal distance.
-	 */
-	public double horizontalDistanceToSqr(double targetX, double targetZ) {
-		double dX = this.getX() - targetX;
-		double dZ = this.getZ() - targetZ;
-		return dX * dX + dZ * dZ;
-	}
 
-	/**
-	 * Returns the horizontal distance.
-	 */
-	public double horizontalDistanceTo(Entity entity) {
-		double dX = this.getX() - entity.getX();
-		double dZ = this.getZ() - entity.getZ();
-		return Math.abs(Math.sqrt(dX * dX + dZ * dZ));
-	}
 
 	/**
 	 * Reset the Golem if its to far from it's spawn location and not close to a player.
@@ -294,7 +268,7 @@ public abstract class BTAbstractGolem extends Monster {
 		BlockPos spawnPos = this.getSpawnPos();
 		// Check for the distance to the X and Z coordinates on the current Y level.
 		// This way we get only the lateral distance
-		if (this.horizontalDistanceToSqr(spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
+		if (BTUtil.horizontalDistanceToSqr(this, spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
 			this.resetGolem();
 			return;
 		}
@@ -308,9 +282,9 @@ public abstract class BTAbstractGolem extends Monster {
 			return;
 		}
 		if ((nearestPlayer != null)) {
-			if (this.horizontalDistanceToSqr(nearestPlayer.getX(), nearestPlayer.getZ()) > maxDistanceFromSpawn) {
+			if (BTUtil.horizontalDistanceToSqr(this, nearestPlayer.getX(), nearestPlayer.getZ()) > maxDistanceFromSpawn) {
 				this.resetGolem();
-				BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + this.horizontalDistanceToSqr(this.getSpawnPos().getX(), this.getSpawnPos().getZ()) + " " + maxDistanceFromSpawn);
+				BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + BTUtil.horizontalDistanceToSqr(this, this.getSpawnPos().getX(), this.getSpawnPos().getZ()) + " " + maxDistanceFromSpawn);
 			}
 		}
 

@@ -7,6 +7,7 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.commands.CommandSourceStack;
@@ -36,6 +37,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.network.NetworkHooks;
 
+import static com.BrassAmber.ba_bt.util.BTUtil.doCommand;
+import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputCommand;
+
 public class DestroyTower extends Entity {
     // Parameters that must be saved
     private static final EntityDataAccessor<BlockPos> CRUMBLE_START_CORNER = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.BLOCK_POS);
@@ -56,7 +60,6 @@ public class DestroyTower extends Entity {
     private BlockPos removeBlock;
     private boolean checkForGolem = true;
     private boolean hasPlayer;
-    private final CommandSourceStack source = createCommandSourceStack().withPermission(4);
 
     private final double destroyPercentOfTower;
     
@@ -120,16 +123,6 @@ public class DestroyTower extends Entity {
         // this.level.setBlock(this.getCrumbleStart().offset(15, 1, 15), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
         // this.level.setBlock(this.getCrumbleStart().offset(30, 1, 30), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
     }
-
-    public void doCommand(String command) {
-
-        this.level.getServer().getCommands().performCommand(this.source, command);
-    }
-
-    public void doNoOutputCommand(String command) {
-        this.level.getServer().getCommands().performCommand(this.source.withSuppressedOutput(), command);
-    }
-
     
     @Override
     public void tick() {
@@ -198,26 +191,26 @@ public class DestroyTower extends Entity {
             if (this.currentTicks == 1) {
 
 
-                this.doCommand("/gamerule sendCommandFeedback false");
-                this.doCommand("/title @a times 30 40 20");
-                this.doCommand("/title @a title \"\"");
-                this.doCommand("/title @a subtitle {\"text\":\" " + this.specs.getTitleText1()
+                doCommand(this,"/gamerule sendCommandFeedback false");
+                doCommand(this,"/title @a times 30 40 20");
+                doCommand(this,"/title @a title \"\"");
+                doCommand(this,"/title @a subtitle {\"text\":\" " + this.specs.getTitleText1()
                         + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
-                this.doCommand("/title @a title \"\"");
-                this.doCommand("/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
+                doCommand(this,"/title @a title \"\"");
+                doCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
                         + " \",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
-                this.doCommand("/title @a title \"\"");
-                this.doCommand("/title @a subtitle {\"text\":\"" + this.specs.getTitleText3()
+                doCommand(this,"/title @a title \"\"");
+                doCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText3()
                         + "\",\"color\":\"#aa0000\"}");
-                this.doNoOutputCommand("/gamerule sendCommandFeedback true");
+                doNoOutputCommand(this, "/gamerule sendCommandFeedback true");
 
             }else if (this.currentTicks == 600) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),
