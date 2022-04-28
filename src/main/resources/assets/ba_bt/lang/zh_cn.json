@@ -111,5 +111,13 @@
 	"title.ba_bt.core": "炉心",
 	"title.ba_bt.nether": "下界",
 	"title.ba_bt.end": "末影",
-	"title.ba_bt.sky": "天空"
+	"title.ba_bt.sky": "天空",
+
+	// Advancements
+	"advancements.ba_bt.land_tower_found.title": "Howling Towers",
+	"advancements.ba_bt.land_tower_found.description": "-Infiltrate the Land Tower",
+	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",
+	"advancements.ba_bt.find_land_key.description": "-Find a Monolith Key",
+	"advancements.ba_bt.kill_land_golem.title": "The ocean depths begin to stir...",
+	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahrynz'muul, Bound Guardian of the Tower"
 }
