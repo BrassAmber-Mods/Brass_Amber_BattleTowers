@@ -8,7 +8,7 @@ title{
 	"entity.ba_bt.ocean_golem": "Golem Océanique",
 
 	"entity.ba_bt.sky_minion": "Minion Angélique",
-	"entity.ba_bt.platinum_skeleton": "Squelette Platine",
+	"entity.ba_bt.platinum_skeleton": "Chevalier en Platine",
 	"entity.ba_bt.bt_cultist": "Cultiste",
 
 	"entity.ba_bt.land_monolith": "Monolithe Terrestre",
@@ -102,11 +102,11 @@ title{
 	"title.ba_bt.guardian_defeated_2": "Sans son énergie...",
 	"title.ba_bt.guardian_defeated_3": "...La tour va s'écrouler...",
 
+	"title.ba_bt.land": "Bahrynz'muul, Golem Terrestre",	
+	"title.ba_bt.ocean": "Moraizu'un, Golem Océanique",
+	"title.ba_bt.core": "Obthu'uryn, Dieu Volcanique",
+	"title.ba_bt.nether": "Vrag'iidra, Tyran du Nether",
+	"title.ba_bt.end": "Shul'losniir, Golem de l'End",
+	"title.ba_bt.sky": "Veyhz'kriin, Déesse Angélique"
 
-	"title.ba_bt.land": "terrestre",
-	"title.ba_bt.ocean": "océanique",
-	"title.ba_bt.core": "volcanique",
-	"title.ba_bt.nether": "nether",
-	"title.ba_bt.end": "l'end",
-	"title.ba_bt.sky": "angélique"
 }
