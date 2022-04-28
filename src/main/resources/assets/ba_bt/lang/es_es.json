@@ -103,7 +103,7 @@ title{
 	"tooltip.ba_bt.golem_chest": "Defeat Golem to unlock",
 
 	// Overscreen titles
-	"title.ba_bt.guardian_defeated_1": "Guardian Has Fallen",
+	"title.ba_bt.guardian_defeated_1": " Has Fallen",
 	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
 	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
 
@@ -112,5 +112,13 @@ title{
 	"title.ba_bt.core": "Core",
 	"title.ba_bt.nether": "Nether",
 	"title.ba_bt.end": "End",
-	"title.ba_bt.sky": "Sky"
+	"title.ba_bt.sky": "Sky",
+
+	// Advancements
+	"advancements.ba_bt.land_tower_found.title": "Howling Towers",
+	"advancements.ba_bt.land_tower_found.description": "-Infiltrate the Land Tower",
+	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",
+	"advancements.ba_bt.find_land_key.description": "-Find a Monolith Key",
+	"advancements.ba_bt.kill_land_golem.title": "The ocean depths begin to stir...",
+	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahrynz'muul, Bound Guardian of the Tower"
 }

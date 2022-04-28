@@ -1,11 +1,11 @@
 {
   "display": {
     "title": {
-      "text": "Howling Towers",
+      "translate": "advancements.ba_bt.land_tower_found.title",
       "color": "white"
     },
     "description": {
-      "text": "-Infiltrate the Land Tower",
+      "translate": "advancements.ba_bt.land_tower_found.description",
       "color": "gray",
       "italic": true
     },

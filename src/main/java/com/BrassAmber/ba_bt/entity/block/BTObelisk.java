@@ -233,7 +233,7 @@ public class BTObelisk extends Entity {
 
             this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
-            int timeCheck = this.random.nextInt(4,10) * 10;
+            int timeCheck = this.random.nextInt(4,8) * 10;
 
             if (this.tickCount % timeCheck == 0) {
                 List<BTCultist> cultists = this.level.getEntitiesOfClass(BTCultist.class, this.getBoundingBox().inflate(15, 110, 15));

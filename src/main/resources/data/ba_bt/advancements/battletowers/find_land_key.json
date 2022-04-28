@@ -1,15 +1,16 @@
 {
+  "parent": "ba_bt:battletowers/land_tower_found",
   "display": {
     "icon": {
       "item": "ba_bt:monolith_key_land"
     },
     "title": {
-      "text": "I hope you know what you're doing...",
+      "translate": "advancements.ba_bt.find_land_key.title",
       "color": "white",
       "italic": true
     },
     "description": {
-      "text": "-Find a Monolith Key",
+      "translate": "advancements.ba_bt.find_land_key.description",
       "color": "grey",
       "italic": true
     },
@@ -18,18 +19,15 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "ba_bt:battletowers/land_tower_found",
   "criteria": {
     "Acquire Key": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "player": {
-          "type": "minecraft:player"
-        },
         "items": [
           {
-            "tag": "ba_bt:monolith_key_land",
-            "count": 1
+            "items": [
+              "ba_bt:monolith_key_land"
+            ]
           }
         ]
       }

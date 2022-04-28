@@ -5,12 +5,12 @@
       "item": "ba_bt:guardian_eye_ocean"
     },
     "title": {
-      "text": "The ocean depths begin to stir...",
+      "translate": "advancements.ba_bt.kill_land_golem.title",
       "color": "white",
       "italic": true
     },
     "description": {
-      "text": "-Destroy Bahrynz'muul, Bound Guardian of the Tower",
+      "translate": "advancements.ba_bt.kill_land_golem.description",
       "color": "grey",
       "italic": true
     },

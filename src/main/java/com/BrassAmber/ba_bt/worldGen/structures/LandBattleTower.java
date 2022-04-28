@@ -5,12 +5,14 @@ import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -109,15 +111,10 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
             return false;
         }
-        // First Test the center chunk given by the context
-        boolean chunkOkay = isFlatLand(context.chunkGenerator(), centerOfChunk, context.heightAccessor());
-        if (chunkOkay) {
-            SpawnPos = new BlockPos(centerOfChunk.getX(), 0, centerOfChunk.getZ());
-            return true;
-        }
-        // if false, check surrounding chunks for possible spawns
+        // Test/Check surrounding chunks for possible spawns
 
         List<BlockPos> testables = new ArrayList<>(List.of(
+                centerOfChunk,
                 new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 32),
                 new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ() + 32),
                 new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ()),
@@ -289,57 +286,51 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY()-1;
-        BlockPos structureCenter = new BlockPos(boundingBox.getCenter().getX(), bbYStart, boundingBox.getCenter().getZ());
-        BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
+
+        HolderSet<Block> acceptableBlocks = HolderSet.direct(Holder.direct(Blocks.STONE_BRICKS),
+                Holder.direct(Blocks.STONE_BRICK_SLAB), Holder.direct(Blocks.MOSSY_STONE_BRICKS),
+                Holder.direct(Blocks.CRACKED_STONE_BRICKS), Holder.direct(Blocks.CHISELED_STONE_BRICKS));
+
+        BlockPos structureCenter = boundingbox.getCenter();
+        BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + structureCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+        blockpos$mutableblockpos.setY(bbYStart);
 
-        if (featureManager.hasAnyStructureAt(structureCenter.above())) {
-            ArrayList<BlockPos> blocksToFill = getAirBlocks(worldGenLevel, chunkGenerator, structureCenter);
-            for (BlockPos pos: blocksToFill) {
-                blockpos$mutableblockpos.set(pos.getX(), pos.getY(), pos.getZ());
-                worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
-            }
-        }
-        else {
-            BrassAmberBattleTowers.LOGGER.info("Post Processing: Spawn tried, no structure at: " + structureCenter + " in chunk: " + chunkPos.getMiddleBlockPosition(bbYStart));
-        }
+        ArrayList<BlockPos> startPositions = new ArrayList<>();
+        ArrayList<BlockPos> blocksToFill = new ArrayList<>();
 
-    }
-
-    private static ArrayList<BlockPos> getAirBlocks(WorldGenLevel worldGenLevel, ChunkGenerator chunkGenerator, BlockPos startPos) {
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-        ArrayList<BlockPos> startBlocks = new ArrayList<>();
-        ArrayList<BlockPos> blocks = new ArrayList<>();
-        double startY = startPos.getY();
-        BrassAmberBattleTowers.LOGGER.info("Post Processing: get air blocks, startY =" + startY);
-
-        for (double x = -12; x <= 12; x++) {
-            for (double z =  -12; z <= 12; z++) {
-                blockpos$mutableblockpos.set(x, startY, z);
-
-                if (Math.sqrt(square(Math.abs(x)) + square(Math.abs(z))) < 12.5) {
-                    startBlocks.add(blockpos$mutableblockpos);
+        for (int x = structureCenter.getX() - 12; x < structureCenter.getX() + 12; x++) {
+            for (int z = structureCenter.getZ() - 12; z < structureCenter.getZ() + 12; z++) {
+                blockpos$mutableblockpos.setX(x);
+                blockpos$mutableblockpos.setZ(z);
+                if (!worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) && worldGenLevel.getBlockState(blockpos$mutableblockpos.above()).is(acceptableBlocks)) {
+                    startPositions.add(blockpos$mutableblockpos);
                 }
             }
         }
 
-        for (BlockPos pos: startBlocks) {
-            double x = pos.getX();
-            double z = pos.getZ();
-            blockpos$mutableblockpos.set(x, startY, z);
-            for (double y = startY; y > startY - 100; y--) {
-                blockpos$mutableblockpos.setY((int) y);
-                if (worldGenLevel.getBlockState(blockpos$mutableblockpos).isAir()) {
-                    blocks.add(blockpos$mutableblockpos);
+        for (BlockPos startPos: startPositions) {
+            blockpos$mutableblockpos.set(startPos.getX(), startPos.getY(), startPos.getZ());
+
+            for (int y = startPos.getY(); y > 0 ; y--) {
+                blockpos$mutableblockpos.setY(y);
+                if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos)) {
+                    blocksToFill.add(blockpos$mutableblockpos);
                 } else {
-                    blocks.add(blockpos$mutableblockpos);
+                    // Add two blocks into this ground level as well.
+                    blocksToFill.add(blockpos$mutableblockpos);
+                    blocksToFill.add(blockpos$mutableblockpos.below());
                     break;
                 }
             }
         }
 
-        return blocks;
-    }
 
+        for (BlockPos pos: blocksToFill) {
+            blockpos$mutableblockpos.set(pos.getX(), pos.getY(), pos.getZ());
+            worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
+        }
+
+    }
 }
