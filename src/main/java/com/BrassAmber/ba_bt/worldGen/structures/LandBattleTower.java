@@ -144,7 +144,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         }
 
         if (usablePositions.size() > 0) {
-            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size() + 1));
+            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size()));
             return true;
         }
 
