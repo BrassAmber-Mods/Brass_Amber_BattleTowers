@@ -137,10 +137,10 @@ public class BTObelisk extends Entity {
             if (block == BTBlocks.LAND_CHEST.get()) {
                 this.CHESTS.add(toCheck);
                 // This must use the insert version of add since the arraylist was already initialized
-                BrassAmberBattleTowers.LOGGER.info("Found chest");
+                // BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == BTBlocks.BT_LAND_SPAWNER.get()) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
-                BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
+                // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
                 BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
                 this.spawnersFound += 1;
             }
@@ -184,7 +184,7 @@ public class BTObelisk extends Entity {
         }
 
         if (!this.initialized) {
-            BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
+            // BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
             if (this.createSpawnerList) {
                 List<Integer> spawnerAmounts = this.towerSpawnerAmounts.get(this.getTower());
                 this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
@@ -233,7 +233,7 @@ public class BTObelisk extends Entity {
 
             this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
-            int timeCheck = this.random.nextInt(4,8) * 10;
+            int timeCheck = this.random.nextInt(4,6) * 10;
 
             if (this.tickCount % timeCheck == 0) {
                 List<BTCultist> cultists = this.level.getEntitiesOfClass(BTCultist.class, this.getBoundingBox().inflate(15, 110, 15));
@@ -256,7 +256,7 @@ public class BTObelisk extends Entity {
     }
 
     protected void createCultistEntity(ServerLevel serverWorld, BlockPos spawn) {
-        BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
+        // BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
         double distance = horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
 
         boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
@@ -266,10 +266,10 @@ public class BTObelisk extends Entity {
                 cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
                 cultist.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
                 serverWorld.addFreshEntity(cultist);
-                BrassAmberBattleTowers.LOGGER.info("Success");
+                // BrassAmberBattleTowers.LOGGER.info("Success");
             }
         } else {
-            BrassAmberBattleTowers.LOGGER.info("Fail");
+            // BrassAmberBattleTowers.LOGGER.info("Fail");
         }
     }
 
@@ -302,7 +302,7 @@ public class BTObelisk extends Entity {
                         }
                         this.justSpawnedKey = true;
                     }
-                    else if (justSpawnedKey && (this.getSpawnersDestroyed() == 7 || this.getSpawnersDestroyed() == 15)) {
+                    else if (justSpawnedKey && (this.getSpawnersDestroyed() == 7 || this.getSpawnersDestroyed() == 15 || this.getSpawnersDestroyed() == this.totalSpawners + 1)) {
                         this.justSpawnedKey = false;
                     }
                 }

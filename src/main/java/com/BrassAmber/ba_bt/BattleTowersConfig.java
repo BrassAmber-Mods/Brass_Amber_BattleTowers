@@ -21,8 +21,8 @@ public class BattleTowersConfig {
         landMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
                                 "(due to structure changes in 1.18.2 there is now a hard-coded 16 chunk minimum. " +
-                                "Default and Minimum: 30 chunks (16  + 14)")
-                .define("Land minimum separation", 14);
+                                "Default and Minimum: 16 Chunks")
+                .define("Land minimum separation", 16);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 35 chunks ")
                 .define("First Tower Distance", 35);
 
@@ -38,9 +38,9 @@ public class BattleTowersConfig {
                         .defineInRange("Percent of Land Tower to destroy", .83D, 0,1);
         landAverageSeperationModifier = BUILDER.comment("This value is added to the Land Tower minimum separation"
                 + " above to get the average separation between Land Towers for spawning measured in chunks.",
-                "I.E. if you leave the minimum separation at 14, and change this value to 10 then Land Towers would spawn"
-                        + " on average 40 chunks (16 +14 + 10) apart and a minimum of 30 chunks apart.")
-                .defineInRange("Land average separation modifier", 6, 1, 100);
+                "I.E. if you leave the minimum separation at 16, and change this value to 16 then Land Towers would spawn"
+                        + " a maximum of 32 chunks (16 + 8) apart and a minimum of 16 chunks apart.")
+                .defineInRange("Land average separation modifier", 8, 1, 100);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

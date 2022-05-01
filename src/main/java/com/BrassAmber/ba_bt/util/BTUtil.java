@@ -31,9 +31,9 @@ public class BTUtil {
     }
 
     public static double horizontalDistanceTo(Entity self, Entity entity) {
-        double dX = self.getX() - entity.getX();
-        double dZ = self.getZ() - entity.getZ();
-        return Math.sqrt(Math.abs(dX * dX + dZ * dZ));
+        double dX = Math.abs(self.getX() - entity.getX());
+        double dZ = Math.abs(self.getZ() - entity.getZ());
+        return Math.sqrt(dX * dX + dZ * dZ);
     }
 
     public static void doCommand(Entity self, String command) {

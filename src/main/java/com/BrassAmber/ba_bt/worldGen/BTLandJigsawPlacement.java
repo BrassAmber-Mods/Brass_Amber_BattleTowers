@@ -36,8 +36,6 @@ import java.util.function.Predicate;
 public class BTLandJigsawPlacement {
     private static final Logger LOGGER = BrassAmberBattleTowers.LOGGER;
 
-    private static boolean watered;
-
     public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean placeAtHeightMap, boolean isWatered) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
@@ -51,7 +49,6 @@ public class BTLandJigsawPlacement {
         Rotation rotation = Rotation.getRandom(worldgenrandom);
         StructureTemplatePool structuretemplatepool = jigsawconfiguration.startPool().value();
         StructurePoolElement structurepoolelement = structuretemplatepool.getRandomTemplate(worldgenrandom);
-        watered = isWatered;
         if (structurepoolelement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
         } else {
@@ -61,7 +58,7 @@ public class BTLandJigsawPlacement {
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
             int k;
 
-            if (watered) {
+            if (isWatered) {
                 if (placeAtHeightMap) {
                     k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - 5;
                 } else {

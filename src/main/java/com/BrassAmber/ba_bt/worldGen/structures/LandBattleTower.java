@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import net.minecraft.core.BlockPos;
@@ -9,45 +10,49 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.structure.*;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.material.Fluids;
-
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
-
-import static net.minecraft.util.Mth.abs;
-import static net.minecraft.util.Mth.square;
 
 
 // Comments from TelepathicGrunts
 
 public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
+
+    private static final int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
+    private static final int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
+    private static final int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
+    private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
+    private static BlockPos SpawnPos;
+
     public LandBattleTower() {
         super(BTJigsawConfiguration.CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
     }
 
-    private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
-    private static BlockPos SpawnPos;
+
 
     @Override
     public GenerationStep.@NotNull Decoration step() {
@@ -59,7 +64,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
         ChunkPos chunkPos = context.chunkPos();
 
-        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= BattleTowersConfig.firstTowerDistance.get();
+        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
         // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
 
         if (!firstTowerDistanceCheck) {
@@ -69,13 +74,11 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
-        int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get() + BattleTowersConfig.landAverageSeperationModifier.get();
-
-        int nextSeperation = BattleTowersConfig.landMinimumSeperation.get() + worldgenrandom.nextInt(seperationRange);
+        int nextSeperation =  minimumSeparation + worldgenrandom.nextInt(seperationRange);
 
         int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
 
-        BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
+        // BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
 
         if (spawnDistance < nextSeperation) {
             return false;
@@ -102,13 +105,13 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
 
             if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
-                BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
+                // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
                 return false;
             }
         }
 
         if (landHeight > 215) {
-            BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
+            // BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
             return false;
         }
         // Test/Check surrounding chunks for possible spawns
@@ -132,23 +135,16 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // X X X X X
         // T X T X T
 
-        List<Boolean> possiblePositions =  new ArrayList<>();
         List<BlockPos> usablePositions =  new ArrayList<>();
 
         for (BlockPos pos : testables) {
-            possiblePositions.add(isFlatLand(context.chunkGenerator(), pos, context.heightAccessor()));
-        }
-
-        int i = 0;
-        for (boolean toTest : possiblePositions) {
-            if (toTest) {
-                usablePositions.add(testables.get(i));
+            if (isFlatLand(context.chunkGenerator(), pos, context.heightAccessor())) {
+                usablePositions.add(pos);
             }
-            i++;
         }
 
         if (usablePositions.size() > 0) {
-            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size()));
+            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size() + 1));
             return true;
         }
 
@@ -233,10 +229,20 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // Check if the spot is valid for our structure. This is just as another method for cleanness.
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
 
+        Predicate<Holder<Biome>> predicate = context.validBiome();
+
+        BlockPos chunkCenter= context.chunkPos().getMiddleBlockPosition(0);
+        int x = chunkCenter.getX();
+        int z = chunkCenter.getZ();
+        int y =  context.chunkGenerator().getFirstFreeHeight(chunkCenter.getX(), chunkCenter.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+
+        if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z)))) {
+            BrassAmberBattleTowers.LOGGER.info("Land Tower incorrect biome");
+            return Optional.empty();
+        }
 
         if (isSpawnableChunk(context)) {
                 // Moved Biome check in JigsawPlacement outside
-            Predicate<Holder<Biome>> predicate = context.validBiome();
             int i;
             int j;
             int k;
@@ -285,51 +291,49 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
 
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
-        int bbYStart = boundingbox.minY()-1;
+        int bbYStart = boundingbox.minY();
 
-        HolderSet<Block> acceptableBlocks = HolderSet.direct(Holder.direct(Blocks.STONE_BRICKS),
-                Holder.direct(Blocks.STONE_BRICK_SLAB), Holder.direct(Blocks.MOSSY_STONE_BRICKS),
-                Holder.direct(Blocks.CRACKED_STONE_BRICKS), Holder.direct(Blocks.CHISELED_STONE_BRICKS));
+        BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-        BlockPos structureCenter = boundingbox.getCenter();
-        BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + structureCenter);
+        BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
+        // get start and end postions for x/z, using min/max to account for the MinBlock being -25 and the MaxBlock being -27
+        int startX = chunckCenter.getX() - 8;
+        int endX = chunckCenter.getX() + 8;
+        BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
+
+        int startZ = chunckCenter.getZ() - 8;
+        int endZ = chunckCenter.getZ() + 8;
+        BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
 
         ArrayList<BlockPos> startPositions = new ArrayList<>();
-        ArrayList<BlockPos> blocksToFill = new ArrayList<>();
 
-        for (int x = structureCenter.getX() - 12; x < structureCenter.getX() + 12; x++) {
-            for (int z = structureCenter.getZ() - 12; z < structureCenter.getZ() + 12; z++) {
-                blockpos$mutableblockpos.setX(x);
-                blockpos$mutableblockpos.setZ(z);
-                if (!worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) && worldGenLevel.getBlockState(blockpos$mutableblockpos.above()).is(acceptableBlocks)) {
-                    startPositions.add(blockpos$mutableblockpos);
+        for (int x = startX; x <= endX; x++) {
+            for (int z = startZ; z <= endZ; z++) {
+                blockpos$mutableblockpos.set(x, bbYStart, z);
+                // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                if (worldGenLevel.getBlockState(blockpos$mutableblockpos) == Blocks.STONE_BRICKS.defaultBlockState()) {
+                    BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                    startPositions.add(new BlockPos(x, bbYStart - 1, z));
                 }
             }
         }
 
         for (BlockPos startPos: startPositions) {
-            blockpos$mutableblockpos.set(startPos.getX(), startPos.getY(), startPos.getZ());
-
-            for (int y = startPos.getY(); y > 0 ; y--) {
-                blockpos$mutableblockpos.setY(y);
-                if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos)) {
-                    blocksToFill.add(blockpos$mutableblockpos);
+            for (int y = startPos.getY(); y > worldGenLevel.getMinBuildHeight() ; y--) {
+                blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
+                BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
+                    worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
                 } else {
                     // Add two blocks into this ground level as well.
-                    blocksToFill.add(blockpos$mutableblockpos);
-                    blocksToFill.add(blockpos$mutableblockpos.below());
+                    worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
+                    worldGenLevel.setBlock(blockpos$mutableblockpos.below(), Blocks.STONE_BRICKS.defaultBlockState(), 2);
                     break;
                 }
             }
-        }
-
-
-        for (BlockPos pos: blocksToFill) {
-            blockpos$mutableblockpos.set(pos.getX(), pos.getY(), pos.getZ());
-            worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
         }
 
     }
