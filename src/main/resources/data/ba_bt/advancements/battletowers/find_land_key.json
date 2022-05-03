@@ -11,7 +11,7 @@
     },
     "description": {
       "translate": "advancements.ba_bt.find_land_key.description",
-      "color": "grey",
+      "color": "green",
       "italic": true
     },
     "frame": "task",

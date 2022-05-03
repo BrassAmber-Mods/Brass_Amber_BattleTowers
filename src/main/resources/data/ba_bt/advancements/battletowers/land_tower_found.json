@@ -1,24 +1,23 @@
 {
+  "parent": "ba_bt:battletowers/battle_tower",
   "display": {
+    "icon": {
+      "item": "minecraft:wooden_sword"
+    },
     "title": {
       "translate": "advancements.ba_bt.land_tower_found.title",
       "color": "white"
     },
     "description": {
       "translate": "advancements.ba_bt.land_tower_found.description",
-      "color": "gray",
+      "color": "green",
       "italic": true
-    },
-    "icon": {
-      "item": "minecraft:wooden_sword"
     },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false,
-    "background": "ba_bt:textures/gui/advancements/backgrounds/stone_bricks.png"
+    "hidden": true
   },
-
   "criteria": {
     "Find Land Tower": {
       "trigger": "minecraft:location",

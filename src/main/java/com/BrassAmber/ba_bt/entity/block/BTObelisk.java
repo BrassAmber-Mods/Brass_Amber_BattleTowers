@@ -136,7 +136,6 @@ public class BTObelisk extends Entity {
             Block block = level.getBlockState(toCheck).getBlock();
             if (block == BTBlocks.LAND_CHEST.get()) {
                 this.CHESTS.add(toCheck);
-                // This must use the insert version of add since the arraylist was already initialized
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == BTBlocks.BT_LAND_SPAWNER.get()) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
@@ -260,7 +259,7 @@ public class BTObelisk extends Entity {
         double distance = horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
 
         boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
-        if (canSpawn && (distance < 11.5D || distance > 12.5) && serverWorld.getBlockState(spawn.above()).isAir()) {
+        if (canSpawn && (distance < 11.5D || distance > 13.5) && serverWorld.getBlockState(spawn.above()).isAir()) {
             Entity entity = BTEntityTypes.BT_CULTIST.get().create(serverWorld);
             if (entity instanceof  BTCultist cultist) {
                 cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());

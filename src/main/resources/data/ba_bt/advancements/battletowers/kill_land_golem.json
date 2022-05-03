@@ -11,7 +11,7 @@
     },
     "description": {
       "translate": "advancements.ba_bt.kill_land_golem.description",
-      "color": "grey",
+      "color": "green",
       "italic": true
     },
     "frame": "challenge",

@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "ba_bt:tab_icon"
+    },
+    "title": {
+      "translate": "advancements.ba_bt.battle_tower.title",
+      "color": "white"
+    },
+    "description": {
+      "translate": "advancements.ba_bt.battle_tower.description",
+      "color": "green"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "ba_bt:textures/gui/advancements/backgrounds/stone_bricks.png"
+  },
+  "criteria": {
+    "crafting_table": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:crafting_table"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "crafting_table"
+    ]
+  ]
+}

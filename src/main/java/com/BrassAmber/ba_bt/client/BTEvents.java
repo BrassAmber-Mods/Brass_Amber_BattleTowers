@@ -11,10 +11,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class BTEvents {
 
     @SubscribeEvent
-    public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
+    public static void onDeath(PlayerEvent.Clone event) {
         BrassAmberBattleTowers.LOGGER.info("In Respawn code-");
         Player player = event.getPlayer();
-        if (player.level.isClientSide()) {
+        if (player.level.isClientSide() && event.isWasDeath()) {
             MusicManager musicManager = ((ClientLevel) player.level).minecraft.getMusicManager();
             if (musicManager.isPlayingMusic(BTMusics.TOWER) || musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
                 musicManager.stopPlaying();
