@@ -114,6 +114,8 @@
 	"title.ba_bt.sky": "天空",
 
 	// Advancements
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "来自高塔的呼啸",
 	"advancements.ba_bt.land_tower_found.description": "—进入大地高塔",
 	"advancements.ba_bt.find_land_key.title": "上古之力的密钥……",

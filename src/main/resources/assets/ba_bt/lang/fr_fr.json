@@ -110,6 +110,8 @@ title{
 	"title.ba_bt.sky": "Veyhz'kriin, Déesse Angélique",
 
 	// Advancements
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Tours Hurlantes",
 	"advancements.ba_bt.land_tower_found.description": "-Infiltrer une tour terrestre",
 	"advancements.ba_bt.find_land_key.title": "La clé d'un pouvoir ancien...",

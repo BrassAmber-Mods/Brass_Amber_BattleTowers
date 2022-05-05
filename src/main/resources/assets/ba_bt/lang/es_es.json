@@ -115,6 +115,8 @@ title{
 	"title.ba_bt.sky": "Sky",
 
 	// Advancements
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Howling Towers",
 	"advancements.ba_bt.land_tower_found.description": "-Infiltrate the Land Tower",
 	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",

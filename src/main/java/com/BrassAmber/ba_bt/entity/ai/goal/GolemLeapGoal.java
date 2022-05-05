@@ -4,9 +4,13 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+
+import static java.lang.Math.abs;
 
 public class GolemLeapGoal extends Goal {
     private final BTAbstractGolem golem;
@@ -15,9 +19,13 @@ public class GolemLeapGoal extends Goal {
     private final float maxleap;
     private final float maxJump;
 
+    private double target_start_y;
+    private double target_start_x;
+    private double target_start_z;
+
     protected boolean jumpingInProgress = false;
 
-    protected static final int WARMUP_TICKS = 20;
+    protected static final int WARMUP_TICKS = 40;
 
     private int warmup = WARMUP_TICKS;
 
@@ -41,7 +49,7 @@ public class GolemLeapGoal extends Goal {
 
             this.target = this.golem.getTarget();
             double d0 = BTUtil.horizontalDistanceTo(this.golem, this.target);
-            double d1 = Math.abs(this.target.getY() - this.golem.getY());
+            double d1 = abs(this.target.getY() - this.golem.getY());
             boolean horizontal = this.minleap < d0 && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
             boolean vertical = this.minleap < d1 && d1 < this.maxJump;
 
@@ -57,21 +65,20 @@ public class GolemLeapGoal extends Goal {
         return false;
     }
 
-    public boolean canContinueToUse() {
-        return !this.golem.isOnGround() && this.golem.isAwake();
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-    }
+    public boolean canContinueToUse() {return !this.golem.isOnGround() && this.golem.isAwake();}
 
     public void start() {
         Vec3 vec3 = this.golem.getDeltaMovement();
-        this.golem.setDeltaMovement(Vec3.ZERO);
-        Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), (this.target.getY() - this.golem.getY()) + 4, this.target.getZ() - this.golem.getZ());
+
+        double x = this.target.getX() - this.golem.getX();
+        double y = this.target.getY() - this.golem.getY();
+        double z = this.target.getZ() - this.golem.getZ();
+
+        y = y < this.minleap ? this.minleap : y;
+
+        Vec3 vec31 = new Vec3(x, y, z);
         if (vec31.lengthSqr() > 1.0E-7D) {
-            vec31 = vec31.normalize().add(vec3.scale(1.4D));
+            vec31 = vec31.normalize().scale(0.8D).add(vec3.scale(0.2D));
         }
 
         this.golem.setDeltaMovement(vec31.x, vec31.y, vec31.z);
