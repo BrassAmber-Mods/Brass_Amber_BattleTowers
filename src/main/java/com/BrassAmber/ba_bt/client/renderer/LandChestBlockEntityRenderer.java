@@ -7,9 +7,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LandChestTileEntityRenderer extends BTChestTileEntityRendererAbstract {
+public class LandChestBlockEntityRenderer extends BTChestBlockEntityRendererAbstract {
 
-	public LandChestTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+	public LandChestBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 		super(context, BTChestTextures.LAND_CHEST_TEXTURES);
 	}
 }

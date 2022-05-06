@@ -13,12 +13,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BTChestTileEntityRendererAbstract extends ChestRenderer<ChestBlockEntity> {
+public abstract class BTChestBlockEntityRendererAbstract extends ChestRenderer<ChestBlockEntity> {
 	private final Material singleChest;
 	private final Material doubleChestLeft;
 	private final Material doubleChestRight;
 
-	public BTChestTileEntityRendererAbstract(BlockEntityRendererProvider.Context context, ResourceLocation[] chestTextureLocations) {
+	public BTChestBlockEntityRendererAbstract(BlockEntityRendererProvider.Context context, ResourceLocation[] chestTextureLocations) {
 		super(context);
 		this.singleChest = chestMaterial(chestTextureLocations[0]);
 		this.doubleChestLeft = chestMaterial(chestTextureLocations[1]);

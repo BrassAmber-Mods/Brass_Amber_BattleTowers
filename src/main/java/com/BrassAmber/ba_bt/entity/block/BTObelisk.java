@@ -120,6 +120,10 @@ public class BTObelisk extends Entity {
             }
         }
 
+        if (this.CHESTS.size() != this.checkLayer) {
+            this.CHESTS.add(null);
+        }
+
         if (this.checkLayer == 8) {
             this.initialized = true;
         }
@@ -273,10 +277,10 @@ public class BTObelisk extends Entity {
     }
 
     private void checkSpawners(Level level) {
-        if (!(this.CHESTS.size() == 0) && !(this.SPAWNERS.size() == 0)) {
+        if (this.CHESTS.size() != 0 && this.SPAWNERS.size() != 0) {
             for (int i = 0; i < this.SPAWNERS.size(); i++) {
                 if (this.SPAWNERS.get(i).size() == 0) {
-                    if (level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chestBlockEntity) {
+                    if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chestBlockEntity) {
                         if (!chestBlockEntity.isUnlocked()) {
                             chestBlockEntity.setUnlocked(true);
                             this.chestUnlockingSound(level);

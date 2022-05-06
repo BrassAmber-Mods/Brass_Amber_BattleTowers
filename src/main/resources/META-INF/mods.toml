@@ -25,12 +25,12 @@ displayName="Brass-Amber BattleTowers" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/brassamberbattletowers" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="BrassAmberBattleTowers.png" #optional
+logoFile="BrassAmberBattleTowers.png"
 # A text field displayed in the mod UI
-credits="Mod Inspired by BattleTower Mod in YogBox
-           Translations by: SamleGamer, Kzeroko, RockYl, and BlackShadow77" #optional
+credits='''Mod Inspired by BattleTower Mod in YogBox
+           Translations by: SamleGamer, Kzeroko, RockYl, and BlackShadow77''' #optional
 # A text field displayed in the mod UI
 authors="Milamber, Brass_Herbalist, X, DerToaster" #optional
 # The description text for the mod (multi line!) (#mandatory)

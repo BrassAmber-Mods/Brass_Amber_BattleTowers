@@ -70,13 +70,11 @@ public class GolemLeapGoal extends Goal {
     public void start() {
         Vec3 vec3 = this.golem.getDeltaMovement();
 
-        double x = this.target.getX() - this.golem.getX();
         double y = this.target.getY() - this.golem.getY();
-        double z = this.target.getZ() - this.golem.getZ();
 
         y = y < this.minleap ? this.minleap : y;
 
-        Vec3 vec31 = new Vec3(x, y, z);
+        Vec3 vec31 = new Vec3(this.target.getX() - this.golem.getX(), y, this.target.getZ() - this.golem.getZ());
         if (vec31.lengthSqr() > 1.0E-7D) {
             vec31 = vec31.normalize().scale(0.8D).add(vec3.scale(0.2D));
         }
