@@ -26,22 +26,22 @@
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "minecraft:wooden_shovel"
+          "name": "minecraft:stone_shovel"
         },
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "minecraft:wooden_pickaxe"
+          "name": "minecraft:stone_pickaxe"
         },
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "minecraft:wooden_axe"
+          "name": "minecraft:stone_axe"
         },
         {
           "type": "minecraft:item",
           "weight": 10,
-          "name": "minecraft:wooden_sword"
+          "name": "minecraft:stone_sword"
         },
         {
           "type": "minecraft:item",
@@ -62,6 +62,21 @@
           "type": "minecraft:item",
           "weight": 20,
           "name": "minecraft:leather_boots"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 2.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "minecraft:ender_pearl"
         }
       ]
     },

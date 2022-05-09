@@ -26,29 +26,29 @@
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:wooden_shovel"
+          "name": "minecraft:stone_shovel"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:wooden_pickaxe"
+          "name": "minecraft:stone_pickaxe"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:wooden_axe"
+          "name": "minecraft:stone_axe"
         },
         {
           "type": "minecraft:item",
           "weight": 15,
-          "name": "minecraft:wooden_sword"
+          "name": "minecraft:stone_sword"
         }
       ]
     },
     {
       "rolls": {
-        "min": 1.0,
-        "max": 3.0,
+        "min": 2.0,
+        "max": 4.0,
         "type": "minecraft:uniform"
       },
       "entries": [
@@ -74,7 +74,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
