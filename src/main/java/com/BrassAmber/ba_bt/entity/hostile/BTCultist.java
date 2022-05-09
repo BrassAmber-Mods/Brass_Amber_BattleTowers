@@ -63,7 +63,6 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, BTCultist.class, true));
     }
 
     public static AttributeSupplier.Builder createAttributes() {

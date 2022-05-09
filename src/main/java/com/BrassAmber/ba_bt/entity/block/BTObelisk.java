@@ -242,9 +242,9 @@ public class BTObelisk extends Entity {
                 List<BTCultist> cultists = this.level.getEntitiesOfClass(BTCultist.class, this.getBoundingBox().inflate(15, 110, 15));
                 if (cultists.size() < 10) {
                     int floor = this.blockPosition().getY() + this.random.nextInt(0,8) * 11;
-                    int x = this.blockPosition().getX() + this.random.nextInt(-14, 14);
-                    int y = floor + this.random.nextInt(0, 10);
-                    int z = this.blockPosition().getZ() + this.random.nextInt(-14, 14);
+                    int x = this.blockPosition().getX() + this.random.nextInt(-12, 12);
+                    int y = floor + this.random.nextInt(0, 9);
+                    int z = this.blockPosition().getZ() + this.random.nextInt(-12, 12);
 
                     this.createCultistEntity((ServerLevel) this.level, new BlockPos(x, y, z));
                 }
@@ -261,9 +261,9 @@ public class BTObelisk extends Entity {
     protected void createCultistEntity(ServerLevel serverWorld, BlockPos spawn) {
         // BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
         double distance = horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
-
         boolean canSpawn = SpawnPlacements.checkSpawnRules(BTEntityTypes.BT_CULTIST.get(), serverWorld, MobSpawnType.EVENT, spawn, this.random);
-        if (canSpawn && (distance < 11.5D || distance > 13.5) && serverWorld.getBlockState(spawn.above()).isAir()) {
+
+        if (canSpawn && (distance < 11.5D) && serverWorld.getBlockState(spawn.above()).isAir()) {
             Entity entity = BTEntityTypes.BT_CULTIST.get().create(serverWorld);
             if (entity instanceof  BTCultist cultist) {
                 cultist.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
