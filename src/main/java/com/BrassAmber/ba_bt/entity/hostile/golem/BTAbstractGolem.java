@@ -210,7 +210,12 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
-		Boolean survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
+		Boolean survivalAdventure;
+		if (player != null) {
+			survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
+		} else {
+			survivalAdventure = false;
+		}
 
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {

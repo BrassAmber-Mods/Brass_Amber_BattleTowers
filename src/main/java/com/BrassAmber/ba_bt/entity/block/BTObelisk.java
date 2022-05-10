@@ -7,6 +7,7 @@ import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
+import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
@@ -24,6 +25,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
@@ -383,7 +385,7 @@ public class BTObelisk extends Entity {
      */
     @Override
     public boolean isPickable() {
-        return false;
+        return this.isAlive();
     }
 
     /**
@@ -401,8 +403,22 @@ public class BTObelisk extends Entity {
      */
     @Override
     public void kill() {
-        // Do nothing to prevent people deleting a Monolith by accident.
-        BrassAmberBattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+        Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), 50, EntitySelector.NO_SPECTATORS);
+
+        if (player != null && player.isCreative()) {
+            BrassAmberBattleTowers.LOGGER.info("Item: " + player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
+                this.remove(RemovalReason.KILLED);
+            } else {
+                // Do nothing to prevent people deleting a Monolith by accident.
+                BrassAmberBattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+            }
+        }
+        else {
+            // Do nothing to prevent people deleting a Monolith by accident.
+            BrassAmberBattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+        }
+
     }
 
     /**
@@ -417,7 +433,7 @@ public class BTObelisk extends Entity {
         } else {
             if (this.isAlive() && !this.level.isClientSide() && source.isCreativePlayer()) {
                 Player player = (Player) source.getEntity();
-                if (player.getItemInHand(InteractionHand.MAIN_HAND).is(Items.CLAY_BALL)) {
+                if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
                     this.remove(RemovalReason.KILLED);
                 }
             }
