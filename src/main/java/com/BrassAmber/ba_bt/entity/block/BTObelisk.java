@@ -73,6 +73,9 @@ public class BTObelisk extends Entity {
     private boolean createSpawnerList;
     private boolean doCheck;
 
+    private boolean updateBlock = false;
+    private boolean updatedSand;
+
     private GolemType golemType;
     private boolean justSpawnedKey;
 
@@ -80,6 +83,7 @@ public class BTObelisk extends Entity {
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
     private final String golemTypeName = "GolemType";
+    private final String updatedSandName = "UpdatedSand";
 
     private int timeSinceAmbientMusic;
     private int lastMusicStart;
@@ -88,6 +92,7 @@ public class BTObelisk extends Entity {
     public BTObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.initialized = false;
+        this.updatedSand = false;
         this.checkLayer = 1;
         this.currentFloorY = this.getBlockY() - 1;
         // this.blocksBuilding = true;
@@ -118,6 +123,9 @@ public class BTObelisk extends Entity {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
                 for (int y = currentFloorY; y <= currentFloorTopY; y++) {
                     this.checkPos(new BlockPos(x, y, z), level);
+                    if (!this.updatedSand) {
+                        this.updateSand(new BlockPos(x, y, z), level);
+                    }
                 }
             }
         }
@@ -128,6 +136,7 @@ public class BTObelisk extends Entity {
 
         if (this.checkLayer == 8) {
             this.initialized = true;
+            this.updatedSand = true;
         }
         else {
             this.checkLayer += 1;
@@ -153,6 +162,16 @@ public class BTObelisk extends Entity {
             BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
             e.printStackTrace();
 
+        }
+    }
+
+    public void updateSand(BlockPos toUpdate, Level level) {
+        if (this.updateBlock) {
+            level.setBlockAndUpdate(toUpdate, level.getBlockState(toUpdate));
+            this.updateBlock = false;
+        }
+        else {
+            this.updateBlock = true;
         }
     }
 
@@ -338,6 +357,7 @@ public class BTObelisk extends Entity {
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.setTower(tag.getInt(this.towerName));
         this.setSpawnersDestroyed(tag.getInt(this.spawnersDestroyedName));
+        this.updatedSand = tag.getBoolean(this.updatedSandName);
     }
 
     @Override
@@ -347,6 +367,7 @@ public class BTObelisk extends Entity {
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
         }
+        tag.putBoolean(this.updatedSandName, this.updatedSand);
     }
 
     /*************************************** Characteristics & Properties *******************************************/

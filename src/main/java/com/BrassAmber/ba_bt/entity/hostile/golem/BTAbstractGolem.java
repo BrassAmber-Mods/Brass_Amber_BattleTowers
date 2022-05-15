@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
+import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
+import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
@@ -202,7 +204,7 @@ public abstract class BTAbstractGolem extends Monster {
 					musicManager.stopPlaying();
 					musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
 				}
-				if (!hasClientPlayer) {
+				if (!hasClientPlayer || this.stopMusic) {
 					musicManager.stopPlaying();
 				}
 			}
@@ -319,11 +321,14 @@ public abstract class BTAbstractGolem extends Monster {
 					for(int iz = oz - width; iz <= oz + width; iz++) {
 						BlockPos pos = new BlockPos(ix, iy, iz);
 						BlockState state = this.level.getBlockState(pos);
-						if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
-							playEffectFlag |= this.level.destroyBlock(pos, true, this);
-						}
-						if (state.getBlock() instanceof FireBlock) {
-							this.level.destroyBlock(pos, false, this);
+						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
+						if (!isChest) {
+							if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
+								playEffectFlag |= this.level.destroyBlock(pos, true, this);
+							}
+							if (state.getBlock() instanceof FireBlock) {
+								this.level.destroyBlock(pos, false, this);
+							}
 						}
 					}
 				}

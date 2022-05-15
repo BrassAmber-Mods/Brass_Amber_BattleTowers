@@ -110,6 +110,11 @@ public class ClientEvents {
 				LandGolemChestBlockEntityRenderer::createDoubleBodyRightLayer);
 
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_LAND_SPAWNER.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_OCEAN_SPAWNER.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_CORE_SPAWNER.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_NETHER_SPAWNER.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_END_SPAWNER.get(), RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SKY_SPAWNER.get(), RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON.get(), RenderType.cutout());
 	}
 

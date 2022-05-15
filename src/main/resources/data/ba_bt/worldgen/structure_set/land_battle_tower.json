@@ -9,6 +9,10 @@
     {
       "structure": "ba_bt:overgrown_land_battle_tower",
       "weight": 1
+    },
+    {
+      "structure": "ba_bt:sandy_land_battle_tower",
+      "weight": 1
     }
   ],
   "placement": {

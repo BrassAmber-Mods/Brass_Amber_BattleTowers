@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "ba_bt:bt_land_spawner",
+    "ba_bt:bt_ocean_spawner",
+    "ba_bt:bt_core_spawner",
+    "ba_bt:bt_nether_spawner",
+    "ba_bt:bt_end_spawner",
+    "ba_bt:bt_sky_spawner"
+  ]
+}

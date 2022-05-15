@@ -54,6 +54,11 @@
 	"block.ba_bt.platinum_tiles": "Platinum Tiles",
 
 	"block.ba_bt.bt_land_spawner" : "Land Spawner",
+	"block.ba_bt.bt_ocean_spawner" : "Ocean Spawner",
+	"block.ba_bt.bt_core_spawner" : "Core Spawner",
+	"block.ba_bt.bt_nether_spawner" : "Nether Spawner",
+	"block.ba_bt.bt_end_spawner" : "End Spawner",
+	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Land Golem Chest",
@@ -120,6 +125,9 @@
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Howling Towers",
 	"advancements.ba_bt.land_tower_found.description": "-Infiltrate the Land Tower",
+
+	"advancements.ba_bt.sandy_land_tower_found.title": "Lost to Time...",
+	"advancements.ba_bt.sandy_land_tower_found.description":"Find a Ruined Land Tower",
 	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",
 	"advancements.ba_bt.find_land_key.description": "-Find a Monolith Key",
 	"advancements.ba_bt.kill_land_golem.title": "The ocean depths begin to stir...",

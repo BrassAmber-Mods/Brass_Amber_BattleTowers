@@ -15,7 +15,7 @@
       // How likely out of all the element for this one to be chosen.
       "weight": 1,
       "element": {
-        "location": "ba_bt:land_tower/variants/overgrown_base",
+        "location": "ba_bt:land_tower/bottom_floors/overgrown_bottom_floor",
 
         "processors": "minecraft:empty",
 

@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
@@ -36,11 +37,11 @@ import java.util.function.Predicate;
 public class BTLandJigsawPlacement {
     private static final Logger LOGGER = BrassAmberBattleTowers.LOGGER;
 
-    public static Optional<PieceGenerator<BTJigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean placeAtHeightMap, boolean isWatered) {
+    public static Optional<PieceGenerator<JigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<JigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean placeAtHeightMap, boolean isWatered, boolean isSandy) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
-        BTJigsawConfiguration jigsawconfiguration = context.config();
+        JigsawConfiguration jigsawconfiguration = context.config();
         ChunkGenerator chunkgenerator = context.chunkGenerator();
         StructureManager structuremanager = context.structureManager();
         LevelHeightAccessor levelheightaccessor = context.heightAccessor();
@@ -57,20 +58,22 @@ public class BTLandJigsawPlacement {
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
             int k;
+            int heightChange = 0;
 
             if (isWatered) {
-                if (placeAtHeightMap) {
-                    k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - 5;
+                heightChange = 5;
+            }
+            else if (isSandy) {
+                if (worldgenrandom.nextInt(100) < 25) {
+                    heightChange = worldgenrandom.nextInt(8, 16);
                 } else {
-                    k = blockPos.getY() - 5;
+                    heightChange = 5;
                 }
             }
-            else {
-                if (placeAtHeightMap) {
-                    k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor);
-                } else {
-                    k = blockPos.getY();
-                }
+            if (placeAtHeightMap) {
+                k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - 5;
+            } else {
+                k = blockPos.getY() -heightChange;
             }
             int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
             poolelementstructurepiece.move(0, k - l, 0);

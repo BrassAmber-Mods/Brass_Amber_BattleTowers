@@ -5,7 +5,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:land_tower/cult_even_1_2",
+        "location": "ba_bt:land_tower/rooms/cult_even_1_2",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -14,7 +14,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:land_tower/barracks_open_even_1_2",
+        "location": "ba_bt:land_tower/rooms/barracks_open_even_1_2",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -23,7 +23,7 @@
 	{	
       "weight": 10,
       "element": {
-        "location": "ba_bt:land_tower/barracks_even_1_2",
+        "location": "ba_bt:land_tower/rooms/barracks_even_1_2",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -32,7 +32,7 @@
     {
       "weight": 4,
       "element": {
-        "location": "ba_bt:land_tower/barracks_even_1_2_abandoned",
+        "location": "ba_bt:land_tower/rooms/barracks_even_1_2_abandoned",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -41,7 +41,7 @@
     {
       "weight": 50,
       "element": {
-        "location": "ba_bt:land_tower/kitchen_even_1_2",
+        "location": "ba_bt:land_tower/rooms/kitchen_even_1_2",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -50,7 +50,7 @@
 	{	
       "weight": 35,
       "element": {
-        "location": "ba_bt:land_tower/library_even_1_3",
+        "location": "ba_bt:land_tower/rooms/library_even_1_3",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -59,7 +59,7 @@
 	{	
       "weight": 50,
       "element": {
-        "location": "ba_bt:land_tower/miniboss_1_4",
+        "location": "ba_bt:land_tower/rooms/miniboss_1_4",
         "processors": "minecraft:empty",
 		"projection": "rigid",
         "element_type": "minecraft:single_pool_element"

@@ -2,8 +2,11 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.worldGen.BTJigsawConfiguration;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -11,8 +14,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -27,6 +31,8 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +42,7 @@ import java.util.function.Predicate;
 
 // Comments from TelepathicGrunts
 
-public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
+public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static final int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
     private static final int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
@@ -44,40 +50,14 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
     private static BlockPos SpawnPos;
     private static boolean watered;
+    private static boolean sandy;
 
-    private static final List<String> towerNames = List.of("Land ", "Overgrown", "Sandy", "Icy");
-
-    private static final List<List<ResourceKey<Biome>>> towerBiomes = List.of(
-            // Land
-            List.of(Biomes.FLOWER_FOREST,
-                    Biomes.BIRCH_FOREST,
-                    Biomes.DARK_FOREST,
-                    Biomes.OLD_GROWTH_BIRCH_FOREST,
-                    Biomes.WINDSWEPT_FOREST,
-                    Biomes.MEADOW,
-                    Biomes.PLAINS,
-                    Biomes.TAIGA,
-                    Biomes.OLD_GROWTH_PINE_TAIGA,
-                    Biomes.OLD_GROWTH_SPRUCE_TAIGA,
-                    Biomes.SAVANNA,
-                    Biomes.SUNFLOWER_PLAINS,
-                    Biomes.DESERT,
-                    Biomes.GROVE,
-                    Biomes.WINDSWEPT_HILLS,
-                    Biomes.WINDSWEPT_GRAVELLY_HILLS
-            ),
-            // Overgrown
-            List.of(Biomes.SWAMP,
-                    Biomes.JUNGLE,
-                    Biomes.BAMBOO_JUNGLE,
-                    Biomes.SPARSE_JUNGLE
-            )
-    );
-
-
+    public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
+            Codec.intRange(0, 25).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
+    ).apply(codec, JigsawConfiguration::new));
 
     public LandBattleTower() {
-        super(BTJigsawConfiguration.CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
+        super(CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
     }
 
     @Override
@@ -86,7 +66,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
     }
 
 
-    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context, int biomeType) {
+    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, int biomeType) {
 
         ChunkPos chunkPos = context.chunkPos();
 
@@ -260,11 +240,12 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         return isFlat && !watered;
     }
 
-    public static @NotNull Optional<PieceGenerator<BTJigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<BTJigsawConfiguration> context) {
+    public static @NotNull Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
         // Check if the spot is valid for our structure. This is just as another method for cleanness.
         // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
 
         Predicate<Holder<Biome>> predicate = context.validBiome();
+        Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
 
         BlockPos chunkCenter= context.chunkPos().getMiddleBlockPosition(0);
         int x = chunkCenter.getX();
@@ -274,16 +255,17 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         Holder<Biome> biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
 
         if (!predicate.test(biome)) {
-            return Optional.empty();
+            piecesGenerator = Optional.empty();
+            return piecesGenerator;
         }
 
         int towerType = 0;
 
-        for (List<ResourceKey<Biome>> biomeList: towerBiomes) {
+        for (List<ResourceKey<Biome>> biomeList: BTUtil.landTowerBiomes) {
             for (ResourceKey<Biome> biomeKey: biomeList) {
                 if(biome.is(biomeKey)) {
-                    towerType = towerBiomes.indexOf(biomeList);
-                    BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + towerNames.get(towerType) + biome);
+                    towerType = BTUtil.landTowerBiomes.indexOf(biomeList);
+                    BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + BTUtil.landTowerNames.get(towerType) + " " + biome);
                 }
             }
         }
@@ -293,46 +275,44 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
             int i;
             int j;
             int k;
-            try {
-                i = SpawnPos.getX();
-                j = SpawnPos.getZ();
-                k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-            } catch (Exception f) {
-                BrassAmberBattleTowers.LOGGER.info(f);
-                return Optional.empty();
-            }
+            i = SpawnPos.getX();
+            j = SpawnPos.getZ();
+            k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
             if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
-                BrassAmberBattleTowers.LOGGER.info(towerNames.get(towerType) + "incorrect biome");
-                return Optional.empty();
+                BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) + "incorrect biome");
+                piecesGenerator = Optional.empty();
+            } else {
+
+                // All a structure has to do is call this method to turn it into a jigsaw based structure!
+                piecesGenerator =
+                        BTLandJigsawPlacement.addPieces(
+                                context, // Used for JigsawPlacement to get all the proper behaviors done.
+                                PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
+                                SpawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
+                                true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
+                                // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
+                                // --TelepathicGrunt
+                                watered,
+                                sandy
+                        );
+
+
+
+                // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
             }
-
-            Optional<PieceGenerator<BTJigsawConfiguration>> piecesGenerator;
-
-            // All a structure has to do is call this method to turn it into a jigsaw based structure!
-            piecesGenerator =
-                    BTLandJigsawPlacement.addPieces(
-                            context, // Used for JigsawPlacement to get all the proper behaviors done.
-                            PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                            SpawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                            true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-                            // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                            // --TelepathicGrunt
-                            watered
-                    );
-
-            if(piecesGenerator.isPresent()) {
-                // I use to debug and quickly find out if the structure is spawning or not and where it is.
-                // This is returning the coordinates of the center starting piece.
-                BrassAmberBattleTowers.LOGGER.info(towerNames.get(towerType) +  "Tower at " + SpawnPos);
-                lastSpawnPosition = context.chunkPos();
-            }
-
-            // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces.
-            return piecesGenerator;
         } else {
-            return Optional.empty();
+            piecesGenerator = Optional.empty();
         }
+
+        if (piecesGenerator.isPresent()) {
+            // I use to debug and quickly find out if the structure is spawning or not and where it is.
+            // This is returning the coordinates of the center starting piece.
+            BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + SpawnPos);
+            lastSpawnPosition = context.chunkPos();
+        }
+
+        return piecesGenerator;
     }
 
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
@@ -348,11 +328,11 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         // get start and end postions for x/z, using min/max to account for the MinBlock being -25 and the MaxBlock being -27
         int startX = chunckCenter.getX() - 8;
         int endX = chunckCenter.getX() + 8;
-        BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
+        // BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
 
         int startZ = chunckCenter.getZ() - 8;
         int endZ = chunckCenter.getZ() + 8;
-        BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
+        // BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
 
         ArrayList<BlockPos> startPositions = new ArrayList<>();
 
@@ -370,7 +350,7 @@ public class LandBattleTower extends StructureFeature<BTJigsawConfiguration> {
         for (BlockPos startPos: startPositions) {
             for (int y = startPos.getY(); y > worldGenLevel.getMinBuildHeight() ; y--) {
                 blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
-                BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                // BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
                     worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
                 } else {

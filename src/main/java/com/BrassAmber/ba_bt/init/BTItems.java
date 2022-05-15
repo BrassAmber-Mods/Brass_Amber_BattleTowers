@@ -64,7 +64,15 @@ public class BTItems {
 	public static final RegistryObject<Item> PLATINUM_BLOCK = ITEMS.register("platinum_block", () -> new BlockItem(BTBlocks.PLATINUM_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> PLATINUM_TILES = ITEMS.register("platinum_tiles", () -> new BlockItem(BTBlocks.PLATINUM_TILES.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> TAB_ICON = ITEMS.register("tab_icon", () -> new BlockItem(BTBlocks.TAB_ICON.get(), new Item.Properties().tab(null)));
+
 	public static final RegistryObject<Item> BT_LAND_SPAWNER = ITEMS.register("bt_land_spawner", () -> new BlockItem(BTBlocks.BT_LAND_SPAWNER.get(), new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_OCEAN_SPAWNER = ITEMS.register("bt_ocean_spawner", () -> new BlockItem(BTBlocks.BT_OCEAN_SPAWNER.get(), new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_CORE_SPAWNER = ITEMS.register("bt_core_spawner", () -> new BlockItem(BTBlocks.BT_CORE_SPAWNER.get(), new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_NETHER_SPAWNER = ITEMS.register("bt_nether_spawner", () -> new BlockItem(BTBlocks.BT_NETHER_SPAWNER.get(), new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_END_SPAWNER = ITEMS.register("bt_end_spawner", () -> new BlockItem(BTBlocks.BT_END_SPAWNER.get(), new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_SKY_SPAWNER = ITEMS.register("bt_sky_spawner", () -> new BlockItem(BTBlocks.BT_SKY_SPAWNER.get(), new Item.Properties().tab(null)));
+
+
 
 	/**
 	 * Helper methods do not work anymore.
