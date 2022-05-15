@@ -32,8 +32,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
@@ -73,8 +76,6 @@ public class BTObelisk extends Entity {
     private boolean createSpawnerList;
     private boolean doCheck;
 
-    private boolean updateBlock = false;
-    private boolean updatedSand;
 
     private GolemType golemType;
     private boolean justSpawnedKey;
@@ -92,7 +93,6 @@ public class BTObelisk extends Entity {
     public BTObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.initialized = false;
-        this.updatedSand = false;
         this.checkLayer = 1;
         this.currentFloorY = this.getBlockY() - 1;
         // this.blocksBuilding = true;
@@ -115,7 +115,7 @@ public class BTObelisk extends Entity {
         }
 
         BlockPos center = this.getOnPos();
-        int currentFloorTopY = this.currentFloorY + 10;
+        int currentFloorTopY = this.currentFloorY + 11;
         BlockPos corner = center.offset(-15, 0, -15);
         BlockPos oppositeCorner = center.offset(15, 0, 15);
 
@@ -123,9 +123,7 @@ public class BTObelisk extends Entity {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
                 for (int y = currentFloorY; y <= currentFloorTopY; y++) {
                     this.checkPos(new BlockPos(x, y, z), level);
-                    if (!this.updatedSand) {
-                        this.updateSand(new BlockPos(x, y, z), level);
-                    }
+                    this.updateSand(new BlockPos(x, y, z), level);
                 }
             }
         }
@@ -136,11 +134,10 @@ public class BTObelisk extends Entity {
 
         if (this.checkLayer == 8) {
             this.initialized = true;
-            this.updatedSand = true;
         }
         else {
             this.checkLayer += 1;
-            this.currentFloorY = currentFloorTopY + 1;
+            this.currentFloorY = currentFloorTopY;
             this.spawnersFound = 0;
         }
 
@@ -166,12 +163,10 @@ public class BTObelisk extends Entity {
     }
 
     public void updateSand(BlockPos toUpdate, Level level) {
-        if (this.updateBlock) {
-            level.setBlockAndUpdate(toUpdate, level.getBlockState(toUpdate));
-            this.updateBlock = false;
-        }
-        else {
-            this.updateBlock = true;
+        if (level.getBlockState(toUpdate).is(Blocks.SAND)) {
+            level.removeBlock(toUpdate, false);
+            BrassAmberBattleTowers.LOGGER.info("Sand? :" + level.getBlockState(toUpdate));
+            level.setBlockAndUpdate(toUpdate, Blocks.SAND.defaultBlockState());
         }
     }
 
@@ -357,7 +352,6 @@ public class BTObelisk extends Entity {
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.setTower(tag.getInt(this.towerName));
         this.setSpawnersDestroyed(tag.getInt(this.spawnersDestroyedName));
-        this.updatedSand = tag.getBoolean(this.updatedSandName);
     }
 
     @Override
@@ -367,7 +361,6 @@ public class BTObelisk extends Entity {
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
         }
-        tag.putBoolean(this.updatedSandName, this.updatedSand);
     }
 
     /*************************************** Characteristics & Properties *******************************************/

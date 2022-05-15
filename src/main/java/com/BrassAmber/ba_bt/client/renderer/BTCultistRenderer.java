@@ -24,7 +24,7 @@ public class BTCultistRenderer extends HumanoidMobRenderer<BTCultist, BTCultistM
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BTCultist p_114482_) {
+    public ResourceLocation getTextureLocation(BTCultist btCultist) {
         return CULTIST;
     }
 }

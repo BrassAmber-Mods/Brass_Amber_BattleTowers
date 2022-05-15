@@ -63,6 +63,7 @@ public class BTMonolith extends Entity {
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
 	private boolean spawnedObelisk = false;
+	private boolean initialSpawn = true;
 	private boolean fromItem;
 
 	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
@@ -163,6 +164,7 @@ public class BTMonolith extends Entity {
 		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
 			this.resetMinSoundInterval();
 			this.playAmbientSound();
+			BrassAmberBattleTowers.LOGGER.info("Spawned Obelisk? : " + this.spawnedObelisk);
 		}
 	}
 
@@ -293,6 +295,8 @@ public class BTMonolith extends Entity {
 
 		int t = sameHeightTrue.size();
 		int f = initial - t;
+
+		BrassAmberBattleTowers.LOGGER.info(t + " " + f);
 
 		if (t < f) {
 			Entity obelisk = new BTObelisk(this.golemType, this.level);

@@ -53,7 +53,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
     private static boolean sandy;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
-            Codec.intRange(0, 25).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
+            Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
     ).apply(codec, JigsawConfiguration::new));
 
     public LandBattleTower() {
