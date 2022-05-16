@@ -56,6 +56,24 @@
         "element_type": "minecraft:single_pool_element"
       }
     },
+    {
+      "weight": 35,
+      "element": {
+        "location": "ba_bt:land_tower/rooms/library_even_2_3",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 35,
+      "element": {
+        "location": "ba_bt:land_tower/rooms/library_even_3_3",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
 	{	
       "weight": 50,
       "element": {

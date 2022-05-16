@@ -96,13 +96,21 @@ title{
 	"tooltip.ba_bt.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat.",
 	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
 	"tooltip.ba_bt.golem_chest": "Battez le Golem pour déverrouiller",
+
+	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
+	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
+	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
+	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
+	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
+	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
+	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
 	
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",
 	"title.ba_bt.guardian_defeated_2": "Sans son énergie...",
 	"title.ba_bt.guardian_defeated_3": "...La tour va s'écrouler...",
 
-	"title.ba_bt.land": "Bahrynz'muul, Golem Terrestre",	
+	"title.ba_bt.land": "Bahryn'muul, Golem Terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Golem Océanique",
 	"title.ba_bt.core": "Obthu'uryn, Dieu Volcanique",
 	"title.ba_bt.nether": "Vrag'iidra, Tyran du Nether",
@@ -117,5 +125,5 @@ title{
 	"advancements.ba_bt.find_land_key.title": "La clé d'un pouvoir ancien...",
 	"advancements.ba_bt.find_land_key.description": "-Trouver une Clé du Monolithe",
 	"advancements.ba_bt.kill_land_golem.title": "L'océan commencent à s'agiter...",
-	"advancements.ba_bt.kill_land_golem.description": "-Détruire Bahrynz'muul, Golem de la Tour"
+	"advancements.ba_bt.kill_land_golem.description": "-Détruire Bahryn'muul, Golem de la Tour"
 }

@@ -19,12 +19,12 @@ import java.awt.*;
 
 public enum GolemType implements StringRepresentable {
 	EMPTY("empty", new TextComponent("Empty")),
-	LAND("land", new TranslatableComponent("entity.ba_bt.land")),
-	OCEAN("ocean", new TranslatableComponent("entity.ba_bt.ocean")),
-	CORE("core", new TranslatableComponent("entity.ba_bt.core")),
-	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether")),
-	END("end", new TranslatableComponent("entity.ba_bt.end")),
-	SKY("sky", new TranslatableComponent("entity.ba_bt.sky"));
+	LAND("land", new TranslatableComponent("entity.ba_bt.land_golem")),
+	OCEAN("ocean", new TranslatableComponent("entity.ba_bt.ocean_golem")),
+	CORE("core", new TranslatableComponent("entity.ba_bt.core_golem")),
+	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether_golem")),
+	END("end", new TranslatableComponent("entity.ba_bt.end_golem")),
+	SKY("sky", new TranslatableComponent("entity.ba_bt.sky_golem"));
 
 	private final String name;
 	private final Component displayName;

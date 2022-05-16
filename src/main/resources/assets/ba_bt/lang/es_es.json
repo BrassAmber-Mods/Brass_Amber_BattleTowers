@@ -3,12 +3,12 @@ title{
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
 	// Entities
-	"entity.ba_bt.land_golem": "Gólem de Tierra",
-	"entity.ba_bt.ocean_golem": "Gólem del Océano",
-	"entity.ba_bt.core_golem": "Gólem del Núcleo",
-	"entity.ba_bt.nether_golem": "Gólem del Nether",
-	"entity.ba_bt.end_golem": "Gólem del End",
-	"entity.ba_bt.sky_golem": "Gólem del Cielo",
+	"entity.ba_bt.land_golem": "Bahryn'muul, Entombed Watcher",
+	"entity.ba_bt.ocean_golem": "Moraizu'un, Idol of the Depths",
+	"entity.ba_bt.core_golem": "Obthu'ryn, God of the Core",
+	"entity.ba_bt.nether_golem": "Vraag'iidra, Wrath Incarnate",
+	"entity.ba_bt.end_golem": "Shul'losniir, Warped Guardian",
+	"entity.ba_bt.sky_golem": "Veyhz'kriin, Sky Goddess",
 
 
 	"entity.ba_bt.sky_minion": "Súbdito del cielo",
@@ -68,12 +68,12 @@ title{
 	"item.ba_bt.monolith_key_sky": "Llave del monolito del cielo",
 	"item.ba_bt.monolith_key_ocean": "Llave del monolito oceánico",
 
-	"item.ba_bt.guardian_eye_land": "Ojo del guardián terrestre",
-	"item.ba_bt.guardian_eye_core": "Ojo del guardían central",
-	"item.ba_bt.guardian_eye_nether": "Ojo del guardián del Nether",
-	"item.ba_bt.guardian_eye_end": "Ojo del guardián del End",
-	"item.ba_bt.guardian_eye_sky": "Ojo del guardián del cielo",
-	"item.ba_bt.guardian_eye_ocean": "Ojo del guardián oceánico",
+	"item.ba_bt.guardian_eye_land": "Eye of Bahryn'muul",
+	"item.ba_bt.guardian_eye_core": "Eye of Obthu'uryn",
+	"item.ba_bt.guardian_eye_nether": "Eye of Vraag'iidra",
+	"item.ba_bt.guardian_eye_end": "Eye of Shul'losniir",
+	"item.ba_bt.guardian_eye_sky": "Eye of Veyhz'kriin",
+	"item.ba_bt.guardian_eye_ocean": "Eye of Moraizu'un",
 
 	"item.ba_bt.monolith_land": "Monolito terrestre",
 	"item.ba_bt.monolith_core": "Monolito central",
@@ -97,22 +97,30 @@ title{
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
-	"tooltip.ba_bt.monolith": "El monolito se utiliza para invocar un gólem de batalla",
-	"tooltip.ba_bt.monolith_key": "Utiliza 3 llaves en un monolito para invocar un gólem de batalla",
-	"tooltip.ba_bt.tower_chest": "Break all spawners on its Tower floor to unlock. Can be placed 'unlocked' in survival",
-	"tooltip.ba_bt.golem_chest": "Defeat Golem to unlock",
+	"tooltip.ba_bt.monolith": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_key": "I hope you know what you're doing..",
+	"tooltip.ba_bt.tower_chest": "Unlocks upon destruction of nearby spawners.",
+	"tooltip.ba_bt.golem_chest": "Bound to the guardian's life force",
+
+	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
+	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
+	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
+	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
+	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
+	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
+	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
 
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": " Has Fallen",
 	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
 	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
 
-	"title.ba_bt.land": "Land",
-	"title.ba_bt.ocean": "Ocean",
-	"title.ba_bt.core": "Core",
-	"title.ba_bt.nether": "Nether",
-	"title.ba_bt.end": "End",
-	"title.ba_bt.sky": "Sky",
+	"title.ba_bt.land": "Bahryn'muul, Land Guardian",
+	"title.ba_bt.ocean": "Moraizu'un, Ocean Guardian",
+	"title.ba_bt.core": "Obthu'uryn, Core God",
+	"title.ba_bt.nether": "Vrag'iidra, Nether Tyrant",
+	"title.ba_bt.end": "Shul'losniir, End Guardian",
+	"title.ba_bt.sky": "Veyhz'kriin, Sky Goddess",
 
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
@@ -122,5 +130,5 @@ title{
 	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",
 	"advancements.ba_bt.find_land_key.description": "-Find a Monolith Key",
 	"advancements.ba_bt.kill_land_golem.title": "The ocean depths begin to stir...",
-	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahrynz'muul, Bound Guardian of the Tower"
+	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahryn'muul, Bound Guardian of the Tower"
 }
