@@ -3,13 +3,12 @@
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
 	// Entità (Entities)
-	"entity.ba_bt.land_golem": "Bahrynz'muul, L'Antico osservatore",
+	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Signore delle profondità",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
 	"entity.ba_bt.nether_golem": "Vraag'iidra, Incarnazione dell'ira",
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
-
 
 	"entity.ba_bt.sky_minion": "Minion del cielo",
 	"entity.ba_bt.platinum_skeleton": "Cavaliere di platino",
@@ -54,6 +53,11 @@
 	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
+	"block.ba_bt.bt_ocean_spawner" : "Generatore dell'oceano",
+	"block.ba_bt.bt_core_spawner" : "Generatore del Nucleo",
+	"block.ba_bt.bt_nether_spawner" : "Generatore del Nether",
+	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
+	"block.ba_bt.bt_sky_spawner" : "Generatore del cielo",
 
 	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
@@ -103,12 +107,20 @@
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
 	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprirà!",
 
+	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
+	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
+	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
+	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
+	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
+	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
+	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
+
 	// Scritte in sovraimpressione (Overscreen titles)
 	"title.ba_bt.guardian_defeated_1": " è caduto.",
 	"title.ba_bt.guardian_defeated_2": "Senza la sua energia...",
 	"title.ba_bt.guardian_defeated_3": "...la torrè crollerà!",
 
-	"title.ba_bt.land": "Bahrynz'muul, Guardiano della landa",
+	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
 	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
 	"title.ba_bt.nether": "Vraag'iidra, Tiranno del Nether",
@@ -116,6 +128,8 @@
 	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
 
 	// Advancements
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Torri ululanti",
 	"advancements.ba_bt.land_tower_found.description": "-Infiltrati nella torre della landa",
 	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",

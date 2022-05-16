@@ -41,9 +41,6 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         super(entityType, levelIn);
     }
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, (double)0.35F).add(Attributes.MAX_HEALTH, 24.0D).add(Attributes.ATTACK_DAMAGE, 5.0D).add(Attributes.FOLLOW_RANGE, 32.0D);
-    }
     private final RangedBowAttackGoal<BTCultist> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
     private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 1.2D, false) {
         public void stop() {
@@ -56,20 +53,25 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
             BTCultist.this.setAggressive(true);
         }
     };
+
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Wolf.class, 6.0F, 1.0D, 1.2D));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(8, new RandomStrollGoal(this, .6D));
+        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
 
-    protected void populateDefaultEquipmentSlots(DifficultyInstance p_32136_) {
-        super.populateDefaultEquipmentSlots(p_32136_);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.35F).add(Attributes.MAX_HEALTH, 24.0D).add(Attributes.ATTACK_DAMAGE, 5.0D).add(Attributes.FOLLOW_RANGE, 32.0D);
+    }
+
+    protected void populateDefaultEquipmentSlots(DifficultyInstance difficultyInstance) {
+        super.populateDefaultEquipmentSlots(difficultyInstance);
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-        this.setItemSlot(EquipmentSlot.OFFHAND, Items.TIPPED_ARROW.getDefaultInstance());
     }
 
     @Nullable
@@ -110,7 +112,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
     }
 
     public void performRangedAttack(LivingEntity entity, float power) {
-        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem)));
+        ItemStack itemstack = Items.TIPPED_ARROW.getDefaultInstance();
         AbstractArrow abstractarrow = this.getArrow(itemstack, power);
         if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
             abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
@@ -142,33 +144,6 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
             this.reassessWeaponGoal();
         }
     }
-
-    protected float getStandingEyeHeight(Pose p_32154_, EntityDimensions p_32155_) {
-        return 1.74F;
-    }
-
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.PILLAGER_AMBIENT;
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(@NotNull DamageSource p_33579_) {
-        return SoundEvents.PILLAGER_HURT;
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ILLUSIONER_DEATH;
-    }
-
-    @Override
-    public boolean canJoinRaid() {
-        return false;
-    }
-
-    @Override
-    public void setCanJoinRaid(boolean canJoinRaid) {}
 
     @Override
     public void die(DamageSource damageSource) {
@@ -203,6 +178,33 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
             this.setPose(Pose.DYING);
         }
     }
+
+    protected float getStandingEyeHeight(Pose p_32154_, EntityDimensions p_32155_) {
+        return 1.74F;
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.PILLAGER_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(@NotNull DamageSource p_33579_) {
+        return SoundEvents.PILLAGER_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ILLUSIONER_DEATH;
+    }
+
+    @Override
+    public boolean canJoinRaid() {
+        return false;
+    }
+
+    @Override
+    public void setCanJoinRaid(boolean canJoinRaid) {}
 
     @Override
     public boolean canJoinPatrol() {

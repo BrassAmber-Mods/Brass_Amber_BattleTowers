@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
+import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
+import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
@@ -98,9 +100,9 @@ public abstract class BTAbstractGolem extends Monster {
 
 		// Reference for disregarding fire taken from ZombiefiedPiglin
 
-		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
-		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 8.0F);
-		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 8.0F);
+		this.setPathfindingMalus(BlockPathTypes.LAVA, 12.0F);
+		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 12.0F);
+		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 12.0F);
 		
 		this.maxUpStep = 2.0F;
 	}
@@ -121,7 +123,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 	
 	public int getTargetingRange() {
-		return this.getAllowedTowerRange();
+		return this.getAllowedTowerRange() / 4 * 3;
 	}
 
 	/*********************************************************** Data ********************************************************/
@@ -202,18 +204,26 @@ public abstract class BTAbstractGolem extends Monster {
 					musicManager.stopPlaying();
 					musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
 				}
-				if (!hasClientPlayer) {
+				if (!hasClientPlayer || this.stopMusic) {
 					musicManager.stopPlaying();
 				}
 			}
 			return;
 		}
 
+		Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
+		Boolean survivalAdventure;
+		if (player != null) {
+			survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
+		} else {
+			survivalAdventure = false;
+		}
+
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
-			Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
+			player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getWakeUpRange(), true);
 			// Must be able to see the player and the player mustn't be in Creative mode.
-			if (player != null && !(player.isCreative() || player.isSpectator()) && this.hasLineOfSight(player)) {
+			if (player != null && survivalAdventure && this.hasLineOfSight(player)) {
 				this.wakeUpGolem();
 				this.setTarget(player);
 			}
@@ -223,9 +233,8 @@ public abstract class BTAbstractGolem extends Monster {
 			}
 
 			if (this.getTarget() == null) {
-				Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
 				// Must be able to see the player and the player mustn't be in Creative mode.
-				if (player != null && !(player.isCreative() || player.isSpectator()) && this.hasLineOfSight(player)) {
+				if (player != null && survivalAdventure && this.hasLineOfSight(player)) {
 					this.setTarget(player);
 				}
 			}
@@ -274,18 +283,10 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
-		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), false);
+		boolean hasPlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange());
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (nearestPlayer == null && this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) > 1) {
+		if (!hasPlayer) {
 			this.resetGolem();
-			BrassAmberBattleTowers.LOGGER.info("reset golem from tick");
-			return;
-		}
-		if ((nearestPlayer != null)) {
-			if (BTUtil.horizontalDistanceToSqr(this, nearestPlayer.getX(), nearestPlayer.getZ()) > maxDistanceFromSpawn) {
-				this.resetGolem();
-				BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + BTUtil.horizontalDistanceToSqr(this, this.getSpawnPos().getX(), this.getSpawnPos().getZ()) + " " + maxDistanceFromSpawn);
-			}
 		}
 
 	}
@@ -320,11 +321,14 @@ public abstract class BTAbstractGolem extends Monster {
 					for(int iz = oz - width; iz <= oz + width; iz++) {
 						BlockPos pos = new BlockPos(ix, iy, iz);
 						BlockState state = this.level.getBlockState(pos);
-						if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
-							playEffectFlag |= this.level.destroyBlock(pos, true, this);
-						}
-						if (state.getBlock() instanceof FireBlock) {
-							this.level.destroyBlock(pos, false, this);
+						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
+						if (!isChest) {
+							if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
+								playEffectFlag |= this.level.destroyBlock(pos, true, this);
+							}
+							if (state.getBlock() instanceof FireBlock) {
+								this.level.destroyBlock(pos, false, this);
+							}
 						}
 					}
 				}
@@ -581,20 +585,18 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public ItemStack getPickedResult(HitResult target) {
 		EntityType<?> entityType = this.getType();
-		if (entityType != null) {
-			if (entityType.equals(BTEntityTypes.LAND_GOLEM)) {
-				return new ItemStack(BTItems.LAND_MONOLITH.get());
-			} else if (entityType.equals(BTEntityTypes.CORE_GOLEM)) {
-				return new ItemStack(BTItems.CORE_MONOLITH.get());
-			} else if (entityType.equals(BTEntityTypes.NETHER_GOLEM)) {
-				return new ItemStack(BTItems.NETHER_MONOLITH.get());
-			} else if (entityType.equals(BTEntityTypes.END_GOLEM)) {
-				return new ItemStack(BTItems.END_MONOLITH.get());
-			} else if (entityType.equals(BTEntityTypes.SKY_GOLEM)) {
-				return new ItemStack(BTItems.SKY_MONOLITH.get());
-			} else if (entityType.equals(BTEntityTypes.OCEAN_GOLEM)) {
-				return new ItemStack(BTItems.OCEAN_MONOLITH.get());
-			}
+		if (entityType.equals(BTEntityTypes.LAND_GOLEM.get())) {
+			return new ItemStack(BTItems.LAND_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.OCEAN_GOLEM.get())) {
+			return new ItemStack(BTItems.OCEAN_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.CORE_GOLEM.get())) {
+			return new ItemStack(BTItems.CORE_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.NETHER_GOLEM.get())) {
+			return new ItemStack(BTItems.NETHER_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.END_GOLEM.get())) {
+			return new ItemStack(BTItems.END_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.SKY_GOLEM.get())) {
+			return new ItemStack(BTItems.SKY_MONOLITH.get());
 		}
 
 		// Couldn't get EntityType
@@ -660,14 +662,14 @@ public abstract class BTAbstractGolem extends Monster {
 		final double y = this.getY();
 		final double z = this.getZ();
 		BlockPos spawnPos = this.getSpawnPos();
-		if(this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) <= 4) {
-			return;
+
+		if(this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) > 4) {
+			this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		}
-		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
+
 		this.faceSpawnDirection();
 		this.setGolemState(DORMANT);
 		this.setTarget(null);
-		
 		this.getNavigation().stop();
 		
 		// TODO Stop running goals
@@ -714,7 +716,6 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public void setSpawnDirection(float yRot) {
-		// TODO Delete, Testing
 		// BrassAmberBattleTowers.LOGGER.info("Set Spawn Direction: " + yRot);
 		this.entityData.set(SPAWN_DIRECTION, yRot);
 	}
@@ -726,7 +727,7 @@ public abstract class BTAbstractGolem extends Monster {
 	 * to view its associated boss bar.
 	 */
 	@Override
-	public void startSeenByPlayer(ServerPlayer player) {
+	public void startSeenByPlayer(@NotNull ServerPlayer player) {
 		super.startSeenByPlayer(player);
 		this.bossBar.addPlayer(player);
 	}
@@ -736,12 +737,12 @@ public abstract class BTAbstractGolem extends Monster {
 	 * more information on tracking.
 	 */
 	@Override
-	public void stopSeenByPlayer(ServerPlayer player) {
+	public void stopSeenByPlayer(@NotNull ServerPlayer player) {
 		super.stopSeenByPlayer(player);
 		this.bossBar.removePlayer(player);
 	}
 
-	public void setBossBarName(@Nullable Component name) {
+	public void setBossBarName() {
 		// Update the bossBar to display the correct name.
 		this.bossBar.setName(this.getDisplayName());
 	}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "ba_bt:entity/spawner/end_spawner",
+    "side": "ba_bt:entity/spawner/end_spawner",
+    "bottom": "ba_bt:entity/spawner/end_spawner"
+  }
+}

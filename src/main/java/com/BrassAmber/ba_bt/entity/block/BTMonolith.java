@@ -29,14 +29,22 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /*
  * Test swimming and sounds from Entity
@@ -55,6 +63,7 @@ public class BTMonolith extends Entity {
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
 	private boolean spawnedObelisk = false;
+	private boolean initialSpawn = true;
 	private boolean fromItem;
 
 	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
@@ -155,6 +164,7 @@ public class BTMonolith extends Entity {
 		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
 			this.resetMinSoundInterval();
 			this.playAmbientSound();
+			BrassAmberBattleTowers.LOGGER.info("Spawned Obelisk? : " + this.spawnedObelisk);
 		}
 	}
 
@@ -233,7 +243,9 @@ public class BTMonolith extends Entity {
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
-				newGolemEntity.setBossBarName(this.golemType.getDisplayName());
+				newGolemEntity.setCustomName(this.golemType.getDisplayName());
+
+				newGolemEntity.setBossBarName();
 				newGolemEntity.setCustomNameVisible(false);
 
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
@@ -257,11 +269,42 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
-		Entity obelisk = new BTObelisk(this.golemType, this.level);
-		obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
-		obelisk.setInvulnerable(true);
-		obelisk.invulnerableTime = 999999999;
-		serverWorld.addFreshEntity(obelisk);
+		List<Integer> heights = new ArrayList<>(Collections.emptyList());
+		List<Boolean> sameHeight = new ArrayList<>(Collections.emptyList());
+		List<Boolean> sameHeightTrue = new ArrayList<>(Collections.emptyList());
+
+
+		for (int x = -16; x < 17; x++) {
+			for (int z = -16; z < 17; z++) {
+				heights.add(serverWorld.getChunkSource().getGenerator().getFirstOccupiedHeight(this.getBlockX() + x, this.getBlockZ() + z, Heightmap.Types.WORLD_SURFACE, serverWorld));
+			}
+		}
+
+		int startHeight = heights.get(0);
+
+		for (int i = 1; i < heights.size(); i++) {
+			sameHeight.add(startHeight == heights.get(i));
+		}
+
+		int initial = sameHeight.size();
+		for (Boolean aBoolean : sameHeight) {
+			if (aBoolean) {
+				sameHeightTrue.add(true);
+			}
+		}
+
+		int t = sameHeightTrue.size();
+		int f = initial - t;
+
+		BrassAmberBattleTowers.LOGGER.info(t + " " + f);
+
+		if (t < f) {
+			Entity obelisk = new BTObelisk(this.golemType, this.level);
+			obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+			obelisk.setInvulnerable(true);
+			obelisk.invulnerableTime = 999999999;
+			serverWorld.addFreshEntity(obelisk);
+		}
 	}
 
 

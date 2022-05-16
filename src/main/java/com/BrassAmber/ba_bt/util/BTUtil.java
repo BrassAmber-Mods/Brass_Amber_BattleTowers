@@ -1,10 +1,53 @@
 package com.BrassAmber.ba_bt.util;
 
-import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
+
 public class BTUtil {
+
+    public static final List<String> landTowerNames;
+    public static final List<List<ResourceKey<Biome>>> landTowerBiomes;
+
+    static {
+        landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
+
+        landTowerBiomes = List.of(
+                // Land
+                List.of(
+                        Biomes.FLOWER_FOREST,
+                        Biomes.BIRCH_FOREST,
+                        Biomes.DARK_FOREST,
+                        Biomes.OLD_GROWTH_BIRCH_FOREST,
+                        Biomes.WINDSWEPT_FOREST,
+                        Biomes.MEADOW,
+                        Biomes.PLAINS,
+                        Biomes.TAIGA,
+                        Biomes.OLD_GROWTH_PINE_TAIGA,
+                        Biomes.OLD_GROWTH_SPRUCE_TAIGA,
+                        Biomes.SAVANNA,
+                        Biomes.SUNFLOWER_PLAINS,
+                        Biomes.GROVE,
+                        Biomes.WINDSWEPT_HILLS,
+                        Biomes.WINDSWEPT_GRAVELLY_HILLS
+                ),
+                // Overgrown
+                List.of(
+                        Biomes.SWAMP,
+                        Biomes.JUNGLE,
+                        Biomes.BAMBOO_JUNGLE,
+                        Biomes.SPARSE_JUNGLE
+                ),
+                // Sandy
+                List.of(
+                        Biomes.DESERT
+                )
+        );
+    }
 
     /**
      * Returns the squared horizontal distance as a positive double.

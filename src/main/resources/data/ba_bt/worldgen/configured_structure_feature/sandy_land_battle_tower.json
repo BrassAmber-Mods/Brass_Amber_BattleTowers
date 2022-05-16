@@ -1,0 +1,24 @@
+{
+  "config": {
+    // the path to the template pool json file to use
+    "start_pool": "ba_bt:land_tower/start_pool_sandy",
+
+    // This is how many pieces away from the starting piece a piece of the structure can spawn
+    // Think of it like the length of the branch of the structure
+    "size": 35
+  },
+
+  // The biome tag to use for what biomes that this structure can spawn in"
+  "biomes": "#ba_bt:has_structure/sandy_land_tower_biomes",
+
+  // If true, land will be added around the bottom of the structure. (Based on the starting piece's y value)
+  "adapt_noise": false,
+
+  // What mobs can spawn over time in the structure.
+  // Make sure you add the mob to the right category (monster, creature, etc)
+  // bounding-box can be 'piece' or 'full'
+  "spawn_overrides": {},
+
+  // The base structure class to use for the behavior of the structure. (Like extra terrain checks and such)
+  "type": "ba_bt:land_battle_tower"
+}

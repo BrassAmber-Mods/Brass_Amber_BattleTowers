@@ -101,6 +101,14 @@
 	"tooltip.ba_bt.tower_chest": "破坏当前所在层数的所有刷怪笼来解锁它。在生存模式放置时不会被锁住",
 	"tooltip.ba_bt.golem_chest": "击败魔像来解锁",
 
+	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
+	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
+	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
+	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
+	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
+	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
+	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
+
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "守卫者已然倒下",
 	"title.ba_bt.guardian_defeated_2": "如果失去其能量……",
@@ -114,6 +122,8 @@
 	"title.ba_bt.sky": "天空",
 
 	// Advancements
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "来自高塔的呼啸",
 	"advancements.ba_bt.land_tower_found.description": "—进入大地高塔",
 	"advancements.ba_bt.find_land_key.title": "上古之力的密钥……",

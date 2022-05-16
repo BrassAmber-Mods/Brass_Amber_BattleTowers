@@ -1,0 +1,78 @@
+{
+  "name": "ba_bt:land_tower/land_sandy",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_1",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_1_f",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_2",
+        "processors": "ba_bt:falling_sand",
+		"projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_2_f",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_3",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_3_f",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_4",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "location": "ba_bt:land_tower/sandy/sandy_4_f",
+        "processors": "ba_bt:falling_sand",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
