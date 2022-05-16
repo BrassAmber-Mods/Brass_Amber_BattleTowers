@@ -107,13 +107,13 @@
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
 	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprirà!",
 
-	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
-	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
+	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eSHIFT§r per leggere le utlime parole del Guardiano",
+	"tooltip.ba_bt.land_eye": "Vaayus, la torre è stata compromessa...",
 	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
-	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
-	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
-	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
-	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
+	"tooltip.ba_bt.core_eye": "Niente può più fermarmi adesso..",
+	"tooltip.ba_bt.nether_eye": "Ti farò MARCIRE nelle mie DUNGEONS per questo!...",
+	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
+	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
 
 	// Scritte in sovraimpressione (Overscreen titles)
 	"title.ba_bt.guardian_defeated_1": " è caduto.",
