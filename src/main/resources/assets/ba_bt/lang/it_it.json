@@ -73,12 +73,12 @@
 	"item.ba_bt.monolith_key_end": "Chiave del monolite dell'End",
 	"item.ba_bt.monolith_key_sky": "Chiave del monolite del cielo",
 
-	"item.ba_bt.guardian_eye_land": "Occhio del guardiano della landa",
-	"item.ba_bt.guardian_eye_ocean": "Occhio del guardiano dell'oceano",
-	"item.ba_bt.guardian_eye_core": "Occhio del guardiano del nucleo",
-	"item.ba_bt.guardian_eye_nether": "Occhio del guardiano del Nether",
-	"item.ba_bt.guardian_eye_end": "Occhio del custode dell'End",
-	"item.ba_bt.guardian_eye_sky": "Occhio del guardiano del cielo",
+	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
+	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
+	"item.ba_bt.guardian_eye_core": "Occhio di Obthu'uryn",
+	"item.ba_bt.guardian_eye_nether": "Occhio di Vraag'iidra",
+	"item.ba_bt.guardian_eye_end": "Occhio di Shul'losniir",
+	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
 	"item.ba_bt.monolith_land": "Monolite della landa",
 	"item.ba_bt.monolith_ocean": "Monolite d'oceano",
