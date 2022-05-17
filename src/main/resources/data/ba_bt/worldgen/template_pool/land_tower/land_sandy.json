@@ -3,7 +3,7 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 45,
+      "weight": 15,
       "element": {
         "location": "ba_bt:land_tower/sandy/sandy_1",
         "processors": "ba_bt:falling_sand",
@@ -12,7 +12,7 @@
       }
     },
     {
-      "weight": 45,
+      "weight": 15,
       "element": {
         "location": "ba_bt:land_tower/sandy/sandy_1_f",
         "processors": "ba_bt:falling_sand",

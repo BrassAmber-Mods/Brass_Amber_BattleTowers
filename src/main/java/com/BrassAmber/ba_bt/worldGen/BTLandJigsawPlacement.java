@@ -63,7 +63,7 @@ public class BTLandJigsawPlacement {
             if (isWatered) {
                 heightChange = 5;
             }
-            else if (isSandy) {
+            if (isSandy) {
                 if (worldgenrandom.nextInt(100) < 25) {
                     heightChange = worldgenrandom.nextInt(8, 16);
                 } else {

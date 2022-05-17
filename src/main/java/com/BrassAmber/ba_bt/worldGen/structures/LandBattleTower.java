@@ -270,6 +270,12 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             }
         }
 
+        if (towerType == 2) {
+            sandy = true;
+        } else {
+            sandy = false;
+        }
+
         if (isSpawnableChunk(context, towerType)) {
             // Moved Biome check in JigsawPlacement outside
             int i;

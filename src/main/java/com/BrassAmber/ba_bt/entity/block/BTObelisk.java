@@ -116,8 +116,10 @@ public class BTObelisk extends Entity {
 
         BlockPos center = this.getOnPos();
         int currentFloorTopY = this.currentFloorY + 11;
-        BlockPos corner = center.offset(-15, 0, -15);
-        BlockPos oppositeCorner = center.offset(15, 0, 15);
+
+        BrassAmberBattleTowers.LOGGER.info("Floor y: " + this.currentFloorY + " Top y: " + currentFloorTopY);
+        BlockPos corner = center.offset(-16, 0, -16);
+        BlockPos oppositeCorner = center.offset(16, 0, 16);
 
         for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
@@ -163,7 +165,7 @@ public class BTObelisk extends Entity {
     }
 
     public void updateSand(BlockPos toUpdate, Level level) {
-        if (level.getBlockState(toUpdate).is(Blocks.SAND)) {
+        if (level.getBlockState(toUpdate) == Blocks.SAND.defaultBlockState()) {
             level.removeBlock(toUpdate, false);
             BrassAmberBattleTowers.LOGGER.info("Sand? :" + level.getBlockState(toUpdate));
             level.setBlockAndUpdate(toUpdate, Blocks.SAND.defaultBlockState());
