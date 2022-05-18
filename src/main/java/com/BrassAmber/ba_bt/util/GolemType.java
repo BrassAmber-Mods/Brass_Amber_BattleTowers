@@ -242,6 +242,17 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
+	public static @NotNull String getNameForNum(int num) {
+		return switch (num) {
+			default -> LAND.getSerializedName();
+			case 1 -> OCEAN.getSerializedName();
+			case 2 -> CORE.getSerializedName();
+			case 3 -> NETHER.getSerializedName();
+			case 4 -> END.getSerializedName();
+			case 5 -> SKY.getSerializedName();
+		};
+	}
+
 	@Override
 	public @NotNull String getSerializedName() {
 		return this.name;

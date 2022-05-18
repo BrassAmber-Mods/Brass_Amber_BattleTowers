@@ -58,13 +58,21 @@ public class BTObelisk extends Entity {
             Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4),
             Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4),
             Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4),
-            Arrays.asList(3, 3, 3, 3, 3, 4, 4, 5),
+            Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5),
             Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5),
             Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5)
     );
+    private final List<List<Integer>> towerChestUnlocking = Arrays.asList(
+            Arrays.asList(6, 14, 21),
+            Arrays.asList(6, 15, 23),
+            Arrays.asList(7, 17, 25),
+            Arrays.asList(8, 18, 27),
+            Arrays.asList(9, 20, 29),
+            Arrays.asList(9, 21, 31)
+    );
     private List<BlockPos> CHESTS = new ArrayList<>(9);
     private List<List<BlockPos>> SPAWNERS;
-
+    private List<Integer> KEY_INJECTION =  new ArrayList<>();
 
     //Other Parameters
     private boolean initialized;
@@ -72,6 +80,8 @@ public class BTObelisk extends Entity {
     private int checkLayer;
     private int currentFloorY;
     private int spawnersFound;
+    private int firstKey;
+    private int secondKey;
     private int totalSpawners;
     private boolean createSpawnerList;
     private boolean doCheck;
@@ -83,8 +93,6 @@ public class BTObelisk extends Entity {
     // Data Strings
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
-    private final String golemTypeName = "GolemType";
-    private final String updatedSandName = "UpdatedSand";
 
     private int timeSinceAmbientMusic;
     private int lastMusicStart;
@@ -212,9 +220,10 @@ public class BTObelisk extends Entity {
                         new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
                         new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
                         new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
-                for (int num:  spawnerAmounts) {
-                    this.totalSpawners += num;
-                }
+
+                this.firstKey = towerChestUnlocking.get(this.getTower()).get(0);
+                this.secondKey = towerChestUnlocking.get(this.getTower()).get(1);
+                this.totalSpawners = towerChestUnlocking.get(this.getTower()).get(2);
                 this.createSpawnerList = false;
             }
             this.findChestsAndSpawners(this.level);
@@ -314,18 +323,25 @@ public class BTObelisk extends Entity {
                             BrassAmberBattleTowers.LOGGER.info(this.getSpawnersDestroyed());
                         }
                     }
-                    if (!this.justSpawnedKey && (this.getSpawnersDestroyed() == 6 || this.getSpawnersDestroyed() == 14 || this.getSpawnersDestroyed() == this.totalSpawners)) {
+                    if (!justSpawnedKey &&
+                            (this.getSpawnersDestroyed() == this.firstKey
+                            || this.getSpawnersDestroyed() == this.secondKey
+                            || this.getSpawnersDestroyed() == this.totalSpawners)
+                    ) {
                         if (level.getBlockEntity(this.CHESTS.get(i)) instanceof ChestBlockEntity chest) {
-                            chest.setLootTable(BrassAmberBattleTowers.locate("chests/land_tower/" + (i+1) + "key"), this.random.nextLong());
+                            chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
                         }
                         else {
                             doNoOutputPostionedCommand(this, "give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
                         }
                         this.justSpawnedKey = true;
                     }
-                    else if (justSpawnedKey && (this.getSpawnersDestroyed() == 7 || this.getSpawnersDestroyed() == 15 || this.getSpawnersDestroyed() == this.totalSpawners + 1)) {
-                        this.justSpawnedKey = false;
-                    }
+                    else if (
+                            justSpawnedKey &&
+                                    (this.getSpawnersDestroyed() == this.firstKey + 1
+                                    || this.getSpawnersDestroyed() == this.secondKey + 1
+                                    || this.getSpawnersDestroyed() == this.totalSpawners + 1)
+                    ) {this.justSpawnedKey = false;}
                 }
             }
         }

@@ -4,7 +4,6 @@ import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -15,8 +14,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SandBlock;
+import net.minecraft.world.level.block.SeagrassBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
+import net.minecraft.world.level.block.TallSeagrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -32,33 +32,33 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
 
 
 // Comments from TelepathicGrunts
 
-public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
+public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static final int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
     private static final int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
     private static final int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
     private static BlockPos SpawnPos;
-    private static boolean watered;
-    private static boolean sandy;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
     ).apply(codec, JigsawConfiguration::new));
 
-    public LandBattleTower() {
-        super(CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
+    public OceanBattleTower() {
+        super(CODEC, OceanBattleTower::createPiecesGenerator, OceanBattleTower::afterPlace);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
     }
 
 
-    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, int biomeType) {
+    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
 
         ChunkPos chunkPos = context.chunkPos();
 
@@ -145,7 +145,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         List<BlockPos> usablePositions =  new ArrayList<>();
 
         for (BlockPos pos : testables) {
-            if (isFlatLand(context.chunkGenerator(), pos, context.heightAccessor(), biomeType)) {
+            if (isFlatLand(context.chunkGenerator(), pos, context.heightAccessor())) {
                 usablePositions.add(pos);
             }
         }
@@ -158,87 +158,8 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         return false;
     }
     
-    public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor, int biomeType) {
-        //Create block positions to check 
-        BlockPos north = new BlockPos(pos.getX(), 0, pos.getZ()+8);
-        BlockPos northEast = new BlockPos(pos.getX()+4, 0, pos.getZ()+4);
-        BlockPos east = new BlockPos(pos.getX()+8, 0, pos.getZ());
-        BlockPos southEast = new BlockPos(pos.getX()+4, 0, pos.getZ()-4);
-        BlockPos south = new BlockPos(pos.getX(),0 , pos.getZ()-8);
-        BlockPos southWest = new BlockPos(pos.getX()-4, 0, pos.getZ()-4);
-        BlockPos west = new BlockPos(pos.getX()-8, 0, pos.getZ());
-        BlockPos northWest = new BlockPos(pos.getX()-4, 0, pos.getZ()+4);
-        // create arraylist to allow easy iteration over BlockPos 
-        ArrayList<BlockPos> list = new ArrayList<>(9);
-        list.add(pos);
-        list.add(north);
-        list.add(northEast);
-        list.add(east);
-        list.add(southEast);
-        list.add(south);
-        list.add(southWest);
-        list.add(west);
-        list.add(northWest);
-
-
-        // Create arraylists to hold the output of the iteration checks below 
-        boolean isFlat;
-        ArrayList<Boolean> hasWater = new ArrayList<>(9);
-
-        int landHeight = chunk.getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-
-        // create integers to hold how many land-heights are the same
-        int t = 0;
-        int f;
-        switch (biomeType) {
-            default -> f = 0;
-            case 1 -> f = -4;
-            case 2 -> f = 2;
-        }
-
-        // Check that a + sign of blocks at each position is all the same level. (flat) 
-        for (BlockPos x: list) {
-            // get land height for each block on the +  
-            int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-
-            // check that the new landheight is the same as the center of the chunk
-            if (landHeight == newLandHeight) {
-                t += 1;
-            } else {
-                f += 1;
-            }
-        }
-        // check if most BlockPos are the same height and add false to the list if not
-        isFlat = t > f;
-
-        // check that there is no water at any of the Blockpos 
-        for (BlockPos x: list) {
-            // get landheight
-            int newLandHeight = chunk.getFirstOccupiedHeight(x.getX(), x.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor);
-
-            // get column of blocks at blockpos.
-            NoiseColumn columnOfBlocks = chunk.getBaseColumn(x.getX(), x.getZ(), heightAccessor);
-
-            // combine the column of blocks with land height and you get the top block itself which you can test.
-            BlockState topBlock = columnOfBlocks.getBlock(newLandHeight);
-
-            // check whether the topBlock is a source block of water.
-            hasWater.add(topBlock.getFluidState().is(Fluids.WATER) || topBlock.getFluidState().is(Fluids.FLOWING_WATER));
-        }
-        // set the base output to be true.
-        watered = hasWater.contains(true);
-
-        // check if any of the blockpos have water.
-
-        BrassAmberBattleTowers.LOGGER.info("Possible Land Tower at " + pos.getX() + " " + pos.getZ()
-                + " " + isFlat + " "+ !watered);
-
-        if (biomeType == 1) {
-            return isFlat;
-        }
-
-        // if there are more flat areas than not flat areas and no water return true
-        return isFlat && !watered;
+    public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
+        return true;
     }
 
     public static @NotNull Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
@@ -260,24 +181,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             return piecesGenerator;
         }
 
-        int towerType = 0;
-
-        for (List<ResourceKey<Biome>> biomeList: BTUtil.landTowerBiomes) {
-            for (ResourceKey<Biome> biomeKey: biomeList) {
-                if(biome.is(biomeKey)) {
-                    towerType = BTUtil.landTowerBiomes.indexOf(biomeList);
-                    BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + BTUtil.landTowerNames.get(towerType) + " " + biome);
-                }
-            }
-        }
-
-        if (towerType == 2) {
-            sandy = true;
-        } else {
-            sandy = false;
-        }
-
-        if (isSpawnableChunk(context, towerType)) {
+        if (isSpawnableChunk(context)) {
             // Moved Biome check in JigsawPlacement outside
             int i;
             int j;
@@ -287,7 +191,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
             if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
-                BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) + "incorrect biome");
+                BrassAmberBattleTowers.LOGGER.info("Ocean tower incorrect biome");
                 piecesGenerator = Optional.empty();
             } else {
 
@@ -300,8 +204,8 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                                 true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
                                 // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
                                 // --TelepathicGrunt
-                                watered,
-                                sandy
+                                false,
+                                false
                         );
 
 
@@ -315,7 +219,6 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         if (piecesGenerator.isPresent()) {
             // I use to debug and quickly find out if the structure is spawning or not and where it is.
             // This is returning the coordinates of the center starting piece.
-            BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + SpawnPos);
             lastSpawnPosition = context.chunkPos();
         }
 
@@ -347,7 +250,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             for (int z = startZ; z <= endZ; z++) {
                 blockpos$mutableblockpos.set(x, bbYStart, z);
                 // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
-                if (worldGenLevel.getBlockState(blockpos$mutableblockpos) == Blocks.STONE_BRICKS.defaultBlockState()) {
+                if (worldGenLevel.getBlockState(blockpos$mutableblockpos) == Blocks.PRISMARINE_BRICKS.defaultBlockState()) {
                     BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
                     startPositions.add(new BlockPos(x, bbYStart - 1, z));
                 }
@@ -359,12 +262,14 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
                 // BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)
-                        || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof TallGrassBlock) {
-                    worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
+                        || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof TallGrassBlock
+                        || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof SeagrassBlock
+                        || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof TallSeagrassBlock) {
+                    worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
                 } else {
                     // Add two blocks into this ground level as well.
-                    worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.STONE_BRICKS.defaultBlockState(), 2);
-                    worldGenLevel.setBlock(blockpos$mutableblockpos.below(), Blocks.STONE_BRICKS.defaultBlockState(), 2);
+                    worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
+                    worldGenLevel.setBlock(blockpos$mutableblockpos.below(), Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
                     break;
                 }
             }
