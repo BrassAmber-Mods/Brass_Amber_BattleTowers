@@ -51,7 +51,6 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
     private static BlockPos SpawnPos;
     private static boolean watered;
-    private static boolean sandy;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -67,34 +66,18 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
     }
 
 
-    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, int biomeType) {
+    public static BlockPos isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, int biomeType, WorldgenRandom worldgenRandom) {
 
         ChunkPos chunkPos = context.chunkPos();
-
-        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
-        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
-
-        if (!firstTowerDistanceCheck) {
-            return false;
-        }
-
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-        worldgenrandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
-
-        int nextSeperation =  minimumSeparation + worldgenrandom.nextInt(seperationRange);
-
-        int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
-
-        // BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
-
-        if (spawnDistance < nextSeperation) {
-            return false;
-        }
-
         BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
 
         // Grab height of land. Will stop at first non-air block. --TelepathicGrunt
         int landHeight = context.chunkGenerator().getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+
+        if (landHeight > 215) {
+            // BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
+            return BlockPos.ZERO;
+        }
 
         List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
         vanillaStructures.add(BuiltinStructureSets.VILLAGES);
@@ -113,16 +96,11 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
             if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
                 // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
-                return false;
+                return BlockPos.ZERO;
             }
         }
 
-        if (landHeight > 215) {
-            // BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
-            return false;
-        }
         // Test/Check surrounding chunks for possible spawns
-
         List<BlockPos> testables = new ArrayList<>(List.of(
                 centerOfChunk,
                 new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 32),
@@ -151,11 +129,9 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         }
 
         if (usablePositions.size() > 0) {
-            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size()));
-            return true;
+            return usablePositions.get(worldgenRandom.nextInt(usablePositions.size()));
         }
-
-        return false;
+        return BlockPos.ZERO;
     }
     
     public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor, int biomeType) {
@@ -248,19 +224,32 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         Predicate<Holder<Biome>> predicate = context.validBiome();
         Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
 
-        BlockPos chunkCenter= context.chunkPos().getMiddleBlockPosition(0);
+        ChunkPos chunkPos = context.chunkPos();
+
+        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
+        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
+
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
+
+        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange);
+
+        int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
+
+        // BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
+        BlockPos chunkCenter = context.chunkPos().getMiddleBlockPosition(0);
         int x = chunkCenter.getX();
         int z = chunkCenter.getZ();
         int y =  context.chunkGenerator().getFirstFreeHeight(chunkCenter.getX(), chunkCenter.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+        int towerType = 0;
 
         Holder<Biome> biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
 
-        if (!predicate.test(biome)) {
-            piecesGenerator = Optional.empty();
-            return piecesGenerator;
+        if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
+            SpawnPos = isSpawnableChunk(context, towerType, worldgenRandom);
+        } else {
+            SpawnPos = BlockPos.ZERO;
         }
-
-        int towerType = 0;
 
         for (List<ResourceKey<Biome>> biomeList: BTUtil.landTowerBiomes) {
             for (ResourceKey<Biome> biomeKey: biomeList) {
@@ -271,13 +260,9 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             }
         }
 
-        if (towerType == 2) {
-            sandy = true;
-        } else {
-            sandy = false;
-        }
+        boolean sandy = towerType == 2;
 
-        if (isSpawnableChunk(context, towerType)) {
+        if (SpawnPos != BlockPos.ZERO) {
             // Moved Biome check in JigsawPlacement outside
             int i;
             int j;
@@ -286,10 +271,9 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             j = SpawnPos.getZ();
             k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
-            if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
-                BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) + "incorrect biome");
-                piecesGenerator = Optional.empty();
-            } else {
+            biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j));
+
+            if (predicate.test(biome)) {
 
                 // All a structure has to do is call this method to turn it into a jigsaw based structure!
                 piecesGenerator =
@@ -297,29 +281,22 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                                 context, // Used for JigsawPlacement to get all the proper behaviors done.
                                 PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
                                 SpawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                                true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-                                // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                                // --TelepathicGrunt
                                 watered,
                                 sandy
                         );
 
-
-
                 // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
+                if (piecesGenerator.isPresent()) {
+                    // I use to debug and quickly find out if the structure is spawning or not and where it is.
+                    // This is returning the coordinates of the center starting piece.
+                    BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + SpawnPos);
+                    lastSpawnPosition = context.chunkPos();
+                }
+                return piecesGenerator;
             }
-        } else {
-            piecesGenerator = Optional.empty();
+            BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) + "incorrect biome? " + biome);
         }
-
-        if (piecesGenerator.isPresent()) {
-            // I use to debug and quickly find out if the structure is spawning or not and where it is.
-            // This is returning the coordinates of the center starting piece.
-            BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + SpawnPos);
-            lastSpawnPosition = context.chunkPos();
-        }
-
-        return piecesGenerator;
+        return Optional.empty();
     }
 
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {

@@ -15,6 +15,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -41,6 +42,11 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.CapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,7 +78,6 @@ public class BTObelisk extends Entity {
     );
     private List<BlockPos> CHESTS = new ArrayList<>(9);
     private List<List<BlockPos>> SPAWNERS;
-    private List<Integer> KEY_INJECTION =  new ArrayList<>();
 
     //Other Parameters
     private boolean initialized;
@@ -263,15 +268,15 @@ public class BTObelisk extends Entity {
 
             this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
-            int timeCheck = this.random.nextInt(4,6) * 10;
+            int timeCheck = (this.random.nextInt(2) + 4) * 10;
 
             if (this.tickCount % timeCheck == 0) {
                 List<BTCultist> cultists = this.level.getEntitiesOfClass(BTCultist.class, this.getBoundingBox().inflate(15, 110, 15));
                 if (cultists.size() < 10) {
-                    int floor = this.blockPosition().getY() + this.random.nextInt(0,8) * 11;
-                    int x = this.blockPosition().getX() + this.random.nextInt(-12, 12);
-                    int y = floor + this.random.nextInt(0, 9);
-                    int z = this.blockPosition().getZ() + this.random.nextInt(-12, 12);
+                    int floor = this.blockPosition().getY() + this.random.nextInt(8) * 11;
+                    int x = this.blockPosition().getX() + this.random.nextInt(24) - 12;
+                    int y = floor + this.random.nextInt(9);
+                    int z = this.blockPosition().getZ() + this.random.nextInt(24) - 12;
 
                     this.createCultistEntity((ServerLevel) this.level, new BlockPos(x, y, z));
                 }
@@ -311,6 +316,7 @@ public class BTObelisk extends Entity {
                         if (!chestBlockEntity.isUnlocked()) {
                             chestBlockEntity.setUnlocked(true);
                             this.chestUnlockingSound(level);
+                            this.CHESTS.set(i, null);
                         }
                     }
                 } else {
@@ -328,11 +334,16 @@ public class BTObelisk extends Entity {
                             || this.getSpawnersDestroyed() == this.secondKey
                             || this.getSpawnersDestroyed() == this.totalSpawners)
                     ) {
-                        if (level.getBlockEntity(this.CHESTS.get(i)) instanceof ChestBlockEntity chest) {
-                            chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
+                        if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof GolemChestBlockEntity chest) {
+                            // chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
+                            chest.unpackLootTable(null);
+                            NonNullList<ItemStack> stack = chest.getItems();
+                            stack.set(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
+                            chest.setItems(stack);
                         }
-                        else {
+                        else if (this.CHESTS.get(i) != null){
                             doNoOutputPostionedCommand(this, "give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                            this.CHESTS.set(i, null);
                         }
                         this.justSpawnedKey = true;
                     }

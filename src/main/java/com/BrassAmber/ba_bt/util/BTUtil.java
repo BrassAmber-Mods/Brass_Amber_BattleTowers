@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.biome.Biome;
@@ -76,6 +77,12 @@ public class BTUtil {
     public static double horizontalDistanceTo(Entity self, Entity entity) {
         double dX = Math.abs(self.getX() - entity.getX());
         double dZ = Math.abs(self.getZ() - entity.getZ());
+        return Math.sqrt(dX * dX + dZ * dZ);
+    }
+
+    public static double horizontalDistanceTo(BlockPos origin, BlockPos end) {
+        double dX = Math.abs(origin.getX() - end.getX());
+        double dZ = Math.abs(origin.getZ() - end.getZ());
         return Math.sqrt(dX * dX + dZ * dZ);
     }
 

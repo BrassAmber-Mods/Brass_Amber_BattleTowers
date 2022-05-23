@@ -63,7 +63,6 @@ public class BTMonolith extends Entity {
 	private int floatingRotation;
 	private boolean playedSpawnSound = false;
 	private boolean spawnedObelisk = false;
-	private boolean initialSpawn = true;
 	private boolean fromItem;
 
 	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
@@ -269,42 +268,11 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
-		List<Integer> heights = new ArrayList<>(Collections.emptyList());
-		List<Boolean> sameHeight = new ArrayList<>(Collections.emptyList());
-		List<Boolean> sameHeightTrue = new ArrayList<>(Collections.emptyList());
-
-
-		for (int x = -16; x < 17; x++) {
-			for (int z = -16; z < 17; z++) {
-				heights.add(serverWorld.getChunkSource().getGenerator().getFirstOccupiedHeight(this.getBlockX() + x, this.getBlockZ() + z, Heightmap.Types.WORLD_SURFACE, serverWorld));
-			}
-		}
-
-		int startHeight = heights.get(0);
-
-		for (int i = 1; i < heights.size(); i++) {
-			sameHeight.add(startHeight == heights.get(i));
-		}
-
-		int initial = sameHeight.size();
-		for (Boolean aBoolean : sameHeight) {
-			if (aBoolean) {
-				sameHeightTrue.add(true);
-			}
-		}
-
-		int t = sameHeightTrue.size();
-		int f = initial - t;
-
-		BrassAmberBattleTowers.LOGGER.info(t + " " + f);
-
-		if (t < f) {
-			Entity obelisk = new BTObelisk(this.golemType, this.level);
-			obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
-			obelisk.setInvulnerable(true);
-			obelisk.invulnerableTime = 999999999;
-			serverWorld.addFreshEntity(obelisk);
-		}
+		Entity obelisk = new BTObelisk(this.golemType, this.level);
+		obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+		obelisk.setInvulnerable(true);
+		obelisk.invulnerableTime = 999999999;
+		serverWorld.addFreshEntity(obelisk);
 	}
 
 

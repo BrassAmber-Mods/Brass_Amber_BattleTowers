@@ -3,11 +3,13 @@ package com.BrassAmber.ba_bt.worldGen;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -20,7 +22,10 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraft.world.level.levelgen.structure.pools.*;
+import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
@@ -31,13 +36,12 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 
-public class BTLandJigsawPlacement {
+public class BTOceanJigsawPlacement {
     private static final Logger LOGGER = BrassAmberBattleTowers.LOGGER;
 
-    public static Optional<PieceGenerator<JigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<JigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean isWatered, boolean isSandy) {
+    public static Optional<PieceGenerator<JigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<JigsawConfiguration> context, BTOceanJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
@@ -50,7 +54,6 @@ public class BTLandJigsawPlacement {
         Rotation rotation = Rotation.getRandom(worldgenrandom);
         StructureTemplatePool structuretemplatepool = jigsawconfiguration.startPool().value();
         StructurePoolElement structurepoolelement = structuretemplatepool.getRandomTemplate(worldgenrandom);
-
         if (structurepoolelement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
         } else {
@@ -59,20 +62,8 @@ public class BTLandJigsawPlacement {
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
             int k;
-            int heightChange = 0;
 
-            if (isWatered) {
-                heightChange = 5;
-            }
-            if (isSandy) {
-                if (worldgenrandom.nextInt(100) < 25) {
-                    heightChange = worldgenrandom.nextIntBetweenInclusive(8, 16);
-                } else {
-                    heightChange = 5;
-                }
-            }
-
-            k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - heightChange;
+            k = blockPos.getY();
 
             int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
             poolelementstructurepiece.move(0, k - l, 0);
@@ -82,11 +73,11 @@ public class BTLandJigsawPlacement {
                 if (jigsawconfiguration.maxDepth() > 0) {
                     int i1 = 120;
                     AABB aabb = new AABB(i - i1, k - i1, j - i1, i + i1 + 1, k + i1 + 1, j + i1 + 1);
-                    BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
-                    jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
+                    BTOceanJigsawPlacement.Placer jigsawplacement$placer = new BTOceanJigsawPlacement.Placer(registry, jigsawconfiguration.maxDepth(), pieceFactory, chunkgenerator, structuremanager, list, worldgenrandom);
+                    jigsawplacement$placer.placing.addLast(new BTOceanJigsawPlacement.PieceState(poolelementstructurepiece, new MutableObject<>(Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)), 0));
 
                     while(!jigsawplacement$placer.placing.isEmpty()) {
-                        BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
+                        BTOceanJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
                         jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth,  levelheightaccessor);
                     }
 
@@ -96,13 +87,13 @@ public class BTLandJigsawPlacement {
         }
     }
 
-    public static void addPieces(RegistryAccess registryAccess, PoolElementStructurePiece structurePiece, int maxDepth, BTLandJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random, LevelHeightAccessor heightAccessor) {
+    public static void addPieces(RegistryAccess registryAccess, PoolElementStructurePiece structurePiece, int maxDepth, BTOceanJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random, LevelHeightAccessor heightAccessor) {
         Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        BTLandJigsawPlacement.Placer jigsawplacement$placer = new BTLandJigsawPlacement.Placer(registry, maxDepth, pieceFactory, chunkGenerator, structureManager, pieces, random);
-        jigsawplacement$placer.placing.addLast(new BTLandJigsawPlacement.PieceState(structurePiece, new MutableObject<>(Shapes.INFINITY), 0));
+        BTOceanJigsawPlacement.Placer jigsawplacement$placer = new BTOceanJigsawPlacement.Placer(registry, maxDepth, pieceFactory, chunkGenerator, structureManager, pieces, random);
+        jigsawplacement$placer.placing.addLast(new BTOceanJigsawPlacement.PieceState(structurePiece, new MutableObject<>(Shapes.INFINITY), 0));
 
         while(!jigsawplacement$placer.placing.isEmpty()) {
-            BTLandJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
+            BTOceanJigsawPlacement.PieceState jigsawplacement$piecestate = jigsawplacement$placer.placing.removeFirst();
             jigsawplacement$placer.tryPlacingChildren(jigsawplacement$piecestate.piece, jigsawplacement$piecestate.free, jigsawplacement$piecestate.depth, heightAccessor);
         }
 
@@ -127,14 +118,14 @@ public class BTLandJigsawPlacement {
     static final class Placer {
         private final Registry<StructureTemplatePool> pools;
         private final int maxDepth;
-        private final BTLandJigsawPlacement.PieceFactory factory;
+        private final BTOceanJigsawPlacement.PieceFactory factory;
         private final ChunkGenerator chunkGenerator;
         private final StructureManager structureManager;
         private final List<? super PoolElementStructurePiece> pieces;
         private final Random random;
-        final Deque<BTLandJigsawPlacement.PieceState> placing = Queues.newArrayDeque();
+        final Deque<BTOceanJigsawPlacement.PieceState> placing = Queues.newArrayDeque();
 
-        Placer(Registry<StructureTemplatePool> poolsIn, int maxDepth, BTLandJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> structurePieces, Random random) {
+        Placer(Registry<StructureTemplatePool> poolsIn, int maxDepth, BTOceanJigsawPlacement.PieceFactory pieceFactory, ChunkGenerator chunkGenerator, StructureManager structureManager, List<? super PoolElementStructurePiece> structurePieces, Random random) {
             this.pools = poolsIn;
             this.maxDepth = maxDepth;
             this.factory = pieceFactory;
@@ -246,7 +237,7 @@ public class BTLandJigsawPlacement {
                                         newPiece.addJunction(new JigsawJunction(structureBlockPos.getX(), newPieceY - ConnectedSY + connectedSLandHeight, structureBlockPos.getZ(), -sBlock2RelativeY, structuretemplatepool$projection));
                                         this.pieces.add(newPiece);
                                         if (currentDepth + 1 <= this.maxDepth) {
-                                            this.placing.addLast(new BTLandJigsawPlacement.PieceState(newPiece, mutableobject1, currentDepth + 1));
+                                            this.placing.addLast(new BTOceanJigsawPlacement.PieceState(newPiece, mutableobject1, currentDepth + 1));
                                         }
                                         continue label139;
                                     }
@@ -254,10 +245,10 @@ public class BTLandJigsawPlacement {
                             }
                         }
                     } else {
-                        BTLandJigsawPlacement.LOGGER.warn("Empty or non-existent fallback pool: {}", poolFallback);
+                        BTOceanJigsawPlacement.LOGGER.warn("Empty or non-existent fallback pool: {}", poolFallback);
                     }
                 } else {
-                    BTLandJigsawPlacement.LOGGER.warn("Empty or non-existent pool: {}", poolLocation);
+                    BTOceanJigsawPlacement.LOGGER.warn("Empty or non-existent pool: {}", poolLocation);
                 }
             }
 

@@ -4,19 +4,18 @@ import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
+import com.BrassAmber.ba_bt.worldGen.BTOceanJigsawPlacement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SeagrassBlock;
-import net.minecraft.world.level.block.TallGrassBlock;
-import net.minecraft.world.level.block.TallSeagrassBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -42,14 +41,16 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 
+import static com.BrassAmber.ba_bt.util.BTUtil.horizontalDistanceTo;
+
 
 // Comments from TelepathicGrunts
 
 public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static final int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
-    private static final int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
-    private static final int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
+    private static final int minimumSeparation = BattleTowersConfig.oceanMinimumSeperation.get();
+    private static final int seperationRange = BattleTowersConfig.oceanAverageSeperationModifier.get();
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
     private static BlockPos SpawnPos;
 
@@ -67,43 +68,15 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
     }
 
 
-    public static boolean isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
+    public static BlockPos isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, WorldgenRandom worldgenRandom) {
 
         ChunkPos chunkPos = context.chunkPos();
-
-        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
-        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
-
-        if (!firstTowerDistanceCheck) {
-            return false;
-        }
-
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-        worldgenrandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
-
-        int nextSeperation =  minimumSeparation + worldgenrandom.nextInt(seperationRange);
-
-        int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
-
-        // BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
-
-        if (spawnDistance < nextSeperation) {
-            return false;
-        }
-
+        int seaLevel = context.chunkGenerator().getSeaLevel();
         BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
 
-        // Grab height of land. Will stop at first non-air block. --TelepathicGrunt
-        int landHeight = context.chunkGenerator().getFirstOccupiedHeight(centerOfChunk.getX(), centerOfChunk.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-
         List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
-        vanillaStructures.add(BuiltinStructureSets.VILLAGES);
-        vanillaStructures.add(BuiltinStructureSets.DESERT_PYRAMIDS);
-        vanillaStructures.add(BuiltinStructureSets.IGLOOS);
-        vanillaStructures.add(BuiltinStructureSets.JUNGLE_TEMPLES);
-        vanillaStructures.add(BuiltinStructureSets.SWAMP_HUTS);
-        vanillaStructures.add(BuiltinStructureSets.PILLAGER_OUTPOSTS);
-        vanillaStructures.add(BuiltinStructureSets.WOODLAND_MANSIONS);
+        vanillaStructures.add(BuiltinStructureSets.OCEAN_RUINS);
+        vanillaStructures.add(BuiltinStructureSets.OCEAN_MONUMENTS);
         vanillaStructures.add(BuiltinStructureSets.RUINED_PORTALS);
         vanillaStructures.add(BuiltinStructureSets.SHIPWRECKS);
 
@@ -113,16 +86,11 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
             if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
                 // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
-                return false;
+                return BlockPos.ZERO;
             }
         }
 
-        if (landHeight > 215) {
-            // BrassAmberBattleTowers.LOGGER.info("LandHeight: " + landHeight + " at: " + centerOfChunk);
-            return false;
-        }
         // Test/Check surrounding chunks for possible spawns
-
         List<BlockPos> testables = new ArrayList<>(List.of(
                 centerOfChunk,
                 new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 32),
@@ -145,21 +113,16 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         List<BlockPos> usablePositions =  new ArrayList<>();
 
         for (BlockPos pos : testables) {
-            if (isFlatLand(context.chunkGenerator(), pos, context.heightAccessor())) {
+            int testHeight = context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
+            if (seaLevel - 73 >= testHeight && seaLevel - 84 <= testHeight  ) {
                 usablePositions.add(pos);
             }
         }
 
         if (usablePositions.size() > 0) {
-            SpawnPos = usablePositions.get(worldgenrandom.nextInt(usablePositions.size()));
-            return true;
+            return usablePositions.get(worldgenRandom.nextInt(usablePositions.size()));
         }
-
-        return false;
-    }
-    
-    public static boolean isFlatLand(ChunkGenerator chunk, BlockPos pos, LevelHeightAccessor heightAccessor) {
-        return true;
+        return BlockPos.ZERO;
     }
 
     public static @NotNull Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
@@ -169,6 +132,16 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         Predicate<Holder<Biome>> predicate = context.validBiome();
         Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
 
+        ChunkPos chunkPos = context.chunkPos();
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
+
+        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
+        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
+
+        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange);
+        int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
+
         BlockPos chunkCenter= context.chunkPos().getMiddleBlockPosition(0);
         int x = chunkCenter.getX();
         int z = chunkCenter.getZ();
@@ -176,12 +149,15 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Holder<Biome> biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
 
-        if (!predicate.test(biome)) {
-            piecesGenerator = Optional.empty();
-            return piecesGenerator;
+        if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
+            SpawnPos = isSpawnableChunk(context, worldgenRandom);
         }
+        else {
+            SpawnPos = BlockPos.ZERO;
+        }
+        // BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
 
-        if (isSpawnableChunk(context)) {
+        if (SpawnPos != BlockPos.ZERO) {
             // Moved Biome check in JigsawPlacement outside
             int i;
             int j;
@@ -197,32 +173,23 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
                 // All a structure has to do is call this method to turn it into a jigsaw based structure!
                 piecesGenerator =
-                        BTLandJigsawPlacement.addPieces(
+                        BTOceanJigsawPlacement.addPieces(
                                 context, // Used for JigsawPlacement to get all the proper behaviors done.
                                 PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                                SpawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                                true, // Place at heightmap (top land). Set this to false for structure to be place at the passed in blockpos's Y value instead.
-                                // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
-                                // --TelepathicGrunt
-                                false,
-                                false
+                                SpawnPos// Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrun
                         );
-
-
-
                 // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
             }
-        } else {
-            piecesGenerator = Optional.empty();
-        }
 
-        if (piecesGenerator.isPresent()) {
-            // I use to debug and quickly find out if the structure is spawning or not and where it is.
-            // This is returning the coordinates of the center starting piece.
-            lastSpawnPosition = context.chunkPos();
-        }
+            if (piecesGenerator.isPresent()) {
+                // I use to debug and quickly find out if the structure is spawning or not and where it is.
+                // This is returning the coordinates of the center starting piece.
+                lastSpawnPosition = context.chunkPos();
+            }
 
-        return piecesGenerator;
+            return piecesGenerator;
+        }
+        return Optional.empty();
     }
 
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
@@ -262,7 +229,6 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                 blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
                 // BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)
-                        || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof TallGrassBlock
                         || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof SeagrassBlock
                         || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof TallSeagrassBlock) {
                     worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
@@ -275,5 +241,33 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             }
         }
 
+        Direction trenchDirection = random.nextInt(2) == 0 ? Direction.WEST : Direction.NORTH;
+        int trenchLength = 32 + random.nextInt(24);
+        BlockPos bbCenter = boundingbox.getCenter();
+
+        if (trenchDirection == Direction.WEST) {
+            startX = bbCenter.getX() - trenchLength;
+            endX = bbCenter.getX() + trenchLength;
+            startZ = bbCenter.getZ() - 24;
+            endZ = bbCenter.getZ() + 24;
+        }
+        else {
+            startX = bbCenter.getX() - 24;
+            endX = bbCenter.getX() + 24;
+            startZ = bbCenter.getZ()  - trenchLength;
+            endZ = bbCenter.getZ() + trenchLength;
+        }
+
+        for (int x = startX; x <= endX; x++) {
+            for (int z = startZ; z <= endZ; z++) {
+                for (int y = bbYStart; y < bbYStart + 23; y++) {
+                    blockpos$mutableblockpos.set(x, bbYStart, z);
+                    boolean insideChunk = (Mth.absMax(x - chunckCenter.getX(), z - chunckCenter.getZ()) < 9);
+                    if (insideChunk && horizontalDistanceTo(bbCenter, blockpos$mutableblockpos) > 12.5D && !worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
+                        worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
+                    }
+                }
+            }
+        }
     }
 }
