@@ -49,6 +49,9 @@
 	"block.ba_bt.land_golem_chest": "Golem Chest",
 	"block.ba_bt.land_chest": "Land Chest",
 
+	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_chest": "Ocean Chest",
+
 	"block.ba_bt.platinum_block": "Platinum Block",
 	"block.ba_bt.platinum_tiles": "Platinum Tiles",
 
@@ -64,6 +67,11 @@
 	"container.ba_bt.land_golem_chest_double": "Large Land Golem Chest",
 	"container.ba_bt.land_chest": "Land Chest",
 	"container.ba_bt.land_chest_double": "Large Land Chest",
+	
+	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
+	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
+	"container.ba_bt.ocean_chest": "Ocean Chest",
+	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
 
 	// Items
 	"item.ba_bt.monolith_key_land": "Land Monolith Key",
@@ -97,6 +105,7 @@
 	"item.ba_bt.platinum_boots": "Platinum Boots",
 
 	"item.ba_bt.land_chest_shard": "Land Chest Shard",
+	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Platinum Knight Spawn Egg",
 

@@ -1,4 +1,4 @@
-title{
+{
 	// Entities
 	"entity.ba_bt.land_golem": "Golem Terrestre",
 	"entity.ba_bt.core_golem": "Golem Volcanique",
@@ -44,16 +44,29 @@ title{
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"block.ba_bt.land_chest": "Coffre Terrestre",
 
+	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_chest": "Ocean Chest",
+
 	"block.ba_bt.platinum_block": "Bloc de platine",
 	"block.ba_bt.platinum_tiles": "Bloc de platine carrellée",
 
 	"block.ba_bt.bt_land_spawner": "Spawner Terrestre",
+	"block.ba_bt.bt_ocean_spawner" : "Ocean Spawner",
+	"block.ba_bt.bt_core_spawner" : "Core Spawner",
+	"block.ba_bt.bt_nether_spawner" : "Nether Spawner",
+	"block.ba_bt.bt_end_spawner" : "End Spawner",
+	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"container.ba_bt.land_golem_chest_double": "Grand Coffre de Golem Terrestre",
 	"container.ba_bt.land_chest": "Coffre Terrestre",
 	"container.ba_bt.land_chest_double": "Grand Coffre Terrestre",
+
+	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
+	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
+	"container.ba_bt.ocean_chest": "Ocean Chest",
+	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
 
 	// Items
 	"item.ba_bt.monolith_key_land": "Clé du Monolithe Terrestre",
@@ -87,6 +100,7 @@ title{
 	"item.ba_bt.platinum_boots": "Bottes en platine",
 
 	"item.ba_bt.land_chest_shard": "Éclat de Coffre Terrestre",
+	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
 

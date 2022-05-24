@@ -50,16 +50,29 @@
 	"block.ba_bt.land_golem_chest": "Baule del Golem",
 	"block.ba_bt.land_chest": "Baule della landa",
 
+	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_chest": "Ocean Chest",
+
 	"block.ba_bt.platinum_block": "Blocco di platino",
 	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
+	"block.ba_bt.bt_ocean_spawner" : "Ocean Spawner",
+	"block.ba_bt.bt_core_spawner" : "Core Spawner",
+	"block.ba_bt.bt_nether_spawner" : "Nether Spawner",
+	"block.ba_bt.bt_end_spawner" : "End Spawner",
+	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
 
 	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
 	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della Landa",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
+
+	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
+	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
+	"container.ba_bt.ocean_chest": "Ocean Chest",
+	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
 
 	// Oggetti (Items)
 	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
@@ -93,6 +106,7 @@
 	"item.ba_bt.platinum_boots": "Stivali di platino",
 
 	"item.ba_bt.land_chest_shard": "Frammento baule della landa",
+	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore del cavaliere di platino",
 
