@@ -151,6 +151,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
             SpawnPos = isSpawnableChunk(context, worldgenRandom);
+            SpawnPos = SpawnPos.atY(context.chunkGenerator().getSeaLevel());
         }
         else {
             SpawnPos = BlockPos.ZERO;
@@ -176,7 +177,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                         BTOceanJigsawPlacement.addPieces(
                                 context, // Used for JigsawPlacement to get all the proper behaviors done.
                                 PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                                SpawnPos// Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrun
+                                SpawnPos
                         );
                 // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
             }

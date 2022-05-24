@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.renderer.block;
+package com.BrassAmber.ba_bt.client.renderer.monolith;
 
 import java.util.List;
 

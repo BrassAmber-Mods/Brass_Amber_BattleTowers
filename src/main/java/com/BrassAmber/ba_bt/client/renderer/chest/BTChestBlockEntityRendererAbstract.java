@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.renderer;
+package com.BrassAmber.ba_bt.client.renderer.chest;
 
 
 import net.minecraft.client.renderer.Sheets;

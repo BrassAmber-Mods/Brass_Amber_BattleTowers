@@ -61,6 +61,9 @@ public class BTItems {
 
 	public static final RegistryObject<Item> LAND_GOLEM_CHEST = ITEMS.register("land_golem_chest", () -> new ChestBlockItem(BTBlocks.LAND_GOLEM_CHEST.get(), new Item.Properties().tab(BATLETOWERSTAB)));
 	public static final RegistryObject<Item> LAND_CHEST = ITEMS.register("land_chest", () -> new ChestBlockItem(BTBlocks.LAND_CHEST.get(), new Item.Properties().tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> OCEAN_GOLEM_CHEST = ITEMS.register("ocean_golem_chest", () -> new ChestBlockItem(BTBlocks.OCEAN_GOLEM_CHEST.get(), new Item.Properties().tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> OCEAN_CHEST = ITEMS.register("ocean_chest", () -> new ChestBlockItem(BTBlocks.OCEAN_CHEST.get(), new Item.Properties().tab(BATLETOWERSTAB)));
+
 	public static final RegistryObject<Item> PLATINUM_BLOCK = ITEMS.register("platinum_block", () -> new BlockItem(BTBlocks.PLATINUM_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> PLATINUM_TILES = ITEMS.register("platinum_tiles", () -> new BlockItem(BTBlocks.PLATINUM_TILES.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> TAB_ICON = ITEMS.register("tab_icon", () -> new BlockItem(BTBlocks.TAB_ICON.get(), new Item.Properties().tab(null)));
@@ -73,9 +76,9 @@ public class BTItems {
 	public static final RegistryObject<Item> BT_SKY_SPAWNER = ITEMS.register("bt_sky_spawner", () -> new BlockItem(BTBlocks.BT_SKY_SPAWNER.get(), new Item.Properties().tab(null)));
 
 
-
 	/**
 	 * Helper methods do not work anymore.
+	 * Keeping in-case there is a way in the future
 	 */
 	public static RegistryObject<Item> registerItem(String registryName, Item item) {
 		return ITEMS.register(registryName, () -> item);
