@@ -50,7 +50,7 @@
 	"block.ba_bt.land_chest": "Baule della landa",
 
 	"block.ba_bt.ocean_golem_chest": "Golem Chest",
-	"block.ba_bt.ocean_chest": "Ocean Chest",
+	"block.ba_bt.ocean_chest": "Baule dell'oceano",
 
 	"block.ba_bt.platinum_block": "Blocco di platino",
 	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
@@ -64,14 +64,14 @@
 
 	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
-	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della Landa",
+	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della landa",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
-	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
-	"container.ba_bt.ocean_chest": "Ocean Chest",
-	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
+	"container.ba_bt.ocean_golem_chest": "Baule del Golem dell'oceano",
+	"container.ba_bt.ocean_golem_chest_double": "Baule doppio del Golem dell'oceano",
+	"container.ba_bt.ocean_chest": "Baule dell'oceano",
+	"container.ba_bt.ocean_chest_double": "Baule doppio dell'oceano",
 
 	// Oggetti (Items)
 	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
