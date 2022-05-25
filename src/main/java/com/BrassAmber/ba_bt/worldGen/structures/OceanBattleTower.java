@@ -119,6 +119,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             int testHeight = context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
             if (testHeight >= bottomFloorRange && testHeight <= topFloorRange) {
                 usablePositions.add(pos);
+                BrassAmberBattleTowers.LOGGER.info("LandHeight for usbale position = " + testHeight);
             }
         }
 
@@ -170,7 +171,9 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             j = SpawnPos.getZ();
             k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
-            if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
+            biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j));
+
+            if (!predicate.test(biome)) {
                 BrassAmberBattleTowers.LOGGER.info("Ocean tower incorrect biome " + biome);
                 piecesGenerator = Optional.empty();
             } else {

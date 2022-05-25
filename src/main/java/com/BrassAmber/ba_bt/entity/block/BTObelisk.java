@@ -191,13 +191,13 @@ public class BTObelisk extends Entity {
         if (!this.initialized) {
             // BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
             if (this.createSpawnerList) {
-                List<Integer> spawnerAmounts = towerSpawnerAmounts.get(this.getTower());
+                List<Integer> spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
                 this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
                         new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
                         new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
                         new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
 
-                this.keySpawnerAmounts = towerChestUnlocking.get(this.getTower());
+                this.keySpawnerAmounts = towerChestUnlocking.get(GolemType.getNumForType(this.golemType));
                 this.createSpawnerList = false;
                 this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
                 switch (golemType) {
@@ -468,14 +468,6 @@ public class BTObelisk extends Entity {
     }
 
     /************************************************** DATA SET/GET **************************************************/
-
-    public void setTower(int num) {
-        this.entityData.set(TOWER, num);
-    }
-
-    public int getTower() {
-        return this.entityData.get(TOWER);
-    }
 
     public void setSpawnersDestroyed(int num) {
         this.entityData.set(SPAWNERS_DESTROYED, num);
