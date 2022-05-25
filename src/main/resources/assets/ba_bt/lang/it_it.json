@@ -46,10 +46,10 @@
 	"ba_bt.subtitle.tower.ambient.music": "Musica ambientale della torre",
 
 	// Blocchi (Blocks)
-	"block.ba_bt.land_golem_chest": "Baule del Golem",
+	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
 	"block.ba_bt.land_chest": "Baule della landa",
 
-	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
 	"block.ba_bt.ocean_chest": "Baule dell'oceano",
 
 	"block.ba_bt.platinum_block": "Blocco di platino",
