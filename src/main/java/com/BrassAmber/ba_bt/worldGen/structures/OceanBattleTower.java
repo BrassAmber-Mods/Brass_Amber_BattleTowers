@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import com.BrassAmber.ba_bt.worldGen.BTOceanJigsawPlacement;
@@ -111,10 +112,12 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         // T X T X T
 
         List<BlockPos> usablePositions =  new ArrayList<>();
+        int bottomFloorRange = seaLevel - 66;
+        int topFloorRange = seaLevel - 55;
 
         for (BlockPos pos : testables) {
             int testHeight = context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
-            if (seaLevel - 73 >= testHeight && seaLevel - 84 <= testHeight  ) {
+            if (testHeight >= bottomFloorRange && testHeight <= topFloorRange) {
                 usablePositions.add(pos);
             }
         }
@@ -151,7 +154,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
             SpawnPos = isSpawnableChunk(context, worldgenRandom);
-            SpawnPos = SpawnPos.atY(context.chunkGenerator().getSeaLevel());
+            SpawnPos = SpawnPos.atY(context.chunkGenerator().getSeaLevel() + 8);
         }
         else {
             SpawnPos = BlockPos.ZERO;
@@ -168,7 +171,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
             if (!predicate.test(context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j)))) {
-                BrassAmberBattleTowers.LOGGER.info("Ocean tower incorrect biome");
+                BrassAmberBattleTowers.LOGGER.info("Ocean tower incorrect biome " + biome);
                 piecesGenerator = Optional.empty();
             } else {
 

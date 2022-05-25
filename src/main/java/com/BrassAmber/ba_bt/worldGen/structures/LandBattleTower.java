@@ -255,7 +255,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             for (ResourceKey<Biome> biomeKey: biomeList) {
                 if(biome.is(biomeKey)) {
                     towerType = BTUtil.landTowerBiomes.indexOf(biomeList);
-                    BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + BTUtil.landTowerNames.get(towerType) + " " + biome);
+                    // BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + BTUtil.landTowerNames.get(towerType) + " " + biome);
                 }
             }
         }
