@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 public class BTChestTextures {
 	public static final ResourceLocation[] LAND_GOLEM_CHEST_TEXTURES = locateChestTextures("golem", "land_golem");
 	public static final ResourceLocation[] LAND_CHEST_TEXTURES = locateChestTextures("tower", "land");
+	public static final ResourceLocation[] OCEAN_GOLEM_CHEST_TEXTURES = locateChestTextures("golem", "ocean_golem");
+	public static final ResourceLocation[] OCEAN_CHEST_TEXTURES = locateChestTextures("tower", "ocean");
 
 
 	/**
@@ -26,6 +28,8 @@ public class BTChestTextures {
 	public static void textureStitch(TextureStitchEvent.Pre event) {
 		stitchAll(event, LAND_GOLEM_CHEST_TEXTURES);
 		stitchAll(event, LAND_CHEST_TEXTURES);
+		stitchAll(event, OCEAN_GOLEM_CHEST_TEXTURES);
+		stitchAll(event, OCEAN_CHEST_TEXTURES);
 	}
 
 	/**

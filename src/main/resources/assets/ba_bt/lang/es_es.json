@@ -1,15 +1,14 @@
-title{
+{
 	"itemGroup.ba_bt": "BrassAmber Battletowers",
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
 	// Entities
-	"entity.ba_bt.land_golem": "Bahryn'muul, Entombed Watcher",
-	"entity.ba_bt.ocean_golem": "Moraizu'un, Idol of the Depths",
-	"entity.ba_bt.core_golem": "Obthu'ryn, God of the Core",
-	"entity.ba_bt.nether_golem": "Vraag'iidra, Wrath Incarnate",
-	"entity.ba_bt.end_golem": "Shul'losniir, Warped Guardian",
-	"entity.ba_bt.sky_golem": "Veyhz'kriin, Sky Goddess",
-
+	"entity.ba_bt.land_golem": "Bahryn'muul, Vigilante sepultado",
+	"entity.ba_bt.ocean_golem": "Moraizu'un, Ídolo de las profundidades",
+	"entity.ba_bt.core_golem": "Obthu'ryn, Dios del núcleo",
+	"entity.ba_bt.nether_golem": "Vraag'iidra, Ira encarnada",
+	"entity.ba_bt.end_golem": "Shul'losniir, Guardían deformado",
+	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dios de los cielos",
 
 	"entity.ba_bt.sky_minion": "Súbdito del cielo",
 	"entity.ba_bt.platinum_skeleton": "Esqueleto de platino",
@@ -49,16 +48,29 @@ title{
 	"block.ba_bt.land_golem_chest": "Cofre del gólem",
 	"block.ba_bt.land_chest": "Cofre terrestre",
 
+	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_chest": "Ocean Chest",
+
 	"block.ba_bt.platinum_block": "Bloque de platino",
 	"block.ba_bt.platinum_tiles": "Azulejos de platino",
 
 	"block.ba_bt.bt_land_spawner" : "Generador terrestre",
+	"block.ba_bt.bt_ocean_spawner" : "Ocean Spawner",
+	"block.ba_bt.bt_core_spawner" : "Core Spawner",
+	"block.ba_bt.bt_nether_spawner" : "Nether Spawner",
+	"block.ba_bt.bt_end_spawner" : "End Spawner",
+	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Cofre del gólem terrestre",
 	"container.ba_bt.land_golem_chest_double": "Cofre del gólem terrestre grande",
 	"container.ba_bt.land_chest": "Cofre terrestre",
 	"container.ba_bt.land_chest_double": "Cofre terrestre grande",
+
+	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
+	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
+	"container.ba_bt.ocean_chest": "Ocean Chest",
+	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
 
 	// Items
 	"item.ba_bt.monolith_key_land": "Llave del monolito terrestre",
@@ -68,12 +80,12 @@ title{
 	"item.ba_bt.monolith_key_sky": "Llave del monolito del cielo",
 	"item.ba_bt.monolith_key_ocean": "Llave del monolito oceánico",
 
-	"item.ba_bt.guardian_eye_land": "Eye of Bahryn'muul",
-	"item.ba_bt.guardian_eye_core": "Eye of Obthu'uryn",
-	"item.ba_bt.guardian_eye_nether": "Eye of Vraag'iidra",
-	"item.ba_bt.guardian_eye_end": "Eye of Shul'losniir",
-	"item.ba_bt.guardian_eye_sky": "Eye of Veyhz'kriin",
-	"item.ba_bt.guardian_eye_ocean": "Eye of Moraizu'un",
+	"item.ba_bt.guardian_eye_land": "Ojo de Bahryn'muul",
+	"item.ba_bt.guardian_eye_core": "Ojo de Obthu'uryn",
+	"item.ba_bt.guardian_eye_nether": "Ojo de Vraag'iidra",
+	"item.ba_bt.guardian_eye_end": "Ojo de Shul'losniir",
+	"item.ba_bt.guardian_eye_sky": "Ojo de Veyhz'kriin",
+	"item.ba_bt.guardian_eye_ocean": "Ojo de Moraizu'un",
 
 	"item.ba_bt.monolith_land": "Monolito terrestre",
 	"item.ba_bt.monolith_core": "Monolito central",
@@ -92,43 +104,44 @@ title{
 	"item.ba_bt.platinum_boots": "Botas de platino",
 
 	"item.ba_bt.land_chest_shard": "Fragmento de cofre terrestre",
+	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Generar esqueleto de platino",
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
-	"tooltip.ba_bt.monolith": "The Guardian has been trapped within!",
-	"tooltip.ba_bt.monolith_key": "I hope you know what you're doing..",
-	"tooltip.ba_bt.tower_chest": "Unlocks upon destruction of nearby spawners.",
-	"tooltip.ba_bt.golem_chest": "Bound to the guardian's life force",
+	"tooltip.ba_bt.monolith": "El Guardián ha quedado atrapado dentro!",
+	"tooltip.ba_bt.monolith_key": "Espero que sepas lo que estás haciendo...",
+	"tooltip.ba_bt.tower_chest": "Se desbloquea al destruir los generadores cercanos",
+	"tooltip.ba_bt.golem_chest": "Vincúlate a la fuerza del Guardián",
 
-	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
-	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
-	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
-	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
-	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
-	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
-	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
+	"tooltip.ba_bt.eye_hold_shift": "Mantén <§6§oShift§r> para ver las últimas palabras del Guardián",
+	"tooltip.ba_bt.land_eye": "Vaayus, la torre ha sido comprometida...",
+	"tooltip.ba_bt.ocean_eye": "Adora el vacío... Adórame a mí...",
+	"tooltip.ba_bt.core_eye": "Nada les puede detender...",
+	"tooltip.ba_bt.nether_eye": "Haré que te PUDRAS en mis MAZMORRAS por esto!...",
+	"tooltip.ba_bt.end_eye": "Se acerca, a través de la grieta...",
+	"tooltip.ba_bt.sky_eye": "Te he fallado, Sr. Vaayus... ",
 
 	// Overscreen titles
-	"title.ba_bt.guardian_defeated_1": " Has Fallen",
-	"title.ba_bt.guardian_defeated_2": "Without it's energy...",
-	"title.ba_bt.guardian_defeated_3": "...The tower will collapse...",
+	"title.ba_bt.guardian_defeated_1": "Ha caído",
+	"title.ba_bt.guardian_defeated_2": "Sin su energía...",
+	"title.ba_bt.guardian_defeated_3": "...la torre se derrumbará...",
 
-	"title.ba_bt.land": "Bahryn'muul, Land Guardian",
-	"title.ba_bt.ocean": "Moraizu'un, Ocean Guardian",
-	"title.ba_bt.core": "Obthu'uryn, Core God",
-	"title.ba_bt.nether": "Vrag'iidra, Nether Tyrant",
-	"title.ba_bt.end": "Shul'losniir, End Guardian",
-	"title.ba_bt.sky": "Veyhz'kriin, Sky Goddess",
+	"title.ba_bt.land": "Bahryn'muul, Guardían terrestre",
+	"title.ba_bt.ocean": "Moraizu'un, Guardían oceánico",
+	"title.ba_bt.core": "Obthu'uryn, Guardían del núcleo",
+	"title.ba_bt.nether": "Vrag'iidra, Tirano abisal",
+	"title.ba_bt.end": "Shul'losniir, Guardián del End",
+	"title.ba_bt.sky": "Veyhz'kriin, Dios de los cielos",
 
 	// Advancements
-	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.title": "Torres de Batalla",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
-	"advancements.ba_bt.land_tower_found.title": "Howling Towers",
-	"advancements.ba_bt.land_tower_found.description": "-Infiltrate the Land Tower",
-	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",
-	"advancements.ba_bt.find_land_key.description": "-Find a Monolith Key",
-	"advancements.ba_bt.kill_land_golem.title": "The ocean depths begin to stir...",
-	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahryn'muul, Bound Guardian of the Tower"
+	"advancements.ba_bt.land_tower_found.title": "Torres aullantes",
+	"advancements.ba_bt.land_tower_found.description": "-Infíltrate en la Torre terrestre",
+	"advancements.ba_bt.find_land_key.title": "La clave de un antiguo poder...",
+	"advancements.ba_bt.find_land_key.description": "-Encuentra una llave de Monolito",
+	"advancements.ba_bt.kill_land_golem.title": "Las profundidades del océano comienzan a agitarse...",
+	"advancements.ba_bt.kill_land_golem.description": "-Destruye a Bahryn'muul, Guardián vinculado a la Torre"
 }

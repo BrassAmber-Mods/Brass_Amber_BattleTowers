@@ -1,9 +1,8 @@
-package com.BrassAmber.ba_bt.client.renderer.block;
+package com.BrassAmber.ba_bt.client.renderer.monolith;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

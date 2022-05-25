@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.renderer.block;
+package com.BrassAmber.ba_bt.client.renderer.monolith;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

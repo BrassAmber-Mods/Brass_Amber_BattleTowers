@@ -1,4 +1,4 @@
-title{
+{
 	// Entities
 	"entity.ba_bt.land_golem": "Golem Terrestre",
 	"entity.ba_bt.core_golem": "Golem Volcanique",
@@ -44,16 +44,29 @@ title{
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"block.ba_bt.land_chest": "Coffre Terrestre",
 
+	"block.ba_bt.ocean_golem_chest": "Coffre de Golem Océanique",
+	"block.ba_bt.ocean_chest": "Coffre Océanique",
+
 	"block.ba_bt.platinum_block": "Bloc de platine",
 	"block.ba_bt.platinum_tiles": "Bloc de platine carrellée",
 
 	"block.ba_bt.bt_land_spawner": "Spawner Terrestre",
+	"block.ba_bt.bt_ocean_spawner" : "Spawner Océanique",
+	"block.ba_bt.bt_core_spawner" : "Spawner Volcanique",
+	"block.ba_bt.bt_nether_spawner" : "Spawner du Nether",
+	"block.ba_bt.bt_end_spawner" : "Spawner de l'End",
+	"block.ba_bt.bt_sky_spawner" : "Spawner Angélique",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"container.ba_bt.land_golem_chest_double": "Grand Coffre de Golem Terrestre",
 	"container.ba_bt.land_chest": "Coffre Terrestre",
 	"container.ba_bt.land_chest_double": "Grand Coffre Terrestre",
+
+	"container.ba_bt.ocean_golem_chest": "Coffre de Golem Océanique",
+	"container.ba_bt.ocean_golem_chest_double": "Grand Coffre de Golem Océanique",
+	"container.ba_bt.ocean_chest": "Coffre Océanique",
+	"container.ba_bt.ocean_chest_double": "Grand Coffre Océanique",
 
 	// Items
 	"item.ba_bt.monolith_key_land": "Clé du Monolithe Terrestre",
@@ -87,6 +100,7 @@ title{
 	"item.ba_bt.platinum_boots": "Bottes en platine",
 
 	"item.ba_bt.land_chest_shard": "Éclat de Coffre Terrestre",
+	"item.ba_bt.ocean_chest_shard": "Éclat de Coffre Océanique",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
 
@@ -97,13 +111,13 @@ title{
 	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
 	"tooltip.ba_bt.golem_chest": "Battez le Golem pour déverrouiller",
 
-	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
-	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
-	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
-	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
-	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
-	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
-	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
+	"tooltip.ba_bt.eye_hold_shift": "Maintenez §eMAJ§r pour voir les derniers mots du Golem",
+	"tooltip.ba_bt.land_eye": "Vaayus, la tour a été compromise...",
+	"tooltip.ba_bt.ocean_eye": "Louanges du vide... Louez-moi...",
+	"tooltip.ba_bt.core_eye": "Rien ne peut les arrêter maintenant..",
+	"tooltip.ba_bt.nether_eye": "Je vous ferai ROTER dans mes DUNGEONS pour cela !...",
+	"tooltip.ba_bt.end_eye": "Elle s'approche, à travers la faille...",
+	"tooltip.ba_bt.sky_eye": "J'ai échoué, Sr. Vaayus... ",
 	
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",

@@ -165,7 +165,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	}
 
 	@Override
-	public void setItems(NonNullList<ItemStack> items) {
+	public void setItems(@NotNull NonNullList<ItemStack> items) {
 		this.items = items;
 	}
 }

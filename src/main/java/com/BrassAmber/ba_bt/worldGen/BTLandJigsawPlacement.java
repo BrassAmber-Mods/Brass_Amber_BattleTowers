@@ -37,7 +37,7 @@ import java.util.function.Predicate;
 public class BTLandJigsawPlacement {
     private static final Logger LOGGER = BrassAmberBattleTowers.LOGGER;
 
-    public static Optional<PieceGenerator<JigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<JigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean placeAtHeightMap, boolean isWatered, boolean isSandy) {
+    public static Optional<PieceGenerator<JigsawConfiguration>> addPieces(PieceGeneratorSupplier.Context<JigsawConfiguration> context, BTLandJigsawPlacement.PieceFactory pieceFactory, BlockPos blockPos, boolean isWatered, boolean isSandy) {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         RegistryAccess registryaccess = context.registryAccess();
@@ -50,6 +50,7 @@ public class BTLandJigsawPlacement {
         Rotation rotation = Rotation.getRandom(worldgenrandom);
         StructureTemplatePool structuretemplatepool = jigsawconfiguration.startPool().value();
         StructurePoolElement structurepoolelement = structuretemplatepool.getRandomTemplate(worldgenrandom);
+
         if (structurepoolelement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
         } else {
@@ -63,18 +64,16 @@ public class BTLandJigsawPlacement {
             if (isWatered) {
                 heightChange = 5;
             }
-            else if (isSandy) {
+            if (isSandy) {
                 if (worldgenrandom.nextInt(100) < 25) {
-                    heightChange = worldgenrandom.nextInt(8, 16);
+                    heightChange = worldgenrandom.nextIntBetweenInclusive(8, 16);
                 } else {
                     heightChange = 5;
                 }
             }
-            if (placeAtHeightMap) {
-                k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - 5;
-            } else {
-                k = blockPos.getY() -heightChange;
-            }
+
+            k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - heightChange;
+
             int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
             poolelementstructurepiece.move(0, k - l, 0);
             return Optional.of((p_210282_, p_210283_) -> {

@@ -1,17 +1,21 @@
 package com.BrassAmber.ba_bt.util;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BTUtil {
 
     public static final List<String> landTowerNames;
     public static final List<List<ResourceKey<Biome>>> landTowerBiomes;
+    public static final List<List<Integer>> towerSpawnerAmounts;
+    public static final List<List<Integer>> towerChestUnlocking;
 
     static {
         landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
@@ -47,6 +51,23 @@ public class BTUtil {
                         Biomes.DESERT
                 )
         );
+
+        towerSpawnerAmounts = Arrays.asList(
+                Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4),
+                Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4),
+                Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4),
+                Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5),
+                Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5),
+                Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5)
+        );
+        towerChestUnlocking = Arrays.asList(
+                Arrays.asList(6, 14, 21),
+                Arrays.asList(9, 23),
+                Arrays.asList(10, 25),
+                Arrays.asList(11, 27),
+                Arrays.asList(12, 29),
+                Arrays.asList(13, 31)
+        );
     }
 
     /**
@@ -76,6 +97,12 @@ public class BTUtil {
     public static double horizontalDistanceTo(Entity self, Entity entity) {
         double dX = Math.abs(self.getX() - entity.getX());
         double dZ = Math.abs(self.getZ() - entity.getZ());
+        return Math.sqrt(dX * dX + dZ * dZ);
+    }
+
+    public static double horizontalDistanceTo(BlockPos origin, BlockPos end) {
+        double dX = Math.abs(origin.getX() - end.getX());
+        double dZ = Math.abs(origin.getZ() - end.getZ());
         return Math.sqrt(dX * dX + dZ * dZ);
     }
 

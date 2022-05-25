@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ba_bt:item/ocean_chest_shard"
+  }
+}
