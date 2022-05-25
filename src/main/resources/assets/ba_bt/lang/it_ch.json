@@ -46,10 +46,10 @@
 	"ba_bt.subtitle.tower.ambient.music": "Musica ambientale della torre",
 
 	// Blocchi (Blocks)
-	"block.ba_bt.land_golem_chest": "Baule del Golem",
+	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
 	"block.ba_bt.land_chest": "Baule della landa",
 
-	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
 	"block.ba_bt.ocean_chest": "Baule dell'oceano",
 
 	"block.ba_bt.platinum_block": "Blocco di platino",
@@ -63,13 +63,13 @@
 	"block.ba_bt.bt_sky_spawner" : "Generatore del cielo",
 
 	// Contenitori (Containers)
-	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
-	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della landa",
+	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
+	"container.ba_bt.land_golem_chest_double": "Baule doppio di Bahryn'muul",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	"container.ba_bt.ocean_golem_chest": "Baule del Golem dell'oceano",
-	"container.ba_bt.ocean_golem_chest_double": "Baule doppio del Golem dell'oceano",
+	"container.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
+	"container.ba_bt.ocean_golem_chest_double": "Baule doppio di Moraizu'un",
 	"container.ba_bt.ocean_chest": "Baule dell'oceano",
 	"container.ba_bt.ocean_chest_double": "Baule doppio dell'oceano",
 
