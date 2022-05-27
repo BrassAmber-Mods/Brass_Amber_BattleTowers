@@ -35,7 +35,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	protected boolean unlocked = false;
 
 	private static final int EVENT_SET_OPEN_COUNT = 1;
-	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+	private NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
 		protected void onOpen(Level level, BlockPos blockPos, BlockState blockState) {
 			GolemChestBlockEntity.playSound(level, blockPos, blockState, SoundEvents.CHEST_OPEN);
@@ -58,6 +58,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 			}
 		}
 	};
+
 	private final ChestLidController chestLidController = new ChestLidController();
 
 	protected GolemChestBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
@@ -69,7 +70,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	}
 
 	public int getContainerSize() {
-		return 27;
+		return 36;
 	}
 
 	/**

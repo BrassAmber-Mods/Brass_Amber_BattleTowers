@@ -163,7 +163,7 @@ public class BTMonolith extends Entity {
 		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
 			this.resetMinSoundInterval();
 			this.playAmbientSound();
-			BrassAmberBattleTowers.LOGGER.info("Spawned Obelisk? : " + this.spawnedObelisk);
+			// BrassAmberBattleTowers.LOGGER.info("Spawned Obelisk? : " + this.spawnedObelisk);
 		}
 	}
 

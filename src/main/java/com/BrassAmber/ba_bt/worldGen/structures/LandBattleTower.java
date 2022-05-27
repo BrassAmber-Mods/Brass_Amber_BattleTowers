@@ -45,11 +45,7 @@ import java.util.function.Predicate;
 
 public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
-    private static final int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
-    private static final int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
-    private static final int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
-    private static BlockPos SpawnPos;
     private static boolean watered;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
@@ -223,6 +219,9 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Predicate<Holder<Biome>> predicate = context.validBiome();
         Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
+        int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
+        int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
+        int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
 
         ChunkPos chunkPos = context.chunkPos();
 
@@ -245,10 +244,11 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Holder<Biome> biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
 
+        BlockPos spawnPos;
         if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
-            SpawnPos = isSpawnableChunk(context, towerType, worldgenRandom);
+            spawnPos = isSpawnableChunk(context, towerType, worldgenRandom);
         } else {
-            SpawnPos = BlockPos.ZERO;
+            spawnPos = BlockPos.ZERO;
         }
 
         for (List<ResourceKey<Biome>> biomeList: BTUtil.landTowerBiomes) {
@@ -262,14 +262,14 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
         boolean sandy = towerType == 2;
 
-        if (SpawnPos != BlockPos.ZERO) {
+        if (spawnPos != BlockPos.ZERO) {
             // Moved Biome check in JigsawPlacement outside
             int i;
             int j;
             int k;
-            i = SpawnPos.getX();
-            j = SpawnPos.getZ();
-            k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+            i = spawnPos.getX();
+            j = spawnPos.getZ();
+            k = spawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
             biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j));
 
@@ -280,7 +280,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                         BTLandJigsawPlacement.addPieces(
                                 context, // Used for JigsawPlacement to get all the proper behaviors done.
                                 PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                                SpawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
+                                spawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
                                 watered,
                                 sandy
                         );
@@ -289,7 +289,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 if (piecesGenerator.isPresent()) {
                     // I use to debug and quickly find out if the structure is spawning or not and where it is.
                     // This is returning the coordinates of the center starting piece.
-                    BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + SpawnPos);
+                    BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + spawnPos);
                     lastSpawnPosition = context.chunkPos();
                 }
                 return piecesGenerator;

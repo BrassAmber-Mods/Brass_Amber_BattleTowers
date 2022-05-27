@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
 import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
@@ -8,6 +9,7 @@ import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -61,6 +63,8 @@ public class BTObelisk extends Entity {
     private boolean createSpawnerList;
     private boolean doCheck;
 
+    private MusicManager music;
+    private Minecraft mc;
 
     private GolemType golemType;
     private boolean justSpawnedKey;
@@ -69,8 +73,7 @@ public class BTObelisk extends Entity {
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
 
-    private int timeSinceAmbientMusic;
-    private int lastMusicStart;
+    private boolean musicPlaying;
     private boolean canCheck;
     private Class<? extends Entity> specialEnemy;
 
@@ -79,8 +82,7 @@ public class BTObelisk extends Entity {
         this.initialized = false;
         this.checkLayer = 1;
         // this.blocksBuilding = true;
-        this.timeSinceAmbientMusic = 7000;
-        this.lastMusicStart = 0;
+        this.musicPlaying = false;
         this.createSpawnerList = true;
         this.doCheck = true;
 
@@ -159,30 +161,42 @@ public class BTObelisk extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (this.timeSinceAmbientMusic < 7000) {
-            this.timeSinceAmbientMusic = this.tickCount - this.lastMusicStart;
-        }
 
         if (this.level.isClientSide()) {
-            if (((ClientLevel)this.level).players().size() == 0) {
+            ClientLevel client = (ClientLevel)this.level;
+            if (!this.initialized) {
+                this.mc = Minecraft.getInstance();
+                this.music = this.mc.getMusicManager();
+            }
+            if (client.players().size() == 0) {
                 return;
             }
-            double playerDistance = horizontalDistanceTo(this, ((ClientLevel)this.level).players().get(0));
-            boolean hasClientPlayer = playerDistance < 30;
-            MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
+            boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+            boolean playerInTowerRange;
+            boolean playerInMusicRange;
 
-            if (!music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
-                // BrassAmberBattleTowers.LOGGER.info("Player: " + hasClientPlayer + " time since music: " + this.timeSinceAmbientMusic);
-                if (hasClientPlayer && this.timeSinceAmbientMusic == 7000 && playerDistance < 17) {
-                    music.nextSongDelay = 6900;
-                    music.stopPlaying();
-                    ((ClientLevel) this.level).minecraft.getMusicManager().startPlaying(BTMusics.TOWER);
-                    this.lastMusicStart = this.tickCount;
-                    this.timeSinceAmbientMusic = 0;
-                } else if (!hasClientPlayer && music.isPlayingMusic(BTMusics.TOWER)) {
-                    music.nextSongDelay = 500;
-                    music.stopPlaying();
-                    this.timeSinceAmbientMusic = 7000;
+            if (hasClientPlayer) {
+                playerInTowerRange = horizontalDistanceTo(this, client.getNearestPlayer(this, 100D)) <= 30;
+                playerInMusicRange = horizontalDistanceTo(this, client.getNearestPlayer(this, 100D)) < 17;
+            } else {
+                playerInTowerRange = false;
+                playerInMusicRange = false;
+
+            }
+
+            if (!this.music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+                if (playerInTowerRange) {
+                    BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
+                    if (playerInMusicRange && !this.musicPlaying) {
+                        this.music.stopPlaying();
+                        this.music.nextSongDelay = 6900;
+                        this.music.startPlaying(BTMusics.TOWER);
+                        this.musicPlaying = true;
+                    }
+                } else if (this.musicPlaying) {
+                    this.music.nextSongDelay = 500;
+                    this.music.stopPlaying();
+                    this.musicPlaying = false;
                 }
             }
             return;
@@ -314,15 +328,17 @@ public class BTObelisk extends Entity {
                     List<BlockPos> poss = this.SPAWNERS.get(i);
                     for (int x = 0; x < poss.size(); x++) {
                         BlockPos blockPos = poss.get(x);
-                        if (!(level.getBlockState(blockPos).is(BTBlocks.BT_LAND_SPAWNER.get()))) {
+                        if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
                             this.SPAWNERS.get(i).remove(blockPos);
                             this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
                             BrassAmberBattleTowers.LOGGER.info(this.getSpawnersDestroyed());
+
+                            if (this.justSpawnedKey) {
+                                this.justSpawnedKey = false;
+                            }
                         }
                     }
-                    if (this.justSpawnedKey) {
-                        this.justSpawnedKey = false;
-                    } else if (!justSpawnedKey && this.keySpawnerAmounts.contains(this.getSpawnersDestroyed())) {
+                    if (this.keySpawnerAmounts.contains(this.getSpawnersDestroyed()) && !justSpawnedKey) {
                         if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chest) {
                             // chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
                             chest.unpackLootTable(null);

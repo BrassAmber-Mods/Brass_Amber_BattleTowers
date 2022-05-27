@@ -25,7 +25,7 @@ public class BattleTowersConfig {
         landMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
                                 "(due to structure changes in 1.18.2 there is now a 16 chunk minimum. " +
-                                "Default and Minimum: 10 Chunks")
+                                "Default and Minimum: 20 Chunks")
                 .define("Land minimum separation", 20);
         oceanMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +

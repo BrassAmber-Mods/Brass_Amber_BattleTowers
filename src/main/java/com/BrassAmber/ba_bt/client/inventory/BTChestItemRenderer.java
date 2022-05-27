@@ -1,6 +1,5 @@
 package com.BrassAmber.ba_bt.client.inventory;
 
-import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTBlocks;
@@ -22,8 +21,10 @@ public class BTChestItemRenderer extends BlockEntityWithoutLevelRenderer {
 
     public static BTChestItemRenderer INSTANCE = new BTChestItemRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
 
-    private final GolemChestBlockEntity golemChestEntity = new GolemChestBlockEntity(BlockPos.ZERO, BTBlocks.LAND_GOLEM_CHEST.get().defaultBlockState());
-    private final TowerChestBlockEntity towerChestEntity = new TowerChestBlockEntity(BlockPos.ZERO, BTBlocks.LAND_CHEST.get().defaultBlockState());
+    private final GolemChestBlockEntity landGolemChestEntity = new GolemChestBlockEntity(BlockPos.ZERO, BTBlocks.LAND_GOLEM_CHEST.get().defaultBlockState());
+    private final TowerChestBlockEntity landTowerChestEntity = new TowerChestBlockEntity(BlockPos.ZERO, BTBlocks.LAND_CHEST.get().defaultBlockState());
+    private final GolemChestBlockEntity oceanGolemChestEntity = new GolemChestBlockEntity(BlockPos.ZERO, BTBlocks.OCEAN_GOLEM_CHEST.get().defaultBlockState());
+    private final TowerChestBlockEntity oceanTowerChestEntity = new TowerChestBlockEntity(BlockPos.ZERO, BTBlocks.OCEAN_CHEST.get().defaultBlockState());
     private final BlockEntityRenderDispatcher dispatcher;
 
     public BTChestItemRenderer(BlockEntityRenderDispatcher dispatcherIn, EntityModelSet modelSet) {
@@ -37,13 +38,20 @@ public class BTChestItemRenderer extends BlockEntityWithoutLevelRenderer {
         BlockEntity blockEntity = null;
         if (item instanceof BlockItem) {
             if (item == BTItems.LAND_CHEST.get()) {
-                blockEntity = this.towerChestEntity;
+                blockEntity = this.landTowerChestEntity;
 
             } else if (item == BTItems.LAND_GOLEM_CHEST.get()){
-                blockEntity = this.golemChestEntity;
+                blockEntity = this.landGolemChestEntity;
+
+            } else if (item == BTItems.OCEAN_CHEST.get()) {
+                blockEntity = this.oceanTowerChestEntity;
+
+            } else if (item == BTItems.OCEAN_GOLEM_CHEST.get()){
+                blockEntity = this.oceanGolemChestEntity;
+
             }
             if (blockEntity == null) {
-                blockEntity = this.towerChestEntity;
+                blockEntity = this.landTowerChestEntity;
             }
             this.dispatcher.renderItem(blockEntity, poseStack, multiBufferSource, combinedLightIn, combineOverLayIn);
         }
