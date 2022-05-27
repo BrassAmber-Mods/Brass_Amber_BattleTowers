@@ -10,7 +10,6 @@
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
 
-
 	"entity.ba_bt.sky_minion": "Minion del cielo",
 	"entity.ba_bt.platinum_skeleton": "Cavaliere di platino",
 	"entity.ba_bt.bt_cultist": "Cultista",
@@ -47,32 +46,32 @@
 	"ba_bt.subtitle.tower.ambient.music": "Musica ambientale della torre",
 
 	// Blocchi (Blocks)
-	"block.ba_bt.land_golem_chest": "Baule del Golem",
+	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
 	"block.ba_bt.land_chest": "Baule della landa",
 
-	"block.ba_bt.ocean_golem_chest": "Golem Chest",
-	"block.ba_bt.ocean_chest": "Ocean Chest",
+	"block.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
+	"block.ba_bt.ocean_chest": "Baule dell'oceano",
 
 	"block.ba_bt.platinum_block": "Blocco di platino",
 	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
-	"block.ba_bt.bt_ocean_spawner" : "Ocean Spawner",
-	"block.ba_bt.bt_core_spawner" : "Core Spawner",
-	"block.ba_bt.bt_nether_spawner" : "Nether Spawner",
-	"block.ba_bt.bt_end_spawner" : "End Spawner",
-	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
+	"block.ba_bt.bt_ocean_spawner" : "Generatore dell'oceano",
+	"block.ba_bt.bt_core_spawner" : "Generatore del Nucleo",
+	"block.ba_bt.bt_nether_spawner" : "Generatore del Nether",
+	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
+	"block.ba_bt.bt_sky_spawner" : "Generatore del cielo",
 
 	// Contenitori (Containers)
-	"container.ba_bt.land_golem_chest": "Baule del Golem della Landa",
-	"container.ba_bt.land_golem_chest_double": "Baule doppio del Golem della Landa",
+	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
+	"container.ba_bt.land_golem_chest_double": "Baule doppio di Bahryn'muul",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
-	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
-	"container.ba_bt.ocean_chest": "Ocean Chest",
-	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
+	"container.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
+	"container.ba_bt.ocean_golem_chest_double": "Baule doppio di Moraizu'un",
+	"container.ba_bt.ocean_chest": "Baule dell'oceano",
+	"container.ba_bt.ocean_chest_double": "Baule doppio dell'oceano",
 
 	// Oggetti (Items)
 	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
@@ -82,12 +81,12 @@
 	"item.ba_bt.monolith_key_end": "Chiave del monolite dell'End",
 	"item.ba_bt.monolith_key_sky": "Chiave del monolite del cielo",
 
-	"item.ba_bt.guardian_eye_land": "Occhio del guardiano della landa",
-	"item.ba_bt.guardian_eye_ocean": "Occhio del guardiano dell'oceano",
-	"item.ba_bt.guardian_eye_core": "Occhio del guardiano del nucleo",
-	"item.ba_bt.guardian_eye_nether": "Occhio del guardiano del Nether",
-	"item.ba_bt.guardian_eye_end": "Occhio del custode dell'End",
-	"item.ba_bt.guardian_eye_sky": "Occhio del guardiano del cielo",
+	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
+	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
+	"item.ba_bt.guardian_eye_core": "Occhio di Obthu'uryn",
+	"item.ba_bt.guardian_eye_nether": "Occhio di Vraag'iidra",
+	"item.ba_bt.guardian_eye_end": "Occhio di Shul'losniir",
+	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
 	"item.ba_bt.monolith_land": "Monolite della landa",
 	"item.ba_bt.monolith_ocean": "Monolite d'oceano",
@@ -117,13 +116,13 @@
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
 	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprirà!",
 
-	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
-	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",
-	"tooltip.ba_bt.ocean_eye": "Praise the void... Praise me...",
-	"tooltip.ba_bt.core_eye": "Nothing can stop them now..",
-	"tooltip.ba_bt.nether_eye": "I will make you ROT in my DUNGEONS for this!...",
-	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
-	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
+	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eSHIFT§r per leggere le utlime parole del Guardiano",
+	"tooltip.ba_bt.land_eye": "Vaayus, la torre è stata compromessa...",
+	"tooltip.ba_bt.ocean_eye": "Loda il vuoto... Lodami...",
+	"tooltip.ba_bt.core_eye": "Niente può più fermarmi adesso..",
+	"tooltip.ba_bt.nether_eye": "Ti farò MARCIRE nelle mie PRIGIONI per questo!...",
+	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
+	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
 
 	// Scritte in sovraimpressione (Overscreen titles)
 	"title.ba_bt.guardian_defeated_1": " è caduto.",
@@ -140,10 +139,10 @@
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
-	"advancements.ba_bt.land_tower_found.title": "Howling Towers",
-	"advancements.ba_bt.land_tower_found.description": "-Infiltrate the Land Tower",
-	"advancements.ba_bt.find_land_key.title": "The Key to an Ancient Power...",
-	"advancements.ba_bt.find_land_key.description": "-Find a Monolith Key",
-	"advancements.ba_bt.kill_land_golem.title": "The ocean depths begin to stir...",
-	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahryn'muul, Bound Guardian of the Tower"
+	"advancements.ba_bt.land_tower_found.title": "Torri ululanti",
+	"advancements.ba_bt.land_tower_found.description": "-Infiltrati nella torre della landa",
+	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",
+	"advancements.ba_bt.find_land_key.description": "-Trova una chiave del monolite",
+	"advancements.ba_bt.kill_land_golem.title": "Le profondità dell'oceano cominciano ad agitarsi...",
+	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, il guardiano della torre"
 }
