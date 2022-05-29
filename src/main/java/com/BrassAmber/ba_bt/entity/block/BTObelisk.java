@@ -186,7 +186,7 @@ public class BTObelisk extends Entity {
 
             if (!this.music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
                 if (playerInTowerRange) {
-                    BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
+                    // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
                     if (playerInMusicRange && !this.musicPlaying) {
                         this.music.stopPlaying();
                         this.music.nextSongDelay = 6900;

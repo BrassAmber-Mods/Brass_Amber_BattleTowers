@@ -6,7 +6,7 @@
       "weight": 45,
       "element": {
         "location": "ba_bt:land_tower/sandy/sand_fill/sand_fill_center",
-        "processors": "ba_bt:falling_sand",
+        "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -15,7 +15,7 @@
       "weight": 45,
       "element": {
         "location": "ba_bt:land_tower/sandy/sand_fill/sand_fill_ne",
-        "processors": "ba_bt:falling_sand",
+        "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -23,7 +23,7 @@
       "weight": 45,
       "element": {
         "location": "ba_bt:land_tower/sandy/sand_fill/sand_fill_nw",
-        "processors": "ba_bt:falling_sand",
+        "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -31,7 +31,7 @@
       "weight": 45,
       "element": {
         "location": "ba_bt:land_tower/sandy/sand_fill/sand_fill_se",
-        "processors": "ba_bt:falling_sand",
+        "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -39,7 +39,7 @@
       "weight": 45,
       "element": {
         "location": "ba_bt:land_tower/sandy/sand_fill/sand_fill_sw",
-        "processors": "ba_bt:falling_sand",
+        "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }

@@ -48,7 +48,7 @@ public class BrassAmberBattleTowers {
 		BTSoundEvents.SOUND_EVENTS.register(eventBus);
 
 		// Register Structures
-		BTStructures.DEFERRED_REGISTRY_STRUCTURE.register(eventBus);
+		BTStructures.STRUCTURE_REGISTRY.register(eventBus);
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC, "ba-battletowers-config.toml");
 

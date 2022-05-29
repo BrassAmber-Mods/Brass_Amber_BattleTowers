@@ -49,11 +49,7 @@ import static com.BrassAmber.ba_bt.util.BTUtil.horizontalDistanceTo;
 
 public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
-    private static final int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
-    private static final int minimumSeparation = BattleTowersConfig.oceanMinimumSeperation.get();
-    private static final int seperationRange = BattleTowersConfig.oceanAverageSeperationModifier.get();
     private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
-    private static BlockPos SpawnPos;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -135,6 +131,9 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Predicate<Holder<Biome>> predicate = context.validBiome();
         Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
+        int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
+        int minimumSeparation = BattleTowersConfig.oceanMinimumSeperation.get();
+        int seperationRange = BattleTowersConfig.oceanAverageSeperationModifier.get();
 
         ChunkPos chunkPos = context.chunkPos();
         WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
@@ -153,23 +152,27 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Holder<Biome> biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
 
+        BlockPos spawnPos;
         if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
-            SpawnPos = isSpawnableChunk(context, worldgenRandom);
-            SpawnPos = SpawnPos.atY(context.chunkGenerator().getSeaLevel() + 8);
+            spawnPos = isSpawnableChunk(context, worldgenRandom);
+            spawnPos = spawnPos.atY(context.chunkGenerator().getSeaLevel() + 8);
         }
         else {
-            SpawnPos = BlockPos.ZERO;
+            spawnPos = BlockPos.ZERO;
         }
-        // BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
+        BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
 
-        if (SpawnPos != BlockPos.ZERO) {
+
+
+        if (spawnPos.getY() != 0) {
             // Moved Biome check in JigsawPlacement outside
+            BrassAmberBattleTowers.LOGGER.info("Spawnpos: " + spawnPos);
             int i;
             int j;
             int k;
-            i = SpawnPos.getX();
-            j = SpawnPos.getZ();
-            k = SpawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+            i = spawnPos.getX();
+            j = spawnPos.getZ();
+            k = spawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
             biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j));
 
@@ -183,7 +186,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                         BTOceanJigsawPlacement.addPieces(
                                 context, // Used for JigsawPlacement to get all the proper behaviors done.
                                 PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                                SpawnPos
+                                spawnPos
                         );
                 // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
             }
@@ -272,6 +275,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                     boolean insideChunk = (Mth.absMax(x - chunckCenter.getX(), z - chunckCenter.getZ()) < 9);
                     if (insideChunk && horizontalDistanceTo(bbCenter, blockpos$mutableblockpos) > 12.5D && !worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
                         worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
+                        BrassAmberBattleTowers.LOGGER.info("BlockPos: "+ blockpos$mutableblockpos);
                     }
                 }
             }
