@@ -37,13 +37,13 @@
 	"ba_bt.subtitle.golem.awaken": "Risveglio del Golem",
 	"ba_bt.subtitle.golem.ambient": "Crescita del Golem",
 	"ba_bt.subtitle.golem.special": "Attacco del Golem",
-	"ba_bt.subtitle.golem.fight": "Musica da boss del Golem",
+	"ba_bt.subtitle.golem.land.fight": "Musica da boss del Golem",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Il Golem sta per liberarsi!",
 
 	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
 	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
-	"ba_bt.subtitle.tower.ambient.music": "Musica ambientale della torre",
+	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre",
 
 	// Blocchi (Blocks)
 	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",

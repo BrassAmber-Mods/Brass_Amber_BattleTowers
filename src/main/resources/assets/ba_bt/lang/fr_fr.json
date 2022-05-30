@@ -32,13 +32,13 @@
 	"ba_bt.subtitle.golem.awaken": "Golem se réveille",
 	"ba_bt.subtitle.golem.ambient": "Golem grogne",
 	"ba_bt.subtitle.golem.special": "Golem attaques",
-	"ba_bt.subtitle.golem.fight": "Musique du Golem",
+	"ba_bt.subtitle.golem.land.fight": "Musique du Golem",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Le golem commence à apparaître",
 
 	"ba_bt.subtitle.tower.break.start": "La tour de combat commence à se briser",
 	"ba_bt.subtitle.tower.break.crumble": "La tour de combat s'écroule",
-	"ba_bt.subtitle.tower.ambient.music": "Musique d'ambiance de la tour",
+	"ba_bt.subtitle.tower.ambient.music.land": "Musique d'ambiance de la tour",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",

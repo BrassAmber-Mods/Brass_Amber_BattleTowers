@@ -36,13 +36,13 @@
 	"ba_bt.subtitle.golem.awaken": "El gólem despierta",
 	"ba_bt.subtitle.golem.ambient": "El gólem ruge",
 	"ba_bt.subtitle.golem.special": "El gólem ataca",
-	"ba_bt.subtitle.golem.fight": "Música del gólem",
+	"ba_bt.subtitle.golem.land.fight": "Música del gólem",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "El gólem aparece",
 
 	"ba_bt.subtitle.tower.break.start": "La torre está inestable",
 	"ba_bt.subtitle.tower.break.crumble": "La torre se derrumba",
-	"ba_bt.subtitle.tower.ambient.music": "Música ambiental de la torre",
+	"ba_bt.subtitle.tower.ambient.music.land": "Música ambiental de la torre",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Cofre del gólem",
