@@ -37,19 +37,19 @@
 	"ba_bt.subtitle.golem.awaken": "Golem awakens",
 	"ba_bt.subtitle.golem.ambient": "Golem growls",
 	"ba_bt.subtitle.golem.special": "Golem attacks",
-	"ba_bt.subtitle.golem.fight": "Golem Boss Music",
+	"ba_bt.subtitle.golem.land.fight": "Bahryn'muul Boss Music",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
-	"ba_bt.subtitle.tower.ambient.music": "Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.land": "Land Tower Ambient Music",
 
 	// Blocks
-	"block.ba_bt.land_golem_chest": "Golem Chest",
+	"block.ba_bt.land_golem_chest": "Bahryn'muul's Chest",
 	"block.ba_bt.land_chest": "Land Chest",
 
-	"block.ba_bt.ocean_golem_chest": "Golem Chest",
+	"block.ba_bt.ocean_golem_chest": "Moraizu'un's Chest",
 	"block.ba_bt.ocean_chest": "Ocean Chest",
 
 	"block.ba_bt.platinum_block": "Platinum Block",

@@ -7,14 +7,11 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
-import com.BrassAmber.ba_bt.util.BTUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -32,9 +29,7 @@ import com.BrassAmber.ba_bt.util.TowerSpecs;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.network.NetworkHooks;
 
 import static com.BrassAmber.ba_bt.util.BTUtil.doCommand;
@@ -127,7 +122,7 @@ public class DestroyTower extends Entity {
     public void tick() {
     	if(this.level.isClientSide()) {
             MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
-            if (music.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+            if (music.isPlayingMusic(BTMusics.LAND_GOLEM_FIGHT)) {
                 music.stopPlaying();
             }
     		return;

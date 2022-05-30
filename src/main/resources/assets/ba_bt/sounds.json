@@ -71,9 +71,9 @@
 			}
 		]
 	},
-	"entity.golem.fight": {
+	"entity.golem.land.fight": {
 		"category": "hostile",
-		"subtitle": "ba_bt.subtitle.golem.fight",
+		"subtitle": "ba_bt.subtitle.golem.land.fight",
 		"sounds": [
 			{
 				"name": "ba_bt:entity/golem/boss_fight",
@@ -105,9 +105,9 @@
 			}
 		]
 	},
-	"tower.ambient.music": {
+	"tower.ambient.music.land": {
 		"category": "ambient",
-		"subtitle": "ba_bt.subtitle.tower.ambient.music",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.land",
 		"sounds": [
 			{
 				"name": "ba_bt:ancestry",

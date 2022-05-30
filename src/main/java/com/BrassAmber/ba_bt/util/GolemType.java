@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.BrassAmber.ba_bt.entity.block.BTObelisk;
+import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
@@ -16,16 +16,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.MagmaCube;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.GenericDeclaration;
 
 public enum GolemType implements StringRepresentable {
 	EMPTY("empty", new TextComponent("Empty")),
@@ -80,7 +76,7 @@ public enum GolemType implements StringRepresentable {
 	 * @return
 	 */
 	@NotNull
-	public static EntityType<BTObelisk> getObeliskFor(GolemType golemType) {
+	public static EntityType<BTAbstractObelisk> getObeliskFor(GolemType golemType) {
 		return switch (golemType) {
 			case EMPTY, LAND -> BTEntityTypes.LAND_OBELISK.get();
 			case OCEAN -> BTEntityTypes.OCEAN_OBELISK.get();

@@ -195,14 +195,14 @@ public abstract class BTAbstractGolem extends Monster {
 			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
 
 			if (this.isDormant()) {
-				if (musicManager.isPlayingMusic(BTMusics.GOLEM_FIGHT)) {
+				if (musicManager.isPlayingMusic(BTMusics.LAND_GOLEM_FIGHT)) {
 					musicManager.stopPlaying();
 				}
 			} else {
 				if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
 					this.musicStart = tickCount;
 					musicManager.stopPlaying();
-					musicManager.startPlaying(BTMusics.GOLEM_FIGHT);
+					musicManager.startPlaying(BTMusics.LAND_GOLEM_FIGHT);
 				}
 				if (!hasClientPlayer || this.stopMusic) {
 					musicManager.stopPlaying();

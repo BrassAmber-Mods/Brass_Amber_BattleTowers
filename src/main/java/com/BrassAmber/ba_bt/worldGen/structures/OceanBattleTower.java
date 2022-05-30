@@ -90,14 +90,14 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         // Test/Check surrounding chunks for possible spawns
         List<BlockPos> testables = new ArrayList<>(List.of(
                 centerOfChunk,
-                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 32),
-                new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ() + 32),
-                new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ()),
-                new BlockPos(centerOfChunk.getX() + 32, centerOfChunk.getY(), centerOfChunk.getZ() - 32),
-                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() - 32),
-                new BlockPos(centerOfChunk.getX() - 32, centerOfChunk.getY(), centerOfChunk.getZ() - 32),
-                new BlockPos(centerOfChunk.getX() - 32, centerOfChunk.getY(), centerOfChunk.getZ()),
-                new BlockPos(centerOfChunk.getX() - 32, centerOfChunk.getY(), centerOfChunk.getZ() + 32)
+                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 16),
+                new BlockPos(centerOfChunk.getX() + 16, centerOfChunk.getY(), centerOfChunk.getZ() + 16),
+                new BlockPos(centerOfChunk.getX() + 16, centerOfChunk.getY(), centerOfChunk.getZ()),
+                new BlockPos(centerOfChunk.getX() + 16, centerOfChunk.getY(), centerOfChunk.getZ() - 16),
+                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() - 16),
+                new BlockPos(centerOfChunk.getX() - 16, centerOfChunk.getY(), centerOfChunk.getZ() - 16),
+                new BlockPos(centerOfChunk.getX() - 16, centerOfChunk.getY(), centerOfChunk.getZ()),
+                new BlockPos(centerOfChunk.getX() - 16, centerOfChunk.getY(), centerOfChunk.getZ() + 16)
         ));
         // North, Northeast, East, SouthEast, South, SouthWest, West, NorthWest
         // X = Empty, T = Checked
@@ -108,8 +108,8 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         // T X T X T
 
         List<BlockPos> usablePositions =  new ArrayList<>();
-        int bottomFloorRange = seaLevel - 66;
-        int topFloorRange = seaLevel - 55;
+        int bottomFloorRange = seaLevel - 44;
+        int topFloorRange = seaLevel - 33;
 
         for (BlockPos pos : testables) {
             int testHeight = context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
@@ -140,7 +140,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
         boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
-        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
+        BrassAmberBattleTowers.LOGGER.info("ocean current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
 
         int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange);
         int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
@@ -155,16 +155,18 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         BlockPos spawnPos;
         if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
             spawnPos = isSpawnableChunk(context, worldgenRandom);
-            spawnPos = spawnPos.atY(context.chunkGenerator().getSeaLevel() + 8);
         }
         else {
             spawnPos = BlockPos.ZERO;
+
         }
-        BrassAmberBattleTowers.LOGGER.info("distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
+        BrassAmberBattleTowers.LOGGER.info("Biome correct? " + predicate.test(biome) + "Block: " + chunkCenter);
+        BrassAmberBattleTowers.LOGGER.info("ocean distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
 
 
 
         if (spawnPos.getY() != 0) {
+            spawnPos = spawnPos.atY(context.chunkGenerator().getSeaLevel() + 8);
             // Moved Biome check in JigsawPlacement outside
             BrassAmberBattleTowers.LOGGER.info("Spawnpos: " + spawnPos);
             int i;
@@ -209,6 +211,9 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
         BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
+
+
+
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
