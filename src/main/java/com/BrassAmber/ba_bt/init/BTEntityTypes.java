@@ -4,6 +4,7 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.DestroyTower;
 import com.BrassAmber.ba_bt.entity.ExplosionPhysics;
 import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
+import com.BrassAmber.ba_bt.entity.block.BTLandObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
@@ -51,7 +52,7 @@ public class BTEntityTypes {
 	public static final RegistryObject<EntityType<BTMonolith>> SKY_MONOLITH = ENTITY_TYPES.register("sky_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("sky_monolith"));
 
 	//*********************** OBELISKS *********************\\
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> LAND_OBELISK = ENTITY_TYPES.register("land_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("land_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> LAND_OBELISK = ENTITY_TYPES.register("land_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTLandObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("land_obelisk"));
 	public static final RegistryObject<EntityType<BTAbstractObelisk>> OCEAN_OBELISK = ENTITY_TYPES.register("ocean_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("ocean_obelisk"));
 	public static final RegistryObject<EntityType<BTAbstractObelisk>> CORE_OBELISK = ENTITY_TYPES.register("core_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("core_obelisk"));
 	public static final RegistryObject<EntityType<BTAbstractObelisk>> NETHER_OBELISK = ENTITY_TYPES.register("nether_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("nether_obelisk"));

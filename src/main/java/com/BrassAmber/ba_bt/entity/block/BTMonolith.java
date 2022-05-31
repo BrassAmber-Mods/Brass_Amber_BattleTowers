@@ -38,6 +38,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
+import static com.BrassAmber.ba_bt.util.GolemType.*;
+
 /*
  * Test swimming and sounds from Entity
  * 
@@ -260,13 +262,19 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
-		Entity obelisk = new BTAbstractObelisk(this.golemType, this.level);
-		if (this.golemType == GolemType.OCEAN) {
-			obelisk.setPos(this.getX(), this.getY() + 78, this.getZ());
-		} else {
-			obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+		Entity obelisk;
+		switch (this.golemType) {
+			default -> {obelisk = new BTAbstractObelisk(this.golemType, this.level);
+				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());}
+			case LAND -> {
+				obelisk = new BTLandObelisk(this.level);
+				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+			}
+			case OCEAN -> {
+				obelisk = new BTOceanObelisk(this.level);
+				obelisk.setPos(this.getX(), this.getY() + 88, this.getZ());
+			}
 		}
-
 		obelisk.setInvulnerable(true);
 		obelisk.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(obelisk);
@@ -291,8 +299,10 @@ public class BTMonolith extends Entity {
 		for (int height = 0; height < 3; height++) {
 			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
 			BlockState testBlock = this.level.getBlockState(monolithPos);
-			if (!testBlock.isAir()) {
+			if (!testBlock.isAir() && this.golemType != GolemType.OCEAN) {
 				this.level.setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
+			} else if (!this.level.isWaterAt(monolithPos)) {
+				this.level.setBlock(monolithPos, Blocks.WATER.defaultBlockState(), 2);
 			}
 		}
 	}

@@ -109,7 +109,7 @@ public class BTAbstractObelisk extends Entity {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
                 for (int y = currentFloorY; y <= currentFloorTopY; y++) {
                     this.checkPos(new BlockPos(x, y, z), level);
-                    this.updateSand(new BlockPos(x, y, z), level);
+                    this.extraCheck(new BlockPos(x, y, z), level);
                 }
             }
         }
@@ -171,13 +171,7 @@ public class BTAbstractObelisk extends Entity {
         }
     }
 
-    public void updateSand(BlockPos toUpdate, Level level) {
-        if (level.getBlockState(toUpdate) == Blocks.SAND.defaultBlockState()) {
-            level.removeBlock(toUpdate, false);
-            BrassAmberBattleTowers.LOGGER.info("Sand? :" + level.getBlockState(toUpdate));
-            level.setBlockAndUpdate(toUpdate, Blocks.SAND.defaultBlockState());
-        }
-    }
+    public void extraCheck(BlockPos toUpdate, Level level) {}
 
     @Override
     public void tick() {
@@ -192,12 +186,16 @@ public class BTAbstractObelisk extends Entity {
             if (client.players().size() == 0) {
                 return;
             }
+
+            // Make sure we have a player within range.
             boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
             boolean playerInTowerRange;
             boolean playerInMusicRange;
 
             if (hasClientPlayer) {
+                //noinspection ConstantConditions
                 playerInTowerRange = horizontalDistanceTo(this, client.getNearestPlayer(this, 100D)) <= 30;
+                //noinspection ConstantConditions
                 playerInMusicRange = horizontalDistanceTo(this, client.getNearestPlayer(this, 100D)) < 17;
             } else {
                 playerInTowerRange = false;

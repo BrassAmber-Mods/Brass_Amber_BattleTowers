@@ -4,6 +4,7 @@ import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.util.BTUtil;
+import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import com.BrassAmber.ba_bt.worldGen.BTOceanJigsawPlacement;
 import com.mojang.serialization.Codec;
@@ -43,6 +44,7 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 import static com.BrassAmber.ba_bt.util.BTUtil.horizontalDistanceTo;
+import static com.BrassAmber.ba_bt.util.BTUtil.towerBlocks;
 
 
 // Comments from TelepathicGrunts
@@ -109,18 +111,19 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         List<BlockPos> usablePositions =  new ArrayList<>();
         int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 33;
+        int topFloorRange = seaLevel - 28;
 
         for (BlockPos pos : testables) {
             int testHeight = context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
             if (testHeight >= bottomFloorRange && testHeight <= topFloorRange) {
-                usablePositions.add(pos);
-                BrassAmberBattleTowers.LOGGER.info("LandHeight for usbale position = " + testHeight);
+                usablePositions.add(pos.above());
+                BrassAmberBattleTowers.LOGGER.info("LandHeight for usabale position = " + testHeight);
             }
         }
 
         if (usablePositions.size() > 0) {
             return usablePositions.get(worldgenRandom.nextInt(usablePositions.size()));
+
         }
         return BlockPos.ZERO;
     }
@@ -155,18 +158,17 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         BlockPos spawnPos;
         if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
             spawnPos = isSpawnableChunk(context, worldgenRandom);
+            BrassAmberBattleTowers.LOGGER.info("Biome correct? " + predicate.test(biome) + " Block: " + chunkCenter);
         }
         else {
             spawnPos = BlockPos.ZERO;
-
         }
-        BrassAmberBattleTowers.LOGGER.info("Biome correct? " + predicate.test(biome) + "Block: " + chunkCenter);
+
         BrassAmberBattleTowers.LOGGER.info("ocean distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
 
 
-
         if (spawnPos.getY() != 0) {
-            spawnPos = spawnPos.atY(context.chunkGenerator().getSeaLevel() + 8);
+            spawnPos = spawnPos.above(context.chunkGenerator().getSeaLevel() - 12);
             // Moved Biome check in JigsawPlacement outside
             BrassAmberBattleTowers.LOGGER.info("Spawnpos: " + spawnPos);
             int i;
@@ -196,6 +198,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             if (piecesGenerator.isPresent()) {
                 // I use to debug and quickly find out if the structure is spawning or not and where it is.
                 // This is returning the coordinates of the center starting piece.
+                BrassAmberBattleTowers.LOGGER.info("Ocean Tower at " + spawnPos);
                 lastSpawnPosition = context.chunkPos();
             }
 
@@ -207,12 +210,11 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
+        List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
 
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
         BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
-
-
 
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -232,8 +234,8 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             for (int z = startZ; z <= endZ; z++) {
                 blockpos$mutableblockpos.set(x, bbYStart, z);
                 // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
-                if (worldGenLevel.getBlockState(blockpos$mutableblockpos) == Blocks.PRISMARINE_BRICKS.defaultBlockState()) {
-                    BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                if (avoidBlocks.contains(worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock())) {
+                    // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
                     startPositions.add(new BlockPos(x, bbYStart - 1, z));
                 }
             }
@@ -252,36 +254,6 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                     worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
                     worldGenLevel.setBlock(blockpos$mutableblockpos.below(), Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
                     break;
-                }
-            }
-        }
-
-        Direction trenchDirection = random.nextInt(2) == 0 ? Direction.WEST : Direction.NORTH;
-        int trenchLength = 32 + random.nextInt(24);
-        BlockPos bbCenter = boundingbox.getCenter();
-
-        if (trenchDirection == Direction.WEST) {
-            startX = bbCenter.getX() - trenchLength;
-            endX = bbCenter.getX() + trenchLength;
-            startZ = bbCenter.getZ() - 24;
-            endZ = bbCenter.getZ() + 24;
-        }
-        else {
-            startX = bbCenter.getX() - 24;
-            endX = bbCenter.getX() + 24;
-            startZ = bbCenter.getZ()  - trenchLength;
-            endZ = bbCenter.getZ() + trenchLength;
-        }
-
-        for (int x = startX; x <= endX; x++) {
-            for (int z = startZ; z <= endZ; z++) {
-                for (int y = bbYStart; y < bbYStart + 23; y++) {
-                    blockpos$mutableblockpos.set(x, bbYStart, z);
-                    boolean insideChunk = (Mth.absMax(x - chunckCenter.getX(), z - chunckCenter.getZ()) < 9);
-                    if (insideChunk && horizontalDistanceTo(bbCenter, blockpos$mutableblockpos) > 12.5D && !worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
-                        worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
-                        BrassAmberBattleTowers.LOGGER.info("BlockPos: "+ blockpos$mutableblockpos);
-                    }
                 }
             }
         }

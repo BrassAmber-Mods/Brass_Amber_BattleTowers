@@ -24,14 +24,14 @@ public class BattleTowersConfig {
                 "Several other factors (Land height/other structures) can affect whether the structure actually spawns.");
         landMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
-                                "(due to structure changes in 1.18.2 there is now a 16 chunk minimum. " +
+                                "(due to structure changes in 1.18.2 there is now a self imposed 20 chunk minimum. " +
                                 "Default and Minimum: 20 Chunks")
                 .define("Land minimum separation", 20);
         oceanMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
-                                "(due to structure changes in 1.18.2 there is now a 16 chunk minimum. " +
+                                "(due to structure changes in 1.18.2 there is now a self imposed 16 chunk minimum. " +
                                 "Default and Minimum: 16 Chunks")
-                        .define("Ocean minimum separation", 12);
+                        .define("Ocean minimum separation", 16);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 35 chunks ")
                 .define("First Tower Distance", 35);
 
@@ -53,7 +53,7 @@ public class BattleTowersConfig {
         oceanAverageSeperationModifier = BUILDER.comment("This value is added to the Ocean Tower minimum separation"
                                 + " above to get the average separation between Ocean Towers for spawning measured in chunks.",
                         "See Land Tower Average Separation for explanation of use.")
-                .defineInRange("Ocean average separation modifier", 12, 1, 100);
+                .defineInRange("Ocean average separation modifier", 24, 1, 100);
         BUILDER.pop();
         BUILDER.pop();
 
