@@ -69,7 +69,8 @@ public class BTUtil {
                 List.of(
                         Blocks.PRISMARINE, Blocks.PRISMARINE_SLAB, Blocks.PRISMARINE_STAIRS,
                         Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE_BRICK_SLAB, Blocks.PRISMARINE_BRICK_STAIRS,
-                        Blocks.SEA_LANTERN
+                        Blocks.SEA_LANTERN, Blocks.DARK_PRISMARINE, Blocks.DARK_PRISMARINE_STAIRS,
+                        Blocks.DARK_PRISMARINE_SLAB
                 )
         );
 
@@ -131,6 +132,10 @@ public class BTUtil {
         double dX = Math.abs(origin.getX() - end.getX());
         double dZ = Math.abs(origin.getZ() - end.getZ());
         return Math.sqrt(dX * dX + dZ * dZ);
+    }
+
+    public static double distanceTo2D(double side, double side2) {
+        return  Math.sqrt(side * side + side2 * side2);
     }
 
     public static double distanceTo3D(Entity self, double targetX, double targetY, double targetZ) {
