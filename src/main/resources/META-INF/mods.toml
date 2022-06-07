@@ -30,13 +30,19 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/brassamberbattletowers"
 logoFile="BrassAmberBattleTowers.png"
 # A text field displayed in the mod UI
 credits='''Mod Inspired by BattleTower Mod in YogBox
-           Translations by: SamleGamer, Kzeroko, RockYl, and BlackShadow77''' #optional
+           Translations by: SamleGamer, Kzeroko, RockYl, and BlackShadow77
+           Music:
+                Land Tower: Ancestry by Lena Raine
+                Ocean Tower: Void by DM DOKURO
+           ''' #optional
+
+
 # A text field displayed in the mod UI
 authors="Milamber, Brass_Herbalist, X, DerToaster" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''BattleTowers Mod from YogBox/Tekkit days with revamped towers and bosses.
 Stays true to the core of BattleTowers with new item textures made by Brass_Herbalist, and new towers designed by
-Brass_Herbalist and built by Milamber.
+Brass_Herbalist and built by Milamber with Ai/Entities by X and Der Toaster.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.ba_bt]] #optional
