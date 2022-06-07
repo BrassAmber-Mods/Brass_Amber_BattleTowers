@@ -44,6 +44,7 @@
 	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
 	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
 
 	// Blocchi (Blocks)
 	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",

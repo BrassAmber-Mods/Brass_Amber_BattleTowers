@@ -43,6 +43,7 @@
 	"ba_bt.subtitle.tower.break.start": "高塔开始崩塌",
 	"ba_bt.subtitle.tower.break.crumble": "高塔崩塌",
 	"ba_bt.subtitle.tower.ambient.music.land": "高塔环境音乐",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
 	
 	// Blocks方块
 	"block.ba_bt.land_golem_chest": "魔像宝箱",

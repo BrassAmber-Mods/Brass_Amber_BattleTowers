@@ -44,6 +44,7 @@
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
 	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
 	"ba_bt.subtitle.tower.ambient.music.land": "Land Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Bahryn'muul's Chest",

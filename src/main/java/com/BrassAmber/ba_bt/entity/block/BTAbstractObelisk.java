@@ -67,6 +67,7 @@ public class BTAbstractObelisk extends Entity {
     private boolean justSpawnedKey;
 
     public Music TOWER_MUSIC = BTMusics.LAND_TOWER;
+    public Music BOSS_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
 
     // Data Strings
     private final String towerName = "Tower";
@@ -206,13 +207,13 @@ public class BTAbstractObelisk extends Entity {
 
             }
 
-            if (!this.music.isPlayingMusic(BTMusics.LAND_GOLEM_FIGHT)) {
+            if (!this.music.isPlayingMusic(this.BOSS_MUSIC)) {
                 if (playerInTowerRange) {
                     // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
                     if (playerInMusicRange && !this.musicPlaying) {
                         this.music.stopPlaying();
-                        this.music.nextSongDelay = 6900;
-                        this.music.startPlaying(TOWER_MUSIC);
+                        this.music.nextSongDelay = this.TOWER_MUSIC.getMinDelay();
+                        this.music.startPlaying(this.TOWER_MUSIC);
                         this.musicPlaying = true;
                     }
                 } else if (this.musicPlaying) {

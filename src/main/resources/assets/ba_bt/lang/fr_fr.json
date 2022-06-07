@@ -39,6 +39,7 @@
 	"ba_bt.subtitle.tower.break.start": "La tour de combat commence à se briser",
 	"ba_bt.subtitle.tower.break.crumble": "La tour de combat s'écroule",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musique d'ambiance de la tour",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
