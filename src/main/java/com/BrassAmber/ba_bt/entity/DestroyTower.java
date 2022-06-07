@@ -185,26 +185,24 @@ public class DestroyTower extends Entity {
             if (this.currentTicks == 1) {
 
 
-                doCommand(this,"/gamerule sendCommandFeedback false");
-                doCommand(this,"/title @a times 30 40 20");
-                doCommand(this,"/title @a title \"\"");
-                doCommand(this,"/title @a subtitle {\"text\":\" " + this.specs.getTitleText1()
+                doNoOutputCommand(this,"/title @a times 30 40 20");
+                doNoOutputCommand(this,"/title @a title \"\"");
+                doNoOutputCommand(this,"/title @a subtitle {\"text\":\" " + this.specs.getTitleText1()
                         + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
-                doCommand(this,"/title @a title \"\"");
-                doCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
+                doNoOutputCommand(this,"/title @a title \"\"");
+                doNoOutputCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
                         + " \",\"color\":\"#aaaaaa\"}");
                 this.level.playSound(null, this.getCrumbleStart().below(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
-                doCommand(this,"/title @a title \"\"");
-                doCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText3()
+                doNoOutputCommand(this,"/title @a title \"\"");
+                doNoOutputCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText3()
                         + "\",\"color\":\"#aa0000\"}");
-                doNoOutputCommand(this, "/gamerule sendCommandFeedback true");
 
             }else if (this.currentTicks == 600) {
                 this.level.playSound(null, this.getCrumbleStart().below(6),

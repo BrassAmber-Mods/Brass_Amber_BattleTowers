@@ -76,6 +76,8 @@ public class BTAbstractObelisk extends Entity {
     private boolean canCheck;
     private Class<? extends Entity> specialEnemy;
 
+    protected int floorDistance;
+
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.initialized = false;
@@ -84,6 +86,7 @@ public class BTAbstractObelisk extends Entity {
         this.musicPlaying = false;
         this.createSpawnerList = true;
         this.doCheck = true;
+        this.floorDistance = 11;
 
     }
 
@@ -95,9 +98,9 @@ public class BTAbstractObelisk extends Entity {
     public void findChestsAndSpawners(Level level) {
         // Monoliths are always centered on their floor
         BlockPos center = this.getOnPos();
-        int currentFloorTopY = this.currentFloorY + 11;
+        int nextFloorY = this.currentFloorY + this.floorDistance;
 
-        BrassAmberBattleTowers.LOGGER.info("Floor y: " + this.currentFloorY + " Top y: " + currentFloorTopY);
+        BrassAmberBattleTowers.LOGGER.info("Floor y: " + this.currentFloorY + " Top y: " + nextFloorY);
 
         // Get corners of tower area.
         BlockPos corner = center.offset(-15, 0, -15);
@@ -107,7 +110,7 @@ public class BTAbstractObelisk extends Entity {
         // Nether/End Towers
         for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
-                for (int y = currentFloorY; y <= currentFloorTopY; y++) {
+                for (int y = currentFloorY; y <= nextFloorY; y++) {
                     this.checkPos(new BlockPos(x, y, z), level);
                     this.extraCheck(new BlockPos(x, y, z), level);
                 }
@@ -126,7 +129,7 @@ public class BTAbstractObelisk extends Entity {
         }
         else {
             this.checkLayer += 1;
-            this.currentFloorY = currentFloorTopY;
+            this.currentFloorY = nextFloorY;
         }
 
     }
@@ -144,7 +147,7 @@ public class BTAbstractObelisk extends Entity {
             this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
             switch (golemType) {
                 default -> this.currentFloorY = this.getBlockY() - 1;
-                case OCEAN -> this.currentFloorY = this.getBlockY() - 89;
+                case OCEAN -> this.currentFloorY = this.getBlockY() - 3;
                 case NETHER -> this.currentFloorY = this.getBlockY() -4;
             }
 

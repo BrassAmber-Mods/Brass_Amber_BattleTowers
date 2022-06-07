@@ -165,7 +165,6 @@ public class BTUtil {
 
 
     public static void doCommand(Entity self, String command) {
-
         self.level.getServer().getCommands().performCommand(self.createCommandSourceStack().withPermission(4), command);
     }
 

@@ -4,15 +4,16 @@ import com.BrassAmber.ba_bt.entity.ai.goal.GolemLeapGoal;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
+import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.level.Level;
 
-public class BTGolem extends BTAbstractGolem {
+public class BTLandGolem extends BTAbstractGolem {
 
-	public BTGolem(EntityType<? extends BTGolem> type, Level levelIn) {
-		super(type, levelIn, BossEvent.BossBarColor.RED);
+	public BTLandGolem(EntityType<? extends BTLandGolem> type, Level levelIn) {
+		super(type, levelIn, BossEvent.BossBarColor.GREEN);
+		this.setGolemName(GolemType.LAND.getDisplayName());
 	}
 
 	@Override

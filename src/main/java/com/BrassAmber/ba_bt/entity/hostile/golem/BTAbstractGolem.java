@@ -80,6 +80,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
+	protected Component GolemName;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -512,7 +513,11 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public Component getDisplayName() {
-		return PlayerTeam.formatNameForTeam(this.getTeam(), this.getName()).withStyle((p_185975_) -> p_185975_.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID()));
+		return PlayerTeam.formatNameForTeam(this.getTeam(), this.GolemName).withStyle((p_185975_) -> p_185975_.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID()));
+	}
+
+	public void setGolemName(Component golemName) {
+		this.GolemName = golemName;
 	}
 
 	/**
