@@ -3,6 +3,7 @@ package com.BrassAmber.ba_bt.util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +20,7 @@ public class BTUtil {
     public static final List<List<Integer>> towerSpawnerAmounts;
     public static final List<List<Integer>> towerChestUnlocking;
     public static final List<List<Block>> towerBlocks;
+    public static final List<List<EntityType<?>>> towerMobs;
 
     static {
         landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
@@ -82,6 +84,7 @@ public class BTUtil {
                 Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5),
                 Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5)
         );
+
         towerChestUnlocking = Arrays.asList(
                 Arrays.asList(6, 14, 21),
                 Arrays.asList(9, 23),
@@ -90,6 +93,17 @@ public class BTUtil {
                 Arrays.asList(12, 29),
                 Arrays.asList(13, 31)
         );
+
+
+        towerMobs = List.of(
+                List.of(
+                        EntityType.ZOMBIE, EntityType.SKELETON, EntityType.SPIDER
+                ),
+                List.of(
+                        EntityType.DROWNED, EntityType.GUARDIAN, EntityType.PUFFERFISH
+                )
+        );
+
     }
 
     /**
@@ -161,8 +175,6 @@ public class BTUtil {
         double dY = origin.getY() - end.getY();
         return Math.sqrt(Math.abs(dXZ * dXZ + dY * dY));
     }
-
-
 
     public static void doCommand(Entity self, String command) {
         self.level.getServer().getCommands().performCommand(self.createCommandSourceStack().withPermission(4), command);

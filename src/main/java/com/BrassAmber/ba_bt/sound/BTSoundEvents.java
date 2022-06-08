@@ -25,7 +25,7 @@ public class BTSoundEvents {
 	public static final SoundEvent TOWER_BREAK_CRUMBLE = registerSoundEvent("tower.break.crumble");
 
 	public static final SoundEvent MUSIC_LAND_TOWER = registerSoundEvent("tower.ambient.music.land");
-	public static final SoundEvent MUSIC_OCEAN_TOWER = registerSoundEvent("tower.ambient.music.land");
+	public static final SoundEvent MUSIC_OCEAN_TOWER = registerSoundEvent("tower.ambient.music.ocean");
 
 	/**
 	 * Helper method for registering all SoundEvents

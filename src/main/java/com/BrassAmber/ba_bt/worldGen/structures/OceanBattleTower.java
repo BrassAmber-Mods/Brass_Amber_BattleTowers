@@ -3,6 +3,7 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
@@ -37,10 +38,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static com.BrassAmber.ba_bt.util.BTUtil.horizontalDistanceTo;
@@ -210,7 +208,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
     public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
-        List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
+        List<Block> towerBlocks = BTUtil.towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
 
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
@@ -234,7 +232,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             for (int z = startZ; z <= endZ; z++) {
                 blockpos$mutableblockpos.set(x, bbYStart, z);
                 // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
-                if (avoidBlocks.contains(worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock())) {
+                if (towerBlocks.contains(worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock())) {
                     // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
                     startPositions.add(new BlockPos(x, bbYStart - 1, z));
                 }
@@ -254,6 +252,30 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                     worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
                     worldGenLevel.setBlock(blockpos$mutableblockpos.below(), Blocks.PRISMARINE_BRICKS.defaultBlockState(), 2);
                     break;
+                }
+            }
+        }
+
+        blockpos$mutableblockpos.setY(bbYStart);
+        // get start and end postions for x/z, using min/max to account for the MinBlock being -25 and the MaxBlock being -27
+        startX = chunckCenter.getX() - 14;
+        endX = chunckCenter.getX() + 14;
+        // BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
+
+        startZ = chunckCenter.getZ() - 14;
+        endZ = chunckCenter.getZ() + 14;
+
+        List<BlockPos> spawners = Collections.emptyList();
+
+        for (int y = bbYStart + 4; y < bbYStart + 92; y++) {
+            for (int x = startX; x <= endX; x++) {
+                for (int z = startZ; z <= endZ; z++) {
+                    blockpos$mutableblockpos.set(x, y, z);
+                    // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                    if (worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.BLUE_WOOL) {
+                        // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                        worldGenLevel.setBlock(blockpos$mutableblockpos, BTBlocks.BT_OCEAN_SPAWNER.get().defaultBlockState(), 2);
+                    }
                 }
             }
         }

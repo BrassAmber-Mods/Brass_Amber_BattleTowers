@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
@@ -38,8 +39,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.floorDistance = -11;
         this.carveOcean();
         super.initialize();
-        this.TOWER_MUSIC = BTMusics.OCEAN_TOWER;
-        this.BOSS_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
     }
 
     public void carveOcean() {

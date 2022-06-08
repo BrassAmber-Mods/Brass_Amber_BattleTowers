@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTMusics;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -52,10 +53,11 @@ public class BTAbstractObelisk extends Entity {
     private List<BlockPos> CHESTS = new ArrayList<>(9);
     private List<List<BlockPos>> SPAWNERS;
     private List<Integer> keySpawnerAmounts;
+    protected List<EntityType<?>> towerMobs;
 
     //Other Parameters
     private boolean initialized;
-    private int checkLayer;
+    protected int checkLayer;
     private int currentFloorY;
     private boolean createSpawnerList;
     private boolean doCheck;
@@ -66,8 +68,8 @@ public class BTAbstractObelisk extends Entity {
     private GolemType golemType;
     private boolean justSpawnedKey;
 
-    public Music TOWER_MUSIC = BTMusics.LAND_TOWER;
-    public Music BOSS_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+    public Music TOWER_MUSIC;
+    public Music BOSS_MUSIC;
 
     // Data Strings
     private final String towerName = "Tower";
@@ -78,6 +80,8 @@ public class BTAbstractObelisk extends Entity {
     private Class<? extends Entity> specialEnemy;
 
     protected int floorDistance;
+    protected Block chestBlock;
+    protected Block spawnerBlock;
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -94,6 +98,47 @@ public class BTAbstractObelisk extends Entity {
     public BTAbstractObelisk(GolemType golemType, Level level) {
         this(GolemType.getObeliskFor(golemType), level);
         this.golemType = golemType;
+    }
+
+    public void initialize() {
+        if (this.createSpawnerList) {
+            List<Integer> spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
+            this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
+                    new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
+                    new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
+                    new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
+
+            int golemNum = GolemType.getNumForType(this.golemType);
+            this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
+            this.createSpawnerList = false;
+            this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
+            this.towerMobs = BTUtil.towerMobs.get(golemNum);
+            switch (golemType) {
+                default -> {
+                    this.currentFloorY = this.getBlockY() - 1;
+                    this.chestBlock = BTBlocks.LAND_CHEST.get();
+                    this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
+                    this.BOSS_MUSIC = BTMusics.LAND_TOWER;
+                    this.TOWER_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+                }
+                case OCEAN -> {
+                    this.currentFloorY = this.getBlockY() - 3;
+                    this.chestBlock = BTBlocks.OCEAN_CHEST.get();
+                    this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
+                    this.BOSS_MUSIC = BTMusics.OCEAN_TOWER;
+                    this.TOWER_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
+                }
+                case NETHER -> {
+                    this.currentFloorY = this.getBlockY() - 4;
+                    this.chestBlock = BTBlocks.LAND_CHEST.get();
+                    this.spawnerBlock = BTBlocks.BT_NETHER_SPAWNER.get();
+                    this.BOSS_MUSIC = BTMusics.LAND_TOWER;
+                    this.TOWER_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+                }
+            }
+
+        }
+        this.findChestsAndSpawners(this.level);
     }
 
     public void findChestsAndSpawners(Level level) {
@@ -135,35 +180,14 @@ public class BTAbstractObelisk extends Entity {
 
     }
 
-    public void initialize() {
-        if (this.createSpawnerList) {
-            List<Integer> spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
-            this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
-                    new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
-                    new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
-                    new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
-
-            this.keySpawnerAmounts = towerChestUnlocking.get(GolemType.getNumForType(this.golemType));
-            this.createSpawnerList = false;
-            this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
-            switch (golemType) {
-                default -> this.currentFloorY = this.getBlockY() - 1;
-                case OCEAN -> this.currentFloorY = this.getBlockY() - 3;
-                case NETHER -> this.currentFloorY = this.getBlockY() -4;
-            }
-
-        }
-        this.findChestsAndSpawners(this.level);
-    }
-
 
     public void checkPos(BlockPos toCheck, Level level) {
         try {
             Block block = level.getBlockState(toCheck).getBlock();
-            if (block == BTBlocks.LAND_CHEST.get()) {
+            if (block == this.chestBlock) {
                 this.CHESTS.add(toCheck);
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
-            } else if (block == BTBlocks.BT_LAND_SPAWNER.get()) {
+            } else if (block == this.spawnerBlock) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
                 BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
