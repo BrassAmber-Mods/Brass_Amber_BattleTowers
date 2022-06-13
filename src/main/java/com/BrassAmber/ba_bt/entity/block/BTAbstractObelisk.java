@@ -68,6 +68,7 @@ public class BTAbstractObelisk extends Entity {
 
     //Other Parameters
     private boolean initialized;
+    private boolean clientInitialized;
     protected int checkLayer;
     private int currentFloorY;
     private boolean createSpawnerList;
@@ -100,6 +101,7 @@ public class BTAbstractObelisk extends Entity {
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.initialized = false;
+        this.clientInitialized = false;
         this.checkLayer = 1;
         // this.blocksBuilding = true;
         this.musicPlaying = false;
@@ -133,16 +135,16 @@ public class BTAbstractObelisk extends Entity {
                     this.currentFloorY = this.getBlockY() - 1;
                     this.chestBlock = BTBlocks.LAND_CHEST.get();
                     this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
-                    this.BOSS_MUSIC = BTMusics.LAND_TOWER;
-                    this.TOWER_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+                    this.BOSS_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+                    this.TOWER_MUSIC = BTMusics.LAND_TOWER;
                     this.woolBlock = Blocks.GREEN_WOOL;
                 }
                 case OCEAN -> {
                     this.currentFloorY = this.getBlockY() - 3;
                     this.chestBlock = BTBlocks.OCEAN_CHEST.get();
                     this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
-                    this.BOSS_MUSIC = BTMusics.OCEAN_TOWER;
-                    this.TOWER_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
+                    this.BOSS_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
+                    this.TOWER_MUSIC = BTMusics.OCEAN_TOWER;
                     this.woolBlock = Blocks.BLUE_WOOL;
                 }
                 case NETHER -> {
@@ -200,7 +202,7 @@ public class BTAbstractObelisk extends Entity {
         else {
             this.checkLayer += 1;
             if (this.checkLayer % 2 == 0) {
-                this.floorData = this.perFloorData.get(this.checkLayer / 2);
+                this.floorData = this.perFloorData.get(this.checkLayer / 2-1);
             }
             this.currentFloorY = nextFloorY;
         }
@@ -208,7 +210,7 @@ public class BTAbstractObelisk extends Entity {
     }
 
     protected int setSpawnerBlock(BlockPos pos, int floor, Level level, int spawnersSet) {
-        if (spawnersSet < this.spawnerAmounts.get(floor)) {
+        if (spawnersSet < this.spawnerAmounts.get(floor-1)) {
             level.setBlock(pos, this.spawnerBlock.defaultBlockState(), 2);
             return spawnersSet + 1;
         } else {
@@ -251,9 +253,10 @@ public class BTAbstractObelisk extends Entity {
 
         if (this.level.isClientSide()) {
             ClientLevel client = (ClientLevel)this.level;
-            if (!this.initialized) {
+            if (!this.clientInitialized) {
                 this.mc = Minecraft.getInstance();
                 this.music = this.mc.getMusicManager();
+                this.clientInitialized = true;
             }
             if (client.players().size() == 0) {
                 return;
@@ -275,7 +278,7 @@ public class BTAbstractObelisk extends Entity {
 
             }
 
-            if (!this.music.isPlayingMusic(this.BOSS_MUSIC)) {
+            if (!(this.BOSS_MUSIC == null) && !this.music.isPlayingMusic(this.BOSS_MUSIC)) {
                 if (playerInTowerRange) {
                     // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
                     if (playerInMusicRange && !this.musicPlaying) {

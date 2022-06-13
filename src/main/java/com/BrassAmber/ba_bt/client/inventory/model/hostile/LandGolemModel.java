@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.model.hostile;
+package com.BrassAmber.ba_bt.client.inventory.model.hostile;
 
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.google.common.collect.ImmutableList;

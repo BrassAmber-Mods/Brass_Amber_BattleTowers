@@ -37,7 +37,9 @@
 	"ba_bt.subtitle.golem.awaken": "Golem awakens",
 	"ba_bt.subtitle.golem.ambient": "Golem growls",
 	"ba_bt.subtitle.golem.special": "Golem attacks",
+
 	"ba_bt.subtitle.golem.land.fight": "Bahryn'muul Boss Music",
+	"ba_bt.subtitle.golem.ocean.fight": "Moraizu'un Boss Music",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 

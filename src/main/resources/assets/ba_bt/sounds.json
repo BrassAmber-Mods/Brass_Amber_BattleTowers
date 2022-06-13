@@ -82,6 +82,17 @@
 			}
 		]
 	},
+	"entity.golem.ocean.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.ocean.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:void",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
 		
 	"tower.break.start": {
 		"category": "ambient",

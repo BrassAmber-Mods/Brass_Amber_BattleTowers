@@ -1,8 +1,8 @@
 package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
-import com.BrassAmber.ba_bt.client.model.hostile.*;
+import com.BrassAmber.ba_bt.client.inventory.model.block.MonolithModel;
+import com.BrassAmber.ba_bt.client.inventory.model.hostile.*;
 import com.BrassAmber.ba_bt.client.renderer.*;
 import com.BrassAmber.ba_bt.client.renderer.chest.LandChestBlockEntityRenderer;
 import com.BrassAmber.ba_bt.client.renderer.chest.LandGolemChestBlockEntityRenderer;

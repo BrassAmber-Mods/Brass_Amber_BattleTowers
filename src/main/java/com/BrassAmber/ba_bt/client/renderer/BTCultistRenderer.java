@@ -1,14 +1,11 @@
 package com.BrassAmber.ba_bt.client.renderer;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.client.model.hostile.BTCultistModel;
+import com.BrassAmber.ba_bt.client.inventory.model.hostile.BTCultistModel;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
-import net.minecraft.client.model.IllagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.IllagerRenderer;
-import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 

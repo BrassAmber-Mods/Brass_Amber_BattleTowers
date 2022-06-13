@@ -18,6 +18,7 @@ public class BTSoundEvents {
 	public static final SoundEvent ENTITY_GOLEM_SPECIAL = registerSoundEvent("entity.golem.special");
 
 	public static final SoundEvent MUSIC_LAND_GOLEM_FIGHT = registerSoundEvent("entity.golem.land.fight");
+	public static final SoundEvent MUSIC_OCEAN_GOLEM_FIGHT = registerSoundEvent("entity.golem.ocean.fight");
 
 	public static final SoundEvent MONOLITH_SPAWN_GOLEM = registerSoundEvent("monolith.spawn.golem");
 
