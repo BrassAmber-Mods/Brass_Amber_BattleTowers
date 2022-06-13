@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.BrassAmber.ba_bt.util.BTStatics.towerBlocks;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
 import static net.minecraft.world.level.block.SeaPickleBlock.PICKLES;
 
@@ -59,10 +60,14 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         int top = this.getBlockY() - 3;
         int bottom = this.getBlockY() - 91;
         double wallDistance = noise -.5;
+        int nextStep = random.nextInt(4)+3;
+        int distanceChange = random.nextInt(4)+1;
 
         for (int y = top; y >= bottom; y--) {
-            if ((top - y) % 10 == 0) {
-                wallDistance -= 4;
+            if ((top - y) % nextStep == 0) {
+                wallDistance -= distanceChange;
+                nextStep = random.nextInt(4)+3;
+                distanceChange = random.nextInt(3)+1;
             }
 
             for (int x = westWall; x <= eastWall; x++) {

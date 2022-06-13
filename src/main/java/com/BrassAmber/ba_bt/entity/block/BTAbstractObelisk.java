@@ -2,10 +2,13 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
+import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTMusics;
+import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.Minecraft;
@@ -31,16 +34,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.system.CallbackI;
 
 import java.util.*;
 
+import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
 
 @SuppressWarnings("DanglingJavadoc")
@@ -52,6 +62,7 @@ public class BTAbstractObelisk extends Entity {
     @SuppressWarnings("FieldMayBeFinal")
     private List<BlockPos> CHESTS = new ArrayList<>(9);
     private List<List<BlockPos>> SPAWNERS;
+    private List<Integer> spawnerAmounts;
     private List<Integer> keySpawnerAmounts;
     protected List<EntityType<?>> towerMobs;
 
@@ -82,6 +93,9 @@ public class BTAbstractObelisk extends Entity {
     protected int floorDistance;
     protected Block chestBlock;
     protected Block spawnerBlock;
+    protected Block woolBlock;
+    protected List<List<Integer>> perFloorData;
+    protected List<Integer> floorData;
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -102,17 +116,18 @@ public class BTAbstractObelisk extends Entity {
 
     public void initialize() {
         if (this.createSpawnerList) {
-            List<Integer> spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
-            this.SPAWNERS = Arrays.asList(new ArrayList<>(spawnerAmounts.get(0)), new ArrayList<>(spawnerAmounts.get(1)),
-                    new ArrayList<>(spawnerAmounts.get(2)), new ArrayList<>(spawnerAmounts.get(3)),
-                    new ArrayList<>(spawnerAmounts.get(4)), new ArrayList<>(spawnerAmounts.get(5)),
-                    new ArrayList<>(spawnerAmounts.get(6)), new ArrayList<>(spawnerAmounts.get(7)));
+            this.spawnerAmounts= towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
+            this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
+                    new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
+                    new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
+                    new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
 
             int golemNum = GolemType.getNumForType(this.golemType);
             this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
             this.createSpawnerList = false;
             this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
-            this.towerMobs = BTUtil.towerMobs.get(golemNum);
+            this.towerMobs = BTStatics.towerMobs.get(golemNum);
+            this.perFloorData = towerSpawnerData.get(golemNum);
             switch (golemType) {
                 default -> {
                     this.currentFloorY = this.getBlockY() - 1;
@@ -120,6 +135,7 @@ public class BTAbstractObelisk extends Entity {
                     this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
                     this.BOSS_MUSIC = BTMusics.LAND_TOWER;
                     this.TOWER_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+                    this.woolBlock = Blocks.GREEN_WOOL;
                 }
                 case OCEAN -> {
                     this.currentFloorY = this.getBlockY() - 3;
@@ -127,6 +143,7 @@ public class BTAbstractObelisk extends Entity {
                     this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
                     this.BOSS_MUSIC = BTMusics.OCEAN_TOWER;
                     this.TOWER_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
+                    this.woolBlock = Blocks.BLUE_WOOL;
                 }
                 case NETHER -> {
                     this.currentFloorY = this.getBlockY() - 4;
@@ -151,14 +168,21 @@ public class BTAbstractObelisk extends Entity {
         // Get corners of tower area.
         BlockPos corner = center.offset(-15, 0, -15);
         BlockPos oppositeCorner = center.offset(15, 0, 15);
+        BlockPos toCheck;
+        int spawnersSet = 0;
 
-        // Check all blocks, not needed fo land technically (could just check inside tower) but will be useful for
+        // Check all blocks, not needed for land technically (could just check inside tower) but will be useful for
         // Nether/End Towers
         for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
                 for (int y = currentFloorY; y <= nextFloorY; y++) {
-                    this.checkPos(new BlockPos(x, y, z), level);
-                    this.extraCheck(new BlockPos(x, y, z), level);
+                    toCheck = new BlockPos(x, y, z);
+                    // Thi is here to avoid unnecessary variable passing to checkPos()
+                    if (level.getBlockState(toCheck).getBlock() == this.woolBlock) {
+                        spawnersSet = this.setSpawnerBlock(toCheck, this.checkLayer, level, spawnersSet);
+                    }
+                    this.checkPos(toCheck, level);
+                    this.extraCheck(toCheck, level);
                 }
             }
         }
@@ -175,11 +199,22 @@ public class BTAbstractObelisk extends Entity {
         }
         else {
             this.checkLayer += 1;
+            if (this.checkLayer % 2 == 0) {
+                this.floorData = this.perFloorData.get(this.checkLayer / 2);
+            }
             this.currentFloorY = nextFloorY;
         }
 
     }
 
+    protected int setSpawnerBlock(BlockPos pos, int floor, Level level, int spawnersSet) {
+        if (spawnersSet < this.spawnerAmounts.get(floor)) {
+            level.setBlock(pos, this.spawnerBlock.defaultBlockState(), 2);
+            return spawnersSet + 1;
+        } else {
+            return spawnersSet;
+        }
+    }
 
     public void checkPos(BlockPos toCheck, Level level) {
         try {
@@ -187,8 +222,16 @@ public class BTAbstractObelisk extends Entity {
             if (block == this.chestBlock) {
                 this.CHESTS.add(toCheck);
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
-            } else if (block == this.spawnerBlock) {
+            } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
+                BlockEntity entity = this.level.getBlockEntity(toCheck);
+                if (entity instanceof BTSpawnerBlockEntity btspawnerEntity) {
+                    btspawnerEntity.getSpawner().setBtSpawnData(
+                            this.towerMobs.get(this.random.nextInt(this.towerMobs.size())),
+                            this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),
+                            this.floorData.get(3), this.floorData.get(4), this.floorData.get(5)
+                    );
+                }
                 // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
                 BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
             }
@@ -198,6 +241,7 @@ public class BTAbstractObelisk extends Entity {
 
         }
     }
+
 
     public void extraCheck(BlockPos toUpdate, Level level) {}
 

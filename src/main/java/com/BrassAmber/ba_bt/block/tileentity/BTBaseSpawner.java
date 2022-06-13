@@ -1,9 +1,11 @@
 package com.BrassAmber.ba_bt.block.tileentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Pillager;
@@ -13,9 +15,20 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class BTBaseSpawner extends BaseSpawner {
+
+    public void setBtSpawnData(EntityType<?> entityToSpawn, int minDelay, int maxDelay, int spawnCount, int maxNearby, int playerRange, int spawnRange) {
+        this.nextSpawnData.getEntityToSpawn().putString("id", EntityType.getKey(entityToSpawn).toString());
+        this.minSpawnDelay = minDelay;
+        this.maxSpawnDelay = maxDelay;
+        this.spawnCount = spawnCount;
+        this.maxNearbyEntities = maxNearby;
+        this.requiredPlayerRange = playerRange;
+        this.spawnRange = spawnRange;
+    }
 
     public void serverTick(@NotNull ServerLevel p_151312_, @NotNull BlockPos p_151313_) {
         if (this.isNearPlayer(p_151312_, p_151313_)) {

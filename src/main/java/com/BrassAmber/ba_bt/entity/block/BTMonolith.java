@@ -242,7 +242,7 @@ public class BTMonolith extends Entity {
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
-			if (!this.fromItem) {
+			if (!this.fromItem && this.golemType != OCEAN) {
 				// Moved to a function so that it can be extended and or tested without needing the spawn golem code
 				this.createDestroyTowerEntity(serverworld);
 			}
@@ -298,7 +298,7 @@ public class BTMonolith extends Entity {
 			BlockState testBlock = this.level.getBlockState(monolithPos);
 			if (!testBlock.isAir() && this.golemType != GolemType.OCEAN) {
 				this.level.setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
-			} else if (!this.level.isWaterAt(monolithPos)) {
+			} else if (!this.level.isWaterAt(monolithPos) && this.golemType == GolemType.OCEAN) {
 				this.level.setBlock(monolithPos, Blocks.WATER.defaultBlockState(), 2);
 			}
 		}

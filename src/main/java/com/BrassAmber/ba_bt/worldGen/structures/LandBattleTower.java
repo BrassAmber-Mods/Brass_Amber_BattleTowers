@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 
@@ -32,13 +33,15 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Predicate;
+
+import static com.BrassAmber.ba_bt.util.BTStatics.landTowerBiomes;
+import static com.BrassAmber.ba_bt.util.BTStatics.landTowerNames;
 
 
 // Comments from TelepathicGrunts
@@ -251,10 +254,10 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             spawnPos = BlockPos.ZERO;
         }
 
-        for (List<ResourceKey<Biome>> biomeList: BTUtil.landTowerBiomes) {
+        for (List<ResourceKey<Biome>> biomeList: landTowerBiomes) {
             for (ResourceKey<Biome> biomeKey: biomeList) {
                 if(biome.is(biomeKey)) {
-                    towerType = BTUtil.landTowerBiomes.indexOf(biomeList);
+                    towerType = landTowerBiomes.indexOf(biomeList);
                     // BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + BTUtil.landTowerNames.get(towerType) + " " + biome);
                 }
             }
@@ -289,12 +292,12 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 if (piecesGenerator.isPresent()) {
                     // I use to debug and quickly find out if the structure is spawning or not and where it is.
                     // This is returning the coordinates of the center starting piece.
-                    BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) +  " Tower at " + spawnPos);
+                    BrassAmberBattleTowers.LOGGER.info(landTowerNames.get(towerType) +  " Tower at " + spawnPos);
                     lastSpawnPosition = context.chunkPos();
                 }
                 return piecesGenerator;
             }
-            BrassAmberBattleTowers.LOGGER.info(BTUtil.landTowerNames.get(towerType) + "incorrect biome? " + biome);
+            BrassAmberBattleTowers.LOGGER.info(landTowerNames.get(towerType) + "incorrect biome? " + biome);
         }
         return Optional.empty();
     }
@@ -346,6 +349,5 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 }
             }
         }
-
     }
 }
