@@ -141,7 +141,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
         boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
-        BrassAmberBattleTowers.LOGGER.info("ocean current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config f distance " + BattleTowersConfig.firstTowerDistance.get());
+        // BrassAmberBattleTowers.LOGGER.info("ocean current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
 
         int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange);
         int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
@@ -212,7 +212,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-        BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
+        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
 
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();

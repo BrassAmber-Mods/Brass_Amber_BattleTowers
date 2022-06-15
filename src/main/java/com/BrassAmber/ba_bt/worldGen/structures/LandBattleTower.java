@@ -308,7 +308,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-        BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
+        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
