@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.inventory.model.block;
+package com.BrassAmber.ba_bt.client.model.block;
 
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.mojang.blaze3d.vertex.PoseStack;

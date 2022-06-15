@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.inventory.model.hostile;
+package com.BrassAmber.ba_bt.client.model.hostile;
 
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.google.common.collect.ImmutableList;
@@ -17,9 +17,6 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Referenced from {@link HumanoidModel}

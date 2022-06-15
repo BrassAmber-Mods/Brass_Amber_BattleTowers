@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.inventory;
+package com.BrassAmber.ba_bt.block.tileentity.inventory;
 
 import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;

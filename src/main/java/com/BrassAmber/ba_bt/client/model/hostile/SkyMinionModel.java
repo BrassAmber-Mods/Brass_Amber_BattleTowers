@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.client.inventory.model.hostile;
+package com.BrassAmber.ba_bt.client.model.hostile;
 
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
 
