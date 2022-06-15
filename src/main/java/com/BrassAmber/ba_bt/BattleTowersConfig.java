@@ -20,6 +20,7 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> firstTowerDistance;
     public static final ForgeConfigSpec.ConfigValue<Double> landTowerCrumblePercent;
     public static final ForgeConfigSpec.ConfigValue<Double> landGolemHP;
+    public static final ForgeConfigSpec.ConfigValue<Double> oceanGolemHP;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerMobs;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> oceanTowerMobs;
     private static final Predicate<Object> stringListValidator = (Objects::nonNull);
@@ -47,6 +48,9 @@ public class BattleTowersConfig {
         landGolemHP =
                 BUILDER.comment("The total health of the Land Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
                         .defineInRange("Total health of the Land Golem", 250D, 200, 1800);
+        oceanGolemHP =
+                BUILDER.comment("The total health of the Ocean Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
+                        .defineInRange("Total health of the Ocean Golem", 350D, 250, 2000);
         // BUILDER.comment("Capped at 1800 because more than 900 hearts is absurd.");
         landTowerCrumblePercent =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 83% of tower.")

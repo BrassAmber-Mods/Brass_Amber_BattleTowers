@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.client.renderer;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.client.inventory.model.hostile.SkyMinionModel;
+import com.BrassAmber.ba_bt.client.model.hostile.SkyMinionModel;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;

@@ -12,15 +12,20 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanGolemHP;
 
 public class BTSkyGolem extends BTAbstractGolem {
 
@@ -28,6 +33,11 @@ public class BTSkyGolem extends BTAbstractGolem {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
 		this.moveControl = new BTSkyGolem.MoveHelperController(this);
 		this.setGolemName(GolemType.SKY.getDisplayName());
+		this.setBossBarName();
+	}
+
+	public static AttributeSupplier.Builder createBattleGolemAttributes() {
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 650D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
-import com.BrassAmber.ba_bt.client.inventory.model.block.MonolithModel;
+import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
 import com.google.common.collect.Lists;
 
 import com.mojang.blaze3d.vertex.PoseStack;

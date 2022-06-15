@@ -18,12 +18,14 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
 import com.BrassAmber.ba_bt.util.BTUtil;
+import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -81,6 +83,7 @@ public abstract class BTAbstractGolem extends Monster {
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
 	protected Component GolemName;
+	public static GolemType golemType;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -94,20 +97,23 @@ public abstract class BTAbstractGolem extends Monster {
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
-		this.bossBar = new ServerBossEvent(this.getDisplayName(), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
+		this.bossBar = new ServerBossEvent(new TextComponent(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
 		this.bossBar.setCreateWorldFog(false);
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 500;
 
-		// Reference for disregarding fire taken from ZombiefiedPiglin
 
-		this.setPathfindingMalus(BlockPathTypes.LAVA, 12.0F);
-		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 12.0F);
-		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 12.0F);
+		// Reference for disregarding lava taken from ZombiefiedPiglin
+		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
+
+		// Reference for disregarding fire taken from Blaze
+		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
+		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
+
+		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		
 		this.maxUpStep = 2.0F;
 	}
-
 
 	/**
 	 * @return Maximum horizontal distance from the tower.
@@ -213,7 +219,7 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
-		Boolean survivalAdventure;
+		boolean survivalAdventure;
 		if (player != null) {
 			survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
 		} else {
@@ -466,8 +472,6 @@ public abstract class BTAbstractGolem extends Monster {
 				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
-
-		this.goalSelector.addGoal(6, new GolemFireballAttackGoal(this));
 	}
 
 
@@ -487,14 +491,20 @@ public abstract class BTAbstractGolem extends Monster {
 
 	/*********************************************************** Properties @return********************************************************/
 
-	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
-	}
-
 
 	@Override
 	public @NotNull MobType getMobType() {
 		return BATTLE_GOLEM;
+	}
+
+	@Override
+	protected float getWaterSlowDown() {
+		return 0.2F;
+	}
+
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
 	}
 
 	/**

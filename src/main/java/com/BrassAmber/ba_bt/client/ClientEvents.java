@@ -1,19 +1,22 @@
 package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.client.inventory.model.block.MonolithModel;
-import com.BrassAmber.ba_bt.client.inventory.model.hostile.*;
-import com.BrassAmber.ba_bt.client.renderer.*;
+import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
+import com.BrassAmber.ba_bt.client.renderer.BTCultistRenderer;
+import com.BrassAmber.ba_bt.client.renderer.BTSpawnerBlockEntityRenderer;
+import com.BrassAmber.ba_bt.client.renderer.NoRenderEntity;
+import com.BrassAmber.ba_bt.client.renderer.SkyMinionRenderer;
 import com.BrassAmber.ba_bt.client.renderer.chest.LandChestBlockEntityRenderer;
 import com.BrassAmber.ba_bt.client.renderer.chest.LandGolemChestBlockEntityRenderer;
 import com.BrassAmber.ba_bt.client.renderer.chest.OceanChestBlockEntityRenderer;
 import com.BrassAmber.ba_bt.client.renderer.chest.OceanGolemChestBlockEntityRenderer;
+import com.BrassAmber.ba_bt.client.renderer.monolith.CoreMonolithRenderer;
+import com.BrassAmber.ba_bt.client.renderer.monolith.LandMonolithRenderer;
+import com.BrassAmber.ba_bt.client.model.hostile.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.client.renderer.monolith.CoreMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.monolith.EndMonolithRenderer;
-import com.BrassAmber.ba_bt.client.renderer.monolith.LandMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.monolith.NetherMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.monolith.OceanMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.monolith.SkyMonolithRenderer;

@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.client.renderer.golem;
 
-import com.BrassAmber.ba_bt.client.inventory.model.hostile.SkyGolemModel;
+import com.BrassAmber.ba_bt.client.model.hostile.SkyGolemModel;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
