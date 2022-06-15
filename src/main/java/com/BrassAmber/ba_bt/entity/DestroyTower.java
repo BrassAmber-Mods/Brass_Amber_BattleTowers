@@ -32,8 +32,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.network.NetworkHooks;
 
-import static com.BrassAmber.ba_bt.util.BTUtil.doCommand;
-import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputCommand;
+import static com.BrassAmber.ba_bt.util.BTUtil.*;
 
 public class DestroyTower extends Entity {
     // Parameters that must be saved
@@ -275,7 +274,7 @@ public class DestroyTower extends Entity {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if (!this.level.getBlockState(blockToAdd).isAir()) {
+                            if ((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd) && horizontalDistanceTo(this, blockToAdd) < 12.5)) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }

@@ -95,12 +95,12 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		event.put(LAND_GOLEM.get(), BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(OCEAN_GOLEM.get(), BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(NETHER_GOLEM.get(), BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(CORE_GOLEM.get(), BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(END_GOLEM.get(), BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(SKY_GOLEM.get(), BTAbstractGolem.createBattleGolemAttributes().build());
+		event.put(LAND_GOLEM.get(), BTLandGolem.createBattleGolemAttributes().build());
+		event.put(OCEAN_GOLEM.get(), BTOceanGolem.createBattleGolemAttributes().build());
+		event.put(NETHER_GOLEM.get(), BTNetherGolem.createBattleGolemAttributes().build());
+		event.put(CORE_GOLEM.get(), BTCoreGolem.createBattleGolemAttributes().build());
+		event.put(END_GOLEM.get(), BTEndGolem.createBattleGolemAttributes().build());
+		event.put(SKY_GOLEM.get(), BTSkyGolem.createBattleGolemAttributes().build());
 
 		event.put(SKY_MINION.get(), SkyMinion.createAttributes().build());
 		event.put(PLATINUM_SKELETON.get(), PlatinumSkeleton.createAttributes().build());
