@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
+import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
@@ -8,8 +9,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
 public class BTLandObelisk extends BTAbstractObelisk {
+
     public BTLandObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
+        this.BOSS_MUSIC = BTMusics.LAND_GOLEM_FIGHT;
+        this.TOWER_MUSIC = BTMusics.LAND_TOWER;
     }
 
     public BTLandObelisk(Level level) {

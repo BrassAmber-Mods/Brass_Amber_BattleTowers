@@ -27,9 +27,9 @@ import static net.minecraft.world.level.block.SeaPickleBlock.PICKLES;
 public class BTOceanObelisk extends BTAbstractObelisk {
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
-
+        this.BOSS_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
+        this.TOWER_MUSIC = BTMusics.OCEAN_TOWER;
     }
-
 
     public BTOceanObelisk(Level level) {
         super(GolemType.OCEAN, level);
@@ -37,8 +37,8 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     @Override
     public void initialize() {
-        this.floorDistance = -11;
         this.carveOcean();
+        this.floorDistance = -11;
         super.initialize();
     }
 
@@ -51,7 +51,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 Blocks.FIRE_CORAL.defaultBlockState(), Blocks.HORN_CORAL.defaultBlockState(),
                 Blocks.TUBE_CORAL.defaultBlockState());
 
-        int noise = 72 + ((random.nextInt(2) + 1) * 4);
+        int noise = 64 + ((random.nextInt(2) + 1) * 4);
 
         int westWall = this.getBlockX() - noise;
         int northWall = this.getBlockZ() - noise;
@@ -60,27 +60,31 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         int top = this.getBlockY() - 3;
         int bottom = this.getBlockY() - 91;
         double wallDistance = noise -.5;
-        int nextStep = random.nextInt(4)+3;
-        int distanceChange = random.nextInt(4)+1;
+        int nextStep = random.nextInt(4)+8;
+        int distanceChange = random.nextInt(3)+2;
+        boolean doVegetation= false;
+        BlockPos blockAbove;
 
-        for (int y = top; y >= bottom; y--) {
-            if ((top - y) % nextStep == 0) {
+        for (int y = top; y >= bottom - 1; y--) {
+            if (y == bottom + 33) {
+                wallDistance -= 15;
+            } else if ((top - y) % nextStep == 0) {
                 wallDistance -= distanceChange;
-                nextStep = random.nextInt(4)+3;
-                distanceChange = random.nextInt(3)+1;
+                nextStep = random.nextInt(4)+8;
+                distanceChange = random.nextInt(3)+2;
             }
 
             for (int x = westWall; x <= eastWall; x++) {
                 for (int z = northWall; z < southWall; z++) {
                     blockpos$mutableblockpos.set(x, y, z);
-                    double distance3d = distanceTo3D(this.blockPosition().below(38), blockpos$mutableblockpos);
+                    blockAbove = blockpos$mutableblockpos.above();
                     double distance2d = horizontalDistanceTo(this, blockpos$mutableblockpos);
-                    if  (this.level.getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
-                        this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
+                    if (y != bottom - 1) {
+                        if  (this.level.getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
+                            this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
 
-                    } else if (distance2d > towerRange && !this.level.isWaterAt(blockpos$mutableblockpos)
-                            && !(avoidBlocks.contains(this.level.getBlockState(blockpos$mutableblockpos).getBlock()))){
-                        if (y > this.getBlockY() - 60) {
+                        } else if (distance2d > towerRange && !this.level.isWaterAt(blockpos$mutableblockpos)
+                                && !(avoidBlocks.contains(this.level.getBlockState(blockpos$mutableblockpos).getBlock()))){
                             if (distance2d < wallDistance - 2) {
                                 this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                             } else if (distance2d < wallDistance - 1) {
@@ -89,39 +93,37 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                 } else {
                                     this.level.setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
                                 }
+                                doVegetation = true;
                             } else if (distance2d < wallDistance) {
                                 this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                             }
-                        }
-                        else {
-                            if (distance3d < 52.5) {
-                                this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
-                            } else if (distance3d < 53.5) {
+
+                            if (doVegetation && !this.level.isWaterAt(blockpos$mutableblockpos)
+                                    && this.level.isWaterAt(blockAbove) && y < bottom + 60 ) {
                                 int vegetation = random.nextInt(75);
                                 if (vegetation > 55) {
-                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.SEAGRASS.defaultBlockState(), 2);
+                                    this.level.setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
                                 } else if (vegetation > 40) {
-                                    this.level.setBlock(blockpos$mutableblockpos, corals.get(random.nextInt(5)), 2);
-                                } else {
-                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
+                                    this.level.setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
                                 }
-                            } else if (distance3d < 54.5) {
-                                if (random.nextInt(50) > 30) {
-                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
-                                } else {
-                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
-                                }
-                            } else if (distance3d < 55.5) {
-                                this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                             }
                         }
-
                     }
+                    else {
+                        if (doVegetation && !this.level.isWaterAt(blockpos$mutableblockpos)
+                                && this.level.isWaterAt(blockAbove) && y < bottom + 60 ) {
+                            int vegetation = random.nextInt(75);
+                            if (vegetation > 55) {
+                                this.level.setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
+                            } else if (vegetation > 40) {
+                                this.level.setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
+                            }
+                        }
+                    }
+
                 }
             }
-            if (y > this.getBlockY() - 60) {
-                doNoOutputCommand(this, "/kill @e[type=item,distance=120]");
-            }
+            doNoOutputCommand(this, "/kill @e[type=item]");
         }
     }
 }

@@ -237,6 +237,7 @@ public class BTMonolith extends Entity {
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
 				newGolemEntity.setBossBarName();
+				newGolemEntity.golemType = this.golemType;
 
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);
@@ -261,13 +262,15 @@ public class BTMonolith extends Entity {
 	protected void spawnObelisk(ServerLevel serverWorld) {
 		Entity obelisk;
 		switch (this.golemType) {
-			default -> {obelisk = new BTAbstractObelisk(this.golemType, this.level);
+			default -> {
+				obelisk = new BTAbstractObelisk(this.golemType, this.level);
 				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());}
 			case LAND -> {
 				obelisk = new BTLandObelisk(this.level);
 				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
 			}
 			case OCEAN -> {
+				BrassAmberBattleTowers.LOGGER.info("Ocean Obelisk");
 				obelisk = new BTOceanObelisk(this.level);
 				obelisk.setPos(this.getX(), this.getY() + 88, this.getZ());
 			}
