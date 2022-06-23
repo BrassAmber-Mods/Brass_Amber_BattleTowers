@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -21,7 +22,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	private static final EntityDataAccessor<Boolean> DATA_ID_MOVING = SynchedEntityData.defineId(BTOceanGolem.class, EntityDataSerializers.BOOLEAN);
 	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
-		super(type, levelIn, BossEvent.BossBarColor.BLUE);
+		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
 		this.moveControl = new OceanGolemMoveGoal(this);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
@@ -29,6 +30,11 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
 		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+	}
+
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_ID_MOVING, false);
 	}
 
 	static class OceanGolemMoveGoal extends MoveControl {

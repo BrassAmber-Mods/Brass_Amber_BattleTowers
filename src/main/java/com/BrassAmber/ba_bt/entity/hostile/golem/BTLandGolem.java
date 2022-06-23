@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanGolemHP;
@@ -23,7 +24,7 @@ import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanGolemHP;
 public class BTLandGolem extends BTAbstractGolem {
 
 	public BTLandGolem(EntityType<? extends BTLandGolem> type, Level levelIn) {
-		super(type, levelIn, BossEvent.BossBarColor.GREEN);
+		super(type, levelIn, BossEvent.BossBarColor.BLUE);
 		this.setGolemName(GolemType.LAND.getDisplayName());
 		this.setBossBarName();
 	}

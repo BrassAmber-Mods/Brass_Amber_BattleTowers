@@ -1,34 +1,25 @@
 package com.BrassAmber.ba_bt.entity.block;
 
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.sounds.Music;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.BrassAmber.ba_bt.util.BTStatics.towerBlocks;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
-import static net.minecraft.world.level.block.SeaPickleBlock.PICKLES;
 
 public class BTOceanObelisk extends BTAbstractObelisk {
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.BOSS_MUSIC = BTMusics.OCEAN_GOLEM_FIGHT;
         this.TOWER_MUSIC = BTMusics.OCEAN_TOWER;
+        this.musicDistance = 45;
     }
 
     public BTOceanObelisk(Level level) {
@@ -37,8 +28,11 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     @Override
     public void initialize() {
-        this.carveOcean();
-        this.floorDistance = -11;
+        if (this.doServerInit){
+            this.carveOcean();
+            this.floorDistance = -11;
+        }
+        doNoOutputCommand(this, "/kill @e[type=item]");
         super.initialize();
     }
 
@@ -51,7 +45,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 Blocks.FIRE_CORAL.defaultBlockState(), Blocks.HORN_CORAL.defaultBlockState(),
                 Blocks.TUBE_CORAL.defaultBlockState());
 
-        int noise = 64 + ((random.nextInt(2) + 1) * 4);
+        int noise = 60 + ((random.nextInt(2) + 1) * 4);
 
         int westWall = this.getBlockX() - noise;
         int northWall = this.getBlockZ() - noise;
@@ -61,17 +55,24 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         int bottom = this.getBlockY() - 91;
         double wallDistance = noise -.5;
         int nextStep = random.nextInt(4)+8;
-        int distanceChange = random.nextInt(3)+2;
+        int distanceChange = random.nextInt(3);
+        int lastDistanceChange = 0;
         boolean doVegetation= false;
         BlockPos blockAbove;
 
         for (int y = top; y >= bottom - 1; y--) {
             if (y == bottom + 33) {
-                wallDistance -= 15;
+                wallDistance -= 10;
             } else if ((top - y) % nextStep == 0) {
                 wallDistance -= distanceChange;
+                lastDistanceChange = distanceChange;
                 nextStep = random.nextInt(4)+8;
-                distanceChange = random.nextInt(3)+2;
+                if (y > bottom + 33) {
+                    distanceChange = random.nextInt(3);
+                } else {
+                    distanceChange = random.nextInt(2)+1;
+                }
+
             }
 
             for (int x = westWall; x <= eastWall; x++) {
@@ -97,6 +98,14 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                             } else if (distance2d < wallDistance) {
                                 this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                             }
+                            if (!this.level.isWaterAt(blockpos$mutableblockpos) && this.level.isWaterAt(blockAbove)
+                                    && distance2d < wallDistance + lastDistanceChange) {
+                                if (random.nextInt(50) > 30) {
+                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
+                                } else {
+                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
+                                }
+                            }
 
                             if (doVegetation && !this.level.isWaterAt(blockpos$mutableblockpos)
                                     && this.level.isWaterAt(blockAbove) && y < bottom + 60 ) {
@@ -105,25 +114,28 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                     this.level.setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
                                 } else if (vegetation > 40) {
                                     this.level.setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
+                                } else {
+                                    this.level.setBlock(blockAbove, Blocks.WATER.defaultBlockState(), 2);
                                 }
                             }
                         }
                     }
                     else {
-                        if (doVegetation && !this.level.isWaterAt(blockpos$mutableblockpos)
-                                && this.level.isWaterAt(blockAbove) && y < bottom + 60 ) {
+                        if (!this.level.isWaterAt(blockpos$mutableblockpos)
+                                && this.level.isWaterAt(blockAbove) && y < bottom + 33) {
                             int vegetation = random.nextInt(75);
                             if (vegetation > 55) {
                                 this.level.setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
                             } else if (vegetation > 40) {
                                 this.level.setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
+                            } else {
+                                this.level.setBlock(blockAbove, Blocks.WATER.defaultBlockState(), 2);
                             }
                         }
                     }
 
                 }
             }
-            doNoOutputCommand(this, "/kill @e[type=item]");
         }
     }
 }
