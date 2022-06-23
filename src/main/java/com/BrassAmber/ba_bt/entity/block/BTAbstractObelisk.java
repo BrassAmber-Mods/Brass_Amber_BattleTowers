@@ -2,8 +2,8 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
-import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
-import com.BrassAmber.ba_bt.block.tileentity.TowerChestBlockEntity;
+import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
+import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.util.BTStatics;
@@ -62,11 +62,12 @@ public class BTAbstractObelisk extends Entity {
     private boolean clientInitialized;
     protected int checkLayer;
     protected int currentFloorY;
-    private boolean doServerInit;
+    protected boolean doServerInit;
     private boolean doCheck;
 
     private MusicManager music;
     private Minecraft mc;
+    protected int musicDistance;
 
     protected GolemType golemType;
     private boolean justSpawnedKey;
@@ -224,7 +225,7 @@ public class BTAbstractObelisk extends Entity {
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 BlockEntity entity = this.level.getBlockEntity(toCheck);
-                if (entity instanceof BTSpawnerBlockEntity btspawnerEntity) {
+                if (entity instanceof BTAbstractSpawnerBlockEntity btspawnerEntity) {
                     btspawnerEntity.getSpawner().setBtSpawnData(
                             this.towerMobs.get(this.random.nextInt(this.towerMobs.size())),
                             this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),

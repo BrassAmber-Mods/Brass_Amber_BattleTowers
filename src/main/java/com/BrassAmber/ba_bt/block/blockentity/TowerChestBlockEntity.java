@@ -1,4 +1,4 @@
-package com.BrassAmber.ba_bt.block.tileentity;
+package com.BrassAmber.ba_bt.block.blockentity;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.logging.log4j.Level;
 
 public class TowerChestBlockEntity extends GolemChestBlockEntity {
 

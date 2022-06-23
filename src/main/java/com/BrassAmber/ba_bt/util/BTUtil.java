@@ -1,11 +1,15 @@
 package com.BrassAmber.ba_bt.util;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
+import com.BrassAmber.ba_bt.init.BTBlocks;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.SpawnData;
@@ -13,6 +17,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
@@ -24,6 +29,8 @@ import static com.BrassAmber.ba_bt.BattleTowersConfig.landTowerMobs;
 import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanTowerMobs;
 
 public class BTUtil {
+
+
 
     /**
      * Returns the squared horizontal distance as a positive double.

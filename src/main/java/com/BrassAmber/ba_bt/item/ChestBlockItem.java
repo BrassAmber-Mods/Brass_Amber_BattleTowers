@@ -2,7 +2,7 @@ package com.BrassAmber.ba_bt.item;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
-import com.BrassAmber.ba_bt.block.tileentity.inventory.BTChestItemRenderer;
+import com.BrassAmber.ba_bt.block.blockentity.inventory.BTChestItemRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

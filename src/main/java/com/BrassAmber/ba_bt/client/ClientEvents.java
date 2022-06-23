@@ -82,7 +82,12 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(BTBlockEntityTypes.OCEAN_CHEST.get(), OceanChestBlockEntityRenderer::new);
 		event.registerBlockEntityRenderer(BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get(), OceanGolemChestBlockEntityRenderer::new);
 		
-		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_LAND_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_OCEAN_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_CORE_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_NETHER_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_END_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(BTBlockEntityTypes.BT_SKY_MOB_SPAWNER.get(), BTSpawnerBlockEntityRenderer::new);
 	}
 
 	@OnlyIn(Dist.CLIENT)
