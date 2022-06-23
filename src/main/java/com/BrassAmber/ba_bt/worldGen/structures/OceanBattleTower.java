@@ -2,17 +2,12 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.tileentity.BTSpawnerBlockEntity;
-import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.util.BTStatics;
-import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
-import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 import com.BrassAmber.ba_bt.worldGen.BTOceanJigsawPlacement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
@@ -20,7 +15,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -36,13 +30,10 @@ import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Predicate;
-
-import static com.BrassAmber.ba_bt.util.BTUtil.*;
 
 
 // Comments from TelepathicGrunts
@@ -81,7 +72,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         for (ResourceKey<StructureSet> set : vanillaStructures) {
             // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
 
-            if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
+            if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 8)) {
                 // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
                 return BlockPos.ZERO;
             }
