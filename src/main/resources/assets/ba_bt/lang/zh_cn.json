@@ -11,7 +11,7 @@
 	"entity.ba_bt.ocean_golem": "海洋魔像",
 	
 	"entity.ba_bt.sky_minion": "天空仆从",
-	"entity.ba_bt.platinum_skeleton": "白金骷髅骑士",
+	"entity.ba_bt.platinum_skeleton": "白金骑士",
 	
 	"entity.ba_bt.land_monolith": "大地石碑",
 	"entity.ba_bt.core_monolith": "炉心石碑",
@@ -43,7 +43,7 @@
 	"ba_bt.subtitle.tower.break.start": "高塔开始崩塌",
 	"ba_bt.subtitle.tower.break.crumble": "高塔崩塌",
 	"ba_bt.subtitle.tower.ambient.music.land": "高塔环境音乐",
-	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "海洋高塔环境音乐",
 	
 	// Blocks方块
 	"block.ba_bt.land_golem_chest": "魔像宝箱",
@@ -52,8 +52,8 @@
 	"block.ba_bt.ocean_golem_chest": "魔像宝箱",
 	"block.ba_bt.ocean_chest": "海洋宝箱",
 
-	"block.ba_bt.platinum_block": "白金骑士方块",
-	"block.ba_bt.platinum_tiles": "白金骑士砖瓦",
+	"block.ba_bt.platinum_block": "白金块",
+	"block.ba_bt.platinum_tiles": "白金砖瓦",
 
 	"block.ba_bt.bt_land_spawner" : "大地刷怪笼",
 	"block.ba_bt.bt_ocean_spawner" : "海洋刷怪笼",
@@ -95,28 +95,28 @@
 	"item.ba_bt.monolith_sky": "天空石碑",
 	"item.ba_bt.monolith_ocean": "海洋石碑",
 
-	"item.ba_bt.platinum_ingot": "白金骑士锭",
-	"item.ba_bt.platinum_shard": "白金骑士碎片",
-	"item.ba_bt.platinum_sword": "白金骑士剑",
+	"item.ba_bt.platinum_ingot": "白金锭",
+	"item.ba_bt.platinum_shard": "白金碎片",
+	"item.ba_bt.platinum_sword": "白金剑",
 
-	"item.ba_bt.platinum_helmet": "白金骑士头盔",
-	"item.ba_bt.platinum_chestplate": "白金骑士胸甲",
-	"item.ba_bt.platinum_leggings": "白金骑士护腿",
-	"item.ba_bt.platinum_boots": "白金骑士靴子",
+	"item.ba_bt.platinum_helmet": "白金头盔",
+	"item.ba_bt.platinum_chestplate": "白金胸甲",
+	"item.ba_bt.platinum_leggings": "白金护腿",
+	"item.ba_bt.platinum_boots": "白金靴子",
 
 	"item.ba_bt.land_chest_shard": "大地宝箱碎片",
 	"item.ba_bt.ocean_chest_shard": "海洋宝箱碎片",
 
-	"item.ba_bt.platinum_skeleton_spawn_egg": "白金骷髅骑士刷怪蛋",
+	"item.ba_bt.platinum_skeleton_spawn_egg": "白金骑士刷怪蛋",
 	
 	// Item Tooltips物品描述
-	"tooltip.ba_bt.hold_shift": "长按shift查看更多信息",
+	"tooltip.ba_bt.hold_shift": "按住shift查看更多信息",
 	"tooltip.ba_bt.monolith": "石碑用来召唤战斗魔像",
 	"tooltip.ba_bt.monolith_key": "将3把钥匙插入石碑来召唤战斗魔像",
 	"tooltip.ba_bt.tower_chest": "破坏当前所在层数的所有刷怪笼来解锁它。在生存模式放置时不会被锁住",
 	"tooltip.ba_bt.golem_chest": "击败魔像来解锁",
 
-	"tooltip.ba_bt.eye_hold_shift": "长按§eSHIFT§r来阅读守卫者的遗言",
+	"tooltip.ba_bt.eye_hold_shift": "按住§eSHIFT§r以阅读守卫者的遗言",
 	"tooltip.ba_bt.land_eye": "瓦尤斯，高塔已被攻破……",
 	"tooltip.ba_bt.ocean_eye": "赞颂虚空吧……赞颂我……",
 	"tooltip.ba_bt.core_eye": "已经没有什么能阻止他们了……",
