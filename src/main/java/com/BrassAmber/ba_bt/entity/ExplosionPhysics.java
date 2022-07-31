@@ -67,9 +67,9 @@ public class ExplosionPhysics extends PrimedTnt {
 			}
 			expl.clearToBlow();
 			
-			physicObjects.forEach((fb) -> 
+			/**physicObjects.forEach((fb) ->
 				this.level.addFreshEntity(fb)
-			);
+			);**/
 			
 			expl.finalizeExplosion(true);
 			
