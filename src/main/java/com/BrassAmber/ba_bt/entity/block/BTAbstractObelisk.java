@@ -7,17 +7,18 @@ import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.util.BTStatics;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
@@ -25,6 +26,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -35,6 +38,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
@@ -42,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.BrassAmber.ba_bt.util.BTLoot.getLootTable;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
 
@@ -62,6 +69,7 @@ public class BTAbstractObelisk extends Entity {
     private boolean clientInitialized;
     protected int checkLayer;
     protected int currentFloorY;
+    protected MobEffect towerEffect;
     protected boolean doServerInit;
     private boolean doCheck;
 
@@ -86,20 +94,24 @@ public class BTAbstractObelisk extends Entity {
     protected int floorDistance;
     protected Block chestBlock;
     protected Block spawnerBlock;
+    protected Block spawnerFillBlock;
     protected Block woolBlock;
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
+    protected List<ResourceLocation> towerLootData;
+
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.initialized = false;
         this.clientInitialized = false;
         this.checkLayer = 1;
-        // this.blocksBuilding = true;
+        this.blocksBuilding = true;
         this.musicPlaying = false;
         this.doServerInit = true;
         this.doCheck = true;
         this.floorDistance = 11;
+        this.towerEffect = null;
 
     }
 
@@ -129,18 +141,21 @@ public class BTAbstractObelisk extends Entity {
                     this.chestBlock = BTBlocks.LAND_CHEST.get();
                     this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
                     this.woolBlock = Blocks.GREEN_WOOL;
+                    this.spawnerFillBlock = Blocks.STONE_BRICKS;
                 }
                 case OCEAN -> {
                     this.currentFloorY = this.getBlockY() - 3;
                     this.chestBlock = BTBlocks.OCEAN_CHEST.get();
                     this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
                     this.woolBlock = Blocks.BLUE_WOOL;
+                    this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
                 }
                 case NETHER -> {
                     this.currentFloorY = this.getBlockY() - 4;
                     this.chestBlock = BTBlocks.LAND_CHEST.get();
                     this.spawnerBlock = BTBlocks.BT_NETHER_SPAWNER.get();
                     this.woolBlock = Blocks.RED_WOOL;
+                    this.spawnerFillBlock = Blocks.RED_NETHER_BRICKS;
                 }
             }
             this.doServerInit = false;
@@ -212,6 +227,7 @@ public class BTAbstractObelisk extends Entity {
             BrassAmberBattleTowers.LOGGER.info("Set Spawner at: " +pos + " floor: " + floor + " Spawners: " + spawnersSet);
             return spawnersSet + 1;
         } else {
+            level.setBlock(pos, this.spawnerFillBlock.defaultBlockState(), 2);
             return spawnersSet;
         }
     }
@@ -221,6 +237,10 @@ public class BTAbstractObelisk extends Entity {
             Block block = level.getBlockState(toCheck).getBlock();
             if (block == this.chestBlock) {
                 this.CHESTS.add(toCheck);
+                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(toCheck)).withOptionalRandomSeed(this.random.nextLong());
+                TowerChestBlockEntity chest = (TowerChestBlockEntity) level.getBlockEntity(toCheck);
+                assert chest != null: "BTObelisk: Not a BTChest";
+                getLootTable(GolemType.getNumForType(this.golemType), this.checkLayer - 1).fill(chest, lootcontext$builder.create(LootContextParamSets.CHEST));
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
@@ -267,24 +287,35 @@ public class BTAbstractObelisk extends Entity {
 
             if (hasClientPlayer) {
                 //noinspection ConstantConditions
-                playerInTowerRange = horizontalDistanceTo(this, client.getNearestPlayer(this, 100D)) <= 30;
+                playerInTowerRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) <= 30;
                 //noinspection ConstantConditions
-                playerInMusicRange = horizontalDistanceTo(this, client.getNearestPlayer(this, 100D)) < 17;
+                playerInMusicRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) < 17;
             } else {
                 playerInTowerRange = false;
                 playerInMusicRange = false;
             }
 
-            if (this.BOSS_MUSIC != null && !this.music.isPlayingMusic(this.BOSS_MUSIC)) {
-                if (playerInTowerRange) {
-                    // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
-                    if (playerInMusicRange && !this.musicPlaying) {
-                        this.music.stopPlaying();
-                        this.music.nextSongDelay = this.TOWER_MUSIC.getMinDelay();
-                        this.music.startPlaying(this.TOWER_MUSIC);
-                        this.musicPlaying = true;
-                    }
-                } else if (this.musicPlaying) {
+            boolean tryPlayMusic = false;
+
+            if (this.BOSS_MUSIC == null) {
+                tryPlayMusic = playerInTowerRange;
+            } else {
+                // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
+                if (!this.music.isPlayingMusic(this.BOSS_MUSIC)) {
+                    tryPlayMusic = playerInTowerRange;
+                }
+
+            }
+
+            if (tryPlayMusic) {
+                if (playerInMusicRange && !this.music.isPlayingMusic(this.TOWER_MUSIC)) {
+                    this.music.stopPlaying();
+                    this.music.nextSongDelay = this.TOWER_MUSIC.getMinDelay();
+                    this.music.startPlaying(this.TOWER_MUSIC);
+                    this.musicPlaying = true;
+                }
+            } else {
+                if (this.musicPlaying) {
                     this.music.nextSongDelay = 500;
                     this.music.stopPlaying();
                     this.musicPlaying = false;
@@ -321,7 +352,7 @@ public class BTAbstractObelisk extends Entity {
             List<Boolean> playersClose = new ArrayList<>();
             for (ServerPlayer player : players
             ) {
-                if (horizontalDistanceTo(this, player) < 30) {
+                if (BTUtil.distanceTo2D(this, player) < 30) {
                     playersClose.add(Boolean.TRUE);
                     // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
                 } else {
@@ -359,6 +390,15 @@ public class BTAbstractObelisk extends Entity {
                 // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
                 this.checkSpawners(this.level);
             }
+
+            if (hasPlayer && this.towerEffect != null) {
+                for (ServerPlayer player : players
+                ) {
+                    if (BTUtil.distanceTo2D(this, player) < 30) {
+                        player.addEffect(new MobEffectInstance(this.towerEffect, 600, 3));
+                    }
+                }
+            }
         }
 
     }
@@ -366,7 +406,7 @@ public class BTAbstractObelisk extends Entity {
     protected void spawnSpecialEnemy(ServerLevel serverWorld, BlockPos spawn, double lowerRadiusBound,
                                      double upperRadiusBound, boolean onGround) {
         // BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
-        double distance = horizontalDistanceTo(this, spawn.getX(), spawn.getZ());
+        double distance = BTUtil.distanceTo2D(this, spawn.getX(), spawn.getZ());
         boolean canSpawn = SpawnPlacements.checkSpawnRules(GolemType.getSpecialEnemyType(this.golemType), serverWorld, MobSpawnType.STRUCTURE, spawn, this.random);
         boolean acceptableDistance = lowerRadiusBound < distance && distance < upperRadiusBound;
 
@@ -415,10 +455,7 @@ public class BTAbstractObelisk extends Entity {
                     if (this.keySpawnerAmounts.contains(this.getSpawnersDestroyed()) && !justSpawnedKey) {
                         if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chest) {
                             // chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
-                            chest.unpackLootTable(null);
-                            NonNullList<ItemStack> stack = chest.getItems();
-                            stack.set(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
-                            chest.setItems(stack);
+                            chest.setItem(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
                         }
                         else if (this.CHESTS.get(i) != null) {
                             doNoOutputPostionedCommand(this, "give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getRegistryName(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
@@ -435,7 +472,7 @@ public class BTAbstractObelisk extends Entity {
     private void chestUnlockingSound(Level level) {
         List<ServerPlayer> players = Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers();
         for (ServerPlayer player: players) {
-            if (horizontalDistanceTo(this, player) < 30) {
+            if (BTUtil.distanceTo2D(this, player) < 30) {
                 level.playSound(null, player.blockPosition(), SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 1f, 1.5f);
             }
         }
@@ -504,7 +541,7 @@ public class BTAbstractObelisk extends Entity {
      */
     @Override
     public boolean canBeCollidedWith() {
-        return false;
+        return true;
     }
 
     /***************************************************** Breaking *************************************************/

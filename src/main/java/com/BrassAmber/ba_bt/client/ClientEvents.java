@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.client.model.block.MonolithModel;
+import com.BrassAmber.ba_bt.client.model.block.ObeliskModel;
 import com.BrassAmber.ba_bt.client.renderer.BTCultistRenderer;
 import com.BrassAmber.ba_bt.client.renderer.BTSpawnerBlockEntityRenderer;
 import com.BrassAmber.ba_bt.client.renderer.NoRenderEntity;
@@ -13,6 +14,7 @@ import com.BrassAmber.ba_bt.client.renderer.chest.OceanGolemChestBlockEntityRend
 import com.BrassAmber.ba_bt.client.renderer.monolith.CoreMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.monolith.LandMonolithRenderer;
 import com.BrassAmber.ba_bt.client.model.hostile.*;
+import com.BrassAmber.ba_bt.client.renderer.obelisk.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
@@ -66,14 +68,14 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityTypes.SKY_MONOLITH.get(), SkyMonolithRenderer::new);
 
 
-		event.registerEntityRenderer(BTEntityTypes.LAND_OBELISK.get(), NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.OCEAN_OBELISK.get(), NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.CORE_OBELISK.get(), NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.NETHER_OBELISK.get(), NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.END_OBELISK.get(), NoRenderEntity::new);
-		event.registerEntityRenderer(BTEntityTypes.SKY_OBELISK.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.LAND_OBELISK.get(), LandObeliskRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_OBELISK.get(), OceanObeliskRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.CORE_OBELISK.get(), CoreObeliskRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.NETHER_OBELISK.get(), NetherObeliskRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.END_OBELISK.get(), EndObeliskRenderer::new);
+		event.registerEntityRenderer(BTEntityTypes.SKY_OBELISK.get(), SkyObeliskRenderer::new);
 
-		event.registerEntityRenderer(BTEntityTypes.DESTROY_TOWER.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.LAND_DESTRUCTION.get(), NoRenderEntity::new);
 		event.registerEntityRenderer(BTEntityTypes.PHYSICS_EXPLOSION.get(), NoRenderEntity::new);
 
 		// BLOCK ENTITIES
@@ -99,6 +101,13 @@ public class ClientEvents {
 		event.registerLayerDefinition(NetherMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 		event.registerLayerDefinition(EndMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
 		event.registerLayerDefinition(SkyMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
+
+		event.registerLayerDefinition(LandObeliskRenderer.TEXTURE, ObeliskModel::createBodyLayer);
+		event.registerLayerDefinition(OceanObeliskRenderer.TEXTURE, ObeliskModel::createBodyLayer);
+		event.registerLayerDefinition(CoreObeliskRenderer.TEXTURE, ObeliskModel::createBodyLayer);
+		event.registerLayerDefinition(NetherObeliskRenderer.TEXTURE, ObeliskModel::createBodyLayer);
+		event.registerLayerDefinition(EndObeliskRenderer.TEXTURE, ObeliskModel::createBodyLayer);
+		event.registerLayerDefinition(SkyObeliskRenderer.TEXTURE, ObeliskModel::createBodyLayer);
 
 		event.registerLayerDefinition(SkyMinionRenderer.TEXTURE, SkyMinionModel::createBodyLayer);
 		event.registerLayerDefinition(BTCultistRenderer.TEXTURE, BTCultistModel::createBodyLayer);
