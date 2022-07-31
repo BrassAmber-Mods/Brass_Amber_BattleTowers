@@ -1,16 +1,16 @@
 {
-  "parent": "ba_bt:battletowers/land_tower_found",
+  "parent": "ba_bt:battletowers/ocean_tower_found",
   "display": {
     "icon": {
-      "item": "ba_bt:monolith_key_land"
+      "item": "ba_bt:monolith_key_ocean"
     },
     "title": {
-      "translate": "advancements.ba_bt.find_land_key.title",
+      "translate": "advancements.ba_bt.find_ocean_key.title",
       "color": "white",
       "italic": true
     },
     "description": {
-      "translate": "advancements.ba_bt.find_land_key.description",
+      "translate": "advancements.ba_bt.find_ocean_key.description",
       "color": "green",
       "italic": true
     },
@@ -26,14 +26,14 @@
         "player": {
           "player": {
             "advancements": {
-              "ba_bt:battletowers/land_tower_found": true
+              "ba_bt:battletowers/ocean_tower_found": true
             }
           }
         },
         "items": [
           {
             "items": [
-              "ba_bt:monolith_key_land"
+              "ba_bt:monolith_key_ocean"
             ]
           }
         ]

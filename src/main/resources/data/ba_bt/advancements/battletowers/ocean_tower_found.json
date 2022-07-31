@@ -2,14 +2,14 @@
   "parent": "ba_bt:battletowers/battle_tower",
   "display": {
     "icon": {
-      "item": "minecraft:stone_bricks"
+      "item": "minecraft:dark_prismarine"
     },
     "title": {
-      "translate": "advancements.ba_bt.land_tower_found.title",
+      "translate": "advancements.ba_bt.ocean_tower_found.title",
       "color": "white"
     },
     "description": {
-      "translate": "advancements.ba_bt.land_tower_found.description",
+      "translate": "advancements.ba_bt.ocean_tower_found.description",
       "color": "green",
       "italic": true
     },
@@ -19,19 +19,23 @@
     "hidden": true
   },
   "criteria": {
-    "Find Land Tower": {
+    "Find Ocean Tower": {
       "trigger": "minecraft:location",
       "conditions": {
-        "player": [],
+        "player": {
+          "advancements": {
+            "ba_bt:battletowers/land_tower_found": true
+          }
+        },
         "location": {
-          "feature": "ba_bt:land_battle_tower"
+          "feature": "ba_bt:ocean_battle_tower"
         }
       }
     }
   },
   "requirements": [
     [
-      "Find Land Tower"
+      "Find Ocean Tower"
     ]
   ],
   "rewards": {

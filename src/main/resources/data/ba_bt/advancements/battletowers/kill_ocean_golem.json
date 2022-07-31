@@ -1,16 +1,16 @@
 {
-  "parent": "ba_bt:battletowers/find_land_key",
+  "parent": "ba_bt:battletowers/find_ocean_key",
   "display": {
     "icon": {
-      "item": "ba_bt:guardian_eye_land"
+      "item": "ba_bt:guardian_eye_ocean"
     },
     "title": {
-      "translate": "advancements.ba_bt.kill_land_golem.title",
+      "translate": "advancements.ba_bt.kill_ocean_golem.title",
       "color": "white",
       "italic": true
     },
     "description": {
-      "translate": "advancements.ba_bt.kill_land_golem.description",
+      "translate": "advancements.ba_bt.kill_ocean_golem.description",
       "color": "green",
       "italic": true
     },
@@ -26,13 +26,13 @@
         "player": {
           "player": {
             "advancements": {
-              "ba_bt:battletowers/find_land_key": true
+              "ba_bt:battletowers/find_ocean_key": true
             }
           }
         },
-        "id" : "ba_bt:land_golem",
+        "id" : "ba_bt:ocean_golem",
         "entity": {
-          "type": "ba_bt:land_golem"
+          "type": "ba_bt:ocean_golem"
         }
       }
     }
