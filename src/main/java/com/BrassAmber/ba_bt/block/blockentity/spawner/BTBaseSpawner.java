@@ -7,7 +7,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.BaseSpawner;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.eventbus.api.Event;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -22,6 +24,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
         this.maxNearbyEntities = maxNearby;
         this.requiredPlayerRange = playerRange;
         this.spawnRange = spawnRange;
+        this.spawnDelay = 0;
     }
 
     public void serverTick(@NotNull ServerLevel p_151312_, @NotNull BlockPos p_151313_) {
@@ -74,14 +77,13 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                         }
 
                         entity.moveTo(entity.getX(), entity.getY(), entity.getZ(), p_151312_.random.nextFloat() * 360.0F, 0.0F);
-                        if (entity instanceof Mob) {
-                            Mob mob = (Mob) entity;
-                            if (!net.minecraftforge.event.ForgeEventFactory.canEntitySpawnSpawner(mob, p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this)) {
+                        if (entity instanceof Mob mob) {
+                            if (net.minecraftforge.event.ForgeEventFactory.canEntitySpawn(mob, p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this, MobSpawnType.SPAWNER) == Event.Result.DENY) {
                                 continue;
                             }
 
                             if (this.nextSpawnData.getEntityToSpawn().size() == 1 && this.nextSpawnData.getEntityToSpawn().contains("id", 8)) {
-                                if (!net.minecraftforge.event.ForgeEventFactory.doSpecialSpawn(mob, p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this, MobSpawnType.SPAWNER))
+                                if (!net.minecraftforge.event.ForgeEventFactory.doSpecialSpawn(mob, (LevelAccessor)p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this, MobSpawnType.SPAWNER))
                                     ((Mob)entity).finalizeSpawn(p_151312_, p_151312_.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.SPAWNER, (SpawnGroupData)null, (CompoundTag)null);
                             }
                         }
