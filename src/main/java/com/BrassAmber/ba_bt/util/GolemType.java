@@ -30,7 +30,8 @@ public enum GolemType implements StringRepresentable {
 	CORE("core", new TranslatableComponent("entity.ba_bt.core_golem")),
 	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether_golem")),
 	END("end", new TranslatableComponent("entity.ba_bt.end_golem")),
-	SKY("sky", new TranslatableComponent("entity.ba_bt.sky_golem"));
+	SKY("sky", new TranslatableComponent("entity.ba_bt.sky_golem")),
+	CITY("sky", new TextComponent("~"));
 
 	private final String name;
 	private final Component displayName;
@@ -46,7 +47,7 @@ public enum GolemType implements StringRepresentable {
 	 */
 	public static @NotNull EntityType<?> getGolemFor(GolemType golemType) {
 		return switch (golemType) {
-			case EMPTY,LAND -> BTEntityTypes.LAND_GOLEM.get();
+			case EMPTY, CITY, LAND -> BTEntityTypes.LAND_GOLEM.get();
 			case OCEAN -> BTEntityTypes.OCEAN_GOLEM.get();
 			case CORE -> BTEntityTypes.CORE_GOLEM.get();
 			case NETHER -> BTEntityTypes.NETHER_GOLEM.get();
@@ -60,7 +61,7 @@ public enum GolemType implements StringRepresentable {
 	 */
 	public static @NotNull EntityType<BTMonolith> getMonolithFor(GolemType golemType) {
 		return switch (golemType) {
-			case EMPTY, LAND -> BTEntityTypes.LAND_MONOLITH.get();
+			case EMPTY, CITY, LAND -> BTEntityTypes.LAND_MONOLITH.get();
 			case OCEAN -> BTEntityTypes.OCEAN_MONOLITH.get();
 			case CORE -> BTEntityTypes.CORE_MONOLITH.get();
 			case NETHER -> BTEntityTypes.NETHER_MONOLITH.get();
@@ -78,7 +79,7 @@ public enum GolemType implements StringRepresentable {
 	@NotNull
 	public static EntityType<BTAbstractObelisk> getObeliskFor(GolemType golemType) {
 		return switch (golemType) {
-			case EMPTY, LAND -> BTEntityTypes.LAND_OBELISK.get();
+			case EMPTY, CITY, LAND -> BTEntityTypes.LAND_OBELISK.get();
 			case OCEAN -> BTEntityTypes.OCEAN_OBELISK.get();
 			case CORE -> BTEntityTypes.CORE_OBELISK.get();
 			case NETHER -> BTEntityTypes.NETHER_OBELISK.get();
@@ -138,23 +139,15 @@ public enum GolemType implements StringRepresentable {
 	 */
 	@Nullable
 	public static Item getEyeFor(GolemType golemType) {
-		switch (golemType) {
-		case EMPTY:
-		default:
-			return null;
-		case LAND:
-			return BTItems.LAND_GUARDIAN_EYE.get();
-		case OCEAN:
-			return BTItems.OCEAN_GUARDIAN_EYE.get();
-		case CORE:
-			return BTItems.CORE_GUARDIAN_EYE.get();
-		case NETHER:
-			return BTItems.NETHER_GUARDIAN_EYE.get();
-		case END:
-			return BTItems.END_GUARDIAN_EYE.get();
-		case SKY:
-			return BTItems.SKY_GUARDIAN_EYE.get();
-		}
+		return switch (golemType) {
+			case EMPTY, CITY -> null;
+			case LAND -> BTItems.LAND_GUARDIAN_EYE.get();
+			case OCEAN -> BTItems.OCEAN_GUARDIAN_EYE.get();
+			case CORE -> BTItems.CORE_GUARDIAN_EYE.get();
+			case NETHER -> BTItems.NETHER_GUARDIAN_EYE.get();
+			case END -> BTItems.END_GUARDIAN_EYE.get();
+			case SKY -> BTItems.SKY_GUARDIAN_EYE.get();
+		};
 	}
 
 	/**
@@ -162,22 +155,15 @@ public enum GolemType implements StringRepresentable {
 	 */
 	@Nullable
 	public static GolemType getPreviousGolemType(GolemType golemType) {
-		switch (golemType) {
-		case EMPTY:
-		case LAND:
-		default:
-			return EMPTY;
-		case OCEAN:
-			return LAND;
-		case CORE:
-			return OCEAN;
-		case NETHER:
-			return CORE;
-		case END:
-			return NETHER;
-		case SKY:
-			return END;
-		}
+		return switch (golemType) {
+			default -> null;
+			case EMPTY, LAND -> EMPTY;
+			case OCEAN -> LAND;
+			case CORE -> OCEAN;
+			case NETHER -> CORE;
+			case END -> NETHER;
+			case SKY -> END;
+		};
 	}
 
 	/*********************************************************** Keys ********************************************************/
@@ -254,6 +240,7 @@ public enum GolemType implements StringRepresentable {
 			case NETHER -> 3;
 			case END -> 4;
 			case SKY -> 5;
+			case CITY -> 6;
 		};
 	}
 
@@ -264,6 +251,6 @@ public enum GolemType implements StringRepresentable {
 	}
 
 	public Component getDisplayName() {
-		return displayName;
+		return this.displayName;
 	}
 }
