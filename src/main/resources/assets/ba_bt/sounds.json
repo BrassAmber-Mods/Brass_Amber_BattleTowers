@@ -82,17 +82,6 @@
 			}
 		]
 	},
-	"entity.golem.ocean.fight": {
-		"category": "hostile",
-		"subtitle": "ba_bt.subtitle.golem.ocean.fight",
-		"sounds": [
-			{
-				"name": "ba_bt:void",
-				"volume": 1.0,
-				"stream": true
-			}
-		]
-	},
 		
 	"tower.break.start": {
 		"category": "ambient",
@@ -133,6 +122,61 @@
 		"sounds": [
 			{
 				"name": "ba_bt:void",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.core": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.core",
+		"sounds": [
+			{
+				"name": "ba_bt:so_below_pion",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.nether": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.nether",
+		"sounds": [
+			{
+				"name": "ba_bt:pigstep_fhp_remix",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.end": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.end",
+		"sounds": [
+			{
+				"name": "ba_bt:the_end",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.sky": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.sky",
+		"sounds": [
+			{
+				"name": "ba_bt:concrete_halls_remix",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.city": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.city",
+		"sounds": [
+			{
+				"name": "ba_bt:labyrinthe",
 				"volume": 0.7,
 				"stream": true
 			}
