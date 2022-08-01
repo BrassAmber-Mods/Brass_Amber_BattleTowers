@@ -4,8 +4,6 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
@@ -48,7 +46,7 @@ public class GolemLeapGoal extends Goal {
             }
 
             this.target = this.golem.getTarget();
-            double d0 = BTUtil.horizontalDistanceTo(this.golem, this.target);
+            double d0 = BTUtil.distanceTo2D(this.golem, this.target);
             double d1 = abs(this.target.getY() - this.golem.getY());
             boolean horizontal = this.minleap < d0 && (d0 <= (this.maxleap * 2)) && (0 < d1) && (d1 < (this.maxJump * 2));
             boolean vertical = this.minleap < d1 && d1 < this.maxJump;

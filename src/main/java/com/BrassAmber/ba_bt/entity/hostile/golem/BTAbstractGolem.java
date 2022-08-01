@@ -7,12 +7,11 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
+import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
 import com.BrassAmber.ba_bt.init.BTItems;
-import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
 
@@ -96,8 +95,6 @@ public abstract class BTAbstractGolem extends Monster {
 		// Initializes the bossBar with the correct color.
 		this.bossBar = new ServerBossEvent(new TextComponent(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
 		this.bossBar.setCreateWorldFog(false);
-		// Sets the experience points to drop. Reference taken from the EnderDragon.
-		this.xpReward = 500;
 
 
 		// Reference for disregarding lava taken from ZombiefiedPiglin
@@ -194,19 +191,19 @@ public abstract class BTAbstractGolem extends Monster {
 			if (((ClientLevel)this.level).players().size() < 1) {
 				return;
 			}
-			double playerDistance = BTUtil.horizontalDistanceTo(this, ((ClientLevel)this.level).players().get(0));
+			double playerDistance = BTUtil.distanceTo2D(this, ((ClientLevel)this.level).players().get(0));
 			boolean hasClientPlayer = playerDistance < 30;
 			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
 
 			if (this.isDormant()) {
-				if (musicManager.isPlayingMusic(BTMusics.LAND_GOLEM_FIGHT)) {
+				if (musicManager.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
 					musicManager.stopPlaying();
 				}
 			} else {
 				if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
 					this.musicStart = tickCount;
 					musicManager.stopPlaying();
-					musicManager.startPlaying(BTMusics.LAND_GOLEM_FIGHT);
+					musicManager.startPlaying(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC);
 				}
 				if (!hasClientPlayer || this.stopMusic) {
 					musicManager.stopPlaying();
@@ -281,7 +278,7 @@ public abstract class BTAbstractGolem extends Monster {
 		BlockPos spawnPos = this.getSpawnPos();
 		// Check for the distance to the X and Z coordinates on the current Y level.
 		// This way we get only the lateral distance
-		if (BTUtil.horizontalDistanceToSqr(this, spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
+		if (BTUtil.sqrDistanceTo2D(this, spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
 			this.resetGolem();
 			return;
 		}
@@ -387,11 +384,11 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 		else {
 			try {
-				DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
+				LandDestructionEntity landDestructionEntity = (LandDestructionEntity) this.level.getEntities(null,
 						new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
 								this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
 								this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
-				destroyTower.setGolemDead(true);
+				landDestructionEntity.setGolemDead(true);
 			}
 			catch (Exception ignored) {
 

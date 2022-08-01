@@ -40,6 +40,8 @@ public class BrassAmberBattleTowers {
 		BTBlocks.BLOCKS.register(eventBus);
 		// Register EntityTypes
 		BTEntityTypes.ENTITY_TYPES.register(eventBus);
+		BTExtras.ENCHANTMENTS.register(eventBus);
+		BTExtras.EFFECTS.register(eventBus);
 		// Register Items
 		BTItems.ITEMS.register(eventBus);
 		// Register TileEntityTypes

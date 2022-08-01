@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
+import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
@@ -67,17 +67,13 @@ public class BTMonolith extends Entity {
 		this.golemType = GolemType.getTypeForMonolith(this);
 		this.correctMonolithKey = GolemType.getKeyFor(this.golemType);
 		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
+		this.fromItem = true;
 	}
 
 	public BTMonolith(EntityType<BTMonolith> monolithEntityType, Level levelIn, double x, double y, double z, BlockState placedOnState) {
 		this(monolithEntityType, levelIn);
 		this.setPos(x, y, z);
-		if (placedOnState == Blocks.CLAY.defaultBlockState()) {
-			this.fromItem = false;
-		}
-		else {
-			this.fromItem = true;
-		}
+		this.fromItem = placedOnState != Blocks.CLAY.defaultBlockState();
 	}
 
 	/*********************************************************** Data ********************************************************/
@@ -91,12 +87,14 @@ public class BTMonolith extends Entity {
 	protected void readAdditionalSaveData(CompoundTag compound) {
 		this.setKeyCountInEntity(compound.getInt("Keys"));
 		this.spawnedObelisk = compound.getBoolean("Obelisk");
+		this.fromItem = compound.getBoolean("FromItem");
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag compound) {
 		compound.putInt("Keys", this.getKeyCountInEntity());
 		compound.putBoolean("Obelisk", this.spawnedObelisk);
+		compound.putBoolean("FromItem", this.fromItem);
 	}
 
 	/*********************************************************** Ticks ********************************************************/
@@ -252,7 +250,7 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
-		Entity destroyTowerEntity = new DestroyTower(this.golemType, this.blockPosition(), this.level);
+		Entity destroyTowerEntity = new LandDestructionEntity(this.golemType, this.blockPosition(), this.level);
 		destroyTowerEntity.setPos(this.getX(), this.getY() + 6, this.getZ());
 		destroyTowerEntity.setInvulnerable(true);
 		destroyTowerEntity.invulnerableTime = 999999999;
