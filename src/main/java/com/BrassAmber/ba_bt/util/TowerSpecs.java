@@ -7,26 +7,27 @@ import org.jetbrains.annotations.NotNull;
 
 public enum TowerSpecs implements StringRepresentable {
     EMPTY(null,0,0, ""),
-    LAND(new TranslatableComponent("title.ba_bt.land"), 112, 2, "#9BDAE7"),
-    OCEAN(new TranslatableComponent("title.ba_bt.ocean"), 112, 2, "#EAE78A"),
-    NETHER(new TranslatableComponent("title.ba_bt.core"), 112, 2, "#88EB63"),
-    CORE(new TranslatableComponent("title.ba_bt.nether"), 112, 1, "#F79B3A"),
-    END(new TranslatableComponent("title.ba_bt.end"), 112, 1, "#BA49EF"),
-    SKY(new TranslatableComponent("title.ba_bt.sky"), 112, 1, "#FBC1EB");
+    LAND("land", 112, 2, "#9BDAE7"),
+    OCEAN("ocean", 112, 2, "#EAE78A"),
+    NETHER("core", 112, 2, "#88EB63"),
+    CORE("nether", 112, 1, "#F79B3A"),
+    END("end", 112, 1, "#BA49EF"),
+    SKY("sky", 112, 1, "#FBC1EB");
 
     private final Component name;
     private final int height;
     private final int crumbleSpeed;
     private final String colorCode;
     private final Component defeat1 = new TranslatableComponent("title.ba_bt.guardian_defeated_1");
-    private final Component defeat2 = new TranslatableComponent("title.ba_bt.guardian_defeated_2");
-    private final Component defeat3 = new TranslatableComponent("title.ba_bt.guardian_defeated_3");
-
-    TowerSpecs(Component name, int height, int crumbleSpeed, String colorCode) {
-        this.name = name;
+    private final Component defeat2;
+    private final Component defeat3;
+    TowerSpecs(String baseName, int height, int crumbleSpeed, String colorCode) {
+        this.name = new TranslatableComponent("title.ba_bt." + baseName);
         this.height = height;
         this.crumbleSpeed = crumbleSpeed;
         this.colorCode = colorCode;
+        defeat2 = new TranslatableComponent("title.ba_bt." + baseName + "_defeated_2");
+        defeat3 = new TranslatableComponent("title.ba_bt." + baseName + "_defeated_3");
     }
 
     public int getCrumbleSpeed() {
