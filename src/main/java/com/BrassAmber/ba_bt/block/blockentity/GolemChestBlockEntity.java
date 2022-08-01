@@ -162,7 +162,9 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 
 	@Override
 	public void setItems(@NotNull NonNullList<ItemStack> items) {
-		this.items = items;
+		for (int i = 0; i < items.size(); i++) {
+			this.items.set(i, items.get(i));
+		}
 	}
 }
 
