@@ -26,6 +26,8 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.moveControl = new OceanGolemMoveGoal(this);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
+		// Sets the experience points to drop. Reference taken from the EnderDragon.
+		this.xpReward = 910;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {

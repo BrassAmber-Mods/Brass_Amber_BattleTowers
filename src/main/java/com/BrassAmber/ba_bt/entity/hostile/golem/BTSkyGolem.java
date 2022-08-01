@@ -34,6 +34,8 @@ public class BTSkyGolem extends BTAbstractGolem {
 		this.moveControl = new BTSkyGolem.MoveHelperController(this);
 		this.setGolemName(GolemType.SKY.getDisplayName());
 		this.setBossBarName();
+		// Sets the experience points to drop. Reference taken from the EnderDragon.
+		this.xpReward = 15345;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {

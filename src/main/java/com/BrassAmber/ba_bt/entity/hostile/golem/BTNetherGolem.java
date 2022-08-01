@@ -16,6 +16,8 @@ public class BTNetherGolem extends BTAbstractGolem {
 		super(type, levelIn, BossEvent.BossBarColor.RED);
 		this.setGolemName(GolemType.NETHER.getDisplayName());
 		this.setBossBarName();
+		// Sets the experience points to drop. Reference taken from the EnderDragon.
+		this.xpReward = 4020;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
