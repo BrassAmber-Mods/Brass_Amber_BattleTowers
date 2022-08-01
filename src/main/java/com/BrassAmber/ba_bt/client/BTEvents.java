@@ -1,7 +1,7 @@
 package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.sound.BTMusics;
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +18,7 @@ public class BTEvents {
         if (player.level.isClientSide() || !event.isEndConquered()) {
             Minecraft mc = Minecraft.getInstance();
             MusicManager musicManager = mc.getMusicManager();
-            if (musicManager.isPlayingMusic(BTMusics.LAND_TOWER) || musicManager.isPlayingMusic(BTMusics.LAND_GOLEM_FIGHT)) {
+            if (musicManager.isPlayingMusic(BTSoundEvents.LAND_TOWER_MUSIC) || musicManager.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
                 musicManager.stopPlaying();
             }
         }

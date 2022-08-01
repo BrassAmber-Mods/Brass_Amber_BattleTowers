@@ -1,19 +1,16 @@
 package com.BrassAmber.ba_bt.init;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.item.BTArmorMaterial;
 import com.BrassAmber.ba_bt.item.BTItemTier;
 import com.BrassAmber.ba_bt.item.ChestBlockItem;
 import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
 import com.BrassAmber.ba_bt.item.item.MonolithItem;
 import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
+import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.GolemType;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -68,13 +65,20 @@ public class BTItems {
 	public static final RegistryObject<Item> PLATINUM_TILES = ITEMS.register("platinum_tiles", () -> new BlockItem(BTBlocks.PLATINUM_TILES.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> TAB_ICON = ITEMS.register("tab_icon", () -> new BlockItem(BTBlocks.TAB_ICON.get(), new Item.Properties().tab(null)));
 
-	public static final RegistryObject<Item> BT_LAND_SPAWNER = ITEMS.register("bt_land_spawner", () -> new BlockItem(BTBlocks.BT_LAND_SPAWNER.get(), new Item.Properties().tab(null)));
-	public static final RegistryObject<Item> BT_OCEAN_SPAWNER = ITEMS.register("bt_ocean_spawner", () -> new BlockItem(BTBlocks.BT_OCEAN_SPAWNER.get(), new Item.Properties().tab(null)));
-	public static final RegistryObject<Item> BT_CORE_SPAWNER = ITEMS.register("bt_core_spawner", () -> new BlockItem(BTBlocks.BT_CORE_SPAWNER.get(), new Item.Properties().tab(null)));
-	public static final RegistryObject<Item> BT_NETHER_SPAWNER = ITEMS.register("bt_nether_spawner", () -> new BlockItem(BTBlocks.BT_NETHER_SPAWNER.get(), new Item.Properties().tab(null)));
-	public static final RegistryObject<Item> BT_END_SPAWNER = ITEMS.register("bt_end_spawner", () -> new BlockItem(BTBlocks.BT_END_SPAWNER.get(), new Item.Properties().tab(null)));
-	public static final RegistryObject<Item> BT_SKY_SPAWNER = ITEMS.register("bt_sky_spawner", () -> new BlockItem(BTBlocks.BT_SKY_SPAWNER.get(), new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_LAND_SPAWNER = ITEMS.register("bt_land_spawner", () -> new BlockItem(BTBlocks.BT_LAND_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
+	public static final RegistryObject<Item> BT_OCEAN_SPAWNER = ITEMS.register("bt_ocean_spawner", () -> new BlockItem(BTBlocks.BT_OCEAN_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
+	public static final RegistryObject<Item> BT_CORE_SPAWNER = ITEMS.register("bt_core_spawner", () -> new BlockItem(BTBlocks.BT_CORE_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
+	public static final RegistryObject<Item> BT_NETHER_SPAWNER = ITEMS.register("bt_nether_spawner", () -> new BlockItem(BTBlocks.BT_NETHER_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
+	public static final RegistryObject<Item> BT_END_SPAWNER = ITEMS.register("bt_end_spawner", () -> new BlockItem(BTBlocks.BT_END_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
+	public static final RegistryObject<Item> BT_SKY_SPAWNER = ITEMS.register("bt_sky_spawner", () -> new BlockItem(BTBlocks.BT_SKY_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
 
+	public static final RegistryObject<Item> BT_LAND_RESONANCE_CRYSTAL = ITEMS.register("bt_land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
+	public static final RegistryObject<Item> BT_OCEAN_RESONANCE_CRYSTAL = ITEMS.register("bt_ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
+	public static final RegistryObject<Item> BT_CORE_RESONANCE_CRYSTAL = ITEMS.register("bt_core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
+	public static final RegistryObject<Item> BT_NETHER_RESONANCE_CRYSTAL = ITEMS.register("bt_nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
+	public static final RegistryObject<Item> BT_END_RESONANCE_CRYSTAL = ITEMS.register("bt_end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
+	public static final RegistryObject<Item> BT_SKY_RESONANCE_CRYSTAL = ITEMS.register("bt_sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
+	public static final RegistryObject<Item> BT_CITY_RESONANCE_CRYSTAL = ITEMS.register("bt_city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
 
 	/**
 	 * Helper methods do not work anymore.
