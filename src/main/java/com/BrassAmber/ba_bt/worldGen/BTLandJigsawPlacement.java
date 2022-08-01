@@ -66,13 +66,13 @@ public class BTLandJigsawPlacement {
             }
             if (isSandy) {
                 if (worldgenrandom.nextInt(100) < 25) {
-                    heightChange = worldgenrandom.nextIntBetweenInclusive(8, 16);
+                    heightChange = worldgenrandom.nextIntBetweenInclusive(6, 12);
                 } else {
                     heightChange = 5;
                 }
             }
 
-            k = blockPos.getY() + chunkgenerator.getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, levelheightaccessor) - heightChange;
+            k = blockPos.getY() - heightChange;
 
             int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
             poolelementstructurepiece.move(0, k - l, 0);
