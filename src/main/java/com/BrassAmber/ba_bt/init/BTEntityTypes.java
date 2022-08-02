@@ -1,8 +1,9 @@
 package com.BrassAmber.ba_bt.init;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
+import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
 import com.BrassAmber.ba_bt.entity.ExplosionPhysics;
+import com.BrassAmber.ba_bt.entity.OceanDestructionEntity;
 import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTLandObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
@@ -50,12 +51,12 @@ public class BTEntityTypes {
 	public static final RegistryObject<EntityType<BTMonolith>> SKY_MONOLITH = ENTITY_TYPES.register("sky_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("sky_monolith"));
 
 	//*********************** OBELISKS *********************\\
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> LAND_OBELISK = ENTITY_TYPES.register("land_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTLandObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("land_obelisk"));
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> OCEAN_OBELISK = ENTITY_TYPES.register("ocean_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTOceanObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("ocean_obelisk"));
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> CORE_OBELISK = ENTITY_TYPES.register("core_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("core_obelisk"));
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> NETHER_OBELISK = ENTITY_TYPES.register("nether_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("nether_obelisk"));
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> END_OBELISK = ENTITY_TYPES.register("end_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("end_obelisk"));
-	public static final RegistryObject<EntityType<BTAbstractObelisk>> SKY_OBELISK = ENTITY_TYPES.register("sky_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("sky_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> LAND_OBELISK = ENTITY_TYPES.register("land_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTLandObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("land_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> OCEAN_OBELISK = ENTITY_TYPES.register("ocean_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTOceanObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("ocean_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> CORE_OBELISK = ENTITY_TYPES.register("core_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("core_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> NETHER_OBELISK = ENTITY_TYPES.register("nether_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("nether_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> END_OBELISK = ENTITY_TYPES.register("end_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("end_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> SKY_OBELISK = ENTITY_TYPES.register("sky_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("sky_obelisk"));
 
 	//*********************** TOWER MOBS *********************\\
 	public static final RegistryObject<EntityType<SkyMinion>> SKY_MINION = ENTITY_TYPES.register("sky_minion", () -> EntityType.Builder.of(SkyMinion::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8).build("sky_minion"));
@@ -64,9 +65,13 @@ public class BTEntityTypes {
 
 
 	//*********************** MISC ENTITIES *********************\\
-	public static final RegistryObject<EntityType<DestroyTower>> DESTROY_TOWER = ENTITY_TYPES.register("destroy_tower",
-			() -> EntityType.Builder.<DestroyTower>of(DestroyTower::new, MobCategory.MISC)
-					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("destroy_tower"));
+	public static final RegistryObject<EntityType<LandDestructionEntity>> LAND_DESTRUCTION = ENTITY_TYPES.register("land_destruction",
+			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("land_destruction"));
+
+	public static final RegistryObject<EntityType<OceanDestructionEntity>> OCEAN_DESTRUCTION = ENTITY_TYPES.register("ocean_destruction",
+			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("ocean_destruction"));
 
 	public static final RegistryObject<EntityType<ExplosionPhysics>> PHYSICS_EXPLOSION = ENTITY_TYPES.register("explosion_physics",
 			() -> EntityType.Builder.<ExplosionPhysics>of(ExplosionPhysics::new, MobCategory.MISC)

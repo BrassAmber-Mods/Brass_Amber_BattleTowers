@@ -1,12 +1,13 @@
 package com.BrassAmber.ba_bt.entity;
 
-import java.util.*;
-
 import com.BrassAmber.ba_bt.BattleTowersConfig;
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.BrassAmber.ba_bt.util.BTUtil;
+import com.BrassAmber.ba_bt.util.GolemType;
+import com.BrassAmber.ba_bt.util.TowerSpecs;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -21,25 +22,23 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-
-
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.util.GolemType;
-import com.BrassAmber.ba_bt.util.TowerSpecs;
-
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.network.NetworkHooks;
 
-import static com.BrassAmber.ba_bt.util.BTUtil.*;
+import java.util.*;
 
-public class DestroyTower extends Entity {
+import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputCommand;
+import static com.BrassAmber.ba_bt.util.BTUtil.distanceTo2D;
+
+public class OceanDestructionEntity extends  Entity {
     // Parameters that must be saved
-    private static final EntityDataAccessor<BlockPos> CRUMBLE_START_CORNER = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.BLOCK_POS);
-    private static final EntityDataAccessor<Integer> CRUMBLE_BOTTOM = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> CRUMBLE_SPEED = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> CURRENT_ROW = SynchedEntityData.defineId(DestroyTower.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<BlockPos> CRUMBLE_START_CORNER = SynchedEntityData.defineId(OceanDestructionEntity.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Integer> CRUMBLE_TOP = SynchedEntityData.defineId(OceanDestructionEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TOWER_BOTTOM = SynchedEntityData.defineId(OceanDestructionEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CRUMBLE_SPEED = SynchedEntityData.defineId(OceanDestructionEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> CURRENT_ROW = SynchedEntityData.defineId(OceanDestructionEntity.class, EntityDataSerializers.INT);
 
     //Other Parameters
     private Boolean initialized = false;
@@ -56,45 +55,45 @@ public class DestroyTower extends Entity {
     private boolean hasPlayer;
 
     private final double destroyPercentOfTower;
-    
+
     // Data Strings
     private final String crumbleStartName = "CrumbleStart";
-    private final String crumbleBottomName = "CrumbleBottom";
+    private final String crumbleTowerBottomName = "TowerBottom";
+    private final String crumbleTopName = "CrumbleBottom";
     private final String crumbleSpeedName = "CrumbleSpeed";
     private final String currentRowName = "CurrentFloor";
 
-
-    public DestroyTower(EntityType<DestroyTower> type, Level level) {
+    public OceanDestructionEntity(EntityType<OceanDestructionEntity> type, Level level) {
         super(type, level);
-        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
+        this.destroyPercentOfTower = BattleTowersConfig.oceanTowerCrumblePercent.get();
+        this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get();
     }
 
-    public DestroyTower(GolemType golemType, BlockPos golemSpawn, Level level) {
-        super(BTEntityTypes.DESTROY_TOWER.get(), level);
+    public OceanDestructionEntity(GolemType golemType, BlockPos golemSpawn, Level level) {
+        super(BTEntityTypes.OCEAN_DESTRUCTION.get(), level);
 
         this.golemType = golemType;
-        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
-        
-        // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
-        this.setCrumbleStart(golemSpawn.offset(-15, 6, -15));
-    }
+        this.destroyPercentOfTower = BattleTowersConfig.oceanTowerCrumblePercent.get();
 
+        // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
+        this.setCrumbleStart(golemSpawn.offset(-15, 0, -15).atY(-64));
+    }
 
     public void getNextRow() {
         //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "In getNextRow");
         // Find the corner of the next row of blocks (3 y levels per row)
-        BlockPos rowCorner = this.getCrumbleStart().below(this.getCurrentRow() * 3);
+        BlockPos rowCorner = this.getCrumbleStart().above(this.getCurrentRow() * 4);
 
-        // for each of th three rows add every single non-air block pos on that row to the arraylist
-        for (int y = rowCorner.getY(); y > (rowCorner.getY() - 3); y--) {
+        // for each of the three rows add every single non-air block pos on that row to the arraylist
+        for (int y = rowCorner.getY(); y < (rowCorner.getY() + 3); y++) {
             for (int x = rowCorner.getX(); x <= rowCorner.getX() + 30; x++) {
                 for(int z = rowCorner.getZ(); z <= rowCorner.getZ() + 30; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    if (this.level.isWaterAt(blockToAdd)) {
-                        removeBodyOfWater(blockToAdd);
-                    } else if (!this.level.getBlockState(blockToAdd).isAir()) {
-                        this.blocksToRemove.add(blockToAdd);
-                        // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
+                    if (BTUtil.distanceTo2D(this, blockToAdd) < 13.0D) {
+                        if (!this.level.isWaterAt(blockToAdd) && !this.level.getBlockState(blockToAdd).isAir()) {
+                            this.blocksToRemove.add(blockToAdd);
+                            // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
+                        }
                     }
                 }
             }
@@ -105,27 +104,24 @@ public class DestroyTower extends Entity {
     }
 
     private void init() {
-    	BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
+        BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
-        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3F);
+        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 4F);
         this.initialized = true;
 
-        // this.level.setBlock(this.getCrumbleStart(), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
-        // this.level.setBlock(this.getCrumbleStart().offset(15, 1, 15), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
-        // this.level.setBlock(this.getCrumbleStart().offset(30, 1, 30), Blocks.ACACIA_LOG.defaultBlockState(), BlockFlags.DEFAULT);
     }
-    
+
     @Override
     public void tick() {
-    	if(this.level.isClientSide()) {
+        if(this.level.isClientSide()) {
             MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
-            if (music.isPlayingMusic(BTMusics.LAND_GOLEM_FIGHT)) {
+            if (music.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
                 music.stopPlaying();
             }
-    		return;
-    	}
+            return;
+        }
         super.tick();
         if (this.checkForGolem) {
 
@@ -216,19 +212,12 @@ public class DestroyTower extends Entity {
                     this.level.playSound(null, this.getCrumbleStart().below(this.getCurrentRow()*3),
                             BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
                 }
-                if (this.blocksToRemove.isEmpty()) {
+                if (this.blocksToRemove.size() < 50) {
                     // Water checks/removal is done inside this method to prevent flowing water + explosions
                     this.getNextRow();
                 } else {
-                   // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
-                    if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
-                    	//Fancy physics stuff
-                    	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityTypes.PHYSICS_EXPLOSION.get(), this.level);
-                    	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
-                    	this.level.addFreshEntity(explosion);
-
-                    }
-                	for (int i = 0; i < 35; i++) {
+                    // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
+                    for (int i = 0; i < 35; i++) {
                         if (this.blocksToRemove.isEmpty()) {
                             break;
                         } else if (this.blocksToRemove.size() == 1) {
@@ -239,7 +228,6 @@ public class DestroyTower extends Entity {
                             this.level.removeBlock(this.removeBlock, false);
 
                         }
-
 
                     }
                     if (this.currentTicks % 6 == 0 && !this.blocksToRemove.isEmpty()) {
@@ -261,9 +249,6 @@ public class DestroyTower extends Entity {
                         this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
                     } else {
                         this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                        if (this.level.isWaterAt(this.removeBlock)) {
-                            this.removeBodyOfWater(this.removeBlock);
-                        }
                         this.level.removeBlock(this.removeBlock, false);
 
                     }
@@ -274,7 +259,7 @@ public class DestroyTower extends Entity {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if ((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd) && horizontalDistanceTo(this, blockToAdd) < 12.5)) {
+                            if ((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd) && BTUtil.distanceTo2D(this, blockToAdd) < 12.5)) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }
@@ -283,14 +268,9 @@ public class DestroyTower extends Entity {
                     //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
                 }
                 for (BlockPos clear: shouldBeEmptySpace) {
-                    if (this.level.isWaterAt(clear)) {
-                        this.removeBodyOfWater(clear);
-                    } else {
-                        this.level.removeBlock(clear, false);
-                    }
-
+                    this.level.removeBlock(clear, false);
                 }
-                this.remove(RemovalReason.DISCARDED);
+                this.remove(Entity.RemovalReason.DISCARDED);
             }
 
             // log the current ticks, crumble speed, and row
@@ -301,39 +281,14 @@ public class DestroyTower extends Entity {
         }
     }
 
-
-    private void removeBodyOfWater(BlockPos start) {
-    	Set<BlockPos> waterPositions = new HashSet<>();
-        int recursion = 0;
-    	removeBodyOWater(waterPositions, start, recursion);
-    	
-    	waterPositions.forEach((pos) -> this.level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0));
-	}
-    
-    private void removeBodyOWater(Set<BlockPos> storage, BlockPos position, int recursion) {
-    	if(!this.level.isWaterAt(position) || recursion == 250) {
-    		return;
-    	}
-    	if(!storage.contains(position)) {
-    		storage.add(position);
-    	} else {
-    		return;
-    	}
-    	removeBodyOWater(storage, position.north(), recursion + 1);
-    	removeBodyOWater(storage, position.east(), recursion + 1);
-    	removeBodyOWater(storage, position.south(), recursion + 1);
-    	removeBodyOWater(storage, position.west(), recursion + 1);
-    	removeBodyOWater(storage, position.below(), recursion + 1);
-    }
-
-	/**************************************************** DATA ****************************************************/
+    /**************************************************** DATA ****************************************************/
 
 
 
     @Override
     protected void defineSynchedData() {
         this.entityData.define(CRUMBLE_START_CORNER, BlockPos.ZERO);
-        this.entityData.define(CRUMBLE_BOTTOM, 0);
+        this.entityData.define(CRUMBLE_TOP, 0);
         this.entityData.define(CRUMBLE_SPEED,  0);
         this.entityData.define(CURRENT_ROW, 0);
     }
@@ -341,7 +296,7 @@ public class DestroyTower extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.put(this.crumbleStartName, this.newDoubleList(this.getCrumbleStart().getX(), this.getCrumbleStart().getY(), this.getCrumbleStart().getZ()));
-        compound.putInt(this.crumbleBottomName, this.getCrumbleBottom());
+        compound.putInt(this.crumbleTopName, this.getCrumbleBottom());
         compound.putInt(this.crumbleSpeedName, this.getCrumbleSpeed());
         compound.putInt(this.currentRowName, this.getCurrentRow());
         compound.putString("GolemType", this.golemType.getSerializedName());
@@ -354,7 +309,7 @@ public class DestroyTower extends Entity {
         double y = startPos.getDouble(1);
         double z = startPos.getDouble(2);
         this.setCrumbleStart(new BlockPos(x, y, z));
-        this.setCrumbleBottom(compound.getInt(this.crumbleBottomName));
+        this.setCrumbleBottom(compound.getInt(this.crumbleTopName));
         this.setCrumbleSpeed(compound.getInt(this.crumbleSpeedName));
         this.setCurrentRow(compound.getInt(this.currentRowName) - 1);
         this.golemType = GolemType.getTypeForName(compound.getString("GolemType"));
@@ -382,7 +337,7 @@ public class DestroyTower extends Entity {
      * Define the bottom position.
      */
     public void setCrumbleBottom(Integer bottomPos) {
-        this.entityData.set(CRUMBLE_BOTTOM, bottomPos);
+        this.entityData.set(CRUMBLE_TOP, bottomPos);
     }
 
     /**
@@ -399,6 +354,10 @@ public class DestroyTower extends Entity {
         this.entityData.set(CURRENT_ROW, floor);
     }
 
+    /**
+     * Define Bottom of Tower.
+     */
+    public void setTowerBottom(Integer bottomY) {this.entityData.set(TOWER_BOTTOM, bottomY);}
 
     /**
      * Define the start position.
@@ -413,7 +372,7 @@ public class DestroyTower extends Entity {
      * @return
      */
     public Integer getCrumbleBottom() {
-        return this.entityData.get(CRUMBLE_BOTTOM);
+        return this.entityData.get(CRUMBLE_TOP);
     }
     /**
      * Define the crumble speed.
@@ -430,9 +389,11 @@ public class DestroyTower extends Entity {
         return this.entityData.get(CURRENT_ROW);
     }
 
+    public Integer getTowerBottom() {return this.entityData.get(TOWER_BOTTOM);}
 
     @Override
     public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
+
 }
