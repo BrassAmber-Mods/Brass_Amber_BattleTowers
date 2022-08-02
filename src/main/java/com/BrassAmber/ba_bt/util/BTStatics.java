@@ -1,7 +1,9 @@
 package com.BrassAmber.ba_bt.util;
 
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -9,7 +11,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.landTowerMobs;
@@ -23,41 +24,32 @@ public class BTStatics {
     public static final List<List<Block>> towerBlocks;
     public static final List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
+    public static ChunkPos lastLandPostition = ChunkPos.ZERO;
+    public static ChunkPos lastOceanPostition = ChunkPos.ZERO;
+
 
     static {
+
         landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
 
         landTowerBiomes = List.of(
                 // Land
                 List.of(
-                        Biomes.FLOWER_FOREST,
-                        Biomes.BIRCH_FOREST,
-                        Biomes.DARK_FOREST,
-                        Biomes.OLD_GROWTH_BIRCH_FOREST,
-                        Biomes.WINDSWEPT_FOREST,
-                        Biomes.MEADOW,
-                        Biomes.PLAINS,
-                        Biomes.TAIGA,
-                        Biomes.OLD_GROWTH_PINE_TAIGA,
-                        Biomes.OLD_GROWTH_SPRUCE_TAIGA,
-                        Biomes.SAVANNA,
-                        Biomes.SUNFLOWER_PLAINS,
-                        Biomes.GROVE,
-                        Biomes.WINDSWEPT_HILLS,
-                        Biomes.WINDSWEPT_GRAVELLY_HILLS
+                        Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
+                        Biomes.WINDSWEPT_FOREST, Biomes.MEADOW, Biomes.PLAINS, Biomes.TAIGA,
+                        Biomes.OLD_GROWTH_PINE_TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA, Biomes.SAVANNA,
+                        Biomes.SUNFLOWER_PLAINS, Biomes.GROVE, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_GRAVELLY_HILLS
                 ),
                 // Overgrown
                 List.of(
-                        Biomes.SWAMP,
-                        Biomes.JUNGLE,
-                        Biomes.BAMBOO_JUNGLE,
-                        Biomes.SPARSE_JUNGLE
+                        Biomes.SWAMP, Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE, Biomes.SPARSE_JUNGLE
                 ),
                 // Sandy
                 List.of(
                         Biomes.DESERT
                 )
         );
+
 
         towerBlocks = List.of(
                 // Land
@@ -74,7 +66,12 @@ public class BTStatics {
                         Blocks.PRISMARINE, Blocks.PRISMARINE_SLAB, Blocks.PRISMARINE_STAIRS,
                         Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE_BRICK_SLAB, Blocks.PRISMARINE_BRICK_STAIRS,
                         Blocks.SEA_LANTERN, Blocks.DARK_PRISMARINE, Blocks.DARK_PRISMARINE_STAIRS,
-                        Blocks.DARK_PRISMARINE_SLAB
+                        Blocks.DARK_PRISMARINE_SLAB, Blocks.SEA_LANTERN, Blocks.MAGMA_BLOCK, Blocks.SOUL_SAND,
+                        Blocks.SEAGRASS, Blocks.TALL_SEAGRASS, Blocks.KELP_PLANT, Blocks.BRAIN_CORAL,
+                        Blocks.BUBBLE_CORAL, Blocks.FIRE_CORAL, Blocks.TUBE_CORAL, Blocks.HORN_CORAL,
+                        Blocks.BRAIN_CORAL_BLOCK, Blocks.BUBBLE_CORAL_BLOCK, Blocks.FIRE_CORAL_BLOCK,
+                        Blocks.TUBE_CORAL_BLOCK, Blocks.HORN_CORAL_BLOCK, Blocks.IRON_BARS,
+                        BTBlocks.BT_OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get()
                 )
         );
 
@@ -96,7 +93,7 @@ public class BTStatics {
                 Arrays.asList(13, 31)
         );
 
-        // List of
+        // List of spawner data per 2 floors per tower
         towerSpawnerData = List.of(
                 // Land
                 List.of(
@@ -104,9 +101,9 @@ public class BTStatics {
                         // minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requiredPlayerRange, spawnRange
                         Arrays.asList(200, 240, 2, 8, 10, 6),
                         // Floor 3-4
-                        Arrays.asList(200, 240, 4, 10, 10, 6),
+                        Arrays.asList(180, 220, 3, 10, 10, 6),
                         // Floor 5-6
-                        Arrays.asList(100, 140, 3, 10, 10, 6),
+                        Arrays.asList(120, 160, 3, 10, 10, 6),
                         // Floor 7-8
                         Arrays.asList(100, 140, 4, 12, 10, 6)
                 ),
@@ -115,14 +112,13 @@ public class BTStatics {
                         // Floor 1-2 data
                         Arrays.asList(240, 280, 2, 8, 10, 6),
                         // Floor 3-4
-                        Arrays.asList(240, 280, 4, 10, 10, 6),
+                        Arrays.asList(220, 260, 3, 10, 10, 6),
                         // Floor 5-6
-                        Arrays.asList(140, 180, 3, 10, 10, 6),
+                        Arrays.asList(160, 200, 3, 10, 10, 6),
                         // Floor 7-8
                         Arrays.asList(140, 180, 4, 12, 10, 6)
                 )
         );
-
 
         towerMobs = List.of(
                 new ArrayList<>(),

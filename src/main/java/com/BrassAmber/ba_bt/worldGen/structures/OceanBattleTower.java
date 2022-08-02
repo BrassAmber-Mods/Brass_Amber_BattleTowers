@@ -35,12 +35,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Predicate;
 
+import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
+
 
 // Comments from TelepathicGrunts
 
 public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
-    private static ChunkPos lastSpawnPosition = ChunkPos.ZERO;
+    private static ChunkPos lastPosition;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -48,6 +50,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
     public OceanBattleTower() {
         super(CODEC, OceanBattleTower::createPiecesGenerator, OceanBattleTower::afterPlace);
+        lastPosition = ChunkPos.ZERO;
     }
 
     @Override
@@ -56,11 +59,11 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
     }
 
 
-    public static BlockPos isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, WorldgenRandom worldgenRandom) {
+    public static BlockPos isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context,
+                                            ChunkPos chunkPos, ChunkGenerator chunkGen, WorldgenRandom worldgenRandom) {
 
-        ChunkPos chunkPos = context.chunkPos();
-        int seaLevel = context.chunkGenerator().getSeaLevel();
-        BlockPos centerOfChunk = context.chunkPos().getMiddleBlockPosition(0);
+        int seaLevel = chunkGen.getSeaLevel();
+        Predicate<Holder<Biome>> predicate = context.validBiome();
 
         List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
         vanillaStructures.add(BuiltinStructureSets.OCEAN_RUINS);
@@ -68,51 +71,60 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         vanillaStructures.add(BuiltinStructureSets.RUINED_PORTALS);
         vanillaStructures.add(BuiltinStructureSets.SHIPWRECKS);
 
-
         for (ResourceKey<StructureSet> set : vanillaStructures) {
             // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
 
-            if (context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 8)) {
-                // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
+            if (chunkGen.hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 6)) {
+                BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
                 return BlockPos.ZERO;
             }
         }
 
-        // Test/Check surrounding chunks for possible spawns
-        List<BlockPos> testables = new ArrayList<>(List.of(
-                centerOfChunk,
-                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() + 16),
-                new BlockPos(centerOfChunk.getX() + 16, centerOfChunk.getY(), centerOfChunk.getZ() + 16),
-                new BlockPos(centerOfChunk.getX() + 16, centerOfChunk.getY(), centerOfChunk.getZ()),
-                new BlockPos(centerOfChunk.getX() + 16, centerOfChunk.getY(), centerOfChunk.getZ() - 16),
-                new BlockPos(centerOfChunk.getX(), centerOfChunk.getY(), centerOfChunk.getZ() - 16),
-                new BlockPos(centerOfChunk.getX() - 16, centerOfChunk.getY(), centerOfChunk.getZ() - 16),
-                new BlockPos(centerOfChunk.getX() - 16, centerOfChunk.getY(), centerOfChunk.getZ()),
-                new BlockPos(centerOfChunk.getX() - 16, centerOfChunk.getY(), centerOfChunk.getZ() + 16)
-        ));
-        // North, Northeast, East, SouthEast, South, SouthWest, West, NorthWest
-        // X = Empty, T = Checked
-        // T X T X T
-        // X X X X X
-        // T X X X T
-        // X X X X X
-        // T X T X T
+        // Test/Check 3 by 3 square of chunks for possible spawns
+        List<ChunkPos> testable = new ArrayList<>(
+                List.of(
+                        chunkPos,
+                        new ChunkPos(chunkPos.x, chunkPos.z + 1),
+                        new ChunkPos(chunkPos.x + 1, chunkPos.z),
+                        new ChunkPos(chunkPos.x, chunkPos.z - 1),
+                        new ChunkPos(chunkPos.x - 1, chunkPos.z)
+                )
+        );
 
-        List<BlockPos> usablePositions =  new ArrayList<>();
+        List<ChunkPos> usablePositions =  new ArrayList<>();
         int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 28;
+        int topFloorRange = seaLevel - 24;
+        int newOceanFloorHeight;
+        int lowestY = seaLevel;
+        int highestY = bottomFloorRange;
+        int minX;
+        int minZ;
+        int newX;
+        int newZ;
 
-        for (BlockPos pos : testables) {
-            int testHeight = context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
-            if (testHeight >= bottomFloorRange && testHeight <= topFloorRange) {
-                usablePositions.add(pos.above());
-                BrassAmberBattleTowers.LOGGER.info("LandHeight for usabale position = " + testHeight);
+        for (ChunkPos pos : testable) {
+            Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(0), QuartPos.fromBlock(pos.getMiddleBlockX()));
+            minX = pos.getMinBlockX();
+            minZ = pos.getMinBlockX();
+
+            for (int x = 0; x < 6; x++) {
+                for (int z = 0; z < 6; z++) {
+                    newX = minX + (x * 3);
+                    newZ = minZ + (z * 3);
+                    newOceanFloorHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
+                    lowestY = Math.min(newOceanFloorHeight, lowestY);
+                    highestY = Math.max(newOceanFloorHeight, highestY);
+                }
+            }
+            if (lowestY >= bottomFloorRange && highestY <= topFloorRange && predicate.test(biome)) {
+                usablePositions.add(pos);
+                // BrassAmberBattleTowers.LOGGER.info("Ocean floor height for usable position = " + lowestY);
             }
         }
-
         if (usablePositions.size() > 0) {
-            return usablePositions.get(worldgenRandom.nextInt(usablePositions.size()));
-
+            int index = worldgenRandom.nextInt(usablePositions.size());
+            BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(seaLevel - 12));
+            return usablePositions.get(index).getMiddleBlockPosition(seaLevel - 12);
         }
         return BlockPos.ZERO;
     }
@@ -123,72 +135,64 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Predicate<Holder<Biome>> predicate = context.validBiome();
         Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
+
         int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
         int minimumSeparation = BattleTowersConfig.oceanMinimumSeperation.get();
         int seperationRange = BattleTowersConfig.oceanAverageSeperationModifier.get();
 
         ChunkPos chunkPos = context.chunkPos();
+        ChunkGenerator chunkGen = context.chunkGenerator();
         WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
-        boolean firstTowerDistanceCheck = (int) Mth.absMax(chunkPos.x, chunkPos.z) >= firstTowerDistance;
-        // BrassAmberBattleTowers.LOGGER.info("ocean current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
+        boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) >= firstTowerDistance;
+        if (!firstTowerDistanceCheck) {
+            return Optional.empty();
+        }
 
-        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange);
-        int spawnDistance = Math.min(Mth.abs(chunkPos.x-lastSpawnPosition.x), Mth.abs(chunkPos.z-lastSpawnPosition.z));
+        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
+        boolean towerInSeperation = chunkDistanceTo(lastPosition, chunkPos) <= nextSeperation;
 
-        BlockPos chunkCenter= context.chunkPos().getMiddleBlockPosition(0);
+        if (towerInSeperation) {
+            BrassAmberBattleTowers.LOGGER.info("Ocean within config distance " + nextSeperation);
+            return Optional.empty();
+        }
+
+        BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(0);
         int x = chunkCenter.getX();
         int z = chunkCenter.getZ();
-        int y =  context.chunkGenerator().getFirstFreeHeight(chunkCenter.getX(), chunkCenter.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+        int y =  chunkGen.getFirstFreeHeight(chunkCenter.getX(), chunkCenter.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
 
-        Holder<Biome> biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
+        Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
 
         BlockPos spawnPos;
-        if (firstTowerDistanceCheck && spawnDistance > nextSeperation && predicate.test(biome)) {
-            spawnPos = isSpawnableChunk(context, worldgenRandom);
-            BrassAmberBattleTowers.LOGGER.info("Biome correct? " + predicate.test(biome) + " Block: " + chunkCenter);
-        }
-        else {
-            spawnPos = BlockPos.ZERO;
+        if (predicate.test(biome)) {
+            spawnPos = isSpawnableChunk(context, chunkPos, chunkGen, worldgenRandom);
+            BrassAmberBattleTowers.LOGGER.info("Biome correct: " + biome
+                    + " Block: " + chunkCenter.atY(context.chunkGenerator().getFirstFreeHeight(
+                            chunkCenter.getX(), chunkCenter.getZ(),
+                    Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor()
+                ))
+            );
+        } else {
+            return Optional.empty();
         }
 
-        BrassAmberBattleTowers.LOGGER.info("ocean distance from last " + spawnDistance + "  config distance allowed " + nextSeperation);
-
+        BrassAmberBattleTowers.LOGGER.info("Ocean last position: " + lastPosition);
 
         if (spawnPos.getY() != 0) {
-            spawnPos = spawnPos.above(context.chunkGenerator().getSeaLevel() - 12);
             // Moved Biome check in JigsawPlacement outside
-            BrassAmberBattleTowers.LOGGER.info("Spawnpos: " + spawnPos);
-            int i;
-            int j;
-            int k;
-            i = spawnPos.getX();
-            j = spawnPos.getZ();
-            k = spawnPos.getY() + context.chunkGenerator().getFirstFreeHeight(i, j, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-
-            biome = context.chunkGenerator().getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j));
-
-            if (!predicate.test(biome)) {
-                BrassAmberBattleTowers.LOGGER.info("Ocean tower incorrect biome " + biome);
-                piecesGenerator = Optional.empty();
-            } else {
-
-                // All a structure has to do is call this method to turn it into a jigsaw based structure!
-                piecesGenerator =
-                        BTOceanJigsawPlacement.addPieces(
-                                context, // Used for JigsawPlacement to get all the proper behaviors done.
-                                PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                                spawnPos
-                        );
-                // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
-            }
+            // All a structure has to do is call this method to turn it into a jigsaw based structure!
+            piecesGenerator =
+                    BTOceanJigsawPlacement.addPieces(
+                            context, // Used for JigsawPlacement to get all the proper behaviors done.
+                            PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
+                            spawnPos
+                    );
 
             if (piecesGenerator.isPresent()) {
-                // I use to debug and quickly find out if the structure is spawning or not and where it is.
-                // This is returning the coordinates of the center starting piece.
                 BrassAmberBattleTowers.LOGGER.info("Ocean Tower at " + spawnPos);
-                lastSpawnPosition = context.chunkPos();
+                lastPosition = context.chunkPos();
             }
 
             return piecesGenerator;
@@ -204,7 +208,6 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
         // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
-
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
