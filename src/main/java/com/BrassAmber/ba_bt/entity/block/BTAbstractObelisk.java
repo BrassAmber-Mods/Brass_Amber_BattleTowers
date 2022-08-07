@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEnti
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
+import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
@@ -25,6 +26,7 @@ import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -586,6 +588,17 @@ public class BTAbstractObelisk extends Entity {
                 }
             }
             return true;
+        }
+    }
+
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        ItemStack itemInHand = player.getItemInHand(hand);
+        if (itemInHand.getItem() instanceof ResonanceStoneItem stoneItem) {
+            stoneItem.addEnchantment(itemInHand);
+            return InteractionResult.SUCCESS;
+        } else {
+            return super.interact(player, hand);
         }
     }
 

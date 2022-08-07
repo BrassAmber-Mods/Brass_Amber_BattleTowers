@@ -48,8 +48,8 @@ public class ResonanceStoneItem extends RecordItem {
         this.golemType = GolemType.getTypeForName(golemName);
     }
 
-    public boolean isEnchantable(ItemStack p_40646_) {
-        return p_40646_.getCount() == 1;
+    public boolean isEnchantable(ItemStack itemStack) {
+        return itemStack.getCount() == 1;
     }
 
 
@@ -65,11 +65,15 @@ public class ResonanceStoneItem extends RecordItem {
         List<Entity> entities = context.getLevel().getEntities(player, player.getBoundingBox().inflate(5,5,5));
         for (Entity entity: entities) {
             if (entity instanceof BTAbstractObelisk && entity.getType() == this.obelisk && this.enchantment != null) {
-                Map<Enchantment, Integer> map = Map.of(this.enchantment, 1);
-                EnchantmentHelper.setEnchantments(map, context.getItemInHand());
+
             }
         }
         return super.useOn(context);
+    }
+
+    public void addEnchantment(ItemStack stackInUse) {
+        Map<Enchantment, Integer> map = Map.of(this.enchantment, 1);
+        EnchantmentHelper.setEnchantments(map, stackInUse);
     }
 
     @Override
