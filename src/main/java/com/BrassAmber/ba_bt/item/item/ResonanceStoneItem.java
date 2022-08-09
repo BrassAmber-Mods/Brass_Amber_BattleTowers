@@ -59,18 +59,6 @@ public class ResonanceStoneItem extends RecordItem {
         return super.use(level, player, hand);
     }
 
-    @Override
-    public InteractionResult useOn(UseOnContext context) {
-        Player player = context.getPlayer();
-        List<Entity> entities = context.getLevel().getEntities(player, player.getBoundingBox().inflate(5,5,5));
-        for (Entity entity: entities) {
-            if (entity instanceof BTAbstractObelisk && entity.getType() == this.obelisk && this.enchantment != null) {
-
-            }
-        }
-        return super.useOn(context);
-    }
-
     public void addEnchantment(ItemStack stackInUse) {
         Map<Enchantment, Integer> map = Map.of(this.enchantment, 1);
         EnchantmentHelper.setEnchantments(map, stackInUse);
