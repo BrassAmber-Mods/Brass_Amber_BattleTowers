@@ -2,8 +2,8 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
-import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
+import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
@@ -15,11 +15,12 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
@@ -52,7 +53,7 @@ import java.util.*;
 
 import static com.BrassAmber.ba_bt.util.BTLoot.getLootTable;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
-import static com.BrassAmber.ba_bt.util.BTUtil.*;
+import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
 
 @SuppressWarnings("DanglingJavadoc")
 public class BTAbstractObelisk extends Entity {
@@ -76,7 +77,6 @@ public class BTAbstractObelisk extends Entity {
     private boolean doCheck;
 
     private MusicManager music;
-    private Minecraft mc;
     protected int musicDistance;
 
     protected GolemType golemType;
@@ -89,9 +89,15 @@ public class BTAbstractObelisk extends Entity {
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
 
+    private final String chestsName = "TowerChests";
+    private final String spawnersName = "Spawners";
+    private final String chestsFoundName = "ChestsFound?";
+
+
     private boolean musicPlaying;
     private boolean canCheck;
     private Class<? extends Entity> specialEnemy;
+    private boolean chestsFound;
 
     protected int floorDistance;
     protected Block chestBlock;
@@ -100,7 +106,6 @@ public class BTAbstractObelisk extends Entity {
     protected Block woolBlock;
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
-    protected List<ResourceLocation> towerLootData;
 
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
@@ -114,12 +119,12 @@ public class BTAbstractObelisk extends Entity {
         this.doCheck = true;
         this.floorDistance = 11;
         this.towerEffect = null;
-
     }
 
     public BTAbstractObelisk(GolemType golemType, Level level) {
         this(GolemType.getObeliskFor(golemType), level);
         this.golemType = golemType;
+        this.chestsFound = false;
     }
 
     public void initialize() {
@@ -165,7 +170,11 @@ public class BTAbstractObelisk extends Entity {
                     this.spawnerBlock + " " + this.BOSS_MUSIC + " " + this.TOWER_MUSIC + " " + this.woolBlock);
 
         }
-        this.findChestsAndSpawners(this.level);
+        if (!this.chestsFound) {
+            this.findChestsAndSpawners(this.level);
+            this.chestsFound = true;
+        }
+
     }
 
     public void findChestsAndSpawners(Level level) {
@@ -274,8 +283,8 @@ public class BTAbstractObelisk extends Entity {
         if (this.level.isClientSide()) {
             ClientLevel client = (ClientLevel)this.level;
             if (!this.clientInitialized) {
-                this.mc = Minecraft.getInstance();
-                this.music = this.mc.getMusicManager();
+                Minecraft mc = Minecraft.getInstance();
+                this.music = mc.getMusicManager();
                 this.clientInitialized = true;
             }
             if (client.players().size() == 0) {
@@ -406,13 +415,19 @@ public class BTAbstractObelisk extends Entity {
     }
 
     protected void spawnSpecialEnemy(ServerLevel serverWorld, BlockPos spawn, double lowerRadiusBound,
-                                     double upperRadiusBound, boolean onGround) {
+                                     double upperRadiusBound, boolean checkOnGround) {
         // BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
         double distance = BTUtil.distanceTo2D(this, spawn.getX(), spawn.getZ());
         boolean canSpawn = SpawnPlacements.checkSpawnRules(GolemType.getSpecialEnemyType(this.golemType), serverWorld, MobSpawnType.STRUCTURE, spawn, this.random);
         boolean acceptableDistance = lowerRadiusBound < distance && distance < upperRadiusBound;
+        boolean onGround;
+        if (checkOnGround) {
+            onGround = !this.level.getBlockState(spawn.below()).isAir();
+        } else {
+            onGround = true;
+        }
 
-        if (canSpawn && acceptableDistance && serverWorld.getBlockState(spawn.above()).isAir()) {
+        if (canSpawn && acceptableDistance && onGround && serverWorld.getBlockState(spawn.above()).isAir()) {
             Entity entity = GolemType.getSpecialEnemy(this.golemType, serverWorld);
             if (entity instanceof Mob mob) {
                 mob.setPos(spawn.getX(), spawn.getY(), spawn.getZ());
@@ -423,6 +438,7 @@ public class BTAbstractObelisk extends Entity {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void checkSpawners(Level level) {
         // Make sure there are chests && spawners in the tower (tower has not been cleared)
         if (this.SPAWNERS.size() == 0 || this.CHESTS.size() == 0) {
@@ -442,6 +458,7 @@ public class BTAbstractObelisk extends Entity {
                     }
                 } else {
                     List<BlockPos> poss = this.SPAWNERS.get(i);
+                    //noinspection ForLoopReplaceableByForEach
                     for (int x = 0; x < poss.size(); x++) {
                         BlockPos blockPos = poss.get(x);
                         if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
@@ -487,14 +504,71 @@ public class BTAbstractObelisk extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        this.golemType = GolemType.getTypeForName(tag.getString(this.towerName));
-        this.setSpawnersDestroyed(tag.getInt(this.spawnersDestroyedName));
+        this.golemType = GolemType.getTypeForName(tag.getString(towerName));
+        this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
+        this.chestsFound = tag.getBoolean(chestsFoundName);
+
+        if (this.chestsFound) {
+            ListTag Chests = tag.getList(chestsName, 6);
+            ListTag chestXTag = Chests.getList(0);
+            ListTag chestYTag = Chests.getList(1);
+            ListTag chestZTag = Chests.getList(2);
+            for (int i = 0; i < chestXTag.size(); i++) {
+                CHESTS.set(i, new BlockPos(chestXTag.getDouble(i), chestYTag.getDouble(i), chestZTag.getDouble(i)));
+            }
+
+            ListTag Spawners = tag.getList(spawnersName, 6);
+            ListTag spawnerXTag = Spawners.getList(0);
+            ListTag spawnerYTag = Spawners.getList(1);
+            ListTag spawnerZTag = Spawners.getList(2);
+            int j = 0;
+            for (int i = 0; i < chestXTag.size(); i++) {
+                if (SPAWNERS.get(j).size() == this.spawnerAmounts.get(j)) {
+                    j ++;
+                }
+                SPAWNERS.get(j).set(i, new BlockPos(spawnerXTag.getDouble(i), spawnerYTag.getDouble(i), spawnerZTag.getDouble(i)));
+
+            }
+        }
+
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putString(this.towerName, this.golemType.getSerializedName());
-        tag.putInt(this.spawnersDestroyedName, this.getSpawnersDestroyed());
+        tag.putString(towerName, this.golemType.getSerializedName());
+        tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
+        tag.putBoolean(chestsFoundName, this.chestsFound);
+
+        ListTag chestXTag = this.newDoubleList();
+        ListTag chestYTag = this.newDoubleList();
+        ListTag chestZTag = this.newDoubleList();
+        for (BlockPos chestPos: this.CHESTS) {
+            chestXTag.add(DoubleTag.valueOf(chestPos.getX()));
+            chestYTag.add(DoubleTag.valueOf(chestPos.getY()));
+            chestZTag.add(DoubleTag.valueOf(chestPos.getZ()));
+        }
+        ListTag Chests = new ListTag();
+        Chests.add(chestXTag);
+        Chests.add(chestYTag);
+        Chests.add(chestZTag);
+        tag.put(chestsName,Chests);
+
+        ListTag spawnerXTag = this.newDoubleList();
+        ListTag spawnerYTag = this.newDoubleList();
+        ListTag spawnerZTag = this.newDoubleList();
+        for (List<BlockPos> posList: this.SPAWNERS) {
+            for (BlockPos spawnerPos: posList) {
+                spawnerXTag.add(DoubleTag.valueOf(spawnerPos.getX()));
+                spawnerYTag.add(DoubleTag.valueOf(spawnerPos.getY()));
+                spawnerZTag.add(DoubleTag.valueOf(spawnerPos.getZ()));
+            }
+        }
+        ListTag Spawners = new ListTag();
+        Spawners.add(spawnerXTag);
+        Spawners.add(spawnerYTag);
+        Spawners.add(spawnerZTag);
+        tag.put(spawnersName, Spawners);
+
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
         }
@@ -513,15 +587,14 @@ public class BTAbstractObelisk extends Entity {
 
 
     /**
-     * {@link PushReaction.IGNORE} is the only valid option for an entity I think to stop piston interaction
-     * TODO I want this to Block the pistons movement
+     * {@link PushReaction.BLOCK} is the valid option for an entity to stop piston interaction
      *
      * Used in: {@link PistonTileEntity.moveCollidedEntities method}
      */
     @SuppressWarnings("JavadocReference")
     @Override
     public @NotNull PushReaction getPistonPushReaction() {
-        return PushReaction.IGNORE;
+        return PushReaction.BLOCK;
     }
 
     @Override
@@ -583,7 +656,7 @@ public class BTAbstractObelisk extends Entity {
         } else {
             if (this.isAlive() && !this.level.isClientSide() && source.isCreativePlayer()) {
                 Player player = (Player) source.getEntity();
-                if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
+                if (player != null && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
                     this.remove(RemovalReason.KILLED);
                 }
             }
@@ -592,7 +665,7 @@ public class BTAbstractObelisk extends Entity {
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public @NotNull InteractionResult interact(Player player, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.getItem() instanceof ResonanceStoneItem stoneItem) {
             stoneItem.addEnchantment(itemInHand);
