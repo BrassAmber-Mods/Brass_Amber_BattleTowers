@@ -22,9 +22,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
 import java.util.*;
@@ -54,11 +57,13 @@ public class OceanDestructionEntity extends  Entity {
     private boolean checkForGolem = true;
     private boolean hasPlayer;
 
+    private ArrayList<Entity> fallingBlocks;
+
     private final double destroyPercentOfTower;
 
     // Data Strings
     private final String crumbleStartName = "CrumbleStart";
-    private final String crumbleTowerBottomName = "TowerBottom";
+    private final String crumbleBottomName = "TowerBottom";
     private final String crumbleTopName = "CrumbleBottom";
     private final String crumbleSpeedName = "CrumbleSpeed";
     private final String currentRowName = "CurrentFloor";
@@ -67,6 +72,7 @@ public class OceanDestructionEntity extends  Entity {
         super(type, level);
         this.destroyPercentOfTower = BattleTowersConfig.oceanTowerCrumblePercent.get();
         this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get();
+        this.fallingBlocks = new ArrayList<>();
     }
 
     public OceanDestructionEntity(GolemType golemType, BlockPos golemSpawn, Level level) {
@@ -107,8 +113,8 @@ public class OceanDestructionEntity extends  Entity {
         BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
-        this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
-        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 4F);
+        this.setCrumbleTop(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
+        this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleTop()) / 4F);
         this.initialized = true;
 
     }
@@ -121,6 +127,13 @@ public class OceanDestructionEntity extends  Entity {
                 music.stopPlaying();
             }
             return;
+        }
+        this.fallingBlocks.removeIf(entity -> (entity.getY() < -64));
+        for (int i = 0; i < this.fallingBlocks.size(); i++) {
+            Entity blockEntity = this.fallingBlocks.get(i);
+            if (blockEntity.getY() < -64) {
+
+            }
         }
         super.tick();
         if (this.checkForGolem) {
@@ -225,15 +238,26 @@ public class OceanDestructionEntity extends  Entity {
                             this.level.removeBlock(this.removeBlock, false);
                         } else {
                             this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                            this.level.removeBlock(this.removeBlock, false);
+                            BlockState state = this.level.getBlockState(this.removeBlock);
+                            if( this.level.getBlockEntity(this.removeBlock) == null && !state.getFluidState().isSource()) {
 
+                                final Vec3 velocity = new Vec3(0D, 0.5D, 0D);
+
+                                this.level.removeBlock(this.removeBlock, true);
+
+                                FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
+                                        this.level,
+                                        this.removeBlock,
+                                        state
+                                );
+                                fallingBlock.setInvulnerable(true);
+                                fallingBlock.dropItem = false;
+                                fallingBlock.setDeltaMovement(velocity);
+
+
+                            }
                         }
 
-                    }
-                    if (this.currentTicks % 6 == 0 && !this.blocksToRemove.isEmpty()) {
-                        this.level.gameEvent(GameEvent.EXPLODE, this.removeBlock);
-                        this.level.playSound(null, this.removeBlock, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
-                                2.0F, 1.0F);
                     }
 
                 }
@@ -254,12 +278,13 @@ public class OceanDestructionEntity extends  Entity {
                     }
                 }
                 List<BlockPos> shouldBeEmptySpace = new ArrayList<>();
-                Integer yForClear = this.getCrumbleStart().getY();
-                for (int y = yForClear; y > this.getCrumbleBottom() + 3; y--) {
+                int yForClear = this.getCrumbleStart().getY();
+                for (int y = yForClear; y < this.getCrumbleTop() + 3; y++) {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if ((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd) && BTUtil.distanceTo2D(this, blockToAdd) < 12.5)) {
+                            if (!this.level.isWaterAt(blockToAdd) && !this.level.getBlockState(blockToAdd).isAir() &&
+                                    BTUtil.distanceTo2D(this, blockToAdd) < 13.5) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }
@@ -296,7 +321,7 @@ public class OceanDestructionEntity extends  Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.put(this.crumbleStartName, this.newDoubleList(this.getCrumbleStart().getX(), this.getCrumbleStart().getY(), this.getCrumbleStart().getZ()));
-        compound.putInt(this.crumbleTopName, this.getCrumbleBottom());
+        compound.putInt(this.crumbleTopName, this.getCrumbleTop());
         compound.putInt(this.crumbleSpeedName, this.getCrumbleSpeed());
         compound.putInt(this.currentRowName, this.getCurrentRow());
         compound.putString("GolemType", this.golemType.getSerializedName());
@@ -309,7 +334,7 @@ public class OceanDestructionEntity extends  Entity {
         double y = startPos.getDouble(1);
         double z = startPos.getDouble(2);
         this.setCrumbleStart(new BlockPos(x, y, z));
-        this.setCrumbleBottom(compound.getInt(this.crumbleTopName));
+        this.setCrumbleTop(compound.getInt(this.crumbleTopName));
         this.setCrumbleSpeed(compound.getInt(this.crumbleSpeedName));
         this.setCurrentRow(compound.getInt(this.currentRowName) - 1);
         this.golemType = GolemType.getTypeForName(compound.getString("GolemType"));
@@ -336,7 +361,7 @@ public class OceanDestructionEntity extends  Entity {
     /**
      * Define the bottom position.
      */
-    public void setCrumbleBottom(Integer bottomPos) {
+    public void setCrumbleTop(Integer bottomPos) {
         this.entityData.set(CRUMBLE_TOP, bottomPos);
     }
 
@@ -371,7 +396,7 @@ public class OceanDestructionEntity extends  Entity {
      * Define the bottom position.
      * @return
      */
-    public Integer getCrumbleBottom() {
+    public Integer getCrumbleTop() {
         return this.entityData.get(CRUMBLE_TOP);
     }
     /**
