@@ -12,6 +12,7 @@
 	
 	"entity.ba_bt.sky_minion": "天空仆从",
 	"entity.ba_bt.platinum_skeleton": "白金骑士",
+	"entity.ba_bt.bt_cultist": "Cultist",
 	
 	"entity.ba_bt.land_monolith": "大地石碑",
 	"entity.ba_bt.core_monolith": "炉心石碑",
@@ -36,6 +37,7 @@
 	"ba_bt.subtitle.golem.awaken": "魔像苏醒",
 	"ba_bt.subtitle.golem.ambient": "魔像咆哮",
 	"ba_bt.subtitle.golem.special": "魔像攻击",
+
 	"ba_bt.subtitle.golem.land.fight": "魔像战斗音乐",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "开始生成魔像",
@@ -44,7 +46,12 @@
 	"ba_bt.subtitle.tower.break.crumble": "高塔崩塌",
 	"ba_bt.subtitle.tower.ambient.music.land": "高塔环境音乐",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "海洋高塔环境音乐",
-	
+	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
+
 	// Blocks方块
 	"block.ba_bt.land_golem_chest": "魔像宝箱",
 	"block.ba_bt.land_chest": "大地宝箱",
@@ -67,6 +74,8 @@
 	"container.ba_bt.land_golem_chest_double": "大型大地魔像宝箱",
 	"container.ba_bt.land_chest": "大地宝箱",
 	"container.ba_bt.land_chest_double": "大型大地宝箱",
+
+	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
 
 	"container.ba_bt.ocean_golem_chest": "海洋魔像宝箱",
 	"container.ba_bt.ocean_golem_chest_double": "大型海洋魔像宝箱",
@@ -108,13 +117,33 @@
 	"item.ba_bt.ocean_chest_shard": "海洋宝箱碎片",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "白金骑士刷怪蛋",
-	
+
+	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
+	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
+	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
+	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
+	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
+	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
+	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+
+	// Effects
+	"effect.ba_bt.depth_dropper": "Depth Dropper",
+
+	// Enchantments
+	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+
 	// Item Tooltips物品描述
 	"tooltip.ba_bt.hold_shift": "按住shift查看更多信息",
-	"tooltip.ba_bt.monolith": "石碑用来召唤战斗魔像",
 	"tooltip.ba_bt.monolith_key": "将3把钥匙插入石碑来召唤战斗魔像",
 	"tooltip.ba_bt.tower_chest": "破坏当前所在层数的所有刷怪笼来解锁它。在生存模式放置时不会被锁住",
 	"tooltip.ba_bt.golem_chest": "击败魔像来解锁",
+
+	"tooltip.ba_bt.monolith_land": "石碑用来召唤战斗魔像",
+	"tooltip.ba_bt.monolith_ocean": "The Beast waits patiently within...",
+	"tooltip.ba_bt.monolith_core": "The God waits for fools to interfere...",
+	"tooltip.ba_bt.monolith_nether": "The Tyrant lounges lazily inside...",
+	"tooltip.ba_bt.monolith_end": "The Guardian Meditates within...",
+	"tooltip.ba_bt.monolith_sky": "The Goddess watches ...",
 
 	"tooltip.ba_bt.eye_hold_shift": "按住§eSHIFT§r以阅读守卫者的遗言",
 	"tooltip.ba_bt.land_eye": "瓦尤斯，高塔已被攻破……",
@@ -126,8 +155,24 @@
 
 	// Overscreen titles全屏标题
 	"title.ba_bt.guardian_defeated_1": "守卫者已然倒下",
-	"title.ba_bt.guardian_defeated_2": "如果失去其能量……",
-	"title.ba_bt.guardian_defeated_3": "高塔将会崩塌……",
+
+	"title.ba_bt.land_defeated_2": "如果失去其能量……",
+	"title.ba_bt.land_defeated_3": "高塔将会崩塌……",
+
+	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
+	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+
+	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
+	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+
+	"title.ba_bt.nether_defeated_2": "Without their control...",
+	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
+
+	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
+	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+
+	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
+	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
 
 	"title.ba_bt.land": "大地",
 	"title.ba_bt.ocean": "海洋",
@@ -144,5 +189,11 @@
 	"advancements.ba_bt.find_land_key.title": "上古之力的密钥……",
 	"advancements.ba_bt.find_land_key.description": "—找到一把石碑之键",
 	"advancements.ba_bt.kill_land_golem.title": "海洋深处开始躁动…",
-	"advancements.ba_bt.kill_land_golem.description": "—摧毁巴林泽摩尔，镇守高塔的守卫者"
+	"advancements.ba_bt.kill_land_golem.description": "—摧毁巴林泽摩尔，镇守高塔的守卫者",
+	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
+	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
+	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
+	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
+	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
 }

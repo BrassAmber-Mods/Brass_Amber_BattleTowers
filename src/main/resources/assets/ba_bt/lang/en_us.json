@@ -134,10 +134,16 @@
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Hold §eSHIFT§r for more information.",
-	"tooltip.ba_bt.monolith": "The Guardian has been trapped within!",
 	"tooltip.ba_bt.monolith_key": "I hope you know what you're doing..",
 	"tooltip.ba_bt.tower_chest": "Unlocks upon destruction of nearby spawners.",
 	"tooltip.ba_bt.golem_chest": "Bound to the guardian's life force",
+
+	"tooltip.ba_bt.monolith_land": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_ocean": "The Beast waits patiently within...",
+	"tooltip.ba_bt.monolith_core": "The God waits for fools to interfere...",
+	"tooltip.ba_bt.monolith_nether": "The Tyrant lounges lazily inside...",
+	"tooltip.ba_bt.monolith_end": "The Guardian Meditates within...",
+	"tooltip.ba_bt.monolith_sky": "The Goddess watches ...",
 
 	"tooltip.ba_bt.eye_hold_shift": "Hold §eSHIFT§r to see the Guardian's last words",
 	"tooltip.ba_bt.land_eye": "Vaayus, the tower has been compromised...",

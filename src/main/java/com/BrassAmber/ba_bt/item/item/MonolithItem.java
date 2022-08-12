@@ -3,8 +3,6 @@ package com.BrassAmber.ba_bt.item.item;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 
@@ -31,6 +29,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class MonolithItem extends Item {
 	private final GolemType monolithType;
@@ -102,9 +101,11 @@ public class MonolithItem extends Item {
 	/*********************************************************** Characteristics ********************************************************/
 
 
+	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(new TranslatableComponent("tooltip.ba_bt.monolith").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(new TranslatableComponent("tooltip.ba_bt.monolith_"+ this.monolithType.getSerializedName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BrassAmberBattleTowers.HOLD_SHIFT_TOOLTIP);
 		}

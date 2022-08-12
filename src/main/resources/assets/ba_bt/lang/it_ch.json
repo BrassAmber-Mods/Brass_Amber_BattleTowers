@@ -45,6 +45,11 @@
 	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
+	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
 
 	// Blocchi (Blocks)
 	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
@@ -68,6 +73,8 @@
 	"container.ba_bt.land_golem_chest_double": "Baule doppio di Bahryn'muul",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
+
+	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
 
 	"container.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
 	"container.ba_bt.ocean_golem_chest_double": "Baule doppio di Moraizu'un",
@@ -110,12 +117,32 @@
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore del cavaliere di platino",
 
+	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
+	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
+	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
+	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
+	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
+	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
+	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+
+	// Effects
+	"effect.ba_bt.depth_dropper": "Depth Dropper",
+
+	// Enchantments
+	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+
 	// Sottotitoli degli oggetti (Item Tooltips)
 	"tooltip.ba_bt.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
-	"tooltip.ba_bt.monolith": "Il guardiano sembra intrappolato all'interno!",
 	"tooltip.ba_bt.monolith_key": "Confido tu sappia a cosa vai incontro...",
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
 	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprirà!",
+
+	"tooltip.ba_bt.monolith_land": "Il guardiano sembra intrappolato all'interno!",
+	"tooltip.ba_bt.monolith_ocean": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_core": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_nether": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_end": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_sky": "The Guardian has been trapped within!",
 
 	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eSHIFT§r per leggere le utlime parole del Guardiano",
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre è stata compromessa...",
@@ -127,8 +154,24 @@
 
 	// Scritte in sovraimpressione (Overscreen titles)
 	"title.ba_bt.guardian_defeated_1": " è caduto.",
-	"title.ba_bt.guardian_defeated_2": "Senza la sua energia...",
-	"title.ba_bt.guardian_defeated_3": "...la torrè crollerà!",
+
+	"title.ba_bt.land_defeated_2": "Without it's energy...",
+	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
+
+	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
+	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+
+	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
+	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+
+	"title.ba_bt.nether_defeated_2": "Without their control...",
+	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
+
+	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
+	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+
+	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
+	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
 
 	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
@@ -145,5 +188,11 @@
 	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",
 	"advancements.ba_bt.find_land_key.description": "-Trova una chiave del monolite",
 	"advancements.ba_bt.kill_land_golem.title": "Le profondità dell'oceano cominciano ad agitarsi...",
-	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, il guardiano della torre"
+	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, il guardiano della torre",
+	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
+	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
+	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
+	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
+	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
 }

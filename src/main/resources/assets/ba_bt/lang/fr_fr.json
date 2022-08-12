@@ -1,22 +1,22 @@
 {
 	// Entities
 	"entity.ba_bt.land_golem": "Golem Terrestre",
+	"entity.ba_bt.ocean_golem": "Golem Océanique",
 	"entity.ba_bt.core_golem": "Golem Volcanique",
 	"entity.ba_bt.nether_golem": "Golem du Nether",
 	"entity.ba_bt.end_golem": "Golem de l'End",
 	"entity.ba_bt.sky_golem": "Golem Angélique",
-	"entity.ba_bt.ocean_golem": "Golem Océanique",
 
 	"entity.ba_bt.sky_minion": "Minion Angélique",
 	"entity.ba_bt.platinum_skeleton": "Chevalier en Platine",
 	"entity.ba_bt.bt_cultist": "Cultiste",
 
 	"entity.ba_bt.land_monolith": "Monolithe Terrestre",
+	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
 	"entity.ba_bt.core_monolith": "Monolithe Volcanique",
 	"entity.ba_bt.nether_monolith": "Monolithe du Nether",
 	"entity.ba_bt.end_monolith": "Monolithe de l'End",
 	"entity.ba_bt.sky_monolith": "Monolithe Angélique",
-	"entity.ba_bt.ocean_monolith": "Monolithe Océanique",
 
 	"entity.ba_bt.land_obelisk": "Obélisque Terrestre",
 	"entity.ba_bt.ocean_obelisk": "Obélisque Océanique",
@@ -25,6 +25,8 @@
 	"entity.ba_bt.end_obelisk": "Obélisque de l'End",
 	"entity.ba_bt.sky_obelisk": "Obélisque Angélique",
 
+	"entity.ba_bt.destroy_tower": "Destroy Tower",
+
 	// Golem Sounds
 	"ba_bt.subtitle.golem.hurt": "Golem blessé",
 	"ba_bt.subtitle.golem.death": "Golem meurt",
@@ -32,6 +34,7 @@
 	"ba_bt.subtitle.golem.awaken": "Golem se réveille",
 	"ba_bt.subtitle.golem.ambient": "Golem grogne",
 	"ba_bt.subtitle.golem.special": "Golem attaques",
+
 	"ba_bt.subtitle.golem.land.fight": "Musique du Golem",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Le golem commence à apparaître",
@@ -40,6 +43,11 @@
 	"ba_bt.subtitle.tower.break.crumble": "La tour de combat s'écroule",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musique d'ambiance de la tour",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
@@ -63,6 +71,8 @@
 	"container.ba_bt.land_golem_chest_double": "Grand Coffre de Golem Terrestre",
 	"container.ba_bt.land_chest": "Coffre Terrestre",
 	"container.ba_bt.land_chest_double": "Grand Coffre Terrestre",
+
+	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
 
 	"container.ba_bt.ocean_golem_chest": "Coffre de Golem Océanique",
 	"container.ba_bt.ocean_golem_chest_double": "Grand Coffre de Golem Océanique",
@@ -105,12 +115,32 @@
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
 
+	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
+	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
+	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
+	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
+	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
+	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
+	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+
+	// Effects
+	"effect.ba_bt.depth_dropper": "Depth Dropper",
+
+	// Enchantments
+	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Maintenez §eMaj§r pour plus d'informations.",
-	"tooltip.ba_bt.monolith": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
 	"tooltip.ba_bt.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat.",
 	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
 	"tooltip.ba_bt.golem_chest": "Battez le Golem pour déverrouiller",
+
+	"tooltip.ba_bt.monolith_land": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
+	"tooltip.ba_bt.monolith_ocean": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_core": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_nether": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_end": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_sky": "The Guardian has been trapped within!",
 
 	"tooltip.ba_bt.eye_hold_shift": "Maintenez §eMAJ§r pour voir les derniers mots du Golem",
 	"tooltip.ba_bt.land_eye": "Vaayus, la tour a été compromise...",
@@ -119,11 +149,27 @@
 	"tooltip.ba_bt.nether_eye": "Je vous ferai ROTER dans mes DUNGEONS pour cela !...",
 	"tooltip.ba_bt.end_eye": "Elle s'approche, à travers la faille...",
 	"tooltip.ba_bt.sky_eye": "J'ai échoué, Sr. Vaayus... ",
-	
+
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",
-	"title.ba_bt.guardian_defeated_2": "Sans son énergie...",
-	"title.ba_bt.guardian_defeated_3": "...La tour va s'écrouler...",
+
+	"title.ba_bt.land_defeated_2": "Without it's energy...",
+	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
+
+	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
+	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+
+	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
+	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+
+	"title.ba_bt.nether_defeated_2": "Without their control...",
+	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
+
+	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
+	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+
+	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
+	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
 
 	"title.ba_bt.land": "Bahryn'muul, Golem Terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Golem Océanique",
@@ -140,5 +186,11 @@
 	"advancements.ba_bt.find_land_key.title": "La clé d'un pouvoir ancien...",
 	"advancements.ba_bt.find_land_key.description": "-Trouver une Clé du Monolithe",
 	"advancements.ba_bt.kill_land_golem.title": "L'océan commencent à s'agiter...",
-	"advancements.ba_bt.kill_land_golem.description": "-Détruire Bahryn'muul, Golem de la Tour"
+	"advancements.ba_bt.kill_land_golem.description": "-Détruire Bahryn'muul, Golem de la Tour",
+	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
+	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
+	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
+	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
+	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
 }

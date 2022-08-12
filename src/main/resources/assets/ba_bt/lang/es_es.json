@@ -12,6 +12,7 @@
 
 	"entity.ba_bt.sky_minion": "Súbdito del cielo",
 	"entity.ba_bt.platinum_skeleton": "Esqueleto de platino",
+	"entity.ba_bt.bt_cultist": "Cultist",
 
 	"entity.ba_bt.land_monolith": "Monolito terrestre",
 	"entity.ba_bt.ocean_monolith": "Monolito oceánico",
@@ -36,6 +37,7 @@
 	"ba_bt.subtitle.golem.awaken": "El gólem despierta",
 	"ba_bt.subtitle.golem.ambient": "El gólem ruge",
 	"ba_bt.subtitle.golem.special": "El gólem ataca",
+
 	"ba_bt.subtitle.golem.land.fight": "Música del gólem",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "El gólem aparece",
@@ -44,6 +46,11 @@
 	"ba_bt.subtitle.tower.break.crumble": "La torre se derrumba",
 	"ba_bt.subtitle.tower.ambient.music.land": "Música ambiental de la torre",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Cofre del gólem",
@@ -67,6 +74,8 @@
 	"container.ba_bt.land_golem_chest_double": "Cofre del gólem terrestre grande",
 	"container.ba_bt.land_chest": "Cofre terrestre",
 	"container.ba_bt.land_chest_double": "Cofre terrestre grande",
+
+	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
 
 	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
 	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
@@ -109,6 +118,20 @@
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Generar esqueleto de platino",
 
+	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
+	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
+	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
+	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
+	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
+	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
+	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+
+	// Effects
+	"effect.ba_bt.depth_dropper": "Depth Dropper",
+
+	// Enchantments
+	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
 	"tooltip.ba_bt.monolith": "El Guardián ha quedado atrapado dentro!",
@@ -126,8 +149,24 @@
 
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "Ha caído",
-	"title.ba_bt.guardian_defeated_2": "Sin su energía...",
-	"title.ba_bt.guardian_defeated_3": "...la torre se derrumbará...",
+
+	"title.ba_bt.land_defeated_2": "Without it's energy...",
+	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
+
+	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
+	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+
+	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
+	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+
+	"title.ba_bt.nether_defeated_2": "Without their control...",
+	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
+
+	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
+	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+
+	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
+	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
 
 	"title.ba_bt.land": "Bahryn'muul, Guardían terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Guardían oceánico",
@@ -139,10 +178,16 @@
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "Torres de Batalla",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
-	"advancements.ba_bt.land_tower_found.title": "Torres aullantes",
-	"advancements.ba_bt.land_tower_found.description": "-Infíltrate en la Torre terrestre",
+	"advancements.ba_bt.land_tower_found.title": "A test of time",
+	"advancements.ba_bt.land_tower_found.description": "-Re-discover an ancient BattleTower",
 	"advancements.ba_bt.find_land_key.title": "La clave de un antiguo poder...",
 	"advancements.ba_bt.find_land_key.description": "-Encuentra una llave de Monolito",
 	"advancements.ba_bt.kill_land_golem.title": "Las profundidades del océano comienzan a agitarse...",
-	"advancements.ba_bt.kill_land_golem.description": "-Destruye a Bahryn'muul, Guardián vinculado a la Torre"
+	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahryn'muul, Entombed Watcher of the Tower",
+	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
+	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
+	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
+	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
+	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
 }
