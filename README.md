@@ -89,8 +89,8 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >
 >
 >- Sky Tower: 
->  - Concrete Halls by C418 
->    - Ambient Version Edited by Brass
+>  - Clouds from Aether 
+>    - Direct Song Use (With Permission)
 
 ### This mod is currently being built around the texture pack Excalibur
 >- Built with intention of inclusion in the ModPack Excalibur's Crate

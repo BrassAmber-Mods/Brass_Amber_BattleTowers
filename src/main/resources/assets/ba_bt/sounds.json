@@ -165,7 +165,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.sky",
 		"sounds": [
 			{
-				"name": "ba_bt:concrete_halls_remix",
+				"name": "ba_bt:clouds",
 				"volume": 0.7,
 				"stream": true
 			}
