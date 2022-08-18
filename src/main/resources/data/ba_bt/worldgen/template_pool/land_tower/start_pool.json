@@ -7,7 +7,7 @@
       "weight": 1,
       "element": {
 
-        "location": "ba_bt:land_tower/bottom_floors/default_bottom_floor",
+        "location": "ba_bt:land_tower/bottom_floors/default",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
