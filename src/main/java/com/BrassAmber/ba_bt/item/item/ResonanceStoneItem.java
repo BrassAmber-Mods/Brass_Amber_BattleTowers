@@ -52,16 +52,22 @@ public class ResonanceStoneItem extends RecordItem {
         return itemStack.getCount() == 1;
     }
 
+    @Override
+    public int getUseDuration(ItemStack itemStack) {
+        return 1;
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         this.effectOn = !this.effectOn;
-        return super.use(level, player, hand);
+        return InteractionResultHolder.success(player.getItemInHand(hand));
     }
 
     public void addEnchantment(ItemStack stackInUse) {
-        Map<Enchantment, Integer> map = Map.of(this.enchantment, 1);
-        EnchantmentHelper.setEnchantments(map, stackInUse);
+        if (this.enchantment != null) {
+            Map<Enchantment, Integer> map = Map.of(this.enchantment, 1);
+            EnchantmentHelper.setEnchantments(map, stackInUse);
+        }
     }
 
     @Override
@@ -83,10 +89,9 @@ public class ResonanceStoneItem extends RecordItem {
             this.initialized = true;
         }
 
-
         if (this.enchantment != null && EnchantmentHelper.getEnchantments(itemStack).containsKey(this.enchantment)) {
             if (entity instanceof LivingEntity living && this.effectOn) {
-                living.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(),60, 2), living);
+                living.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(),200, 3), living);
             }
         }
     }
