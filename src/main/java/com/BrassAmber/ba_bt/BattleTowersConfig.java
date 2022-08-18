@@ -109,28 +109,29 @@ public class BattleTowersConfig {
         BUILDER.pop();
 
 
-        BUILDER.push("Tower loot -- Loot rolls for tower chests are generated from these tables. EACH TABLE MUST CONTAIN AT LEAST ONE ITEM ");
+        BUILDER.push("Tower loot -- Loot rolls for tower chests are generated from these tables: EACH TABLE MUST CONTAIN AT LEAST ONE ITEM ");
         generalBadLoot =
-                BUILDER.comment("A list of item ids of possible bad items to spawn in any tower chests.")
+                BUILDER.comment("A list of item ids of possible bad items.")
                         .defineListAllowEmpty(List.of("General Bad Loot"), () -> List.of("minecraft:string", "minecraft:rotten_flesh"), stringListValidator);
         generalFillerLoot =
-                BUILDER.comment("A list of item ids of possible filler items to spawn in any tower chests.")
+                BUILDER.comment("A list of item ids of possible filler items.")
                         .defineListAllowEmpty(List.of("General Filler Loot"), () -> List.of("minecraft:sugar", "minecraft:gold_nugget", "minecraft:glass_bottle",
                                 "minecraft:clay_ball", "minecraft:flower_pot", "minecraft:iron_hoe", "minecraft:arrow", "minecraft:cookie"), stringListValidator);
         generalDecentLoot =
-                BUILDER.comment("A list of item ids of possible decent items to spawn in any tower chests.")
+                BUILDER.comment("A list of item ids of possible decent items.")
                         .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of("minecraft:gunpowder", "minecraft:obsidian", "minecraft:bone",
-                                "minecraft:iron_ingot", "minecraft:bucket", "minecraft:honey_bottle", "minecraft:chest", "minecraft:oak_wood", "minecraft:gold_ingot",
+                                "minecraft:iron_ingot", "minecraft:bucket", "minecraft:honey_bottle", "minecraft:oak_wood", "minecraft:gold_ingot",
                                 "minecraft:redstone", "minecraft:crosbow", "minecraft:lava_bucket", "minecraft:paper", "minecraft:item_frame", "minecraft:sugar_cane",
                                 "minecraft:cauldron", "minecraft:diamond_hoe", "minecraft:iron_axe", "minecraft:iron_pickaxe", "minecraft:iron_shovel",
                                 "minecraft:iron_sword", "minecraft:arrow"), stringListValidator);
         generalGoodLoot =
-                BUILDER.comment("A list of item ids of possible good items to spawn in any tower chests.")
+                BUILDER.comment("A list of item ids of possible good items.")
                         .defineListAllowEmpty(List.of("General Good Loot"), () -> List.of("minecraft:golden_carrot", "minecraft:golden_apple", "minecraft:enchanted_book",
                                 "minecraft:ender_pearl", "minecraft:diamond", "minecraft:diamond_axe", "minecraft:diamond_pickaxe", "minecraft:diamond_shovel",
                                 "minecraft:diamond_sword", "minecraft:experience_bottle", "minecraft:emerald", "minecraft:music_disc_11", "minecraft:music_disc_13",
                                 "minecraft:music_disc_blocks", "minecraft:music_disc_cat", "minecraft:music_disc_chirp", "minecraft:music_disc_far",
                                 "minecraft:music_disc_mall", "minecraft:music_disc_mellohi", "minecraft:music_disc_otherside", "minecraft:music_disc_stal"), stringListValidator);
+
 
         landTowerBadLoot =
                 BUILDER.comment("A list of item ids of possible bad items to spawn inside the Land tower. " +
