@@ -1,10 +1,10 @@
-## Brass_Amber_BattleTowers
+## Brass-Amber BattleTowers
 Re-vamp of the old BattleTowers mod from yogbox. Developed by Brass_Herbalist, Milamber, X, and DerToaster
 
-Some code comments are from a Structure Tutorial by Telepathic Grunt and have be marked as such
+Some code comments are from a Structure Tutorial by Telepathic Grunt and have be marked as such.
 
 >- Current Licensing is All Rights Reserved
->  - We believe in giving everyone access to view the code, this repo will remain public and open to assistance. 
+>  - We believe in giving everyone access to view our code, this repo will remain public and open to assistance. 
 >  - However this does protect the mod from unauthorized use 
 >    - (such as redistribution without consent and/or attribution for personal profit)
 
