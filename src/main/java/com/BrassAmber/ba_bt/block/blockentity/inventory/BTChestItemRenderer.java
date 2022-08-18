@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.block.blockentity.inventory;
 
 import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTItems;
 import com.mojang.blaze3d.vertex.PoseStack;

@@ -25,7 +25,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.jetbrains.annotations.NotNull;
 
+import static com.BrassAmber.ba_bt.util.BTUtil.getChestEntity;
+import static com.BrassAmber.ba_bt.util.BTUtil.getTowerName;
+
 public class GolemChestBlockEntity extends ChestBlockEntity {
+	protected final String tower_name;
 	private LockCode lockKey = new LockCode("bt_spawner");
 	protected boolean unlocked = false;
 
@@ -56,12 +60,13 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 
 	private final ChestLidController chestLidController = new ChestLidController();
 
-	protected GolemChestBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+	protected GolemChestBlockEntity(BlockEntityType<? extends ChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
+		this.tower_name = getTowerName(blockEntityType);
 	}
 
 	public GolemChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BTBlockEntityTypes.LAND_GOLEM_CHEST.get(), blockPos, blockState);
+		this(getChestEntity(blockState.getBlock()), blockPos, blockState);
 	}
 
 	public int getContainerSize() {
@@ -74,7 +79,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	 */
 	@Override
 	protected Component getDefaultName() {
-		return new TranslatableComponent("container.ba_bt.land_golem_chest");
+		return new TranslatableComponent("container.ba_bt." + this.tower_name + "_golem_chest");
 	}
 
 	public void load(CompoundTag compoundTag) {

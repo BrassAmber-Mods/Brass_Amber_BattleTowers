@@ -32,6 +32,8 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 
+import static com.BrassAmber.ba_bt.util.BTUtil.getChestEntity;
+
 public class GolemChestBlock extends ChestBlock {
 	private final BTChestType chestType;
 
@@ -54,7 +56,7 @@ public class GolemChestBlock extends ChestBlock {
 					if (chestBlockEntity1.hasCustomName()) {
 						return chestBlockEntity1.getDisplayName();
 					} else {
-						return chestBlockEntity2.hasCustomName() ? chestBlockEntity2.getDisplayName() : new TranslatableComponent("container.ba_bt."+getChestType().getName()+"_chest_double");
+						return chestBlockEntity2.hasCustomName() ? chestBlockEntity2.getDisplayName() : new TranslatableComponent("container.ba_bt."+ getChestType().getName() +"_chest_double");
 					}
 				}
 			});
@@ -69,20 +71,14 @@ public class GolemChestBlock extends ChestBlock {
 		}
 	};
 
-
-	
-	public GolemChestBlock(BTChestType chestType, Properties properties) {
-		this(chestType, properties, BTBlockEntityTypes.LAND_GOLEM_CHEST::get);
-	}
-
-	public GolemChestBlock(BTChestType chestType, Properties properties, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier) {
+	public GolemChestBlock(BTChestType chestType, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties) {
 		super(properties, chestSupplier);
 		this.chestType = chestType;
 	}
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return BTBlockEntityTypes.LAND_GOLEM_CHEST.get().create(blockPos, blockState);
+		return getChestEntity(this).create(blockPos, blockState);
 	}
 
 	@Override

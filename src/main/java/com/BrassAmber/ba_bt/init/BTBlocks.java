@@ -20,14 +20,26 @@ public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final RegistryObject<Block> LAND_GOLEM_CHEST = BLOCKS.register("land_golem_chest",
-			() -> new GolemChestBlock(BTChestType.GOLEM, Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)));
+			() -> new GolemChestBlock(
+					BTChestType.GOLEM, BTBlockEntityTypes.LAND_GOLEM_CHEST::get,
+					Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F))
+	);
 	public static final RegistryObject<Block> LAND_CHEST = BLOCKS.register("land_chest",
-			() -> new TowerChestBlock(BTChestType.TOWER, Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)));
+			() -> new TowerChestBlock(
+					BTChestType.TOWER, BTBlockEntityTypes.LAND_CHEST::get,
+					Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F))
+	);
 
 	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = BLOCKS.register("ocean_golem_chest",
-			() -> new GolemChestBlock(BTChestType.GOLEM, Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)));
+			() -> new GolemChestBlock(
+					BTChestType.GOLEM, BTBlockEntityTypes.OCEAN_GOLEM_CHEST::get,
+					Block.Properties.of(Material.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F))
+	);
 	public static final RegistryObject<Block> OCEAN_CHEST = BLOCKS.register("ocean_chest",
-			() -> new TowerChestBlock(BTChestType.TOWER, Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)));
+			() -> new TowerChestBlock(
+					BTChestType.TOWER, BTBlockEntityTypes.OCEAN_CHEST::get,
+					Block.Properties.of(Material.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F))
+	);
 
 	public static final RegistryObject<Block> PLATINUM_BLOCK = BLOCKS.register("platinum_block",
 			() -> new Block(Block.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops()
