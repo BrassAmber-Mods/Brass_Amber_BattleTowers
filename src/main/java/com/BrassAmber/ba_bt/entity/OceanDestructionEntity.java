@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -57,7 +58,7 @@ public class OceanDestructionEntity extends  Entity {
     private boolean checkForGolem = true;
     private boolean hasPlayer;
 
-    private ArrayList<Entity> fallingBlocks;
+    private ArrayList<FallingBlockEntity> fallingBlocks;
 
     private final double destroyPercentOfTower;
 
@@ -128,13 +129,24 @@ public class OceanDestructionEntity extends  Entity {
             }
             return;
         }
-        this.fallingBlocks.removeIf(entity -> (entity.getY() < -64));
+        // New list to save the id pf the entities that should be removed
+        ArrayList<Integer> removeFallEntity = new ArrayList<>();
         for (int i = 0; i < this.fallingBlocks.size(); i++) {
-            Entity blockEntity = this.fallingBlocks.get(i);
-            if (blockEntity.getY() < -64) {
-
+            // Check each block in the Falling entities list
+            FallingBlockEntity blockEntity = this.fallingBlocks.get(i);
+            if (blockEntity.getY() < -69) {
+                // remove if too far down
+                blockEntity.setRemoved(RemovalReason.DISCARDED);
+                removeFallEntity.add(i);
             }
         }
+        // Reverse list of Ids so that we remove fromt the end first, thereby avoiding a call to an item already removed
+        Collections.reverse(removeFallEntity);
+        for (int i = 0; i <removeFallEntity.size(); i++) {
+            //noinspection SuspiciousListRemoveInLoop
+            this.fallingBlocks.remove(i);
+        }
+
         super.tick();
         if (this.checkForGolem) {
 
@@ -175,12 +187,7 @@ public class OceanDestructionEntity extends  Entity {
                 playersClose.add(Boolean.FALSE);
             }
 
-            if (Collections.frequency(playersClose, Boolean.FALSE) == players.size()) {
-                this.hasPlayer = false;
-
-            }  else {
-                this.hasPlayer = true;
-            }
+            this.hasPlayer = Collections.frequency(playersClose, Boolean.FALSE) != players.size();
         }
 
         if (this.golemDead && this.hasPlayer) {
@@ -233,13 +240,17 @@ public class OceanDestructionEntity extends  Entity {
                     for (int i = 0; i < 35; i++) {
                         if (this.blocksToRemove.isEmpty()) {
                             break;
-                        } else if (this.blocksToRemove.size() == 1) {
-                            this.removeBlock = this.blocksToRemove.remove(0);
-                            this.level.removeBlock(this.removeBlock, false);
                         } else {
-                            this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
+                            if (this.blocksToRemove.size() == 1) {
+                                this.removeBlock = this.blocksToRemove.remove(0);
+                            } else {
+                                this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
+                            }
+
                             BlockState state = this.level.getBlockState(this.removeBlock);
-                            if( this.level.getBlockEntity(this.removeBlock) == null && !state.getFluidState().isSource()) {
+                            if (this.level.getBlockEntity(this.removeBlock) != null) {
+                                this.level.setBlock(this.removeBlock, Blocks.WATER.defaultBlockState(), 2);
+                            } else if (!state.getFluidState().isSource()) {
 
                                 final Vec3 velocity = new Vec3(0D, 0.5D, 0D);
 
@@ -253,8 +264,6 @@ public class OceanDestructionEntity extends  Entity {
                                 fallingBlock.setInvulnerable(true);
                                 fallingBlock.dropItem = false;
                                 fallingBlock.setDeltaMovement(velocity);
-
-
                             }
                         }
 
@@ -264,37 +273,6 @@ public class OceanDestructionEntity extends  Entity {
             } else if (this.getCurrentRow() >= this.rows){
                 // stop if we have done the final row already
                 BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "In Ending Sequence");
-                this.getNextRow();
-                for (int i = 0; i < 60; i++) {
-                    if (this.blocksToRemove.isEmpty()) {
-                        break;
-                    } else if (this.blocksToRemove.size() == 1) {
-                        this.removeBlock = this.blocksToRemove.remove(0);
-                        this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
-                    } else {
-                        this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                        this.level.removeBlock(this.removeBlock, false);
-
-                    }
-                }
-                List<BlockPos> shouldBeEmptySpace = new ArrayList<>();
-                int yForClear = this.getCrumbleStart().getY();
-                for (int y = yForClear; y < this.getCrumbleTop() + 3; y++) {
-                    for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
-                        for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
-                            BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if (!this.level.isWaterAt(blockToAdd) && !this.level.getBlockState(blockToAdd).isAir() &&
-                                    BTUtil.distanceTo2D(this, blockToAdd) < 13.5) {
-                                shouldBeEmptySpace.add(blockToAdd);
-                                // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
-                            }
-                        }
-                    }
-                    //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
-                }
-                for (BlockPos clear: shouldBeEmptySpace) {
-                    this.level.removeBlock(clear, false);
-                }
                 this.remove(Entity.RemovalReason.DISCARDED);
             }
 
@@ -386,7 +364,6 @@ public class OceanDestructionEntity extends  Entity {
 
     /**
      * Define the start position.
-     * @return
      */
     public BlockPos getCrumbleStart() {
         return this.entityData.get(CRUMBLE_START_CORNER);
@@ -394,21 +371,18 @@ public class OceanDestructionEntity extends  Entity {
 
     /**
      * Define the bottom position.
-     * @return
      */
     public Integer getCrumbleTop() {
         return this.entityData.get(CRUMBLE_TOP);
     }
     /**
      * Define the crumble speed.
-     * @return
      */
     public Integer getCrumbleSpeed() {
         return this.entityData.get(CRUMBLE_SPEED);
     }
     /**
      * Define the current floor.
-     * @return
      */
     public Integer getCurrentRow() {
         return this.entityData.get(CURRENT_ROW);
@@ -417,7 +391,7 @@ public class OceanDestructionEntity extends  Entity {
     public Integer getTowerBottom() {return this.entityData.get(TOWER_BOTTOM);}
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
