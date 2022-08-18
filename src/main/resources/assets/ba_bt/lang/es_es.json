@@ -12,7 +12,7 @@
 
 	"entity.ba_bt.sky_minion": "Súbdito del cielo",
 	"entity.ba_bt.platinum_skeleton": "Esqueleto de platino",
-	"entity.ba_bt.bt_cultist": "Cultist",
+	"entity.ba_bt.bt_cultist": "Adepto",
 
 	"entity.ba_bt.land_monolith": "Monolito terrestre",
 	"entity.ba_bt.ocean_monolith": "Monolito oceánico",
@@ -44,30 +44,30 @@
 
 	"ba_bt.subtitle.tower.break.start": "La torre está inestable",
 	"ba_bt.subtitle.tower.break.crumble": "La torre se derrumba",
-	"ba_bt.subtitle.tower.ambient.music.land": "Música ambiental de la torre",
-	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.land": "Música ambiental de la torre terrestre",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Música ambiental de la torre oceánica",
+	"ba_bt.subtitle.tower.ambient.music.core": "Música ambiental de la torre central",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Música ambiental de la torre del Nether",
+	"ba_bt.subtitle.tower.ambient.music.end": "Música ambiental de la torre del End",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Música ambiental de la torre del cielo",
+	"ba_bt.subtitle.tower.ambient.music.city": "Música ambiental de la ciudad ancestral",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Cofre del gólem",
 	"block.ba_bt.land_chest": "Cofre terrestre",
 
-	"block.ba_bt.ocean_golem_chest": "Golem Chest",
-	"block.ba_bt.ocean_chest": "Ocean Chest",
+	"block.ba_bt.ocean_golem_chest": "Cofre del gólem",
+	"block.ba_bt.ocean_chest": "Cofre oceánico",
 
 	"block.ba_bt.platinum_block": "Bloque de platino",
 	"block.ba_bt.platinum_tiles": "Azulejos de platino",
 
 	"block.ba_bt.bt_land_spawner" : "Generador terrestre",
-	"block.ba_bt.bt_ocean_spawner" : "Ocean Spawner",
-	"block.ba_bt.bt_core_spawner" : "Core Spawner",
-	"block.ba_bt.bt_nether_spawner" : "Nether Spawner",
-	"block.ba_bt.bt_end_spawner" : "End Spawner",
-	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
+	"block.ba_bt.bt_ocean_spawner" : "Generador oceánico",
+	"block.ba_bt.bt_core_spawner" : "Generador del núcleo",
+	"block.ba_bt.bt_nether_spawner" : "Generador del Nether",
+	"block.ba_bt.bt_end_spawner" : "Generador del End",
+	"block.ba_bt.bt_sky_spawner" : "Generador del cielo",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Cofre del gólem terrestre",
@@ -75,12 +75,12 @@
 	"container.ba_bt.land_chest": "Cofre terrestre",
 	"container.ba_bt.land_chest_double": "Cofre terrestre grande",
 
-	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
+	"container.ba_bt.tower_chest.isLocked": "Se desbloquea destruyendo los generadores cercanos",
 
-	"container.ba_bt.ocean_golem_chest": "Ocean Golem Chest",
-	"container.ba_bt.ocean_golem_chest_double": "Large Ocean Golem Chest",
-	"container.ba_bt.ocean_chest": "Ocean Chest",
-	"container.ba_bt.ocean_chest_double": "Large Ocean Chest",
+	"container.ba_bt.ocean_golem_chest": "Cofre del gólem oceánico",
+	"container.ba_bt.ocean_golem_chest_double": "Cofre del gólem oceánico grande",
+	"container.ba_bt.ocean_chest": "Cofre oceánico",
+	"container.ba_bt.ocean_chest_double": "Cofre oceánico grande",
 
 	// Items
 	"item.ba_bt.monolith_key_land": "Llave del monolito terrestre",
@@ -114,23 +114,23 @@
 	"item.ba_bt.platinum_boots": "Botas de platino",
 
 	"item.ba_bt.land_chest_shard": "Fragmento de cofre terrestre",
-	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
+	"item.ba_bt.ocean_chest_shard": "Fragmento de cofre oceánico",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Generar esqueleto de platino",
 
-	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
-	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
-	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
-	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
-	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
-	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
-	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+	"item.ba_bt.bt_land_resonance_stone": "Piedra de resonancia terrestre",
+	"item.ba_bt.bt_ocean_resonance_stone": "Piedra de resonancia oceánica",
+	"item.ba_bt.bt_core_resonance_stone": "Piedra de resonancia central",
+	"item.ba_bt.bt_nether_resonance_stone": "Piedra de resonancia del Nether",
+	"item.ba_bt.bt_end_resonance_stone": "Piedra de resonancia del End",
+	"item.ba_bt.bt_sky_resonance_stone": "Piedra de resonancia del cielo",
+	"item.ba_bt.bt_city_resonance_stone": "Piedra de resonancia ancestral",
 
 	// Effects
-	"effect.ba_bt.depth_dropper": "Depth Dropper",
+	"effect.ba_bt.depth_dropper": "Dispensador de las profundidades",
 
 	// Enchantments
-	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+	"enchantment.ba_bt.depth_dropper": "Dispensador de las profundidades",
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
@@ -142,7 +142,7 @@
 	"tooltip.ba_bt.eye_hold_shift": "Mantén <§6§oShift§r> para ver las últimas palabras del Guardián",
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre ha sido comprometida...",
 	"tooltip.ba_bt.ocean_eye": "Adora el vacío... Adórame a mí...",
-	"tooltip.ba_bt.core_eye": "Nada les puede detender...",
+	"tooltip.ba_bt.core_eye": "Nada les puede detener...",
 	"tooltip.ba_bt.nether_eye": "Haré que te PUDRAS en mis MAZMORRAS por esto!...",
 	"tooltip.ba_bt.end_eye": "Se acerca, a través de la grieta...",
 	"tooltip.ba_bt.sky_eye": "Te he fallado, Sr. Vaayus... ",
@@ -150,27 +150,27 @@
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": "Ha caído",
 
-	"title.ba_bt.land_defeated_2": "Without it's energy...",
-	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
+	"title.ba_bt.land_defeated_2": "Sin su energía...",
+	"title.ba_bt.land_defeated_3": "...La torre se derrumbará...",
 
-	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
-	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+	"title.ba_bt.ocean_defeated_2": "Desterrado de nuevo al vacío...",
+	"title.ba_bt.ocean_defeated_3": "...El suelo empieza a temblar...",
 
-	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
-	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+	"title.ba_bt.core_defeated_2": "Sin el recipiente del Dios...",
+	"title.ba_bt.core_defeated_3": "...Las paredes comienzan a derretirse...",
 
-	"title.ba_bt.nether_defeated_2": "Without their control...",
-	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
+	"title.ba_bt.nether_defeated_2": "Sin su control...",
+	"title.ba_bt.nether_defeated_3": "...La torre comienza a florecer...",
 
-	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
-	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+	"title.ba_bt.end_defeated_2": "Derrotado pero no destruído...",
+	"title.ba_bt.end_defeated_3": "...El suelo comienza a desvanecerse...",
 
-	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
-	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
+	"title.ba_bt.sky_defeated_2": "Derrotado por un mejor jugador...",
+	"title.ba_bt.sky_defeated_3": "...La torre se desmorona y se desvanece...",
 
-	"title.ba_bt.land": "Bahryn'muul, Guardían terrestre",
-	"title.ba_bt.ocean": "Moraizu'un, Guardían oceánico",
-	"title.ba_bt.core": "Obthu'uryn, Guardían del núcleo",
+	"title.ba_bt.land": "Bahryn'muul, Guardián terrestre",
+	"title.ba_bt.ocean": "Moraizu'un, Guardián oceánico",
+	"title.ba_bt.core": "Obthu'uryn, Guardián del núcleo",
 	"title.ba_bt.nether": "Vrag'iidra, Tirano abisal",
 	"title.ba_bt.end": "Shul'losniir, Guardián del End",
 	"title.ba_bt.sky": "Veyhz'kriin, Dios de los cielos",
@@ -178,16 +178,16 @@
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "Torres de Batalla",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
-	"advancements.ba_bt.land_tower_found.title": "A test of time",
-	"advancements.ba_bt.land_tower_found.description": "-Re-discover an ancient BattleTower",
+	"advancements.ba_bt.land_tower_found.title": "Una prueba de tiempo",
+	"advancements.ba_bt.land_tower_found.description": "-Redescubre una Torre de Batalla ancestral",
 	"advancements.ba_bt.find_land_key.title": "La clave de un antiguo poder...",
 	"advancements.ba_bt.find_land_key.description": "-Encuentra una llave de Monolito",
 	"advancements.ba_bt.kill_land_golem.title": "Las profundidades del océano comienzan a agitarse...",
-	"advancements.ba_bt.kill_land_golem.description": "-Destroy Bahryn'muul, Entombed Watcher of the Tower",
-	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
-	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
-	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
-	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
-	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
+	"advancements.ba_bt.kill_land_golem.description": "-Destruye a Bahryn'muul, Vigilante sepultado",
+	"advancements.ba_bt.ocean_tower_found.title": "Ten cuidado",
+	"advancements.ba_bt.ocean_tower_found.description": "-Caer en la trinchera abisal",
+	"advancements.ba_bt.find_ocean_key.title": "Qué estarán ocultando...",
+	"advancements.ba_bt.find_ocean_key.description": "-Encuentra la llave del Monolito oceánico",
+	"advancements.ba_bt.kill_ocean_golem.title": "El núcleo se vuelve inquieto...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destruye a Moraizu'un, Ídolo de las profundidades"
 }
