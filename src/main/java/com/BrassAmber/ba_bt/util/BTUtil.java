@@ -1,5 +1,9 @@
 package com.BrassAmber.ba_bt.util;
 
+import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
+import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -11,9 +15,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -30,6 +38,31 @@ public class BTUtil {
             default -> () -> BTSoundEvents.MUSIC_LAND_TOWER;
         };
     }
+
+    public static @NotNull BlockEntityType<? extends ChestBlockEntity> getChestEntity(Block block) {
+        if (BTBlocks.LAND_CHEST.get().equals(block)) {
+            return BTBlockEntityTypes.LAND_CHEST.get();
+        } else if (BTBlocks.LAND_GOLEM_CHEST.get().equals(block)) {
+            return BTBlockEntityTypes.LAND_GOLEM_CHEST.get();
+        } else if (BTBlocks.OCEAN_CHEST.get().equals(block)) {
+            return BTBlockEntityTypes.OCEAN_CHEST.get();
+        } else if (BTBlocks.OCEAN_GOLEM_CHEST.get().equals(block)) {
+            return BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get();
+        }
+
+        return BTBlockEntityTypes.LAND_CHEST.get();
+    }
+
+    public static @NotNull String getTowerName(BlockEntityType<? extends ChestBlockEntity> block) {
+        if (BTBlockEntityTypes.LAND_GOLEM_CHEST.get().equals(block) || BTBlockEntityTypes.LAND_CHEST.get().equals(block)) {
+            return "land";
+        } else if (BTBlockEntityTypes.OCEAN_CHEST.get().equals(block) || BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get().equals(block)) {
+            return "ocean";
+        }
+
+        return "land";
+    }
+
 
     public static Item itemByString(String id) {
         return ForgeRegistries.ITEMS.getHolder(ResourceLocation.tryParse(id)).orElseGet(() -> Holder.direct(Items.DIRT)).value();
