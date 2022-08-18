@@ -91,7 +91,7 @@ public class LandDestructionEntity extends Entity {
             for (int x = rowCorner.getX(); x <= rowCorner.getX() + 30; x++) {
                 for(int z = rowCorner.getZ(); z <= rowCorner.getZ() + 30; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    if (BTUtil.distanceTo2D(this, blockToAdd) < 13.0D) {
+                    if (BTUtil.distanceTo2D(this, blockToAdd) < 14.5D) {
                         if (this.level.isWaterAt(blockToAdd)) {
                             removeBodyOfWater(blockToAdd, this.level);
                         } else if (!this.level.getBlockState(blockToAdd).isAir()) {
@@ -265,11 +265,10 @@ public class LandDestructionEntity extends Entity {
                         this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
                     } else {
                         this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
-                        if (this.level.isWaterAt(this.removeBlock)) {
-                            removeBodyOfWater(this.removeBlock, this.level);
+                        if (!this.level.getBlockState(this.removeBlock).getFluidState().isEmpty() ){
+                            this.level.setBlock(this.removeBlock, Blocks.AIR.defaultBlockState(), 2);
                         }
                         this.level.removeBlock(this.removeBlock, false);
-
                     }
                 }
                 List<BlockPos> shouldBeEmptySpace = new ArrayList<>();
