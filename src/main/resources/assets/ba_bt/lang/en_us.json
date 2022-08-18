@@ -153,6 +153,14 @@
 	"tooltip.ba_bt.end_eye": "She approaches, through the rift...",
 	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
 
+	"item.ba_bt.bt_land_resonance_stone.desc": "Ancestry - Lena Raine",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "Void - DM DOKURO",
+	"item.ba_bt.bt_core_resonance_stone.desc": "So below - Lena Raine",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Pigstep Remix - Fury Hearted Productions",
+	"item.ba_bt.bt_end_resonance_stone.desc": "The End - C418",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Clouds - Aether Mod",
+	"item.ba_bt.bt_city_resonance_stone.desc": "Labyrinthine - ",
+
 	// Overscreen titles
 	"title.ba_bt.guardian_defeated_1": " Has Fallen",
 
