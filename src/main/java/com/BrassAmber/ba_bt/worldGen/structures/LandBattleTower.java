@@ -105,6 +105,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         );
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
+        ArrayList<Integer> usableHeights = new ArrayList<>();
         ArrayList<Boolean> hasWater = new ArrayList<>();
         int newLandHeight;
         int lowestY;
@@ -148,23 +149,26 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 return  BlockPos.ZERO;
             }
 
-            boolean isFlat = highestY - lowestY <= 15;
+            boolean isFlat = highestY - lowestY <= 12;
             watered = hasWater.size() >= 18;
+            int usableHeight = lowestY + ((highestY - lowestY)/4);
 
             if (isFlat && predicate.test(biome)) {
                 if (!watered) {
-                    BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos);
+                    BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
                     usablePositions.add(pos);
+                    usableHeights.add(usableHeight);
                 }
                 else if (biomeType == 1){
                     usablePositions.add(pos);
+                    usableHeights.add(usableHeight);
                 }
             }
 
         }
-        int landHeight = chunkGen.getFirstOccupiedHeight(chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
         if (usablePositions.size() > 0) {
             int index = worldgenRandom.nextInt(usablePositions.size());
+            int landHeight = usableHeights.get(index);
             BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(landHeight));
             return usablePositions.get(index).getMiddleBlockPosition(landHeight);
         }
@@ -199,7 +203,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         boolean towerInSeperation = chunkDistanceTo(lastPosition, chunkPos) <= nextSeperation;
 
         if (towerInSeperation) {
-            BrassAmberBattleTowers.LOGGER.info("Land within config distance " + nextSeperation);
+            // BrassAmberBattleTowers.LOGGER.info("Land not outside tower separation " + nextSeperation);
             return Optional.empty();
         }
 
@@ -218,7 +222,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 for (ResourceKey<Biome> biomeKey: biomeList) {
                     if(biome.is(biomeKey)) {
                         towerType = landTowerBiomes.indexOf(biomeList);
-                        BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + landTowerNames.get(towerType) + " " + biome.unwrapKey());
+                        // BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + landTowerNames.get(towerType) + " " + biome.unwrapKey());
                     }
                 }
             }
@@ -226,7 +230,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         }  else {
             return Optional.empty();
         }
-        BrassAmberBattleTowers.LOGGER.info("Land last position: " + lastPosition);
+        // BrassAmberBattleTowers.LOGGER.info("Land last position: " + lastPosition);
 
         boolean sandy = towerType == 2;
 
@@ -274,12 +278,16 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         // BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
 
         ArrayList<BlockPos> startPositions = new ArrayList<>();
+        List<BlockState> acceptableBlocks = List.of(
+                Blocks.STONE_BRICKS.defaultBlockState(), Blocks.CRACKED_STONE_BRICKS.defaultBlockState(),
+                Blocks.MOSSY_STONE_BRICKS.defaultBlockState(), Blocks.CHISELED_STONE_BRICKS.defaultBlockState()
+        );
 
         for (int x = startX; x <= endX; x++) {
             for (int z = startZ; z <= endZ; z++) {
                 blockpos$mutableblockpos.set(x, bbYStart, z);
                 // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
-                if (worldGenLevel.getBlockState(blockpos$mutableblockpos) == Blocks.STONE_BRICKS.defaultBlockState()) {
+                if ( acceptableBlocks.contains(worldGenLevel.getBlockState(blockpos$mutableblockpos))) {
                     // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
                     startPositions.add(new BlockPos(x, bbYStart - 1, z));
                 }

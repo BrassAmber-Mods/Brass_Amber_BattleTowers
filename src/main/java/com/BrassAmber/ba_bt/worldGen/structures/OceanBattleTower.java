@@ -93,7 +93,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 24;
+        int topFloorRange = seaLevel - 20;
         int newOceanFloorHeight;
         int lowestY = seaLevel;
         int highestY = bottomFloorRange;
@@ -101,6 +101,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         int minZ;
         int newX;
         int newZ;
+        int averageHeight;
 
         for (ChunkPos pos : testable) {
             Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(0), QuartPos.fromBlock(pos.getMiddleBlockX()));
@@ -116,9 +117,10 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                     highestY = Math.max(newOceanFloorHeight, highestY);
                 }
             }
-            if (lowestY >= bottomFloorRange && highestY <= topFloorRange && predicate.test(biome)) {
+            averageHeight = (highestY + lowestY) /2;
+            if (averageHeight >= bottomFloorRange && averageHeight <= topFloorRange && highestY < 44 && predicate.test(biome)) {
                 usablePositions.add(pos);
-                // BrassAmberBattleTowers.LOGGER.info("Ocean floor height for usable position = " + lowestY);
+                BrassAmberBattleTowers.LOGGER.info("Ocean floor height for usable position = " + lowestY + " " + highestY);
             }
         }
         if (usablePositions.size() > 0) {
@@ -154,7 +156,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         boolean towerInSeperation = chunkDistanceTo(lastPosition, chunkPos) <= nextSeperation;
 
         if (towerInSeperation) {
-            BrassAmberBattleTowers.LOGGER.info("Ocean within config distance " + nextSeperation);
+            // BrassAmberBattleTowers.LOGGER.info("Ocean not outside tower separation " + nextSeperation);
             return Optional.empty();
         }
 
@@ -168,17 +170,17 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         BlockPos spawnPos;
         if (predicate.test(biome)) {
             spawnPos = isSpawnableChunk(context, chunkPos, chunkGen, worldgenRandom);
-            BrassAmberBattleTowers.LOGGER.info("Biome correct: " + biome
+            /*BrassAmberBattleTowers.LOGGER.info("Biome correct: " + biome.unwrapKey()
                     + " Block: " + chunkCenter.atY(context.chunkGenerator().getFirstFreeHeight(
                             chunkCenter.getX(), chunkCenter.getZ(),
                     Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor()
                 ))
-            );
+            );**/
         } else {
             return Optional.empty();
         }
 
-        BrassAmberBattleTowers.LOGGER.info("Ocean last position: " + lastPosition);
+        // BrassAmberBattleTowers.LOGGER.info("Ocean last position: " + lastPosition);
 
         if (spawnPos.getY() != 0) {
             // Moved Biome check in JigsawPlacement outside
