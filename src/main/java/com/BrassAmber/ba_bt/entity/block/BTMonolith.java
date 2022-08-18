@@ -270,7 +270,7 @@ public class BTMonolith extends Entity {
 			case OCEAN -> {
 				BrassAmberBattleTowers.LOGGER.info("Ocean Obelisk");
 				obelisk = new BTOceanObelisk(this.level);
-				obelisk.setPos(this.getX(), this.getY() + 88, this.getZ());
+				obelisk.setPos(this.getX(), this.getY() + 87, this.getZ());
 			}
 		}
 		obelisk.setInvulnerable(true);
