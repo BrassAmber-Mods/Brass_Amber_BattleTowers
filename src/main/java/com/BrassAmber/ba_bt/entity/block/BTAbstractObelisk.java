@@ -5,7 +5,6 @@ import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
-import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
@@ -78,6 +77,7 @@ public class BTAbstractObelisk extends Entity {
 
     private MusicManager music;
     protected int musicDistance;
+    protected int towerRange;
 
     protected GolemType golemType;
     private boolean justSpawnedKey;
@@ -117,7 +117,6 @@ public class BTAbstractObelisk extends Entity {
         this.musicPlaying = false;
         this.doServerInit = true;
         this.doCheck = true;
-        this.floorDistance = 11;
         this.towerEffect = null;
     }
 
@@ -128,61 +127,44 @@ public class BTAbstractObelisk extends Entity {
     }
 
     public void initialize() {
-        if (this.doServerInit) {
-            BrassAmberBattleTowers.LOGGER.info("Obelisk of type " + this.golemType + " at " + this.blockPosition());
-            this.spawnerAmounts= towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
-            this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
-                    new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
-                    new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
-                    new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
+        if (!this.level.isClientSide()) {
+            if (this.doServerInit) {
+                BrassAmberBattleTowers.LOGGER.info("Obelisk of type " + this.golemType + " at " + this.blockPosition());
+                if (this.SPAWNERS == null) {
+                    this.spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
+                    this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
+                            new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
+                            new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
+                            new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
+                }
+                int golemNum = GolemType.getNumForType(this.golemType);
+                this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
+                this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
+                this.towerMobs = BTStatics.towerMobs.get(golemNum);
+                this.perFloorData = towerSpawnerData.get(golemNum);
+                this.floorData = this.perFloorData.get(0);
+                this.serverInitialize();
+                this.doServerInit = false;
+                BrassAmberBattleTowers.LOGGER.info(this.golemType + " " + this.chestBlock + " " +
+                        this.spawnerBlock + " " + this.BOSS_MUSIC + " " + this.TOWER_MUSIC + " " + this.woolBlock);
 
-            int golemNum = GolemType.getNumForType(this.golemType);
-            this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
-            this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
-            this.towerMobs = BTStatics.towerMobs.get(golemNum);
-            this.perFloorData = towerSpawnerData.get(golemNum);
-            this.floorData = this.perFloorData.get(0);
-            switch (this.golemType) {
-                case EMPTY, LAND, CORE, END, SKY -> {
-                    this.currentFloorY = this.getBlockY() - 1;
-                    this.chestBlock = BTBlocks.LAND_CHEST.get();
-                    this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
-                    this.woolBlock = Blocks.GREEN_WOOL;
-                    this.spawnerFillBlock = Blocks.STONE_BRICKS;
-                }
-                case OCEAN -> {
-                    this.currentFloorY = this.getBlockY() - 3;
-                    this.chestBlock = BTBlocks.OCEAN_CHEST.get();
-                    this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
-                    this.woolBlock = Blocks.BLUE_WOOL;
-                    this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
-                }
-                case NETHER -> {
-                    this.currentFloorY = this.getBlockY() - 4;
-                    this.chestBlock = BTBlocks.LAND_CHEST.get();
-                    this.spawnerBlock = BTBlocks.BT_NETHER_SPAWNER.get();
-                    this.woolBlock = Blocks.RED_WOOL;
-                    this.spawnerFillBlock = Blocks.RED_NETHER_BRICKS;
-                }
             }
-            this.doServerInit = false;
-            BrassAmberBattleTowers.LOGGER.info(this.golemType + " " + this.chestBlock + " " +
-                    this.spawnerBlock + " " + this.BOSS_MUSIC + " " + this.TOWER_MUSIC + " " + this.woolBlock);
-
+            if (!this.chestsFound ) {
+                this.findChestsAndSpawners(this.level);
+            } else {
+                this.initialized = true;
+            }
         }
-        if (!this.chestsFound) {
-            this.findChestsAndSpawners(this.level);
-            this.chestsFound = true;
-        }
-
     }
+
+    public void serverInitialize() {}
 
     public void findChestsAndSpawners(Level level) {
         // Monoliths are always centered on their floor
         BlockPos center = this.getOnPos();
         int nextFloorY = this.currentFloorY + this.floorDistance;
 
-        BrassAmberBattleTowers.LOGGER.info("Floor y: " + this.currentFloorY + " Top y: " + nextFloorY);
+        // BrassAmberBattleTowers.LOGGER.info("Floor y: " + this.currentFloorY + " Next y: " + nextFloorY);
 
         // Get corners of tower area.
         BlockPos corner = center.offset(-15, 0, -15);
@@ -201,9 +183,9 @@ public class BTAbstractObelisk extends Entity {
             for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
                 for (int y = bottomOfFloor; y <= topOfFloor; y++) {
                     toCheck = new BlockPos(x, y, z);
-                    // Thi is here to avoid unnecessary variable passing to checkPos()
+                    // This is here to avoid unnecessary variable passing to checkPos()
                     if (level.getBlockState(toCheck).getBlock() == this.woolBlock) {
-                        BrassAmberBattleTowers.LOGGER.info(toCheck + " " + this.level.getBlockState(toCheck));
+                        // BrassAmberBattleTowers.LOGGER.info(toCheck + " " + this.level.getBlockState(toCheck));
                         spawnersSet = this.setSpawnerBlock(toCheck, this.checkLayer, level, spawnersSet);
                     }
                     this.checkPos(toCheck, level);
@@ -221,6 +203,7 @@ public class BTAbstractObelisk extends Entity {
 
         if (this.checkLayer == 8) {
             this.initialized = true;
+            this.chestsFound = true;
         }
         else {
             this.checkLayer += 1;
@@ -264,7 +247,7 @@ public class BTAbstractObelisk extends Entity {
                     );
                 }
                 // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
-                BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
+                // BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
             }
         } catch (Exception e) {
             BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
@@ -298,9 +281,9 @@ public class BTAbstractObelisk extends Entity {
 
             if (hasClientPlayer) {
                 //noinspection ConstantConditions
-                playerInTowerRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) <= 30;
+                playerInTowerRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) <= this.towerRange;
                 //noinspection ConstantConditions
-                playerInMusicRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) < 17;
+                playerInMusicRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) < this.musicDistance;
             } else {
                 playerInTowerRange = false;
                 playerInMusicRange = false;
@@ -405,8 +388,8 @@ public class BTAbstractObelisk extends Entity {
             if (hasPlayer && this.towerEffect != null) {
                 for (ServerPlayer player : players
                 ) {
-                    if (BTUtil.distanceTo2D(this, player) < 30) {
-                        player.addEffect(new MobEffectInstance(this.towerEffect, 600, 3));
+                    if (BTUtil.distanceTo2D(this, player) < this.towerRange && !player.hasEffect(this.towerEffect)) {
+                        player.forceAddEffect(new MobEffectInstance(this.towerEffect, 600, 3), player);
                     }
                 }
             }
@@ -422,7 +405,7 @@ public class BTAbstractObelisk extends Entity {
         boolean acceptableDistance = lowerRadiusBound < distance && distance < upperRadiusBound;
         boolean onGround;
         if (checkOnGround) {
-            onGround = !this.level.getBlockState(spawn.below()).isAir();
+            onGround = !serverWorld.getBlockState(spawn.below()).isAir() && serverWorld.getBlockState(spawn).isAir();
         } else {
             onGround = true;
         }
@@ -504,74 +487,102 @@ public class BTAbstractObelisk extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        this.golemType = GolemType.getTypeForName(tag.getString(towerName));
-        this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
-        this.chestsFound = tag.getBoolean(chestsFoundName);
-
-        if (this.chestsFound) {
-            ListTag Chests = tag.getList(chestsName, 6);
-            ListTag chestXTag = Chests.getList(0);
-            ListTag chestYTag = Chests.getList(1);
-            ListTag chestZTag = Chests.getList(2);
-            for (int i = 0; i < chestXTag.size(); i++) {
-                CHESTS.set(i, new BlockPos(chestXTag.getDouble(i), chestYTag.getDouble(i), chestZTag.getDouble(i)));
-            }
-
-            ListTag Spawners = tag.getList(spawnersName, 6);
-            ListTag spawnerXTag = Spawners.getList(0);
-            ListTag spawnerYTag = Spawners.getList(1);
-            ListTag spawnerZTag = Spawners.getList(2);
-            int j = 0;
-            for (int i = 0; i < chestXTag.size(); i++) {
-                if (SPAWNERS.get(j).size() == this.spawnerAmounts.get(j)) {
-                    j ++;
+        if (!this.level.isClientSide()) {
+            this.golemType = GolemType.getTypeForName(tag.getString(towerName));
+            this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
+            this.chestsFound = tag.getBoolean(chestsFoundName);
+            BlockPos chestPos;
+            if (this.chestsFound) {
+                ListTag chests = tag.getList(chestsName, 6);
+                ListTag chestXTag = chests.getList(0);
+                ListTag chestYTag = chests.getList(1);
+                ListTag chestZTag = chests.getList(2);
+                for (int i = 0; i < chestXTag.size(); i++) {
+                    chestPos = new BlockPos(chestXTag.getDouble(i), chestYTag.getDouble(i), chestZTag.getDouble(i));
+                    if (chestPos != BlockPos.ZERO) {
+                        CHESTS.set(i, chestPos);
+                    } else {
+                        CHESTS.set(i, null);
+                    }
                 }
-                SPAWNERS.get(j).set(i, new BlockPos(spawnerXTag.getDouble(i), spawnerYTag.getDouble(i), spawnerZTag.getDouble(i)));
 
+                this.spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
+                this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
+                        new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
+                        new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
+                        new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
+
+                ListTag spawners = tag.getList(spawnersName, 6);
+                ListTag spawnerFloor = spawners.getList(0);
+                ListTag spawnerXTag = spawners.getList(1);
+                ListTag spawnerYTag = spawners.getList(2);
+                ListTag spawnerZTag = spawners.getList(3);
+                int x = 0;
+                for (int i = 0; i < SPAWNERS.size(); i++) {
+                    int spawnerAmt = spawnerFloor.getInt(i);
+                    int f = 0;
+                    for (int k = x; k < x + spawnerAmt; k++) {
+                        SPAWNERS.get(i).set(f, new BlockPos(spawnerXTag.getDouble(k), spawnerYTag.getDouble(k), spawnerZTag.getDouble(k)));
+                        f ++;
+                        if (k == x + spawnerAmt - 1) {
+                            x = k;
+                        }
+                    }
+                }
             }
         }
-
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putString(towerName, this.golemType.getSerializedName());
-        tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
-        tag.putBoolean(chestsFoundName, this.chestsFound);
-
-        ListTag chestXTag = this.newDoubleList();
-        ListTag chestYTag = this.newDoubleList();
-        ListTag chestZTag = this.newDoubleList();
-        for (BlockPos chestPos: this.CHESTS) {
-            chestXTag.add(DoubleTag.valueOf(chestPos.getX()));
-            chestYTag.add(DoubleTag.valueOf(chestPos.getY()));
-            chestZTag.add(DoubleTag.valueOf(chestPos.getZ()));
-        }
-        ListTag Chests = new ListTag();
-        Chests.add(chestXTag);
-        Chests.add(chestYTag);
-        Chests.add(chestZTag);
-        tag.put(chestsName,Chests);
-
-        ListTag spawnerXTag = this.newDoubleList();
-        ListTag spawnerYTag = this.newDoubleList();
-        ListTag spawnerZTag = this.newDoubleList();
-        for (List<BlockPos> posList: this.SPAWNERS) {
-            for (BlockPos spawnerPos: posList) {
-                spawnerXTag.add(DoubleTag.valueOf(spawnerPos.getX()));
-                spawnerYTag.add(DoubleTag.valueOf(spawnerPos.getY()));
-                spawnerZTag.add(DoubleTag.valueOf(spawnerPos.getZ()));
-            }
-        }
-        ListTag Spawners = new ListTag();
-        Spawners.add(spawnerXTag);
-        Spawners.add(spawnerYTag);
-        Spawners.add(spawnerZTag);
-        tag.put(spawnersName, Spawners);
-
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
+        } else {
+            tag.putString(towerName, this.golemType.getSerializedName());
+            tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
+            tag.putBoolean(chestsFoundName, this.chestsFound);
+            ListTag chestXTag = this.newDoubleList();
+            ListTag chestYTag = this.newDoubleList();
+            ListTag chestZTag = this.newDoubleList();
+            for (BlockPos chestPos: this.CHESTS) {
+                if (chestPos == null) {
+                    chestXTag.add(DoubleTag.valueOf(0));
+                    chestYTag.add(DoubleTag.valueOf(0));
+                    chestZTag.add(DoubleTag.valueOf(0));
+                } else {
+                    chestXTag.add(DoubleTag.valueOf(chestPos.getX()));
+                    chestYTag.add(DoubleTag.valueOf(chestPos.getY()));
+                    chestZTag.add(DoubleTag.valueOf(chestPos.getZ()));
+                }
+
+            }
+            ListTag Chests = new ListTag();
+            Chests.add(chestXTag);
+            Chests.add(chestYTag);
+            Chests.add(chestZTag);
+            tag.put(chestsName, Chests);
+
+            ListTag spawnerFloorTag = this.newDoubleList();
+            ListTag spawnerXTag = this.newDoubleList();
+            ListTag spawnerYTag = this.newDoubleList();
+            ListTag spawnerZTag = this.newDoubleList();
+            for (List<BlockPos> posList: this.SPAWNERS) {
+                spawnerFloorTag.add(DoubleTag.valueOf(posList.size()));
+                for (BlockPos spawnerPos: posList) {
+                    spawnerXTag.add(DoubleTag.valueOf(spawnerPos.getX()));
+                    spawnerYTag.add(DoubleTag.valueOf(spawnerPos.getY()));
+                    spawnerZTag.add(DoubleTag.valueOf(spawnerPos.getZ()));
+                }
+            }
+            ListTag Spawners = new ListTag();
+            Spawners.add(spawnerFloorTag);
+            Spawners.add(spawnerXTag);
+            Spawners.add(spawnerYTag);
+            Spawners.add(spawnerZTag);
+            tag.put(spawnersName, Spawners);
         }
+
+
     }
     /*************************************** Characteristics & Properties *******************************************/
 
