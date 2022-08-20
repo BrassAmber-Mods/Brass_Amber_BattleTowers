@@ -38,14 +38,6 @@ public class TowerChestBlockEntity extends GolemChestBlockEntity {
 		return new TranslatableComponent("container.ba_bt." + this.tower_name + "_chest");
 	}
 
-	public void spawnerDestroyed() {
-		this.SpawnersDestroyed = this.SpawnersDestroyed + 1D;
-		if (this.SpawnersDestroyed == 2) {
-			setUnlocked(true);
-		}
-		BrassAmberBattleTowers.LOGGER.info(this.SpawnersDestroyed);
-	}
-
 	public boolean canUnlock(Player player, Component component) {
 		if (!this.unlocked && !player.isSpectator()) {
 			player.displayClientMessage(new TextComponent(this.getDefaultName().getString() + " is sealed. ").append(new TranslatableComponent("container.ba_bt.tower_chest.isLocked", component)), true);
