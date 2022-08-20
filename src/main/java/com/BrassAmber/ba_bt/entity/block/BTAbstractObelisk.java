@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
+import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
@@ -96,17 +97,19 @@ public class BTAbstractObelisk extends Entity {
 
     private boolean musicPlaying;
     private boolean canCheck;
+    private boolean golemSpawned = false;
     private Class<? extends Entity> specialEnemy;
     private boolean chestsFound;
 
     protected int floorDistance;
     protected Block chestBlock;
+    protected Block golemChestBlock;
     protected Block spawnerBlock;
     protected Block spawnerFillBlock;
     protected Block woolBlock;
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
-
+    protected GolemChestBlockEntity golemChest;
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -231,10 +234,6 @@ public class BTAbstractObelisk extends Entity {
             Block block = level.getBlockState(toCheck).getBlock();
             if (block == this.chestBlock) {
                 this.CHESTS.add(toCheck);
-                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(toCheck)).withOptionalRandomSeed(this.random.nextLong());
-                TowerChestBlockEntity chest = (TowerChestBlockEntity) level.getBlockEntity(toCheck);
-                assert chest != null: "BTObelisk: Not a BTChest";
-                getLootTable(GolemType.getNumForType(this.golemType), this.checkLayer - 1).fill(chest, lootcontext$builder.create(LootContextParamSets.CHEST));
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
@@ -248,6 +247,9 @@ public class BTAbstractObelisk extends Entity {
                 }
                 // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
                 // BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
+            } else if (block == this.golemChestBlock) {
+                this.golemChest = (GolemChestBlockEntity) level.getBlockEntity(toCheck);
+                BrassAmberBattleTowers.LOGGER.info("Found Golem Chest");
             }
         } catch (Exception e) {
             BrassAmberBattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
@@ -332,6 +334,9 @@ public class BTAbstractObelisk extends Entity {
                     try {
                         List<?> list2 = this.level.getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
                         this.canCheck = list2.size() != 0;
+                        if (!this.golemSpawned) {
+                            this.golemSpawned = true;
+                        }
                     } catch (Exception f) {
                         BrassAmberBattleTowers.LOGGER.info("Exception finding Golem: " + f);
                     }
@@ -341,7 +346,10 @@ public class BTAbstractObelisk extends Entity {
             }
         }
 
-        if (canCheck) {
+        if (this.golemSpawned && !this.canCheck && this.golemChest != null)
+            this.golemChest.setUnlocked(true);
+
+        if (this.canCheck) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
             List<Boolean> playersClose = new ArrayList<>();
             for (ServerPlayer player : players
@@ -352,7 +360,6 @@ public class BTAbstractObelisk extends Entity {
                 } else {
                     playersClose.add(Boolean.FALSE);
                 }
-
             }
 
             boolean hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
@@ -394,7 +401,6 @@ public class BTAbstractObelisk extends Entity {
                 }
             }
         }
-
     }
 
     protected void spawnSpecialEnemy(ServerLevel serverWorld, BlockPos spawn, double lowerRadiusBound,
@@ -424,6 +430,7 @@ public class BTAbstractObelisk extends Entity {
     @SuppressWarnings("ConstantConditions")
     private void checkSpawners(Level level) {
         // Make sure there are chests && spawners in the tower (tower has not been cleared)
+        BlockPos chestPos;
         if (this.SPAWNERS.size() == 0 || this.CHESTS.size() == 0) {
             this.doCheck = false;
             this.canCheck = false;
@@ -432,9 +439,13 @@ public class BTAbstractObelisk extends Entity {
             for (int i = 0; i < this.SPAWNERS.size(); i++) {
                 if (this.SPAWNERS.get(i).size() == 0) {
                     // If no spawners left on the floor unlock the chest.
-                    if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chestBlockEntity) {
-                        if (!chestBlockEntity.isUnlocked()) {
-                            chestBlockEntity.setUnlocked(true);
+                    chestPos = this.CHESTS.get(i);
+                    if (chestPos != null && level.getBlockEntity(chestPos) instanceof TowerChestBlockEntity chest) {
+                        if (!chest.isUnlocked()) {
+                            chest.setUnlocked(true);
+                            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestPos)).withOptionalRandomSeed(this.random.nextLong());
+                            assert chest != null: "BTObelisk: Not a BTChest";
+                            getLootTable(GolemType.getNumForType(this.golemType), this.checkLayer - 1).fill(chest, lootcontext$builder.create(LootContextParamSets.CHEST));
                             this.chestUnlockingSound(level);
                             this.CHESTS.set(i, null);
                         }
