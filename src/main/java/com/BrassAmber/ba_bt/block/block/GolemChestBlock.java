@@ -135,8 +135,9 @@ public class GolemChestBlock extends ChestBlock {
 		GolemChestBlockEntity chestTileEntity = (GolemChestBlockEntity) world.getBlockEntity(pos);
 		if (chestTileEntity.isUnlocked()) {
 			return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
-		}
-		else {
+		} else if (player != null && player.isCreative()) {
+			return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
+		} else {
 			return false;
 		}
 
