@@ -21,6 +21,7 @@ public class BTItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final RegistryObject<Item> PLATINUM_SKELETON_SPAWN_EGG = ITEMS.register("platinum_skeleton_spawn_egg", () -> new ForgeSpawnEggItem(BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
+	public static final RegistryObject<Item> CULTIST_SPAWN_EGG = ITEMS.register("cultist_spawn_egg", () -> new ForgeSpawnEggItem(BTEntityTypes.BT_CULTIST, 0xb4bebf, 0x4a4e4f, new Item.Properties().tab(BATLETOWERSTAB)));
 
 	public static final RegistryObject<Item> LAND_MONOLOITH_KEY = ITEMS.register("monolith_key_land", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).tab(BATLETOWERSTAB)));
 	public static final RegistryObject<Item> OCEAN_MONOLOITH_KEY = ITEMS.register("monolith_key_ocean", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).tab(BATLETOWERSTAB)));
