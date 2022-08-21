@@ -51,6 +51,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.BrassAmber.ba_bt.util.BTLoot.getGolemLootTable;
 import static com.BrassAmber.ba_bt.util.BTLoot.getLootTable;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
@@ -346,8 +347,13 @@ public class BTAbstractObelisk extends Entity {
             }
         }
 
-        if (this.golemSpawned && !this.canCheck && this.golemChest != null)
+        if (this.golemSpawned && !this.canCheck && this.golemChest != null) {
             this.golemChest.setUnlocked(true);
+            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.level))
+                    .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos()))
+                    .withOptionalRandomSeed(this.random.nextLong());
+            getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(this.golemChest, lootcontext$builder.create(LootContextParamSets.CHEST));
+        }
 
         if (this.canCheck) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
