@@ -31,6 +31,7 @@ public class BTLandObelisk extends BTAbstractObelisk {
         this.floorDistance = 11;
         this.currentFloorY = this.getBlockY() - 1;
         this.chestBlock = BTBlocks.LAND_CHEST.get();
+        this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
         this.woolBlock = Blocks.GREEN_WOOL;
         this.spawnerFillBlock = Blocks.STONE_BRICKS;

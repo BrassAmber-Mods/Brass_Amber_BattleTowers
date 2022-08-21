@@ -66,6 +66,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.floorDistance = -11;
 
         this.chestBlock = BTBlocks.OCEAN_CHEST.get();
+        this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
         this.woolBlock = Blocks.BLUE_WOOL;
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
