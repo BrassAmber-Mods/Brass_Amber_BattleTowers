@@ -131,14 +131,14 @@ public class BattleTowersConfig {
                         .defineListAllowEmpty(List.of("General Bad Loot"), () -> List.of("minecraft:string", "minecraft:rotten_flesh"), listValidator);
         generalBadLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above, if the number is 25 that item will generate in groups of 2-5 a single integer like 3 is treated as a range of 0-3")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(13, 25), listValidator);
+                        .defineListAllowEmpty(List.of("General Bad Loot Counts"), () -> List.of(13, 25), listValidator);
         generalFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items.")
                         .defineListAllowEmpty(List.of("General Filler Loot"), () -> List.of("minecraft:sugar", "minecraft:gold_nugget", "minecraft:glass_bottle",
                                 "minecraft:clay_ball", "minecraft:flower_pot", "minecraft:iron_hoe", "minecraft:arrow", "minecraft:cookie"), listValidator);
         generalFillerLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(14, 26, 11, 24, 11, 11, 26, 35), listValidator);
+                        .defineListAllowEmpty(List.of("General Filler Loot Counts"), () -> List.of(14, 26, 11, 24, 11, 11, 26, 35), listValidator);
         generalDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items.")
                         .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of("minecraft:gunpowder", "minecraft:obsidian", "minecraft:bone",
@@ -148,7 +148,7 @@ public class BattleTowersConfig {
                                 "minecraft:iron_sword", "minecraft:arrow"), listValidator);
         generalDecentLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(24, 13, 14, 12, 11, 11, 15, 12, 14, 11, 11,
+                        .defineListAllowEmpty(List.of("General Decent Loot Counts"), () -> List.of(24, 13, 14, 12, 11, 11, 15, 12, 14, 11, 11,
                                 3, 11, 13, 11, 11, 11, 11, 11, 11, 48), listValidator);
         generalGoodLoot =
                 BUILDER.comment("A list of item ids of possible good items.")
@@ -159,7 +159,7 @@ public class BattleTowersConfig {
                                 "minecraft:music_disc_mall", "minecraft:music_disc_mellohi", "minecraft:music_disc_otherside", "minecraft:music_disc_stal"), listValidator);
         generalGoodLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(13, 11, 11, 25, 13, 11, 11, 11, 11, 37, 14,
+                        .defineListAllowEmpty(List.of("General Good Loot Counts"), () -> List.of(13, 11, 11, 25, 13, 11, 11, 11, 11, 37, 14,
                                 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11), listValidator);
 
 
@@ -168,72 +168,72 @@ public class BattleTowersConfig {
                                 "Each tower chest has a defined number of rolls per category (bad/filler/decent/good).")
                         .defineListAllowEmpty(List.of("Land Tower Bad Loot"), () -> List.of("minecraft:cobblestone", "minecraft:iron_nugget", "minecraft:apple"), listValidator);
         landBadLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(25, 12, 13), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the land bad loot list above")
+                        .defineListAllowEmpty(List.of("Land Tower Bad Loot Counts"), () -> List.of(25, 12, 13), listValidator);
         landTowerFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Land tower.")
                         .defineListAllowEmpty(List.of("Land Tower Filler Loot"), () -> List.of("minecraft:sugar", "minecraft:flint", "minecraft:ladder",
                                 "minecraft:white_wool", "minecraft:torch", "minecraft:egg", "minecraft:rabbit", "minecraft:beef", "minecraft:porkchop",
                                 "minecraft:chicken", "minecraft:mutton"), listValidator);
         landFillerLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(13, 35, 26, 14, 35, 12, 13, 13, 13, 13, 13), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the land filler loot list above")
+                        .defineListAllowEmpty(List.of("Land Tower Filler Loot Counts"), () -> List.of(13, 35, 26, 14, 35, 12, 13, 13, 13, 13, 13), listValidator);
         landTowerDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items to spawn inside the Land tower.")
                         .defineListAllowEmpty(List.of("Land Tower Decent Loot"), () -> List.of("minecraft:gunpowder", "minecraft:saddle",
                                 "minecraft:cake", "minecraft:beetroot_soup", "minecraft:cookie", "minecraft:mushroom_stew", "minecraft:cooked_rabbit",
                                 "minecraft:cooked_beef", "minecraft:cooked_porkchop", "minecraft:cooked_chicken", "minecraft:cooked_mutton"), listValidator);
         landDecentLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(14, 11, 11, 11, 36, 11, 13, 13, 13, 13, 13), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the land decent loot list above")
+                        .defineListAllowEmpty(List.of("Land Tower Decent Loot Counts"), () -> List.of(14, 11, 11, 11, 36, 11, 13, 13, 13, 13, 13), listValidator);
         landTowerGoodLoot =
                 BUILDER.comment("A list of item ids of possible good items to spawn inside the Land tower.")
                         .defineListAllowEmpty(List.of("Land Tower Good Loot"), () -> List.of("minecraft:golden_carrot", "minecraft:map", "minecraft:blaze_rod",
                                 "minecraft:jukebox"), listValidator);
         landGoodLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(24, 11, 24), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the land good loot list above")
+                        .defineListAllowEmpty(List.of("Land Tower Good Loot Counts"), () -> List.of(24, 11, 24, 11), listValidator);
         landTowerGolemLoot =
                 BUILDER.comment("A list of item ids of possible items to add to the land Golem chest item pool. A single value of air means no items are added")
                         .defineListAllowEmpty(List.of("Land Tower Golem Loot"), () -> List.of("minecraft:air"), listValidator);
         landGolemLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(11), listValidator);
+                        .defineListAllowEmpty(List.of("Land Golem Loot Counts"), () -> List.of(11), listValidator);
 
 
         oceanTowerBadLoot =
                 BUILDER.comment("A list of item ids of possible bad items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Bad Loot"), () -> List.of("minecraft:dirt", "minecraft:seagrass", "minecraft:gravel"), listValidator);
         oceanBadLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(18, 25, 25), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean bad loot list above")
+                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot Counts"), () -> List.of(18, 25, 25), listValidator);
         oceanTowerFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Filler Loot"), () -> List.of("minecraft:lily_pad", "minecraft:kelp", "minecraft:salmon",
                                 "minecraft:cod", "minecraft:prismarine_shard"), listValidator);
         oceanFillerLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(14, 25, 13, 13, 24), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean filler loot list above")
+                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot Counts "), () -> List.of(14, 25, 13, 13, 24), listValidator);
         oceanTowerDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Decent Loot"), () -> List.of("minecraft:soul_sand", "minecraft:oak_boat", "minecraft:birch_boat",
                                 "minecraft:glow_item_frame", "minecraft:glow_ink_sac", "minecraft:glowstone", "minecraft:magma_block"), listValidator);
         oceanDecentLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(14, 11, 11, 11, 23, 25, 14), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean decent loot list above")
+                        .defineListAllowEmpty(List.of("Ocean Tower Decent Loot Counts"), () -> List.of(14, 11, 11, 11, 23, 25, 14), listValidator);
         oceanTowerGoodLoot =
                 BUILDER.comment("A list of item ids of possible good items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Good Loot"), () -> List.of("minecraft:trident", "minecraft:axolotl_bucket", "minecraft:sponge",
                                 "minecraft:heart_of_the_sea", "minecraft:brewing_stand", "minecraft:prismarine_crystals"), listValidator);
         oceanGoodLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(11, 11, 35, 11, 11, 24), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean filler loot list above")
+                        .defineListAllowEmpty(List.of("Ocean Tower Good Loot Counts"), () -> List.of(11, 11, 35, 11, 11, 24), listValidator);
         oceanTowerGolemLoot =
                 BUILDER.comment("A list of item ids of possible items to add to the land Golem chest item pool, A single value of air means no items are added")
                         .defineListAllowEmpty(List.of("Ocean Tower Golem Loot"), () -> List.of("minecraft:air"), listValidator);
         oceanGolemLootCounts =
-                BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of(11), listValidator);
+                BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean golem loot list above")
+                        .defineListAllowEmpty(List.of("Ocean Golem Loot Counts"), () -> List.of(11), listValidator);
 
         BUILDER.pop();
         SPEC = BUILDER.build();

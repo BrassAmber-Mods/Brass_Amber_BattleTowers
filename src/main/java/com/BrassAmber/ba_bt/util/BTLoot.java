@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
 import com.BrassAmber.ba_bt.init.BTItems;
 import net.minecraft.util.Mth;
@@ -58,27 +59,14 @@ public class BTLoot {
 
     static {
         // loot is all loaded from the config
-        badLoot = new ArrayList<>();
-        fillerLoot = new ArrayList<>();
-        decentLoot = new ArrayList<>();
-        goodLoot = new ArrayList<>();
+        badLoot = getItemList(generalBadLoot.get());
+        fillerLoot = getItemList(generalFillerLoot.get());
+        decentLoot = getItemList(generalDecentLoot.get());
+        goodLoot = getItemList(generalGoodLoot.get());
         badLootCounts = new ArrayList<>();
         fillerLootCounts = new ArrayList<>();
         decentLootCounts = new ArrayList<>();
         goodLootCounts = new ArrayList<>();
-
-        for (String itemId: generalBadLoot.get()) {
-            badLoot.add(itemByString(itemId));
-        }
-        for (String itemId: generalFillerLoot.get()) {
-            fillerLoot.add(itemByString(itemId));
-        }
-        for (String itemId: generalDecentLoot.get()) {
-            decentLoot.add(itemByString(itemId));
-        }
-        for (String itemId: generalGoodLoot.get()) {
-            goodLoot.add(itemByString(itemId));
-        }
 
         badLootCounts.addAll(generalBadLootCounts.get());
         fillerLootCounts.addAll(generalFillerLootCounts.get());
@@ -88,44 +76,19 @@ public class BTLoot {
         // ----------------------------------------------------------------- \\
 
         // Loot exclusive to each tower
-        towerBadLoot = List.of(new ArrayList<>(), new ArrayList<>());
-        towerFillerLoot = List.of(new ArrayList<>(), new ArrayList<>());
-        towerDecentLoot = List.of(new ArrayList<>(), new ArrayList<>());
-        towerGoodLoot = List.of(new ArrayList<>(), new ArrayList<>());
+        towerBadLoot = List.of(getItemList(landTowerBadLoot.get()), getItemList(oceanTowerBadLoot.get()));
+        towerFillerLoot = List.of(getItemList(landTowerFillerLoot.get()), getItemList(oceanTowerFillerLoot.get()));
+        towerDecentLoot = List.of(getItemList(landTowerDecentLoot.get()), getItemList(oceanTowerDecentLoot.get()));
+        towerGoodLoot = List.of(getItemList(landTowerGoodLoot.get()), getItemList(oceanTowerGoodLoot.get()));
         towerBadLootCounts = List.of(new ArrayList<>(), new ArrayList<>());
         towerFillerLootCounts = List.of(new ArrayList<>(), new ArrayList<>());
         towerDecentLootCounts = List.of(new ArrayList<>(), new ArrayList<>());
         towerGoodLootCounts = List.of(new ArrayList<>(), new ArrayList<>());
 
-        for (String itemId: landTowerBadLoot.get()) {
-            towerBadLoot.get(0).add(itemByString(itemId));
-        }
-        for (String itemId: oceanTowerBadLoot.get()) {
-            towerBadLoot.get(1).add(itemByString(itemId));
-        }
-        for (String itemId: landTowerFillerLoot.get()) {
-            towerFillerLoot.get(0).add(itemByString(itemId));
-        }
-        for (String itemId: oceanTowerFillerLoot.get()) {
-            towerFillerLoot.get(1).add(itemByString(itemId));
-        }
-        for (String itemId: landTowerDecentLoot.get()) {
-            towerDecentLoot.get(0).add(itemByString(itemId));
-        }
-        for (String itemId: oceanTowerDecentLoot.get()) {
-            towerDecentLoot.get(1).add(itemByString(itemId));
-        }
-        for (String itemId: landTowerGoodLoot.get()) {
-            towerGoodLoot.get(0).add(itemByString(itemId));
-        }
-        for (String itemId: oceanTowerGoodLoot.get()) {
-            towerGoodLoot.get(1).add(itemByString(itemId));
-        }
-
         towerBadLootCounts.get(0).addAll(landBadLootCounts.get());
         towerBadLootCounts.get(1).addAll(oceanBadLootCounts.get());
-        towerFillerLootCounts.get(0).addAll(landBadLootCounts.get());
-        towerFillerLootCounts.get(1).addAll(oceanBadLootCounts.get());
+        towerFillerLootCounts.get(0).addAll(landFillerLootCounts.get());
+        towerFillerLootCounts.get(1).addAll(oceanFillerLootCounts.get());
         towerDecentLootCounts.get(0).addAll(landDecentLootCounts.get());
         towerDecentLootCounts.get(1).addAll(oceanDecentLootCounts.get());
         towerGoodLootCounts.get(0).addAll(landGoodLootCounts.get());
@@ -134,15 +97,8 @@ public class BTLoot {
         // ----------------------------------------------------------------- \\
 
         // Golem loot
-        golemLoot = List.of(new ArrayList<>(), new ArrayList<>());
+        golemLoot = List.of(getItemList(landTowerGolemLoot.get()), getItemList(oceanTowerGolemLoot.get()));
         golemLootCounts = List.of(new ArrayList<>(), new ArrayList<>());
-
-        for (String itemId: landTowerGolemLoot.get()) {
-            golemLoot.get(0).add(itemByString(itemId));
-        }
-        for (String itemId: oceanTowerGolemLoot.get()) {
-            golemLoot.get(1).add(itemByString(itemId));
-        }
 
         golemLootCounts.get(0).addAll(landGolemLootCounts.get());
         golemLootCounts.get(1).addAll(oceanGolemLootCounts.get());
@@ -192,7 +148,7 @@ public class BTLoot {
         BadLoot("bad", .01f, badLoot, towerBadLoot, badLootCounts, towerBadLootCounts),
         FillerLoot("filler", 0.05f, fillerLoot, towerFillerLoot,  fillerLootCounts, towerFillerLootCounts),
         DecentLoot("decent", 0.09f, decentLoot, towerDecentLoot,  decentLootCounts, towerDecentLootCounts),
-        GoodLoot("good",0.15f, goodLoot, towerGoodLoot, badLootCounts, towerBadLootCounts);
+        GoodLoot("good",0.15f, goodLoot, towerGoodLoot, goodLootCounts, towerGoodLootCounts);
 
         private final String name;
         private final float loseChance;
@@ -254,7 +210,7 @@ public class BTLoot {
         List<Integer> lootRolls = towerLootRolls.get(towerType).get(floor);
         LootTable.Builder chestLoot = LootTable.lootTable();
         List<LootPool.Builder> pools = new ArrayList<>(Collections.emptyList());
-        int w = 0;
+        int w;
         int itemCount;
         int maxCount;
         int minCount;
@@ -277,6 +233,7 @@ public class BTLoot {
 
             w = 0;
             for (Item item: allItems) {
+                // BrassAmberBattleTowers.LOGGER.info("current item, count" + w);
                 itemCount = allCounts.get(w);
                 maxCount = (itemCount - (itemCount % 10)) / 10;
                 minCount = itemCount - (maxCount * 10);

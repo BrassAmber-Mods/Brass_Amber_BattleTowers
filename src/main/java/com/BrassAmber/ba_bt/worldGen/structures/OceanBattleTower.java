@@ -63,7 +63,13 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                                             ChunkPos chunkPos, ChunkGenerator chunkGen, WorldgenRandom worldgenRandom) {
 
         int seaLevel = chunkGen.getSeaLevel();
+        int oceanFloorHeight = chunkGen.getFirstOccupiedHeight(chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
         Predicate<Holder<Biome>> predicate = context.validBiome();
+
+        if (seaLevel - 15 < oceanFloorHeight) {
+            BrassAmberBattleTowers.LOGGER.info("Sea level too high");
+            return BlockPos.ZERO;
+        }
 
         List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
         vanillaStructures.add(BuiltinStructureSets.OCEAN_RUINS);
@@ -75,7 +81,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
 
             if (chunkGen.hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 6)) {
-                BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
+                // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
                 return BlockPos.ZERO;
             }
         }

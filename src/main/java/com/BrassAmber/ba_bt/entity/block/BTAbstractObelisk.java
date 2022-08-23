@@ -134,13 +134,12 @@ public class BTAbstractObelisk extends Entity {
         if (!this.level.isClientSide()) {
             if (this.doServerInit) {
                 BrassAmberBattleTowers.LOGGER.info("Obelisk of type " + this.golemType + " at " + this.blockPosition());
-                if (this.SPAWNERS == null) {
-                    this.spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
-                    this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
-                            new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
-                            new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
-                            new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
-                }
+                this.spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
+                this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
+                        new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
+                        new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
+                        new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
+
                 int golemNum = GolemType.getNumForType(this.golemType);
                 this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
                 this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
@@ -222,7 +221,7 @@ public class BTAbstractObelisk extends Entity {
     protected int setSpawnerBlock(BlockPos pos, int floor, Level level, int spawnersSet) {
         if (spawnersSet < this.spawnerAmounts.get(floor-1)) {
             level.setBlock(pos, this.spawnerBlock.defaultBlockState(), 2);
-            BrassAmberBattleTowers.LOGGER.info("Set Spawner at: " +pos + " floor: " + floor + " Spawners: " + spawnersSet);
+            // BrassAmberBattleTowers.LOGGER.info("Set Spawner at: " +pos + " floor: " + floor + " Spawners: " + spawnersSet);
             return spawnersSet + 1;
         } else {
             level.setBlock(pos, this.spawnerFillBlock.defaultBlockState(), 2);
@@ -505,6 +504,7 @@ public class BTAbstractObelisk extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (!this.level.isClientSide()) {
+            BrassAmberBattleTowers.LOGGER.info("Reading obelisk data");
             this.golemType = GolemType.getTypeForName(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
             this.chestsFound = tag.getBoolean(chestsFoundName);
@@ -517,9 +517,9 @@ public class BTAbstractObelisk extends Entity {
                 for (int i = 0; i < chestXTag.size(); i++) {
                     chestPos = new BlockPos(chestXTag.getDouble(i), chestYTag.getDouble(i), chestZTag.getDouble(i));
                     if (chestPos != BlockPos.ZERO) {
-                        CHESTS.set(i, chestPos);
+                        this.CHESTS.set(i, chestPos);
                     } else {
-                        CHESTS.set(i, null);
+                        this.CHESTS.set(i, null);
                     }
                 }
 
@@ -529,23 +529,29 @@ public class BTAbstractObelisk extends Entity {
                         new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
                         new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
 
-                ListTag spawners = tag.getList(spawnersName, 6);
+                ListTag spawners = tag.getList(this.spawnersName, 6);
                 ListTag spawnerFloor = spawners.getList(0);
                 ListTag spawnerXTag = spawners.getList(1);
                 ListTag spawnerYTag = spawners.getList(2);
                 ListTag spawnerZTag = spawners.getList(3);
                 int x = 0;
-                for (int i = 0; i < SPAWNERS.size(); i++) {
+                for (int i = 0; i < this.SPAWNERS.size(); i++) {
                     int spawnerAmt = spawnerFloor.getInt(i);
                     int f = 0;
                     for (int k = x; k < x + spawnerAmt; k++) {
-                        SPAWNERS.get(i).set(f, new BlockPos(spawnerXTag.getDouble(k), spawnerYTag.getDouble(k), spawnerZTag.getDouble(k)));
+                        this.SPAWNERS.get(i).set(f, new BlockPos(spawnerXTag.getDouble(k), spawnerYTag.getDouble(k), spawnerZTag.getDouble(k)));
                         f ++;
                         if (k == x + spawnerAmt - 1) {
                             x = k;
                         }
                     }
                 }
+            }
+            BrassAmberBattleTowers.LOGGER.info("Spawners: " + this.SPAWNERS);
+            if (this.SPAWNERS.get(7).isEmpty()) {
+                BrassAmberBattleTowers.LOGGER.info("No Spawners in data: Needs to be initialized");
+                this.doServerInit = true;
+                this.chestsFound = false;
             }
         }
     }
@@ -555,6 +561,7 @@ public class BTAbstractObelisk extends Entity {
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
         } else {
+            BrassAmberBattleTowers.LOGGER.info("Setting obelisk data");
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
             tag.putBoolean(chestsFoundName, this.chestsFound);
@@ -597,6 +604,7 @@ public class BTAbstractObelisk extends Entity {
             Spawners.add(spawnerYTag);
             Spawners.add(spawnerZTag);
             tag.put(spawnersName, Spawners);
+            // BrassAmberBattleTowers.LOGGER.info("Tag: " + tag);
         }
 
 
