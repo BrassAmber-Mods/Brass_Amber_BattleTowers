@@ -44,12 +44,10 @@ import java.util.function.Predicate;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
 
-
-// Comments from TelepathicGrunts
-
 public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static boolean watered;
+    private static ChunkPos beforeLastPosition;
     private static ChunkPos lastPosition;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
@@ -59,6 +57,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
     public LandBattleTower() {
         super(CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
         lastPosition = ChunkPos.ZERO;
+        beforeLastPosition = ChunkPos.ZERO;
     }
 
     @Override
@@ -71,6 +70,11 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                                             WorldgenRandom worldgenRandom, ChunkPos chunkPos, ChunkGenerator chunkGen) {
 
         Predicate<Holder<Biome>> predicate = context.validBiome();
+        Holder<Biome> biome1 = chunkGen.getNoiseBiome(QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(0), QuartPos.fromBlock(chunkPos.getMiddleBlockX()));
+
+        if (!predicate.test(biome1)) {
+            return BlockPos.ZERO;
+        }
 
         List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
         vanillaStructures.add(BuiltinStructureSets.VILLAGES);
@@ -149,13 +153,13 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 return  BlockPos.ZERO;
             }
 
-            boolean isFlat = highestY - lowestY <= 12;
-            watered = hasWater.size() >= 18;
+            boolean isFlat = highestY - lowestY <= 10;
+            watered = hasWater.size() >= 16;
             int usableHeight = lowestY + ((highestY - lowestY)/4);
 
             if (isFlat && predicate.test(biome)) {
                 if (!watered) {
-                    BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
+                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
                     usablePositions.add(pos);
                     usableHeights.add(usableHeight);
                 }
@@ -169,7 +173,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         if (usablePositions.size() > 0) {
             int index = worldgenRandom.nextInt(usablePositions.size());
             int landHeight = usableHeights.get(index);
-            BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(landHeight));
+            // BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(landHeight));
             return usablePositions.get(index).getMiddleBlockPosition(landHeight);
         }
 
@@ -199,10 +203,12 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
         BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(0);
-        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange);
-        boolean towerInSeperation = chunkDistanceTo(lastPosition, chunkPos) <= nextSeperation;
+        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
+        int beforeLastDistance = chunkDistanceTo(beforeLastPosition, chunkPos);
+        int lastDistance = chunkDistanceTo(lastPosition, chunkPos);
+        int closestDistance = Math.min(beforeLastDistance, lastDistance);
 
-        if (towerInSeperation) {
+        if (closestDistance <= nextSeperation) {
             // BrassAmberBattleTowers.LOGGER.info("Land not outside tower separation " + nextSeperation);
             return Optional.empty();
         }
@@ -248,6 +254,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 // I use to debug and quickly find out if the structure is spawning or not and where it is.
                 // This is returning the coordinates of the center starting piece.
                 BrassAmberBattleTowers.LOGGER.info(landTowerNames.get(towerType) + " Tower at " + spawnPos);
+                beforeLastPosition = lastPosition;
                 lastPosition = context.chunkPos();
             }
             // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
