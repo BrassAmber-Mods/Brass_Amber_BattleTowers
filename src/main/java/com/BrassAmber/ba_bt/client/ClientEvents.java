@@ -76,6 +76,7 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityTypes.SKY_OBELISK.get(), SkyObeliskRenderer::new);
 
 		event.registerEntityRenderer(BTEntityTypes.LAND_DESTRUCTION.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityTypes.OCEAN_DESTRUCTION.get(), NoRenderEntity::new);
 		event.registerEntityRenderer(BTEntityTypes.PHYSICS_EXPLOSION.get(), NoRenderEntity::new);
 
 		// BLOCK ENTITIES

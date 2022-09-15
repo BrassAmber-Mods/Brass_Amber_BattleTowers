@@ -1,15 +1,19 @@
 package com.BrassAmber.ba_bt.item.item;
 
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTExtras;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -26,7 +30,6 @@ public class ResonanceStoneItem extends RecordItem {
     private final GolemType golemType;
     public boolean effectOn = false;
     private boolean initialized = false;
-    private @NotNull EntityType<BTAbstractObelisk> obelisk;
 
     public ResonanceStoneItem(String golemName, Properties properties) {
         super(2, BTUtil.getTowerMusic(GolemType.getTypeForName(golemName)), properties);
@@ -38,14 +41,21 @@ public class ResonanceStoneItem extends RecordItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack itemStack) {
-        return 20;
+    public int getUseDuration(@NotNull ItemStack itemStack) {
+        return 40;
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        player.startUsingItem(hand);
+        return InteractionResultHolder.success(player.getItemInHand(hand));
     }
 
     @Override
     public @NotNull ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
         if (itemStack.isEnchanted()) {
             this.effectOn = !this.effectOn;
+            BrassAmberBattleTowers.LOGGER.info("Resonance effect: " + this.effectOn);
         }
         return super.finishUsingItem(itemStack, level, entity);
     }
@@ -66,7 +76,6 @@ public class ResonanceStoneItem extends RecordItem {
                 case OCEAN -> {
                     this.enchantment = BTExtras.DEPTH_DROPPER.get();
                     this.effect = BTExtras.DEPTH_DROPPER_EFFECT.get();
-                    this.obelisk = BTEntityTypes.OCEAN_OBELISK.get();
                 }
                 default -> {
                     this.enchantment = null;
@@ -77,8 +86,8 @@ public class ResonanceStoneItem extends RecordItem {
         }
 
         if (this.enchantment != null && EnchantmentHelper.getEnchantments(itemStack).containsKey(this.enchantment)) {
-            if (entity instanceof LivingEntity living && this.effectOn) {
-                living.addEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(),200, 3), living);
+            if (entity instanceof LivingEntity player && this.effectOn) {
+                player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(),200, 3), null);
             }
         }
     }

@@ -49,7 +49,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public BTOceanObelisk(Level level) {
         super(GolemType.OCEAN, level);
-        this.towerEffect = BTExtras.DEPTH_DROPPER_EFFECT.get();
     }
 
 
@@ -80,6 +79,8 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.wallDistance = this.noise -.5;
         this.nextStep = random.nextInt(4) + 8;
         this.distanceChange = random.nextInt(3);
+
+        this.towerEffect = BTExtras.DEPTH_DROPPER_EFFECT.get();
 
         this.westWall = this.getBlockX() - this.noise;
         this.northWall = this.getBlockZ() - this.noise;
@@ -119,11 +120,11 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                             block = this.level.getBlockState(blockpos$mutableblockpos).getBlock();
                             double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
                             if (y > this.bottom) {
-                                if (distance2d > 13) {
+                                if (distance2d > 13.5D) {
                                     if  (this.level.getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
                                         this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
 
-                                    } else if (!this.level.isWaterAt(blockpos$mutableblockpos)){
+                                    } else if (!this.level.isWaterAt(blockpos$mutableblockpos) ){
                                         if (distance2d < this.wallDistance - 2) {
                                             this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                         } else if (distance2d < this.wallDistance - 1) {
@@ -136,7 +137,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                             this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                         }
                                     }
-                                } else if (distance2d < 13 && !this.avoidBlocks.contains(block)) {
+                                } else if (distance2d < 13.5D && !this.avoidBlocks.contains(block)) {
                                     this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                 }
                             }
