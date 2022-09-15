@@ -10,7 +10,7 @@ import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
+import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
@@ -28,6 +28,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -48,11 +49,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import org.jetbrains.annotations.NotNull;
+
+import static com.BrassAmber.ba_bt.util.BTLoot.getGolemLootTable;
 
 
 /**
@@ -229,8 +235,10 @@ public abstract class BTAbstractGolem extends Monster {
 				this.setTarget(player);
 			}
 		} else {
-			if (this.tickCount > 0 && this.tickCount % 20 == 0) {
+			if (player != null && survivalAdventure && !this.hasLineOfSight(player) && this.tickCount > 0 && this.tickCount % 20 == 0) {
 				this.destroyBlocksNearby();
+			} else if (this.tickCount > 0 && this.tickCount % 200 == 0) {
+
 			}
 
 			if (this.getTarget() == null) {
@@ -378,34 +386,25 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	@Override
-	public void die(DamageSource source) {
+	public void die(@NotNull DamageSource source) {
 		if (this.level.isClientSide()) {
 			((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
 		}
 		else {
-			try {
-				LandDestructionEntity landDestructionEntity = (LandDestructionEntity) this.level.getEntities(null,
-						new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
-								this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
-								this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
-				landDestructionEntity.setGolemDead(true);
-			}
-			catch (Exception ignored) {
-
-			}
 
 			BlockPos spawnPos = this.getSpawnPos();
 			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
+			this.find_golem_chest(spawnPos);
 
-			checkPos(spawnPos.north(12).below());
-			checkPos(spawnPos.east(12).below());
-			checkPos(spawnPos.south(12).below());
-			checkPos(spawnPos.west(12).below());
 			try {
 				BlockEntity entity = this.level.getBlockEntity(this.chestBlockEntityPos);
 				if (entity instanceof GolemChestBlockEntity chestEntity) {
 					BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + entity);
 					chestEntity.setUnlocked(true);
+					LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.level))
+							.withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestEntity.getBlockPos()))
+							.withOptionalRandomSeed(this.random.nextLong());
+					getGolemLootTable(GolemType.getNumForType(golemType)).fill(chestEntity, lootcontext$builder.create(LootContextParamSets.CHEST));
 				}
 
 			} catch (Exception ignored) {
@@ -416,10 +415,13 @@ public abstract class BTAbstractGolem extends Monster {
 		super.die(source);
 	}
 
+	public void find_golem_chest(BlockPos spawnPos) {
+	}
+
 	public void checkPos(BlockPos pos) {
 		BlockEntity posEntity = this.level.getBlockEntity(pos);
 
-		if (posEntity != null && posEntity.getType() == BTBlockEntityTypes.LAND_GOLEM_CHEST.get()) {
+		if (posEntity != null && posEntity.getType() == GolemType.getGolemChest(golemType)) {
 			this.chestBlockEntityPos = pos;
 		}
 		else {
@@ -449,7 +451,7 @@ public abstract class BTAbstractGolem extends Monster {
 		});
 		// Ignore damage from non-player entities
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(7, new TargetTaskGolemLand<>(this));
+		this.targetSelector.addGoal(7, new TargetTaskGolem<>(this));
 		this.addBehaviorGoals();
 	}
 

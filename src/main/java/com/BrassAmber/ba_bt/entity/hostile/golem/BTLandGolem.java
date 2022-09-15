@@ -7,6 +7,7 @@ import com.BrassAmber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
 import com.BrassAmber.ba_bt.util.GolemType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -35,6 +36,13 @@ public class BTLandGolem extends BTAbstractGolem {
 		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, landGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
+	@Override
+	public void find_golem_chest(BlockPos spawnPos) {
+		checkPos(spawnPos.north(12).below());
+		checkPos(spawnPos.east(12).below());
+		checkPos(spawnPos.south(12).below());
+		checkPos(spawnPos.west(12).below());
+	}
 
 	@Override
 	protected void addBehaviorGoals() {
