@@ -42,6 +42,7 @@ import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
 
 public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
+    private static ChunkPos beforeLastPosition;
     private static ChunkPos lastPosition;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
@@ -51,6 +52,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
     public OceanBattleTower() {
         super(CODEC, OceanBattleTower::createPiecesGenerator, OceanBattleTower::afterPlace);
         lastPosition = ChunkPos.ZERO;
+        beforeLastPosition = ChunkPos.ZERO;
     }
 
     @Override
@@ -66,8 +68,8 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         int oceanFloorHeight = chunkGen.getFirstOccupiedHeight(chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
         Predicate<Holder<Biome>> predicate = context.validBiome();
 
-        if (seaLevel - 15 < oceanFloorHeight) {
-            BrassAmberBattleTowers.LOGGER.info("Sea level too high");
+        if (seaLevel - 8 < oceanFloorHeight) {
+            BrassAmberBattleTowers.LOGGER.info("Ocean Floor too high: " + oceanFloorHeight);
             return BlockPos.ZERO;
         }
 
@@ -99,7 +101,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 20;
+        int topFloorRange = seaLevel - 16;
         int newOceanFloorHeight;
         int lowestY = seaLevel;
         int highestY = bottomFloorRange;
@@ -124,7 +126,8 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                 }
             }
             averageHeight = (highestY + lowestY) /2;
-            if (averageHeight >= bottomFloorRange && averageHeight <= topFloorRange && highestY < 44 && predicate.test(biome)) {
+            BrassAmberBattleTowers.LOGGER.info("Ocean floor average height for position = " + averageHeight);
+            if (averageHeight >= bottomFloorRange && averageHeight <= topFloorRange && Mth.abs(highestY - 54) < 4 && predicate.test(biome)) {
                 usablePositions.add(pos);
                 BrassAmberBattleTowers.LOGGER.info("Ocean floor height for usable position = " + lowestY + " " + highestY);
             }
@@ -159,10 +162,12 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         }
 
         int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
-        boolean towerInSeperation = chunkDistanceTo(lastPosition, chunkPos) <= nextSeperation;
+        int beforeLastDistance = chunkDistanceTo(beforeLastPosition, chunkPos);
+        int lastDistance = chunkDistanceTo(lastPosition, chunkPos);
+        int closestDistance = Math.min(beforeLastDistance, lastDistance);
 
-        if (towerInSeperation) {
-            // BrassAmberBattleTowers.LOGGER.info("Ocean not outside tower separation " + nextSeperation);
+        if (closestDistance <= nextSeperation) {
+            // BrassAmberBattleTowers.LOGGER.info("Land not outside tower separation " + nextSeperation);
             return Optional.empty();
         }
 
