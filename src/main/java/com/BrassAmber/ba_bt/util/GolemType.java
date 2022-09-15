@@ -2,13 +2,17 @@ package com.BrassAmber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
+import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
+import com.BrassAmber.ba_bt.entity.OceanDestructionEntity;
 import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTItems;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -21,6 +25,9 @@ import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.MagmaCube;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public enum GolemType implements StringRepresentable {
@@ -31,10 +38,11 @@ public enum GolemType implements StringRepresentable {
 	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether_golem")),
 	END("end", new TranslatableComponent("entity.ba_bt.end_golem")),
 	SKY("sky", new TranslatableComponent("entity.ba_bt.sky_golem")),
-	CITY("sky", new TextComponent("~"));
+	CITY("city", new TextComponent("~"));
 
 	private final String name;
 	private final Component displayName;
+
 	GolemType(String name, Component displayName) {
 		this.name = name;
 		this.displayName = displayName;
@@ -74,7 +82,6 @@ public enum GolemType implements StringRepresentable {
 
 	/**
 	 * Get the correct Obelisk for the Golem Type.
-	 * @return
 	 */
 	@NotNull
 	public static EntityType<BTAbstractObelisk> getObeliskFor(GolemType golemType) {
@@ -171,7 +178,7 @@ public enum GolemType implements StringRepresentable {
 	@Nullable
 	public static Item getKeyFor(GolemType golemType) {
 		return switch (golemType) {
-			default -> (Item) null;
+			default -> null;
 			case LAND -> BTItems.LAND_MONOLOITH_KEY.get();
 			case OCEAN -> BTItems.OCEAN_MONOLOITH_KEY.get();
 			case CORE -> BTItems.CORE_MONOLOITH_KEY.get();
@@ -192,7 +199,29 @@ public enum GolemType implements StringRepresentable {
 			case "nether" -> NETHER;
 			case "end" -> END;
 			case "sky" -> SKY;
+			case "city" -> CITY;
 		};
+	}
+
+	public static Entity getDestructionEntity(GolemType golemType, Level level, BlockPos blockPos) {
+		Entity destruction = null;
+		switch (golemType) {
+			default -> {
+			}
+			case LAND -> {
+				destruction = new LandDestructionEntity(blockPos, level);
+				blockPos = blockPos.above(6);
+			}
+			case OCEAN -> {
+				destruction = new OceanDestructionEntity(blockPos, level);
+				blockPos = blockPos.below(3);
+			}
+		}
+		if (destruction != null) {
+			destruction.setPos(blockPos.getX() + .25D, blockPos.getY(), blockPos.getZ() + .25D);
+		}
+
+		return destruction;
 	}
 
 	public static Entity getSpecialEnemy(GolemType golemType, ServerLevel serverLevel) {
@@ -244,6 +273,13 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
+	public static BlockEntityType<? extends ChestBlockEntity> getGolemChest(GolemType golemType) {
+		return switch (golemType) {
+			default -> null;
+			case LAND -> BTBlockEntityTypes.LAND_GOLEM_CHEST.get();
+			case OCEAN -> BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get();
+		};
+	}
 
 	@Override
 	public @NotNull String getSerializedName() {

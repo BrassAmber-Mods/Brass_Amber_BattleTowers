@@ -241,7 +241,7 @@ public class BTMonolith extends Entity {
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 
-			if (!this.fromItem && this.golemType != OCEAN) {
+			if (!this.fromItem) {
 				// Moved to a function so that it can be extended and or tested without needing the spawn golem code
 				this.createDestroyTowerEntity(serverworld);
 			}
@@ -250,8 +250,8 @@ public class BTMonolith extends Entity {
 	}
 
 	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
-		Entity destroyTowerEntity = new LandDestructionEntity(this.golemType, this.blockPosition(), this.level);
-		destroyTowerEntity.setPos(this.getX(), this.getY() + 6, this.getZ());
+
+		Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level, this.blockPosition());
 		destroyTowerEntity.setInvulnerable(true);
 		destroyTowerEntity.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(destroyTowerEntity);
@@ -350,7 +350,6 @@ public class BTMonolith extends Entity {
 
 	/**
 	 * {@link PushReaction.IGNORE} is the only valid option for an entity I think to stop piston interaction
-	 * TODO I want this to Block the pistons movement
 	 * 
 	 * Used in: {@link PistonTileEntity.moveCollidedEntities method}
 	 */
@@ -436,7 +435,6 @@ public class BTMonolith extends Entity {
 	}
 
 	/*********************************************************** Sounds ********************************************************/
-	// TODO Fix subtitles for all sounds.
 
 	@Override
 	public @NotNull SoundSource getSoundSource() {

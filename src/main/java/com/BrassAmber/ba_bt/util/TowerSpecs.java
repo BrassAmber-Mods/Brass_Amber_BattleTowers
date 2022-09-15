@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public enum TowerSpecs implements StringRepresentable {
     EMPTY(null,0,0, ""),
     LAND("land", 112, 2, "#9BDAE7"),
-    OCEAN("ocean", 112, 2, "#EAE78A"),
+    OCEAN("ocean", 90, 2, "#EAE78A"),
     NETHER("core", 112, 2, "#88EB63"),
     CORE("nether", 112, 1, "#F79B3A"),
     END("end", 112, 1, "#BA49EF"),
