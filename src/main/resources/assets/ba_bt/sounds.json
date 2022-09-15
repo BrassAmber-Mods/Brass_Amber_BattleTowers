@@ -154,7 +154,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.end",
 		"sounds": [
 			{
-				"name": "ba_bt:the_end",
+				"name": "ba_bt:complex_radiation",
 				"volume": 0.7,
 				"stream": true
 			}
