@@ -7,9 +7,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 
-public class TargetTaskGolemLand<M extends BTAbstractGolem> extends NearestAttackableTargetGoal<Player> {
+public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackableTargetGoal<Player> {
 	
-	public TargetTaskGolemLand(M mobEntity) {
+	public TargetTaskGolem(M mobEntity) {
 		//It does not need to be able to see the target!
 		super(mobEntity, Player.class, false);
 		
