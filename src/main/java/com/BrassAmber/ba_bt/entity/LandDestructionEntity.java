@@ -70,10 +70,10 @@ public class LandDestructionEntity extends Entity {
         this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get();
     }
 
-    public LandDestructionEntity(GolemType golemType, BlockPos golemSpawn, Level level) {
+    public LandDestructionEntity(BlockPos golemSpawn, Level level) {
         super(BTEntityTypes.LAND_DESTRUCTION.get(), level);
 
-        this.golemType = golemType;
+        this.golemType = GolemType.LAND;
         this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
         
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
@@ -93,7 +93,7 @@ public class LandDestructionEntity extends Entity {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
                     if (BTUtil.distanceTo2D(this, blockToAdd) < 14.5D) {
                         if (this.level.isWaterAt(blockToAdd)) {
-                            removeBodyOfWater(blockToAdd, this.level);
+                            this.level.setBlock(blockToAdd, Blocks.AIR.defaultBlockState(), 3);
                         } else if (!this.level.getBlockState(blockToAdd).isAir()) {
                             this.blocksToRemove.add(blockToAdd);
                             // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
@@ -124,10 +124,6 @@ public class LandDestructionEntity extends Entity {
     @Override
     public void tick() {
     	if(this.level.isClientSide()) {
-            MusicManager music = ((ClientLevel) this.level).minecraft.getMusicManager();
-            if (music.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
-                music.stopPlaying();
-            }
     		return;
     	}
         super.tick();
@@ -235,15 +231,18 @@ public class LandDestructionEntity extends Entity {
                 	for (int i = 0; i < 35; i++) {
                         if (this.blocksToRemove.isEmpty()) {
                             break;
-                        } else if (this.blocksToRemove.size() == 1) {
-                            this.removeBlock = this.blocksToRemove.remove(0);
-                            this.level.removeBlock(this.removeBlock, false);
                         } else {
-                            this.removeBlock = this.blocksToRemove.remove(this.random.nextInt(this.blocksToRemove.size() - 1));
+                            // Get random integer, if size is 1 get item at index 0
+                            int randomIndex = 0;
+                            if (this.blocksToRemove.size() <= 1) {
+                                randomIndex = 0;
+                            } else {
+                                randomIndex = this.random.nextInt(this.blocksToRemove.size() - 1);
+                            }
+
+                            this.removeBlock = this.blocksToRemove.remove(randomIndex);
                             this.level.removeBlock(this.removeBlock, false);
-
                         }
-
 
                     }
                     if (this.currentTicks % 6 == 0 && !this.blocksToRemove.isEmpty()) {
