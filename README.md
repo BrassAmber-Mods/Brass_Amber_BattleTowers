@@ -8,7 +8,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >  - However this does protect the mod from unauthorized use 
 >    - (such as redistribution without consent and/or attribution for personal profit)
 
-### Current Features of 2.0.0:
+### Current Features of 2.0.0+:
 
 >- Land Tower 
 >  - Worldgen
@@ -84,8 +84,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >
 >
 >- End Tower:  
->  - The End by C418 
->    - Ambient Version Edited by Brass
+>  - Complex Radiation by LudoCrypt
 >
 >
 >- Sky Tower: 
