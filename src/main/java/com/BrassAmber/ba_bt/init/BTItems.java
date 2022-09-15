@@ -4,10 +4,7 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.item.BTArmorMaterial;
 import com.BrassAmber.ba_bt.item.BTItemTier;
 import com.BrassAmber.ba_bt.item.ChestBlockItem;
-import com.BrassAmber.ba_bt.item.item.GuardianEyeItem;
-import com.BrassAmber.ba_bt.item.item.MonolithItem;
-import com.BrassAmber.ba_bt.item.item.MonolithKeyItem;
-import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
+import com.BrassAmber.ba_bt.item.item.*;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
@@ -65,6 +62,9 @@ public class BTItems {
 	public static final RegistryObject<Item> PLATINUM_BLOCK = ITEMS.register("platinum_block", () -> new BlockItem(BTBlocks.PLATINUM_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> PLATINUM_TILES = ITEMS.register("platinum_tiles", () -> new BlockItem(BTBlocks.PLATINUM_TILES.get(), new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
 	public static final RegistryObject<Item> TAB_ICON = ITEMS.register("tab_icon", () -> new BlockItem(BTBlocks.TAB_ICON.get(), new Item.Properties().tab(null)));
+
+	public static final RegistryObject<Item> EBOOK_HOLDER = ITEMS.register("ebook_holder", () -> new BTEnchantedBookHolder(new Item.Properties().tab(null)));
+	public static final RegistryObject<Item> BT_EMPTY_LOOT_ITEM = ITEMS.register("bt_empty_item", () -> new BTEmptyLootItem(new Item.Properties().tab(null)));
 
 	public static final RegistryObject<Item> BT_LAND_SPAWNER = ITEMS.register("bt_land_spawner", () -> new BlockItem(BTBlocks.BT_LAND_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
 	public static final RegistryObject<Item> BT_OCEAN_SPAWNER = ITEMS.register("bt_ocean_spawner", () -> new BlockItem(BTBlocks.BT_OCEAN_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));

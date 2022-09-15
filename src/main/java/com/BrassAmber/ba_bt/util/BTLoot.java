@@ -1,28 +1,26 @@
 package com.BrassAmber.ba_bt.util;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.block.block.BTSpawnerBlock;
 import com.BrassAmber.ba_bt.init.BTItems;
+import com.BrassAmber.ba_bt.item.item.BTEmptyLootItem;
+import com.BrassAmber.ba_bt.item.item.BTEnchantedBookHolder;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import org.abego.treelayout.internal.util.java.util.ListUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.itemByString;
@@ -50,14 +48,15 @@ public class BTLoot {
     public static final List<List<Item>> golemLoot;
     public static final List<List<Integer>> golemLootCounts;
 
-    public static final List<List<Integer>> landFloorChances;
-    public static final List<List<Integer>> oceanFloorChances;
-    public static final List<List<Integer>> golemLootChances;
+    public static final List<List<Integer>> landFloorRolls;
+    public static final List<List<Integer>> oceanFloorRolls;
+    public static final List<List<Integer>> golemLootRolls;
     public static final List<List<List<Integer>>> towerLootRolls;
     public static final List<LootType> types;
 
 
     static {
+
         // loot is all loaded from the config
         badLoot = getItemList(generalBadLoot.get());
         fillerLoot = getItemList(generalFillerLoot.get());
@@ -106,36 +105,36 @@ public class BTLoot {
         // ----------------------------------------------------------------- \\
 
         // List of loot rolls per floor of each tower.
-        landFloorChances = List.of(
+        landFloorRolls = List.of(
                 List.of(4, 3, 2, 0),
                 List.of(3, 4, 2, 0),
-                List.of(5, 4, 3, 0),
                 List.of(4, 5, 2, 1),
                 List.of(4, 4, 3, 1),
                 List.of(3, 4, 4, 1),
-                List.of(2, 4, 4, 2),
-                List.of(4, 5, 2, 3)
+                List.of(3, 3, 4, 2),
+                List.of(3, 3, 4, 2),
+                List.of(3, 4, 4, 3)
         );
 
-        oceanFloorChances = List.of(
+        oceanFloorRolls = List.of(
                 List.of(4, 3, 2, 0),
                 List.of(3, 4, 2, 0),
-                List.of(5, 4, 3, 0),
                 List.of(4, 5, 2, 1),
                 List.of(4, 4, 3, 1),
                 List.of(3, 4, 4, 1),
-                List.of(2, 4, 4, 2),
-                List.of(4, 5, 2, 3)
+                List.of(3, 3, 4, 2),
+                List.of(3, 3, 4, 2),
+                List.of(3, 4, 4, 3)
         );
 
-        golemLootChances = List.of(
-                List.of(2, 4, 4, 4),
-                List.of(1, 4, 5, 4)
+        golemLootRolls = List.of(
+                List.of(1, 2, 3, 4, 4),
+                List.of(0, 2, 3, 5, 4)
         );
 
         towerLootRolls = List.of(
-                landFloorChances,
-                oceanFloorChances
+                landFloorRolls,
+                oceanFloorRolls
         );
 
         types = List.of(LootType.BadLoot, LootType.FillerLoot, LootType.DecentLoot, LootType.GoodLoot);
@@ -197,33 +196,87 @@ public class BTLoot {
         List<Item> itemList= new ArrayList<>();
         for (String itemId: itemIds) {
             if (itemId.equals("minecraft:air")) {
-                itemList.add(BTItems.BT_LAND_SPAWNER.get());
+                itemList.add(BTItems.BT_EMPTY_LOOT_ITEM.get());
+            } else if (itemId.equals("minecraft:enchanted_book")) {
+                itemList.add(BTItems.EBOOK_HOLDER.get());
             } else {
                 itemList.add(itemByString(itemId));
             }
-
         }
         return itemList;
     }
 
-    public static LootTable getLootTable(int towerType, int floor) {
-        List<Integer> lootRolls = towerLootRolls.get(towerType).get(floor);
-        LootTable.Builder chestLoot = LootTable.lootTable();
-        List<LootPool.Builder> pools = new ArrayList<>(Collections.emptyList());
-        int w;
-        int itemCount;
+    public static LootPool.Builder fillPool(int rolls, List<Item> items, List<Integer> counts, int enchantLevel) {
+        LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(rolls));
+        int w = 0;
         int maxCount;
         int minCount;
+        int itemCount;
+        int weight;
+        boolean isTool;
+        boolean isArmor;
+        boolean enchantItem;
+        for (Item item: items) {
+            itemCount = counts.get(w);
+            maxCount = (itemCount - (itemCount % 10)) / 10;
+            minCount = itemCount - (maxCount * 10);
+
+            weight = 10;
+
+            isTool = (item instanceof TieredItem || item instanceof TridentItem
+                    || item instanceof ElytraItem || item instanceof ProjectileWeaponItem) && enchantTools.get() ;
+            isArmor = item instanceof ArmorItem && enchantArmor.get();
+
+            enchantItem = isTool || isArmor || item instanceof BTEnchantedBookHolder;
+
+            LootPoolSingletonContainer.Builder<?> lootItem;
+            if (item instanceof BTEmptyLootItem) {
+                lootItem = EmptyLootItem.emptyItem();
+                weight = 0;
+            }
+            else if (item instanceof BTEnchantedBookHolder) {
+                lootItem = LootItem.lootTableItem(Items.BOOK);
+                weight = 8;
+            } else {
+                lootItem = LootItem.lootTableItem(item);
+                if (item instanceof RecordItem) {
+                    weight = 2;
+                }
+            }
+
+            if (enchantItem) {
+                lootItem.apply(EnchantWithLevelsFunction.enchantWithLevels(ConstantValue.exactly(enchantLevel)).allowTreasure());
+            } else {
+                pool.add(LootItem.lootTableItem(item));
+            }
+
+            lootItem.setWeight(weight);
+            lootItem.apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)));
+            pool.add(lootItem);
+            w ++;
+        }
+
+        return pool;
+    }
+
+    public static LootTable getLootTable(int towerType, int floor) {
+        return getLootTableBuilder(towerType, floor, towerLootRolls.get(towerType).get(floor)).build();
+    }
+
+    public static LootTable.Builder getLootTableBuilder(int towerType,  int floor, List<Integer> lootRolls) {
+        LootTable.Builder chestLoot = LootTable.lootTable();
+        List<LootPool.Builder> pools = new ArrayList<>(Collections.emptyList());
+
         for (int i = 0; i < lootRolls.size(); i++)  {
             int rolls = lootRolls.get(i);
             LootType type = types.get(i);
-            LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(rolls));
 
             List<Item> baseItems = type.getBaseLoot();
             List<Item> towerItems = type.getTowerLoot(towerType);
             List<Item> allItems = new ArrayList<>();
             allItems.addAll(baseItems);
             allItems.addAll(towerItems);
+            BrassAmberBattleTowers.LOGGER.info("Items: " + allItems);
 
             List<Integer> baseCounts = type.getBaseCounts();
             List<Integer> towerCounts = type.getTowerCounts(towerType);
@@ -231,95 +284,29 @@ public class BTLoot {
             allCounts.addAll(baseCounts);
             allCounts.addAll(towerCounts);
 
-            w = 0;
-            for (Item item: allItems) {
-                // BrassAmberBattleTowers.LOGGER.info("current item, count" + w);
-                itemCount = allCounts.get(w);
-                maxCount = (itemCount - (itemCount % 10)) / 10;
-                minCount = itemCount - (maxCount * 10);
-                if (item == BTItems.BT_LAND_SPAWNER.get()) {
-                    pool.add(EmptyLootItem.emptyItem().setWeight(0));
-                }
-                if (item instanceof EnchantedBookItem bookItem) {
-                    pool.add(
-                            LootItem.lootTableItem(bookItem).setWeight(8)
-                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)))
-                                    .apply(EnchantRandomlyFunction.randomEnchantment())
-                    );
-                }
-                else {
-                    int weight = 10;
-                    if (item instanceof RecordItem) {
-                        weight = 2;
-                    }
-                    pool.add(LootItem.lootTableItem(item).setWeight(weight).apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount))));
-                }
-                w ++;
-            }
+            LootPool.Builder pool = fillPool(rolls, allItems, allCounts, (3*floor) + bookLevelEnchant.get());
+
             int emptyChance = Mth.floor(allItems.size() * 7.5 * type.getLoseChance());
 
             pool.add(EmptyLootItem.emptyItem().setWeight(emptyChance));
             pools.add(pool);
         }
 
-        return chestLoot.withPool(pools.get(0)).withPool(pools.get(1)).withPool(pools.get(2)).withPool(pools.get(3)).build();
+        return chestLoot.withPool(pools.get(0)).withPool(pools.get(1)).withPool(pools.get(2)).withPool(pools.get(3));
     }
 
     public static LootTable getGolemLootTable(int towerType) {
-        List<Integer> lootRolls = golemLootChances.get(towerType);
-        LootTable.Builder chestLoot = LootTable.lootTable();
-        List<LootPool.Builder> pools = new ArrayList<>(Collections.emptyList());
-        int w;
-        int itemCount;
-        int maxCount;
-        int minCount;
-        for (int i = 0; i < lootRolls.size(); i++)  {
-            int rolls = lootRolls.get(i);
-            LootType type = types.get(i);
-            LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(rolls));
+        List<Integer> lootRolls = golemLootRolls.get(towerType);
+        int golemRolls = lootRolls.remove(4);
+        LootTable.Builder chestLoot = getLootTableBuilder(towerType, 8, lootRolls);
 
-            List<Item> baseItems = type.getBaseLoot();
-            List<Item> golemItems = golemLoot.get(towerType);
-            List<Item> allItems = new ArrayList<>();
-            allItems.addAll(baseItems);
-            allItems.addAll(golemItems);
+        LootPool.Builder pool = fillPool(golemRolls, golemLoot.get(towerType), golemLootCounts.get(towerType), 20 + bookLevelEnchant.get());
 
-            List<Integer> baseCounts = type.getBaseCounts();
-            List<Integer> golemCounts = golemLootCounts.get(towerType);
-            List<Integer> allCounts = new ArrayList<>();
-            allCounts.addAll(baseCounts);
-            allCounts.addAll(golemCounts);
+        int emptyChance = Mth.floor(golemLoot.get(towerType).size() * 7.5 * .1F);
 
-            w = 0;
-            for (Item item: allItems) {
-                itemCount = allCounts.get(w);
-                maxCount = (itemCount - (itemCount % 10)) / 10;
-                minCount = itemCount - (maxCount * 10);
-                if (item == BTItems.BT_LAND_SPAWNER.get()) {
-                    pool.add(EmptyLootItem.emptyItem().setWeight(0));
-                }
-                if (item instanceof EnchantedBookItem bookItem) {
-                    pool.add(
-                            LootItem.lootTableItem(bookItem).setWeight(8)
-                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)))
-                                    .apply(EnchantRandomlyFunction.randomEnchantment())
-                    );
-                }
-                else {
-                    int weight = 10;
-                    if (item instanceof RecordItem) {
-                        weight = 2;
-                    }
-                    pool.add(LootItem.lootTableItem(item).setWeight(weight).apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount))));
-                }
-            }
-            int emptyChance = Mth.floor(allItems.size() * 7.5 * type.getLoseChance());
+        pool.add(EmptyLootItem.emptyItem().setWeight(emptyChance));
 
-            pool.add(EmptyLootItem.emptyItem().setWeight(emptyChance));
-            pools.add(pool);
-        }
-
-        return chestLoot.withPool(pools.get(0)).withPool(pools.get(1)).withPool(pools.get(2)).withPool(pools.get(3)).build();
+        return chestLoot.withPool(pool).build();
     }
 
 }

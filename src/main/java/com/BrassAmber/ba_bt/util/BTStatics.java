@@ -24,9 +24,6 @@ public class BTStatics {
     public static final List<List<Block>> towerBlocks;
     public static final List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
-    public static ChunkPos lastLandPostition = ChunkPos.ZERO;
-    public static ChunkPos lastOceanPostition = ChunkPos.ZERO;
-
 
     static {
 
@@ -70,7 +67,7 @@ public class BTStatics {
                         Blocks.DARK_PRISMARINE_SLAB, Blocks.SEA_LANTERN, Blocks.MAGMA_BLOCK, Blocks.SOUL_SAND,
                         Blocks.SEAGRASS, Blocks.TALL_SEAGRASS, Blocks.KELP_PLANT, Blocks.BRAIN_CORAL,
                         Blocks.BUBBLE_CORAL, Blocks.FIRE_CORAL, Blocks.TUBE_CORAL, Blocks.HORN_CORAL,
-                        Blocks.BRAIN_CORAL_BLOCK, Blocks.BUBBLE_CORAL_BLOCK, Blocks.FIRE_CORAL_BLOCK,
+                        Blocks.BRAIN_CORAL_BLOCK, Blocks.BUBBLE_CORAL_BLOCK, Blocks.FIRE_CORAL_BLOCK, Blocks.WARPED_HYPHAE,
                         Blocks.TUBE_CORAL_BLOCK, Blocks.HORN_CORAL_BLOCK, Blocks.IRON_BARS, Blocks.BONE_BLOCK,
                         Blocks.COPPER_BLOCK, Blocks.EXPOSED_COPPER, Blocks.OXIDIZED_COPPER, Blocks.WARPED_STEM,
                         BTBlocks.BT_OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get()
@@ -101,24 +98,24 @@ public class BTStatics {
                 List.of(
                         // Floor 1-2 data
                         // minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requiredPlayerRange, spawnRange
-                        Arrays.asList(200, 240, 2, 8, 10, 6),
+                        Arrays.asList(200, 240, 2, 10, 11, 6),
                         // Floor 3-4
-                        Arrays.asList(180, 220, 3, 10, 10, 6),
+                        Arrays.asList(180, 220, 3, 12, 12, 6),
                         // Floor 5-6
-                        Arrays.asList(120, 160, 3, 10, 10, 6),
+                        Arrays.asList(120, 160, 3, 14, 13, 6),
                         // Floor 7-8
-                        Arrays.asList(100, 140, 4, 12, 10, 6)
+                        Arrays.asList(100, 140, 4, 16, 12, 6)
                 ),
                 // Ocean
                 List.of(
                         // Floor 1-2 data
-                        Arrays.asList(240, 280, 2, 8, 10, 6),
+                        Arrays.asList(240, 280, 2, 5, 12, 8),
                         // Floor 3-4
-                        Arrays.asList(220, 260, 3, 10, 10, 6),
+                        Arrays.asList(220, 260, 3, 6, 13, 8),
                         // Floor 5-6
-                        Arrays.asList(160, 200, 3, 10, 10, 6),
+                        Arrays.asList(160, 200, 3, 7, 14, 8),
                         // Floor 7-8
-                        Arrays.asList(140, 180, 4, 12, 10, 6)
+                        Arrays.asList(140, 180, 4, 8, 13, 8)
                 )
         );
 
