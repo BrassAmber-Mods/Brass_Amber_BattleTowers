@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
+import static com.BrassAmber.ba_bt.util.BTUtil.distanceTo2D;
 import static com.BrassAmber.ba_bt.util.BTUtil.distanceTo3D;
 import static java.lang.Math.abs;
 
@@ -19,34 +20,46 @@ public class DashAttackGoal extends Goal {
     private final double speedModifier;
     private final int range;
 
+    protected static final int WARMUP_TICKS = 40;
+
+    private int warmup = WARMUP_TICKS;
+
+
     public DashAttackGoal(BTOceanGolem golem, int range) {
         this.mob = golem;
-        this.speedModifier = 3.0D;
+        this.speedModifier = 2.0D;
         this.range = range;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
     public boolean canUse() {
-        return this.mob.dashFlag;
+        this.target = this.mob.getTarget();
+
+        if (this.target != null && this.target.isAlive()) {
+            if (distanceTo2D(this.mob, this.target) > 6D) {
+                this.warmup--;
+                return this.warmup <= 0;
+            }
+        }
+        return false;
     }
 
     public boolean canContinueToUse() {
         this.target = this.mob.getTarget();
 
-        if (this.target == null) {
-            return false;
-        } else if (!this.target.isAlive()) {
-            return false;
-        }
-
         double currentX = this.mob.getX();
         double currentZ = this.mob.getZ();
 
-        return currentX == wantedPos.getX() && currentZ == wantedPos.getZ();
+
+        if (this.target != null && this.target.isAlive()) {
+            return currentX != wantedPos.getX() && currentZ != wantedPos.getZ();
+        }
+        return false;
     }
 
     public void stop() {
         this.target = null;
+        this.warmup = WARMUP_TICKS;
     }
 
     public void start() {
