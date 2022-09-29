@@ -397,12 +397,12 @@ public class BTAbstractObelisk extends Entity {
                 // BrassAmberBattleTowers.LOGGER.info(this.towerEffect + " effect ");
             }
 
-            if (this.tickCount % 600 <= 5 && hasPlayer && this.towerEffect != null) {
+            if (this.tickCount % 320 <= 5 && hasPlayer && this.towerEffect != null) {
                 for (ServerPlayer player : players
                 ) {
                     if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
-                        player.forceAddEffect(new MobEffectInstance(this.towerEffect, 400, 3), player);
-                        BrassAmberBattleTowers.LOGGER.info(player);
+                        player.forceAddEffect(new MobEffectInstance(this.towerEffect, 160, 3), player);
+                        // BrassAmberBattleTowers.LOGGER.info(player);
                     }
                 }
             }
@@ -511,7 +511,7 @@ public class BTAbstractObelisk extends Entity {
             this.chestsFound = tag.getBoolean(chestsFoundName);
             BlockPos chestPos;
             if (this.chestsFound) {
-                ListTag chests = tag.getList(chestsName, 6);
+                ListTag chests = tag.getList(chestsName, 0);
                 ListTag chestXTag = chests.getList(0);
                 ListTag chestYTag = chests.getList(1);
                 ListTag chestZTag = chests.getList(2);
@@ -530,7 +530,7 @@ public class BTAbstractObelisk extends Entity {
                         new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
                         new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
 
-                ListTag spawners = tag.getList(this.spawnersName, 6);
+                ListTag spawners = tag.getList(this.spawnersName, 0);
                 ListTag spawnerFloor = spawners.getList(0);
                 ListTag spawnerXTag = spawners.getList(1);
                 ListTag spawnerYTag = spawners.getList(2);
@@ -538,12 +538,10 @@ public class BTAbstractObelisk extends Entity {
                 int x = 0;
                 for (int i = 0; i < this.SPAWNERS.size(); i++) {
                     int spawnerAmt = spawnerFloor.getInt(i);
-                    int f = 0;
                     for (int k = x; k < x + spawnerAmt; k++) {
-                        this.SPAWNERS.get(i).set(f, new BlockPos(spawnerXTag.getDouble(k), spawnerYTag.getDouble(k), spawnerZTag.getDouble(k)));
-                        f ++;
+                        this.SPAWNERS.get(i).set(k-x, new BlockPos(spawnerXTag.getDouble(k), spawnerYTag.getDouble(k), spawnerZTag.getDouble(k)));
                         if (k == x + spawnerAmt - 1) {
-                            x = k;
+                            x += spawnerAmt;
                         }
                     }
                 }
@@ -558,7 +556,7 @@ public class BTAbstractObelisk extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
         if (this.level.isClientSide()) {
             ((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
         } else {
@@ -566,46 +564,67 @@ public class BTAbstractObelisk extends Entity {
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
             tag.putBoolean(chestsFoundName, this.chestsFound);
-            ListTag chestXTag = this.newDoubleList();
-            ListTag chestYTag = this.newDoubleList();
-            ListTag chestZTag = this.newDoubleList();
+
+            double[] chestX = new double[this.CHESTS.size()];
+            double[] chestY = new double[this.CHESTS.size()];
+            double[] chestZ = new double[this.CHESTS.size()];
+            int i = 0;
             for (BlockPos chestPos: this.CHESTS) {
                 if (chestPos == null) {
-                    chestXTag.add(DoubleTag.valueOf(0));
-                    chestYTag.add(DoubleTag.valueOf(0));
-                    chestZTag.add(DoubleTag.valueOf(0));
+                    chestX[i] = 0;
+                    chestY[i] = 0;
+                    chestZ[i] = 0;
                 } else {
-                    chestXTag.add(DoubleTag.valueOf(chestPos.getX()));
-                    chestYTag.add(DoubleTag.valueOf(chestPos.getY()));
-                    chestZTag.add(DoubleTag.valueOf(chestPos.getZ()));
+                    chestX[i] = chestPos.getX();
+                    chestY[i] = chestPos.getY();
+                    chestZ[i] = chestPos.getZ();
                 }
-
+                i++;
             }
+
+            ListTag chestXTag = this.newDoubleList(chestX);
+            ListTag chestYTag = this.newDoubleList(chestY);
+            ListTag chestZTag = this.newDoubleList(chestZ);
+
             ListTag Chests = new ListTag();
             Chests.add(chestXTag);
             Chests.add(chestYTag);
             Chests.add(chestZTag);
             tag.put(chestsName, Chests);
 
-            ListTag spawnerFloorTag = this.newDoubleList();
-            ListTag spawnerXTag = this.newDoubleList();
-            ListTag spawnerYTag = this.newDoubleList();
-            ListTag spawnerZTag = this.newDoubleList();
+            int spawnerSize = towerChestUnlocking.get(GolemType.getNumForType(this.golemType)).size() -1 ;
+            int chestNum = towerChestUnlocking.get(GolemType.getNumForType(this.golemType)).get(spawnerSize);
+
+            double[] spawnerFloor = new double[this.SPAWNERS.size()];
+            double[] spawnerX = new double[this.keySpawnerAmounts.get(this.keySpawnerAmounts.size()-1)];
+            double[] spawnerY = new double[this.keySpawnerAmounts.get(this.keySpawnerAmounts.size()-1)];
+            double[] spawnerZ = new double[this.keySpawnerAmounts.get(this.keySpawnerAmounts.size()-1)];
+
+            i = 0;
+            int f = 0;
             for (List<BlockPos> posList: this.SPAWNERS) {
-                spawnerFloorTag.add(DoubleTag.valueOf(posList.size()));
+                spawnerFloor[i] = posList.size();
                 for (BlockPos spawnerPos: posList) {
-                    spawnerXTag.add(DoubleTag.valueOf(spawnerPos.getX()));
-                    spawnerYTag.add(DoubleTag.valueOf(spawnerPos.getY()));
-                    spawnerZTag.add(DoubleTag.valueOf(spawnerPos.getZ()));
+                    spawnerX[f] = spawnerPos.getX();
+                    spawnerY[f] = spawnerPos.getY();
+                    spawnerZ[f] = spawnerPos.getZ();
+                    f++;
                 }
+                i++;
             }
+
+            ListTag spawnerFloorTag = this.newDoubleList(spawnerFloor);
+            ListTag spawnerXTag = this.newDoubleList(spawnerX);
+            ListTag spawnerYTag = this.newDoubleList(spawnerY);
+            ListTag spawnerZTag = this.newDoubleList(spawnerZ);
+
             ListTag Spawners = new ListTag();
-            Spawners.add(spawnerFloorTag);
-            Spawners.add(spawnerXTag);
-            Spawners.add(spawnerYTag);
-            Spawners.add(spawnerZTag);
+            Spawners.addTag(0, spawnerFloorTag);
+            Spawners.addTag(1, spawnerXTag);
+            Spawners.addTag(2, spawnerYTag);
+            Spawners.addTag(3, spawnerZTag);
             tag.put(spawnersName, Spawners);
-            // BrassAmberBattleTowers.LOGGER.info("Tag: " + tag);
+            BrassAmberBattleTowers.LOGGER.info("Tag: " + tag);
         }
 
 
