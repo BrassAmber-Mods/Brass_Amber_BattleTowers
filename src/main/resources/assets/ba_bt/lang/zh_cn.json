@@ -127,7 +127,7 @@
 	"item.ba_bt.bt_city_resonance_stone": "都市共鸣石",
 
 	// Effects药水效果
-	"effect.ba_bt.depth_dropper": "深渊坠落",
+	"effect.ba_bt.depth_dropper_effect": "深渊坠落",
 
 	// Enchantments附魔
 	"enchantment.ba_bt.depth_dropper": "深渊坠落",

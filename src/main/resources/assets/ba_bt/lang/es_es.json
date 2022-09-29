@@ -127,17 +127,23 @@
 	"item.ba_bt.bt_city_resonance_stone": "Piedra de resonancia ancestral",
 
 	// Effects
-	"effect.ba_bt.depth_dropper": "Dispensador de las profundidades",
+	"effect.ba_bt.depth_dropper_effect": "Dispensador de las profundidades",
 
 	// Enchantments
 	"enchantment.ba_bt.depth_dropper": "Dispensador de las profundidades",
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
-	"tooltip.ba_bt.monolith": "El Guardián ha quedado atrapado dentro!",
 	"tooltip.ba_bt.monolith_key": "Espero que sepas lo que estás haciendo...",
 	"tooltip.ba_bt.tower_chest": "Se desbloquea al destruir los generadores cercanos",
 	"tooltip.ba_bt.golem_chest": "Vincúlate a la fuerza del Guardián",
+
+	"tooltip.ba_bt.monolith_land": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_ocean": "The Beast waits patiently within...",
+	"tooltip.ba_bt.monolith_core": "The God waits for fools to interfere...",
+	"tooltip.ba_bt.monolith_nether": "The Tyrant lounges lazily inside...",
+	"tooltip.ba_bt.monolith_end": "The Guardian Meditates within...",
+	"tooltip.ba_bt.monolith_sky": "The Goddess watches ...",
 
 	"tooltip.ba_bt.eye_hold_shift": "Mantén <§6§oShift§r> para ver las últimas palabras del Guardián",
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre ha sido comprometida...",
