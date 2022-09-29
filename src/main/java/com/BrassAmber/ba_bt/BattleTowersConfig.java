@@ -144,10 +144,10 @@ public class BattleTowersConfig {
         generalFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items.")
                         .defineListAllowEmpty(List.of("General Filler Loot"), () -> List.of("minecraft:sugar", "minecraft:gold_nugget", "minecraft:glass_bottle",
-                                "minecraft:clay_ball", "minecraft:flower_pot", "minecraft:iron_hoe", "minecraft:arrow", "minecraft:cookie", "minecraft:iron_nugget"), listValidator);
+                                "minecraft:clay_ball", "minecraft:flower_pot", "minecraft:arrow", "minecraft:cookie", "minecraft:iron_nugget", "minecraft:iron_ingot"), listValidator);
         generalFillerLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Filler Loot Counts"), () -> List.of(14, 26, 11, 24, 11, 11, 26, 24, 36), listValidator);
+                        .defineListAllowEmpty(List.of("General Filler Loot Counts"), () -> List.of(14, 26, 11, 24, 11, 26, 24, 36, 12), listValidator);
         generalDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items.")
                         .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of("minecraft:gunpowder", "minecraft:obsidian", "minecraft:bone",
@@ -157,7 +157,7 @@ public class BattleTowersConfig {
                                 "minecraft:iron_sword", "minecraft:arrow"), listValidator);
         generalDecentLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Decent Loot Counts"), () -> List.of(24, 13, 14, 12, 11, 11, 15, 12, 14, 11, 11,
+                        .defineListAllowEmpty(List.of("General Decent Loot Counts"), () -> List.of(24, 13, 14, 23, 11, 11, 15, 12, 14, 11, 11,
                                 3, 11, 13, 11, 11, 11, 11, 11, 11, 48), listValidator);
         generalGoodLoot =
                 BUILDER.comment("A list of item ids of possible good items.")
