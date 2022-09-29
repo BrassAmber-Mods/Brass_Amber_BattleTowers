@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 import com.BrassAmber.ba_bt.entity.ai.goal.oceangolem.DashAttackGoal;
 import com.BrassAmber.ba_bt.init.BTExtras;
 import com.BrassAmber.ba_bt.util.GolemType;
+import net.minecraft.client.particle.WaterCurrentDownParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,8 +31,11 @@ import net.minecraft.world.entity.animal.Pufferfish;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BubbleColumnBlock;
+import net.minecraft.world.level.block.SoulSandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidAttributes;
 
 import java.util.List;
 
@@ -39,8 +43,6 @@ import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanGolemHP;
 
 public class BTOceanGolem extends BTAbstractGolem {
 
-	private static final EntityDataAccessor<Boolean> DATA_ID_MOVING = SynchedEntityData.defineId(BTOceanGolem.class, EntityDataSerializers.BOOLEAN);
-	public boolean dashFlag;
 	private boolean drowned;
 
 	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
@@ -50,12 +52,12 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.setBossBarName();
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 910;
-		this.dashFlag = false;
 		this.drowned = false;
+		this.golemType = GolemType.OCEAN;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.8D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 2D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	public void find_golem_chest(BlockPos spawnPos) {
@@ -73,11 +75,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 			if (distanceTo(target) > 16 && this.random.nextInt(50) == 1) {
 				this.playRoarSound();
 				target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,100, 1), target);
-				this.dashFlag = true;
 			}
-		}
-		else if (this.getTarget() == null) {
-			this.dashFlag = false;
 		}
 	}
 
@@ -87,10 +85,6 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.goalSelector.addGoal(5, new DashAttackGoal(this, 16));
 	}
 
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(DATA_ID_MOVING, false);
-	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
@@ -113,9 +107,17 @@ public class BTOceanGolem extends BTAbstractGolem {
 		return super.hurt(source, damage);
 	}
 
+	@Override
+	public void onAboveBubbleCol(boolean p_20313_) {}
+
+	@Override
+	public void onInsideBubbleColumn(boolean p_20322_) {
+		this.resetFallDistance();
+	}
+
 	public void spawnDrowned(ServerLevel level) {
 		@SuppressWarnings("ConstantConditions") List<Entity> drownedList = List.of(EntityType.DROWNED.create(level),EntityType.DROWNED.create(level),EntityType.DROWNED.create(level),EntityType.DROWNED.create(level));
-		int x = this.getBlockY() - 1;
+		int x = this.getBlockX() - 1;
 		int z = this.getBlockZ() - 1;
 		for (Entity drowned : drownedList) {
 			if (drowned instanceof Mob mob) {
@@ -132,13 +134,6 @@ public class BTOceanGolem extends BTAbstractGolem {
 		}
 	}
 
-	public boolean isMoving() {
-		return this.entityData.get(DATA_ID_MOVING);
-	}
-
-	void setMoving(boolean p_32862_) {
-		this.entityData.set(DATA_ID_MOVING, p_32862_);
-	}
 
 	protected void playRoarSound() {
 		this.playSoundEvent(SoundEvents.ENDER_DRAGON_GROWL, 1.2F);
