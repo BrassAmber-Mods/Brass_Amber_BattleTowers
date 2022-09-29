@@ -273,14 +273,6 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
-	public static BlockEntityType<? extends ChestBlockEntity> getGolemChest(GolemType golemType) {
-		return switch (golemType) {
-			default -> null;
-			case LAND -> BTBlockEntityTypes.LAND_GOLEM_CHEST.get();
-			case OCEAN -> BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get();
-		};
-	}
-
 	@Override
 	public @NotNull String getSerializedName() {
 		return this.name;
