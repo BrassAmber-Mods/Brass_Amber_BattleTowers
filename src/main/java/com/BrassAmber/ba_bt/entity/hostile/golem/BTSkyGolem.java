@@ -36,6 +36,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 		this.setBossBarName();
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 15345;
+		this.golemType = GolemType.SKY;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
