@@ -85,7 +85,7 @@ public abstract class BTAbstractGolem extends Monster {
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
 	protected Component GolemName;
-	public static GolemType golemType;
+	public GolemType golemType;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -238,7 +238,7 @@ public abstract class BTAbstractGolem extends Monster {
 			if (player != null && survivalAdventure && !this.hasLineOfSight(player) && this.tickCount > 0 && this.tickCount % 20 == 0) {
 				this.destroyBlocksNearby();
 			} else if (this.tickCount > 0 && this.tickCount % 200 == 0) {
-
+				this.destroyBlocksNearby();
 			}
 
 			if (this.getTarget() == null) {
@@ -404,11 +404,11 @@ public abstract class BTAbstractGolem extends Monster {
 					LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.level))
 							.withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestEntity.getBlockPos()))
 							.withOptionalRandomSeed(this.random.nextLong());
-					getGolemLootTable(GolemType.getNumForType(golemType)).fill(chestEntity, lootcontext$builder.create(LootContextParamSets.CHEST));
+					getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(chestEntity, lootcontext$builder.create(LootContextParamSets.CHEST));
 				}
 
-			} catch (Exception ignored) {
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -421,7 +421,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public void checkPos(BlockPos pos) {
 		BlockEntity posEntity = this.level.getBlockEntity(pos);
 
-		if (posEntity != null && posEntity.getType() == GolemType.getGolemChest(golemType)) {
+		if (posEntity instanceof GolemChestBlockEntity) {
 			this.chestBlockEntityPos = pos;
 		}
 		else {
