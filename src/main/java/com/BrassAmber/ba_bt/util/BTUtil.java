@@ -68,6 +68,18 @@ public class BTUtil {
         return ForgeRegistries.ITEMS.getHolder(ResourceLocation.tryParse(id)).orElseGet(() -> Holder.direct(Items.DIRT)).value();
     }
 
+    public static int median(ArrayList<Integer> nums) {
+        Collections.sort(nums);
+        if (nums.size() % 2 == 1)
+            return nums.get((nums.size() + 1) / 2 - 1);
+        else {
+            double lower = nums.get(nums.size() / 2 - 1);
+            double upper = nums.get(nums.size() / 2);
+
+            return (int) ((lower + upper) / 2.0);
+        }
+    }
+
     /**
      * Returns the squared horizontal distance as a positive double.
      */

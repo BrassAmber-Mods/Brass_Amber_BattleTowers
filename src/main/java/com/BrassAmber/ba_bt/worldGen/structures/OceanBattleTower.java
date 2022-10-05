@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
+import static com.BrassAmber.ba_bt.util.BTUtil.median;
 
 
 // Comments from TelepathicGrunts
@@ -101,7 +102,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 16;
+        int topFloorRange = seaLevel - 8;
         int newOceanFloorHeight;
         int lowestY = seaLevel;
         int highestY = bottomFloorRange;
@@ -109,13 +110,15 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         int minZ;
         int newX;
         int newZ;
-        int averageHeight;
+        int averageHeight = 0;
+        ArrayList<Integer> averages = new ArrayList<>();
 
         for (ChunkPos pos : testable) {
             Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(0), QuartPos.fromBlock(pos.getMiddleBlockX()));
             minX = pos.getMinBlockX();
             minZ = pos.getMinBlockX();
 
+            averages.clear();
             for (int x = 0; x < 6; x++) {
                 for (int z = 0; z < 6; z++) {
                     newX = minX + (x * 3);
@@ -123,11 +126,17 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                     newOceanFloorHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
                     lowestY = Math.min(newOceanFloorHeight, lowestY);
                     highestY = Math.max(newOceanFloorHeight, highestY);
+                    averages.add((highestY + lowestY) / 2);
+                    if (highestY > seaLevel) {
+                        return BlockPos.ZERO;
+                    }
                 }
+
             }
-            averageHeight = (highestY + lowestY) /2;
+
+            averageHeight = median(averages);
             BrassAmberBattleTowers.LOGGER.info("Ocean floor average height for position = " + averageHeight);
-            if (averageHeight >= bottomFloorRange && averageHeight <= topFloorRange && Mth.abs(highestY - 54) < 4 && predicate.test(biome)) {
+            if (averageHeight >= bottomFloorRange && averageHeight <= topFloorRange && predicate.test(biome)) {
                 usablePositions.add(pos);
                 BrassAmberBattleTowers.LOGGER.info("Ocean floor height for usable position = " + lowestY + " " + highestY);
             }
