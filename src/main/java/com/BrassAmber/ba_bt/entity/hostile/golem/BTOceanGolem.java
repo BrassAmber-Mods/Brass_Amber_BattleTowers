@@ -57,7 +57,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 2D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 1.7D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	public void find_golem_chest(BlockPos spawnPos) {
@@ -74,15 +74,19 @@ public class BTOceanGolem extends BTAbstractGolem {
 			LivingEntity target = this.getTarget();
 			if (distanceTo(target) > 16 && this.random.nextInt(50) == 1) {
 				this.playRoarSound();
-				target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,100, 1), target);
+				target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,40, 1), target);
 			}
 		}
+	}
+
+	public int getAllowedTowerRange() {
+		return 56;
 	}
 
 	@Override
 	protected void addBehaviorGoals() {
 		super.addBehaviorGoals();
-		this.goalSelector.addGoal(5, new DashAttackGoal(this, 16));
+		this.goalSelector.addGoal(7, new DashAttackGoal(this, 10));
 	}
 
 
