@@ -165,11 +165,11 @@ public class BattleTowersConfig {
                                 "minecraft:ender_pearl", "minecraft:diamond", "minecraft:diamond_axe", "minecraft:diamond_pickaxe", "minecraft:diamond_shovel",
                                 "minecraft:diamond_sword", "minecraft:experience_bottle", "minecraft:emerald", "minecraft:music_disc_11", "minecraft:music_disc_13",
                                 "minecraft:music_disc_blocks", "minecraft:music_disc_cat", "minecraft:music_disc_chirp", "minecraft:music_disc_far", "minecraft:amethyst_shard",
-                                "minecraft:music_disc_mall", "minecraft:music_disc_mellohi", "minecraft:music_disc_otherside", "minecraft:music_disc_stal"), listValidator);
+                                "minecraft:music_disc_mall", "minecraft:music_disc_mellohi", "minecraft:music_disc_otherside", "minecraft:music_disc_stal", "minecraft:diamond"), listValidator);
         generalGoodLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
                         .defineListAllowEmpty(List.of("General Good Loot Counts"), () -> List.of(13, 11, 11, 25, 13, 11, 11, 11, 11, 37, 14,
-                                11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11), listValidator);
+                                11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 13), listValidator);
 
 
         landTowerBadLoot =
@@ -218,10 +218,10 @@ public class BattleTowersConfig {
         oceanTowerFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Filler Loot"), () -> List.of("minecraft:lily_pad", "minecraft:kelp", "minecraft:salmon",
-                                "minecraft:cod", "minecraft:prismarine_shard", "minecraft:gold_ingot", "minecraft:copper_ingot"), listValidator);
+                                "minecraft:cod", "minecraft:prismarine_shard", "minecraft:copper_ingot"), listValidator);
         oceanFillerLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean filler loot list above")
-                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot Counts "), () -> List.of(14, 25, 13, 13, 24, 13, 13), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot Counts "), () -> List.of(14, 25, 13, 13, 24, 13), listValidator);
         oceanTowerDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Decent Loot"), () -> List.of("minecraft:soul_sand", "minecraft:oak_boat", "minecraft:birch_boat",
