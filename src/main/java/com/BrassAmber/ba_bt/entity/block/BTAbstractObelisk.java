@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
@@ -15,7 +16,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -29,8 +29,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -44,6 +42,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
@@ -54,6 +53,7 @@ import java.util.*;
 import static com.BrassAmber.ba_bt.util.BTLoot.getLootTable;
 import static com.BrassAmber.ba_bt.util.BTLoot.getLootTableBuilder;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
+import static com.BrassAmber.ba_bt.util.BTUtil.distanceTo2D;
 import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
 
 @SuppressWarnings("DanglingJavadoc")
@@ -73,7 +73,6 @@ public class BTAbstractObelisk extends Entity {
     private boolean clientInitialized;
     protected int checkLayer;
     protected int currentFloorY;
-    protected MobEffect towerEffect;
     protected boolean doServerInit;
     private boolean doCheck;
 
@@ -101,6 +100,7 @@ public class BTAbstractObelisk extends Entity {
     private boolean golemSpawned = false;
     private Class<? extends Entity> specialEnemy;
     private boolean chestsFound;
+    public boolean hasPlayer;
 
     protected int floorDistance;
     protected Block chestBlock;
@@ -121,7 +121,10 @@ public class BTAbstractObelisk extends Entity {
         this.musicPlaying = false;
         this.doServerInit = true;
         this.doCheck = true;
-        this.towerEffect = null;
+        this.hasPlayer = false;
+        this.canCheck = true;
+        this.musicDistance = 0;
+        this.towerRange = 0;
     }
 
     public BTAbstractObelisk(GolemType golemType, Level level) {
@@ -323,6 +326,24 @@ public class BTAbstractObelisk extends Entity {
                     this.musicPlaying = false;
                 }
             }
+
+            int x = this.blockPosition().getX();
+            int y = this.blockPosition().getX();
+            int z = this.blockPosition().getX();
+            List<Entity> list = level.getEntities(null,
+                    new AABB(x - this.towerRange, y-100, z - this.towerRange, x + this.towerRange, y + 10, z + this.towerRange)
+            );
+            List<EntityType<?>> list2 = new ArrayList<>();
+            for (Entity e: list) {
+                list2.add(e.getType());
+            }
+            if (!(list2.contains(GolemType.getGolemFor(this.golemType)) || list2.contains(GolemType.getMonolithFor(this.golemType)))) {
+                if (this.musicPlaying) {
+                    this.music.nextSongDelay = 500;
+                    this.music.stopPlaying();
+                    this.musicPlaying = false;
+                }
+            }
             return;
         }
 
@@ -358,15 +379,15 @@ public class BTAbstractObelisk extends Entity {
             List<Boolean> playersClose = new ArrayList<>();
             for (ServerPlayer player : players
             ) {
-                if (BTUtil.distanceTo2D(this, player) < 30) {
+                if (distanceTo2D(this, player) < this.towerRange) {
                     playersClose.add(Boolean.TRUE);
-                    // BrassAmberBattleTowers.LOGGER.info("Player " +  this.horizontalDistanceTo(player) + " blocks away");
+                    BrassAmberBattleTowers.LOGGER.info("Player " +  distanceTo2D(this, player) + " blocks away");
                 } else {
                     playersClose.add(Boolean.FALSE);
                 }
             }
 
-            boolean hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
+            this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
             int timeCheck = (this.random.nextInt(2) + 4) * 10;
 
@@ -391,20 +412,10 @@ public class BTAbstractObelisk extends Entity {
                 }
             }
 
-            if (this.tickCount % 20 == 0 && hasPlayer) {
+            if (this.tickCount % 20 == 0 && this.hasPlayer) {
                 // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
                 this.checkSpawners(this.level);
                 // BrassAmberBattleTowers.LOGGER.info(this.towerEffect + " effect ");
-            }
-
-            if (this.tickCount % 320 <= 5 && hasPlayer && this.towerEffect != null) {
-                for (ServerPlayer player : players
-                ) {
-                    if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
-                        player.forceAddEffect(new MobEffectInstance(this.towerEffect, 160, 3), player);
-                        // BrassAmberBattleTowers.LOGGER.info(player);
-                    }
-                }
             }
         }
     }
@@ -596,9 +607,9 @@ public class BTAbstractObelisk extends Entity {
             int chestNum = towerChestUnlocking.get(GolemType.getNumForType(this.golemType)).get(spawnerSize);
 
             double[] spawnerFloor = new double[this.SPAWNERS.size()];
-            double[] spawnerX = new double[this.keySpawnerAmounts.get(this.keySpawnerAmounts.size()-1)];
-            double[] spawnerY = new double[this.keySpawnerAmounts.get(this.keySpawnerAmounts.size()-1)];
-            double[] spawnerZ = new double[this.keySpawnerAmounts.get(this.keySpawnerAmounts.size()-1)];
+            double[] spawnerX = new double[chestNum];
+            double[] spawnerY = new double[chestNum];
+            double[] spawnerZ = new double[chestNum];
 
             i = 0;
             int f = 0;
