@@ -4,6 +4,7 @@ import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.GolemType;
+import com.BrassAmber.ba_bt.util.SaveTowers;
 import com.BrassAmber.ba_bt.worldGen.BTOceanJigsawPlacement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,10 +12,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SeagrassBlock;
+import net.minecraft.world.level.block.TallSeagrassBlock;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -32,7 +37,10 @@ import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
 
 import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
@@ -43,8 +51,7 @@ import static com.BrassAmber.ba_bt.util.BTUtil.median;
 
 public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
-    private static ChunkPos beforeLastPosition;
-    private static ChunkPos lastPosition;
+    public static SaveTowers TOWERS;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -52,8 +59,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
     public OceanBattleTower() {
         super(CODEC, OceanBattleTower::createPiecesGenerator, OceanBattleTower::afterPlace);
-        lastPosition = ChunkPos.ZERO;
-        beforeLastPosition = ChunkPos.ZERO;
+        TOWERS = new SaveTowers("Ocean_Tower");
     }
 
     @Override
@@ -102,7 +108,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 8;
+        int topFloorRange = seaLevel - 12;
         int newOceanFloorHeight;
         int lowestY = seaLevel;
         int highestY = bottomFloorRange;
@@ -110,7 +116,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         int minZ;
         int newX;
         int newZ;
-        int averageHeight = 0;
+        int averageHeight;
         ArrayList<Integer> averages = new ArrayList<>();
 
         for (ChunkPos pos : testable) {
@@ -155,25 +161,34 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         Predicate<Holder<Biome>> predicate = context.validBiome();
         Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
-
         int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
         int minimumSeparation = BattleTowersConfig.oceanMinimumSeperation.get();
         int seperationRange = BattleTowersConfig.oceanAverageSeperationModifier.get();
 
+        TOWERS.setSeed(context.seed());
+
         ChunkPos chunkPos = context.chunkPos();
         ChunkGenerator chunkGen = context.chunkGenerator();
-        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
-        worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
         boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) >= firstTowerDistance;
         if (!firstTowerDistanceCheck) {
             return Optional.empty();
         }
+        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
+
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
+
 
         int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
-        int beforeLastDistance = chunkDistanceTo(beforeLastPosition, chunkPos);
-        int lastDistance = chunkDistanceTo(lastPosition, chunkPos);
-        int closestDistance = Math.min(beforeLastDistance, lastDistance);
+        int closestDistance = 2000;
+
+        if (!TOWERS.towers.isEmpty()) {
+            for (ChunkPos towerPos: TOWERS.towers) {
+                int distance = chunkDistanceTo(chunkPos, towerPos);
+                closestDistance = Math.min(closestDistance, distance);
+            }
+        }
 
         if (closestDistance <= nextSeperation) {
             // BrassAmberBattleTowers.LOGGER.info("Land not outside tower separation " + nextSeperation);
@@ -214,8 +229,9 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
             if (piecesGenerator.isPresent()) {
                 BrassAmberBattleTowers.LOGGER.info("Ocean Tower at " + spawnPos);
-                lastPosition = context.chunkPos();
+                TOWERS.addTower( chunkPos);
             }
+
 
             return piecesGenerator;
         }
