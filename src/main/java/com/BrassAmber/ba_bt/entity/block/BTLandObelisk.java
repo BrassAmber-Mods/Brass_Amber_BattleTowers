@@ -15,11 +15,6 @@ public class BTLandObelisk extends BTAbstractObelisk {
 
     public BTLandObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
-        this.TOWER_MUSIC = BTSoundEvents.LAND_TOWER_MUSIC;
-        this.musicDistance = 17;
-        this.towerRange = 30;
-
     }
 
     public BTLandObelisk(Level level) {
@@ -35,6 +30,17 @@ public class BTLandObelisk extends BTAbstractObelisk {
         this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
         this.woolBlock = Blocks.GREEN_WOOL;
         this.spawnerFillBlock = Blocks.STONE_BRICKS;
+    }
+
+    @Override
+    public void initialize() {
+        if (this.level.isClientSide()) {
+            this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
+            this.TOWER_MUSIC = BTSoundEvents.LAND_TOWER_MUSIC;
+        }
+        this.musicDistance = 17;
+        this.towerRange = 30;
+        super.initialize();
     }
 
     @Override

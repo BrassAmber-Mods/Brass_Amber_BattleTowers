@@ -7,14 +7,19 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.BrassAmber.ba_bt.util.BTStatics.towerBlocks;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
@@ -41,10 +46,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.BOSS_MUSIC = null;
-        this.TOWER_MUSIC = BTSoundEvents.OCEAN_TOWER_MUSIC;
-        this.musicDistance = 58;
-        this.towerRange = 62;
     }
 
     public BTOceanObelisk(Level level) {
@@ -54,7 +55,14 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     @Override
     public void initialize() {
+        if (this.level.isClientSide()) {
+            this.BOSS_MUSIC = null;
+            this.TOWER_MUSIC = BTSoundEvents.OCEAN_TOWER_MUSIC;
+        }
+        this.musicDistance = 58;
+        this.towerRange = 62;
         super.initialize();
+
         if (!this.level.isClientSide()) {
             this.carveOcean();
             doNoOutputCommand(this, "/kill @e[type=item]");
@@ -80,7 +88,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.nextStep = random.nextInt(4) + 8;
         this.distanceChange = random.nextInt(3);
 
-        this.towerEffect = BTExtras.DEPTH_DROPPER_EFFECT.get();
 
         this.westWall = this.getBlockX() - this.noise;
         this.northWall = this.getBlockZ() - this.noise;
@@ -89,6 +96,23 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
         /* BrassAmberBattleTowers.LOGGER.info("Walls W,N,E,S " + this.westWall + " " + this.northWall + " " + this.eastWall + " " + this.southWall);
         BrassAmberBattleTowers.LOGGER.info("Noise " + this.noise);**/
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.tickCount % 320 <= 5 && this.hasPlayer) {
+            List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
+            for (ServerPlayer player : players
+            ) {
+                if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
+                    // BrassAmberBattleTowers.LOGGER.debug("Set effects");
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 220, 2), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 3), player);
+                }
+            }
+        }
     }
 
     public void carveOcean() {
@@ -133,7 +157,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                             } else {
                                                 this.level.setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
                                             }
-                                        } else if (distance2d < this.wallDistance) {
+                                        } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block)) {
                                             this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                         }
                                     }
