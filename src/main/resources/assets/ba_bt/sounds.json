@@ -176,7 +176,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.city",
 		"sounds": [
 			{
-				"name": "ba_bt:labyrinthe",
+				"name": "ba_bt:labyrinthine",
 				"volume": 0.7,
 				"stream": true
 			}
