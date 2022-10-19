@@ -7,8 +7,6 @@ import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
-import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.BrassAmber.ba_bt.init.BTItems;
@@ -52,7 +50,6 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
@@ -415,6 +412,10 @@ public abstract class BTAbstractGolem extends Monster {
 		super.die(source);
 	}
 
+	/**
+	 * Function overridden by subclass in order to correctly find/unlock the golem chest in each tower.
+	 * @param spawnPos initial spawn position of golem
+	 */
 	public void find_golem_chest(BlockPos spawnPos) {
 	}
 
