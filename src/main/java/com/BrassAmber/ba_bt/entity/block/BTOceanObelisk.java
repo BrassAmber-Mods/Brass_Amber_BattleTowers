@@ -1,23 +1,24 @@
 package com.BrassAmber.ba_bt.entity.block;
 
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
+import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTExtras;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -101,6 +102,25 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     @Override
     public void tick() {
         super.tick();
+        if (this.level.isClientSide()) {
+            int x = this.blockPosition().getX();
+            int y = this.blockPosition().getX();
+            int z = this.blockPosition().getX();
+            List<Entity> list = level.getEntities(null,
+                    new AABB(x - this.towerRange, y-100, z - this.towerRange, x + this.towerRange, y + 10, z + this.towerRange)
+            );
+            List<EntityType<?>> list2 = new ArrayList<>();
+            for (Entity e: list) {
+                list2.add(e.getType());
+            }
+            if (!(list2.contains(BTEntityTypes.OCEAN_GOLEM.get()) || list2.contains(BTEntityTypes.OCEAN_MONOLITH.get()))) {
+                if (this.musicPlaying) {
+                    this.music.nextSongDelay = 500;
+                    this.music.stopPlaying();
+                    this.musicPlaying = false;
+                }
+            }
+        }
         if (this.tickCount % 320 <= 5 && this.hasPlayer) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
