@@ -20,14 +20,14 @@ public class DashAttackGoal extends Goal {
     private final double speedModifier;
     private final int range;
 
-    protected static final int WARMUP_TICKS = 40;
+    protected static final int WARMUP_TICKS = 60;
 
     private int warmup = WARMUP_TICKS;
 
 
     public DashAttackGoal(BTOceanGolem golem, int range) {
         this.mob = golem;
-        this.speedModifier = 2.0D;
+        this.speedModifier = .7D;
         this.range = range;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
@@ -36,7 +36,7 @@ public class DashAttackGoal extends Goal {
         this.target = this.mob.getTarget();
 
         if (this.target != null && this.target.isAlive()) {
-            if (distanceTo2D(this.mob, this.target) > 6D) {
+            if (distanceTo2D(this.mob, this.target) > 10D) {
                 this.warmup--;
                 return this.warmup <= 0;
             }
