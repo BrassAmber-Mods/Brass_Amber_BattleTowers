@@ -145,23 +145,25 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 return  BlockPos.ZERO;
             }
 
-            boolean isFlat = highestY - lowestY <= 10;
+            boolean isFlat = highestY - lowestY <= 12;
             watered = hasWater.size() >= 16;
             int usableHeight = lowestY + ((highestY - lowestY)/4);
+            BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?" + watered + " usable height: " + usableHeight);
 
             if (isFlat && predicate.test(biome)) {
-                if (!watered) {
-                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
+                if (biomeType == 1){
                     usablePositions.add(pos);
                     usableHeights.add(usableHeight);
                 }
-                else if (biomeType == 1){
+                else if (!watered) {
+                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
                     usablePositions.add(pos);
                     usableHeights.add(usableHeight);
                 }
             }
 
         }
+
         if (usablePositions.size() > 0) {
             int index = worldgenRandom.nextInt(usablePositions.size());
             int landHeight = usableHeights.get(index);
@@ -187,8 +189,8 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         ChunkPos chunkPos = context.chunkPos();
         ChunkGenerator chunkGen = context.chunkGenerator();
 
-        boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) >= firstTowerDistance;
-        if (!firstTowerDistanceCheck) {
+        boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) < firstTowerDistance;
+        if (firstTowerDistanceCheck) {
             return Optional.empty();
         }
         // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
@@ -232,11 +234,11 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                     }
                 }
             }
-            spawnPos = isSpawnableChunk(context, towerType, worldgenRandom, chunkPos, chunkGen);
         }  else {
             return Optional.empty();
         }
-        // BrassAmberBattleTowers.LOGGER.info("Land last position: " + lastPosition);
+        spawnPos = isSpawnableChunk(context, towerType, worldgenRandom, chunkPos, chunkGen);
+        // BrassAmberBattleTowers.LOGGER.info("Land closest position: " + closestDistance);
 
         boolean sandy = towerType == 2;
 
