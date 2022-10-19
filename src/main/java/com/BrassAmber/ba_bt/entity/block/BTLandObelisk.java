@@ -48,7 +48,7 @@ public class BTLandObelisk extends BTAbstractObelisk {
         // Update Sand
         if (level.getBlockState(toUpdate) == Blocks.SAND.defaultBlockState()) {
             level.removeBlock(toUpdate, false);
-            BrassAmberBattleTowers.LOGGER.info("Sand? :" + level.getBlockState(toUpdate));
+            // BrassAmberBattleTowers.LOGGER.info("Sand? :" + level.getBlockState(toUpdate));
             level.setBlockAndUpdate(toUpdate, Blocks.SAND.defaultBlockState());
         }
     }

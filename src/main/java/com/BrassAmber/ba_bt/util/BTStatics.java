@@ -3,12 +3,10 @@ package com.BrassAmber.ba_bt.util;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +23,9 @@ public class BTStatics {
     public static final List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
 
+
     static {
+
 
         landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
 
@@ -133,4 +133,6 @@ public class BTStatics {
         }
 
     }
+
+
 }
