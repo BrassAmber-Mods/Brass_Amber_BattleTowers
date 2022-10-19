@@ -8,8 +8,6 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.util.TowerSpecs;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -18,7 +16,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -26,7 +23,6 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +45,7 @@ public class OceanDestructionEntity extends  Entity {
     private TowerSpecs specs;
     private GolemType golemType;
     private List<BlockPos> blocksToRemove = new ArrayList<>();
+    private BlockPos currentRowY;
     private int rowsBelowTower;
     private int rowsOfTower;
     private int startTicks = 600;
@@ -76,6 +73,11 @@ public class OceanDestructionEntity extends  Entity {
         this.destroyPercentOfTower = BattleTowersConfig.oceanTowerCrumblePercent.get();
         this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get();
         this.fallingBlocks = new ArrayList<>();
+        this.currentRowY = BlockPos.ZERO;
+        this.rowsBelowTower = 0;
+        this.rowsOfTower = 0;
+        this.removeBlock = BlockPos.ZERO;
+        this.hasPlayer = false;
     }
 
     public OceanDestructionEntity(BlockPos golemSpawn, Level level) {
@@ -91,18 +93,16 @@ public class OceanDestructionEntity extends  Entity {
     public void getNextRow() {
         //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "In getNextRow");
         // Find the corner of the next row of blocks (3 y levels per row)
-        int levelPerRow = 3;
-        if (this.getCurrentRow() < this.rowsBelowTower + 1) {
-            levelPerRow = 4;
-        }
-        BlockPos rowCorner = this.getCrumbleStart().above(this.getCurrentRow() * levelPerRow);
+        this.currentRowY.offset(0, 4, 0);
+        int startx = this.getCrumbleStart().getX();
+        int startz = this.getCrumbleStart().getZ();
 
         // for each of the three rows add every single non-air block pos on that row to the arraylist
-        for (int y = rowCorner.getY(); y < (rowCorner.getY() + 3); y++) {
-            for (int x = rowCorner.getX(); x <= rowCorner.getX() + 30; x++) {
-                for(int z = rowCorner.getZ(); z <= rowCorner.getZ() + 30; z++) {
+        for (int y = this.currentRowY.getY(); y < (this.currentRowY.getY() + 3); y++) {
+            for (int x = startx; x <= startx + 30; x++) {
+                for(int z = startz; z <= startz + 30; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    if (BTUtil.distanceTo2D(this, blockToAdd) < 13.0D) {
+                    if (BTUtil.distanceTo2D(this, blockToAdd) < 13.5D) {
                         if (!this.level.isWaterAt(blockToAdd) && !this.level.getBlockState(blockToAdd).isAir()) {
                             this.blocksToRemove.add(blockToAdd);
                             // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
@@ -129,6 +129,7 @@ public class OceanDestructionEntity extends  Entity {
         this.rowsBelowTower = (int) Math.floor((this.blockPosition().getY() - this.getCrumbleStart().getY()) / 4f);
         this.fallingBlocks = new ArrayList<>();
         this.initialized = true;
+        this.currentRowY = this.getCrumbleStart().offset(0, this.getCurrentRow() * 4, 0);
     }
 
     @Override
@@ -257,9 +258,9 @@ public class OceanDestructionEntity extends  Entity {
                             break;
                         } else {
                             // Get random integer, if size is 1 get item at index 0
-                            int randomIndex = this.random.nextInt(this.blocksToRemove.size() - 1);
-                            if (this.blocksToRemove.size() == 1) {
-                                randomIndex = 0;
+                            int randomIndex = 0;
+                            if (this.blocksToRemove.size() != 1) {
+                                randomIndex = this.random.nextInt(this.blocksToRemove.size() - 1);
                             }
                             this.removeBlock = this.blocksToRemove.get(randomIndex);
 
