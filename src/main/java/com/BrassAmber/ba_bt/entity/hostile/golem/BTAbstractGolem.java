@@ -12,7 +12,6 @@ import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.BrassAmber.ba_bt.init.BTItems;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.client.multiplayer.ClientLevel;
