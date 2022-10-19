@@ -6,7 +6,6 @@ import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
-import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
@@ -42,7 +41,6 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
@@ -51,7 +49,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static com.BrassAmber.ba_bt.util.BTLoot.getLootTable;
-import static com.BrassAmber.ba_bt.util.BTLoot.getLootTableBuilder;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.distanceTo2D;
 import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
@@ -89,11 +86,10 @@ public class BTAbstractObelisk extends Entity {
     // Data Strings
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
-
-    private final String chestsName = "TowerChests";
-    private final String spawnersName = "Spawners";
     private final String chestsFoundName = "ChestsFound?";
 
+    private final String spawnersName = "Spawners";
+    private final String chestsName = "TowerChests";
 
     protected boolean musicPlaying;
     private boolean canCheck;
@@ -505,7 +501,7 @@ public class BTAbstractObelisk extends Entity {
             this.chestsFound = tag.getBoolean(chestsFoundName);
             BlockPos chestPos;
             if (this.chestsFound) {
-                ListTag chests = tag.getList(chestsName, 0);
+                ListTag chests = tag.getList(chestsName, 9);
                 ListTag chestXTag = chests.getList(0);
                 ListTag chestYTag = chests.getList(1);
                 ListTag chestZTag = chests.getList(2);
@@ -526,7 +522,7 @@ public class BTAbstractObelisk extends Entity {
                         new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
                         new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
 
-                ListTag spawners = tag.getList(this.spawnersName, 0);
+                ListTag spawners = tag.getList(this.spawnersName, 9);
                 ListTag spawnerFloor = spawners.getList(0);
                 ListTag spawnerXTag = spawners.getList(1);
                 ListTag spawnerYTag = spawners.getList(2);
