@@ -2,35 +2,35 @@
 	"itemGroup.ba_bt": "BrassAmber战斗高塔",
 	"block.ba_bt.tab_icon": "BrassAmber战斗高塔",
 
-	// Entities实体
-	"entity.ba_bt.land_golem": "大地魔像",
-	"entity.ba_bt.core_golem": "炉心魔像",
-	"entity.ba_bt.nether_golem": "下界魔像",
-	"entity.ba_bt.end_golem": "末影魔像",
-	"entity.ba_bt.sky_golem": "天空魔像",
-	"entity.ba_bt.ocean_golem": "海洋魔像",
-	
-	"entity.ba_bt.sky_minion": "天空仆从",
+	// 实体
+	"entity.ba_bt.land_golem": "巴林泽摩尔，沉睡的守望者",
+	"entity.ba_bt.ocean_golem": "默莱森，来自深渊的虚空狂兽",
+	"entity.ba_bt.core_golem": "奥布图林，炉心之神",
+	"entity.ba_bt.nether_golem": "韦尔泰兰，炼狱暴君",
+	"entity.ba_bt.end_golem": "术罗斯尼尔，扭曲的守卫者",
+	"entity.ba_bt.sky_golem": "维兹克里因，天域女神",
+
+	"entity.ba_bt.sky_minion": "天域仆从",
 	"entity.ba_bt.platinum_skeleton": "白金骑士",
 	"entity.ba_bt.bt_cultist": "邪教徒",
-	
+
 	"entity.ba_bt.land_monolith": "大地石碑",
+	"entity.ba_bt.ocean_monolith": "海洋石碑",
 	"entity.ba_bt.core_monolith": "炉心石碑",
 	"entity.ba_bt.nether_monolith": "下界石碑",
 	"entity.ba_bt.end_monolith": "末影石碑",
-	"entity.ba_bt.sky_monolith": "天空石碑",
-	"entity.ba_bt.ocean_monolith": "海洋石碑",
+	"entity.ba_bt.sky_monolith": "天域石碑",
 
 	"entity.ba_bt.land_obelisk": "大地方尖碑",
 	"entity.ba_bt.ocean_obelisk": "海洋方尖碑",
 	"entity.ba_bt.core_obelisk": "炉心方尖碑",
 	"entity.ba_bt.nether_obelisk": "下界方尖碑",
 	"entity.ba_bt.end_obelisk": "末影方尖碑",
-	"entity.ba_bt.sky_obelisk": "天空方尖碑",
+	"entity.ba_bt.sky_obelisk": "天域方尖碑",
 
 	"entity.ba_bt.destroy_tower": "摧毁高塔",
-	
-	// Golem Sounds魔像音效
+
+	// 魔像音效
 	"ba_bt.subtitle.golem.hurt": "魔像受伤",
 	"ba_bt.subtitle.golem.death": "魔像死亡",
 	"ba_bt.subtitle.golem.charge": "魔像突袭",
@@ -41,7 +41,7 @@
 	"ba_bt.subtitle.golem.land.fight": "魔像战斗音乐",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "开始生成魔像",
-	
+
 	"ba_bt.subtitle.tower.break.start": "高塔开始崩塌",
 	"ba_bt.subtitle.tower.break.crumble": "高塔崩塌",
 	"ba_bt.subtitle.tower.ambient.music.land": "高塔环境音乐",
@@ -49,10 +49,10 @@
 	"ba_bt.subtitle.tower.ambient.music.core": "炉心高塔环境音乐",
 	"ba_bt.subtitle.tower.ambient.music.nether": "下界高塔环境音乐",
 	"ba_bt.subtitle.tower.ambient.music.end": "末影高塔环境音乐",
-	"ba_bt.subtitle.tower.ambient.music.sky": "天空高塔环境音乐",
-	"ba_bt.subtitle.tower.ambient.music.city": "复原都市环境音乐",
+	"ba_bt.subtitle.tower.ambient.music.sky": "天域高塔环境音乐",
+	"ba_bt.subtitle.tower.ambient.music.city": "复苏古城环境音乐",
 
-	// Blocks方块
+	// 方块
 	"block.ba_bt.land_golem_chest": "魔像宝箱",
 	"block.ba_bt.land_chest": "大地宝箱",
 
@@ -62,14 +62,14 @@
 	"block.ba_bt.platinum_block": "白金块",
 	"block.ba_bt.platinum_tiles": "白金砖瓦",
 
-	"block.ba_bt.bt_land_spawner" : "大地刷怪笼",
-	"block.ba_bt.bt_ocean_spawner" : "海洋刷怪笼",
-	"block.ba_bt.bt_core_spawner" : "炉心刷怪笼",
-	"block.ba_bt.bt_nether_spawner" : "下界刷怪笼",
-	"block.ba_bt.bt_end_spawner" : "末影刷怪笼",
-	"block.ba_bt.bt_sky_spawner" : "天空刷怪笼",
-	
-	// Containers容器
+	"block.ba_bt.bt_land_spawner": "大地刷怪笼",
+	"block.ba_bt.bt_ocean_spawner": "海洋刷怪笼",
+	"block.ba_bt.bt_core_spawner": "炉心刷怪笼",
+	"block.ba_bt.bt_nether_spawner": "下界刷怪笼",
+	"block.ba_bt.bt_end_spawner": "末影刷怪笼",
+	"block.ba_bt.bt_sky_spawner": "天域刷怪笼",
+
+	// 容器
 	"container.ba_bt.land_golem_chest": "大地魔像宝箱",
 	"container.ba_bt.land_golem_chest_double": "大型大地魔像宝箱",
 	"container.ba_bt.land_chest": "大地宝箱",
@@ -81,28 +81,28 @@
 	"container.ba_bt.ocean_golem_chest_double": "大型海洋魔像宝箱",
 	"container.ba_bt.ocean_chest": "海洋宝箱",
 	"container.ba_bt.ocean_chest_double": "大型海洋宝箱",
-	
-	// Items物品
+
+	// 物品
 	"item.ba_bt.monolith_key_land": "大地石碑之键",
+	"item.ba_bt.monolith_key_ocean": "海洋石碑之键",
 	"item.ba_bt.monolith_key_core": "炉心石碑之键",
 	"item.ba_bt.monolith_key_nether": "下界石碑之键",
 	"item.ba_bt.monolith_key_end": "末影石碑之键",
-	"item.ba_bt.monolith_key_sky": "天空石碑之键",
-	"item.ba_bt.monolith_key_ocean": "海洋石碑之键",
-	
+	"item.ba_bt.monolith_key_sky": "天域石碑之键",
+
 	"item.ba_bt.guardian_eye_land": "大地守卫之眼",
+	"item.ba_bt.guardian_eye_ocean": "海洋守卫之眼",
 	"item.ba_bt.guardian_eye_core": "炉心守卫之眼",
 	"item.ba_bt.guardian_eye_nether": "下界守卫之眼",
 	"item.ba_bt.guardian_eye_end": "末影守卫之眼",
-	"item.ba_bt.guardian_eye_sky": "天空守卫之眼",
-	"item.ba_bt.guardian_eye_ocean": "海洋守卫之眼",
-	
+	"item.ba_bt.guardian_eye_sky": "天域守卫之眼",
+
 	"item.ba_bt.monolith_land": "大地石碑",
+	"item.ba_bt.monolith_ocean": "海洋石碑",
 	"item.ba_bt.monolith_core": "炉心石碑",
 	"item.ba_bt.monolith_nether": "下界石碑",
 	"item.ba_bt.monolith_end": "末影石碑",
-	"item.ba_bt.monolith_sky": "天空石碑",
-	"item.ba_bt.monolith_ocean": "海洋石碑",
+	"item.ba_bt.monolith_sky": "天域石碑",
 
 	"item.ba_bt.platinum_ingot": "白金锭",
 	"item.ba_bt.platinum_shard": "白金碎片",
@@ -123,29 +123,29 @@
 	"item.ba_bt.bt_core_resonance_stone": "炉心共鸣石",
 	"item.ba_bt.bt_nether_resonance_stone": "下界共鸣石",
 	"item.ba_bt.bt_end_resonance_stone": "末地共鸣石",
-	"item.ba_bt.bt_sky_resonance_stone": "天空共鸣石",
-	"item.ba_bt.bt_city_resonance_stone": "都市共鸣石",
+	"item.ba_bt.bt_sky_resonance_stone": "天域共鸣石",
+	"item.ba_bt.bt_city_resonance_stone": "古城共鸣石",
 
-	// Effects药水效果
-	"effect.ba_bt.depth_dropper_effect": "深渊坠落",
+	// 药水效果
+	"effect.ba_bt.depth_dropper_effect": "坠渊",
 
-	// Enchantments附魔
-	"enchantment.ba_bt.depth_dropper": "深渊坠落",
+	// 附魔
+	"enchantment.ba_bt.depth_dropper": "坠渊",
 
-	// Item Tooltips物品描述
-	"tooltip.ba_bt.hold_shift": "按住shift查看更多信息",
-	"tooltip.ba_bt.monolith_key": "将3把钥匙插入石碑来召唤战斗魔像",
-	"tooltip.ba_bt.tower_chest": "破坏当前所在层数的所有刷怪笼来解锁它。在生存模式放置时不会被锁住",
-	"tooltip.ba_bt.golem_chest": "击败魔像来解锁",
+	// 物品详情
+	"tooltip.ba_bt.hold_shift": "按住 §eSHIFT§r 查看更多信息",
+	"tooltip.ba_bt.monolith_key": "希望你明白自己在做些什么…",
+	"tooltip.ba_bt.tower_chest": "摧毁当前高塔所在层数的所有刷怪笼来解锁它",
+	"tooltip.ba_bt.golem_chest": "与守卫者的生命本源有着紧密的联系",
 
 	"tooltip.ba_bt.monolith_land": "守卫者被禁闭与此！",
 	"tooltip.ba_bt.monolith_ocean": "狂兽在其中静静地等待着…",
 	"tooltip.ba_bt.monolith_core": "神灵等候着愚蠢的家伙送上门来…",
-	"tooltip.ba_bt.monolith_nether": "暴君懒散地在其中躺着…",
+	"tooltip.ba_bt.monolith_nether": "暴君静静地在其中沉睡着…",
 	"tooltip.ba_bt.monolith_end": "守卫者在其中冥想…",
-	"tooltip.ba_bt.monolith_sky": "女神注视着…",
+	"tooltip.ba_bt.monolith_sky": "女神正在注视着你…",
 
-	"tooltip.ba_bt.eye_hold_shift": "按住§eSHIFT§r以阅读守卫者的遗言",
+	"tooltip.ba_bt.eye_hold_shift": "按住 §eSHIFT§r 以阅读守卫者的遗言",
 	"tooltip.ba_bt.land_eye": "瓦尤斯，高塔已被攻破……",
 	"tooltip.ba_bt.ocean_eye": "赞颂虚空吧……赞颂我……",
 	"tooltip.ba_bt.core_eye": "已经没有什么能阻止他们了……",
@@ -153,35 +153,43 @@
 	"tooltip.ba_bt.end_eye": "她会从维度裂痕中降临……",
 	"tooltip.ba_bt.sky_eye": "我让您失望了，瓦尤斯大人……",
 
-	// Overscreen titles全屏标题
-	"title.ba_bt.guardian_defeated_1": "守卫者已然倒下",
+	"item.ba_bt.bt_land_resonance_stone.desc": "Lena Raine: Ancestry",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "DM DOKURO: Void",
+	"item.ba_bt.bt_core_resonance_stone.desc": "Lena Raine: So Below",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "FHP: Pigstep Cinematic Remix",
+	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
+	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
+
+	// 全屏标题
+	"title.ba_bt.guardian_defeated_1": " 战败了",
 
 	"title.ba_bt.land_defeated_2": "如果失去其能量……",
-	"title.ba_bt.land_defeated_3": "高塔将会崩塌……",
+	"title.ba_bt.land_defeated_3": "……高塔将会崩塌……",
 
-	"title.ba_bt.ocean_defeated_2": "由于被逐回虚空……",
-	"title.ba_bt.ocean_defeated_3": "……地板开始崩塌……",
+	"title.ba_bt.ocean_defeated_2": "由于恶兽被逐回了虚空…",
+	"title.ba_bt.ocean_defeated_3": "…地面开始碎裂…",
 
-	"title.ba_bt.core_defeated_2": "由于失去了神之容器……",
-	"title.ba_bt.core_defeated_3": "……墙面开始融合……",
+	"title.ba_bt.core_defeated_2": "由于失去了神之容器…",
+	"title.ba_bt.core_defeated_3": "…墙面开始溶解…",
 
-	"title.ba_bt.nether_defeated_2": "由于失去了他们的掌控……",
-	"title.ba_bt.nether_defeated_3": "……高塔将会崩毁……",
+	"title.ba_bt.nether_defeated_2": "由于失去了他们的掌控…",
+	"title.ba_bt.nether_defeated_3": "…高塔将会崩毁…",
 
-	"title.ba_bt.end_defeated_2": "击败但不是击毁",
-	"title.ba_bt.end_defeated_3": "……地板开始消逝……",
+	"title.ba_bt.end_defeated_2": "即使战败，吾等也无法被摧毁…",
+	"title.ba_bt.end_defeated_3": "…地面开始消逝…",
 
-	"title.ba_bt.sky_defeated_2": "居然被区区一个玩家击败",
-	"title.ba_bt.sky_defeated_3": "……高塔开始崩塌并消失……",
+	"title.ba_bt.sky_defeated_2": "居然被区区一位玩家击败…",
+	"title.ba_bt.sky_defeated_3": "…高塔开始崩塌并逐渐消失…",
 
 	"title.ba_bt.land": "大地",
 	"title.ba_bt.ocean": "海洋",
 	"title.ba_bt.core": "炉心",
 	"title.ba_bt.nether": "下界",
 	"title.ba_bt.end": "末影",
-	"title.ba_bt.sky": "天空",
+	"title.ba_bt.sky": "天域",
 
-	// Advancements成就
+	// 成就
 	"advancements.ba_bt.battle_tower.title": "战斗高塔",
 	"advancements.ba_bt.battle_tower.description": "战斗高塔",
 	"advancements.ba_bt.land_tower_found.title": "来自高塔的呼啸",
