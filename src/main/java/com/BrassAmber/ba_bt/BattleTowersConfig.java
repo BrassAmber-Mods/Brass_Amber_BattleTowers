@@ -214,7 +214,7 @@ public class BattleTowersConfig {
                         .defineListAllowEmpty(List.of("Ocean Tower Bad Loot"), () -> List.of("minecraft:dirt", "minecraft:seagrass", "minecraft:gravel"), listValidator);
         oceanBadLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean bad loot list above")
-                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot Counts"), () -> List.of(18, 25, 25), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot Counts"), () -> List.of(14, 25, 25), listValidator);
         oceanTowerFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Filler Loot"), () -> List.of("minecraft:lily_pad", "minecraft:kelp", "minecraft:salmon",
