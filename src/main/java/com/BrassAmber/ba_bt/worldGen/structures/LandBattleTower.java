@@ -148,7 +148,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             boolean isFlat = highestY - lowestY <= 12;
             watered = hasWater.size() >= 16;
             int usableHeight = lowestY + ((highestY - lowestY)/4);
-            BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?" + watered + " usable height: " + usableHeight);
+            // BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight);
 
             if (isFlat && predicate.test(biome)) {
                 if (biomeType == 1){
