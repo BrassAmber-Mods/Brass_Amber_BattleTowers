@@ -121,7 +121,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 }
             }
         }
-        if (this.tickCount % 320 <= 5 && this.hasPlayer) {
+        if (this.tickCount % 320 <= 5 && this.hasPlayer && this.canCheck) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
