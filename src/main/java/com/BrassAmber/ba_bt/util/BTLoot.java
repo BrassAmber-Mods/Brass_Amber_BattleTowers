@@ -122,8 +122,8 @@ public class BTLoot {
                 List.of(4, 4, 3, 1),
                 List.of(3, 4, 4, 1),
                 List.of(3, 3, 4, 2),
-                List.of(3, 3, 4, 2),
-                List.of(3, 4, 4, 3)
+                List.of(2, 3, 5, 2),
+                List.of(1, 4, 5, 5)
         );
 
         golemLootRolls = List.of(
@@ -217,8 +217,8 @@ public class BTLoot {
         boolean enchantItem;
         for (Item item: items) {
             itemCount = counts.get(w);
-            maxCount = (itemCount - (itemCount % 10)) / 10;
-            minCount = itemCount - (maxCount * 10);
+            maxCount = itemCount % 10;
+            minCount = (itemCount - maxCount) / 10;
 
             weight = 10;
 
@@ -281,7 +281,7 @@ public class BTLoot {
             List<Item> allItems = new ArrayList<>();
             allItems.addAll(baseItems);
             allItems.addAll(towerItems);
-            BrassAmberBattleTowers.LOGGER.info("Items: " + allItems);
+            // BrassAmberBattleTowers.LOGGER.info("Items: " + allItems);
 
             List<Integer> baseCounts = type.getBaseCounts();
             List<Integer> towerCounts = type.getTowerCounts(towerType);
