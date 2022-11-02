@@ -164,7 +164,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                             block = this.level.getBlockState(blockpos$mutableblockpos).getBlock();
                             double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
                             if (y > this.bottom) {
-                                if (distance2d > 13.5D) {
+                                if (distance2d > 15.5D) {
                                     if  (this.level.getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
                                         this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
 
@@ -181,7 +181,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                             this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                         }
                                     }
-                                } else if (distance2d < 13.5D && !this.avoidBlocks.contains(block)) {
+                                } else if (!this.avoidBlocks.contains(block)) {
                                     this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                 }
                             }
