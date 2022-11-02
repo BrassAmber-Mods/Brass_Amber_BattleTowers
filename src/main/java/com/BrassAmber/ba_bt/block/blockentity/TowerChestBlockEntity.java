@@ -40,7 +40,7 @@ public class TowerChestBlockEntity extends GolemChestBlockEntity {
 
 	public boolean canUnlock(Player player, Component component) {
 		if (!this.unlocked && !player.isSpectator()) {
-			player.displayClientMessage(new TextComponent(this.getDefaultName().getString() + " is sealed. ").append(new TranslatableComponent("container.ba_bt.tower_chest.isLocked", component)), true);
+			player.displayClientMessage(new TextComponent(this.getDefaultName().getString() + " is sealed. ").append(new TranslatableComponent("container.ba_bt.tower_chest.isLocked")), true);
 			player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
 			return false;
 		}
