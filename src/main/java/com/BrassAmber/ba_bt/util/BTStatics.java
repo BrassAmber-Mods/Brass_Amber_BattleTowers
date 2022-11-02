@@ -17,16 +17,15 @@ import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanTowerMobs;
 public class BTStatics {
     public static final List<String> landTowerNames;
     public static final List<List<ResourceKey<Biome>>> landTowerBiomes;
+    public static final List<ResourceKey<Biome>> oceanTowerBiomes;
     public static final List<List<Integer>> towerSpawnerAmounts;
     public static final List<List<Integer>> towerChestUnlocking;
     public static final List<List<Block>> towerBlocks;
+    public static final List<Block> icyOceanBlocks;
     public static final List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
 
-
     static {
-
-
         landTowerNames = List.of("Land", "Overgrown", "Sandy", "Icy");
 
         landTowerBiomes = List.of(
@@ -47,6 +46,7 @@ public class BTStatics {
                 )
         );
 
+        oceanTowerBiomes = List.of(Biomes.DEEP_FROZEN_OCEAN, Biomes.FROZEN_OCEAN);
 
         towerBlocks = List.of(
                 // Land
@@ -73,6 +73,8 @@ public class BTStatics {
                         BTBlocks.BT_OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get()
                 )
         );
+
+        icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
         towerSpawnerAmounts = List.of(
                 Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
