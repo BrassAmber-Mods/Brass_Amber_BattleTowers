@@ -217,25 +217,27 @@ public class BattleTowersConfig {
                         .defineListAllowEmpty(List.of("Ocean Tower Bad Loot Counts"), () -> List.of(14, 25, 25), listValidator);
         oceanTowerFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Ocean tower.")
-                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot"), () -> List.of("minecraft:lily_pad", "minecraft:kelp", "minecraft:salmon",
-                                "minecraft:cod", "minecraft:prismarine_shard", "minecraft:copper_ingot"), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot"), () -> List.of("minecraft:soul_sand", "minecraft:soul_sand", "minecraft:lily_pad",
+                                "minecraft:kelp", "minecraft:salmon", "minecraft:cod", "minecraft:prismarine_shard", "minecraft:copper_ingot", "minecraft:iron_ingot",
+                                "minecraft:copper_ingot", "minecraft:iron_ingot"), listValidator);
         oceanFillerLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean filler loot list above")
-                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot Counts "), () -> List.of(14, 25, 13, 13, 24, 13), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Filler Loot Counts "), () -> List.of(24, 24, 14, 25, 13, 13, 24, 13, 25, 13, 25), listValidator);
         oceanTowerDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Decent Loot"), () -> List.of("minecraft:soul_sand", "minecraft:oak_boat", "minecraft:birch_boat",
-                                "minecraft:glow_item_frame", "minecraft:glow_ink_sac", "minecraft:glowstone", "minecraft:magma_block", "minecraft:gold_ingot", "minecraft:copper_ingot"), listValidator);
+                                "minecraft:glow_item_frame", "minecraft:glow_ink_sac", "minecraft:glowstone", "minecraft:magma_block", "minecraft:gold_ingot", "minecraft:copper_ingot",
+                                "minecraft:magma_block", "minecraft:gold_ingot", "minecraft:copper_ingot", "minecraft:diamond"), listValidator);
         oceanDecentLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean decent loot list above")
-                        .defineListAllowEmpty(List.of("Ocean Tower Decent Loot Counts"), () -> List.of(14, 11, 11, 11, 23, 25, 14, 14, 14), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Decent Loot Counts"), () -> List.of(24, 11, 11, 11, 23, 25, 14, 14, 14, 14, 14, 14, 13), listValidator);
         oceanTowerGoodLoot =
                 BUILDER.comment("A list of item ids of possible good items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Good Loot"), () -> List.of("minecraft:trident", "minecraft:trident", "minecraft:axolotl_bucket", "minecraft:sponge",
-                                "minecraft:heart_of_the_sea", "minecraft:brewing_stand", "minecraft:prismarine_crystals", "minecraft:copper_ingot", "minecraft:gold_block"), listValidator);
+                                "minecraft:heart_of_the_sea", "minecraft:brewing_stand", "minecraft:prismarine_crystals", "minecraft:copper_ingot", "minecraft:gold_block", "minecraft:diamond"), listValidator);
         oceanGoodLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean filler loot list above")
-                        .defineListAllowEmpty(List.of("Ocean Tower Good Loot Counts"), () -> List.of(11, 11, 11, 35, 11, 11, 24, 26, 11), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Good Loot Counts"), () -> List.of(11, 11, 11, 35, 11, 11, 24, 26, 11, 23), listValidator);
         oceanTowerGolemLoot =
                 BUILDER.comment("A list of item ids of possible items to add to the land Golem chest item pool, A single value of air means no items are added")
                         .defineListAllowEmpty(List.of("Ocean Tower Golem Loot"), () -> List.of("minecraft:air"), listValidator);
