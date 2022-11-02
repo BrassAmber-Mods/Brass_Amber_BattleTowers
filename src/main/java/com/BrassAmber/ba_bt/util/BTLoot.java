@@ -219,6 +219,7 @@ public class BTLoot {
             itemCount = counts.get(w);
             maxCount = itemCount % 10;
             minCount = (itemCount - maxCount) / 10;
+            // BrassAmberBattleTowers.LOGGER.info("itemCount for: " + item + " min/max " + minCount + "/" + maxCount);
 
             weight = 10;
 
@@ -250,15 +251,13 @@ public class BTLoot {
             }
 
             if (enchantItem && r2.nextFloat(10) > 4) {
-                lootItem.apply(EnchantWithLevelsFunction.enchantWithLevels(ConstantValue.exactly(enchantLevel)).allowTreasure());
-            } else {
-                pool.add(LootItem.lootTableItem(item));
+                lootItem.apply(EnchantWithLevelsFunction.enchantWithLevels(ConstantValue.exactly((float) enchantLevel)).allowTreasure());
             }
 
             lootItem.setWeight(weight);
-            lootItem.apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)));
+            lootItem.apply(SetItemCountFunction.setCount(UniformGenerator.between((float) minCount, (float) maxCount)));
             pool.add(lootItem);
-            w ++;
+            w++;
         }
 
         return pool;
