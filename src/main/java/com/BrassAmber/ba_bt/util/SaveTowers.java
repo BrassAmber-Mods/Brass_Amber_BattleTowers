@@ -38,6 +38,7 @@ public class SaveTowers {
         if (this.seed != seedIn) {
             this.seed = seedIn;
             this.levelPath = FMLPaths.getOrCreateGameRelativePath(btDataPath.resolve(String.valueOf(seed)), "level_folder");
+            this.towers.clear();
             towerLocations();
         }
     }
@@ -57,7 +58,7 @@ public class SaveTowers {
                 String[] xz = line.split(",");
                 this.towers.add(new ChunkPos(parseInt(xz[0]), parseInt(xz[1])));
             }
-            BrassAmberBattleTowers.LOGGER.info("Towers Loaded:" + towers);
+            BrassAmberBattleTowers.LOGGER.info(name + " Towers Loaded:" + towers);
         }
     }
 
@@ -76,7 +77,7 @@ public class SaveTowers {
             for (ChunkPos xz: this.towers) {
                 towerStrings.add(xz.x + "," + xz.z);
             }
-            BrassAmberBattleTowers.LOGGER.info("Towers Saved:" + towerStrings);
+            BrassAmberBattleTowers.LOGGER.info(name + " Towers Saved:" + towerStrings);
 
             try {
                 FileUtils.writeLines(towerFile, towerStrings);
