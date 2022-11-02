@@ -213,8 +213,8 @@ public enum GolemType implements StringRepresentable {
 				blockPos = blockPos.above(6);
 			}
 			case OCEAN -> {
-				destruction = new OceanDestructionEntity(blockPos, level);
-				blockPos = blockPos.below(3);
+				destruction = new OceanDestructionEntity(level);
+				blockPos = blockPos.atY(level.getSeaLevel() - 88);
 			}
 		}
 		if (destruction != null) {
