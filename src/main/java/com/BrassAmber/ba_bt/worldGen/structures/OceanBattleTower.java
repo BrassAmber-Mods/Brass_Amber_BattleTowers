@@ -43,8 +43,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 
+import static com.BrassAmber.ba_bt.util.BTStatics.oceanTowerBiomes;
 import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
-import static com.BrassAmber.ba_bt.util.BTUtil.median;
 
 
 // Comments from TelepathicGrunts
@@ -107,44 +107,74 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         );
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
-        int bottomFloorRange = seaLevel - 44;
-        int topFloorRange = seaLevel - 12;
         int newOceanFloorHeight;
-        int lowestY = seaLevel;
-        int highestY = bottomFloorRange;
+        int highestY = 0;
+        BlockPos highestBlock = BlockPos.ZERO;
         int minX;
         int minZ;
-        int newX;
-        int newZ;
-        int averageHeight;
-        ArrayList<Integer> averages = new ArrayList<>();
+        int[] sideVals = new int[]{0,15};
+        int[] vals = new int[]{3,4,7,8,11,12,15};
 
         for (ChunkPos pos : testable) {
             Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(0), QuartPos.fromBlock(pos.getMiddleBlockX()));
             minX = pos.getMinBlockX();
             minZ = pos.getMinBlockX();
+            highestY = 0;
 
-            averages.clear();
-            for (int x = 0; x < 6; x++) {
-                for (int z = 0; z < 6; z++) {
-                    newX = minX + (x * 3);
-                    newZ = minZ + (z * 3);
-                    newOceanFloorHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
-                    lowestY = Math.min(newOceanFloorHeight, lowestY);
+            // Check z vals at x 0 and 15
+            for (int x: sideVals) {
+                for (int z: vals) {
+                    newOceanFloorHeight = chunkGen.getFirstOccupiedHeight(minX + x, minZ + z, Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
                     highestY = Math.max(newOceanFloorHeight, highestY);
-                    averages.add((highestY + lowestY) / 2);
-                    if (highestY > seaLevel) {
-                        return BlockPos.ZERO;
-                    }
+                    highestBlock = new BlockPos(minX + x, highestY, minZ + z);
                 }
-
             }
 
-            averageHeight = median(averages);
-            BrassAmberBattleTowers.LOGGER.info("Ocean floor average height for position = " + averageHeight);
-            if (averageHeight >= bottomFloorRange && averageHeight <= topFloorRange && predicate.test(biome)) {
+            // Check x vals at z 0 and 15
+            for (int z: sideVals) {
+                for (int x: vals) {
+                    newOceanFloorHeight = chunkGen.getFirstOccupiedHeight(minX + x, minZ + z, Heightmap.Types.OCEAN_FLOOR_WG, context.heightAccessor());
+                    highestY = Math.max(newOceanFloorHeight, highestY);
+                    highestBlock = new BlockPos(minX + x, highestY, minZ + z);
+                }
+            }
+
+            if (highestY < seaLevel - 8 && context.validBiome().test(biome)) {
                 usablePositions.add(pos);
-                BrassAmberBattleTowers.LOGGER.info("Ocean floor height for usable position = " + lowestY + " " + highestY);
+                BrassAmberBattleTowers.LOGGER.info("Highest Ocean floor block height for usable position = " + highestY);
+            } else {
+                boolean accepatableArea = true;
+                for (ResourceKey<Biome> biomeKey: oceanTowerBiomes) {
+                    if(biome.is(biomeKey)) {
+
+                        List<ChunkPos> testable2 = new ArrayList<>(
+                                List.of(
+                                        pos,
+                                        new ChunkPos(pos.x, pos.z + 1),
+                                        new ChunkPos(pos.x + 1, pos.z),
+                                        new ChunkPos(pos.x, pos.z - 1),
+                                        new ChunkPos(pos.x - 1, pos.z)
+                                )
+                        );
+                        for (ChunkPos pos2: testable2) {
+                            Holder<Biome> biome2 = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos2.getMiddleBlockX()), QuartPos.fromBlock(0), QuartPos.fromBlock(pos2.getMiddleBlockX()));
+                            if (!predicate.test(biome2)) {
+                                accepatableArea = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (accepatableArea) {
+                    usablePositions.add(pos);
+                    BrassAmberBattleTowers.LOGGER.info("Correct Biome for : " + " " + biome.unwrapKey());
+                }
+                else {
+                    if (context.validBiome().test(biome)) {
+                        BrassAmberBattleTowers.LOGGER.info("Ocean Floor too high: " + highestBlock);
+                    }
+                    return BlockPos.ZERO;
+                }
             }
         }
         if (usablePositions.size() > 0) {
@@ -152,6 +182,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
             BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(seaLevel - 12));
             return usablePositions.get(index).getMiddleBlockPosition(seaLevel - 12);
         }
+
         return BlockPos.ZERO;
     }
 
@@ -172,6 +203,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
         boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) >= firstTowerDistance;
         if (!firstTowerDistanceCheck) {
+            BrassAmberBattleTowers.LOGGER.info("Ocean Distance Does Not exceed First Tower Distance in config");
             return Optional.empty();
         }
         // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
@@ -191,7 +223,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         }
 
         if (closestDistance <= nextSeperation) {
-            // BrassAmberBattleTowers.LOGGER.info("Land not outside tower separation " + nextSeperation);
+            // BrassAmberBattleTowers.LOGGER.info("Ocean at " + closestDistance + " not outside tower separation of " + nextSeperation);
             return Optional.empty();
         }
 
@@ -212,6 +244,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
                 ))
             );**/
         } else {
+            // BrassAmberBattleTowers.LOGGER.info("Incorrect Biome: " + biome);
             return Optional.empty();
         }
 
