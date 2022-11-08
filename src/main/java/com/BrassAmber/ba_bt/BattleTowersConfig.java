@@ -78,9 +78,9 @@ public class BattleTowersConfig {
                 .define("Land minimum separation", 16);
         oceanMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
-                                "(due to structure changes in 1.18.2 there is now a self imposed 7 chunk minimum. " +
+                                "(due to structure changes in 1.18.2 there is now a self imposed 6 chunk minimum. " +
                                 "Default: 16 Chunks")
-                        .define("Ocean minimum separation", 16);
+                        .define("Ocean minimum separation", 12);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 25 chunks ")
                 .define("First Tower Distance", 25);
         BUILDER.pop();
@@ -93,7 +93,7 @@ public class BattleTowersConfig {
                                 + " above to get the average separation between Land Towers for spawning measured in chunks.",
                         "I.E. if you leave the minimum separation at 16, and change this value to 8 then Land Towers would spawn"
                                 + " at:  minimum = 16 chunks | average = 24 chunks (16 + 8) | maximum = 32 chunks (16 + 16)")
-                .defineInRange("Land average separation modifier", 8, 1, 100);
+                .defineInRange("Land average separation modifier", 6, 1, 100);
         landTimeBeforeCollapse =
                 BUILDER.comment("Length of time in seconds after Golem is defeated before the Land Tower collapses")
                         .defineInRange("Land Collapse Timer", 30, 30, 60);
@@ -108,7 +108,7 @@ public class BattleTowersConfig {
         oceanAverageSeperationModifier = BUILDER.comment("This value is added to the Ocean Tower minimum separation"
                                 + " above to get the average separation between Ocean Towers for spawning measured in chunks.",
                         "See Land Tower Average Separation for explanation of use.")
-                .defineInRange("Ocean average separation modifier", 12, 1, 100);
+                .defineInRange("Ocean average separation modifier", 8, 1, 100);
         oceanTimeBeforeCollapse =
                 BUILDER.comment("Length of time in seconds after Golem is defeated before the Ocean Tower crumbles")
                         .defineInRange("Ocean Collapse Timer", 30, 30, 60);
@@ -144,21 +144,22 @@ public class BattleTowersConfig {
         generalFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items.")
                         .defineListAllowEmpty(List.of("General Filler Loot"), () -> List.of("minecraft:sugar", "minecraft:gold_nugget", "minecraft:glass_bottle",
-                                "minecraft:clay_ball", "minecraft:flower_pot", "minecraft:arrow", "minecraft:cookie", "minecraft:iron_nugget", "minecraft:iron_ingot"), listValidator);
+                                "minecraft:clay_ball", "minecraft:flower_pot", "minecraft:arrow", "minecraft:cookie", "minecraft:iron_nugget", "minecraft:iron_ingot", "minecraft:iron_ingot"), listValidator);
         generalFillerLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
-                        .defineListAllowEmpty(List.of("General Filler Loot Counts"), () -> List.of(14, 26, 11, 24, 11, 26, 24, 36, 12), listValidator);
+                        .defineListAllowEmpty(List.of("General Filler Loot Counts"), () -> List.of(14, 26, 11, 24, 11, 26, 24, 36, 23, 23), listValidator);
         generalDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items.")
                         .defineListAllowEmpty(List.of("General Decent Loot"), () -> List.of("minecraft:gunpowder", "minecraft:obsidian", "minecraft:bone",
                                 "minecraft:iron_ingot", "minecraft:bucket", "minecraft:honey_bottle", "minecraft:oak_wood", "minecraft:gold_ingot",
                                 "minecraft:redstone", "minecraft:crosbow", "minecraft:lava_bucket", "minecraft:paper", "minecraft:item_frame", "minecraft:sugar_cane",
                                 "minecraft:cauldron", "minecraft:diamond_hoe", "minecraft:iron_axe", "minecraft:iron_pickaxe", "minecraft:iron_shovel",
-                                "minecraft:iron_sword", "minecraft:arrow"), listValidator);
+                                "minecraft:iron_sword", "minecraft:arrow","minecraft:iron_axe", "minecraft:iron_pickaxe", "minecraft:iron_shovel",
+                                "minecraft:iron_sword"), listValidator);
         generalDecentLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the loot list above")
                         .defineListAllowEmpty(List.of("General Decent Loot Counts"), () -> List.of(24, 13, 14, 23, 11, 11, 15, 12, 14, 11, 11,
-                                3, 11, 13, 11, 11, 11, 11, 11, 11, 48), listValidator);
+                                3, 11, 13, 11, 11, 11, 11, 11, 11, 48, 11, 11, 11, 11, 11), listValidator);
         generalGoodLoot =
                 BUILDER.comment("A list of item ids of possible good items.")
                         .defineListAllowEmpty(List.of("General Good Loot"), () -> List.of("minecraft:golden_carrot", "minecraft:golden_apple", "minecraft:enchanted_book",
@@ -183,10 +184,10 @@ public class BattleTowersConfig {
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Land tower.")
                         .defineListAllowEmpty(List.of("Land Tower Filler Loot"), () -> List.of("minecraft:sugar", "minecraft:flint", "minecraft:ladder",
                                 "minecraft:white_wool", "minecraft:torch", "minecraft:egg", "minecraft:rabbit", "minecraft:beef", "minecraft:porkchop",
-                                "minecraft:chicken", "minecraft:mutton"), listValidator);
+                                "minecraft:chicken", "minecraft:mutton", "minecraft:iron_ingot"), listValidator);
         landFillerLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the land filler loot list above")
-                        .defineListAllowEmpty(List.of("Land Tower Filler Loot Counts"), () -> List.of(13, 35, 26, 14, 35, 12, 13, 13, 13, 13, 13), listValidator);
+                        .defineListAllowEmpty(List.of("Land Tower Filler Loot Counts"), () -> List.of(13, 35, 26, 14, 35, 12, 13, 13, 13, 13, 13, 23), listValidator);
         landTowerDecentLoot =
                 BUILDER.comment("A list of item ids of possible decent items to spawn inside the Land tower.")
                         .defineListAllowEmpty(List.of("Land Tower Decent Loot"), () -> List.of("minecraft:gunpowder", "minecraft:saddle",
@@ -211,10 +212,10 @@ public class BattleTowersConfig {
 
         oceanTowerBadLoot =
                 BUILDER.comment("A list of item ids of possible bad items to spawn inside the Ocean tower.")
-                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot"), () -> List.of("minecraft:dirt", "minecraft:seagrass", "minecraft:gravel"), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot"), () -> List.of("minecraft:dirt", "minecraft:seagrass", "minecraft:gravel", "minecraft:kelp"), listValidator);
         oceanBadLootCounts =
                 BUILDER.comment("A list of combined minimum and maximum counts of each item in the ocean bad loot list above")
-                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot Counts"), () -> List.of(14, 25, 25), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Bad Loot Counts"), () -> List.of(14, 25, 25, 23), listValidator);
         oceanTowerFillerLoot =
                 BUILDER.comment("A list of item ids of possible filler items to spawn inside the Ocean tower.")
                         .defineListAllowEmpty(List.of("Ocean Tower Filler Loot"), () -> List.of("minecraft:soul_sand", "minecraft:soul_sand", "minecraft:lily_pad",
