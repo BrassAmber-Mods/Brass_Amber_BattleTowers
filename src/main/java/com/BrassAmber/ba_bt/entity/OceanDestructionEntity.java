@@ -3,14 +3,13 @@ package com.BrassAmber.ba_bt.entity;
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
-import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.util.TowerSpecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,11 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
@@ -50,7 +45,6 @@ public class OceanDestructionEntity extends  Entity {
     @SuppressWarnings("FieldMayBeFinal")
     private List<BlockPos> blocksToRemove;
     private int currentRowY = -64;
-    private int totalRows = 0;
     private int crumbleStop = 0;
 
     private int startTicks = 600;
@@ -64,8 +58,6 @@ public class OceanDestructionEntity extends  Entity {
 
     private ArrayList<FallingBlockEntity> fallingBlocks;
 
-    private final double destroyPercentOfTower;
-
     // Data Strings
     private final String crumbleSpeedName = "CrumbleSpeed";
     private final String currentRowName = "CurrentFloor";
@@ -74,7 +66,6 @@ public class OceanDestructionEntity extends  Entity {
         super(type, level);
         this.golemType = GolemType.OCEAN;
 
-        this.destroyPercentOfTower = BattleTowersConfig.oceanTowerCrumblePercent.get();
         this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get();
 
         this.blocksToRemove = new ArrayList<>();
@@ -85,33 +76,23 @@ public class OceanDestructionEntity extends  Entity {
         super(BTEntityTypes.OCEAN_DESTRUCTION.get(), level);
         this.golemType = GolemType.OCEAN;
 
-        this.destroyPercentOfTower = BattleTowersConfig.oceanTowerCrumblePercent.get();
-
         this.blocksToRemove = new ArrayList<>();
     }
 
     public void getNextRow() {
         //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "In getNextRow");
 
-
         // for each of the three rows add every single non-air block pos on that row to the arraylist
         for (int y = this.currentRowY; y < this.currentRowY + 4; y++) {
-            for (int x = this.getBlockX() - 15; x <= this.getBlockX() + 15; x++) {
-                for(int z = this.getBlockZ() - 15; z <= this.getBlockZ() + 15; z++) {
+            for (int x = this.getBlockX() - 17; x <= this.getBlockX() + 17; x++) {
+                for(int z = this.getBlockZ() - 17; z <= this.getBlockZ() + 17; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    boolean waterLogged = false;
-                    try {
-                         waterLogged = this.level.getBlockState(blockToAdd).getValue(BlockStateProperties.WATERLOGGED);
-                    } catch (Exception ignored){
-
-                    }
-                    if (BTUtil.distanceTo2D(this, blockToAdd) < 13.5D ) {
-                        if ((!this.level.isWaterAt(blockToAdd) && !this.level.getBlockState(blockToAdd).isAir()) || waterLogged) {
+                    FluidState fluidState = this.level.getFluidState(blockToAdd);
+                    if (distanceTo2D(this, blockToAdd) < 17.5D) {
+                        if (!fluidState.isEmpty()) {
+                            this.level.setBlock(blockToAdd, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
+                        } else if (!this.level.getBlockState(blockToAdd).isAir()){
                             this.blocksToRemove.add(blockToAdd);
-                            if (waterLogged) {
-                                BrassAmberBattleTowers.LOGGER.debug(blockToAdd);
-                            }
-                            // BrassAmberBattleTowers.LOGGER.debug(blockToAdd);
                         }
                     }
                 }
@@ -127,10 +108,10 @@ public class OceanDestructionEntity extends  Entity {
         BrassAmberBattleTowers.LOGGER.debug("Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
-        this.crumbleStop = this.getBlockY() + (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower);
+        this.crumbleStop = this.getBlockY() + (int)Math.round(this.specs.getHeight() * BattleTowersConfig.oceanTowerCrumblePercent.get() -1);
         this.fallingBlocks = new ArrayList<>();
         this.initialized = true;
-        this.currentRowY = -64 + this.getCurrentRow() * 4;
+        this.currentRowY = -64 + (this.getCurrentRow()-1) * 4;
     }
 
     @Override
@@ -250,9 +231,17 @@ public class OceanDestructionEntity extends  Entity {
                     this.getNextRow();
                 }
 
-                if (this.currentRowY < this.level.getSeaLevel() && this.currentRowY < this.crumbleStop){
+                // BrassAmberBattleTowers.LOGGER.debug(this.blocksToRemove);
+                int numOfBlocks = 64;
+
+                if (this.currentRowY < this.getBlockY()) {
+                     numOfBlocks = 128;
+                }
+
+                if (this.currentRowY < this.level.getSeaLevel() + 3 && this.currentRowY < this.crumbleStop){
                     // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
-                    for (int i = 0; i < 48; i++) {
+                    boolean falling = false;
+                    for (int i = 0; i < numOfBlocks; i++) {
                         if (this.blocksToRemove.isEmpty()) {
                             break;
                         } else {
@@ -268,31 +257,30 @@ public class OceanDestructionEntity extends  Entity {
                             BlockPos removeBlock = this.blocksToRemove.get(randomIndex);
                             BlockState state = this.level.getBlockState(removeBlock);
 
-                            if (
-                                    !state.getFluidState().isSource()
-                                            && (this.level.getBlockState(removeBlock.below()).isAir() || this.level.isWaterAt(removeBlock.below()))
-                            ) {
+
+                            if (this.level.getBlockState(removeBlock.below()).isAir() || this.level.getBlockState(removeBlock.below()).is(Blocks.WATER)) {
+
                                 final Vec3 velocity = new Vec3(0D, 0.5D, 0D);
 
-                                if (this.currentRowY >= this.getBlockY()) {
-                                    this.level.setBlock(removeBlock, Blocks.WATER.defaultBlockState(), 2);
+                                this.level.setBlock(removeBlock, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
+                                if (falling) {
+                                    FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
+                                            this.level,
+                                            removeBlock,
+                                            state
+                                    );
+
+                                    fallingBlock.setInvulnerable(true);
+                                    fallingBlock.dropItem = false;
+                                    fallingBlock.setDeltaMovement(velocity);
+
+                                    this.fallingBlocks.add(fallingBlock);
+
+
+                                    falling = false;
                                 } else {
-                                    this.level.setBlock(removeBlock, Blocks.AIR.defaultBlockState(), 2);
+                                    falling = true;
                                 }
-
-
-                                FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
-                                        this.level,
-                                        removeBlock,
-                                        state
-                                );
-
-                                fallingBlock.setInvulnerable(true);
-                                fallingBlock.dropItem = false;
-                                fallingBlock.setDeltaMovement(velocity);
-
-                                this.fallingBlocks.add(fallingBlock);
-
                                 this.blocksToRemove.remove(randomIndex);
                             }
 
@@ -304,13 +292,28 @@ public class OceanDestructionEntity extends  Entity {
             } else if (this.currentRowY >= this.level.getSeaLevel() || this.currentRowY >= this.crumbleStop){
                 // stop if we have done the final row already
                 BrassAmberBattleTowers.LOGGER.debug("In Ending Sequence");
+                for (int y = -64; y < this.level.getSeaLevel(); y++) {
+                    for (int x = this.getBlockX() - 16; x <= this.getBlockX() + 16; x++) {
+                        for(int z = this.getBlockZ() - 16; z <= this.getBlockZ() + 16; z++) {
+                            BlockPos blockToDelete = new BlockPos(x, y, z);
+                            BlockState blockState = this.level.getBlockState(blockToDelete);
+                            if (distanceTo2D(this, blockToDelete) < 15.5D) {
+                                if (blockState.is(BTBlocks.BT_AIR_FILL.get()) || this.level.isWaterAt(blockToDelete)) {
+                                    this.level.setBlock(blockToDelete, Blocks.AIR.defaultBlockState(), 2);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 this.remove(Entity.RemovalReason.DISCARDED);
             }
 
             // log the current ticks, crumble speed, and row
             if (this.currentTicks % 30 == 0 ){
                 BrassAmberBattleTowers.LOGGER.debug(this.currentTicks + " Ticks | CrumbleSpeed " +
-                        this.getCrumbleSpeed() + "   " + this.getCurrentRow() + " Row | Row Y " + this.currentRowY);
+                        this.getCrumbleSpeed() + "   " + this.getCurrentRow() + " Row | Row Y " +
+                        this.currentRowY + " Crumble Stop " + this.crumbleStop);
             }
         }
     }
