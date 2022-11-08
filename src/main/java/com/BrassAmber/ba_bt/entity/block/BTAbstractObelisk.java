@@ -626,8 +626,8 @@ public class BTAbstractObelisk extends Entity {
             Spawners.addTag(2, spawnerYTag);
             Spawners.addTag(3, spawnerZTag);
             tag.put(spawnersName, Spawners);
-            BrassAmberBattleTowers.LOGGER.info("Tag: " + tag.get(spawnersName));
-            BrassAmberBattleTowers.LOGGER.info("Tag: " + tag);
+            // BrassAmberBattleTowers.LOGGER.info("Tag: " + tag.get(spawnersName));
+            // BrassAmberBattleTowers.LOGGER.info("Tag: " + tag);
 
         }
 
