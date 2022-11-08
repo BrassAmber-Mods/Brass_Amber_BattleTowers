@@ -97,16 +97,6 @@ public abstract class BTAbstractGolem extends Monster {
 		// Initializes the bossBar with the correct color.
 		this.bossBar = new ServerBossEvent(new TextComponent(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
 		this.bossBar.setCreateWorldFog(false);
-
-
-		// Reference for disregarding lava taken from ZombiefiedPiglin
-		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
-
-		// Reference for disregarding fire taken from Blaze
-		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
-		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
-
-		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		
 		this.maxUpStep = 2.0F;
 	}

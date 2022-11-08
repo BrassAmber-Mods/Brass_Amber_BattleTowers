@@ -18,6 +18,7 @@ import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanGolemHP;
@@ -34,6 +35,15 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.xpReward = 315;
 		this.golemType = GolemType.LAND;
 		this.leap = false;
+
+		// Reference for disregarding lava taken from ZombiefiedPiglin
+		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
+
+		// Reference for disregarding fire taken from Blaze
+		this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
+		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
+
+		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
