@@ -6,8 +6,13 @@ import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
@@ -17,6 +22,10 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class BTBlocks {
+	private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+		return false;
+	}
+
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final RegistryObject<Block> LAND_GOLEM_CHEST = BLOCKS.register("land_golem_chest",
@@ -68,6 +77,9 @@ public class BTBlocks {
 
 	public static final RegistryObject<Block> BT_SKY_SPAWNER = BLOCKS.register("bt_sky_spawner",
 			() -> new BTSpawnerBlock(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+
+	public static final RegistryObject<Block> BT_AIR_FILL = BLOCKS.register("bt_air_fill",
+			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noCollission().noOcclusion().noDrops().air()));
 
 
 
