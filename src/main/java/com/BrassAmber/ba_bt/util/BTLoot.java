@@ -241,7 +241,7 @@ public class BTLoot {
             Random r2 = new Random(random.nextLong());
 
             if (isTool || isArmor) {
-                weight = 4;
+                weight = 6;
             }
 
             if (enchantItem && r2.nextFloat(10) > 4) {

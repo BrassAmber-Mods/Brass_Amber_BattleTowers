@@ -130,8 +130,8 @@ public class BattleTowersConfig {
 
 
         BUILDER.push("Tower loot -- Loot rolls for tower chests are generated from these tables: EACH TABLE MUST CONTAIN AT LEAST ONE ITEM ");
-        bookLevelEnchant = BUILDER.comment("The number of xp levels books are enchanted with in loot, " +
-                "Ie a 20 here means that books that appear in loot will contain enchants as if enchanted with 20 levels of xp  (if from a bad loot pool) up to 40 (from a good loot pool)" )
+        bookLevelEnchant = BUILDER.comment("The number of xp levels books and tools are enchanted with in loot, " +
+                "Ie a 20 here means that books and tools that appear in loot will contain enchants as if enchanted with 20 levels of xp  up to 41 (3 extra per tower floor)" )
                 .defineInRange("Book XP Levels", 10, 0, 40);
         enchantArmor = BUILDER.comment("Whether or not armor in loot should be enchanted").define("Enchanted Armor", true);
         enchantTools = BUILDER.comment("Whether or not tools/weapons in loot should be enchanted").define("Enchanted Tools", true);
