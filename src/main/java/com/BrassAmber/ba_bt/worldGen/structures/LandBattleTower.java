@@ -189,8 +189,6 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         ChunkPos chunkPos = context.chunkPos();
         ChunkGenerator chunkGen = context.chunkGenerator();
 
-        SAVETOWERS.getTowers();
-
         boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) < firstTowerDistance;
         if (firstTowerDistanceCheck) {
             return Optional.empty();
@@ -207,7 +205,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             for (ChunkPos towerPos: towers.get(0)) {
                 int distance = chunkDistanceTo(chunkPos, towerPos);
                 closestDistance = Math.min(closestDistance, distance);
-                // BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
+                BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
             }
         }
 

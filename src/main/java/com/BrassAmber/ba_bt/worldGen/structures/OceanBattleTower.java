@@ -148,8 +148,6 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         int minimumSeparation = BattleTowersConfig.oceanMinimumSeperation.get();
         int seperationRange = BattleTowersConfig.oceanAverageSeperationModifier.get();
 
-        SAVETOWERS.getTowers();
-
         boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) >= firstTowerDistance;
         if (!firstTowerDistanceCheck) {
             // BrassAmberBattleTowers.LOGGER.info("Ocean Distance Does Not exceed First Tower Distance in config");
