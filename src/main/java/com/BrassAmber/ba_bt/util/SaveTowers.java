@@ -1,6 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -26,12 +26,67 @@ public class SaveTowers {
     public static List<List<ChunkPos>> towers = List.of(landTowers, oceanTowers);
 
     public static List<String> towerNames = List.of("Land_Towers", "Ocean_Towers");
-    public static Minecraft minecraft;
+    public static MinecraftServer server;
     public static Path levelPath = Path.of("");
 
 
-    public SaveTowers() {
-        minecraft = Minecraft.getInstance();
+    public SaveTowers() {}
+
+    public void setServer(MinecraftServer newServer) {
+        server = newServer;
+        towers.get(0).clear();
+        towers.get(1).clear();
+
+        getTowers();
+    }
+
+    public void serverClosed() {
+
+        for (int i = 0; i < towerNames.size(); i++) {
+            String name = towerNames.get(i);
+
+            File towerFile = levelPath.resolve(name).toFile();
+
+            List<String> towerStrings = new ArrayList<>();
+
+            for (ChunkPos xz: towers.get(towerNames.indexOf(name))) {
+                towerStrings.add(xz.x + "," + xz.z);
+            }
+            // BrassAmberBattleTowers.LOGGER.info(name + " Towers Saved:" + towerStrings);
+
+            try {
+                FileUtils.writeLines(towerFile, towerStrings);
+            } catch (IOException x) {
+                // System.err.format("IOException: %s%n", x);
+            }
+        }
+
+    }
+
+    public void getTowers() {
+        levelPath = getOrCreateGameRelativePath(server.getWorldPath(LevelResource.ROOT).resolve("battletowers"), "battletowers");
+
+        for (int i = 0; i < towerNames.size(); i++) {
+            Path towerPath = levelPath.resolve(towerNames.get(i));
+
+            List<String> lines = new ArrayList<>();
+            try {
+                lines = Files.readAllLines(towerPath, StandardCharsets.UTF_8);
+            } catch (IOException ignored) {
+
+            }
+
+            for (String line: lines) {
+                String[] xz = line.split(",");
+                towers.get(i).add(new ChunkPos(parseInt(xz[0]), parseInt(xz[1])));
+            }
+            // BrassAmberBattleTowers.LOGGER.info(" Towers Loaded:" + towers);
+        }
+    }
+
+
+    public void addTower(ChunkPos pos, String name) {
+        towers.get(towerNames.indexOf(name)).add(pos);
     }
 
     public static Path getOrCreateDirectory(Path dirPath, String dirLabel) {
@@ -59,60 +114,5 @@ public class SaveTowers {
     public static Path getOrCreateGameRelativePath(Path path, String name) {
         return getOrCreateDirectory(FMLPaths.GAMEDIR.get().resolve(path), name);
     }
-
-    public void getTowers() {
-        towers.get(0).clear();
-        towers.get(1).clear();
-
-        try {
-            levelPath = getOrCreateGameRelativePath(minecraft.getSingleplayerServer().getWorldPath(LevelResource.ROOT).resolve("battletowers"), "battletowers");
-
-        } catch (Exception e) {
-            // BrassAmberBattleTowers.LOGGER.debug("SaveTowers" + e.getMessage());
-            try {
-                levelPath = getOrCreateGameRelativePath(minecraft.level.getServer().getWorldPath(LevelResource.ROOT).resolve("battletowers"), "battletowers");
-            } catch (Exception f) {
-                // BrassAmberBattleTowers.LOGGER.debug("SaveTowers" + f.getMessage());
-            }
-        }
-
-        for (int i = 0; i < towerNames.size(); i++) {
-            Path towerPath = levelPath.resolve(towerNames.get(i));
-
-            List<String> lines = new ArrayList<>();
-            try {
-                lines = Files.readAllLines(towerPath, StandardCharsets.UTF_8);
-            } catch (IOException ignored) {
-
-            }
-
-            for (String line: lines) {
-                String[] xz = line.split(",");
-                towers.get(i).add(new ChunkPos(parseInt(xz[0]), parseInt(xz[1])));
-            }
-            // BrassAmberBattleTowers.LOGGER.info(" Towers Loaded:" + towers);
-        }
-    }
-
-
-    public void addTower(ChunkPos pos, String name) {
-        towers.get(towerNames.indexOf(name)).add(pos);
-
-        File towerFile = levelPath.resolve(name).toFile();
-
-        List<String> towerStrings = new ArrayList<>();
-
-        for (ChunkPos xz: towers.get(towerNames.indexOf(name))) {
-            towerStrings.add(xz.x + "," + xz.z);
-        }
-        // BrassAmberBattleTowers.LOGGER.info(name + " Towers Saved:" + towerStrings);
-
-        try {
-            FileUtils.writeLines(towerFile, towerStrings);
-        } catch (IOException x) {
-            // System.err.format("IOException: %s%n", x);
-        }
-    }
-
 
 }
