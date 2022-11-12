@@ -7,6 +7,7 @@ import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -30,18 +31,20 @@ import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.storage.DimensionDataStorage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Predicate;
 
+import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
+import static com.BrassAmber.ba_bt.util.SaveTowers.towers;
 
 public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static boolean watered;
-    public static SaveTowers TOWERS;
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -49,7 +52,6 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
     public LandBattleTower() {
         super(CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
-        TOWERS = new SaveTowers("Land_Towers");
     }
 
     @Override
@@ -184,8 +186,6 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
         int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
 
-        TOWERS.setSeed(context.seed());
-
         ChunkPos chunkPos = context.chunkPos();
         ChunkGenerator chunkGen = context.chunkGenerator();
 
@@ -201,11 +201,11 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
         int closestDistance = 2000;
 
-        if (!TOWERS.towers.isEmpty()) {
-            for (ChunkPos towerPos: TOWERS.towers) {
+        if (!towers.get(0).isEmpty()) {
+            for (ChunkPos towerPos: towers.get(0)) {
                 int distance = chunkDistanceTo(chunkPos, towerPos);
                 closestDistance = Math.min(closestDistance, distance);
-                // BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
+                BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
             }
         }
 
@@ -256,7 +256,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 // I use to debug and quickly find out if the structure is spawning or not and where it is.
                 // This is returning the coordinates of the center starting piece.
                 BrassAmberBattleTowers.LOGGER.info(landTowerNames.get(towerType) + " Tower at " + spawnPos);
-                TOWERS.addTower( chunkPos);
+                SAVETOWERS.addTower(chunkPos, "Land_Towers");
             }
             // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
             return piecesGenerator;

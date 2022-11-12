@@ -142,30 +142,24 @@ public class BTLoot {
     
 
     public enum LootType implements StringRepresentable {
-        Empty("empty", 0, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-        BadLoot("bad", .01f, badLoot, towerBadLoot, badLootCounts, towerBadLootCounts),
-        FillerLoot("filler", 0.05f, fillerLoot, towerFillerLoot,  fillerLootCounts, towerFillerLootCounts),
-        DecentLoot("decent", 0.09f, decentLoot, towerDecentLoot,  decentLootCounts, towerDecentLootCounts),
-        GoodLoot("good",0.15f, goodLoot, towerGoodLoot, goodLootCounts, towerGoodLootCounts);
+        Empty("empty" , Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
+        BadLoot("bad" , badLoot, towerBadLoot, badLootCounts, towerBadLootCounts),
+        FillerLoot("filler" , fillerLoot, towerFillerLoot,  fillerLootCounts, towerFillerLootCounts),
+        DecentLoot("decent" , decentLoot, towerDecentLoot,  decentLootCounts, towerDecentLootCounts),
+        GoodLoot("good", goodLoot, towerGoodLoot, goodLootCounts, towerGoodLootCounts);
 
         private final String name;
-        private final float loseChance;
         private final List<Item> loot;
         private final List<List<Item>> towerLoot;
         private final List<Integer> counts;
         private final List<List<Integer>> towerCounts;
 
-        LootType(String name, float loseChance, List<Item> loot, List<List<Item>> towerLoot, List<Integer> counts, List<List<Integer>> towerCounts) {
+        LootType(String name, List<Item> loot, List<List<Item>> towerLoot, List<Integer> counts, List<List<Integer>> towerCounts) {
             this.name = name;
-            this.loseChance = loseChance;
             this.loot = loot;
             this.towerLoot = towerLoot;
             this.counts = counts;
             this.towerCounts = towerCounts;
-        }
-
-        public float getLoseChance() {
-            return this.loseChance;
         }
 
         public List<Item> getBaseLoot() {
@@ -247,7 +241,7 @@ public class BTLoot {
             Random r2 = new Random(random.nextLong());
 
             if (isTool || isArmor) {
-                weight = 4;
+                weight = 6;
             }
 
             if (enchantItem && r2.nextFloat(10) > 4) {
@@ -290,9 +284,6 @@ public class BTLoot {
 
             LootPool.Builder pool = fillPool(rolls, allItems, allCounts, (3*floor) + bookLevelEnchant.get());
 
-            int emptyChance = Mth.floor(allItems.size() * 7.5 * type.getLoseChance());
-
-            pool.add(EmptyLootItem.emptyItem().setWeight(emptyChance));
             pools.add(pool);
         }
 

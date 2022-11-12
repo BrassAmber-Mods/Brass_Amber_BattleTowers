@@ -54,8 +54,6 @@ public class LandDestructionEntity extends Entity {
     private BlockPos removeBlock;
     private boolean checkForGolem = true;
     private boolean hasPlayer;
-
-    private final double destroyPercentOfTower;
     
     // Data Strings
     private final String crumbleStartName = "CrumbleStart";
@@ -66,15 +64,12 @@ public class LandDestructionEntity extends Entity {
 
     public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
         super(type, level);
-        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
         this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get();
     }
 
     public LandDestructionEntity(BlockPos golemSpawn, Level level) {
         super(BTEntityTypes.LAND_DESTRUCTION.get(), level);
-
         this.golemType = GolemType.LAND;
-        this.destroyPercentOfTower = BattleTowersConfig.landTowerCrumblePercent.get();
         
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
         this.setCrumbleStart(golemSpawn.offset(-15, 6, -15));
@@ -112,7 +107,7 @@ public class LandDestructionEntity extends Entity {
     	BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
-        this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * this.destroyPercentOfTower));
+        this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * BattleTowersConfig.landTowerCrumblePercent.get()));
         this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3F);
         this.initialized = true;
 

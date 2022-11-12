@@ -1,6 +1,5 @@
 package com.BrassAmber.ba_bt.entity.hostile.golem;
 
-import com.BrassAmber.ba_bt.entity.ai.goal.oceangolem.DashAttackGoal;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +14,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
@@ -28,8 +29,8 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
-		this.moveControl = new SmoothSwimmingMoveControl(this, 65, 10, .8F, .8F, true);
-		this.lookControl = new SmoothSwimmingLookControl(this, 10);
+		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 40, 1F, 0.5F, true);
+		this.lookControl = new SmoothSwimmingLookControl(this, 40);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
@@ -39,7 +40,11 @@ public class BTOceanGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, .2D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 2.5D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+	}
+
+	protected PathNavigation createNavigation(Level level) {
+		return new WaterBoundPathNavigation(this, level);
 	}
 
 	public void find_golem_chest(BlockPos spawnPos) {
@@ -64,11 +69,6 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	public int getAllowedTowerRange() {
 		return 56;
-	}
-
-	@Override
-	protected void addBehaviorGoals() {
-		this.goalSelector.addGoal(8, new DashAttackGoal(this, 10));
 	}
 
 

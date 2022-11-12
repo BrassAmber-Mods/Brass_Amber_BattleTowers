@@ -2,14 +2,19 @@ package com.BrassAmber.ba_bt.client;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
-import com.BrassAmber.ba_bt.worldGen.structures.LandBattleTower;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
 
 
+@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BTEvents {
 
     @SubscribeEvent
@@ -24,6 +29,16 @@ public class BTEvents {
                 musicManager.stopPlaying();
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void serverSetup(ServerStartedEvent event) {
+        SAVETOWERS.setServer(event.getServer());
+    }
+
+    @SubscribeEvent
+    public static void serverStop(ServerStoppedEvent event) {
+        SAVETOWERS.serverClosed();
     }
 
 }

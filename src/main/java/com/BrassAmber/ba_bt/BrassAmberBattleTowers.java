@@ -3,6 +3,7 @@ package com.BrassAmber.ba_bt;
 import com.BrassAmber.ba_bt.client.BTEvents;
 import com.BrassAmber.ba_bt.init.*;
 import com.BrassAmber.ba_bt.util.BTCreativeTab;
+import com.BrassAmber.ba_bt.util.SaveTowers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -26,6 +27,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class BrassAmberBattleTowers {
 
 	public static final String MOD_ID = "ba_bt";
+	public static final SaveTowers SAVETOWERS = new SaveTowers();
 	public static final CreativeModeTab BATLETOWERSTAB = new BTCreativeTab();
 	// Directly reference a log4j logger
 	public static final Logger LOGGER = LogManager.getLogger();
