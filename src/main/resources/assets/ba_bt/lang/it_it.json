@@ -10,23 +10,23 @@
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
 
-	"entity.ba_bt.sky_minion": "Minion del cielo",
+	"entity.ba_bt.sky_minion": "Minion celestiale",
 	"entity.ba_bt.platinum_skeleton": "Cavaliere di platino",
 	"entity.ba_bt.bt_cultist": "Cultista",
 
 	"entity.ba_bt.land_monolith": "Monolite della landa",
-	"entity.ba_bt.ocean_monolith": "Monolite d'oceano",
+	"entity.ba_bt.ocean_monolith": "Monolite oceanico",
 	"entity.ba_bt.core_monolith": "Monolite del nucleo",
-	"entity.ba_bt.nether_monolith": "Monolite del Nether",
+	"entity.ba_bt.nether_monolith": "Monolite infernale",
 	"entity.ba_bt.end_monolith": "Monolite dell'End",
-	"entity.ba_bt.sky_monolith": "Monolite del cielo",
+	"entity.ba_bt.sky_monolith": "Monolite celestiale",
 
 	"entity.ba_bt.land_obelisk": "Obelisco della landa",
-	"entity.ba_bt.ocean_obelisk": "Obelisco dell'oceano",
+	"entity.ba_bt.ocean_obelisk": "Obelisco oceanico",
 	"entity.ba_bt.core_obelisk": "Obelisco del nucleo",
-	"entity.ba_bt.nether_obelisk": "Obelisco del Nether",
+	"entity.ba_bt.nether_obelisk": "Obelisco infernale",
 	"entity.ba_bt.end_obelisk": "Obelisco dell'End",
-	"entity.ba_bt.sky_obelisk": "Obelisco del cielo",
+	"entity.ba_bt.sky_obelisk": "Obelisco celestiale",
 
 	"entity.ba_bt.destroy_tower": "Distruggi la torre",
 
@@ -44,13 +44,13 @@
 
 	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
 	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
-	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre",
+	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre della landa",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
-	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre del nucleo",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Musica ambientale della torre infernale",
+	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre dell'End",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celestiale",
+	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della città ripristinata",
 
 	// Blocchi (Blocks)
 	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
@@ -63,11 +63,11 @@
 	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
-	"block.ba_bt.bt_ocean_spawner" : "Generatore dell'oceano",
+	"block.ba_bt.bt_ocean_spawner" : "Generatore oceanico",
 	"block.ba_bt.bt_core_spawner" : "Generatore del Nucleo",
-	"block.ba_bt.bt_nether_spawner" : "Generatore del Nether",
+	"block.ba_bt.bt_nether_spawner" : "Generatore infernale",
 	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
-	"block.ba_bt.bt_sky_spawner" : "Generatore del cielo",
+	"block.ba_bt.bt_sky_spawner" : "Generatore celestiale",
 
 	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
@@ -75,7 +75,7 @@
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
+	"container.ba_bt.tower_chest.isLocked": "Si sblocca dopo la distruzione dei generatori vicini",
 
 	"container.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
 	"container.ba_bt.ocean_golem_chest_double": "Baule doppio di Moraizu'un",
@@ -84,11 +84,11 @@
 
 	// Oggetti (Items)
 	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
-	"item.ba_bt.monolith_key_ocean": "Chiave del monolite dell'oceano",
+	"item.ba_bt.monolith_key_ocean": "Chiave del monolite oceanico",
 	"item.ba_bt.monolith_key_core": "Chiave del monolite del nucleo",
-	"item.ba_bt.monolith_key_nether": "Chiave del monolite del Nether",
+	"item.ba_bt.monolith_key_nether": "Chiave del monolite infernale",
 	"item.ba_bt.monolith_key_end": "Chiave del monolite dell'End",
-	"item.ba_bt.monolith_key_sky": "Chiave del monolite del cielo",
+	"item.ba_bt.monolith_key_sky": "Chiave del monolite celestiale",
 
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
 	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
@@ -98,11 +98,11 @@
 	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
 	"item.ba_bt.monolith_land": "Monolite della landa",
-	"item.ba_bt.monolith_ocean": "Monolite d'oceano",
+	"item.ba_bt.monolith_ocean": "Monolite oceanico",
 	"item.ba_bt.monolith_core": "Monolite del nucleo",
-	"item.ba_bt.monolith_nether": "Monolite del Nether",
+	"item.ba_bt.monolith_nether": "Monolite infernale",
 	"item.ba_bt.monolith_end": "Monolite dell'End",
-	"item.ba_bt.monolith_sky": "Monolite del cielo",
+	"item.ba_bt.monolith_sky": "Monolite celestiale",
 
 	"item.ba_bt.platinum_ingot": "Lingotto di platino",
 	"item.ba_bt.platinum_shard": "Scheggia di platino",
@@ -114,17 +114,17 @@
 	"item.ba_bt.platinum_boots": "Stivali di platino",
 
 	"item.ba_bt.land_chest_shard": "Frammento baule della landa",
-	"item.ba_bt.ocean_chest_shard": "Ocean Chest Shard",
+	"item.ba_bt.ocean_chest_shard": "Frammento baule dell'oceano",
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore del cavaliere di platino",
 
-	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
-	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
-	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
-	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
-	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
-	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
-	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+	"item.ba_bt.bt_land_resonance_stone": "Pietra risonante della landa",
+	"item.ba_bt.bt_ocean_resonance_stone": "Pietra risonante oceanica",
+	"item.ba_bt.bt_core_resonance_stone": "Pietra risonante del nucleo",
+	"item.ba_bt.bt_nether_resonance_stone": "Pietra risonante infernale",
+	"item.ba_bt.bt_end_resonance_stone": "Pietra risonante dell'End",
+	"item.ba_bt.bt_sky_resonance_stone": "Pietra risonante celestiale",
+	"item.ba_bt.bt_city_resonance_stone": "Pietra risonante cittadina",
 
 	// Effects
 	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
@@ -177,7 +177,7 @@
 	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
 	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
-	"title.ba_bt.nether": "Vraag'iidra, Tiranno del Nether",
+	"title.ba_bt.nether": "Vraag'iidra, Tiranno dell'inferno",
 	"title.ba_bt.end": "Shul'losniir, Custode dell'End",
 	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
 
