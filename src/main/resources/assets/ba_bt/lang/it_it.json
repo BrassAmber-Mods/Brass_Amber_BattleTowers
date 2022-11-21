@@ -57,7 +57,7 @@
 	"block.ba_bt.land_chest": "Baule della landa",
 
 	"block.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
-	"block.ba_bt.ocean_chest": "Baule dell'oceano",
+	"block.ba_bt.ocean_chest": "Baule oceanico",
 
 	"block.ba_bt.platinum_block": "Blocco di platino",
 	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
@@ -126,10 +126,10 @@
 	"item.ba_bt.bt_sky_resonance_stone": "Pietra risonante celestiale",
 	"item.ba_bt.bt_city_resonance_stone": "Pietra risonante cittadina",
 
-	// Effects
+	// Effetti (Effects)
 	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
 
-	// Enchantments
+	// Incantamenti (Enchantments)
 	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
 
 	// Sottotitoli degli oggetti (Item Tooltips)
@@ -139,11 +139,11 @@
 	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprirà!",
 
 	"tooltip.ba_bt.monolith_land": "Il guardiano sembra intrappolato all'interno!",
-	"tooltip.ba_bt.monolith_ocean": "The Beast waits patiently within...",
+	"tooltip.ba_bt.monolith_ocean": "La bestia all'interno attende pazientemente...",
 	"tooltip.ba_bt.monolith_core": "The God waits for fools to interfere...",
-	"tooltip.ba_bt.monolith_nether": "The Tyrant lounges lazily inside...",
-	"tooltip.ba_bt.monolith_end": "The Guardian Meditates within...",
-	"tooltip.ba_bt.monolith_sky": "The Goddess watches ...",
+	"tooltip.ba_bt.monolith_nether": "Il tiranno ozia all'interno...",
+	"tooltip.ba_bt.monolith_end": "Il guardiano medita...",
+	"tooltip.ba_bt.monolith_sky": "La dea osserva...",
 
 	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eSHIFT§r per leggere le utlime parole del Guardiano",
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre è stata compromessa...",
@@ -159,19 +159,19 @@
 	"title.ba_bt.land_defeated_2": "Senza la sua energia...",
 	"title.ba_bt.land_defeated_3": "...la torrè crollerà!",
 
-	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
+	"title.ba_bt.ocean_defeated_2": "Esiliato nuovamente nel vuoto...",
 	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
 
-	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
-	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+	"title.ba_bt.core_defeated_2": "Senza il ricettacolo del dio...",
+	"title.ba_bt.core_defeated_3": "...le mura cominciano a sciogliersi",
 
-	"title.ba_bt.nether_defeated_2": "Without their control...",
+	"title.ba_bt.nether_defeated_2": "Senza il loro controllo...",
 	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
 
-	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
-	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+	"title.ba_bt.end_defeated_2": "Sconfitto ma non distrutto...",
+	"title.ba_bt.end_defeated_3": "...il pavimento comincia a sparire insieme a lui",
 
-	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
+	"title.ba_bt.sky_defeated_2": "Ucciso da un pidocchioso umano...",
 	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
 
 	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
@@ -181,7 +181,7 @@
 	"title.ba_bt.end": "Shul'losniir, Custode dell'End",
 	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
 
-	// Advancements
+	// Traguardi (Advancements)
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Torri ululanti",
@@ -190,10 +190,10 @@
 	"advancements.ba_bt.find_land_key.description": "-Trova una chiave del monolite",
 	"advancements.ba_bt.kill_land_golem.title": "Le profondità dell'oceano cominciano ad agitarsi...",
 	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, il guardiano della torre",
-	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
-	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
-	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
-	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
-	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
+	"advancements.ba_bt.ocean_tower_found.title": "Guarda dove metti i piedi",
+	"advancements.ba_bt.ocean_tower_found.description": "-Precipita nella fossa abissale",
+	"advancements.ba_bt.find_ocean_key.title": "Cosa nascondono...",
+	"advancements.ba_bt.find_ocean_key.description": "-Trova una chiave del monolite oceanico",
+	"advancements.ba_bt.kill_ocean_golem.title": "Il nucleo comincia a tremare...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Sconfiggi Moraizu'un, Void Beast of the Abyss"
 }
