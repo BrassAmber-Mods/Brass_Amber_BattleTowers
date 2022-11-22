@@ -152,6 +152,14 @@
 	"tooltip.ba_bt.nether_eye": "Ti farò MARCIRE nelle mie PRIGIONI per questo!...",
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
+	
+	"item.ba_bt.bt_land_resonance_stone.desc": "Lena Raine: Ancestry",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "DM DOKURO: Void",
+	"item.ba_bt.bt_core_resonance_stone.desc": "Lena Raine: So Below",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "FHP: Pigstep Cinematic Remix",
+	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
+	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
 	// Scritte in sovraimpressione (Overscreen titles)
 	"title.ba_bt.guardian_defeated_1": " è caduto.",
