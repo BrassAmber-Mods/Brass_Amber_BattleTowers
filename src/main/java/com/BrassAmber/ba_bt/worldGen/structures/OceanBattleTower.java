@@ -110,7 +110,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
         );
 
         for (ChunkPos pos : testable) {
-            Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(pos.getMiddleBlockX()));
+            Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(pos.getMiddleBlockZ()));
 
             if (!predicate.test(biome)) {
                 // BrassAmberBattleTowers.LOGGER.info("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
@@ -197,7 +197,7 @@ public class OceanBattleTower extends StructureFeature<JigsawConfiguration> {
 
             if (piecesGenerator.isPresent()) {
                 BrassAmberBattleTowers.LOGGER.info("Ocean Tower at " + spawnPos);
-                SAVETOWERS.addTower( chunkPos, "Ocean_Towers");
+                SAVETOWERS.addTower(chunkPos, "Ocean_Towers");
             }
 
 
