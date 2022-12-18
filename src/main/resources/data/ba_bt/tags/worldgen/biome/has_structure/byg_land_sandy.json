@@ -1,0 +1,12 @@
+{
+  "replace": false,
+
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "values": [
+    "byg:mojave_desert",
+    "byg:atacama_desert",
+    "byg:red_rock_valley",
+    "byg:windswept_desert",
+    "byg:windswept_dunes"
+  ]
+}

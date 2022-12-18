@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static com.BrassAmber.ba_bt.BattleTowersConfig.terralithBiomeSpawning;
+import static com.BrassAmber.ba_bt.BattleTowersConfig.*;
 import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTTags.Biomes.*;
@@ -319,17 +319,45 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         }
     }
 
-    public static boolean acceptableBiome(Holder<Biome> biome, Predicate<Holder<Biome>> predicate) {
-        boolean acceptableBiome = predicate.test(biome);
+    public static boolean acceptableBiome(Holder<Biome> biome, Predicate<Holder<Biome>> vanilla_predicate) {
+        boolean acceptableBiome = vanilla_predicate.test(biome);
+
+        /*
+        vanilla_predicate tests the biome against the 3 vanilla has_structure/land_tower biomes files.
+        Jungle, Desert, and Plains are tested against it to see what kind of Land Tower is being spawned;
+        Overgrown, Sandy, or normal.
+        */
         if (terralithBiomeSpawning.get()) {
-            if (!acceptableBiome && predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
+            if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
                 acceptableBiome = TERRA_LAND_OVERGROWN.test(biome);
             }
-            else if (!acceptableBiome && predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
+            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
                 acceptableBiome = TERRA_LAND_SANDY.test(biome);
             }
-            else if (!acceptableBiome && predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
+            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
                 acceptableBiome = TERRA_LAND.test(biome);
+            }
+        }
+        if (biomesOfPlentyBiomeSpawning.get()) {
+            if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
+                acceptableBiome = BOP_LAND_OVERGROWN.test(biome);
+            }
+            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
+                acceptableBiome = BOP_LAND_SANDY.test(biome);
+            }
+            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
+                acceptableBiome = BOP_LAND.test(biome);
+            }
+        }
+        if (biomesYoullGoBiomeSpawning.get()) {
+            if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
+                acceptableBiome = BOP_LAND_OVERGROWN.test(biome);
+            }
+            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
+                acceptableBiome = BOP_LAND_SANDY.test(biome);
+            }
+            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
+                acceptableBiome = BOP_LAND.test(biome);
             }
         }
 
