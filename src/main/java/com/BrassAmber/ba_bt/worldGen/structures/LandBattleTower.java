@@ -136,7 +136,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             }
 
             if (highestY > 215) {
-                // BrassAmberBattleTowers.LOGGER.info("Terrain to high for Land Tower");
+                BrassAmberBattleTowers.LOGGER.info("Terrain to high for Land Tower");
                 return  BlockPos.ZERO;
             }
 
@@ -145,6 +145,9 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
             // 256 blocks in one layer of a chunk, if more than 1/16 is water, avoid.
             watered = hasWater.size() >= 16;
+            if (watered && biomeType != 1) {
+                return BlockPos.ZERO;
+            }
             int usableHeight = lowestY + ((highestY - lowestY)/4);
 
             boolean acceptableBiome = acceptableBiome(biome, biomeType);
@@ -152,16 +155,9 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             // BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight + " acceptable biome? " + acceptableBiome);
 
             if (isFlat && acceptableBiome) {
-                if (biomeType == 1){
-                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
-                    usablePositions.add(pos);
-                    usableHeights.add(usableHeight);
-                }
-                else if (!watered) {
-                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
-                    usablePositions.add(pos);
-                    usableHeights.add(usableHeight);
-                }
+                // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
+                usablePositions.add(pos);
+                usableHeights.add(usableHeight);
             }
 
         }
@@ -169,7 +165,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         if (usablePositions.size() > 0) {
             int index = worldgenRandom.nextInt(usablePositions.size());
             int landHeight = usableHeights.get(index);
-            BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(landHeight));
+            // BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(landHeight));
             return usablePositions.get(index).getMiddleBlockPosition(landHeight);
         }
 
