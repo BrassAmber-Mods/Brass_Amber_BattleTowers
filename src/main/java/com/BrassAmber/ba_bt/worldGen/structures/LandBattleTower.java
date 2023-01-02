@@ -2,17 +2,15 @@ package com.BrassAmber.ba_bt.worldGen.structures;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.util.BTTags;
 import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -30,22 +28,23 @@ import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.*;
 import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
+import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.locate;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTTags.Biomes.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
 import static com.BrassAmber.ba_bt.util.SaveTowers.towers;
 
+
 public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static boolean watered;
+    private static final List<String> typeNames = List.of("Default", "Overgrown", "Sandy");
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -138,26 +137,29 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             }
 
             if (highestY > 215) {
-                BrassAmberBattleTowers.LOGGER.info("Terrain to high for Land Tower");
+                // BrassAmberBattleTowers.LOGGER.info("Terrain to high for Land Tower");
                 return  BlockPos.ZERO;
             }
 
+            // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
             boolean isFlat = highestY - lowestY <= 12;
+
+            // 256 blocks in one layer of a chunk, if more than 1/16 is water, avoid.
             watered = hasWater.size() >= 16;
             int usableHeight = lowestY + ((highestY - lowestY)/4);
 
-            boolean acceptableBiome = acceptableBiome(biome, context.validBiome());
+            boolean acceptableBiome = acceptableBiome(biome, biomeType);
 
-            BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight + " acceptable biome? " + acceptableBiome);
+            // BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight + " acceptable biome? " + acceptableBiome);
 
             if (isFlat && acceptableBiome) {
                 if (biomeType == 1){
-                    BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
+                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
                     usablePositions.add(pos);
                     usableHeights.add(usableHeight);
                 }
                 else if (!watered) {
-                    BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
+                    // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
                     usablePositions.add(pos);
                     usableHeights.add(usableHeight);
                 }
@@ -193,7 +195,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         }
         // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
 
-        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(chunkPos.x));
         worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
 
         int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
@@ -203,7 +205,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             for (ChunkPos towerPos: towers.get(0)) {
                 int distance = chunkDistanceTo(chunkPos, towerPos);
                 closestDistance = Math.min(closestDistance, distance);
-                BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
+                // BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
             }
         }
 
@@ -216,25 +218,27 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         int x = chunkCenter.getX();
         int z = chunkCenter.getZ();
         int y =  chunkGen.getFirstFreeHeight(chunkCenter.getX(), chunkCenter.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-        int towerType = 0;
 
         Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
         BlockPos spawnPos;
+        ResourceLocation location = context.config().startPool().value().getName();
+
+        // 0 = Normal, 1 = Overgrown, 2 = Sandy
+        int towerType = 0;
+        towerType = location.getPath().equals(locate("land_tower/start_pool_overgrown").getPath()) ? 1 : towerType;
+        towerType = location.getPath().equals(locate("land_tower/start_pool_sandy").getPath()) ? 2 : towerType;
 
         // Moved Biome check from JigsawPlacement to here
-        boolean acceptableBiome = acceptableBiome(biome, context.validBiome());
-
-        if (biome.is(Tags.Biomes.IS_WET_OVERWORLD)) {
-            towerType = 1;
-        }
-        else if (biome.is(Tags.Biomes.IS_SANDY)) {
-            towerType = 2;
-        }
+        boolean acceptableBiome = acceptableBiome(biome, towerType);
 
         if (!acceptableBiome) {
+            // BrassAmberBattleTowers.LOGGER.info("Bad " + typeNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
             return Optional.empty();
         }
-        BrassAmberBattleTowers.LOGGER.info("Land Biome: " + biome.unwrapKey());
+
+
+
+        BrassAmberBattleTowers.LOGGER.info(typeNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
         spawnPos = isSpawnableChunk(context, towerType, worldgenRandom, chunkPos, chunkGen);
         // BrassAmberBattleTowers.LOGGER.info("Land closest position: " + closestDistance);
 
@@ -319,48 +323,51 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         }
     }
 
-    public static boolean acceptableBiome(Holder<Biome> biome, Predicate<Holder<Biome>> vanilla_predicate) {
-        boolean acceptableBiome = vanilla_predicate.test(biome);
+    public static boolean acceptableBiome(Holder<Biome> biome, int towerType) {
+        boolean acceptable = false;
 
-        /*
-        vanilla_predicate tests the biome against the 3 vanilla has_structure/land_tower biomes files.
-        Jungle, Desert, and Plains are tested against it to see what kind of Land Tower is being spawned;
-        Overgrown, Sandy, or normal.
-        */
-        if (terralithBiomeSpawning.get()) {
-            if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
-                acceptableBiome = TERRA_LAND_OVERGROWN.test(biome);
-            }
-            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
-                acceptableBiome = TERRA_LAND_SANDY.test(biome);
-            }
-            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
-                acceptableBiome = TERRA_LAND.test(biome);
-            }
+        // Test base minecraft acceptable biomes
+        if (towerType == 0) {
+            acceptable = LAND.test(biome);
+        } else if (towerType == 1) {
+            acceptable = LAND_OVERGROWN.test(biome);
+        } else if (towerType == 2) {
+            acceptable = LAND_SANDY.test(biome);
         }
-        if (biomesOfPlentyBiomeSpawning.get()) {
-            if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
-                acceptableBiome = BOP_LAND_OVERGROWN.test(biome);
-            }
-            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
-                acceptableBiome = BOP_LAND_SANDY.test(biome);
-            }
-            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
-                acceptableBiome = BOP_LAND.test(biome);
-            }
-        }
-        if (biomesYoullGoBiomeSpawning.get()) {
-            if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.JUNGLE))) {
-                acceptableBiome = BOP_LAND_OVERGROWN.test(biome);
-            }
-            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.DESERT))) {
-                acceptableBiome = BOP_LAND_SANDY.test(biome);
-            }
-            else if (!acceptableBiome && vanilla_predicate.test(BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS))) {
-                acceptableBiome = BOP_LAND.test(biome);
+
+        // Test Terralith Mod acceptable biomes
+        if (terralithBiomeSpawning.get() && !acceptable) {
+            if (towerType == 0) {
+                acceptable = TERRA_LAND.test(biome);
+            } else if (towerType == 1) {
+                acceptable = TERRA_LAND_OVERGROWN.test(biome);
+            } else if (towerType == 2) {
+                acceptable = TERRA_LAND_SANDY.test(biome);
             }
         }
 
-        return acceptableBiome;
+        // Test Biomes Of Plenty Mod acceptable biomes
+        if (biomesOfPlentyBiomeSpawning.get() && !acceptable) {
+            if (towerType == 0) {
+                acceptable = BOP_LAND.test(biome);
+            } else if (towerType == 1) {
+                acceptable = BOP_LAND_OVERGROWN.test(biome);
+            } else if (towerType == 2) {
+                acceptable = BOP_LAND_SANDY.test(biome);
+            }
+        }
+
+        // Test Oh The Biomes You'll Go mod acceptable biomes
+        if (biomesYoullGoBiomeSpawning.get() && !acceptable) {
+            if (towerType == 0) {
+                acceptable = BYG_LAND.test(biome);
+            } else if (towerType == 1) {
+                acceptable = BYG_LAND_OVERGROWN.test(biome);
+            } else if (towerType == 2) {
+                acceptable = BYG_LAND_SANDY.test(biome);
+            }
+        }
+
+        return acceptable;
     }
 }
