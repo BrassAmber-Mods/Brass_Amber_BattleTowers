@@ -1,6 +1,5 @@
 {
   "replace": false,
-
   "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
   "values": [
     "byg:firecracker_shrubland",
@@ -12,6 +11,7 @@
     "byg:coconino_meadow",
     "byg:orchard",
     "byg:prairie",
+    "byg:baobab_savanna",
     "byg:red_oak_forest",
     "byg:redwood_thicket",
     "byg:autumnal_valley",
