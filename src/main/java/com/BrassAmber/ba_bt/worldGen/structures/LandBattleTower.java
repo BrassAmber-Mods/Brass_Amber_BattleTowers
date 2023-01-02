@@ -44,7 +44,6 @@ import static com.BrassAmber.ba_bt.util.SaveTowers.towers;
 public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
     private static boolean watered;
-    private static final List<String> typeNames = List.of("Default", "Overgrown", "Sandy");
 
     public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
             Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
@@ -232,13 +231,13 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         boolean acceptableBiome = acceptableBiome(biome, towerType);
 
         if (!acceptableBiome) {
-            // BrassAmberBattleTowers.LOGGER.info("Bad " + typeNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
+            // BrassAmberBattleTowers.LOGGER.info("Bad " + landTowerNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
             return Optional.empty();
         }
 
 
 
-        BrassAmberBattleTowers.LOGGER.info(typeNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
+        // BrassAmberBattleTowers.LOGGER.info(typeNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
         spawnPos = isSpawnableChunk(context, towerType, worldgenRandom, chunkPos, chunkGen);
         // BrassAmberBattleTowers.LOGGER.info("Land closest position: " + closestDistance);
 
