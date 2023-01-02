@@ -4,7 +4,7 @@
 
 	// Entities
 	"entity.ba_bt.land_golem": "Bahryn'muul, Entombed Watcher",
-	"entity.ba_bt.ocean_golem": "Moraizu'un, Void Beast of the Abyss",
+	"entity.ba_bt.ocean_golem": "Moraizu'un, Idol of the Drowned",
 	"entity.ba_bt.core_golem": "Obthu'ryn, God of the Core",
 	"entity.ba_bt.nether_golem": "Vuur'tyrahn, Tyrant Inferno",
 	"entity.ba_bt.end_golem": "Shul'losniir, Warped Guardian",
@@ -203,5 +203,5 @@
 	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
 	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
 	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Idol of the Drowned"
 }
