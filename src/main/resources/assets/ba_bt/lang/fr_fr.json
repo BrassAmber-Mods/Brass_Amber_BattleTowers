@@ -41,13 +41,13 @@
 
 	"ba_bt.subtitle.tower.break.start": "La tour de combat commence à se briser",
 	"ba_bt.subtitle.tower.break.crumble": "La tour de combat s'écroule",
-	"ba_bt.subtitle.tower.ambient.music.land": "Musique d'ambiance de la tour",
-	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.nether": "Nether Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.end": "End Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.sky": "Sky Tower Ambient Music",
-	"ba_bt.subtitle.tower.ambient.music.city": "Restored City Ambient Music",
+	"ba_bt.subtitle.tower.ambient.music.land": "Musique ambiante de la Tour",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Musique ambiente de la Tour Océanique",
+	"ba_bt.subtitle.tower.ambient.music.core": "Musique ambiente de la Tour Volcanique",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Musique ambiente de la Tour du Nether",
+	"ba_bt.subtitle.tower.ambient.music.end": "Musique ambiente de la Tour de l'End",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Musique ambiente de la Tour Angélique",
+	"ba_bt.subtitle.tower.ambient.music.city": "Musique ambiente du Village Reconstruit",
 
 	// Blocks
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
@@ -72,7 +72,7 @@
 	"container.ba_bt.land_chest": "Coffre Terrestre",
 	"container.ba_bt.land_chest_double": "Grand Coffre Terrestre",
 
-	"container.ba_bt.tower_chest.isLocked": "Unlocks upon destruction of nearby spawners",
+	"container.ba_bt.tower_chest.isLocked": "Pour accéder au contenu du coffre, détruisez les spawners proches",
 
 	"container.ba_bt.ocean_golem_chest": "Coffre de Golem Océanique",
 	"container.ba_bt.ocean_golem_chest_double": "Grand Coffre de Golem Océanique",
@@ -115,19 +115,19 @@
 
 	"item.ba_bt.platinum_skeleton_spawn_egg": "Oeuf d'apparition de Squelette Platine",
 
-	"item.ba_bt.bt_land_resonance_stone": "Land Resonance Stone",
-	"item.ba_bt.bt_ocean_resonance_stone": "Ocean Resonance Stone",
-	"item.ba_bt.bt_core_resonance_stone": "Core Resonance Stone",
-	"item.ba_bt.bt_nether_resonance_stone": "Nether Resonance Stone",
-	"item.ba_bt.bt_end_resonance_stone": "End Resonance Stone",
-	"item.ba_bt.bt_sky_resonance_stone": "Sky Resonance Stone",
-	"item.ba_bt.bt_city_resonance_stone": "City Resonance Stone",
+	"item.ba_bt.bt_land_resonance_stone": "Pierre de résonance Terrestre",
+	"item.ba_bt.bt_ocean_resonance_stone": "Pierre de résonance Océanique",
+	"item.ba_bt.bt_core_resonance_stone": "Pierre de résonance Volcanique",
+	"item.ba_bt.bt_nether_resonance_stone": "Pierre de résonance du Nether",
+	"item.ba_bt.bt_end_resonance_stone": "Pierre de résonance de l'End",
+	"item.ba_bt.bt_sky_resonance_stone": "Pierre de résonance Angélique",
+	"item.ba_bt.bt_city_resonance_stone": "Pierre de résonance du Village",
 
 	// Effects
-	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
+	"effect.ba_bt.depth_dropper_effect": "Compte-gouttes des profondeurs",
 
 	// Enchantments
-	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+	"enchantment.ba_bt.depth_dropper": "Compte-gouttes des profondeurs",
 
 	// Item Tooltips
 	"tooltip.ba_bt.hold_shift": "Maintenez §eMaj§r pour plus d'informations.",
@@ -135,12 +135,12 @@
 	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
 	"tooltip.ba_bt.golem_chest": "Battez le Golem pour déverrouiller",
 
-	"tooltip.ba_bt.monolith_land": "Le Monolithe est utilisé pour invoquer un Golem de Combat.",
-	"tooltip.ba_bt.monolith_ocean": "The Guardian has been trapped within!",
-	"tooltip.ba_bt.monolith_core": "The Guardian has been trapped within!",
-	"tooltip.ba_bt.monolith_nether": "The Guardian has been trapped within!",
-	"tooltip.ba_bt.monolith_end": "The Guardian has been trapped within!",
-	"tooltip.ba_bt.monolith_sky": "The Guardian has been trapped within!",
+	"tooltip.ba_bt.monolith_land": "Un Golem est piégé à l'intérieur !",
+	"tooltip.ba_bt.monolith_ocean": "Une Créature attend patiemment dedans...",
+	"tooltip.ba_bt.monolith_core": "Dieu attend que les imbéciles s'en mêlent...",
+	"tooltip.ba_bt.monolith_nether": "Un Tyran se prélasse paresseusement à l'intérieur...",
+	"tooltip.ba_bt.monolith_end": "Un Golem médite à l'intérieur...",
+	"tooltip.ba_bt.monolith_sky": "La Déesse regarde...",
 
 	"tooltip.ba_bt.eye_hold_shift": "Maintenez §eMAJ§r pour voir les derniers mots du Golem",
 	"tooltip.ba_bt.land_eye": "Vaayus, la tour a été compromise...",
@@ -182,15 +182,15 @@
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Tours Hurlantes",
-	"advancements.ba_bt.land_tower_found.description": "-Infiltrer une tour terrestre",
+	"advancements.ba_bt.land_tower_found.description": "- Infiltrer une tour terrestre",
 	"advancements.ba_bt.find_land_key.title": "La clé d'un pouvoir ancien...",
-	"advancements.ba_bt.find_land_key.description": "-Trouver une Clé du Monolithe",
+	"advancements.ba_bt.find_land_key.description": "- Trouver une Clé du Monolithe",
 	"advancements.ba_bt.kill_land_golem.title": "L'océan commencent à s'agiter...",
-	"advancements.ba_bt.kill_land_golem.description": "-Détruire Bahryn'muul, Golem de la Tour",
-	"advancements.ba_bt.ocean_tower_found.title": "Mind your step",
-	"advancements.ba_bt.ocean_tower_found.description": "-Fall into the Abyssal trench",
-	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
-	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
-	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
+	"advancements.ba_bt.kill_land_golem.description": "- Vaincre Bahryn'muul, le Golem Terrestre",
+	"advancements.ba_bt.ocean_tower_found.title": "Attention à la marche",
+	"advancements.ba_bt.ocean_tower_found.description": "- Chutez dans une fosse abyssale",
+	"advancements.ba_bt.find_ocean_key.title": "Que cachent-ils...",
+	"advancements.ba_bt.find_ocean_key.description": "-Trouver une clé du Monolithe Océanique",
+	"advancements.ba_bt.kill_ocean_golem.title": "Le volcan s'agite...",
+	"advancements.ba_bt.kill_ocean_golem.description": "- Vaincre Moraizu'un, la créature du néant des abysses"
 }
