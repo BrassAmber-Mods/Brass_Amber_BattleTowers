@@ -4,7 +4,7 @@
 
 	// Entità (Entities)
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
-	"entity.ba_bt.ocean_golem": "Moraizu'un, Signore delle profondità",
+	"entity.ba_bt.ocean_golem": "Moraizu'un, Idolo degli affogati",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
 	"entity.ba_bt.nether_golem": "Vraag'iidra, Incarnazione dell'ira",
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
@@ -203,5 +203,5 @@
 	"advancements.ba_bt.find_ocean_key.title": "Cosa nascondono...",
 	"advancements.ba_bt.find_ocean_key.description": "-Trova una chiave del monolite oceanico",
 	"advancements.ba_bt.kill_ocean_golem.title": "Il nucleo comincia a tremare...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Sconfiggi Moraizu'un, idolo degli affogati"
+	"advancements.ba_bt.kill_ocean_golem.description": "-Sconfiggi Moraizu'un, Idolo degli affogati"
 }
