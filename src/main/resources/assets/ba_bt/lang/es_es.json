@@ -154,6 +154,13 @@
 	"tooltip.ba_bt.sky_eye": "Te he fallado, Sr. Vaayus... ",
 
 	// Overscreen titles
+	"title.ba_bt.land": "Bahryn'muul, Guardián terrestre",
+	"title.ba_bt.ocean": "Moraizu'un, Guardián oceánico",
+	"title.ba_bt.core": "Obthu'uryn, Guardián del núcleo",
+	"title.ba_bt.nether": "Vrag'iidra, Tirano abisal",
+	"title.ba_bt.end": "Shul'losniir, Guardián del End",
+	"title.ba_bt.sky": "Veyhz'kriin, Dios de los cielos",
+
 	"title.ba_bt.guardian_defeated_1": "Ha caído",
 
 	"title.ba_bt.land_defeated_2": "Sin su energía...",
@@ -173,13 +180,6 @@
 
 	"title.ba_bt.sky_defeated_2": "Derrotado por un mejor jugador...",
 	"title.ba_bt.sky_defeated_3": "...La torre se desmorona y se desvanece...",
-
-	"title.ba_bt.land": "Bahryn'muul, Guardián terrestre",
-	"title.ba_bt.ocean": "Moraizu'un, Guardián oceánico",
-	"title.ba_bt.core": "Obthu'uryn, Guardián del núcleo",
-	"title.ba_bt.nether": "Vrag'iidra, Tirano abisal",
-	"title.ba_bt.end": "Shul'losniir, Guardián del End",
-	"title.ba_bt.sky": "Veyhz'kriin, Dios de los cielos",
 
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "Torres de Batalla",

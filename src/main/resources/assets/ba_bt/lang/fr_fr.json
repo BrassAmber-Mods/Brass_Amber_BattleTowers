@@ -151,6 +151,13 @@
 	"tooltip.ba_bt.sky_eye": "J'ai échoué, Sr. Vaayus... ",
 
 	// Overscreen titles
+	"title.ba_bt.land": "Bahryn'muul, Golem Terrestre",
+	"title.ba_bt.ocean": "Moraizu'un, Golem Océanique",
+	"title.ba_bt.core": "Obthu'uryn, Dieu Volcanique",
+	"title.ba_bt.nether": "Vrag'iidra, Tyran du Nether",
+	"title.ba_bt.end": "Shul'losniir, Golem de l'End",
+	"title.ba_bt.sky": "Veyhz'kriin, Déesse Angélique",
+
 	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",
 
 	"title.ba_bt.land_defeated_2": "Without it's energy...",
@@ -170,13 +177,6 @@
 
 	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
 	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
-
-	"title.ba_bt.land": "Bahryn'muul, Golem Terrestre",
-	"title.ba_bt.ocean": "Moraizu'un, Golem Océanique",
-	"title.ba_bt.core": "Obthu'uryn, Dieu Volcanique",
-	"title.ba_bt.nether": "Vrag'iidra, Tyran du Nether",
-	"title.ba_bt.end": "Shul'losniir, Golem de l'End",
-	"title.ba_bt.sky": "Veyhz'kriin, Déesse Angélique",
 
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
