@@ -162,38 +162,38 @@
 	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
 	// Scritte in sovraimpressione (Overscreen titles)
-	"title.ba_bt.guardian_defeated_1": " è caduto.",
-
-	"title.ba_bt.land_defeated_2": "Senza la sua energia...",
-	"title.ba_bt.land_defeated_3": "...la torrè crollerà!",
-
-	"title.ba_bt.ocean_defeated_2": "Esiliato nuovamente nel vuoto...",
-	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
-
-	"title.ba_bt.core_defeated_2": "Senza il ricettacolo del dio...",
-	"title.ba_bt.core_defeated_3": "...le mura cominciano a sciogliersi",
-
-	"title.ba_bt.nether_defeated_2": "Senza il loro controllo...",
-	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
-
-	"title.ba_bt.end_defeated_2": "Sconfitto ma non distrutto...",
-	"title.ba_bt.end_defeated_3": "...il pavimento comincia a sparire insieme a lui",
-
-	"title.ba_bt.sky_defeated_2": "Ucciso da un pidocchioso umano...",
-	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
-
 	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
 	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
 	"title.ba_bt.nether": "Vraag'iidra, Tiranno dell'inferno",
 	"title.ba_bt.end": "Shul'losniir, Custode dell'End",
 	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
+	
+	"title.ba_bt.guardian_defeated_1": " è caduto.",
+
+	"title.ba_bt.land_defeated_2": "Senza la sua energia...",
+	"title.ba_bt.land_defeated_3": "...la torrè crollerà!",
+
+	"title.ba_bt.ocean_defeated_2": "Esiliato nuovamente nel vuoto...",
+	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...", //?
+
+	"title.ba_bt.core_defeated_2": "Senza il ricettacolo del dio...",
+	"title.ba_bt.core_defeated_3": "...le mura cominciano a sciogliersi",
+
+	"title.ba_bt.nether_defeated_2": "Senza il controllo del tiranno...",
+	"title.ba_bt.nether_defeated_3": "...la torre fiorisce ancora", //?
+
+	"title.ba_bt.end_defeated_2": "Sconfitto ma non distrutto...",
+	"title.ba_bt.end_defeated_3": "...il pavimento comincia a sparire insieme a lui",
+
+	"title.ba_bt.sky_defeated_2": "Ucciso da un pidocchioso umano...",
+	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...", //?
 
 	// Traguardi (Advancements)
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
-	"advancements.ba_bt.land_tower_found.title": "Torri ululanti",
-	"advancements.ba_bt.land_tower_found.description": "-Infiltrati nella torre della landa",
+	"advancements.ba_bt.land_tower_found.title": "Una prova del tempo",
+	"advancements.ba_bt.land_tower_found.description": "-Riscopri un'antica torre di battaglia",
 	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",
 	"advancements.ba_bt.find_land_key.description": "-Trova una chiave del monolite",
 	"advancements.ba_bt.kill_land_golem.title": "Le profondità dell'oceano cominciano ad agitarsi...",
@@ -203,5 +203,5 @@
 	"advancements.ba_bt.find_ocean_key.title": "Cosa nascondono...",
 	"advancements.ba_bt.find_ocean_key.description": "-Trova una chiave del monolite oceanico",
 	"advancements.ba_bt.kill_ocean_golem.title": "Il nucleo comincia a tremare...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Sconfiggi Moraizu'un, Void Beast of the Abyss"
+	"advancements.ba_bt.kill_ocean_golem.description": "-Sconfiggi Moraizu'un, idolo degli affogati"
 }
