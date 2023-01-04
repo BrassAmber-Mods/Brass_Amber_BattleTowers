@@ -186,8 +186,8 @@
 	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
 	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
 
-	"title.ba_bt.sky_defeated_2": "A Goddess killed by a mere player...",
-	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
+	"title.ba_bt.sky_defeated_2": "A Goddess slain...",
+	"title.ba_bt.sky_defeated_3": "...The tower dissolves into mist...",
 
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
