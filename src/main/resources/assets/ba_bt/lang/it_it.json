@@ -6,7 +6,7 @@
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Idolo degli affogati",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
-	"entity.ba_bt.nether_golem": "Vraag'iidra, Incarnazione dell'ira",
+	"entity.ba_bt.nether_golem": "Vuur'tyrahn, Tiranno infernale",
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
 
@@ -93,7 +93,7 @@
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
 	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
 	"item.ba_bt.guardian_eye_core": "Occhio di Obthu'uryn",
-	"item.ba_bt.guardian_eye_nether": "Occhio di Vraag'iidra",
+	"item.ba_bt.guardian_eye_nether": "Occhio di Vuur'tyrahn",
 	"item.ba_bt.guardian_eye_end": "Occhio di Shul'losniir",
 	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
@@ -172,22 +172,22 @@
 	"title.ba_bt.guardian_defeated_1": " è caduto.",
 
 	"title.ba_bt.land_defeated_2": "Senza la sua energia...",
-	"title.ba_bt.land_defeated_3": "...la torrè crollerà!",
+	"title.ba_bt.land_defeated_3": "...la torrè esploderà!",
 
 	"title.ba_bt.ocean_defeated_2": "Esiliato nuovamente nel vuoto...",
-	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...", //?
+	"title.ba_bt.ocean_defeated_3": "...il pavimento comincia a crollare!",
 
 	"title.ba_bt.core_defeated_2": "Senza il ricettacolo del dio...",
 	"title.ba_bt.core_defeated_3": "...le mura cominciano a sciogliersi",
 
 	"title.ba_bt.nether_defeated_2": "Senza il controllo del tiranno...",
-	"title.ba_bt.nether_defeated_3": "...la torre fiorisce ancora", //?
+	"title.ba_bt.nether_defeated_3": "...la torre fiorisce di nuovo!", 
 
 	"title.ba_bt.end_defeated_2": "Sconfitto ma non distrutto...",
-	"title.ba_bt.end_defeated_3": "...il pavimento comincia a sparire insieme a lui",
+	"title.ba_bt.end_defeated_3": "...il pavimento comincia a sparire..",
 
 	"title.ba_bt.sky_defeated_2": "Ucciso da un pidocchioso umano...",
-	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...", //?
+	"title.ba_bt.sky_defeated_3": "...la torre si dissolve nella nebbia...",
 
 	// Traguardi (Advancements)
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
@@ -197,8 +197,8 @@
 	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",
 	"advancements.ba_bt.find_land_key.description": "-Trova una chiave del monolite",
 	"advancements.ba_bt.kill_land_golem.title": "Le profondità dell'oceano cominciano ad agitarsi...",
-	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, il guardiano della torre",
-	"advancements.ba_bt.ocean_tower_found.title": "Guarda dove metti i piedi",
+	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, l'antico guardiano della torre",
+	"advancements.ba_bt.ocean_tower_found.title": "Guarda dove metti i piedi!",
 	"advancements.ba_bt.ocean_tower_found.description": "-Precipita nella fossa abissale",
 	"advancements.ba_bt.find_ocean_key.title": "Cosa nascondono...",
 	"advancements.ba_bt.find_ocean_key.description": "-Trova una chiave del monolite oceanico",
