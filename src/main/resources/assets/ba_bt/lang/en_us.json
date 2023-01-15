@@ -4,7 +4,7 @@
 
 	// Entities
 	"entity.ba_bt.land_golem": "Bahryn'muul, Entombed Watcher",
-	"entity.ba_bt.ocean_golem": "Moraizu'un, Void Beast of the Abyss",
+	"entity.ba_bt.ocean_golem": "Moraizu'un, Idol of the Drowned",
 	"entity.ba_bt.core_golem": "Obthu'ryn, God of the Core",
 	"entity.ba_bt.nether_golem": "Vuur'tyrahn, Tyrant Inferno",
 	"entity.ba_bt.end_golem": "Shul'losniir, Warped Guardian",
@@ -162,32 +162,32 @@
 	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
 	// Overscreen titles
-	"title.ba_bt.guardian_defeated_1": " Has Fallen",
-
-	"title.ba_bt.land_defeated_2": "Without it's energy...",
-	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
-
-	"title.ba_bt.ocean_defeated_2": "Banished back to the void...",
-	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
-
-	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
-	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
-
-	"title.ba_bt.nether_defeated_2": "Without their control...",
-	"title.ba_bt.nether_defeated_3": "...The tower starts to bloom...",
-
-	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
-	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
-
-	"title.ba_bt.sky_defeated_2": "Killed by a mere player...",
-	"title.ba_bt.sky_defeated_3": "...The tower fades and crumbles...",
-
 	"title.ba_bt.land": "Bahryn'muul, Land Guardian",
 	"title.ba_bt.ocean": "Moraizu'un, Ocean Guardian",
 	"title.ba_bt.core": "Obthu'uryn, Core God",
 	"title.ba_bt.nether": "Vuur'tyrahn, Nether Tyrant",
 	"title.ba_bt.end": "Shul'losniir, End Guardian",
 	"title.ba_bt.sky": "Veyhz'kriin, Sky Goddess",
+
+	"title.ba_bt.guardian_defeated_1": " Has Fallen",
+
+	"title.ba_bt.land_defeated_2": "Without its energy...",
+	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
+
+	"title.ba_bt.ocean_defeated_2": "The Idol returned to the void...",
+	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+
+	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
+	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+
+	"title.ba_bt.nether_defeated_2": "Without the tyrants control...",
+	"title.ba_bt.nether_defeated_3": "...The tower blossoms once more...",
+
+	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
+	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+
+	"title.ba_bt.sky_defeated_2": "A Goddess slain...",
+	"title.ba_bt.sky_defeated_3": "...The tower dissolves into mist...",
 
 	// Advancements
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
@@ -203,5 +203,5 @@
 	"advancements.ba_bt.find_ocean_key.title": "What are they hiding...",
 	"advancements.ba_bt.find_ocean_key.description": "-Find an Ocean Monolith Key",
 	"advancements.ba_bt.kill_ocean_golem.title": "The core becomes restless...",
-	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Void Beast of the Abyss"
+	"advancements.ba_bt.kill_ocean_golem.description": "-Destroy Moraizu'un, Idol of the Drowned"
 }

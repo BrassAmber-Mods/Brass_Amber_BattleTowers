@@ -200,10 +200,10 @@ public class BTLoot {
     }
 
     public static LootPool.Builder fillPool(int rolls, List<Item> items, List<Integer> counts, int enchantLevel) {
-        LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(rolls));
+        LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly((float) rolls));
         int w = 0;
-        int maxCount;
-        int minCount;
+        float maxCount;
+        float minCount;
         int itemCount;
         int weight;
         boolean isTool;
@@ -249,7 +249,7 @@ public class BTLoot {
             }
 
             lootItem.setWeight(weight);
-            lootItem.apply(SetItemCountFunction.setCount(UniformGenerator.between((float) minCount, (float) maxCount)));
+            lootItem.apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)));
             pool.add(lootItem);
             w++;
         }
