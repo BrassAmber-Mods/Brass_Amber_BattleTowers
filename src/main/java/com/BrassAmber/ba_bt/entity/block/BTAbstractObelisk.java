@@ -442,7 +442,7 @@ public class BTAbstractObelisk extends Entity {
                             chest.setUnlocked(true);
                             LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestPos)).withOptionalRandomSeed(this.random.nextLong());
                             assert chest != null: "BTObelisk: Not a BTChest";
-                            getLootTable(GolemType.getNumForType(this.golemType), i).fill(chest, lootcontext$builder.create(LootContextParamSets.CHEST));
+                            BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext$builder.create(LootContextParamSets.CHEST));
                             this.chestUnlockingSound(level);
                             this.CHESTS.set(i, null);
                         }
