@@ -1,0 +1,5 @@
+Drops a "Resonance Crystal" on destruction.
+
+    Resonance crystal is a music disc for the towers' music, as well as being enchant-able with certain enchantments based on the tower
+
+        ex: ocean Tower, can enchant with Depth Dropper and hold in inventory to gain effect.

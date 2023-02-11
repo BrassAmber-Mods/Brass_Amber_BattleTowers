@@ -20,7 +20,7 @@ public class MonolithModel<T extends BTMonolith> extends EntityModel<T> {
 
 	public MonolithModel(ModelPart root, ModelLayerLocation location) {
 		this.monolith = root.getChild("monolith");
-		this.LAYER_LOCATION = location;
+		LAYER_LOCATION = location;
 	}
 
 	public static LayerDefinition createBodyLayer() {

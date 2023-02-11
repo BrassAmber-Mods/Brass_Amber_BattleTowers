@@ -1,0 +1,44 @@
+{
+  "parent": "ba_bt:battletowers/battle_tower",
+  "display": {
+    "icon": {
+      "item": "minecraft:dark_prismarine"
+    },
+    "title": {
+      "translate": "advancements.ba_bt.ocean_tower_found.title",
+      "color": "white"
+    },
+    "description": {
+      "translate": "advancements.ba_bt.ocean_tower_found.description",
+      "color": "green",
+      "italic": true
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "Find Ocean Tower": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "advancements": {
+            "ba_bt:battletowers/land_tower_found": true
+          }
+        },
+        "location": {
+          "feature": "ba_bt:ocean_battle_tower"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "Find Ocean Tower"
+    ]
+  ],
+  "rewards": {
+    "experience": 56
+  }
+}

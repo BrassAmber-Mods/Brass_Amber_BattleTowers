@@ -6,58 +6,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1
-            },
-            {
-              "function": "minecraft:looting_enchant",
-              "count": {
-                "min": 0.0,
-                "max": 1.0
-              }
-            }
-          ],
-          "name": "minecraft:diamond"
-        }
-      ]
-  	},
-  	{
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 8
-            }
-          ],
-          "name": "minecraft:clay"
-        }
-      ]
-  	},
-  	{
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 4
-            }
-          ],
-          "name": "minecraft:redstone"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
           "count" : 1,
           "name": "ba_bt:guardian_eye_land"
         }

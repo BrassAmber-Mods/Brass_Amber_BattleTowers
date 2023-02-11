@@ -1,0 +1,10 @@
+{
+  "type": "ba_bt:bt_ocean_tower",
+  "config": {
+    "start_pool": "ba_bt:ocean_tower/start_pool",
+    "size": 15
+  },
+  "biomes": "#ba_bt:has_structure/ocean_tower_biomes",
+  "adapt_noise": false,
+  "spawn_overrides": {}
+}

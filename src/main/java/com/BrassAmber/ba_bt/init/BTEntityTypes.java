@@ -1,17 +1,18 @@
 package com.BrassAmber.ba_bt.init;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
+import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
 import com.BrassAmber.ba_bt.entity.ExplosionPhysics;
-import com.BrassAmber.ba_bt.entity.block.BTObelisk;
+import com.BrassAmber.ba_bt.entity.OceanDestructionEntity;
+import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
+import com.BrassAmber.ba_bt.entity.block.BTLandObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
+import com.BrassAmber.ba_bt.entity.block.BTOceanObelisk;
+import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
 import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
 import com.BrassAmber.ba_bt.entity.hostile.SkyMinion;
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTGolem;
-import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
-import com.BrassAmber.ba_bt.entity.hostile.golem.EndGolem;
-import com.BrassAmber.ba_bt.entity.hostile.golem.OceanGolem;
-import com.BrassAmber.ba_bt.entity.hostile.golem.SkyGolem;
+import com.BrassAmber.ba_bt.entity.hostile.golem.*;
+import com.BrassAmber.ba_bt.entity.hostile.golem.BTLandGolem;
 
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
@@ -25,44 +26,56 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 @EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Bus.MOD)
 public class BTEntityTypes {
+
+
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, BrassAmberBattleTowers.MOD_ID);
 
-	public static final EntityType<BTGolem> LAND_GOLEM = buildGolemEntityType("land_golem", BTGolem::new);
-	public static final EntityType<OceanGolem> OCEAN_GOLEM = buildGolemEntityType("ocean_golem", OceanGolem::new);
-	public static final EntityType<BTGolem> CORE_GOLEM = buildGolemEntityType("core_golem", BTGolem::new);
-	public static final EntityType<BTGolem> NETHER_GOLEM = buildGolemEntityType("nether_golem", BTGolem::new);
-	public static final EntityType<EndGolem> END_GOLEM = buildGolemEntityType("end_golem", EndGolem::new);
-	public static final EntityType<SkyGolem> SKY_GOLEM = buildGolemEntityType("sky_golem", SkyGolem::new);
+	//*********************** GOLEMS *********************\\
+	public static final RegistryObject<EntityType<BTLandGolem>> LAND_GOLEM = ENTITY_TYPES.register("land_golem", () -> EntityType.Builder.of( BTLandGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("land_golem"));
+	public static final RegistryObject<EntityType<BTOceanGolem>> OCEAN_GOLEM = ENTITY_TYPES.register("ocean_golem", () -> EntityType.Builder.of( BTOceanGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("ocean_golem"));
+	public static final RegistryObject<EntityType<BTCoreGolem>> CORE_GOLEM = ENTITY_TYPES.register("core_golem", () -> EntityType.Builder.of( BTCoreGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("core_golem"));
+	public static final RegistryObject<EntityType<BTNetherGolem>> NETHER_GOLEM = ENTITY_TYPES.register("nether_golem", () -> EntityType.Builder.of(BTNetherGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("nether_golem"));
+	public static final RegistryObject<EntityType<BTEndGolem>> END_GOLEM = ENTITY_TYPES.register("end_golem", () -> EntityType.Builder.of( BTEndGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("end_golem"));
+	public static final RegistryObject<EntityType<BTSkyGolem>> SKY_GOLEM = ENTITY_TYPES.register("sky_golem", () -> EntityType.Builder.of( BTSkyGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("sky_golem"));
 
-	public static final EntityType<SkyMinion> SKY_MINION = buildEntityType("sky_minion", EntityType.Builder.of(SkyMinion::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8));
-	public static final EntityType<PlatinumSkeleton> PLATINUM_SKELETON = buildEntityType("platinum_skeleton", EntityType.Builder.of(PlatinumSkeleton::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8));
-	
-	public static final EntityType<BTMonolith> LAND_MONOLITH = buildMonolithEntityType("land_monolith");
-	public static final EntityType<BTMonolith> OCEAN_MONOLITH = buildMonolithEntityType("ocean_monolith");
-	public static final EntityType<BTMonolith> CORE_MONOLITH = buildMonolithEntityType("core_monolith");
-	public static final EntityType<BTMonolith> NETHER_MONOLITH = buildMonolithEntityType("nether_monolith");
-	public static final EntityType<BTMonolith> END_MONOLITH = buildMonolithEntityType("end_monolith");
-	public static final EntityType<BTMonolith> SKY_MONOLITH = buildMonolithEntityType("sky_monolith");
+	//*********************** MONOLITHS *********************\\
+	public static final RegistryObject<EntityType<BTMonolith>> LAND_MONOLITH = ENTITY_TYPES.register("land_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("land_monolith"));
+	public static final RegistryObject<EntityType<BTMonolith>> OCEAN_MONOLITH = ENTITY_TYPES.register("ocean_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("ocean_monolith"));
+	public static final RegistryObject<EntityType<BTMonolith>> CORE_MONOLITH = ENTITY_TYPES.register("core_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("core_monolith"));
+	public static final RegistryObject<EntityType<BTMonolith>> NETHER_MONOLITH = ENTITY_TYPES.register("nether_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("nether_monolith"));
+	public static final RegistryObject<EntityType<BTMonolith>> END_MONOLITH = ENTITY_TYPES.register("end_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("end_monolith"));
+	public static final RegistryObject<EntityType<BTMonolith>> SKY_MONOLITH = ENTITY_TYPES.register("sky_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("sky_monolith"));
+
+	//*********************** OBELISKS *********************\\
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> LAND_OBELISK = ENTITY_TYPES.register("land_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTLandObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("land_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> OCEAN_OBELISK = ENTITY_TYPES.register("ocean_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTOceanObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("ocean_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> CORE_OBELISK = ENTITY_TYPES.register("core_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("core_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> NETHER_OBELISK = ENTITY_TYPES.register("nether_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("nether_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> END_OBELISK = ENTITY_TYPES.register("end_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("end_obelisk"));
+	public static final RegistryObject<EntityType<BTAbstractObelisk>> SKY_OBELISK = ENTITY_TYPES.register("sky_obelisk", () -> EntityType.Builder.<BTAbstractObelisk>of(BTAbstractObelisk::new, MobCategory.MISC).noSummon().sized(1.0F, 3.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).build("sky_obelisk"));
+
+	//*********************** TOWER MOBS *********************\\
+	public static final RegistryObject<EntityType<SkyMinion>> SKY_MINION = ENTITY_TYPES.register("sky_minion", () -> EntityType.Builder.of(SkyMinion::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8).build("sky_minion"));
+	public static final RegistryObject<EntityType<PlatinumSkeleton>> PLATINUM_SKELETON = ENTITY_TYPES.register("platinum_skeleton", () -> EntityType.Builder.of(PlatinumSkeleton::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8).build("platinum_skeleton"));
+	public static final RegistryObject<EntityType<BTCultist>> BT_CULTIST = ENTITY_TYPES.register("bt_cultist", () -> EntityType.Builder.of(BTCultist::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8).build("bt_cultist"));
 
 
-	public static final EntityType<BTObelisk> LAND_OBELISK = buildObeliskEntityType("land_obelisk");
-	public static final EntityType<BTObelisk> OCEAN_OBELISK = buildObeliskEntityType("ocean_obelisk");
-	public static final EntityType<BTObelisk> CORE_OBELISK = buildObeliskEntityType("core_obelisk");
-	public static final EntityType<BTObelisk> NETHER_OBELISK = buildObeliskEntityType("nether_obelisk");
-	public static final EntityType<BTObelisk> END_OBELISK = buildObeliskEntityType("end_obelisk");
-	public static final EntityType<BTObelisk> SKY_OBELISK = buildObeliskEntityType("sky_obelisk");
+	//*********************** MISC ENTITIES *********************\\
+	public static final RegistryObject<EntityType<LandDestructionEntity>> LAND_DESTRUCTION = ENTITY_TYPES.register("land_destruction",
+			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("land_destruction"));
 
-	public static final EntityType<DestroyTower> DESTROY_TOWER = buildEntityType("destroy_tower",
-			EntityType.Builder.<DestroyTower>of(DestroyTower::new, MobCategory.MISC)
-					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon());
+	public static final RegistryObject<EntityType<OceanDestructionEntity>> OCEAN_DESTRUCTION = ENTITY_TYPES.register("ocean_destruction",
+			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("ocean_destruction"));
 
-
-	public static final EntityType<ExplosionPhysics> PHYSICS_EXPLOSION = buildEntityType("explosion_physics",
-			EntityType.Builder.<ExplosionPhysics>of(ExplosionPhysics::new, MobCategory.MISC)
-					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave().noSummon());
+	public static final RegistryObject<EntityType<ExplosionPhysics>> PHYSICS_EXPLOSION = ENTITY_TYPES.register("explosion_physics",
+			() -> EntityType.Builder.<ExplosionPhysics>of(ExplosionPhysics::new, MobCategory.MISC)
+					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave().noSummon().build("explosion_physics"));
 
 	
 	/**
@@ -70,15 +83,16 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onRegisterEntityTypes(Register<EntityType<?>> event) {
-		registerSpawnPlacement(LAND_GOLEM, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(OCEAN_GOLEM, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(NETHER_GOLEM, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(CORE_GOLEM, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(END_GOLEM, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(SKY_GOLEM, Mob::checkMobSpawnRules);
+		registerSpawnPlacement(LAND_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(OCEAN_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(NETHER_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(CORE_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(END_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(SKY_GOLEM.get(), Mob::checkMobSpawnRules);
 
-		registerSpawnPlacement(SKY_MINION, Mob::checkMobSpawnRules);
-		registerSpawnPlacement(PLATINUM_SKELETON, Monster::checkMonsterSpawnRules);
+		registerSpawnPlacement(SKY_MINION.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(PLATINUM_SKELETON.get(), Monster::checkMonsterSpawnRules);
+		registerSpawnPlacement(BT_CULTIST.get(), Mob::checkMobSpawnRules);
 	}
 
 	/**
@@ -86,50 +100,17 @@ public class BTEntityTypes {
 	 */
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		event.put(LAND_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(OCEAN_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(NETHER_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(CORE_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(END_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
-		event.put(SKY_GOLEM, BTAbstractGolem.createBattleGolemAttributes().build());
+		event.put(LAND_GOLEM.get(), BTLandGolem.createBattleGolemAttributes().build());
+		event.put(OCEAN_GOLEM.get(), BTOceanGolem.createBattleGolemAttributes().build());
+		event.put(NETHER_GOLEM.get(), BTNetherGolem.createBattleGolemAttributes().build());
+		event.put(CORE_GOLEM.get(), BTCoreGolem.createBattleGolemAttributes().build());
+		event.put(END_GOLEM.get(), BTEndGolem.createBattleGolemAttributes().build());
+		event.put(SKY_GOLEM.get(), BTSkyGolem.createBattleGolemAttributes().build());
 
-		event.put(SKY_MINION, SkyMinion.createAttributes().build());
-		event.put(PLATINUM_SKELETON, PlatinumSkeleton.createAttributes().build());
+		event.put(SKY_MINION.get(), SkyMinion.createAttributes().build());
+		event.put(PLATINUM_SKELETON.get(), PlatinumSkeleton.createAttributes().build());
+		event.put(BT_CULTIST.get(), BTCultist.createAttributes().build());
 	}
-
-	/**
-	 * Helper method for creating Golem EntityTypes
-	 */
-	private static <T extends BTAbstractGolem> EntityType<T> buildGolemEntityType(String registryName, EntityType.EntityFactory<T> typeFactory) {
-		EntityType.Builder<T> golemBuilder = EntityType.Builder.of(typeFactory, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune();
-		return buildEntityType(registryName, golemBuilder);
-	}
-
-	/**
-	 * Helper method for creating Monolith EntityTypes
-	 */
-	private static EntityType<BTMonolith> buildMonolithEntityType(String registryName) {
-		EntityType.Builder<BTMonolith> monolithBuilder = EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT);
-		return buildEntityType(registryName, monolithBuilder);
-	}
-
-	/**
-	 * Helper method for creating Obelisl EntityTypes
-	 */
-	private static EntityType<BTObelisk> buildObeliskEntityType(String registryName) {
-		EntityType.Builder<BTObelisk> obeliskBuilder = EntityType.Builder.<BTObelisk>of(BTObelisk::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon();
-		return buildEntityType(registryName, obeliskBuilder);
-	}
-
-	/**
-	 * Helper method for creating EntityTypes
-	 */
-	private static <T extends Entity> EntityType<T> buildEntityType(String registryName, EntityType.Builder<T> builder) {
-		EntityType<T> type = builder.build(registryName);
-		ENTITY_TYPES.register(registryName, () -> type);
-		return type;
-	}
-
 	/**
 	 * Helper method for registering Entity Spawning
 	 */

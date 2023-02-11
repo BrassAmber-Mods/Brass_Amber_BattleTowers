@@ -71,12 +71,12 @@
 			}
 		]
 	},
-	"entity.golem.fight": {
+	"entity.golem.land.fight": {
 		"category": "hostile",
-		"subtitle": "ba_bt.subtitle.golem.fight",
+		"subtitle": "ba_bt.subtitle.golem.land.fight",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/golemspecial1",
+				"name": "ba_bt:entity/golem/boss_fight",
 				"volume": 1.0,
 				"stream": true
 			}
@@ -105,13 +105,79 @@
 			}
 		]
 	},
-	"tower.ambient.music": {
+	"tower.ambient.music.land": {
 		"category": "ambient",
-		"subtitle": "ba_bt.subtitle.tower.ambient.music",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.land",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/monolithimplode",
-				"volume": 0.6,
+				"name": "ba_bt:ancestry",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.ocean": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.ocean",
+		"sounds": [
+			{
+				"name": "ba_bt:void",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.core": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.core",
+		"sounds": [
+			{
+				"name": "ba_bt:so_below_pion",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.nether": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.nether",
+		"sounds": [
+			{
+				"name": "ba_bt:pigstep_fhp_remix",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.end": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.end",
+		"sounds": [
+			{
+				"name": "ba_bt:complex_radiation",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.sky": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.sky",
+		"sounds": [
+			{
+				"name": "ba_bt:clouds",
+				"volume": 0.7,
+				"stream": true
+			}
+		]
+	},
+	"tower.ambient.music.city": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.ambient.music.city",
+		"sounds": [
+			{
+				"name": "ba_bt:labyrinthine",
+				"volume": 0.7,
 				"stream": true
 			}
 		]

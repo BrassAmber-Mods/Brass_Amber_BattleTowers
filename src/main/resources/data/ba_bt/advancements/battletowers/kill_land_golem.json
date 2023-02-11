@@ -1,0 +1,48 @@
+{
+  "parent": "ba_bt:battletowers/find_land_key",
+  "display": {
+    "icon": {
+      "item": "ba_bt:guardian_eye_land"
+    },
+    "title": {
+      "translate": "advancements.ba_bt.kill_land_golem.title",
+      "color": "white",
+      "italic": true
+    },
+    "description": {
+      "translate": "advancements.ba_bt.kill_land_golem.description",
+      "color": "green",
+      "italic": true
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "Kill Golem": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": {
+          "player": {
+            "advancements": {
+              "ba_bt:battletowers/find_land_key": true
+            }
+          }
+        },
+        "id" : "ba_bt:land_golem",
+        "entity": {
+          "type": "ba_bt:land_golem"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "Kill Golem"
+    ]
+  ],
+  "rewards": {
+    "experience": 56
+  }
+}

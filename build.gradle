@@ -6,20 +6,18 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 
 
-version = "${minecraftVersion}-2.0.1"
+version = "${minecraftVersion}-2.3.5"
 group = 'com.brassAmber.ba_bt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'BrassAmberBattleTowers'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 17 to end users, so your mod should target Java 17.
 
 
 
@@ -31,7 +29,7 @@ minecraft {
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    // Default run configurations.
+    // Default run configurations
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
@@ -113,7 +111,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.12'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
 
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
@@ -148,12 +146,9 @@ jar {
             "Implementation-Vendor" :"BrassAmber",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "TweakClass": "org.spongepowered.asm.lunch.MixinTweaker",
-            "TweakOrder": 0,
-            "MixingConfigs" : "ba_bt.mixin.json"
+            "TweakOrder": 0
         ])
     }
-
-    rename 'mixin.refmap.json', 'b_bt.mixin-refmap.json'
 }
 
 // Example configuration to allow publishing using the maven-publish task

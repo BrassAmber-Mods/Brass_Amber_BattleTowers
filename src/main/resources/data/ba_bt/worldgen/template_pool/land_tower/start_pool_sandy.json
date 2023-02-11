@@ -1,0 +1,15 @@
+{
+  "name": "ba_bt:land_tower/start_pool_sandy",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "ba_bt:land_tower/bottom_floors/sandy",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

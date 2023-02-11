@@ -1,0 +1,11 @@
+{
+  "type": "ba_bt:bt_land_tower",
+  "config": {
+    "start_pool": "ba_bt:land_tower/start_pool_sandy",
+    "size": 35
+  },
+
+  "biomes": "#ba_bt:has_structure/sandy_land_tower_biomes",
+  "adapt_noise": false,
+  "spawn_overrides": {}
+}

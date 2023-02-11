@@ -18,9 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Referenced from {@link HumanoidModel}
  * ====>>
@@ -78,7 +75,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 								new CubeDeformation(0.0F)), PartPose.offset(0.0F, -24.0F, 0.0F));
 
 		PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm",
-				CubeListBuilder.create().texOffs(0, 32)
+				CubeListBuilder.create().texOffs(16, 71)
 						.addBox(-6.0F, -4.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-10.0F, -20.0F, 0.0F));
 
 		PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm",
@@ -86,15 +83,15 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 						.addBox(-2.0F, -4.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(10.0F, -20.0F, 0.0F));
 
 		PartDefinition rightLeg = partdefinition.addOrReplaceChild("right_leg",
-				CubeListBuilder.create().texOffs(80, 32)
+				CubeListBuilder.create().texOffs(0, 32)
 						.addBox(-4.2F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.8F, 0.0F, 0.0F));
 
 		PartDefinition leftLeg = partdefinition.addOrReplaceChild("left_leg",
-				CubeListBuilder.create().texOffs(0, 32)
+				CubeListBuilder.create().texOffs(37, 32)
 						.addBox(-3.8F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(3.8F, 0.0F, 0.0F));
 
 
-		return LayerDefinition.create(meshdefinition, 128, 64);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	/*********************************************************** Animations ********************************************************/

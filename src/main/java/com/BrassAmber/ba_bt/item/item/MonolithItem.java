@@ -3,11 +3,10 @@ package com.BrassAmber.ba_bt.item.item;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
 
+import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -28,19 +27,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class MonolithItem extends Item {
-	private final EntityType<BTMonolith> monolithEntityType;
+	private final GolemType monolithType;
 
-	public MonolithItem(EntityType<BTMonolith> monolithEntityType, Item.Properties builder) {
+	public MonolithItem(GolemType type, Item.Properties builder) {
 		super(builder);
-		this.monolithEntityType = monolithEntityType;
+		this.monolithType = type;
 	}
 
 	/*********************************************************** Placement ********************************************************/
 
 	/**
-	 * Called when this item is used when targetting a Block
+	 * Called when this item is used when targeting a Block
 	 */
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
@@ -60,7 +62,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(this.monolithEntityType, level, x + centerOnBlock, y, z + centerOnBlock);
+					BTMonolith newBTMonolithEntity = new BTMonolith(GolemType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock, level.getBlockState(newPlacementPos.below()));
 					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
 					level.addFreshEntity(newBTMonolithEntity);
 				}
@@ -98,13 +100,12 @@ public class MonolithItem extends Item {
 
 	/*********************************************************** Characteristics ********************************************************/
 
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 */
+
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(new TranslatableComponent("tooltip.battletowers.monolith").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(new TranslatableComponent("tooltip.ba_bt.monolith_"+ this.monolithType.getSerializedName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BrassAmberBattleTowers.HOLD_SHIFT_TOOLTIP);
 		}

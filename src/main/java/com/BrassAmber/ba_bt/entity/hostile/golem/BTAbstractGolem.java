@@ -4,59 +4,57 @@ import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
-import com.BrassAmber.ba_bt.block.tileentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.entity.DestroyTower;
-import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
+import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
+import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
+import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
-import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
-import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolemLand;
+import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.BrassAmber.ba_bt.init.BTItems;
-import com.BrassAmber.ba_bt.sound.BTMusics;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.CritParticle;
+import com.BrassAmber.ba_bt.util.BTUtil;
+import com.BrassAmber.ba_bt.util.GolemType;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import org.jetbrains.annotations.NotNull;
+
+import static com.BrassAmber.ba_bt.util.BTLoot.getGolemLootTable;
 
 
 /**
@@ -82,7 +80,8 @@ public abstract class BTAbstractGolem extends Monster {
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
-	protected final MusicManager musicManager;
+	protected Component GolemName;
+	public GolemType golemType;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -90,24 +89,17 @@ public abstract class BTAbstractGolem extends Monster {
 	protected final String golemStateName = "GolemState";
 	protected final String explosionPowerName = "ExplosionPower";
 	protected BlockPos chestBlockEntityPos;
-	protected int musicStart = 0;
+	protected int musicStart = 4900;
+	private boolean stopMusic = false;
 
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
-		this.bossBar = new ServerBossEvent(this.getDisplayName(), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
+		this.bossBar = new ServerBossEvent(new TextComponent(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
 		this.bossBar.setCreateWorldFog(false);
-		// Sets the experience points to drop. Reference taken from the EnderDragon.
-		this.xpReward = 500;
-
-		// TODO Delete, testing purposes
-		// String clientOrServer = worldIn.isClientSide() ? "Client" : "Server";
-		// BrassAmberBattleTowers.LOGGER.info(clientOrServer + ", Create Entity!");
 		
-		this.maxUpStep = 1.5F;
-		this.musicManager = Minecraft.getInstance().getMusicManager();
+		this.maxUpStep = 2.0F;
 	}
-
 
 	/**
 	 * @return Maximum horizontal distance from the tower.
@@ -124,7 +116,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 	
 	public int getTargetingRange() {
-		return this.getAllowedTowerRange();
+		return this.getAllowedTowerRange() / 4 * 3;
 	}
 
 	/*********************************************************** Data ********************************************************/
@@ -183,34 +175,61 @@ public abstract class BTAbstractGolem extends Monster {
 		// Set the golemState to enraged when health drops below 1/3.
 		if (this.isEnragedBasedOnHP() && !this.isEnraged() && this.isAwake()) {
 			// TODO Maybe stand still for a moment with hands up growling?
-			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL, 0.5f); // LOUD AF (Still? I adjusted the volume)
+			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL, 0.3f); // LOUD AF (Still? I adjusted the volume)
 			this.setGolemState(SPECIAL);
 		}
 
-		if (this.tickCount - this.musicStart >= 4900) {
-			this.musicStart = tickCount;
-			Minecraft.getInstance().getMusicManager().startPlaying(BTMusics.GOLEM_FIGHT);
-		}
-
 		if (this.level.isClientSide()) {
+			if (((ClientLevel)this.level).players().size() < 1) {
+				return;
+			}
+			double playerDistance = BTUtil.distanceTo2D(this, ((ClientLevel)this.level).players().get(0));
+			boolean hasClientPlayer = playerDistance < 30;
+			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
+
+			if (this.isDormant()) {
+				if (musicManager.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
+					musicManager.stopPlaying();
+				}
+			} else {
+				if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
+					this.musicStart = tickCount;
+					musicManager.stopPlaying();
+					musicManager.startPlaying(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC);
+				}
+				if (!hasClientPlayer || this.stopMusic) {
+					musicManager.stopPlaying();
+				}
+			}
 			return;
 		}
+
+		Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
+		boolean survivalAdventure;
+		if (player != null) {
+			survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
+		} else {
+			survivalAdventure = false;
+		}
+
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
-			Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
+			player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getWakeUpRange(), true);
 			// Must be able to see the player and the player mustn't be in Creative mode.
-			if (player != null && !(player.isCreative() || player.isSpectator()) && this.hasLineOfSight(player)) {
+			if (player != null && survivalAdventure && this.hasLineOfSight(player)) {
 				this.wakeUpGolem();
 				this.setTarget(player);
 			}
 		} else {
-			if (this.tickCount > 0 && this.tickCount % 20 == 0) {
+			if (player != null && survivalAdventure && !this.hasLineOfSight(player) && this.tickCount > 0 && this.tickCount % 20 == 0) {
+				this.destroyBlocksNearby();
+			} else if (this.tickCount > 0 && this.tickCount % 200 == 0) {
 				this.destroyBlocksNearby();
 			}
+
 			if (this.getTarget() == null) {
-				Player player = this.level.getNearestPlayer(this, this.getWakeUpRange());
 				// Must be able to see the player and the player mustn't be in Creative mode.
-				if (player != null && !(player.isCreative() || player.isSpectator()) && this.hasLineOfSight(player)) {
+				if (player != null && survivalAdventure && this.hasLineOfSight(player)) {
 					this.setTarget(player);
 				}
 			}
@@ -240,14 +259,7 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 	}
 	
-	/**
-	 * Returns the horizontal distance.
-	 */
-	public double horizontalDistanceToSqr(double targetX, double targetZ) {
-		double dX = this.getX() - targetX;
-		double dZ = this.getZ() - targetZ;
-		return dX * dX + dZ * dZ;
-	}
+
 
 	/**
 	 * Reset the Golem if its to far from it's spawn location and not close to a player.
@@ -260,20 +272,16 @@ public abstract class BTAbstractGolem extends Monster {
 		BlockPos spawnPos = this.getSpawnPos();
 		// Check for the distance to the X and Z coordinates on the current Y level.
 		// This way we get only the lateral distance
-		if (this.horizontalDistanceToSqr(spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
+		if (BTUtil.sqrDistanceTo2D(this, spawnPos.getX(), spawnPos.getZ()) > maxDistanceFromSpawn) {
 			this.resetGolem();
+			return;
 		}
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
-		Player nearestPlayer = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), false);
+		boolean hasPlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange());
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
-		if (nearestPlayer == null && this.blockPosition().distSqr(this.getSpawnPos()) > 1) {
+		if (!hasPlayer) {
 			this.resetGolem();
-			BrassAmberBattleTowers.LOGGER.info("reset golem from tick");
-		}
-		if (!(nearestPlayer == null) && this.horizontalDistanceToSqr(nearestPlayer.getX(), getZ()) > maxDistanceFromSpawn && nearestPlayer.isCreative()) {
-			this.resetGolem();
-			BrassAmberBattleTowers.LOGGER.info("reset golem from tick, distance: " + this.horizontalDistanceToSqr(nearestPlayer.getX(), getZ()) + " " + maxDistanceFromSpawn);
 		}
 
 	}
@@ -308,8 +316,14 @@ public abstract class BTAbstractGolem extends Monster {
 					for(int iz = oz - width; iz <= oz + width; iz++) {
 						BlockPos pos = new BlockPos(ix, iy, iz);
 						BlockState state = this.level.getBlockState(pos);
-						if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
-							playEffectFlag |= this.level.destroyBlock(pos, true, this);
+						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
+						if (!isChest) {
+							if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
+								playEffectFlag |= this.level.destroyBlock(pos, true, this);
+							}
+							if (state.getBlock() instanceof FireBlock) {
+								this.level.destroyBlock(pos, false, this);
+							}
 						}
 					}
 				}
@@ -336,12 +350,19 @@ public abstract class BTAbstractGolem extends Monster {
 	 */
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
+		// Disregard Fire Damage
+		if (source.isFire()) {
+			return super.hurt(source, 0.0F);
+		}
+		if (source.isExplosion()) {
+			return super.hurt(source, damage / 4f);
+		}
 		if (!this.isDormant()) {
-			int multiplier = this.isEnraged() ? 2 : 1;
+			float multiplier = this.isEnraged() ? .5f : 1f;
 			if (source.isProjectile()) {
-				return super.hurt(source, (damage / 2) * multiplier);
+				return super.hurt(source, damage * multiplier);
 			}
-			return super.hurt(source, damage * multiplier);
+			return super.hurt(source, damage / multiplier);
 		} else if (source.isCreativePlayer() && this.isDormant()) {
 			this.setGolemState(AWAKE);
 		}
@@ -351,41 +372,46 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	@Override
-	public void die(DamageSource source) {
+	public void die(@NotNull DamageSource source) {
+		if (this.level.isClientSide()) {
+			((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
+		}
+		else {
 
-		DestroyTower destroyTower = (DestroyTower) this.level.getEntities(null,
-				new AABB(this.getSpawnPos().getX() - 1, this.getSpawnPos().getY() + 4,
-						this.getSpawnPos().getZ() - 1, this.getSpawnPos().getX() + 1,
-						this.getSpawnPos().getY() + 7, this.getSpawnPos().getZ() + 1)).get(0);
-		destroyTower.setGolemDead(true);
-
-		if (!this.level.isClientSide()) {
 			BlockPos spawnPos = this.getSpawnPos();
 			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
+			this.find_golem_chest(spawnPos);
 
-			checkPos(spawnPos.north(12).below());
-			checkPos(spawnPos.east(12).below());
-			checkPos(spawnPos.south(12).below());
-			checkPos(spawnPos.west(12).below());
 			try {
 				BlockEntity entity = this.level.getBlockEntity(this.chestBlockEntityPos);
 				if (entity instanceof GolemChestBlockEntity chestEntity) {
 					BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + entity);
 					chestEntity.setUnlocked(true);
+					LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.level))
+							.withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestEntity.getBlockPos()))
+							.withOptionalRandomSeed(this.random.nextLong());
+					getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(chestEntity, lootcontext$builder.create(LootContextParamSets.CHEST));
 				}
 
-			} catch (Exception ignored) {
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
 		super.die(source);
 	}
 
+	/**
+	 * Function overridden by subclass in order to correctly find/unlock the golem chest in each tower.
+	 * @param spawnPos initial spawn position of golem
+	 */
+	public void find_golem_chest(BlockPos spawnPos) {
+	}
+
 	public void checkPos(BlockPos pos) {
 		BlockEntity posEntity = this.level.getBlockEntity(pos);
 
-		if (posEntity != null && posEntity.getType() == BTBlockEntityTypes.LAND_GOLEM_CHEST) {
+		if (posEntity instanceof GolemChestBlockEntity) {
 			this.chestBlockEntityPos = pos;
 		}
 		else {
@@ -415,7 +441,7 @@ public abstract class BTAbstractGolem extends Monster {
 		});
 		// Ignore damage from non-player entities
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(7, new TargetTaskGolemLand<>(this));
+		this.targetSelector.addGoal(7, new TargetTaskGolem<>(this));
 		this.addBehaviorGoals();
 	}
 
@@ -432,8 +458,6 @@ public abstract class BTAbstractGolem extends Monster {
 				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
-
-		this.goalSelector.addGoal(6, new GolemFireballAttackGoal(this));
 	}
 
 
@@ -453,14 +477,20 @@ public abstract class BTAbstractGolem extends Monster {
 
 	/*********************************************************** Properties @return********************************************************/
 
-	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 40);
-	}
-
 
 	@Override
 	public @NotNull MobType getMobType() {
 		return BATTLE_GOLEM;
+	}
+
+	@Override
+	protected float getWaterSlowDown() {
+		return 0.2F;
+	}
+
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
 	}
 
 	/**
@@ -479,7 +509,11 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public Component getDisplayName() {
-		return PlayerTeam.formatNameForTeam(this.getTeam(), this.getName()).withStyle((p_185975_) -> p_185975_.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID()));
+		return PlayerTeam.formatNameForTeam(this.getTeam(), this.GolemName).withStyle((p_185975_) -> p_185975_.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID()));
+	}
+
+	public void setGolemName(Component golemName) {
+		this.GolemName = golemName;
 	}
 
 	/**
@@ -552,20 +586,18 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public ItemStack getPickedResult(HitResult target) {
 		EntityType<?> entityType = this.getType();
-		if (entityType != null) {
-			if (entityType.equals(BTEntityTypes.LAND_GOLEM)) {
-				return new ItemStack(BTItems.LAND_MONOLITH);
-			} else if (entityType.equals(BTEntityTypes.CORE_GOLEM)) {
-				return new ItemStack(BTItems.CORE_MONOLITH);
-			} else if (entityType.equals(BTEntityTypes.NETHER_GOLEM)) {
-				return new ItemStack(BTItems.NETHER_MONOLITH);
-			} else if (entityType.equals(BTEntityTypes.END_GOLEM)) {
-				return new ItemStack(BTItems.END_MONOLITH);
-			} else if (entityType.equals(BTEntityTypes.SKY_GOLEM)) {
-				return new ItemStack(BTItems.SKY_MONOLITH);
-			} else if (entityType.equals(BTEntityTypes.OCEAN_GOLEM)) {
-				return new ItemStack(BTItems.OCEAN_MONOLITH);
-			}
+		if (entityType.equals(BTEntityTypes.LAND_GOLEM.get())) {
+			return new ItemStack(BTItems.LAND_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.OCEAN_GOLEM.get())) {
+			return new ItemStack(BTItems.OCEAN_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.CORE_GOLEM.get())) {
+			return new ItemStack(BTItems.CORE_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.NETHER_GOLEM.get())) {
+			return new ItemStack(BTItems.NETHER_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.END_GOLEM.get())) {
+			return new ItemStack(BTItems.END_MONOLITH.get());
+		} else if (entityType.equals(BTEntityTypes.SKY_GOLEM.get())) {
+			return new ItemStack(BTItems.SKY_MONOLITH.get());
 		}
 
 		// Couldn't get EntityType
@@ -631,14 +663,14 @@ public abstract class BTAbstractGolem extends Monster {
 		final double y = this.getY();
 		final double z = this.getZ();
 		BlockPos spawnPos = this.getSpawnPos();
-		if(this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) <= 4) {
-			return;
+
+		if(this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) > 4) {
+			this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		}
-		this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
+
 		this.faceSpawnDirection();
 		this.setGolemState(DORMANT);
 		this.setTarget(null);
-		
 		this.getNavigation().stop();
 		
 		// TODO Stop running goals
@@ -647,6 +679,7 @@ public abstract class BTAbstractGolem extends Monster {
 		lightning.setPos(x, y, z);
 		lightning.setDamage(0.0F);
 		this.level.addFreshEntity(lightning);
+		this.stopMusic = true;
 	}
 
 	/*
@@ -684,7 +717,6 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public void setSpawnDirection(float yRot) {
-		// TODO Delete, Testing
 		// BrassAmberBattleTowers.LOGGER.info("Set Spawn Direction: " + yRot);
 		this.entityData.set(SPAWN_DIRECTION, yRot);
 	}
@@ -696,7 +728,7 @@ public abstract class BTAbstractGolem extends Monster {
 	 * to view its associated boss bar.
 	 */
 	@Override
-	public void startSeenByPlayer(ServerPlayer player) {
+	public void startSeenByPlayer(@NotNull ServerPlayer player) {
 		super.startSeenByPlayer(player);
 		this.bossBar.addPlayer(player);
 	}
@@ -706,12 +738,12 @@ public abstract class BTAbstractGolem extends Monster {
 	 * more information on tracking.
 	 */
 	@Override
-	public void stopSeenByPlayer(ServerPlayer player) {
+	public void stopSeenByPlayer(@NotNull ServerPlayer player) {
 		super.stopSeenByPlayer(player);
 		this.bossBar.removePlayer(player);
 	}
 
-	public void setBossBarName(@Nullable Component name) {
+	public void setBossBarName() {
 		// Update the bossBar to display the correct name.
 		this.bossBar.setName(this.getDisplayName());
 	}

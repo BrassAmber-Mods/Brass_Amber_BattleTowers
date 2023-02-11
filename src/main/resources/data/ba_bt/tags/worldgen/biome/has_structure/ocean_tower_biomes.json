@@ -1,0 +1,15 @@
+{
+  "replace": false,
+
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "values": [
+    "minecraft:deep_ocean",
+    "minecraft:deep_lukewarm_ocean",
+    "minecraft:deep_cold_ocean",
+    "minecraft:deep_frozen_ocean",
+    "minecraft:ocean",
+    "minecraft:lukewarm_ocean",
+    "minecraft:cold_ocean",
+    "minecraft:frozen_ocean"
+  ]
+}

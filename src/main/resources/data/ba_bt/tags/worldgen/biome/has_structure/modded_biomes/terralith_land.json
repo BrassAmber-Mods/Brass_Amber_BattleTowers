@@ -1,0 +1,21 @@
+{
+  "replace": false,
+
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "values": [
+    "terralith:alpine_highlands",
+    "terralith:arid_highlands",
+    "terralith:birch_taiga",
+    "terralith:blooming_plateau",
+    "terralith:brushland",
+    "terralith:moonlight_valley",
+    "terralith:savanna_badlands",
+    "terralith:shield_clearing",
+    "terralith:shield",
+    "terralith:snowy_shield",
+    "terralith:steppe",
+    "terralith:temperate_highlands",
+    "terralith:valley_clearing",
+    "terralith:wintry_forest"
+  ]
+}

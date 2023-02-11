@@ -1,0 +1,40 @@
+{
+  "parent": "ba_bt:battletowers/battle_tower",
+  "display": {
+    "icon": {
+      "item": "minecraft:stone_bricks"
+    },
+    "title": {
+      "translate": "advancements.ba_bt.land_tower_found.title",
+      "color": "white"
+    },
+    "description": {
+      "translate": "advancements.ba_bt.land_tower_found.description",
+      "color": "green",
+      "italic": true
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "Find Land Tower": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [],
+        "location": {
+          "feature": "ba_bt:land_battle_tower"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "Find Land Tower"
+    ]
+  ],
+  "rewards": {
+    "experience": 56
+  }
+}

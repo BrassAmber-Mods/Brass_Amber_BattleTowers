@@ -6,6 +6,26 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "ba_bt:land_chest",
+          "conditions": [
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1,
+                      "max": 3
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "name": "ba_bt:land_chest_shard",
           "functions": [
             {
@@ -15,37 +35,21 @@
                 "max": 4
               }
             }
-          ],
-          "conditions": [
-            {
-              "condition": "minecraft:match_tool",
-              "predicate": {
-                "enchantments": [
-                  {
-                    "enchantment": "minecraft:silk_touch",
-                    "levels": 0
-                  }
-                ]
-              }
-            }
           ]
-        },
+        }
+      ],
+      "conditions": [
         {
-          "type": "minecraft:item",
-          "name": "ba_bt:land_chest",
-          "conditions": [
-            {
-              "condition": "minecraft:match_tool",
-              "predicate": {
-                "enchantments": [
-                  {
-                    "enchantment": "minecraft:silk_touch",
-                    "levels": 1
-                  }
-                ]
-              }
-            }
-          ]
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": [
+              "minecraft:stone_pickaxe",
+              "minecraft:iron_pickaxe",
+              "minecraft:golden_pickaxe",
+              "minecraft:diamond_pickaxe",
+              "minecraft:netherite_pickaxe"
+            ]
+          }
         }
       ]
     }

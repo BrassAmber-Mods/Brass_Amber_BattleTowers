@@ -6,76 +6,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
-            },
-            {
-              "function": "minecraft:looting_enchant",
-              "count": {
-                "min": 0.0,
-                "max": 1.0
-              }
-            }
-          ],
-          "name": "minecraft:diamond"
-        }
-      ]
-  	},
-  	{
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 5.0,
-                "max": 8.0,
-                "type": "minecraft:uniform"
-              }
-            },
-            {
-              "function": "minecraft:looting_enchant",
-              "count": {
-                "min": 0.0,
-                "max": 2.0
-              }
-            }
-          ],
-          "name": "minecraft:clay"
-        }
-      ]
-  	},
-  	{
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 5.0,
-                "type": "minecraft:uniform"
-              }
-            },
-            {
-              "function": "minecraft:looting_enchant",
-              "count": {
-                "min": 0.0,
-                "max": 2.0
-              }
-            }
-          ],
-          "name": "minecraft:redstone"
+          "count" : 1,
+          "name": "ba_bt:guardian_eye_sky"
         }
       ]
     }

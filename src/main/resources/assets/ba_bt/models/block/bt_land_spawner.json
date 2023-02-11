@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "top": "ba_bt:entity/spawner/land_spawner",
-    "side": "ba_bt:entity/spawner/land_spawner_top",
+    "side": "ba_bt:entity/spawner/land_spawner",
     "bottom": "ba_bt:entity/spawner/land_spawner"
   }
 }

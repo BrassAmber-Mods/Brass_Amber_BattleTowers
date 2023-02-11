@@ -1,0 +1,34 @@
+{
+  "replace": false,
+
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "values": [
+    "biomesoplenty:boreal_forest",
+    "biomesoplenty:clover_patch",
+    "biomesoplenty:coniferous_forest",
+    "biomesoplenty:dead_forest",
+    "biomesoplenty:dryland",
+    "biomesoplenty:field",
+    "biomesoplenty:fir_clearing",
+    "biomesoplenty:forested_field",
+    "biomesoplenty:grassland",
+    "biomesoplenty:jade_cliffs",
+    "biomesoplenty:lavender_field",
+    "biomesoplenty:lavender_forest",
+    "biomesoplenty:lush_savanna",
+    "biomesoplenty:maple_woods",
+    "biomesoplenty:mediterranean_forest",
+    "biomesoplenty:old_growth_dead_forest",
+    "biomesoplenty:old_growth_woodland",
+    "biomesoplenty:orchard",
+    "biomesoplenty:prairie",
+    "biomesoplenty:pumpkin_patch",
+    "biomesoplenty:scrubland",
+    "biomesoplenty:seasonal_forest",
+    "biomesoplenty:shrubland",
+    "biomesoplenty:tundra",
+    "biomesoplenty:wooded_scrubland",
+    "biomesoplenty:wooded_wasteland",
+    "biomesoplenty:woodland"
+  ]
+}

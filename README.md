@@ -1,36 +1,104 @@
-## Brass_Amber_BattleTowers
+## Brass-Amber BattleTowers
 Re-vamp of the old BattleTowers mod from yogbox. Developed by Brass_Herbalist, Milamber, X, and DerToaster
 
-Some comments in LandTower.java are from the Structure Tutorial here: https://github.com/TelepathicGrunt/StructureTutorialMod/tree/e51cca9698110559f8f586b9c71ae9a4e655d786
-by Telepathic Grunt and have be marked as such.  
+Some code comments are from a Structure Tutorial by Telepathic Grunt and have be marked as such.
 
-**As of the 1.18.1 branch the licensing has changed to ALL RIGHTS RESERVED.**  
->This does not change our stance of wanting to give everyone access to the code, this repo will remain public and open to assistance.
-However this does protect the mod from unauthorized use (such as redistributiion without consent and/or attribution for personal profit)
+>- Current Licensing is All Rights Reserved
+>   - We believe in giving everyone access to view our code, this repo will remain public and open to assistance. 
+>   - However this does protect the mod from unauthorized use 
+>     - (such as redistribution without consent and/or attribution for personal profit)
 
-### Current Features of 1.0.0:
+### Current Features of 2.0.0+:
 
 >- Land Tower 
->- Land Tower Spawners
->- Land Tower Loot
->- Land Golem
->- Tower Crumble
->- Locked floor loot chests
+>   - Worldgen
+>   - Spawners 
+>   - Locked chests and loot 
+>   - Golem
+>     - Ai
+>     - Loot
+>   - Tower Crumble
+>   - Advancements
+>   - Extra Mobs
+>     - Cultist 
+>
+> 
+>- Ocean Tower 
+>   - Worldgen
+>   - Spawners
+>   - Locked chests and loot
+>   - Golem
+>     - Ai Present but not complete
+>   - Extra Mobs
+>     - Leviathan (Planned not Present)
+>     - Blind Guardians (Planned not Present)
+>
+> 
+>- Core Tower
+>   - Not Present
+>
+> 
+>- Nether Tower
+>   - Not Present
+>
+>
+>- End Tower
+>   - Not Present
+>
+>
+>- Sky Tower
+>   - Not Present
 
-### Known Bugs
 
->- Land Golem avoids fire and can be kited using the fire created from its own fireball attacks
 
+### Known 1.18.2 Bugs
+
+[Conflict mod Domestic Innovation](https://github.com/BrassAmber-Mods/Brass_Amber_BattleTowers/issues/81)
 
 ### Community Credits
 
->- SamleGamer for both a French Translation and a fix to the BTSpawner render!  
+>- French Translation and BTSpawner render - @SamleGamer
+>- Spanish translation - @RockYI
+>- Chinese translation - @Kzeroko
+>- Italian Translations - @BlackShadow77
 
 
-#### This mod is currently for vanilla, but will also have a version released sepcifcally for the ModPack Excalibur's Crate, whose Discord can be found here: https://discord.gg/DMZD5BsY
-This ^ is also a great place to ask questions regarding the mod.
+### Music:
+>- Land Tower: 
+>   - Ancestry by Lena Raine 
+>     - Boss Version Edited by Milamber
+>
+> 
+>- Ocean Tower: 
+>   - Void by DM DOKURO 
+>     - Ambient Version Edited by Brass
+>
+>
+>- Core Tower: 
+>   - So Below by Lena Raine 
+>     - Ambient Version Edited by Pion
+>
+>
+>- Nether Tower: 
+>   - Pigstep FHP Remix 
+>     - Unedited
+>
+>
+>- End Tower:  
+>   - Complex Radiation by LudoCrypt
+>
+>
+>- Sky Tower: 
+>   - Clouds from Aether 
+>     - Direct Song Use (With Permission)
+
+### This mod is currently being built around the texture pack Excalibur
+>- Built with intention of inclusion in the ModPack Excalibur's Crate
+>   - A Pack intended as a spiritual successor to YogBox 
+>   - The Entire Pack is built around the Excalibur texture pack
+>   - Discord: https://discord.gg/DMZD5BsY 
 
 
-# Dependencies
+## Dependencies
 
-None
+_None_

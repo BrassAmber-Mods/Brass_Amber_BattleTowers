@@ -2,32 +2,48 @@ package com.BrassAmber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.BrassAmber.ba_bt.entity.block.BTObelisk;
+import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
+import com.BrassAmber.ba_bt.entity.OceanDestructionEntity;
+import com.BrassAmber.ba_bt.entity.block.BTAbstractObelisk;
 import com.BrassAmber.ba_bt.entity.block.BTMonolith;
+import com.BrassAmber.ba_bt.entity.hostile.BTCultist;
+import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
+import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTItems;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Guardian;
+import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-
 public enum GolemType implements StringRepresentable {
-	EMPTY("empty", "Empty"),
-	LAND("land", "Bahrynz'muul, entombed watcher"),
-	OCEAN("ocean", "Moraizu'un, idol of the depths"),
-	CORE("core", "Vraag'iidra, wrath incarnate"),
-	NETHER("nether", "Obthu'ryn, god of the core"),
-	END("end", "Shul'losniir, warped guardian"),
-	SKY("sky", "Veyhz'kriin, sky goddess");
+	EMPTY("empty", new TextComponent("Empty")),
+	LAND("land", new TranslatableComponent("entity.ba_bt.land_golem")),
+	OCEAN("ocean", new TranslatableComponent("entity.ba_bt.ocean_golem")),
+	CORE("core", new TranslatableComponent("entity.ba_bt.core_golem")),
+	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether_golem")),
+	END("end", new TranslatableComponent("entity.ba_bt.end_golem")),
+	SKY("sky", new TranslatableComponent("entity.ba_bt.sky_golem")),
+	CITY("city", new TextComponent("~"));
 
 	private final String name;
-	private final String displayName;
+	private final Component displayName;
 
-	GolemType(String name, String displayName) {
+	GolemType(String name, Component displayName) {
 		this.name = name;
 		this.displayName = displayName;
 	}
@@ -39,12 +55,26 @@ public enum GolemType implements StringRepresentable {
 	 */
 	public static @NotNull EntityType<?> getGolemFor(GolemType golemType) {
 		return switch (golemType) {
-			default -> BTEntityTypes.LAND_GOLEM;
-			case OCEAN -> BTEntityTypes.OCEAN_GOLEM;
-			case NETHER -> BTEntityTypes.NETHER_GOLEM;
-			case CORE -> BTEntityTypes.CORE_GOLEM;
-			case END -> BTEntityTypes.END_GOLEM;
-			case SKY -> BTEntityTypes.SKY_GOLEM;
+			case EMPTY, CITY, LAND -> BTEntityTypes.LAND_GOLEM.get();
+			case OCEAN -> BTEntityTypes.OCEAN_GOLEM.get();
+			case CORE -> BTEntityTypes.CORE_GOLEM.get();
+			case NETHER -> BTEntityTypes.NETHER_GOLEM.get();
+			case END -> BTEntityTypes.END_GOLEM.get();
+			case SKY -> BTEntityTypes.SKY_GOLEM.get();
+		};
+	}
+
+	/**
+	 * Get the correct Monolith key for the Correct Monolith Entity
+	 */
+	public static @NotNull EntityType<BTMonolith> getMonolithFor(GolemType golemType) {
+		return switch (golemType) {
+			case EMPTY, CITY, LAND -> BTEntityTypes.LAND_MONOLITH.get();
+			case OCEAN -> BTEntityTypes.OCEAN_MONOLITH.get();
+			case CORE -> BTEntityTypes.CORE_MONOLITH.get();
+			case NETHER -> BTEntityTypes.NETHER_MONOLITH.get();
+			case END -> BTEntityTypes.END_MONOLITH.get();
+			case SKY -> BTEntityTypes.SKY_MONOLITH.get();
 		};
 	}
 
@@ -52,17 +82,16 @@ public enum GolemType implements StringRepresentable {
 
 	/**
 	 * Get the correct Obelisk for the Golem Type.
-	 * @return
 	 */
 	@NotNull
-	public static EntityType<BTObelisk> getObeliskFor(GolemType golemType) {
+	public static EntityType<BTAbstractObelisk> getObeliskFor(GolemType golemType) {
 		return switch (golemType) {
-			default -> BTEntityTypes.LAND_OBELISK;
-			case OCEAN -> BTEntityTypes.OCEAN_OBELISK;
-			case NETHER -> BTEntityTypes.NETHER_OBELISK;
-			case CORE -> BTEntityTypes.CORE_OBELISK;
-			case END -> BTEntityTypes.END_OBELISK;
-			case SKY -> BTEntityTypes.SKY_OBELISK;
+			case EMPTY, CITY, LAND -> BTEntityTypes.LAND_OBELISK.get();
+			case OCEAN -> BTEntityTypes.OCEAN_OBELISK.get();
+			case CORE -> BTEntityTypes.CORE_OBELISK.get();
+			case NETHER -> BTEntityTypes.NETHER_OBELISK.get();
+			case END -> BTEntityTypes.END_OBELISK.get();
+			case SKY -> BTEntityTypes.SKY_OBELISK.get();
 		};
 	}
 
@@ -76,12 +105,12 @@ public enum GolemType implements StringRepresentable {
 	public static Item getMonolithItemFor(GolemType golemType) {
 		return switch (golemType) {
 			default -> null;
-			case LAND -> BTItems.LAND_MONOLITH;
-			case OCEAN -> BTItems.OCEAN_MONOLITH;
-			case NETHER -> BTItems.NETHER_MONOLITH;
-			case CORE -> BTItems.CORE_MONOLITH;
-			case END -> BTItems.END_MONOLITH;
-			case SKY -> BTItems.SKY_MONOLITH;
+			case LAND -> BTItems.LAND_MONOLITH.get();
+			case OCEAN -> BTItems.OCEAN_MONOLITH.get();
+			case CORE -> BTItems.CORE_MONOLITH.get();
+			case NETHER -> BTItems.NETHER_MONOLITH.get();
+			case END -> BTItems.END_MONOLITH.get();
+			case SKY -> BTItems.SKY_MONOLITH.get();
 		};
 	}
 
@@ -91,17 +120,17 @@ public enum GolemType implements StringRepresentable {
 	public static GolemType getTypeForMonolith(BTMonolith BTMonolithEntity) {
 		EntityType<?> entityType = BTMonolithEntity.getMonolithType();
 		if (entityType != null) {
-			if (entityType.equals(BTEntityTypes.LAND_MONOLITH)) {
+			if (entityType.equals(BTEntityTypes.LAND_MONOLITH.get())) {
 				return LAND;
-			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.OCEAN_MONOLITH.get())) {
 				return OCEAN;
-			} else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH)) {
-				return NETHER;
-			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.CORE_MONOLITH.get())) {
 				return CORE;
-			} else if (entityType.equals(BTEntityTypes.END_MONOLITH)) {
+			}else if (entityType.equals(BTEntityTypes.NETHER_MONOLITH.get())) {
+				return NETHER;
+			}  else if (entityType.equals(BTEntityTypes.END_MONOLITH.get())) {
 				return END;
-			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH)) {
+			} else if (entityType.equals(BTEntityTypes.SKY_MONOLITH.get())) {
 				return SKY;
 			}
 		}
@@ -117,23 +146,15 @@ public enum GolemType implements StringRepresentable {
 	 */
 	@Nullable
 	public static Item getEyeFor(GolemType golemType) {
-		switch (golemType) {
-		case EMPTY:
-		default:
-			return null;
-		case LAND:
-			return BTItems.LAND_GUARDIAN_EYE;
-		case OCEAN:
-			return BTItems.OCEAN_GUARDIAN_EYE;
-		case NETHER:
-			return BTItems.NETHER_GUARDIAN_EYE;
-		case CORE:
-			return BTItems.CORE_GUARDIAN_EYE;
-		case END:
-			return BTItems.END_GUARDIAN_EYE;
-		case SKY:
-			return BTItems.SKY_GUARDIAN_EYE;
-		}
+		return switch (golemType) {
+			case EMPTY, CITY -> null;
+			case LAND -> BTItems.LAND_GUARDIAN_EYE.get();
+			case OCEAN -> BTItems.OCEAN_GUARDIAN_EYE.get();
+			case CORE -> BTItems.CORE_GUARDIAN_EYE.get();
+			case NETHER -> BTItems.NETHER_GUARDIAN_EYE.get();
+			case END -> BTItems.END_GUARDIAN_EYE.get();
+			case SKY -> BTItems.SKY_GUARDIAN_EYE.get();
+		};
 	}
 
 	/**
@@ -141,75 +162,123 @@ public enum GolemType implements StringRepresentable {
 	 */
 	@Nullable
 	public static GolemType getPreviousGolemType(GolemType golemType) {
-		switch (golemType) {
-		case EMPTY:
-		case LAND:
-		default:
-			return EMPTY;
-		case OCEAN:
-			return LAND;
-		case NETHER:
-			return OCEAN;
-		case CORE:
-			return NETHER;
-		case END:
-			return CORE;
-		case SKY:
-			return END;
-		}
+		return switch (golemType) {
+			default -> null;
+			case EMPTY, LAND -> EMPTY;
+			case OCEAN -> LAND;
+			case CORE -> OCEAN;
+			case NETHER -> CORE;
+			case END -> NETHER;
+			case SKY -> END;
+		};
 	}
 
 	/*********************************************************** Keys ********************************************************/
 
 	@Nullable
 	public static Item getKeyFor(GolemType golemType) {
-		switch (golemType) {
-		case EMPTY:
-		default:
-			return (Item) null;
-		case LAND:
-			return BTItems.LAND_MONOLOITH_KEY;
-		case OCEAN:
-			return BTItems.OCEAN_MONOLOITH_KEY;
-		case NETHER:
-			return BTItems.NETHER_MONOLOITH_KEY;
-		case CORE:
-			return BTItems.CORE_MONOLOITH_KEY;
-		case END:
-			return BTItems.END_MONOLOITH_KEY;
-		case SKY:
-			return BTItems.SKY_MONOLOITH_KEY;
-		}
+		return switch (golemType) {
+			default -> null;
+			case LAND -> BTItems.LAND_MONOLOITH_KEY.get();
+			case OCEAN -> BTItems.OCEAN_MONOLOITH_KEY.get();
+			case CORE -> BTItems.CORE_MONOLOITH_KEY.get();
+			case NETHER -> BTItems.NETHER_MONOLOITH_KEY.get();
+			case END -> BTItems.END_MONOLOITH_KEY.get();
+			case SKY -> BTItems.SKY_MONOLOITH_KEY.get();
+		};
 	}
 
 	/*********************************************************** Extra ********************************************************/
 
 	public static GolemType getTypeForName(String name) {
-		switch (name) {
-			case "empty":
-			default:
-				return null;
-			case "land":
-				return LAND;
-			case "ocean":
-				return OCEAN;
-			case "nether":
-				return NETHER;
-			case "core":
-				return CORE;
-			case "end":
-				return END;
-			case "sky":
-				return SKY;
+		return switch (name) {
+			default -> null;
+			case "land" -> LAND;
+			case "ocean" -> OCEAN;
+			case "core" -> CORE;
+			case "nether" -> NETHER;
+			case "end" -> END;
+			case "sky" -> SKY;
+			case "city" -> CITY;
+		};
+	}
+
+	public static Entity getDestructionEntity(GolemType golemType, Level level, BlockPos blockPos) {
+		Entity destruction = null;
+		switch (golemType) {
+			default -> {
+			}
+			case LAND -> {
+				destruction = new LandDestructionEntity(blockPos, level);
+				blockPos = blockPos.above(6);
+			}
+			case OCEAN -> {
+				destruction = new OceanDestructionEntity(level);
+				blockPos = blockPos.atY(level.getSeaLevel() - 88);
+			}
 		}
+		if (destruction != null) {
+			destruction.setPos(blockPos.getX() + .25D, blockPos.getY(), blockPos.getZ() + .25D);
+		}
+
+		return destruction;
+	}
+
+	public static Entity getSpecialEnemy(GolemType golemType, ServerLevel serverLevel) {
+		return switch (golemType) {
+			default -> null;
+			case LAND -> BTEntityTypes.BT_CULTIST.get().create(serverLevel);
+			case OCEAN -> EntityType.GUARDIAN.create(serverLevel);
+			case CORE -> EntityType.MAGMA_CUBE.create(serverLevel);
+			case NETHER -> EntityType.WITHER_SKELETON.create(serverLevel);
+			case END -> EntityType.ENDERMAN.create(serverLevel);
+			case SKY -> BTEntityTypes.PLATINUM_SKELETON.get().create(serverLevel);
+		};
+	}
+
+	public static EntityType<?> getSpecialEnemyType(GolemType golemType) {
+		return switch (golemType) {
+			default -> null;
+			case LAND -> BTEntityTypes.BT_CULTIST.get();
+			case OCEAN -> EntityType.GUARDIAN;
+			case CORE -> EntityType.MAGMA_CUBE;
+			case NETHER -> EntityType.WITHER_SKELETON;
+			case END -> EntityType.ENDERMAN;
+			case SKY -> BTEntityTypes.PLATINUM_SKELETON.get();
+		};
+	}
+
+	public static Class<? extends Entity> getSpecialEnemyClass(GolemType golemType) {
+		return switch (golemType) {
+			default -> null;
+			case LAND -> BTCultist.class;
+			case OCEAN -> Guardian.class;
+			case CORE -> MagmaCube.class;
+			case NETHER -> WitherSkeleton.class;
+			case END -> EnderMan.class;
+			case SKY -> PlatinumSkeleton.class;
+		};
+	}
+
+	public static Integer getNumForType(GolemType golemType) {
+		return switch (golemType) {
+			default -> null;
+			case LAND -> 0;
+			case OCEAN -> 1;
+			case CORE -> 2;
+			case NETHER -> 3;
+			case END -> 4;
+			case SKY -> 5;
+			case CITY -> 6;
+		};
 	}
 
 	@Override
-	public String getSerializedName() {
+	public @NotNull String getSerializedName() {
 		return this.name;
 	}
 
 	public Component getDisplayName() {
-		return Component.nullToEmpty(displayName);
+		return this.displayName;
 	}
 }
