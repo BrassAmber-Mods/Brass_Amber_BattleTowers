@@ -38,7 +38,11 @@
 	"ba_bt.subtitle.golem.ambient": "Golem growls",
 	"ba_bt.subtitle.golem.special": "Golem attacks",
 
-	"ba_bt.subtitle.golem.land.fight": "Bahryn'muul Boss Music",
+	"ba_bt.subtitle.golem.land.fight": "Rage of Bahryn'muul",
+	"ba_bt.subtitle.golem.ocean.fight": "Void Of Moraizu'un",
+	"ba_bt.subtitle.golem.core.fight": "Awakening Of Obthu'ryn",
+	"ba_bt.subtitle.golem.end.fight": "Mind Of Shul'losniir",
+	"ba_bt.subtitle.golem.sky.fight": "Descent Of Veyhz'kriin",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 
