@@ -1,17 +1,19 @@
 package com.BrassAmber.ba_bt.util;
 
-import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.google.common.collect.Lists;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -19,13 +21,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.util.*;
 
 public class BTUtil {
+    static final Logger LOGGER = LogUtils.getLogger();
 
     public static java.util.function.Supplier<SoundEvent> getTowerMusic(GolemType type) {
         return switch (type) {
@@ -177,6 +183,79 @@ public class BTUtil {
         removeBodyOWater(storage, position.south(), recursion + 1, level);
         removeBodyOWater(storage, position.west(), recursion + 1, level);
         removeBodyOWater(storage, position.below(), recursion + 1, level);
+    }
+
+    /** All below are recreations of @LootTable methods.
+     * Needed Due to bukkit servers overwriting the fill method and breaking it.
+     */
+    public static void btFill(LootTable loot, Container p_79124_, LootContext p_79125_) {
+        List<ItemStack> list = loot.getRandomItems(p_79125_);
+        Random random = p_79125_.getRandom();
+        List<Integer> list1 = btGetAvailableSlots(p_79124_, random);
+        btShuffleAndSplitItems(list, list1.size(), random);
+
+        for(ItemStack itemstack : list) {
+            if (list1.isEmpty()) {
+                LOGGER.warn("Tried to over-fill a container");
+                return;
+            }
+
+            if (itemstack.isEmpty()) {
+                p_79124_.setItem(list1.remove(list1.size() - 1), ItemStack.EMPTY);
+            } else {
+                p_79124_.setItem(list1.remove(list1.size() - 1), itemstack);
+            }
+        }
+
+    }
+
+    private static List<Integer> btGetAvailableSlots(Container p_79127_, Random p_79128_) {
+        List<Integer> list = Lists.newArrayList();
+
+        for(int i = 0; i < p_79127_.getContainerSize(); ++i) {
+            if (p_79127_.getItem(i).isEmpty()) {
+                list.add(i);
+            }
+        }
+
+        Collections.shuffle(list, p_79128_);
+        return list;
+    }
+
+
+    private static void btShuffleAndSplitItems(List<ItemStack> itemStackList, int listSize, Random random) {
+        List<ItemStack> list = Lists.newArrayList();
+        Iterator<ItemStack> iterator = itemStackList.iterator();
+
+        while(iterator.hasNext()) {
+            ItemStack itemstack = iterator.next();
+            if (itemstack.isEmpty()) {
+                iterator.remove();
+            } else if (itemstack.getCount() > 1) {
+                list.add(itemstack);
+                iterator.remove();
+            }
+        }
+
+        while(listSize - itemStackList.size() - list.size() > 0 && !list.isEmpty()) {
+            ItemStack itemstack2 = list.remove(Mth.nextInt(random, 0, list.size() - 1));
+            int i = Mth.nextInt(random, 1, itemstack2.getCount() / 2);
+            ItemStack itemstack1 = itemstack2.split(i);
+            if (itemstack2.getCount() > 1 && random.nextBoolean()) {
+                list.add(itemstack2);
+            } else {
+                itemStackList.add(itemstack2);
+            }
+
+            if (itemstack1.getCount() > 1 && random.nextBoolean()) {
+                list.add(itemstack1);
+            } else {
+                itemStackList.add(itemstack1);
+            }
+        }
+
+        itemStackList.addAll(list);
+        Collections.shuffle(itemStackList, random);
     }
 
     public static void doCommand(Entity self, String command) {

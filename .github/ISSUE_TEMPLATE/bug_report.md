@@ -11,13 +11,14 @@ assignees: JMilamber
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Things needed to reproduce the behavior:
+Things needed to reproduce the behavior: (Replace with your answer)
 1. Your Mod List
 2. Your Minecraft Version & Forge version
 3. The version of the mod you are using
-4. If you are using any datapacks/self-created loot-tables etc.
-5. Server or Singleplayer?
-6. OS: [e.g.Widnows/Mac/Linux]
+4. Any datapacks/self-created loot-tables?
+5. Any config changes?
+6. Server or Singleplayer?
+7. OS: [e.g.Widnows/Mac/Linux]
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.

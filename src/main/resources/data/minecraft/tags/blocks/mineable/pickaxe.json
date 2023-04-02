@@ -1,9 +1,8 @@
 {
   "replace": false,
   "values": [
-    "ba_bt:bt_land_spawner",
-    "ba_bt:land_chest",
-    "ba_bt:land_golem_chest",
-    "#ba_bt:platinum_blocks"
+    "#ba_bt:platinum_blocks",
+    "#ba_bt:spawners",
+    "#ba_bt:chests"
   ]
 }

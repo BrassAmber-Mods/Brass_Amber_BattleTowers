@@ -5,6 +5,8 @@ import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -18,6 +20,7 @@ import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
 public class BTEvents {
 
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
         BrassAmberBattleTowers.LOGGER.info("In Respawn code-");
         Player player = event.getPlayer();

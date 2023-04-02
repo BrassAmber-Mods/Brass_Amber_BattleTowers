@@ -16,6 +16,9 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> landMinimumSeperation;
     public static final ForgeConfigSpec.ConfigValue<Integer> oceanAverageSeperationModifier;
     public static final ForgeConfigSpec.ConfigValue<Integer> oceanMinimumSeperation;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> terralithBiomeSpawning;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> biomesOfPlentyBiomeSpawning;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> biomesYoullGoBiomeSpawning;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> landTimeBeforeCollapse;
     public static final ForgeConfigSpec.ConfigValue<Integer> oceanTimeBeforeCollapse;
@@ -74,15 +77,21 @@ public class BattleTowersConfig {
         landMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
                                 "(due to structure changes in 1.18.2 there is now a self imposed 9 chunk minimum. " +
-                                "Default: 16 Chunks")
-                .define("Land minimum separation", 16);
+                                "Default: 20 Chunks")
+                .define("Land minimum separation", 20);
         oceanMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
                                 "(due to structure changes in 1.18.2 there is now a self imposed 6 chunk minimum. " +
                                 "Default: 16 Chunks")
-                        .define("Ocean minimum separation", 12);
+                        .define("Ocean minimum separation", 16);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 25 chunks ")
                 .define("First Tower Distance", 25);
+        terralithBiomeSpawning = BUILDER.comment("Whether to include acceptable Terralith biomes during the tower's Biome check.")
+                .define("Terralith Biomes", false);
+        biomesOfPlentyBiomeSpawning = BUILDER.comment("Whether to include acceptable Biomes of Plenty biomes during the tower's Biome check.")
+                .define("Biomes of Plenty Biomes", false);
+        biomesYoullGoBiomeSpawning = BUILDER.comment("Whether to include acceptable Oh The Biomes You'll Go biomes during the tower's Biome check.")
+                .define("Oh The Biomes You'll Go Biomes", false);
         BUILDER.pop();
 
         BUILDER.push("Advanced Settings -- take note of the range for each value, values outside the ranges will be discarded");
@@ -91,9 +100,9 @@ public class BattleTowersConfig {
                         .defineInRange("Total health of the Land Golem", 250D, 200, 1800);
         landAverageSeperationModifier = BUILDER.comment("This value is added to the Land Tower minimum separation"
                                 + " above to get the average separation between Land Towers for spawning measured in chunks.",
-                        "I.E. if you leave the minimum separation at 16, and change this value to 8 then Land Towers would spawn"
-                                + " at:  minimum = 16 chunks | average = 24 chunks (16 + 8) | maximum = 32 chunks (16 + 16)")
-                .defineInRange("Land average separation modifier", 6, 1, 100);
+                        "I.E. if you leave the minimum separation at 20, and change this value to 8 then Land Towers would spawn"
+                                + " at:  minimum = 20 chunks | average = 28 chunks (20 + 8) | maximum = 36 chunks (20 + 16)")
+                .defineInRange("Land average separation modifier", 4, 1, 100);
         landTimeBeforeCollapse =
                 BUILDER.comment("Length of time in seconds after Golem is defeated before the Land Tower collapses")
                         .defineInRange("Land Collapse Timer", 30, 30, 60);
