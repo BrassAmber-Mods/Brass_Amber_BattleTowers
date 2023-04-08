@@ -28,6 +28,10 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> landGolemHP;
     public static final ForgeConfigSpec.ConfigValue<Double> oceanGolemHP;
 
+    public static final ForgeConfigSpec.ConfigValue<Integer> landObeliskSpawnDistance;
+    public static final ForgeConfigSpec.ConfigValue<Integer> landFloorHeight;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> useOldSpawnerAmounts;
+
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerMobs;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> oceanTowerMobs;
 
@@ -109,7 +113,16 @@ public class BattleTowersConfig {
         landTowerCrumblePercent =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 83% of tower.")
                         .defineInRange("Percent of Land Tower to destroy", .83D, 0,1);
-
+        landObeliskSpawnDistance =
+                BUILDER.comment("Distance below Monolith the obelisk spawns, Only to be used in tandem " +
+                        "with floor height for creation of own 'Towers'")
+                        .defineInRange("Land Obelisk Spawn Distance", 90, 32, 200);
+        landFloorHeight =
+                BUILDER.comment("Distance between Land tower floors, only to be used in tandem with Land Obelisk Spawn Distance")
+                        .defineInRange("Land Tower Floor Height", 11, 4, 24);
+        useOldSpawnerAmounts =
+                BUILDER.comment("Whether to use the new spawner amounts for each floor, or old 2 spawners per floor")
+                        .define("Old Spawner Amounts", false);
 
         oceanGolemHP =
                 BUILDER.comment("The total health of the Ocean Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
@@ -124,6 +137,8 @@ public class BattleTowersConfig {
         oceanTowerCrumblePercent =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
                         .defineInRange("Percent of Ocean Tower to destroy", 1D, .5D,1D);
+
+
 
         BUILDER.pop();
 
