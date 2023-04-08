@@ -27,6 +27,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -89,16 +90,16 @@ public abstract class BTAbstractGolem extends Monster {
 	protected final String golemStateName = "GolemState";
 	protected final String explosionPowerName = "ExplosionPower";
 	protected BlockPos chestBlockEntityPos;
-	protected int musicStart = 4900;
-	private boolean stopMusic = false;
+	public Music BOSS_MUSIC;
+	protected MusicManager music;
 
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
 		this.bossBar = new ServerBossEvent(new TextComponent(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
 		this.bossBar.setCreateWorldFog(false);
-		
 		this.maxUpStep = 2.0F;
+		this.music = null;
 	}
 
 	/**
@@ -180,25 +181,30 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		if (this.level.isClientSide()) {
-			if (((ClientLevel)this.level).players().size() < 1) {
+			ClientLevel client = (ClientLevel)this.level;
+
+			if (this.music == null) {
+				this.music = client.minecraft.getMusicManager();
+			}
+
+			if (client.players().size() == 0) {
 				return;
 			}
-			double playerDistance = BTUtil.distanceTo2D(this, ((ClientLevel)this.level).players().get(0));
-			boolean hasClientPlayer = playerDistance < 30;
-			MusicManager musicManager = ((ClientLevel) this.level).minecraft.getMusicManager();
+			boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 30D);
 
 			if (this.isDormant()) {
-				if (musicManager.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
-					musicManager.stopPlaying();
+				if (this.music.isPlayingMusic(this.BOSS_MUSIC)) {
+					this.music.stopPlaying();
 				}
 			} else {
-				if (this.tickCount - this.musicStart >= 4900 && this.isAwake()) {
-					this.musicStart = tickCount;
-					musicManager.stopPlaying();
-					musicManager.startPlaying(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC);
+				if (!this.music.isPlayingMusic(this.BOSS_MUSIC) && this.isAwake()) {
+					this.music.stopPlaying();
+					this.music.nextSongDelay = this.BOSS_MUSIC.getMinDelay();
+					this.music.startPlaying(this.BOSS_MUSIC);
 				}
-				if (!hasClientPlayer || this.stopMusic) {
-					musicManager.stopPlaying();
+				if (!hasClientPlayer) {
+					this.music.nextSongDelay = 500;
+					this.music.stopPlaying();
 				}
 			}
 			return;
@@ -360,7 +366,7 @@ public abstract class BTAbstractGolem extends Monster {
 		if (!this.isDormant()) {
 			float multiplier = this.isEnraged() ? .5f : 1f;
 			if (source.isProjectile()) {
-				return super.hurt(source, damage * multiplier);
+				return super.hurt(source, damage * multiplier / 2);
 			}
 			return super.hurt(source, damage / multiplier);
 		} else if (source.isCreativePlayer() && this.isDormant()) {
@@ -402,10 +408,18 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	/**
-	 * Function overridden by subclass in order to correctly find/unlock the golem chest in each tower.
+	 * Function to correctly find/unlock the golem chest in each tower.
 	 * @param spawnPos initial spawn position of golem
 	 */
 	public void find_golem_chest(BlockPos spawnPos) {
+
+		for (int x = spawnPos.getX() - 12; x <  spawnPos.getX() + 12 ; x++) {
+			for (int z = spawnPos.getZ() - 12; z < spawnPos.getZ() + 12; z++) {
+				checkPos(new BlockPos(x, spawnPos.below().getY(), z));
+				checkPos(new BlockPos(x, spawnPos.getY(), z));
+				checkPos(new BlockPos(x, spawnPos.above().getY(), z));
+			}
+		}
 	}
 
 	public void checkPos(BlockPos pos) {
@@ -679,7 +693,6 @@ public abstract class BTAbstractGolem extends Monster {
 		lightning.setPos(x, y, z);
 		lightning.setDamage(0.0F);
 		this.level.addFreshEntity(lightning);
-		this.stopMusic = true;
 	}
 
 	/*
