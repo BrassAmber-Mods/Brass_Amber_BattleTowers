@@ -67,10 +67,11 @@ public class BTAbstractObelisk extends Entity {
 
     //Other Parameters
     private boolean initialized;
-    private boolean clientInitialized;
+    protected boolean clientInitialized;
+    protected boolean serverInitialized;
     protected int checkLayer;
     protected int currentFloorY;
-    protected boolean doServerInit;
+
     private boolean doCheck;
 
     protected MusicManager music;
@@ -112,10 +113,10 @@ public class BTAbstractObelisk extends Entity {
         super(entityType, level);
         this.initialized = false;
         this.clientInitialized = false;
+        this.serverInitialized = false;
         this.checkLayer = 1;
         this.blocksBuilding = true;
         this.musicPlaying = false;
-        this.doServerInit = true;
         this.doCheck = true;
         this.hasPlayer = false;
         this.canCheck = true;
@@ -130,38 +131,32 @@ public class BTAbstractObelisk extends Entity {
     }
 
     public void initialize() {
-        if (!this.level.isClientSide()) {
-            if (this.doServerInit) {
-                BrassAmberBattleTowers.LOGGER.info("Obelisk of type " + this.golemType + " at " + this.blockPosition());
-                if (!this.chestsFound ) {
-                    this.spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
-                    this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
-                            new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
-                            new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
-                            new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
-                }
-
-                int golemNum = GolemType.getNumForType(this.golemType);
-                this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
-                this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
-                this.towerMobs = BTStatics.towerMobs.get(golemNum);
-                this.perFloorData = towerSpawnerData.get(golemNum);
-                this.floorData = this.perFloorData.get(0);
-                this.serverInitialize();
-                this.doServerInit = false;
-                /**BrassAmberBattleTowers.LOGGER.info(this.golemType + " " + this.chestBlock + " " +
-                        this.spawnerBlock + " " + this.BOSS_MUSIC + " " + this.TOWER_MUSIC + " " + this.woolBlock);
-                **/
-            }
-            if (!this.chestsFound ) {
-                this.findChestsAndSpawners(this.level);
-            } else {
-                this.initialized = true;
-            }
-        }
+        this.initialized = true;
     }
 
-    public void serverInitialize() {}
+    public void clientInitialize() {
+        ClientLevel client = (ClientLevel)this.level;
+        this.music = client.minecraft.getMusicManager();
+        this.clientInitialized = true;
+    }
+
+    public void serverInitialize() {
+        int golemNum = GolemType.getNumForType(this.golemType);
+        this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
+        this.spawnerAmounts = towerSpawnerAmounts.get(golemNum);
+        if (!this.chestsFound) {
+            this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
+                    new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
+                    new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
+                    new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
+
+        }
+        this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
+        this.towerMobs = BTStatics.towerMobs.get(golemNum);
+        this.perFloorData = towerSpawnerData.get(golemNum);
+        this.floorData = this.perFloorData.get(0);
+        this.serverInitialized = true;
+    }
 
     public void findChestsAndSpawners(Level level) {
         // Monoliths are always centered on their floor
@@ -212,7 +207,6 @@ public class BTAbstractObelisk extends Entity {
         }
 
         if (this.checkLayer == 8) {
-            this.initialized = true;
             this.chestsFound = true;
         }
         else {
@@ -272,67 +266,27 @@ public class BTAbstractObelisk extends Entity {
     public void tick() {
         super.tick();
 
-        if (this.level.isClientSide()) {
-            ClientLevel client = (ClientLevel)this.level;
-            if (!this.clientInitialized) {
-                Minecraft mc = Minecraft.getInstance();
-                this.music = mc.getMusicManager();
-                this.clientInitialized = true;
-            }
-            if (client.players().size() == 0) {
-                return;
-            }
-
-            // Make sure we have a player within range.
-            boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
-            boolean playerInTowerRange;
-            boolean playerInMusicRange;
-
-            if (hasClientPlayer) {
-                //noinspection ConstantConditions
-                playerInTowerRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) <= this.towerRange;
-                //noinspection ConstantConditions
-                playerInMusicRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) < this.musicDistance;
-            } else {
-                playerInTowerRange = false;
-                playerInMusicRange = false;
-            }
-
-            boolean tryPlayMusic = false;
-
-            if (this.BOSS_MUSIC == null) {
-                tryPlayMusic = playerInTowerRange;
-            } else {
-                // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
-                if (!this.music.isPlayingMusic(this.BOSS_MUSIC)) {
-                    tryPlayMusic = playerInTowerRange;
-                }
-
-            }
-
-            if (tryPlayMusic) {
-                if (playerInMusicRange && !this.music.isPlayingMusic(this.TOWER_MUSIC)) {
-                    this.music.stopPlaying();
-                    this.music.nextSongDelay = this.TOWER_MUSIC.getMinDelay();
-                    this.music.startPlaying(this.TOWER_MUSIC);
-                    this.musicPlaying = true;
-                }
-            } else {
-                if (this.musicPlaying) {
-                    this.music.nextSongDelay = 500;
-                    this.music.stopPlaying();
-                    this.musicPlaying = false;
-                }
-            }
-            return;
-        }
-
         if (!this.initialized) {
             // BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
             this.initialize();
             return;
         }
 
+        if (this.level.isClientSide()) {
+            this.clientTick();
+            return;
+        }
+
+        // Only happens server-side
+
+        if (!this.serverInitialized) {
+            this.serverInitialize();
+            return;
+        }
+
+        if (!this.chestsFound) {
+            this.findChestsAndSpawners(this.level);
+        }
         if (this.doCheck) {
             try {
                 List<?> list = this.level.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
@@ -396,6 +350,80 @@ public class BTAbstractObelisk extends Entity {
                 // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
                 this.checkSpawners(this.level);
                 // BrassAmberBattleTowers.LOGGER.info(this.towerEffect + " effect ");
+            }
+        }
+    }
+
+    public void clientTick() {
+        ClientLevel client = (ClientLevel)this.level;
+        if (!this.clientInitialized) {
+            this.clientInitialize();
+        }
+        if (client.players().size() == 0) {
+            return;
+        }
+
+        if (this.doCheck) {
+            try {
+                List<?> list = client.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
+                this.canCheck = list.size() != 0;
+                if (!this.canCheck) {
+                    try {
+                        List<?> list2 = this.level.getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
+                        this.canCheck = list2.size() != 0;
+                        if (!this.golemSpawned) {
+                            this.golemSpawned = true;
+                        }
+                    } catch (Exception f) {
+                        BrassAmberBattleTowers.LOGGER.error("Exception finding Golem: " + f);
+                    }
+                }
+            } catch (Exception e) {
+                BrassAmberBattleTowers.LOGGER.error("Exception finding Monolith: " + e);
+            }
+        }
+
+        // Make sure we have a player within range.
+        boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+        boolean playerInTowerRange;
+        boolean playerInMusicRange;
+
+        if (hasClientPlayer && !this.golemSpawned) {
+            //noinspection ConstantConditions
+            playerInTowerRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) <= this.towerRange;
+            //noinspection ConstantConditions
+            playerInMusicRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) < this.musicDistance;
+        } else {
+            playerInTowerRange = false;
+            playerInMusicRange = false;
+        }
+
+        boolean tryPlayMusic = false;
+
+        if (this.BOSS_MUSIC == null) {
+            tryPlayMusic = playerInTowerRange;
+            // BrassAmberBattleTowers.LOGGER.info("No Boss Music");
+
+        } else {
+            // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
+            if (!this.music.isPlayingMusic(this.BOSS_MUSIC)) {
+                tryPlayMusic = playerInTowerRange;
+            }
+
+        }
+
+        if (tryPlayMusic) {
+            if (playerInMusicRange && !this.music.isPlayingMusic(this.TOWER_MUSIC)) {
+                this.music.stopPlaying();
+                this.music.nextSongDelay = this.TOWER_MUSIC.getMinDelay();
+                this.music.startPlaying(this.TOWER_MUSIC);
+                this.musicPlaying = true;
+            }
+        } else {
+            if (this.musicPlaying) {
+                this.music.nextSongDelay = 500;
+                this.music.stopPlaying();
+                this.musicPlaying = false;
             }
         }
     }
@@ -551,7 +579,7 @@ public class BTAbstractObelisk extends Entity {
 
             if (this.chestsFound && this.SPAWNERS.get(7).isEmpty()) {
                 BrassAmberBattleTowers.LOGGER.info("No Spawners in data: Needs to be initialized");
-                this.doServerInit = true;
+                this.serverInitialized = false;
                 this.chestsFound = false;
             }
         }
