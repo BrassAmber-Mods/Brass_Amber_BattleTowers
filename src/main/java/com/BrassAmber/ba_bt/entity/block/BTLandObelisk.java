@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.entity.block;
 
+import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
@@ -22,26 +23,31 @@ public class BTLandObelisk extends BTAbstractObelisk {
     }
 
     @Override
+    public void initialize() {
+        this.musicDistance = 17;
+        this.towerRange = 30;
+        super.initialize();
+    }
+
+    @Override
     public void serverInitialize() {
-        this.floorDistance = 11;
+        this.floorDistance = BattleTowersConfig.landFloorheight.get();
         this.currentFloorY = this.getBlockY() - 1;
         this.chestBlock = BTBlocks.LAND_CHEST.get();
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.BT_LAND_SPAWNER.get();
         this.woolBlock = Blocks.GREEN_WOOL;
         this.spawnerFillBlock = Blocks.STONE_BRICKS;
+        super.serverInitialize();
+    }
+    @Override
+    public void clientInitialize() {
+        this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
+        this.TOWER_MUSIC = BTSoundEvents.LAND_TOWER_MUSIC;
+        super.clientInitialize();
     }
 
-    @Override
-    public void initialize() {
-        if (this.level.isClientSide()) {
-            this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
-            this.TOWER_MUSIC = BTSoundEvents.LAND_TOWER_MUSIC;
-        }
-        this.musicDistance = 17;
-        this.towerRange = 30;
-        super.initialize();
-    }
+
 
     @Override
     public void extraCheck(BlockPos toUpdate, Level level) {
