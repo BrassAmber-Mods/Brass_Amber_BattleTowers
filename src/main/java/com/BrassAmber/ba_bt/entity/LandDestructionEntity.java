@@ -64,7 +64,7 @@ public class LandDestructionEntity extends Entity {
 
     public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
         super(type, level);
-        this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get();
+        this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get() * 20;
     }
 
     public LandDestructionEntity(BlockPos golemSpawn, Level level) {
