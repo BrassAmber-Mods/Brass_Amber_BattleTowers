@@ -76,19 +76,73 @@
 		"subtitle": "ba_bt.subtitle.golem.land.fight",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/boss_fight",
+				"name": "ba_bt:entity/golem/rage_of_bahrynmuul",
 				"volume": 1.0,
 				"stream": true
 			}
 		]
 	},
-		
+	"entity.golem.ocean.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.ocean.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/void_of_moraizuun",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
+	"entity.golem.core.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.core.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/awakening_of_obthuuryn",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
+	"entity.golem.nether.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.ocean.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/void_of_moraizuun",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
+	"entity.golem.end.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.end.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/mind_of_shullosniir",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
+	"entity.golem.sky.fight": {
+		"category": "hostile",
+		"subtitle": "ba_bt.subtitle.golem.sky.fight",
+		"sounds": [
+			{
+				"name": "ba_bt:entity/golem/descent_of_veyhzkriin",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
 	"tower.break.start": {
 		"category": "ambient",
 		"subtitle": "ba_bt.subtitle.tower.break.start",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/towerbreakstart",
+				"name": "ba_bt:tower/towerbreakstart",
 				"volume": 0.6,
 				"stream": true
 			}
@@ -99,7 +153,7 @@
 		"subtitle": "ba_bt.subtitle.tower.break.crumble",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/towercrumble",
+				"name": "ba_bt:tower/towercrumble",
 				"volume": 0.6,
 				"stream": true
 			}
@@ -110,7 +164,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.land",
 		"sounds": [
 			{
-				"name": "ba_bt:ancestry",
+				"name": "ba_bt:tower/ancestry",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -121,7 +175,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.ocean",
 		"sounds": [
 			{
-				"name": "ba_bt:void",
+				"name": "ba_bt:tower/void",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -132,7 +186,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.core",
 		"sounds": [
 			{
-				"name": "ba_bt:so_below_pion",
+				"name": "ba_bt:tower/so_below_pion",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -143,7 +197,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.nether",
 		"sounds": [
 			{
-				"name": "ba_bt:pigstep_fhp_remix",
+				"name": "ba_bt:tower/pigstep_fhp_remix",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -154,7 +208,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.end",
 		"sounds": [
 			{
-				"name": "ba_bt:complex_radiation",
+				"name": "ba_bt:tower/complex_radiation",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -165,7 +219,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.sky",
 		"sounds": [
 			{
-				"name": "ba_bt:clouds",
+				"name": "ba_bt:tower/clouds",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -176,7 +230,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.city",
 		"sounds": [
 			{
-				"name": "ba_bt:labyrinthine",
+				"name": "ba_bt:tower/labyrinthine",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -188,7 +242,7 @@
 		"subtitle": "ba_bt.subtitle.monolith.spawn.golem",
 		"sounds": [
 			{
-				"name": "ba_bt:entity/golem/monolithimplode",
+				"name": "ba_bt:entity/monolithimplode",
 				"volume": 0.6,
 				"stream": true
 			}
