@@ -147,7 +147,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     }
 
     public void carveOcean() {
-        BrassAmberBattleTowers.LOGGER.info(this.level.isClientSide());
+        // BrassAmberBattleTowers.LOGGER.info(this.level.isClientSide());
         // BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
