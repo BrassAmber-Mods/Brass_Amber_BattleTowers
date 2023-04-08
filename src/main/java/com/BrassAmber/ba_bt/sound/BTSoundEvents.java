@@ -19,6 +19,11 @@ public class BTSoundEvents {
 	public static final SoundEvent ENTITY_GOLEM_SPECIAL = registerSoundEvent("entity.golem.special");
 
 	public static final SoundEvent MUSIC_LAND_GOLEM_FIGHT = registerSoundEvent("entity.golem.land.fight");
+	public static final SoundEvent MUSIC_OCEAN_GOLEM_FIGHT = registerSoundEvent("entity.golem.ocean.fight");
+	public static final SoundEvent MUSIC_CORE_GOLEM_FIGHT = registerSoundEvent("entity.golem.core.fight");
+	public static final SoundEvent MUSIC_NETHER_GOLEM_FIGHT = registerSoundEvent("entity.golem.nether.fight");
+	public static final SoundEvent MUSIC_END_GOLEM_FIGHT = registerSoundEvent("entity.golem.end.fight");
+	public static final SoundEvent MUSIC_SKY_GOLEM_FIGHT = registerSoundEvent("entity.golem.sky.fight");
 
 	public static final SoundEvent MONOLITH_SPAWN_GOLEM = registerSoundEvent("monolith.spawn.golem");
 
@@ -33,14 +38,18 @@ public class BTSoundEvents {
 	public static final SoundEvent MUSIC_SKY_TOWER = registerSoundEvent("tower.ambient.music.sky");
 	public static final SoundEvent MUSIC_CITY = registerSoundEvent("tower.ambient.music.city");
 
-	public static final Music LAND_TOWER_MUSIC = new Music(MUSIC_LAND_TOWER, 7000, 8000, false);
-	public static final Music LAND_GOLEM_FIGHT_MUSIC = new Music(MUSIC_LAND_GOLEM_FIGHT, 5000, 6000, false);
-	public static final Music OCEAN_TOWER_MUSIC = new Music(MUSIC_OCEAN_TOWER, 8220, 9220, false);
-	// TODO: Set music lengths correctly
-	public static final Music CORE_TOWER_MUSIC = new Music(MUSIC_CORE_TOWER, 8220, 9220, false);
-	public static final Music NETHER_TOWER_MUSIC = new Music(MUSIC_NETHER_TOWER, 8220, 9220, false);
-	public static final Music END_TOWER_MUSIC = new Music(MUSIC_END_TOWER, 8220, 9220, false);
-	public static final Music SKY_TOWER_MUSIC = new Music(MUSIC_SKY_TOWER, 8220, 9220, false);
+	public static final Music LAND_TOWER_MUSIC = new Music(MUSIC_LAND_TOWER, 7200, 7800, false);
+	public static final Music LAND_GOLEM_FIGHT_MUSIC = new Music(MUSIC_LAND_GOLEM_FIGHT, 2400, 2700, false);
+	public static final Music OCEAN_TOWER_MUSIC = new Music(MUSIC_OCEAN_TOWER, 8400, 9000, false);
+	public static final Music OCEAN_GOLEM_FIGHT_MUSIC = new Music(MUSIC_OCEAN_GOLEM_FIGHT, 2100, 2400, false);
+	public static final Music CORE_TOWER_MUSIC = new Music(MUSIC_CORE_TOWER, 5700, 6300, false);
+	public static final Music CORE_GOLEM_FIGHT_MUSIC = new Music(MUSIC_CORE_GOLEM_FIGHT, 2600, 3000, false);
+	public static final Music NETHER_TOWER_MUSIC = new Music(MUSIC_NETHER_TOWER, 3300, 3900, false);
+	public static final Music NETHER_GOLEM_FIGHT_MUSIC = new Music(MUSIC_NETHER_GOLEM_FIGHT, 2400, 2700, false);
+	public static final Music END_TOWER_MUSIC = new Music(MUSIC_END_TOWER, 7800, 8400, false);
+	public static final Music END_GOLEM_FIGHT_MUSIC = new Music(MUSIC_END_GOLEM_FIGHT, 3000, 3400, false);
+	public static final Music SKY_TOWER_MUSIC = new Music(MUSIC_SKY_TOWER, 4200, 4800, false);
+	public static final Music SKY_GOLEM_FIGHT_MUSIC = new Music(MUSIC_SKY_GOLEM_FIGHT, 2100, 2400, false);
 	
 
 	/**
