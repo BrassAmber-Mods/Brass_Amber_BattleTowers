@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.util.TowerSpecs;
 import net.minecraft.core.BlockPos;
@@ -171,23 +172,12 @@ public class OceanDestructionEntity extends  Entity {
             }
         }
 
-        @SuppressWarnings("ConstantConditions")
-        List<ServerPlayer> players = this.level.getServer().overworld().players();
-        for (ServerPlayer player : players
-        ) {
-            double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
-            double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
-
-            boolean xClose = xDistance < 125;
-            boolean zClose = zDistance < 125;
-
-            List<Boolean> playersClose = new ArrayList<>();
-
-            if (!xClose || !zClose) {
-                playersClose.add(Boolean.FALSE);
-            }
-
-            this.hasPlayer = Collections.frequency(playersClose, Boolean.FALSE) != players.size();
+        boolean alivePlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+        if (alivePlayer) {
+            //noinspection ConstantConditions
+            this.hasPlayer = BTUtil.distanceTo2D(this, this.level.getNearestPlayer(this, 100D)) < 125;
+        } else {
+            this.hasPlayer = false;
         }
 
         if (this.golemDead && this.hasPlayer) {
