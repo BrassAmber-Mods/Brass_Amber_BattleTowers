@@ -1,7 +1,6 @@
 package com.BrassAmber.ba_bt.entity.block;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
@@ -9,8 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-
-import static com.BrassAmber.ba_bt.util.BTUtil.doNoOutputCommand;
 
 public class BTLandObelisk extends BTAbstractObelisk {
 
@@ -31,7 +28,7 @@ public class BTLandObelisk extends BTAbstractObelisk {
 
     @Override
     public void serverInitialize() {
-        this.floorDistance = BattleTowersConfig.landFloorheight.get();
+        this.floorDistance = BattleTowersConfig.landFloorHeight.get();
         this.currentFloorY = this.getBlockY() - 1;
         this.chestBlock = BTBlocks.LAND_CHEST.get();
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
