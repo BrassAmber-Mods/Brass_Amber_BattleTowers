@@ -385,7 +385,7 @@ public abstract class BTAbstractGolem extends Monster {
 		else {
 
 			BlockPos spawnPos = this.getSpawnPos();
-			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
+			// BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
 			this.find_golem_chest(spawnPos);
 
 			try {
