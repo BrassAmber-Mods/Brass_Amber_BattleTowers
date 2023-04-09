@@ -59,7 +59,7 @@ public class ExplosionPhysics extends PrimedTnt {
 
 					this.level.gameEvent(GameEvent.EXPLODE, pos);
 					this.level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
-							2.0F, 1.0F);
+							1.0F, 1.0F);
 				}
 			}
 			expl.clearToBlow();

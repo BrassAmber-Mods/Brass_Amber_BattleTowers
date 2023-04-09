@@ -137,12 +137,23 @@
 			}
 		]
 	},
+	"tower.break.collapse": {
+		"category": "ambient",
+		"subtitle": "ba_bt.subtitle.tower.break.collapse",
+		"sounds": [
+			{
+				"name": "ba_bt:tower/tower_collapse",
+				"volume": 1.0,
+				"stream": true
+			}
+		]
+	},
 	"tower.break.start": {
 		"category": "ambient",
 		"subtitle": "ba_bt.subtitle.tower.break.start",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/towerbreakstart",
+				"name": "ba_bt:tower/tower_breaking",
 				"volume": 0.6,
 				"stream": true
 			}
@@ -153,7 +164,7 @@
 		"subtitle": "ba_bt.subtitle.tower.break.crumble",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/towercrumble",
+				"name": "ba_bt:tower/tower_crumbling",
 				"volume": 0.6,
 				"stream": true
 			}

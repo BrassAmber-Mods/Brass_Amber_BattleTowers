@@ -48,7 +48,8 @@
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
-	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
+	"ba_bt.subtitle.tower.break.crumble": "Tower floor crumbles",
+	"ba_bt.subtitle.tower.break.collapse": "Tower Collapsing",
 	"ba_bt.subtitle.tower.ambient.music.land": "Land Tower Ambient Music",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
 	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",

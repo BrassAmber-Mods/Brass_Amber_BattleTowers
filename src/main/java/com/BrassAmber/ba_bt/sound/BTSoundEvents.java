@@ -2,6 +2,7 @@ package com.BrassAmber.ba_bt.sound;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -29,6 +30,7 @@ public class BTSoundEvents {
 
 	public static final SoundEvent TOWER_BREAK_START = registerSoundEvent("tower.break.start");
 	public static final SoundEvent TOWER_BREAK_CRUMBLE = registerSoundEvent("tower.break.crumble");
+	public static final SoundEvent TOWER_COLLAPSE = registerSoundEvent("tower.break.collapse");
 
 	public static final SoundEvent MUSIC_LAND_TOWER = registerSoundEvent("tower.ambient.music.land");
 	public static final SoundEvent MUSIC_OCEAN_TOWER = registerSoundEvent("tower.ambient.music.ocean");
@@ -37,6 +39,8 @@ public class BTSoundEvents {
 	public static final SoundEvent MUSIC_END_TOWER = registerSoundEvent("tower.ambient.music.end");
 	public static final SoundEvent MUSIC_SKY_TOWER = registerSoundEvent("tower.ambient.music.sky");
 	public static final SoundEvent MUSIC_CITY = registerSoundEvent("tower.ambient.music.city");
+
+	public static final Music TOWER_COLLAPSE_MUSIC = new Music(TOWER_COLLAPSE, 1500, 2100, false);
 
 	public static final Music LAND_TOWER_MUSIC = new Music(MUSIC_LAND_TOWER, 7200, 7800, false);
 	public static final Music LAND_GOLEM_FIGHT_MUSIC = new Music(MUSIC_LAND_GOLEM_FIGHT, 2400, 2700, false);
