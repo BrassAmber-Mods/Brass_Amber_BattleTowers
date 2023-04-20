@@ -186,7 +186,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.ocean",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/void",
+				"name": "ba_bt:tower/dragonfish",
 				"volume": 0.7,
 				"stream": true
 			}
@@ -208,7 +208,7 @@
 		"subtitle": "ba_bt.subtitle.tower.ambient.music.nether",
 		"sounds": [
 			{
-				"name": "ba_bt:tower/pigstep_fhp_remix",
+				"name": "ba_bt:tower/rubedo",
 				"volume": 0.7,
 				"stream": true
 			}
