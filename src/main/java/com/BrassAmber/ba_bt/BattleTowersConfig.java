@@ -31,6 +31,7 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> landObeliskSpawnDistance;
     public static final ForgeConfigSpec.ConfigValue<Integer> landFloorHeight;
     public static final ForgeConfigSpec.ConfigValue<Boolean> useOldSpawnerAmounts;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> minimalOceanCarving;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerMobs;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> oceanTowerMobs;
@@ -137,6 +138,9 @@ public class BattleTowersConfig {
         oceanTowerCrumblePercent =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
                         .defineInRange("Percent of Ocean Tower to destroy", 1D, .5D,1D);
+        minimalOceanCarving =
+                BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
+                        .define("Small Ocean Trench T/F", true);
 
 
 
