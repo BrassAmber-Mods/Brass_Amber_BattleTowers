@@ -140,7 +140,7 @@ public class BattleTowersConfig {
                         .defineInRange("Percent of Ocean Tower to destroy", 1D, .5D,1D);
         minimalOceanCarving =
                 BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
-                        .define("Small Ocean Trench T/F", true);
+                        .define("Small Ocean Trench T/F", false);
 
 
 
