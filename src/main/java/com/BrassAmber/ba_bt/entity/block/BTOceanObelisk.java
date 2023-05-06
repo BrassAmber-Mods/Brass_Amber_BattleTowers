@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.entity.block;
 
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTExtras;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
@@ -49,16 +50,17 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
+        this.oceanCarved = false;
     }
 
     public BTOceanObelisk(Level level) {
         super(GolemType.OCEAN, level);
+        this.oceanCarved = false;
     }
 
 
     @Override
     public void initialize() {
-        this.oceanCarved = false;
         this.musicDistance = 58;
         this.towerRange = 62;
         super.initialize();
@@ -116,6 +118,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.oceanCarved = tag.getBoolean(oceanCarvedName);
+        BrassAmberBattleTowers.LOGGER.info("Ocean Carved in read data " + this.oceanCarved);
     }
 
     @Override
@@ -148,7 +151,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public void carveOcean() {
         // BrassAmberBattleTowers.LOGGER.info(this.level.isClientSide());
-        // BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
+        BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
         if (this.currentCarveLayer >= this.bottom) {
@@ -160,7 +163,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             for (int y = this.currentCarveLayer; y >= bottomRange; y--) {
                 if (y == this.bottom + 33) {
                     if (minimalOceanCarving.get()) {
-                        this.wallDistance -= 5;
+                        this.wallDistance -= 2;
                     } else {
                         this.wallDistance -= 10;
                     }
@@ -213,7 +216,9 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
         if (this.currentCarveLayer == this.bottom) {
             this.oceanCarved = true;
+
         }
+        BrassAmberBattleTowers.LOGGER.info("Ocean Carved : " + this.oceanCarved);
     }
 
     public void addCoral() {
