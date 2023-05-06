@@ -9,20 +9,20 @@ version="${file.jarVersion}"
 displayName="Brass-Amber BattleTowers"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/brassamberbattletowers"
 logoFile="BrassAmberBattleTowers.png"
-credits='''Mod Inspired by BattleTower Mod in YogBox
+credits='''Inspired by BattleTowers from YogBox
            Translations by: SamleGamer, Kzeroko, RockYl, and BlackShadow77
            Music:
-                Land Tower: Ancestry by Lena Raine (Edit by Milamber)
-                Ocean Tower: Void by DM DOKURO (Edit by Brass)
-                Core Tower: So Below by Lena Raine (Edit by Pion)
-                Nether Tower: Pigstep FHP Remix (Unedited)
+                Land Tower: Ancestry by Lena Raine
+                Ocean Tower: Dragonfish by C418
+                Core Tower: So Below by Lena Raine
+                Nether Tower: Rubedo by Lena Raine
                 End Tower:  Complex Radiation by LudoCrypt
                 Sky Tower: Clouds by Emile van Kreiken
            '''
 
 
 authors="Milamber, Brass_Herbalist, X, DerToaster"
-description='''BattleTowers Mod from YogBox/Tekkit days with revamped towers and bosses.
+description='''Mod is a continuation of BattleTowers Mod from YogBox/Tekkit days with revamped towers and bosses.
 Stays true to the core of BattleTowers with new item textures made by Brass_Herbalist, and new towers designed by
 Brass_Herbalist and built by Milamber with Ai/Entities by X, Der Toaster, and Milamber.
 '''
