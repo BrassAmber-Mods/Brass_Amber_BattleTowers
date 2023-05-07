@@ -1,27 +1,27 @@
 package com.BrassAmber.ba_bt.entity.block;
 
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
-import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTExtras;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.BrassAmber.ba_bt.BattleTowersConfig.minimalOceanCarving;
 import static com.BrassAmber.ba_bt.util.BTStatics.towerBlocks;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
 
@@ -43,31 +43,34 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     private double wallDistance;
     private int nextStep;
     private int distanceChange;
+    private boolean oceanCarved;
+
+    private final String oceanCarvedName = "OceanCarved";
 
 
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
+        this.oceanCarved = false;
     }
 
     public BTOceanObelisk(Level level) {
         super(GolemType.OCEAN, level);
+        this.oceanCarved = false;
     }
 
 
     @Override
     public void initialize() {
-        if (this.level.isClientSide()) {
-            this.BOSS_MUSIC = null;
-            this.TOWER_MUSIC = BTSoundEvents.OCEAN_TOWER_MUSIC;
-        }
         this.musicDistance = 58;
         this.towerRange = 62;
         super.initialize();
+    }
 
-        if (!this.level.isClientSide()) {
-            this.carveOcean();
-            doNoOutputCommand(this, "/kill @e[type=item]");
-        }
+    @Override
+    public void clientInitialize() {
+        this.BOSS_MUSIC = BTSoundEvents.OCEAN_GOLEM_FIGHT_MUSIC;
+        this.TOWER_MUSIC = BTSoundEvents.OCEAN_TOWER_MUSIC;
+        super.clientInitialize();
     }
 
     public void serverInitialize() {
@@ -78,8 +81,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
         this.woolBlock = Blocks.BLUE_WOOL;
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
+        if (minimalOceanCarving.get()) {
+            this.noise = 30 + ((random.nextInt(2) + 1) * 4);
+        } else {
+            this.noise = 60 + ((random.nextInt(2) + 1) * 4);
+        }
 
-        this.noise = 60 + ((random.nextInt(2) + 1) * 4);
         this.top = this.getBlockY() - 2;
         this.bottom = this.getBlockY() - 92;
 
@@ -95,48 +102,56 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.eastWall = this.getBlockX() + this.noise;
         this.southWall = this.getBlockZ() + this.noise;
 
+        super.serverInitialize();
+
         /* BrassAmberBattleTowers.LOGGER.info("Walls W,N,E,S " + this.westWall + " " + this.northWall + " " + this.eastWall + " " + this.southWall);
         BrassAmberBattleTowers.LOGGER.info("Noise " + this.noise);**/
     }
 
     @Override
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        tag.putBoolean(oceanCarvedName, this.oceanCarved);
+        super.addAdditionalSaveData(tag);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.oceanCarved = tag.getBoolean(oceanCarvedName);
+        BrassAmberBattleTowers.LOGGER.info("Ocean Carved in read data " + this.oceanCarved);
+    }
+
+    @Override
     public void tick() {
         super.tick();
+
         if (this.level.isClientSide()) {
-            int x = this.blockPosition().getX();
-            int y = this.blockPosition().getX();
-            int z = this.blockPosition().getX();
-            List<Entity> list = level.getEntities(null,
-                    new AABB(x - this.towerRange, y-100, z - this.towerRange, x + this.towerRange, y + 10, z + this.towerRange)
-            );
-            List<EntityType<?>> list2 = new ArrayList<>();
-            for (Entity e: list) {
-                list2.add(e.getType());
-            }
-            if (!(list2.contains(BTEntityTypes.OCEAN_GOLEM.get()) || list2.contains(BTEntityTypes.OCEAN_MONOLITH.get()))) {
-                if (this.musicPlaying) {
-                    this.music.nextSongDelay = 500;
-                    this.music.stopPlaying();
-                    this.musicPlaying = false;
-                }
-            }
+            return;
         }
+
+        if (!this.oceanCarved && this.serverInitialized) {
+            this.carveOcean();
+            doNoOutputCommand(this, "/kill @e[type=item]");
+            return;
+        }
+
         if (this.tickCount % 320 <= 5 && this.hasPlayer && this.canCheck) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
                 if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 220, 2), player);
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1), player);
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 3), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 320, 2, true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 3,true, true), player);
                 }
             }
         }
     }
 
     public void carveOcean() {
-        // BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
+        // BrassAmberBattleTowers.LOGGER.info(this.level.isClientSide());
+        BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
         if (this.currentCarveLayer >= this.bottom) {
@@ -147,7 +162,11 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             // BrassAmberBattleTowers.LOGGER.info("Bottom Range: " + bottomRange);
             for (int y = this.currentCarveLayer; y >= bottomRange; y--) {
                 if (y == this.bottom + 33) {
-                    this.wallDistance -= 10;
+                    if (minimalOceanCarving.get()) {
+                        this.wallDistance -= 2;
+                    } else {
+                        this.wallDistance -= 10;
+                    }
                 } else if ((top - y) % this.nextStep == 0) {
                     this.wallDistance -= this.distanceChange;
                     this.nextStep = random.nextInt(4)+8;
@@ -194,6 +213,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.currentCarveLayer = bottomRange;
             // BrassAmberBattleTowers.LOGGER.info("This Round of carving: " + this.currentCarveLayer);
         }
+
+        if (this.currentCarveLayer == this.bottom) {
+            this.oceanCarved = true;
+
+        }
+        BrassAmberBattleTowers.LOGGER.info("Ocean Carved : " + this.oceanCarved);
     }
 
     public void addCoral() {

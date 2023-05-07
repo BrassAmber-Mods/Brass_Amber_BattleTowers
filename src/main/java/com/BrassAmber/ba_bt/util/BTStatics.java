@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
+import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
@@ -76,23 +77,48 @@ public class BTStatics {
 
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
-        towerSpawnerAmounts = List.of(
-                Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
-                Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
-                Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4), // 25
-                Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5), // 27
-                Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5), // 29
-                Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5) // 31
-        );
 
-        towerChestUnlocking = List.of(
-                Arrays.asList(6, 14, 21),
-                Arrays.asList(9, 23),
-                Arrays.asList(10, 25),
-                Arrays.asList(11, 27),
-                Arrays.asList(12, 29),
-                Arrays.asList(13, 31)
-        );
+        if (BattleTowersConfig.useOldSpawnerAmounts.get()) {
+            towerSpawnerAmounts = List.of(
+                    Arrays.asList(2, 2, 2, 2, 2, 2, 2, 2), // 16
+                    Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
+                    Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4), // 25
+                    Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5), // 27
+                    Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5), // 29
+                    Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5) // 31
+            );
+        }
+        else {
+            towerSpawnerAmounts = List.of(
+                    Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
+                    Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
+                    Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4), // 25
+                    Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5), // 27
+                    Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5), // 29
+                    Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5) // 31
+            );
+        }
+
+        if (BattleTowersConfig.useOldSpawnerAmounts.get()) {
+            towerChestUnlocking = List.of(
+                    Arrays.asList(4, 9, 16),
+                    Arrays.asList(9, 23),
+                    Arrays.asList(10, 25),
+                    Arrays.asList(11, 27),
+                    Arrays.asList(12, 29),
+                    Arrays.asList(13, 31)
+            );
+        } else {
+            towerChestUnlocking = List.of(
+                    Arrays.asList(6, 14, 21),
+                    Arrays.asList(9, 23),
+                    Arrays.asList(10, 25),
+                    Arrays.asList(11, 27),
+                    Arrays.asList(12, 29),
+                    Arrays.asList(13, 31)
+            );
+        }
+
 
         // List of spawner data per 2 floors per tower
         towerSpawnerData = List.of(
@@ -100,24 +126,24 @@ public class BTStatics {
                 List.of(
                         // Floor 1-2 data
                         // minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requiredPlayerRange, spawnRange
-                        Arrays.asList(200, 240, 2, 10, 11, 6),
+                        Arrays.asList(200, 240, 2, 5, 11, 6),
                         // Floor 3-4
-                        Arrays.asList(180, 220, 3, 12, 12, 6),
+                        Arrays.asList(180, 220, 3, 6, 12, 6),
                         // Floor 5-6
-                        Arrays.asList(120, 160, 3, 14, 13, 6),
+                        Arrays.asList(120, 160, 3, 6, 13, 6),
                         // Floor 7-8
-                        Arrays.asList(100, 140, 4, 16, 12, 6)
+                        Arrays.asList(100, 140, 4, 7, 12, 6)
                 ),
                 // Ocean
                 List.of(
                         // Floor 1-2 data
-                        Arrays.asList(240, 280, 2, 5, 12, 8),
+                        Arrays.asList(240, 280, 2, 3, 12, 8),
                         // Floor 3-4
-                        Arrays.asList(220, 260, 3, 6, 13, 8),
+                        Arrays.asList(220, 260, 3, 4, 13, 8),
                         // Floor 5-6
-                        Arrays.asList(160, 200, 3, 7, 14, 8),
+                        Arrays.asList(160, 200, 3, 4, 14, 8),
                         // Floor 7-8
-                        Arrays.asList(140, 180, 4, 8, 13, 8)
+                        Arrays.asList(140, 180, 4, 5, 13, 8)
                 )
         );
 

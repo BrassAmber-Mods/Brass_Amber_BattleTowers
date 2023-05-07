@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.entity.hostile.golem;
 
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanGolemHP;
 
 public class BTOceanGolem extends BTAbstractGolem {
 
-	private boolean drowned;
+	private int drowned;
 
 	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
@@ -33,9 +35,10 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.lookControl = new SmoothSwimmingLookControl(this, 40);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
+		this.BOSS_MUSIC = BTSoundEvents.OCEAN_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 910;
-		this.drowned = false;
+		this.drowned = 0;
 		this.golemType = GolemType.OCEAN;
 	}
 
@@ -43,15 +46,8 @@ public class BTOceanGolem extends BTAbstractGolem {
 		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 2.5D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
-	protected PathNavigation createNavigation(Level level) {
+	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
 		return new WaterBoundPathNavigation(this, level);
-	}
-
-	public void find_golem_chest(BlockPos spawnPos) {
-		checkPos(spawnPos.north(2).below(1));
-		checkPos(spawnPos.east(2).below(1));
-		checkPos(spawnPos.south(2).below(1));
-		checkPos(spawnPos.west(2).below(1));
 	}
 
 	@Override
@@ -75,20 +71,28 @@ public class BTOceanGolem extends BTAbstractGolem {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		compound.putBoolean("drowned", this.drowned);
+		compound.putInt("drowned", this.drowned);
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
-		compound.getBoolean("drowned");
+		this.drowned = compound.getInt("drowned");
 	}
 
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
-		if (this.getHealth() < this.getMaxHealth() / 2 && !this.level.isClientSide() && !this.drowned) {
-			this.spawnDrowned((ServerLevel) this.level);
-			this.drowned = true;
+		if (!this.level.isClientSide() && this.drowned < 4) {
+			if (this.getHealth() < this.getMaxHealth() * .7 && this.drowned == 0) {
+				this.spawnDrowned((ServerLevel) this.level);
+				this.drowned = 1;
+			} else if (this.getHealth() < this.getMaxHealth() * .5 && this.drowned == 1) {
+				this.spawnDrowned((ServerLevel) this.level);
+				this.drowned = 2;
+			} else if (this.getHealth() < this.getMaxHealth() * .3 && this.drowned == 2) {
+				this.spawnDrowned((ServerLevel) this.level);
+				this.drowned = 3;
+			}
 		}
 		return super.hurt(source, damage);
 	}

@@ -16,12 +16,10 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.util.GolemType;
@@ -32,6 +30,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.network.NetworkHooks;
 
+import static com.BrassAmber.ba_bt.sound.BTSoundEvents.TOWER_COLLAPSE_MUSIC;
 import static com.BrassAmber.ba_bt.util.BTUtil.*;
 
 public class LandDestructionEntity extends Entity {
@@ -64,7 +63,7 @@ public class LandDestructionEntity extends Entity {
 
     public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
         super(type, level);
-        this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get();
+        this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get() * 20;
     }
 
     public LandDestructionEntity(BlockPos golemSpawn, Level level) {
@@ -107,7 +106,11 @@ public class LandDestructionEntity extends Entity {
     	BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
-        this.setCrumbleBottom(this.getCrumbleStart().getY() - (int)Math.round(this.specs.getHeight() * BattleTowersConfig.landTowerCrumblePercent.get()));
+        this.setCrumbleBottom(
+                this.getCrumbleStart().getY() - (int)Math.round(
+                        (BattleTowersConfig.landObeliskSpawnDistance.get() + 20) * BattleTowersConfig.landTowerCrumblePercent.get()
+                )
+        );
         this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3F);
         this.initialized = true;
 
@@ -118,9 +121,6 @@ public class LandDestructionEntity extends Entity {
     
     @Override
     public void tick() {
-    	if(this.level.isClientSide()) {
-    		return;
-    	}
         super.tick();
         if (this.checkForGolem) {
 
@@ -145,28 +145,27 @@ public class LandDestructionEntity extends Entity {
                 this.currentTicks = 0;
             }
         }
-
-        List<ServerPlayer> players = this.level.getServer().overworld().players();
-        for (ServerPlayer player : players
-        ) {
-            double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
-            double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
-
-            boolean xClose = xDistance < 125;
-            boolean zClose = zDistance < 125;
-
-            List<Boolean> playersClose = new ArrayList<>();
-
-            if (!xClose || !zClose) {
-                playersClose.add(Boolean.FALSE);
+        boolean alivePlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+        if (alivePlayer) {
+            //noinspection ConstantConditions
+            this.hasPlayer = BTUtil.distanceTo2D(this, this.level.getNearestPlayer(this, 100D)) < 125;
+        } else {
+            this.hasPlayer = false;
+        }
+        if (this.golemDead && this.level.isClientSide()) {
+            MusicManager music = ((ClientLevel)this.level).minecraft.getMusicManager();
+            if (hasPlayer) {
+                if (!music.isPlayingMusic(TOWER_COLLAPSE_MUSIC)) {
+                    music.stopPlaying();
+                    music.nextSongDelay = TOWER_COLLAPSE_MUSIC.getMinDelay();
+                    music.startPlaying(TOWER_COLLAPSE_MUSIC);
+                }
             }
-
-            if (Collections.frequency(playersClose, Boolean.FALSE) == players.size()) {
-                this.hasPlayer = false;
-
-            }  else {
-                this.hasPlayer = true;
+            else {
+                music.nextSongDelay = 500;
+                music.stopPlaying();
             }
+            return;
         }
 
         if (this.golemDead && this.hasPlayer) {
@@ -228,7 +227,7 @@ public class LandDestructionEntity extends Entity {
                             break;
                         } else {
                             // Get random integer, if size is 1 get item at index 0
-                            int randomIndex = 0;
+                            int randomIndex;
                             if (this.blocksToRemove.size() <= 1) {
                                 randomIndex = 0;
                             } else {
@@ -266,12 +265,14 @@ public class LandDestructionEntity extends Entity {
                     }
                 }
                 List<BlockPos> shouldBeEmptySpace = new ArrayList<>();
-                Integer yForClear = this.getCrumbleStart().getY();
+                int yForClear = this.getCrumbleStart().getY();
                 for (int y = yForClear; y > this.getCrumbleBottom() + 3; y--) {
                     for (int x = this.getCrumbleStart().getX(); x <= this.getCrumbleStart().getX() + 30; x++) {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
-                            if ((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd) && BTUtil.distanceTo2D(this, blockToAdd) < 12.5)) {
+                            if (((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd))
+                                            && BTUtil.distanceTo2D(this, blockToAdd) < 12.5)
+                            ) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                             }
@@ -290,11 +291,13 @@ public class LandDestructionEntity extends Entity {
                 this.remove(RemovalReason.DISCARDED);
             }
 
+            /*
             // log the current ticks, crumble speed, and row
             if (this.currentTicks % 120 == 0 ){
                 BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, this.currentTicks + " Ticks | CrumbleSpeed " +
                         this.getCrumbleSpeed() + "  Row: " + this.getCurrentRow());
             }
+            */
         }
     }
 

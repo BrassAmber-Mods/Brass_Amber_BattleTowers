@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.entity.block;
 
+import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.LandDestructionEntity;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
@@ -265,7 +266,7 @@ public class BTMonolith extends Entity {
 				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());}
 			case LAND -> {
 				obelisk = new BTLandObelisk(this.level);
-				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+				obelisk.setPos(this.getX(), this.getY() - BattleTowersConfig.landObeliskSpawnDistance.get(), this.getZ());
 			}
 			case OCEAN -> {
 				BrassAmberBattleTowers.LOGGER.info("Ocean Obelisk");

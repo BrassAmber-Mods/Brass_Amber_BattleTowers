@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import com.BrassAmber.ba_bt.entity.ai.goal.skygolem.SkyGolemFireballAttackGoal;
 
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -34,6 +35,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 		this.moveControl = new BTSkyGolem.MoveHelperController(this);
 		this.setGolemName(GolemType.SKY.getDisplayName());
 		this.setBossBarName();
+		this.BOSS_MUSIC = BTSoundEvents.SKY_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 15345;
 		this.golemType = GolemType.SKY;

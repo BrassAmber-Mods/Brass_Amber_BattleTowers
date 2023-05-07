@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
+import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
 import com.BrassAmber.ba_bt.util.TowerSpecs;
 import net.minecraft.core.BlockPos;
@@ -66,7 +67,7 @@ public class OceanDestructionEntity extends  Entity {
         super(type, level);
         this.golemType = GolemType.OCEAN;
 
-        this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get();
+        this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get() * 20;
 
         this.blocksToRemove = new ArrayList<>();
         this.fallingBlocks = new ArrayList<>();
@@ -97,7 +98,7 @@ public class OceanDestructionEntity extends  Entity {
                     }
                 }
             }
-            BrassAmberBattleTowers.LOGGER.info("Blocks to remove size " + this.blocksToRemove.size());
+            // BrassAmberBattleTowers.LOGGER.info("Blocks to remove size " + this.blocksToRemove.size());
         }
         // add 1 to the row counter so that next time this is called it adds the blocks on the next row
         this.currentRowY = this.currentRowY + 4;
@@ -105,7 +106,7 @@ public class OceanDestructionEntity extends  Entity {
     }
 
     private void init() {
-        BrassAmberBattleTowers.LOGGER.debug("Initializing");
+        // BrassAmberBattleTowers.LOGGER.debug("Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.crumbleStop = this.getBlockY() + (int)Math.round(this.specs.getHeight() * BattleTowersConfig.oceanTowerCrumblePercent.get() -1);
@@ -171,23 +172,12 @@ public class OceanDestructionEntity extends  Entity {
             }
         }
 
-        @SuppressWarnings("ConstantConditions")
-        List<ServerPlayer> players = this.level.getServer().overworld().players();
-        for (ServerPlayer player : players
-        ) {
-            double xDistance = Math.abs(Math.abs(this.getX()) - Math.abs(player.getX()));
-            double zDistance = Math.abs(Math.abs(this.getZ()) - Math.abs(player.getZ()));
-
-            boolean xClose = xDistance < 125;
-            boolean zClose = zDistance < 125;
-
-            List<Boolean> playersClose = new ArrayList<>();
-
-            if (!xClose || !zClose) {
-                playersClose.add(Boolean.FALSE);
-            }
-
-            this.hasPlayer = Collections.frequency(playersClose, Boolean.FALSE) != players.size();
+        boolean alivePlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+        if (alivePlayer) {
+            //noinspection ConstantConditions
+            this.hasPlayer = BTUtil.distanceTo2D(this, this.level.getNearestPlayer(this, 100D)) < 125;
+        } else {
+            this.hasPlayer = false;
         }
 
         if (this.golemDead && this.hasPlayer) {
@@ -291,7 +281,7 @@ public class OceanDestructionEntity extends  Entity {
                 }
             } else if (this.currentRowY >= this.level.getSeaLevel() || this.currentRowY >= this.crumbleStop){
                 // stop if we have done the final row already
-                BrassAmberBattleTowers.LOGGER.debug("In Ending Sequence");
+                // BrassAmberBattleTowers.LOGGER.debug("In Ending Sequence");
                 for (int y = -64; y < this.level.getSeaLevel(); y++) {
                     for (int x = this.getBlockX() - 16; x <= this.getBlockX() + 16; x++) {
                         for(int z = this.getBlockZ() - 16; z <= this.getBlockZ() + 16; z++) {
@@ -309,12 +299,13 @@ public class OceanDestructionEntity extends  Entity {
                 this.remove(Entity.RemovalReason.DISCARDED);
             }
 
-            // log the current ticks, crumble speed, and row
+            /* // log the current ticks, crumble speed, and row
             if (this.currentTicks % 30 == 0 ){
                 BrassAmberBattleTowers.LOGGER.debug(this.currentTicks + " Ticks | CrumbleSpeed " +
                         this.getCrumbleSpeed() + "   " + this.getCurrentRow() + " Row | Row Y " +
                         this.currentRowY + " Crumble Stop " + this.crumbleStop);
             }
+             */
         }
     }
 
