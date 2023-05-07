@@ -524,7 +524,7 @@ public class BTAbstractObelisk extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (!this.level.isClientSide()) {
-            BrassAmberBattleTowers.LOGGER.info("Reading obelisk data");
+            // BrassAmberBattleTowers.LOGGER.info("Reading obelisk data");
             // BrassAmberBattleTowers.LOGGER.info("Reading obelisk data " + tag);
             this.golemType = GolemType.getTypeForName(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
