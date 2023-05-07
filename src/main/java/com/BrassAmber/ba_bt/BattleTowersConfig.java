@@ -150,10 +150,10 @@ public class BattleTowersConfig {
         BUILDER.push("Crash-able settings -- If you edit these, and the game crashes, its on you");
         landTowerMobs =
                 BUILDER.comment("A list of mob ids of possible mobs to spawn in spawners inside the Land tower. Must contain at least one value")
-                        .defineListAllowEmpty(List.of("Land Tower Mobs"), () -> List.of("minecraft:zombie", "minecraft:skeleton", "minecraft:spider"), listValidator);
+                        .defineListAllowEmpty(List.of("Land Tower Mobs"), () -> List.of("minecraft:zombie", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider"), listValidator);
         oceanTowerMobs =
                 BUILDER.comment("A list of mob ids of possible mobs to spawn in spawners inside the Ocean tower. Must contain at least one value")
-                        .defineListAllowEmpty(List.of("Ocean Tower Mobs"), () -> List.of("minecraft:drowned", "minecraft:guardian", "minecraft:drowned", "minecraft:pufferfish"), listValidator);
+                        .defineListAllowEmpty(List.of("Ocean Tower Mobs"), () -> List.of("minecraft:drowned", "minecraft:guardian", "minecraft:drowned", "minecraft:drowned", "minecraft:drowned", "minecraft:pufferfish"), listValidator);
         BUILDER.pop();
 
 
