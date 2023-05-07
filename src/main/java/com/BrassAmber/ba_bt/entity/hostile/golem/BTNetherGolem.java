@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.entity.hostile.golem;
 
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +17,7 @@ public class BTNetherGolem extends BTAbstractGolem {
 		super(type, levelIn, BossEvent.BossBarColor.RED);
 		this.setGolemName(GolemType.NETHER.getDisplayName());
 		this.setBossBarName();
+		this.BOSS_MUSIC = BTSoundEvents.NETHER_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 4020;
 		this.golemType = GolemType.NETHER;

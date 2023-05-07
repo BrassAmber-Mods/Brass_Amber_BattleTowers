@@ -78,7 +78,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
             // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
 
             if (chunkGen.hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
-                BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
+                // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
                 return BlockPos.ZERO;
             }
         }

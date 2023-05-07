@@ -6,7 +6,7 @@
 	"entity.ba_bt.land_golem": "Bahryn'muul, Entombed Watcher",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Idol of the Drowned",
 	"entity.ba_bt.core_golem": "Obthu'ryn, God of the Core",
-	"entity.ba_bt.nether_golem": "Vuur'tyrahn, Tyrant Inferno",
+	"entity.ba_bt.nether_golem": "Infuur'niir, Blaze King Tyrant",
 	"entity.ba_bt.end_golem": "Shul'losniir, Warped Guardian",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Sky Goddess",
 
@@ -38,12 +38,18 @@
 	"ba_bt.subtitle.golem.ambient": "Golem growls",
 	"ba_bt.subtitle.golem.special": "Golem attacks",
 
-	"ba_bt.subtitle.golem.land.fight": "Bahryn'muul Boss Music",
+	"ba_bt.subtitle.golem.land.fight": "Rage of Bahryn'muul",
+	"ba_bt.subtitle.golem.ocean.fight": "Void Of Moraizu'un",
+	"ba_bt.subtitle.golem.core.fight": "Awakening Of Obthu'ryn",
+	"ba_bt.subtitle.golem.nether.fight": "Throne Of Infuur'niir",
+	"ba_bt.subtitle.golem.end.fight": "Mind Of Shul'losniir",
+	"ba_bt.subtitle.golem.sky.fight": "Descent Of Veyhz'kriin",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Golem Begins Spawning",
 
 	"ba_bt.subtitle.tower.break.start": "Tower starts breaking",
-	"ba_bt.subtitle.tower.break.crumble": "Tower crumbles down",
+	"ba_bt.subtitle.tower.break.crumble": "Tower floor crumbles",
+	"ba_bt.subtitle.tower.break.collapse": "Tower Collapsing",
 	"ba_bt.subtitle.tower.ambient.music.land": "Land Tower Ambient Music",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Ocean Tower Ambient Music",
 	"ba_bt.subtitle.tower.ambient.music.core": "Core Tower Ambient Music",
@@ -93,7 +99,7 @@
 	"item.ba_bt.guardian_eye_land": "Eye of Bahryn'muul",
 	"item.ba_bt.guardian_eye_ocean": "Eye of Moraizu'un",
 	"item.ba_bt.guardian_eye_core": "Eye of Obthu'uryn",
-	"item.ba_bt.guardian_eye_nether": "Eye of Vuur'tyrahn",
+	"item.ba_bt.guardian_eye_nether": "Eye of Infuur'niir",
 	"item.ba_bt.guardian_eye_end": "Eye of Shul'losniir",
 	"item.ba_bt.guardian_eye_sky": "Eye of Veyhz'kriin",
 
@@ -154,9 +160,9 @@
 	"tooltip.ba_bt.sky_eye": "I have failed you, Sr. Vaayus... ",
 
 	"item.ba_bt.bt_land_resonance_stone.desc": "Lena Raine: Ancestry",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "DM DOKURO: Void",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "C418: Dragonfish",
 	"item.ba_bt.bt_core_resonance_stone.desc": "Lena Raine: So Below",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "FHP: Pigstep Cinematic Remix",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Lena Raine: Rubedo",
 	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
 	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
 	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
@@ -165,7 +171,7 @@
 	"title.ba_bt.land": "Bahryn'muul, Land Guardian",
 	"title.ba_bt.ocean": "Moraizu'un, Ocean Guardian",
 	"title.ba_bt.core": "Obthu'uryn, Core God",
-	"title.ba_bt.nether": "Vuur'tyrahn, Nether Tyrant",
+	"title.ba_bt.nether": "Infuur'niir, Nether Tyrant",
 	"title.ba_bt.end": "Shul'losniir, End Guardian",
 	"title.ba_bt.sky": "Veyhz'kriin, Sky Goddess",
 
@@ -174,7 +180,7 @@
 	"title.ba_bt.land_defeated_2": "Without its energy...",
 	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
 
-	"title.ba_bt.ocean_defeated_2": "The Idol returned to the void...",
+	"title.ba_bt.ocean_defeated_2": "With the Idol returned to the void...",
 	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
 
 	"title.ba_bt.core_defeated_2": "Without the god's vessel...",

@@ -29,6 +29,8 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >   - Locked chests and loot
 >   - Golem
 >     - Ai Present but not complete
+>   - Tower Crumble
+>   - Advancements
 >   - Extra Mobs
 >     - Leviathan (Planned not Present)
 >     - Blind Guardians (Planned not Present)
@@ -64,33 +66,36 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 
 
 ### Music:
->- Land Tower: 
->   - Ancestry by Lena Raine 
->     - Boss Version Edited by Milamber
+>- Land Tower:
+>   - Ancestry by Lena Raine (Ambient)
+>   - Rage Of Bahryn'muul by Rotch Gwylt (Boss)
 >
 > 
->- Ocean Tower: 
->   - Void by DM DOKURO 
->     - Ambient Version Edited by Brass
+>- Ocean Tower:
+>   - DragonFish by C418 (Ambient)
+>   - Void Of Moraizu'un by Rotch Gwylt (Boss)
 >
 >
->- Core Tower: 
->   - So Below by Lena Raine 
->     - Ambient Version Edited by Pion
+>- Core Tower:
+>   - So Below by Lena Raine (Ambient)
+>   - Awakening Of Obthu'uryn by Rotch Gwylt (Boss)
 >
 >
->- Nether Tower: 
->   - Pigstep FHP Remix 
->     - Unedited
+>- Nether Tower:
+>   - Rubedo by Lena Raine (Ambient)
+>   - Throne Of Infuur'niir by Rotch Gwylt (Boss)
 >
 >
->- End Tower:  
->   - Complex Radiation by LudoCrypt
+>- End Tower:
+>   - Complex Radiation by LudoCrypt (Ambient)
+>   - Mind Of Shul'losniir by Rotch Gwylt (Boss)
 >
 >
->- Sky Tower: 
->   - Clouds from Aether 
+>- Sky Tower:
+>   - Clouds from Aether (Ambient)
 >     - Direct Song Use (With Permission)
+>   - Descent Of Veyhz'kriin by Rotch Gwylt (Boss)
+
 
 ### This mod is currently being built around the texture pack Excalibur
 >- Built with intention of inclusion in the ModPack Excalibur's Crate

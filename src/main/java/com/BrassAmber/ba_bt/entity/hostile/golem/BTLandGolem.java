@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.entity.ai.goal.GolemLeapGoal;
 import com.BrassAmber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
+import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
@@ -36,6 +37,8 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.golemType = GolemType.LAND;
 		this.leap = false;
 
+		this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
+
 		// Reference for disregarding lava taken from ZombiefiedPiglin
 		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
 
@@ -62,15 +65,6 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.leap = true;
 		this.jumpFromGround();
 		this.leap = false;
-	}
-
-
-	@Override
-	public void find_golem_chest(BlockPos spawnPos) {
-		checkPos(spawnPos.north(12).below());
-		checkPos(spawnPos.east(12).below());
-		checkPos(spawnPos.south(12).below());
-		checkPos(spawnPos.west(12).below());
 	}
 
 	@Override

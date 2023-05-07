@@ -185,13 +185,38 @@ public class BTUtil {
         removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
+    public static void btListFill(List<Item> loot, List<Integer> amounts, Container container, LootContext lootContext) {
+        Random random = lootContext.getRandom();
+
+        // Get possible slots to put items in (empty slots) should be all for tower chests.
+        List<Integer> possibleSlots = btGetAvailableSlots(container, random);
+        ItemStack addStack;
+        int randomSlot;
+
+        // Find the middle of the chest and keep the slot free for a possible key injection
+        int rows = Math.floorDiv(container.getContainerSize(), 9);
+        // The middle of a smal chest (27 slots) would be 13 (27/9 = 3, 3 / 2 = 1.5, 1.5\/ = 1, 1*9 = 9, 9 + 4 = 13)
+        int middleOfChest = Math.floorDiv(rows, 2) * 9 + 4;
+        possibleSlots.removeIf(i -> i == middleOfChest);
+
+        for (int i = 0; i < loot.size(); i++) {
+            randomSlot = possibleSlots.remove(random.nextInt(possibleSlots.size()));
+            addStack = new ItemStack(loot.get(i), amounts.get(i));
+            container.setItem(randomSlot, addStack);
+            if (possibleSlots.isEmpty()) {
+                break;
+            }
+        }
+
+    }
+
     /** All below are recreations of @LootTable methods.
      * Needed Due to bukkit servers overwriting the fill method and breaking it.
      */
-    public static void btFill(LootTable loot, Container p_79124_, LootContext p_79125_) {
-        List<ItemStack> list = loot.getRandomItems(p_79125_);
-        Random random = p_79125_.getRandom();
-        List<Integer> list1 = btGetAvailableSlots(p_79124_, random);
+    public static void btFill(LootTable loot, Container container, LootContext lootContext) {
+        List<ItemStack> list = loot.getRandomItems(lootContext);
+        Random random = lootContext.getRandom();
+        List<Integer> list1 = btGetAvailableSlots(container, random);
         btShuffleAndSplitItems(list, list1.size(), random);
 
         for(ItemStack itemstack : list) {
@@ -201,9 +226,9 @@ public class BTUtil {
             }
 
             if (itemstack.isEmpty()) {
-                p_79124_.setItem(list1.remove(list1.size() - 1), ItemStack.EMPTY);
+                container.setItem(list1.remove(list1.size() - 1), ItemStack.EMPTY);
             } else {
-                p_79124_.setItem(list1.remove(list1.size() - 1), itemstack);
+                container.setItem(list1.remove(list1.size() - 1), itemstack);
             }
         }
 
