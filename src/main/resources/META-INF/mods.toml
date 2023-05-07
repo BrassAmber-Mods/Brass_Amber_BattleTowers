@@ -18,13 +18,22 @@ credits='''Inspired by BattleTowers from YogBox
                 Nether Tower: Rubedo by Lena Raine
                 End Tower:  Complex Radiation by LudoCrypt
                 Sky Tower: Clouds by Emile van Kreiken
+                
+                Land Golem: Rage Of Bahryn'muul by Rotch Gwylt
+                Ocean Golem: Void Of Moraizu'un by Rotch Gwylt
+                Core Golem: Awakening Of Obthu'uryn by Rotch Gwylt
+                Nether Golem: Throne Of Infuur'niir by Rotch Gwylte
+                End Golem:  Mind Of Shul'losniir by Rotch Gwylt
+                Sky Golem: Descent Of Veyhz'kriin by Rotch Gwylt
            '''
-
 
 authors="Milamber, Brass_Herbalist, X, DerToaster"
 description='''Mod is a continuation of BattleTowers Mod from YogBox/Tekkit days with revamped towers and bosses.
-Stays true to the core of BattleTowers with new item textures made by Brass_Herbalist, and new towers designed by
-Brass_Herbalist and built by Milamber with Ai/Entities by X, Der Toaster, and Milamber.
+Stays true to the core of BattleTowers while also adding:
+New item textures - Brass_McCrafty
+New Music - Rotch Gwylt and LudoCrypt
+New towers - Brass_McCrafty and Milamber
+New Ai/Entities - X, Der Toaster, and Milamber.
 '''
 [[dependencies.ba_bt]]
     modId="forge"
