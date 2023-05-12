@@ -1,5 +1,6 @@
 package com.BrassAmber.ba_bt.block.blockentity;
 
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import net.minecraft.core.BlockPos;
@@ -126,13 +127,31 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	}
 
 	public void setUnlocked(boolean tf) {
+		ChestType chesttype = this.getBlockState().getValue(ChestBlock.TYPE);
 		this.unlocked = tf;
+
+		// Make sure that if this is a double chest the other half also gets unlocked.
+		if (chesttype != ChestType.SINGLE) {
+			Direction direction = ChestBlock.getConnectedDirection(this.getBlockState());
+			GolemChestBlockEntity chestEntity = null;
+			try {
+				chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
+			} catch (Exception e) {
+				BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, e);
+			}
+
+			if (chestEntity != null) {
+				chestEntity.setUnlocked(tf);
+			}
+
+		}
+
 		//BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.lockKey);
 	}
 
 	@Override
-	public boolean canOpen(Player p_58645_) {
-		return canUnlock(p_58645_, this.getDisplayName());
+	public boolean canOpen(Player player) {
+		return canUnlock(player, this.getDisplayName());
 	}
 
 	public boolean canUnlock(Player player, Component component) {
