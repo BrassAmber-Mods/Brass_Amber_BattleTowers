@@ -236,7 +236,7 @@ public class BTAbstractObelisk extends Entity {
         try {
             Block block = level.getBlockState(toCheck).getBlock();
             // Make suer that if there is a double Tower chest, only the first instance of the tower chest is added
-            if (block == this.chestBlock && this.floorChestFound) {
+            if (block == this.chestBlock && !this.floorChestFound) {
                 this.CHESTS.add(toCheck);
                 this.floorChestFound = true;
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
