@@ -130,6 +130,8 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 		ChestType chesttype = this.getBlockState().getValue(ChestBlock.TYPE);
 		this.unlocked = tf;
 
+		// BrassAmberBattleTowers.LOGGER.info(this.unlocked + " " + chesttype);
+
 		// Make sure that if this is a double chest the other half also gets unlocked.
 		if (chesttype != ChestType.SINGLE) {
 			Direction direction = ChestBlock.getConnectedDirection(this.getBlockState());
@@ -137,11 +139,11 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 			try {
 				chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
 			} catch (Exception e) {
-				BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, e);
+				BrassAmberBattleTowers.LOGGER.info(e);
 			}
 
 			if (chestEntity != null) {
-				chestEntity.setUnlocked(tf);
+				chestEntity.unlocked = tf;
 			}
 
 		}
