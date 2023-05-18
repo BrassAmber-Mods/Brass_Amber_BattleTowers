@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
 
-version = "${minecraftVersion}-2.3.7"
+version = "${minecraftVersion}-3.0.0"
 group = 'com.brassAmber.ba_bt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'BrassAmberBattleTowers'
 
@@ -24,7 +24,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
 
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: '1.19.2'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -111,7 +111,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.2.0'
 
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
