@@ -10,7 +10,6 @@ import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
 import com.BrassAmber.ba_bt.util.GolemType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -100,6 +99,7 @@ public class BTAbstractObelisk extends Entity {
     public boolean hasPlayer;
 
     protected int floorDistance;
+    protected boolean floorChestFound;
     protected Block chestBlock;
     protected Block golemChestBlock;
     protected Block spawnerBlock;
@@ -122,6 +122,7 @@ public class BTAbstractObelisk extends Entity {
         this.canCheck = true;
         this.musicDistance = 0;
         this.towerRange = 0;
+        this.floorChestFound = false;
     }
 
     public BTAbstractObelisk(GolemType golemType, Level level) {
@@ -215,6 +216,7 @@ public class BTAbstractObelisk extends Entity {
                 this.floorData = this.perFloorData.get(this.checkLayer / 2);
             }
             this.currentFloorY = nextFloorY;
+            this.floorChestFound = false;
         }
 
     }
@@ -233,8 +235,10 @@ public class BTAbstractObelisk extends Entity {
     public void checkPos(BlockPos toCheck, Level level) {
         try {
             Block block = level.getBlockState(toCheck).getBlock();
-            if (block == this.chestBlock) {
+            // Make suer that if there is a double Tower chest, only the first instance of the tower chest is added
+            if (block == this.chestBlock && !this.floorChestFound) {
                 this.CHESTS.add(toCheck);
+                this.floorChestFound = true;
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
