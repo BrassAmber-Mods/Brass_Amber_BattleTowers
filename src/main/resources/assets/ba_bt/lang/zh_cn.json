@@ -69,6 +69,8 @@
 	"block.ba_bt.bt_end_spawner": "末影刷怪笼",
 	"block.ba_bt.bt_sky_spawner": "天域刷怪笼",
 
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
+
 	// 容器
 	"container.ba_bt.land_golem_chest": "大地魔像宝箱",
 	"container.ba_bt.land_golem_chest_double": "大型大地魔像宝箱",

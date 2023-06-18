@@ -75,6 +75,8 @@
 	"block.ba_bt.bt_end_spawner" : "Рассадник монстров Края",
 	"block.ba_bt.bt_sky_spawner" : "Небесный рассадник монстров",
 
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
+
 	// Containers
 	"container.ba_bt.land_golem_chest": "Сундук Байрин'муула",
 	"container.ba_bt.land_golem_chest_double": "Большой сундук Байрин'муула",
