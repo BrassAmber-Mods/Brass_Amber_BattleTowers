@@ -69,6 +69,8 @@
 	"block.ba_bt.bt_end_spawner" : "Generador del End",
 	"block.ba_bt.bt_sky_spawner" : "Generador del cielo",
 
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
+
 	// Containers
 	"container.ba_bt.land_golem_chest": "Cofre de Bahryn'muul",
 	"container.ba_bt.land_golem_chest_double": "Cofre de Bahryn'muul grande",
