@@ -66,6 +66,8 @@
 	"block.ba_bt.bt_end_spawner" : "Spawner de l'End",
 	"block.ba_bt.bt_sky_spawner" : "Spawner Angélique",
 
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
+
 	// Containers
 	"container.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"container.ba_bt.land_golem_chest_double": "Grand Coffre de Golem Terrestre",

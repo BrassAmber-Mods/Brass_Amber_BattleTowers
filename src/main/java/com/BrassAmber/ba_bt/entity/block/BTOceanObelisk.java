@@ -79,7 +79,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.chestBlock = BTBlocks.OCEAN_CHEST.get();
         this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.BT_OCEAN_SPAWNER.get();
-        this.woolBlock = Blocks.BLUE_WOOL;
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
         if (minimalOceanCarving.get()) {
             this.noise = 30 + ((random.nextInt(2) + 1) * 4);
@@ -141,7 +140,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             ) {
                 if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 320, 2, true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 320, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1,true, true), player);
                     player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 3,true, true), player);
                 }

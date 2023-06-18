@@ -6,6 +6,7 @@ import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.item.item.ResonanceStoneItem;
 import com.BrassAmber.ba_bt.util.BTStatics;
 import com.BrassAmber.ba_bt.util.BTUtil;
@@ -104,7 +105,7 @@ public class BTAbstractObelisk extends Entity {
     protected Block golemChestBlock;
     protected Block spawnerBlock;
     protected Block spawnerFillBlock;
-    protected Block woolBlock;
+    protected Block spawnerMarker;
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
     protected GolemChestBlockEntity golemChest;
@@ -156,6 +157,7 @@ public class BTAbstractObelisk extends Entity {
         this.towerMobs = BTStatics.towerMobs.get(golemNum);
         this.perFloorData = towerSpawnerData.get(golemNum);
         this.floorData = this.perFloorData.get(0);
+        this.spawnerMarker = BTBlocks.BT_SPAWNER_MARKER.get();
         this.serverInitialized = true;
     }
 
@@ -190,7 +192,7 @@ public class BTAbstractObelisk extends Entity {
                 for (int y = bottomOfFloor; y <= topOfFloor; y++) {
                     toCheck = new BlockPos(x, y, z);
                     // This is here to avoid unnecessary variable passing to checkPos()
-                    if (level.getBlockState(toCheck).getBlock() == this.woolBlock) {
+                    if (level.getBlockState(toCheck).getBlock() == this.spawnerMarker) {
                         // BrassAmberBattleTowers.LOGGER.info(toCheck + " " + this.level.getBlockState(toCheck));
                         spawnersSet = this.setSpawnerBlock(toCheck, this.checkLayer, level, spawnersSet);
                     }

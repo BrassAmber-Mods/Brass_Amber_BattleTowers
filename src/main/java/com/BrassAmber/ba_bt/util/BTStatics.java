@@ -1,6 +1,7 @@
 package com.BrassAmber.ba_bt.util;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
+import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.landTowerMobs;
 import static com.BrassAmber.ba_bt.BattleTowersConfig.oceanTowerMobs;
@@ -153,11 +155,23 @@ public class BTStatics {
         );
 
         for (String id : landTowerMobs.get()) {
-            towerMobs.get(0).add(EntityType.byString(id).orElseThrow());
+
+            try {
+                towerMobs.get(0).add(EntityType.byString(id).orElseThrow());
+            } catch (NoSuchElementException e) {
+                towerMobs.get(0).add(EntityType.ZOMBIE);
+                BrassAmberBattleTowers.LOGGER.info("Unable to add mob via mob id:" + id + " to Land Tower Mob list");
+            }
         }
 
         for (String id : oceanTowerMobs.get()) {
-            towerMobs.get(1).add(EntityType.byString(id).orElseThrow());
+            try {
+                towerMobs.get(1).add(EntityType.byString(id).orElseThrow());
+            } catch (NoSuchElementException e) {
+                towerMobs.get(1).add(EntityType.DROWNED);
+                BrassAmberBattleTowers.LOGGER.info("Unable to add mob via mob id:" + id + " to Ocean Tower Mob list");
+            }
+
         }
 
     }

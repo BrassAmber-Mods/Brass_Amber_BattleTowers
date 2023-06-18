@@ -1,0 +1,216 @@
+{
+	"itemGroup.ba_bt": "BrassAmber Battletowers",
+	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+
+	// Entities
+	"entity.ba_bt.land_golem": "Байрин'муул, Погребённый смотритель",
+	"entity.ba_bt.ocean_golem": "Морайзу'ун, Идол утоплеников",
+	"entity.ba_bt.core_golem": "Обтху'рин, Бог ядра",
+	"entity.ba_bt.nether_golem": "Инфуур'ниир, Пламенный король-тиран",
+	"entity.ba_bt.end_golem": "Шул'лосниир, Искажённый страж",
+	"entity.ba_bt.sky_golem": "Вейз'криин, Богиня небес",
+
+	"entity.ba_bt.sky_minion": "Небесный преспешник",
+	"entity.ba_bt.platinum_skeleton": "Платиновый рыцарь",
+	"entity.ba_bt.bt_cultist": "Культист",
+
+	"entity.ba_bt.land_monolith": "Монолит земли",
+	"entity.ba_bt.ocean_monolith": "Монолит океана",
+	"entity.ba_bt.core_monolith": "Монолит ядра",
+	"entity.ba_bt.nether_monolith": "Монолит Незера",
+	"entity.ba_bt.end_monolith": "Монолит Края",
+	"entity.ba_bt.sky_monolith": "Монолит небес",
+
+	"entity.ba_bt.land_obelisk": "Обелиск земли",
+	"entity.ba_bt.ocean_obelisk": "Обелиск океана",
+	"entity.ba_bt.core_obelisk": "Обелиск ядра",
+	"entity.ba_bt.nether_obelisk": "Обелиск Незера",
+	"entity.ba_bt.end_obelisk": "Обелиск Края",
+	"entity.ba_bt.sky_obelisk": "Обелиск небес",
+
+	"entity.ba_bt.destroy_tower": "Разруште башню",
+
+	// Golem Sounds
+	"ba_bt.subtitle.golem.hurt": "Голем получает урон",
+	"ba_bt.subtitle.golem.death": "Голем погибает",
+	"ba_bt.subtitle.golem.charge": "Голем подготавливается",
+	"ba_bt.subtitle.golem.awaken": "Голем просыпается",
+	"ba_bt.subtitle.golem.ambient": "Голем рычит",
+	"ba_bt.subtitle.golem.special": "Голем атакует",
+
+	"ba_bt.subtitle.golem.land.fight": "Гнев Байрин'муула",
+	"ba_bt.subtitle.golem.ocean.fight": "Бездна Морайзу'уна",
+	"ba_bt.subtitle.golem.core.fight": "Пробуждение Обтху'рина",
+	"ba_bt.subtitle.golem.nether.fight": "Трон Инфуур'ниира",
+	"ba_bt.subtitle.golem.end.fight": "Разум Шул'лосниира",
+	"ba_bt.subtitle.golem.sky.fight": "Нисхождение Вейз'крин",
+
+	"ba_bt.subtitle.monolith.spawn.golem": "Голен формируется",
+
+	"ba_bt.subtitle.tower.break.start": "Башня начинает рушится",
+	"ba_bt.subtitle.tower.break.crumble": "Пол башни начинает осыпаться",
+	"ba_bt.subtitle.tower.break.collapse": "Башня разваливается",
+	"ba_bt.subtitle.tower.ambient.music.land": "Музыка башни земли",
+	"ba_bt.subtitle.tower.ambient.music.ocean": "Музыка башни океана",
+	"ba_bt.subtitle.tower.ambient.music.core": "Музыка башни ядра",
+	"ba_bt.subtitle.tower.ambient.music.nether": "Музыка башни Незера",
+	"ba_bt.subtitle.tower.ambient.music.end": "Музыка башни Края",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Музыка башни небес",
+	"ba_bt.subtitle.tower.ambient.music.city": "Музыка восстановленного города",
+
+	// Blocks
+	"block.ba_bt.land_golem_chest": "Сундук Байрин'муула",
+	"block.ba_bt.land_chest": "Сундук земли",
+
+	"block.ba_bt.ocean_golem_chest": "Сундук Морайзу'уна",
+	"block.ba_bt.ocean_chest": "Сундук океана",
+
+	"block.ba_bt.platinum_block": "Платиновый блок",
+	"block.ba_bt.platinum_tiles": "Платиновая плитка",
+
+	"block.ba_bt.bt_land_spawner" : "Землянной рассадник монстров",
+	"block.ba_bt.bt_ocean_spawner" : "Океанический рассадник монстров",
+	"block.ba_bt.bt_core_spawner" : "Рассадник монстров ядра",
+	"block.ba_bt.bt_nether_spawner" : "Незерский рассадник монстров",
+	"block.ba_bt.bt_end_spawner" : "Рассадник монстров Края",
+	"block.ba_bt.bt_sky_spawner" : "Небесный рассадник монстров",
+
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
+
+	// Containers
+	"container.ba_bt.land_golem_chest": "Сундук Байрин'муула",
+	"container.ba_bt.land_golem_chest_double": "Большой сундук Байрин'муула",
+	"container.ba_bt.land_chest": "Сундук земли",
+	"container.ba_bt.land_chest_double": "Большой сундук земли",
+
+	"container.ba_bt.tower_chest.isLocked": "Разблокируется при уничтожении ближайших спавенров.",
+	
+	"container.ba_bt.ocean_golem_chest": "Сундук Морайзу'уна",
+	"container.ba_bt.ocean_golem_chest_double": "Большой сундук Морайзу'уна",
+	"container.ba_bt.ocean_chest": "Сундук океана",
+	"container.ba_bt.ocean_chest_double": "Большой сундук океана",
+
+	// Items
+	"item.ba_bt.monolith_key_land": "Ключ от монолита земли",
+	"item.ba_bt.monolith_key_ocean": "Ключ от монолита океана",
+	"item.ba_bt.monolith_key_core": "Ключ от монолита ядра",
+	"item.ba_bt.monolith_key_nether": "Ключ от монолита Незера",
+	"item.ba_bt.monolith_key_end": "Ключ от монолита Края",
+	"item.ba_bt.monolith_key_sky": "Ключ от монолита небес",
+
+	"item.ba_bt.guardian_eye_land": "Глаз Байрин'муула",
+	"item.ba_bt.guardian_eye_ocean": "Глаз Морайзу'уна",
+	"item.ba_bt.guardian_eye_core": "Глаз Обтху'рина",
+	"item.ba_bt.guardian_eye_nether": "Глаз Инфуур'ниира",
+	"item.ba_bt.guardian_eye_end": "Глаз Шул'лосниира",
+	"item.ba_bt.guardian_eye_sky": "Глаз Вейз'криин",
+
+	"item.ba_bt.monolith_land": "Монолит земли",
+	"item.ba_bt.monolith_ocean": "Монолит океана",
+	"item.ba_bt.monolith_core": "Монолит ядра",
+	"item.ba_bt.monolith_nether": "Монолит Незера",
+	"item.ba_bt.monolith_end": "Монолит Края",
+	"item.ba_bt.monolith_sky": "Монолит небес",
+
+	"item.ba_bt.platinum_ingot": "Платиновый слиток",
+	"item.ba_bt.platinum_shard": "Платиновый осколок",
+	"item.ba_bt.platinum_sword": "Платиновый меч",
+
+	"item.ba_bt.platinum_helmet": "Платиновый шлем",
+	"item.ba_bt.platinum_chestplate": "Платиновый нагрудник",
+	"item.ba_bt.platinum_leggings": "Платиновые поножи",
+	"item.ba_bt.platinum_boots": "Платиновые сапоги",
+
+	"item.ba_bt.land_chest_shard": "Осколок сундука земли",
+	"item.ba_bt.ocean_chest_shard": "Осколок сундука океана",
+
+	"item.ba_bt.platinum_skeleton_spawn_egg": "Яйцо призыва платиного рыцаря",
+	"item.ba_bt.cultist_spawn_egg": "Яйцо призыва культиста",
+
+	"item.ba_bt.bt_land_resonance_stone": "Резонирующий камень земли",
+	"item.ba_bt.bt_ocean_resonance_stone": "Резонирующий камень океана",
+	"item.ba_bt.bt_core_resonance_stone": "Резонирующий камень ядра",
+	"item.ba_bt.bt_nether_resonance_stone": "Резонирующий камень Незера",
+	"item.ba_bt.bt_end_resonance_stone": "Резонирующий камень Края",
+	"item.ba_bt.bt_sky_resonance_stone": "Резонирующий камень небес",
+	"item.ba_bt.bt_city_resonance_stone": "Резонирующий камень города",
+
+	// Effects
+	"effect.ba_bt.depth_dropper_effect": "Глубинное погружение",
+
+	// Enchantments
+	"enchantment.ba_bt.depth_dropper": "Глубинное погружение",
+
+	// Item Tooltips
+	"tooltip.ba_bt.hold_shift": "Удерживайте §eSHIFT§r для получения дополнительной информации.",
+	"tooltip.ba_bt.monolith_key": "Я надеюсь ты знаешь что делаешь...",
+	"tooltip.ba_bt.tower_chest": "Разблокируется при уничтожении ближайших спавнеров.",
+	"tooltip.ba_bt.golem_chest": "Привязан к живительной силе стража",
+
+	"tooltip.ba_bt.monolith_land": "Страж заперт внутри!",
+	"tooltip.ba_bt.monolith_ocean": "Зверь терпеливо ждёт внутри...",
+	"tooltip.ba_bt.monolith_core": "Бог ждёт когда глупцы вмешаются...",
+	"tooltip.ba_bt.monolith_nether": "Тиран лениво разлёгся внутри...",
+	"tooltip.ba_bt.monolith_end": "Страж медитирует внутри...",
+	"tooltip.ba_bt.monolith_sky": "Богиня наблюдает...",
+
+	"tooltip.ba_bt.eye_hold_shift": "Удерживайте §eSHIFT§r чтобы увидеть последние слова Стража",
+	"tooltip.ba_bt.land_eye": "Ваюс, башня была скомпрометирована...",
+	"tooltip.ba_bt.ocean_eye": "Славте бездну... Славте меня...",
+	"tooltip.ba_bt.core_eye": "Теперь ничто их не остановит..",
+	"tooltip.ba_bt.nether_eye": "Ты будешь ГНИТЬ в моих ПОДЗЕМЕЛЬЯХ за это!...",
+	"tooltip.ba_bt.end_eye": "Она приближается... Через разлом...",
+	"tooltip.ba_bt.sky_eye": "Я подвела вас, Ваюс старший... ",
+
+	"item.ba_bt.bt_land_resonance_stone.desc": "Лена Рейн: Ancestry",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "C418: Dragonfish",
+	"item.ba_bt.bt_core_resonance_stone.desc": "Лена Рейн: So Below",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Лена Рейн: Rubedo",
+	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
+	"item.ba_bt.bt_city_resonance_stone.desc": "Лена Рейн: Labyrinthine",
+
+	// Overscreen titles
+	"title.ba_bt.land": "Байрин'муул, Страж земли",
+	"title.ba_bt.ocean": "Морайзу'ун, Страж океана",
+	"title.ba_bt.core": "Обтху'рин, Бог ядра",
+	"title.ba_bt.nether": "Инфуур'ниир, Тиран Незера",
+	"title.ba_bt.end": "Шул'лосниир, Страж Края",
+	"title.ba_bt.sky": "Вейз'криин, Небесная богиня",
+
+	"title.ba_bt.guardian_defeated_1": "Повержен",
+
+	"title.ba_bt.land_defeated_2": "Без этой энергии...",
+	"title.ba_bt.land_defeated_3": "...Башня падёт...",
+
+	"title.ba_bt.ocean_defeated_2": "С возвращением идола в пустоту...",
+	"title.ba_bt.ocean_defeated_3": "...Пол начал осыпаться...",
+
+	"title.ba_bt.core_defeated_2": "Без сосуда бога...",
+	"title.ba_bt.core_defeated_3": "...Стены начинают плавиться...",
+
+	"title.ba_bt.nether_defeated_2": "Без контроля тирана...",
+	"title.ba_bt.nether_defeated_3": "...Башня зацветёт снова...",
+
+	"title.ba_bt.end_defeated_2": "Повержен, но не уничтожен...",
+	"title.ba_bt.end_defeated_3": "...Пол начинает исчезать...",
+
+	"title.ba_bt.sky_defeated_2": "Богиня убита...",
+	"title.ba_bt.sky_defeated_3": "...Башня расстворяется в туман...",
+
+	// Advancements
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "BattleTowers",
+	"advancements.ba_bt.land_tower_found.title": "Проверка временем",
+	"advancements.ba_bt.land_tower_found.description": "-Найдите древнюю башню",
+	"advancements.ba_bt.find_land_key.title": "Ключ к древней силе...",
+	"advancements.ba_bt.find_land_key.description": "-Найдите ключ от монолита",
+	"advancements.ba_bt.kill_land_golem.title": "Глубины океана зашевелились...",
+	"advancements.ba_bt.kill_land_golem.description": "-Уничтожте Байрин'муула, Погребённого смотрителя башни",
+	"advancements.ba_bt.ocean_tower_found.title": "Смотри куда шагаешь",
+	"advancements.ba_bt.ocean_tower_found.description": "-Упадите в бездонный котлован",
+	"advancements.ba_bt.find_ocean_key.title": "Что же они прячут...",
+	"advancements.ba_bt.find_ocean_key.description": "-Найдите ключ от монолита океана",
+	"advancements.ba_bt.kill_ocean_golem.title": "Беспокойное ядро...",
+	"advancements.ba_bt.kill_ocean_golem.description": "-Уничтожте Морайзу'уна, Идола утоплеников"
+}

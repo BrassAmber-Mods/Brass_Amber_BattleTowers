@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ba_bt:block/spawner_marker"
+    }
+  }
+}

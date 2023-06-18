@@ -2,7 +2,7 @@
 	"itemGroup.ba_bt": "BrassAmber Battletowers",
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
 
-	// Entità (Entities)
+	// Entita' (Entities)
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Idolo degli affogati",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
@@ -38,19 +38,25 @@
 	"ba_bt.subtitle.golem.ambient": "Crescita del Golem",
 	"ba_bt.subtitle.golem.special": "Attacco del Golem",
 
-	"ba_bt.subtitle.golem.land.fight": "Musica da boss del Golem",
+	"ba_bt.subtitle.golem.land.fight": "Rabbia di Bahryn'muul",
+	"ba_bt.subtitle.golem.ocean.fight": "Vuoto di Moraizu'un",
+	"ba_bt.subtitle.golem.core.fight": "Risveglio di Obthu'ryn",
+	"ba_bt.subtitle.golem.nether.fight": "Trono di Infuur'niir",
+	"ba_bt.subtitle.golem.end.fight": "Mente di Shul'losniir",
+	"ba_bt.subtitle.golem.sky.fight": "Discesa di Veyhz'kriin",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Il Golem sta per liberarsi!",
 
 	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
-	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
+	"ba_bt.subtitle.tower.break.crumble": "Pavimento trema",
+	"ba_bt.subtitle.tower.break.collapse": "Crolli della torre",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre della landa",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
 	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre del nucleo",
 	"ba_bt.subtitle.tower.ambient.music.nether": "Musica ambientale della torre infernale",
 	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre dell'End",
 	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celestiale",
-	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della città ripristinata",
+	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della citta' ripristinata",
 
 	// Blocchi (Blocks)
 	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
@@ -68,6 +74,8 @@
 	"block.ba_bt.bt_nether_spawner" : "Generatore infernale",
 	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
 	"block.ba_bt.bt_sky_spawner" : "Generatore celestiale",
+
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
 
 	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
@@ -127,16 +135,16 @@
 	"item.ba_bt.bt_city_resonance_stone": "Pietra risonante cittadina",
 
 	// Effetti (Effects)
-	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
+	"effect.ba_bt.depth_dropper_effect": "Ancoraggio delle profondita'",
 
 	// Incantamenti (Enchantments)
-	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+	"enchantment.ba_bt.depth_dropper": "Ancoraggio delle profondita'",
 
 	// Sottotitoli degli oggetti (Item Tooltips)
 	"tooltip.ba_bt.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
 	"tooltip.ba_bt.monolith_key": "Confido tu sappia a cosa vai incontro...",
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
-	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprirà!",
+	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprira'!",
 
 	"tooltip.ba_bt.monolith_land": "Il guardiano sembra intrappolato all'interno!",
 	"tooltip.ba_bt.monolith_ocean": "La bestia all'interno attende pazientemente...",
@@ -146,17 +154,17 @@
 	"tooltip.ba_bt.monolith_sky": "La dea osserva...",
 
 	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eSHIFT§r per leggere le utlime parole del Guardiano",
-	"tooltip.ba_bt.land_eye": "Vaayus, la torre è stata compromessa...",
+	"tooltip.ba_bt.land_eye": "Vaayus, la torre e' stata compromessa...",
 	"tooltip.ba_bt.ocean_eye": "Loda il vuoto... Lodami...",
-	"tooltip.ba_bt.core_eye": "Niente può più fermarmi adesso..",
-	"tooltip.ba_bt.nether_eye": "Ti farò MARCIRE nelle mie PRIGIONI per questo!...",
+	"tooltip.ba_bt.core_eye": "Niente puo' piu' fermarmi adesso..",
+	"tooltip.ba_bt.nether_eye": "Ti faro' MARCIRE nelle mie PRIGIONI per questo!...",
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
 	
 	"item.ba_bt.bt_land_resonance_stone.desc": "Lena Raine: Ancestry",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "DM DOKURO: Void",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "C418: Dragonfish",
 	"item.ba_bt.bt_core_resonance_stone.desc": "Lena Raine: So Below",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "FHP: Pigstep Cinematic Remix",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Lena Raine: Rubedox",
 	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
 	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
 	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
@@ -169,10 +177,10 @@
 	"title.ba_bt.end": "Shul'losniir, Custode dell'End",
 	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
 	
-	"title.ba_bt.guardian_defeated_1": " è caduto.",
+	"title.ba_bt.guardian_defeated_1": " e' caduto.",
 
 	"title.ba_bt.land_defeated_2": "Senza la sua energia...",
-	"title.ba_bt.land_defeated_3": "...la torrè esploderà!",
+	"title.ba_bt.land_defeated_3": "...la torre' esplodera'!",
 
 	"title.ba_bt.ocean_defeated_2": "Esiliato nuovamente nel vuoto...",
 	"title.ba_bt.ocean_defeated_3": "...il pavimento comincia a crollare!",
@@ -196,7 +204,7 @@
 	"advancements.ba_bt.land_tower_found.description": "-Riscopri un'antica torre di battaglia",
 	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",
 	"advancements.ba_bt.find_land_key.description": "-Trova una chiave del monolite",
-	"advancements.ba_bt.kill_land_golem.title": "Le profondità dell'oceano cominciano ad agitarsi...",
+	"advancements.ba_bt.kill_land_golem.title": "Le profondita' dell'oceano cominciano ad agitarsi...",
 	"advancements.ba_bt.kill_land_golem.description": "-Sconfiggi Bahryn'muul, l'antico guardiano della torre",
 	"advancements.ba_bt.ocean_tower_found.title": "Guarda dove metti i piedi!",
 	"advancements.ba_bt.ocean_tower_found.description": "-Precipita nella fossa abissale",

@@ -75,6 +75,8 @@
 	"block.ba_bt.bt_end_spawner" : "End Spawner",
 	"block.ba_bt.bt_sky_spawner" : "Sky Spawner",
 
+	"block.ba_bt.spawner_marker" : "Spawner Marker",
+
 	// Containers
 	"container.ba_bt.land_golem_chest": "Bahryn'muul's Chest",
 	"container.ba_bt.land_golem_chest_double": "Large Bahryn'muul's Chest",
