@@ -78,6 +78,9 @@ public class BTBlocks {
 	public static final RegistryObject<Block> BT_SKY_SPAWNER = BLOCKS.register("bt_sky_spawner",
 			() -> new BTSpawnerBlock(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
 
+	public static final  RegistryObject<Block> BT_SPAWNER_MARKER = BLOCKS.register("spawner_marker",
+			() -> new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL).strength(5.0F, 1200.0F).noOcclusion().explosionResistance(6.0F)));
+
 	public static final RegistryObject<Block> BT_AIR_FILL = BLOCKS.register("bt_air_fill",
 			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noCollission().noOcclusion().noDrops().air()));
 

@@ -156,6 +156,8 @@ public class ClientEvents {
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SKY_SPAWNER.get(), RenderType.cutout());
 		
 		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON.get(), RenderType.cutout());
+
+		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER_MARKER.get(), RenderType.cutout());
 	}
 
 

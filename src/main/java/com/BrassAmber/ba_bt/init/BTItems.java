@@ -73,6 +73,8 @@ public class BTItems {
 	public static final RegistryObject<Item> BT_END_SPAWNER = ITEMS.register("bt_end_spawner", () -> new BlockItem(BTBlocks.BT_END_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
 	public static final RegistryObject<Item> BT_SKY_SPAWNER = ITEMS.register("bt_sky_spawner", () -> new BlockItem(BTBlocks.BT_SKY_SPAWNER.get(), new Item.Properties().tab(null).stacksTo(1)));
 
+	public static final RegistryObject<Item> BT_SPAWNER_MARKER = ITEMS.register("spawner_marker", () -> new BlockItem(BTBlocks.BT_SPAWNER_MARKER.get(), new Item.Properties().tab(null).stacksTo(1)));
+
 	public static final RegistryObject<Item> BT_LAND_RESONANCE_CRYSTAL = ITEMS.register("bt_land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
 	public static final RegistryObject<Item> BT_OCEAN_RESONANCE_CRYSTAL = ITEMS.register("bt_ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
 	public static final RegistryObject<Item> BT_CORE_RESONANCE_CRYSTAL = ITEMS.register("bt_core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE.getSerializedName(), new Item.Properties().tab(BATLETOWERSTAB).stacksTo(1)));
