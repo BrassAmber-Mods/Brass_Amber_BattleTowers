@@ -7,12 +7,12 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
-import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.CompoundContainer;
 import net.minecraft.world.Container;
@@ -38,7 +38,7 @@ public class GolemChestBlock extends ChestBlock {
 	private final BTChestType chestType;
 
 	private final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>>() {
-		public Optional<MenuProvider> acceptDouble(final ChestBlockEntity chestBlockEntity1, final ChestBlockEntity chestBlockEntity2) {
+		public Optional<MenuProvider> acceptDouble(ChestBlockEntity chestBlockEntity1, ChestBlockEntity chestBlockEntity2) {
 			final Container iinventory = new CompoundContainer(chestBlockEntity1, chestBlockEntity2);
 			return Optional.of(new MenuProvider() {
 				@Nullable
@@ -56,7 +56,7 @@ public class GolemChestBlock extends ChestBlock {
 					if (chestBlockEntity1.hasCustomName()) {
 						return chestBlockEntity1.getDisplayName();
 					} else {
-						return chestBlockEntity2.hasCustomName() ? chestBlockEntity2.getDisplayName() : new TranslatableComponent("container.ba_bt."+ getChestType().getName() +"_chest_double");
+						return chestBlockEntity2.hasCustomName() ? chestBlockEntity2.getDisplayName() : Component.translatable("container.ba_bt."+ getChestType().getName() +"_chest_double");
 					}
 				}
 			});
@@ -79,11 +79,6 @@ public class GolemChestBlock extends ChestBlock {
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 		return getChestEntity(this).create(blockPos, blockState);
-	}
-
-	@Override
-	public boolean hasAnalogOutputSignal(BlockState state) {
-		return true;
 	}
 
 	public BTChestType getChestType() {
@@ -120,7 +115,7 @@ public class GolemChestBlock extends ChestBlock {
 			return this.typeName;
 		}
 
-		public static BTChestType getRandomChestType(Random rand) {
+		public static BTChestType getRandomChestType(RandomSource rand) {
 			return Util.getRandom(ALL_CHEST_TYPES, rand);
 		}
 

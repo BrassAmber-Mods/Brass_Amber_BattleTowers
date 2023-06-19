@@ -4,6 +4,8 @@ import com.BrassAmber.ba_bt.block.blockentity.spawner.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BTSpawnerBlock extends SpawnerBlock implements EntityBlock {
 
@@ -74,9 +77,10 @@ public class BTSpawnerBlock extends SpawnerBlock implements EntityBlock {
 
     }
 
-
     @Override
-    public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader world, BlockPos pos, int fortune, int silktouch) {
-        return 15 + RANDOM.nextInt(15) + RANDOM.nextInt(15);
+    public int getExpDrop(BlockState state, LevelReader world, RandomSource randomSource, BlockPos pos, int fortune, int silktouch) {
+        Random random = new Random();
+        return 15 + random.nextInt(15) + random.nextInt(15);
     }
+
 }
