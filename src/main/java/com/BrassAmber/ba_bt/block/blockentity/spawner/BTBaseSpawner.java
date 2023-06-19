@@ -4,10 +4,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.SpawnData;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.eventbus.api.Event;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +40,8 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                 --this.spawnDelay;
             } else {
                 boolean flag = false;
+                RandomSource randomsource = p_151312_.getRandom();
+                SpawnData spawndata = this.getOrCreateNextSpawnData(p_151312_, randomsource, p_151313_);
 
                 for(int i = 0; i < this.spawnCount; ++i) {
                     CompoundTag compoundtag = this.nextSpawnData.getEntityToSpawn();
@@ -52,12 +57,12 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                     double d1 = j >= 2 ? listtag.getDouble(1) : (double)(p_151313_.getY() + p_151312_.random.nextInt(3) - 1);
                     double d2 = j >= 3 ? listtag.getDouble(2) : (double)p_151313_.getZ() + (p_151312_.random.nextDouble() - p_151312_.random.nextDouble()) * (double)this.spawnRange + 0.5D;
                     if (p_151312_.noCollision(optional.get().getAABB(d0, d1, d2))) {
-                        BlockPos blockpos = new BlockPos(d0, d1, d2);
-                        if (this.nextSpawnData.getCustomSpawnRules().isPresent()) {
+                        BlockPos blockpos = BlockPos.containing(d0, d1, d2);
+                        if (spawndata.getCustomSpawnRules().isPresent()) {
                             if (!optional.get().getCategory().isFriendly() && p_151312_.getDifficulty() == Difficulty.PEACEFUL) {
                                 continue;
                             }
-                        } else if (!SpawnPlacements.checkSpawnRules(EntityType.PILLAGER, p_151312_, MobSpawnType.SPAWNER, blockpos, p_151312_.getRandom())) {
+                        } else if (!SpawnPlacements.checkSpawnRules(optional.get(), p_151312_, MobSpawnType.SPAWNER, blockpos, p_151312_.getRandom())) {
                             continue;
                         }
 
@@ -78,13 +83,14 @@ public abstract class BTBaseSpawner extends BaseSpawner {
 
                         entity.moveTo(entity.getX(), entity.getY(), entity.getZ(), p_151312_.random.nextFloat() * 360.0F, 0.0F);
                         if (entity instanceof Mob mob) {
-                            if (net.minecraftforge.event.ForgeEventFactory.canEntitySpawn(mob, p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this, MobSpawnType.SPAWNER) == Event.Result.DENY) {
+                            if (spawndata.getCustomSpawnRules().isEmpty() && !mob.checkSpawnRules(p_151312_, MobSpawnType.SPAWNER) || !mob.checkSpawnObstruction(p_151312_)) {
                                 continue;
                             }
 
-                            if (this.nextSpawnData.getEntityToSpawn().size() == 1 && this.nextSpawnData.getEntityToSpawn().contains("id", 8)) {
-                                if (!net.minecraftforge.event.ForgeEventFactory.doSpecialSpawn(mob, (LevelAccessor)p_151312_, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), this, MobSpawnType.SPAWNER))
-                                    ((Mob)entity).finalizeSpawn(p_151312_, p_151312_.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.SPAWNER, (SpawnGroupData)null, (CompoundTag)null);
+                            // Forge: Patch in the spawn event for spawners so it may be fired unconditionally, instead of only when vanilla normally would trigger it.
+                            var event = net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawnSpawner(mob, p_151312_, p_151312_.getCurrentDifficultyAt(entity.blockPosition()), null, compoundtag, this);
+                            if (event != null && spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().contains("id", 8)) {
+                                ((Mob)entity).finalizeSpawn(p_151312_, event.getDifficulty(), event.getSpawnType(), event.getSpawnData(), event.getSpawnTag());
                             }
                         }
 
@@ -94,6 +100,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                         }
 
                         p_151312_.levelEvent(2004, p_151313_, 0);
+                        p_151312_.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos);
                         if (entity instanceof Mob) {
                             ((Mob)entity).spawnAnim();
                         }
