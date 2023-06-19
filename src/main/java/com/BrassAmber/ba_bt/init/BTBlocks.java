@@ -7,6 +7,8 @@ import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -18,76 +20,88 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 
 public class BTBlocks {
 
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
-	public static final RegistryObject<Block> LAND_GOLEM_CHEST = BLOCKS.register("land_golem_chest",
+
+	public static final RegistryObject<Block> LAND_GOLEM_CHEST = registerBlock("land_golem_chest",
 			() -> new GolemChestBlock(
 					BTChestType.GOLEM, BTBlockEntityTypes.LAND_GOLEM_CHEST::get,
-					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F))
+					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
 	);
-	public static final RegistryObject<Block> LAND_CHEST = BLOCKS.register("land_chest",
+	public static final RegistryObject<Block> LAND_CHEST = registerBlock("land_chest",
 			() -> new TowerChestBlock(
 					BTChestType.TOWER, BTBlockEntityTypes.LAND_CHEST::get,
-					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F))
+					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
 	);
 
-	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = BLOCKS.register("ocean_golem_chest",
+	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = registerBlock("ocean_golem_chest",
 			() -> new GolemChestBlock(
 					BTChestType.GOLEM, BTBlockEntityTypes.OCEAN_GOLEM_CHEST::get,
-					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F))
+					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
 	);
-	public static final RegistryObject<Block> OCEAN_CHEST = BLOCKS.register("ocean_chest",
+	public static final RegistryObject<Block> OCEAN_CHEST = registerBlock("ocean_chest",
 			() -> new TowerChestBlock(
 					BTChestType.TOWER, BTBlockEntityTypes.OCEAN_CHEST::get,
-					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F))
+					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
 	);
 
-	public static final RegistryObject<Block> PLATINUM_BLOCK = BLOCKS.register("platinum_block",
+	public static final RegistryObject<Block> PLATINUM_BLOCK = registerBlock("platinum_block",
 			() -> new Block(Block.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops()
-					.strength(4.0F, 6.0F).sound(SoundType.METAL)));
-	public static final RegistryObject<Block> PLATINUM_TILES = BLOCKS.register("platinum_tiles",
+					.strength(4.0F, 6.0F).sound(SoundType.METAL)), 64);
+	public static final RegistryObject<Block> PLATINUM_TILES = registerBlock("platinum_tiles",
 			() -> new Block(Block.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops()
-					.strength(4.0F, 6.0F).sound(SoundType.METAL)));
+					.strength(4.0F, 6.0F).sound(SoundType.METAL)), 64);
 
-	public static final RegistryObject<Block> TAB_ICON = BLOCKS.register("tab_icon",
-			() -> new TabIconBlock(Block.Properties.of().strength(-1.0F, 3600000.0F).sound(SoundType.STONE)));
+	public static final RegistryObject<Block> TAB_ICON = registerBlock("tab_icon",
+			() -> new TabIconBlock(Block.Properties.of().strength(-1.0F, 3600000.0F).sound(SoundType.STONE)), 1);
 
-    public static final RegistryObject<Block> BT_LAND_SPAWNER = BLOCKS.register("bt_land_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+    public static final RegistryObject<Block> BT_LAND_SPAWNER = registerBlock("bt_land_spawner",
+			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()), 1);
 
-	public static final RegistryObject<Block> BT_OCEAN_SPAWNER = BLOCKS.register("bt_ocean_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+	public static final RegistryObject<Block> BT_OCEAN_SPAWNER = registerBlock("bt_ocean_spawner",
+			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()), 1);
 
-	public static final RegistryObject<Block> BT_CORE_SPAWNER = BLOCKS.register("bt_core_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+	public static final RegistryObject<Block> BT_CORE_SPAWNER = registerBlock("bt_core_spawner",
+			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()), 1);
 
-	public static final RegistryObject<Block> BT_NETHER_SPAWNER = BLOCKS.register("bt_nether_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+	public static final RegistryObject<Block> BT_NETHER_SPAWNER = registerBlock("bt_nether_spawner",
+			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()), 1);
 
-	public static final RegistryObject<Block> BT_END_SPAWNER = BLOCKS.register("bt_end_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+	public static final RegistryObject<Block> BT_END_SPAWNER = registerBlock("bt_end_spawner",
+			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()), 1);
 
-	public static final RegistryObject<Block> BT_SKY_SPAWNER = BLOCKS.register("bt_sky_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()));
+	public static final RegistryObject<Block> BT_SKY_SPAWNER = registerBlock("bt_sky_spawner",
+			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion()), 1);
 
-	public static final  RegistryObject<Block> BT_SPAWNER_MARKER = BLOCKS.register("spawner_marker",
-			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 1200.0F).noOcclusion().explosionResistance(6.0F).isValidSpawn(BTBlocks::never)));
+	public static final  RegistryObject<Block> BT_SPAWNER_MARKER = registerBlock("spawner_marker",
+			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 1200.0F).noOcclusion().explosionResistance(6.0F).isValidSpawn(BTBlocks::never)), 1);
 
-	public static final RegistryObject<Block> BT_AIR_FILL = BLOCKS.register("bt_air_fill",
-			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().noCollission().noOcclusion().noLootTable().air()));
+	public static final RegistryObject<Block> BT_AIR_FILL = registerBlock("bt_air_fill",
+			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().noCollission().noOcclusion().noLootTable().air()), 1);
 
 
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
-		return (boolean)false;
+		return false;
 	}
 
 	private static Boolean always(BlockState p_50810_, BlockGetter p_50811_, BlockPos p_50812_, EntityType<?> p_50813_) {
-		return (boolean)true;
+		return true;
 	}
 
+	private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, int stackSize) {
+		RegistryObject<T> toReturn = BLOCKS.register(name, block);
+		registerBlockItem(name, toReturn, stackSize);
+		return toReturn;
+	}
+	
+	private static  <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block, int stackSize) {
+		return BTItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
+	}
 
 
 }
