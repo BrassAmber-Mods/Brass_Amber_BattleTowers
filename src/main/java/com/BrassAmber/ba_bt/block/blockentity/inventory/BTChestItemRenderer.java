@@ -2,7 +2,6 @@ package com.BrassAmber.ba_bt.block.blockentity.inventory;
 
 import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.block.blockentity.TowerChestBlockEntity;
-import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTItems;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,11 +9,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -34,7 +33,7 @@ public class BTChestItemRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     @Override
-    public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLightIn, int combineOverLayIn) {
+    public void renderByItem(ItemStack itemStack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLightIn, int combineOverLayIn) {
         Item item = itemStack.getItem();
         BlockEntity blockEntity = null;
         if (item instanceof BlockItem) {
