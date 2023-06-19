@@ -2,13 +2,11 @@ package com.BrassAmber.ba_bt.block.blockentity;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
-import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -80,7 +78,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	 */
 	@Override
 	protected Component getDefaultName() {
-		return new TranslatableComponent("container.ba_bt." + this.tower_name + "_golem_chest");
+		return Component.translatable("container.ba_bt." + this.tower_name + "_golem_chest");
 	}
 
 	public void load(CompoundTag compoundTag) {
@@ -158,7 +156,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 
 	public boolean canUnlock(Player player, Component component) {
 		if (!this.unlocked && !player.isSpectator()) {
-			player.displayClientMessage(new TranslatableComponent("container.isLocked", component), true);
+			player.displayClientMessage(Component.translatable("container.isLocked", component), true);
 			player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
 			return false;
 		}
