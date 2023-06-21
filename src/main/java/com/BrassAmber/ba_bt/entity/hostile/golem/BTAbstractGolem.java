@@ -413,8 +413,8 @@ public abstract class BTAbstractGolem extends Monster {
 	 */
 	public void find_golem_chest(BlockPos spawnPos) {
 
-		for (int x = spawnPos.getX() - 12; x <  spawnPos.getX() + 12 ; x++) {
-			for (int z = spawnPos.getZ() - 12; z < spawnPos.getZ() + 12; z++) {
+		for (int x = spawnPos.getX() - 14; x <  spawnPos.getX() + 14 ; x++) {
+			for (int z = spawnPos.getZ() - 14; z < spawnPos.getZ() + 14; z++) {
 				checkPos(new BlockPos(x, spawnPos.below().getY(), z));
 				checkPos(new BlockPos(x, spawnPos.getY(), z));
 				checkPos(new BlockPos(x, spawnPos.above().getY(), z));
