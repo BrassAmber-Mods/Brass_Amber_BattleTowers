@@ -3,11 +3,12 @@ package com.BrassAmber.ba_bt.init;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.item.BTArmorMaterial;
 import com.BrassAmber.ba_bt.item.BTItemTier;
-import com.BrassAmber.ba_bt.item.ChestBlockItem;
 import com.BrassAmber.ba_bt.item.item.*;
 import com.BrassAmber.ba_bt.util.GolemType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,12 +57,12 @@ public class BTItems {
 	public static final RegistryObject<Item> EBOOK_HOLDER = ITEMS.register("ebook_holder", () -> new BTEnchantedBookHolder(new Item.Properties()));
 	public static final RegistryObject<Item> BT_EMPTY_LOOT_ITEM = ITEMS.register("bt_empty_item", () -> new BTEmptyLootItem(new Item.Properties()));
 	
-	public static final RegistryObject<Item> BT_LAND_RESONANCE_CRYSTAL = ITEMS.register("bt_land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND.getSerializedName(), new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> BT_OCEAN_RESONANCE_CRYSTAL = ITEMS.register("bt_ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN.getSerializedName(), new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> BT_CORE_RESONANCE_CRYSTAL = ITEMS.register("bt_core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE.getSerializedName(), new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> BT_NETHER_RESONANCE_CRYSTAL = ITEMS.register("bt_nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER.getSerializedName(), new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> BT_END_RESONANCE_CRYSTAL = ITEMS.register("bt_end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END.getSerializedName(), new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> BT_SKY_RESONANCE_CRYSTAL = ITEMS.register("bt_sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY.getSerializedName(), new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> BT_CITY_RESONANCE_CRYSTAL = ITEMS.register("bt_city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY.getSerializedName(), new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> BT_LAND_RESONANCE_CRYSTAL = ITEMS.register("bt_land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND.getSerializedName(), new Item.Properties().stacksTo(1),7200));
+	public static final RegistryObject<Item> BT_OCEAN_RESONANCE_CRYSTAL = ITEMS.register("bt_ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN.getSerializedName(), new Item.Properties().stacksTo(1), 8400));
+	public static final RegistryObject<Item> BT_CORE_RESONANCE_CRYSTAL = ITEMS.register("bt_core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE.getSerializedName(), new Item.Properties().stacksTo(1), 5700));
+	public static final RegistryObject<Item> BT_NETHER_RESONANCE_CRYSTAL = ITEMS.register("bt_nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER.getSerializedName(), new Item.Properties().stacksTo(1), 3300));
+	public static final RegistryObject<Item> BT_END_RESONANCE_CRYSTAL = ITEMS.register("bt_end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END.getSerializedName(), new Item.Properties().stacksTo(1), 7800));
+	public static final RegistryObject<Item> BT_SKY_RESONANCE_CRYSTAL = ITEMS.register("bt_sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY.getSerializedName(), new Item.Properties().stacksTo(1), 4200));
+	public static final RegistryObject<Item> BT_CITY_RESONANCE_CRYSTAL = ITEMS.register("bt_city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY.getSerializedName(), new Item.Properties().stacksTo(1), 2100));
 
 }

@@ -33,8 +33,8 @@ public class ResonanceStoneItem extends RecordItem {
     public boolean effectOn;
     private boolean initialized;
 
-    public ResonanceStoneItem(String golemName, Properties properties) {
-        super(2, BTUtil.getTowerMusic(GolemType.getTypeForName(golemName)), properties);
+    public ResonanceStoneItem(String golemName, Properties properties, int length) {
+        super(2, BTUtil.getTowerMusic(GolemType.getTypeForName(golemName)), properties, length);
         this.golemType = GolemType.getTypeForName(golemName);
         this.effectOn = false;
         this.initialized = false;
