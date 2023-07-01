@@ -31,7 +31,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
-		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 40, 1F, 0.5F, true);
+		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 40, .7F, 0.5F, true);
 		this.lookControl = new SmoothSwimmingLookControl(this, 40);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
