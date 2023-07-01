@@ -428,9 +428,7 @@ public abstract class BTAbstractGolem extends Monster {
 		if (posEntity instanceof GolemChestBlockEntity) {
 			this.chestBlockEntityPos = pos;
 		}
-		else {
-			BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, pos + " - " + posEntity);
-		}
+		// BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, pos + " - " + posEntity);
 	}
 
 	/*********************************************************** AI Goals ********************************************************/
