@@ -60,7 +60,7 @@ public class BTStatics {
                         Blocks.MOSSY_STONE_BRICK_SLAB, Blocks.MOSSY_STONE_BRICKS, Blocks.MOSSY_STONE_BRICK_STAIRS,
                         Blocks.SANDSTONE, Blocks.SANDSTONE_SLAB, Blocks.SANDSTONE_STAIRS,
                         Blocks.CHISELED_SANDSTONE, Blocks.CUT_SANDSTONE, Blocks.CUT_SANDSTONE_SLAB,
-                        BTBlocks.LAND_CHEST.get(), BTBlocks.LAND_GOLEM_CHEST.get()
+                        BTBlocks.LAND_CHEST.get(), BTBlocks.LAND_GOLEM_CHEST.get(), BTBlocks.BT_SPAWNER_MARKER.get()
                 ),
                 // Ocean
                 List.of(
@@ -73,7 +73,8 @@ public class BTStatics {
                         Blocks.BRAIN_CORAL_BLOCK, Blocks.BUBBLE_CORAL_BLOCK, Blocks.FIRE_CORAL_BLOCK, Blocks.WARPED_HYPHAE,
                         Blocks.TUBE_CORAL_BLOCK, Blocks.HORN_CORAL_BLOCK, Blocks.IRON_BARS, Blocks.BONE_BLOCK,
                         Blocks.COPPER_BLOCK, Blocks.EXPOSED_COPPER, Blocks.OXIDIZED_COPPER, Blocks.WARPED_STEM,
-                        BTBlocks.BT_OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get()
+                        BTBlocks.BT_OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get(),
+                        BTBlocks.BT_SPAWNER_MARKER.get()
                 )
         );
 
