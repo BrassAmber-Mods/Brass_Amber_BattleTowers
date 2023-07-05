@@ -438,7 +438,7 @@ public abstract class BTAbstractGolem extends Monster {
 	 */
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F) {
+		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12.0F) {
 			@Override
 			public boolean canUse() {
 //				BrassAmberBattleTowers.LOGGER.info("Look");
@@ -453,12 +453,12 @@ public abstract class BTAbstractGolem extends Monster {
 		});
 		// Ignore damage from non-player entities
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(7, new TargetTaskGolem<>(this));
+		this.targetSelector.addGoal(4, new TargetTaskGolem<>(this));
 		this.addBehaviorGoals();
 	}
 
 	protected void addBehaviorGoals() {
-		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
+		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true) {
 			@Override
 			public boolean canUse() {
 				return !BTAbstractGolem.this.isDormant() && super.canUse();

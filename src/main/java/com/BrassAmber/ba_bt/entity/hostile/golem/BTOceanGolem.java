@@ -1,11 +1,16 @@
 package com.BrassAmber.ba_bt.entity.hostile.golem;
 
+import com.BrassAmber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
+import com.BrassAmber.ba_bt.entity.ai.goal.GolemLeapGoal;
+import com.BrassAmber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.BrassAmber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,12 +18,16 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,23 +40,38 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
-		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 40, .7F, 0.5F, true);
-		this.lookControl = new SmoothSwimmingLookControl(this, 40);
+		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
 		this.BOSS_MUSIC = BTSoundEvents.OCEAN_GOLEM_FIGHT_MUSIC;
+		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
+		this.moveControl = new SmoothSwimmingMoveControl(this, 90, 90, .08f, .5f, false);
+		this.lookControl = new SmoothSwimmingLookControl(this, 90);
 		this.xpReward = 910;
 		this.drowned = 0;
 		this.golemType = GolemType.OCEAN;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 2.5D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
 		return new WaterBoundPathNavigation(this, level);
+	}
+
+	@Override
+	protected void goDownInWater() {
+	}
+
+	@Override
+	protected void addBehaviorGoals() {
+		super.addBehaviorGoals();
+	}
+
+	protected float getWaterSlowDown() {
+		return 0.0F;
 	}
 
 	@Override
@@ -104,6 +128,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 	public void onInsideBubbleColumn(boolean p_20322_) {
 		this.resetFallDistance();
 	}
+	
 
 	public void spawnDrowned(ServerLevel level) {
 		@SuppressWarnings("ConstantConditions") List<Entity> drownedList = List.of(EntityType.DROWNED.create(level),EntityType.DROWNED.create(level),EntityType.DROWNED.create(level),EntityType.DROWNED.create(level));
