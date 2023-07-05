@@ -142,7 +142,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 320, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1,true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 3,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 2,true, true), player);
                 }
             }
         }
