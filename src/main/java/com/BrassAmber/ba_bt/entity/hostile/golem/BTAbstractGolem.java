@@ -43,19 +43,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import org.jetbrains.annotations.NotNull;
-
-import static com.BrassAmber.ba_bt.util.BTLoot.getGolemLootTable;
 
 
 /**
@@ -89,7 +82,6 @@ public abstract class BTAbstractGolem extends Monster {
 	protected final String spawnDirectionName = "SpawnDirection";
 	protected final String golemStateName = "GolemState";
 	protected final String explosionPowerName = "ExplosionPower";
-	protected BlockPos chestBlockEntityPos;
 	public Music BOSS_MUSIC;
 	protected MusicManager music;
 
@@ -382,54 +374,10 @@ public abstract class BTAbstractGolem extends Monster {
 		if (this.level.isClientSide()) {
 			((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
 		}
-		else {
-
-			BlockPos spawnPos = this.getSpawnPos();
-			// BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, spawnPos);
-			this.find_golem_chest(spawnPos);
-
-			try {
-				BlockEntity entity = this.level.getBlockEntity(this.chestBlockEntityPos);
-				if (entity instanceof GolemChestBlockEntity chestEntity) {
-					BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + entity);
-					chestEntity.setUnlocked(true);
-					LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.level))
-							.withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestEntity.getBlockPos()))
-							.withOptionalRandomSeed(this.random.nextLong());
-					getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(chestEntity, lootcontext$builder.create(LootContextParamSets.CHEST));
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
 		super.die(source);
 	}
 
-	/**
-	 * Function to correctly find/unlock the golem chest in each tower.
-	 * @param spawnPos initial spawn position of golem
-	 */
-	public void find_golem_chest(BlockPos spawnPos) {
 
-		for (int x = spawnPos.getX() - 14; x <  spawnPos.getX() + 14 ; x++) {
-			for (int z = spawnPos.getZ() - 14; z < spawnPos.getZ() + 14; z++) {
-				checkPos(new BlockPos(x, spawnPos.below().getY(), z));
-				checkPos(new BlockPos(x, spawnPos.getY(), z));
-				checkPos(new BlockPos(x, spawnPos.above().getY(), z));
-			}
-		}
-	}
-
-	public void checkPos(BlockPos pos) {
-		BlockEntity posEntity = this.level.getBlockEntity(pos);
-
-		if (posEntity instanceof GolemChestBlockEntity) {
-			this.chestBlockEntityPos = pos;
-		}
-		// BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, pos + " - " + posEntity);
-	}
 
 	/*********************************************************** AI Goals ********************************************************/
 
