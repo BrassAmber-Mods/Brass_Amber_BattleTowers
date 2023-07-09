@@ -105,25 +105,25 @@ public class BTLoot {
 
         // List of loot rolls per floor of each tower.
         landFloorRolls = List.of(
-                List.of(4, 3, 2, 0),
-                List.of(3, 4, 2, 0),
-                List.of(4, 5, 2, 1),
-                List.of(4, 4, 3, 1),
-                List.of(3, 4, 4, 1),
-                List.of(3, 3, 4, 2),
-                List.of(3, 3, 4, 2),
-                List.of(3, 4, 4, 3)
+                List.of(4, 3, 2, 1),
+                List.of(3, 4, 2, 1),
+                List.of(3, 4, 1, 2),
+                List.of(3, 4, 2, 2),
+                List.of(2, 4, 3, 2),
+                List.of(2, 2, 4, 3),
+                List.of(1, 4, 5, 3),
+                List.of(0, 4, 5, 4)
         );
 
         oceanFloorRolls = List.of(
-                List.of(4, 3, 2, 0),
-                List.of(3, 4, 2, 0),
-                List.of(4, 5, 2, 1),
-                List.of(4, 4, 3, 1),
-                List.of(3, 4, 4, 1),
-                List.of(3, 3, 4, 2),
-                List.of(2, 3, 5, 2),
-                List.of(1, 4, 5, 5)
+                List.of(5, 3, 2, 1),
+                List.of(3, 5, 2, 1),
+                List.of(3, 5, 1, 2),
+                List.of(3, 5, 2, 2),
+                List.of(2, 5, 3, 2),
+                List.of(2, 2, 5, 3),
+                List.of(1, 5, 6, 3),
+                List.of(0, 4, 6, 5)
         );
 
         golemLootRolls = List.of(
