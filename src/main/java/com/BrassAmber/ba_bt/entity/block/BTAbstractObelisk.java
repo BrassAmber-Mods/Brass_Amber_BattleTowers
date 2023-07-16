@@ -48,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.BrassAmber.ba_bt.util.BTLoot.getGolemLootTable;
 import static com.BrassAmber.ba_bt.util.BTLoot.getLootTable;
 import static com.BrassAmber.ba_bt.util.BTStatics.*;
 import static com.BrassAmber.ba_bt.util.BTUtil.distanceTo2D;
@@ -87,10 +88,6 @@ public class BTAbstractObelisk extends Entity {
     // Data Strings
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
-    private final String chestsFoundName = "ChestsFound?";
-
-    private final String spawnersName = "Spawners";
-    private final String chestsName = "TowerChests";
 
     protected boolean musicPlaying;
     protected boolean canCheck;
@@ -357,6 +354,21 @@ public class BTAbstractObelisk extends Entity {
                 this.checkSpawners(this.level);
                 // BrassAmberBattleTowers.LOGGER.info(this.towerEffect + " effect ");
             }
+        } else if (this.golemChest != null) {
+            if (this.chestsFound && this.initialized && this.tickCount > 40 && !this.golemChest.isUnlocked()) {
+                try {
+                    BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + this.golemChest);
+                    this.golemChest.setUnlocked(true);
+                    LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) this.level))
+                            .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos()))
+                            .withOptionalRandomSeed(this.random.nextLong());
+                    getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(this.golemChest, lootcontext$builder.create(LootContextParamSets.CHEST));
+                    this.chestUnlockingSound(level);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -534,60 +546,6 @@ public class BTAbstractObelisk extends Entity {
             // BrassAmberBattleTowers.LOGGER.info("Reading obelisk data " + tag);
             this.golemType = GolemType.getTypeForName(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
-            this.chestsFound = tag.getBoolean(chestsFoundName);
-
-            BlockPos checkPos;
-
-            this.spawnerAmounts = towerSpawnerAmounts.get(GolemType.getNumForType(this.golemType));
-            this.SPAWNERS = Arrays.asList(new ArrayList<>(this.spawnerAmounts.get(0)), new ArrayList<>(this.spawnerAmounts.get(1)),
-                    new ArrayList<>(this.spawnerAmounts.get(2)), new ArrayList<>(this.spawnerAmounts.get(3)),
-                    new ArrayList<>(this.spawnerAmounts.get(4)), new ArrayList<>(this.spawnerAmounts.get(5)),
-                    new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
-
-
-            ListTag spawners = tag.getList(this.spawnersName, 9);
-            ListTag spawnerFloor = spawners.getList(0);
-            ListTag spawnerXTag = spawners.getList(1);
-            ListTag spawnerYTag = spawners.getList(2);
-            ListTag spawnerZTag = spawners.getList(3);
-
-            // BrassAmberBattleTowers.LOGGER.info("spawner floors: " + spawnerFloor);
-
-            int floor;
-            for (int i = 0; i < spawnerFloor.size(); i++) {
-                floor = (int) spawnerFloor.getDouble(i);
-                checkPos = new BlockPos(spawnerXTag.getDouble(i), spawnerYTag.getDouble(i), spawnerZTag.getDouble(i));
-                if (checkPos.getY() != 0) {
-                    this.SPAWNERS.get(floor).add(checkPos);
-                }
-            }
-            // BrassAmberBattleTowers.LOGGER.info("Spawners: " + this.SPAWNERS);
-
-
-            if (this.chestsFound) {
-                ListTag chests = tag.getList(chestsName, 9);
-                ListTag chestXTag = chests.getList(0);
-                ListTag chestYTag = chests.getList(1);
-                ListTag chestZTag = chests.getList(2);
-                for (int i = 0; i < chestXTag.size(); i++) {
-                    checkPos = new BlockPos(chestXTag.getDouble(i), chestYTag.getDouble(i), chestZTag.getDouble(i));
-                    if (checkPos.getY() == 0) {
-                        this.CHESTS.add(null);
-                    } else {
-                        this.CHESTS.add(checkPos);
-                    }
-                }
-                // BrassAmberBattleTowers.LOGGER.info("Chests: " + chests);
-                // BrassAmberBattleTowers.LOGGER.info("Chests: " + this.CHESTS);
-
-
-            }
-
-            if (this.chestsFound && this.SPAWNERS.get(7).isEmpty()) {
-                BrassAmberBattleTowers.LOGGER.info("No Spawners in data: Needs to be initialized");
-                this.serverInitialized = false;
-                this.chestsFound = false;
-            }
         }
     }
 
@@ -599,70 +557,6 @@ public class BTAbstractObelisk extends Entity {
             BrassAmberBattleTowers.LOGGER.info("Setting obelisk data");
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
-            tag.putBoolean(chestsFoundName, this.chestsFound);
-
-            double[] chestX = new double[this.CHESTS.size()];
-            double[] chestY = new double[this.CHESTS.size()];
-            double[] chestZ = new double[this.CHESTS.size()];
-            int i = 0;
-            for (BlockPos chestPos: this.CHESTS) {
-                if (chestPos == null) {
-                    chestX[i] = 0;
-                    chestY[i] = 0;
-                    chestZ[i] = 0;
-                } else {
-                    chestX[i] = chestPos.getX();
-                    chestY[i] = chestPos.getY();
-                    chestZ[i] = chestPos.getZ();
-                }
-                i++;
-            }
-
-            ListTag chestXTag = this.newDoubleList(chestX);
-            ListTag chestYTag = this.newDoubleList(chestY);
-            ListTag chestZTag = this.newDoubleList(chestZ);
-
-            ListTag chests = new ListTag();
-            chests.add(0, chestXTag);
-            chests.add(1, chestYTag);
-            chests.add(2, chestZTag);
-            tag.put(chestsName, chests);
-
-            int spawnerSize = towerChestUnlocking.get(GolemType.getNumForType(this.golemType)).size() -1;
-            int chestNum = towerChestUnlocking.get(GolemType.getNumForType(this.golemType)).get(spawnerSize);
-
-            double[] spawnerFloor = new double[chestNum];
-            double[] spawnerX = new double[chestNum];
-            double[] spawnerY = new double[chestNum];
-            double[] spawnerZ = new double[chestNum];
-
-            i = 0;
-            int f = 0;
-            for (List<BlockPos> posList: this.SPAWNERS) {
-                for (BlockPos spawnerPos: posList) {
-                    spawnerFloor[f] = i;
-                    spawnerX[f] = spawnerPos.getX();
-                    spawnerY[f] = spawnerPos.getY();
-                    spawnerZ[f] = spawnerPos.getZ();
-                    f++;
-                }
-                i++;
-            }
-
-            ListTag spawnerFloorTag = this.newDoubleList(spawnerFloor);
-            ListTag spawnerXTag = this.newDoubleList(spawnerX);
-            ListTag spawnerYTag = this.newDoubleList(spawnerY);
-            ListTag spawnerZTag = this.newDoubleList(spawnerZ);
-
-            ListTag Spawners = new ListTag();
-            Spawners.addTag(0, spawnerFloorTag);
-            Spawners.addTag(1, spawnerXTag);
-            Spawners.addTag(2, spawnerYTag);
-            Spawners.addTag(3, spawnerZTag);
-            tag.put(spawnersName, Spawners);
-            // BrassAmberBattleTowers.LOGGER.info("Tag: " + tag.get(spawnersName));
-            // BrassAmberBattleTowers.LOGGER.info("Tag: " + tag);
-
         }
 
 
@@ -682,7 +576,6 @@ public class BTAbstractObelisk extends Entity {
 
     /**
      * {@link PushReaction.BLOCK} is the valid option for an entity to stop piston interaction
-     *
      * Used in: {@link PistonTileEntity.moveCollidedEntities method}
      */
     @SuppressWarnings("JavadocReference")

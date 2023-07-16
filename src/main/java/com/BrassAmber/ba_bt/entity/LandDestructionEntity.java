@@ -271,7 +271,7 @@ public class LandDestructionEntity extends Entity {
                         for(int z = this.getCrumbleStart().getZ(); z <= this.getCrumbleStart().getZ() + 30; z++) {
                             BlockPos blockToAdd = new BlockPos(x, y, z);
                             if (((!this.level.getBlockState(blockToAdd).isAir() || this.level.isWaterAt(blockToAdd))
-                                            && BTUtil.distanceTo2D(this, blockToAdd) < 12.5)
+                                            && BTUtil.distanceTo2D(this, blockToAdd) < 14.5)
                             ) {
                                 shouldBeEmptySpace.add(blockToAdd);
                                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
