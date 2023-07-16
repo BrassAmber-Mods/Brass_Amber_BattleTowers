@@ -6,11 +6,9 @@ plugins {
 }
 
 
-version = "${minecraft_version}-${mod_version}"
-group = "${mod_group_id}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-base {
-    archivesName = 'BrassAmberBattleTowers'
-}
+version = "${minecraftVersion}-2.3.12"
+group = 'com.brassAmber.ba_bt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'BrassAmberBattleTowers'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 17 to end users, so your mod should target Java 17.
 
