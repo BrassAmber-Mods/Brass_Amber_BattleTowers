@@ -71,7 +71,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
     }
 
     protected void populateDefaultEquipmentSlots(DifficultyInstance difficultyInstance) {
-        super.populateDefaultEquipmentSlots(difficultyInstance);
+        super.populateDefaultEquipmentSlots(this.getRandom(), difficultyInstance);
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
     }
 
@@ -80,7 +80,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag compoundTag) {
         groupData = super.finalizeSpawn(levelAccessor, difficultyInstance, spawnType, groupData, compoundTag);
         this.populateDefaultEquipmentSlots(difficultyInstance);
-        this.populateDefaultEquipmentEnchantments(difficultyInstance);
+        this.populateDefaultEquipmentEnchantments(this.getRandom(), difficultyInstance);
         this.reassessWeaponGoal();
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * difficultyInstance.getSpecialMultiplier());
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
@@ -99,13 +99,13 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
     }
 
     public void reassessWeaponGoal() {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.goalSelector.removeGoal(this.meleeGoal);
             this.goalSelector.removeGoal(this.bowGoal);
             ItemStack itemstack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.world.item.BowItem));
             if (itemstack.is(Items.BOW)) {
                 int i = 20;
-                if (this.level.getDifficulty() != Difficulty.HARD) {
+                if (this.level().getDifficulty() != Difficulty.HARD) {
                     i = 40;
                 }
                 this.bowGoal.setMinAttackInterval(i);
@@ -125,9 +125,9 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         double d1 = entity.getY(0.3333333333333333D) - abstractarrow.getY();
         double d2 = entity.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
+        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(abstractarrow);
+        this.level().addFreshEntity(abstractarrow);
     }
 
     protected AbstractArrow getArrow(ItemStack stack, float power) {
@@ -145,7 +145,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
 
     public void setItemSlot(EquipmentSlot p_32138_, ItemStack p_32139_) {
         super.setItemSlot(p_32138_, p_32139_);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.reassessWeaponGoal();
         }
     }
@@ -164,22 +164,22 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
                 this.stopSleeping();
             }
 
-            if (!this.level.isClientSide && this.hasCustomName()) {
+            if (!this.level().isClientSide && this.hasCustomName()) {
                 BrassAmberBattleTowers.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
             }
 
             this.dead = true;
             this.getCombatTracker().recheckStatus();
-            if (this.level instanceof ServerLevel) {
+            if (this.level() instanceof ServerLevel) {
                 if (entity != null) {
-                    entity.killed((ServerLevel)this.level, this);
+                    entity.killedEntity((ServerLevel)this.level(), this);
                 }
 
                 this.dropAllDeathLoot(damageSource);
                 this.createWitherRose(livingentity);
             }
 
-            this.level.broadcastEntityEvent(this, (byte)3);
+            this.level().broadcastEntityEvent(this, (byte)3);
             this.setPose(Pose.DYING);
         }
     }
