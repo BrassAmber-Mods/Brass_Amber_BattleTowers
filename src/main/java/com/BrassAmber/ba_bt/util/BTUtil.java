@@ -4,12 +4,17 @@ import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.sound.BTSoundEvents;
 import com.google.common.collect.Lists;
+import com.mojang.brigadier.ParseResults;
 import com.mojang.logging.LogUtils;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
@@ -22,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,6 +38,17 @@ import java.util.*;
 
 public class BTUtil {
     static final Logger LOGGER = LogUtils.getLogger();
+
+
+    public static ListTag newIntList(int... p_20064_) {
+        ListTag listtag = new ListTag();
+
+        for (int d0 : p_20064_) {
+            listtag.add(IntTag.valueOf(d0));
+        }
+
+        return listtag;
+    }
 
     public static java.util.function.Supplier<SoundEvent> getTowerMusic(GolemType type) {
         return switch (type) {
@@ -186,7 +203,7 @@ public class BTUtil {
     }
 
     public static void btListFill(List<Item> loot, List<Integer> amounts, Container container, LootContext lootContext) {
-        Random random = lootContext.getRandom();
+        Random random = (Random) lootContext.getRandom();
 
         // Get possible slots to put items in (empty slots) should be all for tower chests.
         List<Integer> possibleSlots = btGetAvailableSlots(container, random);
@@ -213,10 +230,10 @@ public class BTUtil {
     /** All below are recreations of @LootTable methods.
      * Needed Due to bukkit servers overwriting the fill method and breaking it.
      */
-    public static void btFill(LootTable loot, Container container, LootContext lootContext) {
-        List<ItemStack> list = loot.getRandomItems(lootContext);
-        Random random = lootContext.getRandom();
-        List<Integer> list1 = btGetAvailableSlots(container, random);
+    public static void btFill(LootTable loot, Container container, LootContext lootContext, LootParams lootparams) {
+        List<ItemStack> list = loot.getRandomItems(lootparams);
+        RandomSource random = lootContext.getRandom();
+        List<Integer> list1 = btGetAvailableSlots(container, (Random) random);
         btShuffleAndSplitItems(list, list1.size(), random);
 
         for(ItemStack itemstack : list) {
@@ -248,7 +265,7 @@ public class BTUtil {
     }
 
 
-    private static void btShuffleAndSplitItems(List<ItemStack> itemStackList, int listSize, Random random) {
+    private static void btShuffleAndSplitItems(List<ItemStack> itemStackList, int listSize, RandomSource random) {
         List<ItemStack> list = Lists.newArrayList();
         Iterator<ItemStack> iterator = itemStackList.iterator();
 
@@ -280,19 +297,22 @@ public class BTUtil {
         }
 
         itemStackList.addAll(list);
-        Collections.shuffle(itemStackList, random);
+        Collections.shuffle(itemStackList, (Random) random);
     }
 
     public static void doCommand(Entity self, String command) {
-        self.level.getServer().getCommands().performCommand(self.createCommandSourceStack().withPermission(4), command);
+        Commands commands = self.level().getServer().getCommands();
+        commands.performCommand(commands.getDispatcher().parse(command, self.createCommandSourceStack().withPermission(4)), command);
     }
 
     public static void doNoOutputCommand(Entity self, String command) {
-        self.level.getServer().getCommands().performCommand(self.createCommandSourceStack().withPermission(4).withSuppressedOutput(), command);
+        Commands commands = self.level().getServer().getCommands();
+        commands.performCommand(commands.getDispatcher().parse(command, self.createCommandSourceStack().withPermission(4).withSuppressedOutput()), command);
     }
 
     public static void doNoOutputPostionedCommand(Entity self, String command, Vec3 vec) {
-        self.level.getServer().getCommands().performCommand(self.createCommandSourceStack().withPermission(4).withPosition(vec), command);
+        Commands commands = self.level().getServer().getCommands();
+        commands.performCommand(commands.getDispatcher().parse(command, self.createCommandSourceStack().withPermission(4).withPosition(vec)), command);
     }
 
 }
