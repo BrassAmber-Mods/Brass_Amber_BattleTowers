@@ -67,7 +67,7 @@ public class DashAttackGoal extends Goal {
         int wantedDistance = this.range;
         this.wantedPos = this.getNewPos(wantedDistance);
 
-        while (!this.mob.level.isWaterAt(this.wantedPos)) {
+        while (!this.mob.level().isWaterAt(this.wantedPos)) {
             wantedDistance --;
             this.wantedPos = this.getNewPos(wantedDistance);
         }
@@ -80,9 +80,9 @@ public class DashAttackGoal extends Goal {
 
         double ratio = distanceTo3D(this.mob, this.target) / distance;
 
-        double xVal = (targetPos.getX() - this.mob.getBlockX()) * ratio;
-        double yVal = (targetPos.getY() - this.mob.getBlockY()) * ratio;
-        double zVal = (targetPos.getZ() - this.mob.getBlockZ()) * ratio;
+        int xVal = (int) ((targetPos.getX() - this.mob.getBlockX()) * ratio);
+        int yVal = (int) ((targetPos.getY() - this.mob.getBlockY()) * ratio);
+        int zVal = (int) ((targetPos.getZ() - this.mob.getBlockZ()) * ratio);
 
         this.wantedPos = this.mob.blockPosition().offset(xVal, yVal, zVal);
 
