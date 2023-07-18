@@ -27,7 +27,7 @@ public class ExplosionPhysics extends PrimedTnt {
 	
 	@Override
 	public void tick() {
-		if(this.level.isClientSide) {
+		if(this.level().isClientSide) {
 			return;
 		}
 		if(this.firstTick) {
@@ -40,16 +40,16 @@ public class ExplosionPhysics extends PrimedTnt {
 			expl.explode();
 			final Vec3 vo = this.position();
 			for(BlockPos pos : expl.getToBlow()) {
-				BlockState state = this.level.getBlockState(pos);
-				if(!state.isAir() && this.level.getBlockEntity(pos) == null && !state.getFluidState().isSource()) {
+				BlockState state = this.level().getBlockState(pos);
+				if(!state.isAir() && this.level().getBlockEntity(pos) == null && !state.getFluidState().isSource()) {
 					double vx = pos.getX() - vo.x;
 					double vz = pos.getZ() - vo.z;
 					final Vec3 velocity = new Vec3(vx / Math.abs(vx) * 0.5D, 0.5D, vz / Math.abs(vz) * 0.5D);
 					
-					this.level.removeBlock(pos, true);
+					this.level().removeBlock(pos, true);
 					
 					FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
-							this.level,
+							this.level(),
 							pos,
 							state
 					);
@@ -57,8 +57,8 @@ public class ExplosionPhysics extends PrimedTnt {
 					fallingBlock.dropItem = false;
 					fallingBlock.setDeltaMovement(velocity);
 
-					this.level.gameEvent(GameEvent.EXPLODE, pos);
-					this.level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
+					this.level().gameEvent(this, GameEvent.EXPLODE, pos);
+					this.level().playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
 							1.0F, 1.0F);
 				}
 			}
@@ -71,7 +71,7 @@ public class ExplosionPhysics extends PrimedTnt {
 	}
 	
 	protected Explosion explosion() {
-		return new Explosion(this.level, null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.BlockInteraction.DESTROY);
+		return new Explosion(this.level(), null, null, null, this.getX(), this.getY(0.0625D), this.getZ(), 4.0F, false, Explosion.BlockInteraction.DESTROY);
 	}
 	
 }
