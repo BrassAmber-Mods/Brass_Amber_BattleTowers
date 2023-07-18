@@ -653,10 +653,10 @@ public abstract class BTAbstractGolem extends Monster {
 		
 		// TODO Stop running goals
 		
-		LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level);
+		LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, this.level());
 		lightning.setPos(x, y, z);
 		lightning.setDamage(0.0F);
-		this.level.addFreshEntity(lightning);
+		this.level().addFreshEntity(lightning);
 	}
 
 	/*
@@ -754,7 +754,7 @@ public abstract class BTAbstractGolem extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return this.isAwake() ? BTSoundEvents.ENTITY_GOLEM_AMBIENT : SoundEvents.AMBIENT_CAVE;
+		return this.isAwake() ? BTSoundEvents.ENTITY_GOLEM_AMBIENT : SoundEvents.AMBIENT_CAVE.get();
 	}
 
 	@Override
