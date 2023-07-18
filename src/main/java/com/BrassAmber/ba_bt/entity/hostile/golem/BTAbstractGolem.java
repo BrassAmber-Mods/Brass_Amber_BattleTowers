@@ -2,11 +2,8 @@ package com.BrassAmber.ba_bt.entity.hostile.golem;
 
 import javax.annotation.Nullable;
 
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
-import com.BrassAmber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.BrassAmber.ba_bt.init.BTItems;
@@ -20,12 +17,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
@@ -34,6 +29,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -48,7 +45,10 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.NotNull;
+
+import static com.BrassAmber.ba_bt.BattleTowersConfig.landGolemHP;
 
 
 /**
@@ -88,10 +88,13 @@ public abstract class BTAbstractGolem extends Monster {
 	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
-		this.bossBar = new ServerBossEvent(new TextComponent(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
+		this.bossBar = new ServerBossEvent(Component.literal(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
 		this.bossBar.setCreateWorldFog(false);
-		this.maxUpStep = 2.0F;
 		this.music = null;
+	}
+
+	public static AttributeSupplier.Builder createBattleGolemAttributes() {
+		return Monster.createMonsterAttributes().add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1f);
 	}
 
 	/**
