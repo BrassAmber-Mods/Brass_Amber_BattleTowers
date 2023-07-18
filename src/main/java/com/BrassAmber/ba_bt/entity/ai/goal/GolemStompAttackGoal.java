@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -40,7 +41,7 @@ public class GolemStompAttackGoal extends Goal {
 	
 	@Override
 	public boolean canUse() {
-		if(this.golem.getTarget() != null && !this.golem.isDormant() && this.golem.isOnGround()) {
+		if(this.golem.getTarget() != null && !this.golem.isDormant() && this.golem.onGround()) {
 			final LivingEntity target = this.golem.getTarget();
 			final Vec3 targetPos = target.position();
 			final Vec3 golemPos = this.golem.position();
@@ -78,18 +79,18 @@ public class GolemStompAttackGoal extends Goal {
 	public void tick() {
 		super.tick();
 		
-		if(!this.golem.isOnGround() && !this.jumpingInProgress) {
+		if(!this.golem.onGround() && !this.jumpingInProgress) {
 			this.jumpingInProgress = true;
 		}
-		else if(this.jumpingInProgress && this.golem.isOnGround()) {
+		else if(this.jumpingInProgress && this.golem.onGround()) {
 			this.jumpingInProgress = false;
 			
 			AABB aabb = new AABB(this.golem.position().add(this.golem.getBbWidth(), 1, this.golem.getBbWidth()), this.golem.position().subtract(this.golem.getBbWidth(), 2, this.golem.getBbWidth()));
 			BlockPos.MutableBlockPos.betweenClosedStream(aabb).forEach((position) -> {
-				this.golem.level.destroyBlock(position, true);
+				this.golem.level().destroyBlock(position, true);
 			});
 			final Vec3 position = this.golem.position();
-			this.golem.level.explode(this.golem, position.x, position.y - 1, position.z, this.explosionStrength, Explosion.BlockInteraction.BREAK);
+			this.golem.level().explode(this.golem, position.x, position.y - 1, position.z, this.explosionStrength, Level.ExplosionInteraction.BLOCK);
 		}
 	}
 	

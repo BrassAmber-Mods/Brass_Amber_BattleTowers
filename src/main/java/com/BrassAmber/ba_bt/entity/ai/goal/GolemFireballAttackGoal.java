@@ -13,9 +13,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Reference: {@link Ghast.GhastShootFireballGoal}
+ * Reference: {@link net.minecraft.world.entity.monster.Ghast.GhastShootFireballGoal}
  * 
- * TODO Doesn't seem to work together with {@link MeleeAttackGoal}
+ * TODO Doesn't seem to work together with {@link net.minecraft.world.entity.ai.goal.MeleeAttackGoal}
  */
 public class GolemFireballAttackGoal extends Goal {
 	protected final BTAbstractGolem golem;
@@ -80,7 +80,7 @@ public class GolemFireballAttackGoal extends Goal {
 					double zPower = targetLivingEntity.getZ() - this.golem.getZ();
 
 					// Get golem world
-					Level level = this.golem.level;
+					Level level = this.golem.level();
 
 					// Play shooting sound
 					if (!this.golem.isSilent()) {
@@ -113,7 +113,6 @@ public class GolemFireballAttackGoal extends Goal {
 	}
 	
 	protected Projectile createFireBall(Level level, double xPower, double yPower, double zPower) {
-		Fireball fb = new LargeFireball(level, this.golem, xPower, yPower, zPower, this.golem.getExplosionPower());
-		return fb;
+		return new LargeFireball(level, this.golem, xPower, yPower, zPower, this.golem.getExplosionPower());
 	}
 }

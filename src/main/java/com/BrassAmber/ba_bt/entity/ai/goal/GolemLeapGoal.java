@@ -33,8 +33,8 @@ public class GolemLeapGoal extends Goal {
         if (this.golem.isVehicle()) {
             return false;
         }
-        if (this.golem.getTarget() != null && !this.golem.isDormant() && this.golem.isOnGround()) {
-            if (this.target == null || !this.golem.isOnGround()) {
+        if (this.golem.getTarget() != null && !this.golem.isDormant() && this.golem.onGround()) {
+            if (this.target == null || !this.golem.onGround()) {
                 return false;
             }
 
@@ -53,7 +53,7 @@ public class GolemLeapGoal extends Goal {
         return false;
     }
 
-    public boolean canContinueToUse() {return !this.golem.isOnGround() && this.golem.isAwake();}
+    public boolean canContinueToUse() {return !this.golem.onGround() && this.golem.isAwake();}
 
     public void start() {
         Vec3 vec3 = this.golem.getDeltaMovement();
