@@ -37,16 +37,16 @@ public class BTChestItemRenderer extends BlockEntityWithoutLevelRenderer {
         Item item = itemStack.getItem();
         BlockEntity blockEntity = null;
         if (item instanceof BlockItem) {
-            if (item == BTItems.LAND_CHEST.get()) {
+            if (item == BTBlocks.LAND_CHEST.get().asItem()) {
                 blockEntity = this.landTowerChestEntity;
 
-            } else if (item == BTItems.LAND_GOLEM_CHEST.get()){
+            } else if (item == BTBlocks.LAND_GOLEM_CHEST.get().asItem()){
                 blockEntity = this.landGolemChestEntity;
 
-            } else if (item == BTItems.OCEAN_CHEST.get()) {
+            } else if (item == BTBlocks.OCEAN_CHEST.get().asItem()) {
                 blockEntity = this.oceanTowerChestEntity;
 
-            } else if (item == BTItems.OCEAN_GOLEM_CHEST.get()){
+            } else if (item == BTBlocks.OCEAN_GOLEM_CHEST.get().asItem()){
                 blockEntity = this.oceanGolemChestEntity;
 
             }
