@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class BTBlockEntityTypes {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, BrassAmberBattleTowers.MOD_ID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, BrassAmberBattleTowers.MOD_ID);
 
 	public static final RegistryObject<BlockEntityType<GolemChestBlockEntity>> LAND_GOLEM_CHEST = BLOCK_ENTITY_TYPES.register("land_golem_chest", () -> BlockEntityType.Builder.of(GolemChestBlockEntity::new, BTBlocks.LAND_GOLEM_CHEST.get()).build(null));
 	public static final RegistryObject<BlockEntityType<TowerChestBlockEntity>> LAND_CHEST = BLOCK_ENTITY_TYPES.register("land_chest", () -> BlockEntityType.Builder.of(TowerChestBlockEntity::new, BTBlocks.LAND_CHEST.get()).build(null));
