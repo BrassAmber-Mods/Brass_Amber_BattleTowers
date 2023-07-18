@@ -17,7 +17,7 @@ public class BTCultistRenderer extends HumanoidMobRenderer<BTCultist, BTCultistM
 
     public BTCultistRenderer(EntityRendererProvider.Context context) {
         super(context, new BTCultistModel<>(context.bakeLayer(TEXTURE)), 0.5F);
-        this.addLayer(new ItemInHandLayer<>(this));
+        this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
     }
 
     @Override
