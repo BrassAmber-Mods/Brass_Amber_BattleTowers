@@ -77,7 +77,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.getTarget() != null && !this.level.isClientSide()) {
+		if (this.getTarget() != null && !this.level().isClientSide()) {
 			LivingEntity target = this.getTarget();
 			if (distanceTo(target) > 16 && this.random.nextInt(500) == 1) {
 				this.playRoarSound();
@@ -106,15 +106,15 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
-		if (!this.level.isClientSide() && this.drowned < 4) {
+		if (!this.level().isClientSide() && this.drowned < 4) {
 			if (this.getHealth() < this.getMaxHealth() * .7 && this.drowned == 0) {
-				this.spawnDrowned((ServerLevel) this.level);
+				this.spawnDrowned((ServerLevel) this.level());
 				this.drowned = 1;
 			} else if (this.getHealth() < this.getMaxHealth() * .5 && this.drowned == 1) {
-				this.spawnDrowned((ServerLevel) this.level);
+				this.spawnDrowned((ServerLevel) this.level());
 				this.drowned = 2;
 			} else if (this.getHealth() < this.getMaxHealth() * .3 && this.drowned == 2) {
-				this.spawnDrowned((ServerLevel) this.level);
+				this.spawnDrowned((ServerLevel) this.level());
 				this.drowned = 3;
 			}
 		}

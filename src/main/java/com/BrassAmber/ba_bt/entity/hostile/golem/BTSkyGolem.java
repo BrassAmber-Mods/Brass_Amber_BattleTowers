@@ -165,7 +165,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 
 			for (int i = 0; i < 3; ++i) {
 				BlockPos blockpos1 = blockpos.offset(BTSkyGolem.this.random.nextInt(15) - 7, BTSkyGolem.this.random.nextInt(11) - 5, BTSkyGolem.this.random.nextInt(15) - 7);
-				if (BTSkyGolem.this.level.isEmptyBlock(blockpos1)) {
+				if (BTSkyGolem.this.level().isEmptyBlock(blockpos1)) {
 					BTSkyGolem.this.moveControl.setWantedPosition((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.5D, (double) blockpos1.getZ() + 0.5D, 0.25D);
 					if (BTSkyGolem.this.getTarget() == null) {
 						BTSkyGolem.this.getLookControl().setLookAt((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.5D, (double) blockpos1.getZ() + 0.5D, 180.0F, 20.0F);
