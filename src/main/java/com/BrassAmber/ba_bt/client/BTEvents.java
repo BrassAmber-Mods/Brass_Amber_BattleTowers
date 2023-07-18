@@ -23,9 +23,9 @@ public class BTEvents {
     @OnlyIn(Dist.CLIENT)
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
         BrassAmberBattleTowers.LOGGER.info("In Respawn code-");
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
 
-        if (player.level.isClientSide() || !event.isEndConquered()) {
+        if (player.level().isClientSide() || !event.isEndConquered()) {
             Minecraft mc = Minecraft.getInstance();
             MusicManager musicManager = mc.getMusicManager();
             if (musicManager.isPlayingMusic(BTSoundEvents.LAND_TOWER_MUSIC) || musicManager.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
