@@ -1,7 +1,6 @@
 package com.BrassAmber.ba_bt.entity;
 
 import com.BrassAmber.ba_bt.BattleTowersConfig;
-import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
@@ -12,10 +11,10 @@ import com.BrassAmber.ba_bt.util.TowerSpecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -88,11 +86,11 @@ public class OceanDestructionEntity extends  Entity {
             for (int x = this.getBlockX() - 17; x <= this.getBlockX() + 17; x++) {
                 for(int z = this.getBlockZ() - 17; z <= this.getBlockZ() + 17; z++) {
                     BlockPos blockToAdd = new BlockPos(x, y, z);
-                    FluidState fluidState = this.level.getFluidState(blockToAdd);
+                    FluidState fluidState = this.level().getFluidState(blockToAdd);
                     if (distanceTo2D(this, blockToAdd) < 17.5D) {
                         if (!fluidState.isEmpty()) {
-                            this.level.setBlock(blockToAdd, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
-                        } else if (!this.level.getBlockState(blockToAdd).isAir()){
+                            this.level().setBlock(blockToAdd, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
+                        } else if (!this.level().getBlockState(blockToAdd).isAir()){
                             this.blocksToRemove.add(blockToAdd);
                         }
                     }
@@ -117,7 +115,7 @@ public class OceanDestructionEntity extends  Entity {
 
     @Override
     public void tick() {
-        if(this.level.isClientSide()) {
+        if(this.level().isClientSide()) {
             return;
         }
 
@@ -151,7 +149,7 @@ public class OceanDestructionEntity extends  Entity {
         super.tick();
         if (this.checkForGolem) {
 
-            List<Entity> entities = this.level.getEntities(this, this.getBoundingBox().inflate(50.0D, 100.0D, 50.0D));
+            List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().inflate(50.0D, 100.0D, 50.0D));
             boolean deadGolem = true;
 
             for (Entity entity: entities
@@ -172,10 +170,10 @@ public class OceanDestructionEntity extends  Entity {
             }
         }
 
-        boolean alivePlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+        boolean alivePlayer = this.level().hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
         if (alivePlayer) {
             //noinspection ConstantConditions
-            this.hasPlayer = BTUtil.distanceTo2D(this, this.level.getNearestPlayer(this, 100D)) < 125;
+            this.hasPlayer = BTUtil.distanceTo2D(this, this.level().getNearestPlayer(this, 100D)) < 125;
         } else {
             this.hasPlayer = false;
         }
@@ -190,13 +188,13 @@ public class OceanDestructionEntity extends  Entity {
                 doNoOutputCommand(this,"/title @a subtitle {\"text\":\" " + this.specs.getTitleText1()
                         + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
-                this.level.playSound(null, this.blockPosition().above(6),
+                this.level().playSound(null, this.blockPosition().above(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
                 doNoOutputCommand(this,"/title @a title \"\"");
                 doNoOutputCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
                         + " \",\"color\":\"#aaaaaa\"}");
-                this.level.playSound(null, this.blockPosition().above(6),
+                this.level().playSound(null, this.blockPosition().above(6),
                         BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
 
             } else if (this.currentTicks == 500) {
@@ -205,7 +203,7 @@ public class OceanDestructionEntity extends  Entity {
                         + "\",\"color\":\"#aa0000\"}");
 
             } else if (this.currentTicks == 600) {
-                this.level.playSound(null, this.blockPosition().above(6),
+                this.level().playSound(null, this.blockPosition().above(6),
                         BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4.0F, 1F);
             }
 
@@ -213,7 +211,7 @@ public class OceanDestructionEntity extends  Entity {
             // also check that the number of ticks is equal to the crumble speed (so that this isn't called every tick)
             if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0) {
                 if (this.currentTicks % 240 == 0) {
-                    this.level.playSound(null, this.blockPosition().above(this.getCurrentRow()*4),
+                    this.level().playSound(null, this.blockPosition().above(this.getCurrentRow()*4),
                             BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
                 }
 
@@ -228,7 +226,7 @@ public class OceanDestructionEntity extends  Entity {
                      numOfBlocks = 128;
                 }
 
-                if (this.currentRowY < this.level.getSeaLevel() + 3 && this.currentRowY < this.crumbleStop){
+                if (this.currentRowY < this.level().getSeaLevel() + 3 && this.currentRowY < this.crumbleStop){
                     // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                     boolean falling = false;
                     for (int i = 0; i < numOfBlocks; i++) {
@@ -245,17 +243,17 @@ public class OceanDestructionEntity extends  Entity {
                             // BrassAmberBattleTowers.LOGGER.debug("Remove Index = " + randomIndex);
 
                             BlockPos removeBlock = this.blocksToRemove.get(randomIndex);
-                            BlockState state = this.level.getBlockState(removeBlock);
+                            BlockState state = this.level().getBlockState(removeBlock);
 
 
-                            if (this.level.getBlockState(removeBlock.below()).isAir() || this.level.getBlockState(removeBlock.below()).is(Blocks.WATER)) {
+                            if (this.level().getBlockState(removeBlock.below()).isAir() || this.level().getBlockState(removeBlock.below()).is(Blocks.WATER)) {
 
                                 final Vec3 velocity = new Vec3(0D, 0.5D, 0D);
 
-                                this.level.setBlock(removeBlock, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
+                                this.level().setBlock(removeBlock, BTBlocks.BT_AIR_FILL.get().defaultBlockState(), 2);
                                 if (falling) {
                                     FallingBlockEntity fallingBlock = FallingBlockEntity.fall(
-                                            this.level,
+                                            this.level(),
                                             removeBlock,
                                             state
                                     );
@@ -279,17 +277,17 @@ public class OceanDestructionEntity extends  Entity {
                     }
 
                 }
-            } else if (this.currentRowY >= this.level.getSeaLevel() || this.currentRowY >= this.crumbleStop){
+            } else if (this.currentRowY >= this.level().getSeaLevel() || this.currentRowY >= this.crumbleStop){
                 // stop if we have done the final row already
                 // BrassAmberBattleTowers.LOGGER.debug("In Ending Sequence");
-                for (int y = -64; y < this.level.getSeaLevel(); y++) {
+                for (int y = -64; y < this.level().getSeaLevel(); y++) {
                     for (int x = this.getBlockX() - 16; x <= this.getBlockX() + 16; x++) {
                         for(int z = this.getBlockZ() - 16; z <= this.getBlockZ() + 16; z++) {
                             BlockPos blockToDelete = new BlockPos(x, y, z);
-                            BlockState blockState = this.level.getBlockState(blockToDelete);
+                            BlockState blockState = this.level().getBlockState(blockToDelete);
                             if (distanceTo2D(this, blockToDelete) < 15.5D) {
-                                if (blockState.is(BTBlocks.BT_AIR_FILL.get()) || this.level.isWaterAt(blockToDelete)) {
-                                    this.level.setBlock(blockToDelete, Blocks.AIR.defaultBlockState(), 2);
+                                if (blockState.is(BTBlocks.BT_AIR_FILL.get()) || this.level().isWaterAt(blockToDelete)) {
+                                    this.level().setBlock(blockToDelete, Blocks.AIR.defaultBlockState(), 2);
                                 }
                             }
                         }
@@ -374,7 +372,7 @@ public class OceanDestructionEntity extends  Entity {
     }
 
     @Override
-    public @NotNull Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
