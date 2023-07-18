@@ -137,20 +137,10 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		compound.put(this.spawnPosName, this.newIntList(this.getSpawnPos().getX(), this.getSpawnPos().getY(), this.getSpawnPos().getZ()));
+		compound.put(this.spawnPosName, BTUtil.newIntList(this.getSpawnPos().getX(), this.getSpawnPos().getY(), this.getSpawnPos().getZ()));
 		compound.putFloat(this.spawnDirectionName, this.getSpawnDirection());
 		compound.putByte(this.golemStateName, this.getGolemState());
 		compound.putInt(this.explosionPowerName, this.explosionPower);
-	}
-
-	protected ListTag newIntList(int... p_20064_) {
-		ListTag listtag = new ListTag();
-
-		for(int d0 : p_20064_) {
-			listtag.add(IntTag.valueOf(d0));
-		}
-
-		return listtag;
 	}
 
 	/**
