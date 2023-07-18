@@ -104,8 +104,8 @@ public class BTMonolith extends Entity {
 	@Override
 	public void baseTick() {
 		super.baseTick();
-		if (!this.level.isClientSide() && !this.spawnedObelisk && !this.fromItem) {
-			ServerLevel serverworld = (ServerLevel) this.level;
+		if (!this.level().isClientSide() && !this.spawnedObelisk && !this.fromItem) {
+			ServerLevel serverworld = (ServerLevel) this.level();
 			this.spawnObelisk(serverworld);
 			this.spawnedObelisk = true;
 		}
@@ -144,7 +144,7 @@ public class BTMonolith extends Entity {
 		// Handles the floating animation
 		++this.floatingRotation;
 
-		if (this.level.isClientSide()) {
+		if (this.level().isClientSide()) {
 			// Animate particles.
 			this.animateTick();
 		}
@@ -207,8 +207,8 @@ public class BTMonolith extends Entity {
 	 * Helper method to spawn a new Golem.
 	 */
 	private void spawnGolem() {
-		if (!this.level.isClientSide()) {
-			ServerLevel serverworld = (ServerLevel) this.level;
+		if (!this.level().isClientSide()) {
+			ServerLevel serverworld = (ServerLevel) this.level();
 
 			// Spawn visual lightning
 			LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(serverworld);
@@ -216,13 +216,13 @@ public class BTMonolith extends Entity {
 			lightningbolt.setVisualOnly(true);
 			serverworld.addFreshEntity(lightningbolt);
 
-			this.level.explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Explosion.BlockInteraction.BREAK);
-			this.level.explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Explosion.BlockInteraction.BREAK);
+			this.level().explode(null, this.getX(), this.getY() + 2, this.getZ(), 1.6F, Level.ExplosionInteraction.BLOCK);
+			this.level().explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Level.ExplosionInteraction.BLOCK);
 
 			// Get the correct GolemEntityType.
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
 			// Create a new GolemEntity.
-			Entity entity = golemEntityType.create(this.level);
+			Entity entity = golemEntityType.create(this.level());
 			if (entity instanceof BTAbstractGolem newGolemEntity) {
 				// Set the position for the new Golem to the current position of the Monolith.
 				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
@@ -250,7 +250,7 @@ public class BTMonolith extends Entity {
 
 	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
 
-		Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level, this.blockPosition());
+		Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level(), this.blockPosition());
 		destroyTowerEntity.setInvulnerable(true);
 		destroyTowerEntity.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(destroyTowerEntity);
@@ -260,15 +260,15 @@ public class BTMonolith extends Entity {
 		Entity obelisk;
 		switch (this.golemType) {
 			default -> {
-				obelisk = new BTAbstractObelisk(this.golemType, this.level);
+				obelisk = new BTAbstractObelisk(this.golemType, this.level());
 				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());}
 			case LAND -> {
-				obelisk = new BTLandObelisk(this.level);
+				obelisk = new BTLandObelisk(this.level());
 				obelisk.setPos(this.getX(), this.getY() - BattleTowersConfig.landObeliskSpawnDistance.get(), this.getZ());
 			}
 			case OCEAN -> {
 				BrassAmberBattleTowers.LOGGER.info("Ocean Obelisk");
-				obelisk = new BTOceanObelisk(this.level);
+				obelisk = new BTOceanObelisk(this.level());
 				obelisk.setPos(this.getX(), this.getY() + 87, this.getZ());
 			}
 		}
@@ -295,11 +295,11 @@ public class BTMonolith extends Entity {
 	private void checkBlocksInEntity() {
 		for (int height = 0; height < 3; height++) {
 			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
-			BlockState testBlock = this.level.getBlockState(monolithPos);
+			BlockState testBlock = this.level().getBlockState(monolithPos);
 			if (!testBlock.isAir() && this.golemType != GolemType.OCEAN) {
-				this.level.setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
-			} else if (!this.level.isWaterAt(monolithPos) && this.golemType == GolemType.OCEAN) {
-				this.level.setBlock(monolithPos, Blocks.WATER.defaultBlockState(), 2);
+				this.level().setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
+			} else if (!this.level().isWaterAt(monolithPos) && this.golemType == GolemType.OCEAN) {
+				this.level().setBlock(monolithPos, Blocks.WATER.defaultBlockState(), 2);
 			}
 		}
 	}
@@ -401,7 +401,7 @@ public class BTMonolith extends Entity {
 		} else if (!(source.getMsgId().equals("player"))) {
 			return false;
 		} else {
-			if (this.isAlive() && !this.level.isClientSide() && source.isCreativePlayer()) {
+			if (this.isAlive() && !this.level().isClientSide() && source.isCreativePlayer()) {
 				this.playDestroySound();
 				this.remove(RemovalReason.KILLED);
 			}
@@ -421,7 +421,7 @@ public class BTMonolith extends Entity {
 		// TODO Add blue portal like particle
 		if (/*!config.disableParticles.get() && */this.random.nextFloat() < 0.2f) {
 			//			this.world.addParticle(ParticleTypes.PORTAL, this.getPosX() + (this.rand.nextDouble() - 0.5) * 1.5, this.getPosY() + 0.8, this.getPosZ() + (this.rand.nextDouble() - 0.5) * 1.5, 0, 0, 0);
-			this.level.addParticle(ParticleTypes.ENCHANT, this.getX() + (this.random.nextDouble() - 0.5) * 1.5, this.getY() + 1 + this.random.nextDouble(), this.getZ() + (this.random.nextDouble() - 0.5) * 1.5, this.random.nextDouble() - 0.5, this.random.nextDouble(), this.random.nextDouble() - 0.5);
+			this.level().addParticle(ParticleTypes.ENCHANT, this.getX() + (this.random.nextDouble() - 0.5) * 1.5, this.getY() + 1 + this.random.nextDouble(), this.getZ() + (this.random.nextDouble() - 0.5) * 1.5, this.random.nextDouble() - 0.5, this.random.nextDouble(), this.random.nextDouble() - 0.5);
 		}
 	}
 
@@ -485,7 +485,7 @@ public class BTMonolith extends Entity {
 
 	private void playDestroySound() {
 		this.playSound(SoundEvents.IRON_GOLEM_STEP, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
-		this.playSound(SoundEvents.RESPAWN_ANCHOR_DEPLETE, this.getSoundVolume(), this.getSoundPitch() + 1.5F);
+		this.playSound(SoundEvents.RESPAWN_ANCHOR_DEPLETE.get(), this.getSoundVolume(), this.getSoundPitch() + 1.5F);
 	}
 
 	private void playSpawnSound() {
@@ -495,7 +495,7 @@ public class BTMonolith extends Entity {
 	@Override
 	public void playSound(@NotNull SoundEvent p_19938_, float p_19939_, float p_19940_) {
 		if (!this.isSilent()) {
-			this.level.playSound(null, this, p_19938_, this.getSoundSource(), p_19939_, p_19940_);
+			this.level().playSound(null, this, p_19938_, this.getSoundSource(), p_19939_, p_19940_);
 		}
 	}
 }
