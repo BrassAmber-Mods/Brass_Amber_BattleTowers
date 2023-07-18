@@ -15,6 +15,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -28,6 +30,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -132,10 +137,20 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		compound.put(this.spawnPosName, this.newDoubleList(this.getSpawnPos().getX(), this.getSpawnPos().getY(), this.getSpawnPos().getZ()));
+		compound.put(this.spawnPosName, this.newIntList(this.getSpawnPos().getX(), this.getSpawnPos().getY(), this.getSpawnPos().getZ()));
 		compound.putFloat(this.spawnDirectionName, this.getSpawnDirection());
 		compound.putByte(this.golemStateName, this.getGolemState());
 		compound.putInt(this.explosionPowerName, this.explosionPower);
+	}
+
+	protected ListTag newIntList(int... p_20064_) {
+		ListTag listtag = new ListTag();
+
+		for(int d0 : p_20064_) {
+			listtag.add(IntTag.valueOf(d0));
+		}
+
+		return listtag;
 	}
 
 	/**
@@ -145,9 +160,9 @@ public abstract class BTAbstractGolem extends Monster {
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 		ListTag spawnPos = compound.getList(this.spawnPosName, 6);
-		double x = spawnPos.getDouble(0);
-		double y = spawnPos.getDouble(1);
-		double z = spawnPos.getDouble(2);
+		int x = spawnPos.getInt(0);
+		int y = spawnPos.getInt(1);
+		int z = spawnPos.getInt(2);
 		this.setSpawnPos(new BlockPos(x, y, z));
 		this.setSpawnDirection(compound.getFloat(this.spawnDirectionName));
 		this.setGolemState(compound.getByte(this.golemStateName));
@@ -175,8 +190,8 @@ public abstract class BTAbstractGolem extends Monster {
 			this.setGolemState(SPECIAL);
 		}
 
-		if (this.level.isClientSide()) {
-			ClientLevel client = (ClientLevel)this.level;
+		if (this.level().isClientSide()) {
+			ClientLevel client = (ClientLevel)this.level();
 
 			if (this.music == null) {
 				this.music = client.minecraft.getMusicManager();
@@ -205,7 +220,7 @@ public abstract class BTAbstractGolem extends Monster {
 			return;
 		}
 
-		Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
+		Player player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange(), true);
 		boolean survivalAdventure;
 		if (player != null) {
 			survivalAdventure = EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player) && EntitySelector.LIVING_ENTITY_STILL_ALIVE.test(player);
@@ -215,7 +230,7 @@ public abstract class BTAbstractGolem extends Monster {
 
 		// When the Golem is dormant, check for a player within 6 blocks to become awake.
 		if (this.isDormant()) {
-			player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getWakeUpRange(), true);
+			player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getWakeUpRange(), true);
 			// Must be able to see the player and the player mustn't be in Creative mode.
 			if (player != null && survivalAdventure && this.hasLineOfSight(player)) {
 				this.wakeUpGolem();
@@ -279,7 +294,7 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 		// Also check to see if there's any players within 32 blocks, otherwise reset.
 		// Doesn't include Spectators or Creative mode. (Does include Creative mode)
-		boolean hasPlayer = this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange());
+		boolean hasPlayer = this.level().hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), this.getTargetingRange());
 		// We compare the position and direction of the Golem to prevent resetting the Golem every tick when a player is not nearby.
 		if (!hasPlayer) {
 			this.resetGolem();
@@ -302,7 +317,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	private void destroyBlocksNearby() {
-		if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) && this.getTarget() != null && this.isAwake()) {
+		if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) && this.getTarget() != null && this.isAwake()) {
 			final Vec3 offset = this.getLookAngle().normalize().scale(0.5);
 			
 			int ox = Mth.floor(this.getX() + offset.x);
@@ -316,14 +331,14 @@ public abstract class BTAbstractGolem extends Monster {
 				for(int iy = oy; iy <= oy + height; iy++) {
 					for(int iz = oz - width; iz <= oz + width; iz++) {
 						BlockPos pos = new BlockPos(ix, iy, iz);
-						BlockState state = this.level.getBlockState(pos);
+						BlockState state = this.level().getBlockState(pos);
 						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
 						if (!isChest) {
-							if(state.canEntityDestroy(this.level, pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
-								playEffectFlag |= this.level.destroyBlock(pos, true, this);
+							if(state.canEntityDestroy(this.level(), pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
+								playEffectFlag |= this.level().destroyBlock(pos, true, this);
 							}
 							if (state.getBlock() instanceof FireBlock) {
-								this.level.destroyBlock(pos, false, this);
+								this.level().destroyBlock(pos, false, this);
 							}
 						}
 					}
@@ -331,7 +346,7 @@ public abstract class BTAbstractGolem extends Monster {
 			}
 			
 			if(playEffectFlag) {
-				this.level.gameEvent(GameEvent.BLOCK_DESTROY, this.blockPosition());
+				this.level().gameEvent(this, GameEvent.BLOCK_DESTROY, this.blockPosition());
 			}
 		}
 	}
@@ -352,15 +367,15 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
 		// Disregard Fire Damage
-		if (source.isFire()) {
+		if (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE)) {
 			return super.hurt(source, 0.0F);
 		}
-		if (source.isExplosion()) {
+		if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)) {
 			return super.hurt(source, damage / 4f);
 		}
 		if (!this.isDormant()) {
 			float multiplier = this.isEnraged() ? .5f : 1f;
-			if (source.isProjectile()) {
+			if (source.is(DamageTypes.MOB_PROJECTILE)) {
 				return super.hurt(source, damage * multiplier / 2);
 			}
 			return super.hurt(source, damage / multiplier);
@@ -369,13 +384,13 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 
 		// This makes sure the /kill command works.
-		return source.equals(DamageSource.OUT_OF_WORLD) && super.hurt(source, damage);
+		return source.equals(this.damageSources().fellOutOfWorld()) && super.hurt(source, damage);
 	}
 
 	@Override
 	public void die(@NotNull DamageSource source) {
-		if (this.level.isClientSide()) {
-			((ClientLevel) this.level).minecraft.getMusicManager().stopPlaying();
+		if (this.level().isClientSide()) {
+			((ClientLevel) this.level()).minecraft.getMusicManager().stopPlaying();
 		}
 		super.die(source);
 	}
