@@ -4,5 +4,6 @@
     "top": "ba_bt:entity/spawner/land_spawner",
     "side": "ba_bt:entity/spawner/land_spawner",
     "bottom": "ba_bt:entity/spawner/land_spawner"
-  }
+  },
+  "render_type": "cutout"
 }

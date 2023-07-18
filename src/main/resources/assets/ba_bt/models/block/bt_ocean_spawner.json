@@ -4,5 +4,6 @@
     "top": "ba_bt:entity/spawner/ocean_spawner_top",
     "side": "ba_bt:entity/spawner/ocean_spawner",
     "bottom": "ba_bt:entity/spawner/ocean_spawner_top"
-  }
+  },
+  "render_type": "cutout"
 }

@@ -147,18 +147,7 @@ public class ClientEvents {
 				OceanGolemChestBlockEntityRenderer::createDoubleBodyLeftLayer);
 		event.registerLayerDefinition(BTChestTextures.locateChestLayer("golem", "ocean_golem", 2),
 				OceanGolemChestBlockEntityRenderer::createDoubleBodyRightLayer);
-
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_LAND_SPAWNER.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_OCEAN_SPAWNER.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_CORE_SPAWNER.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_NETHER_SPAWNER.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_END_SPAWNER.get(), RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SKY_SPAWNER.get(), RenderType.cutout());
-		
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.TAB_ICON.get(), RenderType.cutout());
-
-		ItemBlockRenderTypes.setRenderLayer(BTBlocks.BT_SPAWNER_MARKER.get(), RenderType.cutout());
-	}
+		}
 
 
 }
