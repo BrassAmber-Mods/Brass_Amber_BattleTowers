@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class MonolithRendererAbstract extends EntityRenderer<BTMonolith> {
@@ -56,7 +57,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<BTMonolith
 
 		//	Rotate the Monolith [N,E,S,W] during placement.
 		float yaw = entityIn.getYRot();
-		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(yaw));
+		matrixStackIn.mulPose(Axis.YP.rotationDegrees(yaw));
 
 		// TODO make the smaller parts of the monolith rotate 
 		//	    float f1 = ((float)entityIn.rotation) * 10;
@@ -66,7 +67,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<BTMonolith
 
 		matrixStackIn.pushPose();
 		// Model is upside down for some reason. (No idea why!)
-		matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+		matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));
 		matrixStackIn.translate(0.0D, -2.0D, 0.0D);
 
 		// Move model to the middle of the hit-box.
