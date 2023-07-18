@@ -11,11 +11,9 @@ import com.BrassAmber.ba_bt.entity.hostile.PlatinumSkeleton;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.init.BTItems;
-
+import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
@@ -26,19 +24,19 @@ import net.minecraft.world.entity.monster.MagmaCube;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public enum GolemType implements StringRepresentable {
-	EMPTY("empty", new TextComponent("Empty")),
-	LAND("land", new TranslatableComponent("entity.ba_bt.land_golem")),
-	OCEAN("ocean", new TranslatableComponent("entity.ba_bt.ocean_golem")),
-	CORE("core", new TranslatableComponent("entity.ba_bt.core_golem")),
-	NETHER("nether", new TranslatableComponent("entity.ba_bt.nether_golem")),
-	END("end", new TranslatableComponent("entity.ba_bt.end_golem")),
-	SKY("sky", new TranslatableComponent("entity.ba_bt.sky_golem")),
-	CITY("city", new TextComponent("~"));
+	EMPTY("empty", Component.literal("Empty")),
+	LAND("land", Component.translatable("entity.ba_bt.land_golem")),
+	OCEAN("ocean", Component.translatable("entity.ba_bt.ocean_golem")),
+	CORE("core", Component.translatable("entity.ba_bt.core_golem")),
+	NETHER("nether", Component.translatable("entity.ba_bt.nether_golem")),
+	END("end", Component.translatable("entity.ba_bt.end_golem")),
+	SKY("sky", Component.translatable("entity.ba_bt.sky_golem")),
+	CITY("city", Component.literal("~"));
 
 	private final String name;
 	private final Component displayName;
