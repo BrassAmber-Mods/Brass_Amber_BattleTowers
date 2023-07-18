@@ -25,7 +25,7 @@ public class BTChestTextures {
 	 */
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
-	public static void textureStitch(TextureStitchEvent.Pre event) {
+	public static void textureStitch(TextureStitchEvent event) {
 		stitchAll(event, LAND_GOLEM_CHEST_TEXTURES);
 		stitchAll(event, LAND_CHEST_TEXTURES);
 		stitchAll(event, OCEAN_GOLEM_CHEST_TEXTURES);
@@ -35,9 +35,9 @@ public class BTChestTextures {
 	/**
 	 * Stitch all textures in the array
 	 */
-	private static void stitchAll(TextureStitchEvent.Pre event, ResourceLocation[] textureLocations) {
+	private static void stitchAll(TextureStitchEvent event, ResourceLocation[] textureLocations) {
 		for (ResourceLocation chestTexture : textureLocations) {
-			event.addSprite(chestTexture);
+			event.getAtlas().getSprite(chestTexture);
 		}
 	}
 
