@@ -25,7 +25,7 @@ public class ChestBlockItem extends BlockItem {
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+    public void initializeClient(Consumer<?> consumer) {
         super.initializeClient(consumer);
         consumer.accept(ChestProperty.INSTANCE);
     }
@@ -34,9 +34,9 @@ public class ChestBlockItem extends BlockItem {
 
         if (Screen.hasShiftDown()) {
             if (this.getBlock() instanceof TowerChestBlock) {
-                tooltip.add(new TranslatableComponent("tooltip.ba_bt.tower_chest").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.translatable("tooltip.ba_bt.tower_chest").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             } else {
-                tooltip.add(new TranslatableComponent("tooltip.ba_bt.golem_chest").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.translatable("tooltip.ba_bt.golem_chest").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
         } else {
             tooltip.add(BrassAmberBattleTowers.HOLD_SHIFT_TOOLTIP);
