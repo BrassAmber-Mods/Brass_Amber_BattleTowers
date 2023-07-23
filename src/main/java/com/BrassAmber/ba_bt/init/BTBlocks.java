@@ -5,6 +5,7 @@ import com.BrassAmber.ba_bt.block.block.*;
 import com.BrassAmber.ba_bt.block.block.GolemChestBlock.BTChestType;
 import com.BrassAmber.ba_bt.block.block.TowerChestBlock;
 
+import com.BrassAmber.ba_bt.item.ChestBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -27,23 +28,23 @@ public class BTBlocks {
 
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BrassAmberBattleTowers.MOD_ID);
 
-	public static final RegistryObject<Block> LAND_GOLEM_CHEST = registerBlock("land_golem_chest",
+	public static final RegistryObject<Block> LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest",
 			() -> new GolemChestBlock(
 					BTChestType.GOLEM, BTBlockEntityTypes.LAND_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
 	);
-	public static final RegistryObject<Block> LAND_CHEST = registerBlock("land_chest",
+	public static final RegistryObject<Block> LAND_CHEST = registerChestBlock("land_chest",
 			() -> new TowerChestBlock(
 					BTChestType.TOWER, BTBlockEntityTypes.LAND_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
 	);
 
-	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = registerBlock("ocean_golem_chest",
+	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = registerChestBlock("ocean_golem_chest",
 			() -> new GolemChestBlock(
 					BTChestType.GOLEM, BTBlockEntityTypes.OCEAN_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
 	);
-	public static final RegistryObject<Block> OCEAN_CHEST = registerBlock("ocean_chest",
+	public static final RegistryObject<Block> OCEAN_CHEST = registerChestBlock("ocean_chest",
 			() -> new TowerChestBlock(
 					BTChestType.TOWER, BTBlockEntityTypes.OCEAN_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F).sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
@@ -103,5 +104,15 @@ public class BTBlocks {
 		return BTItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
 	}
 
+
+	private static <T extends Block> RegistryObject<T> registerChestBlock(String name, Supplier<T> block, int stackSize) {
+		RegistryObject<T> toReturn = BLOCKS.register(name, block);
+		registerBlockItem(name, toReturn, stackSize);
+		return toReturn;
+	}
+
+	private static  <T extends Block> RegistryObject<Item> registerChestBlockItem(String name, RegistryObject<T> block, int stackSize) {
+		return BTItems.ITEMS.register(name, () -> new ChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
+	}
 
 }
