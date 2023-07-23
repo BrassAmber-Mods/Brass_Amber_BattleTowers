@@ -1,7 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,16 +17,16 @@ public enum TowerSpecs implements StringRepresentable {
     private final int height;
     private final int crumbleSpeed;
     private final String colorCode;
-    private final Component defeat1 = new TranslatableComponent("title.ba_bt.guardian_defeated_1");
+    private final Component defeat1 = Component.translatable("title.ba_bt.guardian_defeated_1");
     private final Component defeat2;
     private final Component defeat3;
     TowerSpecs(String baseName, int height, int crumbleSpeed, String colorCode) {
-        this.name = new TranslatableComponent("title.ba_bt." + baseName);
+        this.name = Component.translatable("title.ba_bt." + baseName);
         this.height = height;
         this.crumbleSpeed = crumbleSpeed;
         this.colorCode = colorCode;
-        defeat2 = new TranslatableComponent("title.ba_bt." + baseName + "_defeated_2");
-        defeat3 = new TranslatableComponent("title.ba_bt." + baseName + "_defeated_3");
+        defeat2 = Component.translatable("title.ba_bt." + baseName + "_defeated_2");
+        defeat3 = Component.translatable("title.ba_bt." + baseName + "_defeated_3");
     }
 
     public int getCrumbleSpeed() {
