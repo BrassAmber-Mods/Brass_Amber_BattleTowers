@@ -18,8 +18,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -32,7 +32,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class BTEntityTypes {
 
 
-	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, BrassAmberBattleTowers.MOD_ID);
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, BrassAmberBattleTowers.MOD_ID);
 
 	//*********************** GOLEMS *********************\\
 	public static final RegistryObject<EntityType<BTLandGolem>> LAND_GOLEM = ENTITY_TYPES.register("land_golem", () -> EntityType.Builder.of( BTLandGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("land_golem"));
@@ -82,17 +82,17 @@ public class BTEntityTypes {
 	 * Register Spawn Rules
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void onRegisterEntityTypes(Register<EntityType<?>> event) {
-		registerSpawnPlacement(LAND_GOLEM.get(), Mob::checkMobSpawnRules);
-		registerSpawnPlacement(OCEAN_GOLEM.get(), Mob::checkMobSpawnRules);
-		registerSpawnPlacement(NETHER_GOLEM.get(), Mob::checkMobSpawnRules);
-		registerSpawnPlacement(CORE_GOLEM.get(), Mob::checkMobSpawnRules);
-		registerSpawnPlacement(END_GOLEM.get(), Mob::checkMobSpawnRules);
-		registerSpawnPlacement(SKY_GOLEM.get(), Mob::checkMobSpawnRules);
+	public static void onRegisterEntityTypes(SpawnPlacementRegisterEvent event) {
+		registerSpawnPlacement(event, LAND_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, OCEAN_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, NETHER_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, CORE_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, END_GOLEM.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, SKY_GOLEM.get(), Mob::checkMobSpawnRules);
 
-		registerSpawnPlacement(SKY_MINION.get(), Mob::checkMobSpawnRules);
-		registerSpawnPlacement(PLATINUM_SKELETON.get(), Monster::checkMonsterSpawnRules);
-		registerSpawnPlacement(BT_CULTIST.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, SKY_MINION.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, PLATINUM_SKELETON.get(), Monster::checkMonsterSpawnRules);
+		registerSpawnPlacement(event, BT_CULTIST.get(), Mob::checkMobSpawnRules);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class BTEntityTypes {
 	/**
 	 * Helper method for registering Entity Spawning
 	 */
-	private static <T extends Mob> void registerSpawnPlacement(EntityType<T> entityType, SpawnPlacements.SpawnPredicate<T> placementPredicate) {
-		SpawnPlacements.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, placementPredicate);
+	private static <T extends Mob> void registerSpawnPlacement(SpawnPlacementRegisterEvent event, EntityType<T> entityType, SpawnPlacements.SpawnPredicate<T> placementPredicate) {
+		event.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, placementPredicate, SpawnPlacementRegisterEvent.Operation.REPLACE);
 	}
 }
