@@ -5,6 +5,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.Marker;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,18 +96,18 @@ public class SaveTowers {
         }
         if (!Files.isDirectory(dirPath))
         {
-            LOGGER.debug(CORE,"Making {} directory : {}", dirLabel, dirPath);
+            LOGGER.debug((Marker) CORE,"Making {} directory : {}", dirLabel, dirPath);
             try {
                 Files.createDirectory(dirPath);
             } catch (IOException e) {
                 if (e instanceof FileAlreadyExistsException) {
-                    LOGGER.fatal(CORE,"Failed to create {} directory - there is a file in the way", dirLabel);
+                    LOGGER.fatal((Marker)CORE,"Failed to create {} directory - there is a file in the way", dirLabel);
                 } else {
-                    LOGGER.fatal(CORE,"Problem with creating {} directory (Permissions?)", dirLabel, e);
+                    LOGGER.fatal((Marker)CORE,"Problem with creating {} directory (Permissions?)", dirLabel, e);
                 }
                 throw new RuntimeException("Problem creating directory", e);
             }
-            LOGGER.debug(CORE,"Created {} directory : {}", dirLabel, dirPath);
+            LOGGER.debug((Marker) CORE,"Created {} directory : {}", dirLabel, dirPath);
         }
         return dirPath;
     }
