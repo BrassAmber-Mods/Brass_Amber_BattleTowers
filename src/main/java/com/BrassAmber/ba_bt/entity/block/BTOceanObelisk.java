@@ -124,7 +124,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     public void tick() {
         super.tick();
 
-        if (this.level.isClientSide()) {
+        if (this.level().isClientSide()) {
             return;
         }
 
@@ -135,7 +135,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         }
 
         if (this.tickCount % 320 <= 5 && this.hasPlayer && this.canCheck) {
-            List<ServerPlayer> players = Objects.requireNonNull(this.level.getServer()).getPlayerList().getPlayers();
+            List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
                 if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
@@ -149,7 +149,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     }
 
     public void carveOcean() {
-        // BrassAmberBattleTowers.LOGGER.info(this.level.isClientSide());
+        // BrassAmberBattleTowers.LOGGER.info(this.level().isClientSide());
         BrassAmberBattleTowers.LOGGER.info("Round of carving: " + this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
@@ -179,28 +179,28 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     for (int x = this.westWall; x <= this.eastWall; x++) {
                         for (int z = this.northWall; z <= this.southWall; z++) {
                             blockpos$mutableblockpos.set(x, y, z);
-                            block = this.level.getBlockState(blockpos$mutableblockpos).getBlock();
+                            block = this.level().getBlockState(blockpos$mutableblockpos).getBlock();
                             double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
                             if (y > this.bottom) {
                                 if (distance2d > 15.5D) {
-                                    if  (this.level.getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
-                                        this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
+                                    if  (this.level().getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
+                                        this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
 
-                                    } else if (!this.level.isWaterAt(blockpos$mutableblockpos) ){
+                                    } else if (!this.level().isWaterAt(blockpos$mutableblockpos) ){
                                         if (distance2d < this.wallDistance - 2) {
-                                            this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
+                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                         } else if (distance2d < this.wallDistance - 1) {
                                             if (random.nextInt(50) > 30) {
-                                                this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
+                                                this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                             } else {
-                                                this.level.setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
+                                                this.level().setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
                                             }
                                         } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block)) {
-                                            this.level.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
+                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                         }
                                     }
                                 } else if (!this.avoidBlocks.contains(block)) {
-                                    this.level.setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
+                                    this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                 }
                             }
                         }
@@ -229,14 +229,14 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     blockpos$mutableblockpos.set(x, y, z);
                     blockAbove = blockpos$mutableblockpos.above();
                     double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
-                    if (distance2d > 13 && !this.level.isWaterAt(blockpos$mutableblockpos) && this.level.isWaterAt(blockAbove)) {
+                    if (distance2d > 13 && !this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)) {
                         int vegetation = random.nextInt(75);
                         if (vegetation > 55) {
-                            this.level.setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
+                            this.level().setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
                         } else if (vegetation > 40) {
-                            this.level.setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
+                            this.level().setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
                         } else {
-                            this.level.setBlock(blockAbove, Blocks.WATER.defaultBlockState(), 2);
+                            this.level().setBlock(blockAbove, Blocks.WATER.defaultBlockState(), 2);
                         }
                     }
                 }
