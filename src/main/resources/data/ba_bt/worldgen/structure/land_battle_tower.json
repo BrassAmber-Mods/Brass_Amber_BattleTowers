@@ -1,12 +1,12 @@
 {
   "type": "ba_bt:bt_land_tower",
-  "config": {
-    "start_pool": "ba_bt:land_tower/start_pool",
-    "size": 15
-  },
+
+  "start_pool": "ba_bt:land_tower/start_pool",
+  "size": 15,
 
   "biomes": "#ba_bt:has_structure/land_tower_biomes",
-  "adapt_noise": false,
+  "step": "surface_structures",
+
   "spawn_overrides": {}
 
 }
