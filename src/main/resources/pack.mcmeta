@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "Brass Amber BattleTowers resources",
-        "pack_format": 9
+        "description": "Brass-Amber BattleTowers resources",
+        "pack_format": ${pack_format_number}
     }
 }
