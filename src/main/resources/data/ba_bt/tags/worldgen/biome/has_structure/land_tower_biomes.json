@@ -19,6 +19,11 @@
     "minecraft:old_growth_spruce_taiga",
     "minecraft:grove",
     "minecraft:windswept_hills",
-    "minecraft:windswept_gravelly_hills"
+    "minecraft:windswept_gravelly_hills",
+    "minecraft:swamp",
+    "minecraft:jungle",
+    "minecraft:sparse_jungle",
+    "minecraft:bamboo_jungle",
+    "minecraft:desert"
   ]
 }

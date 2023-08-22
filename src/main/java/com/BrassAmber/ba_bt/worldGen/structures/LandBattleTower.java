@@ -1,87 +1,97 @@
 package com.BrassAmber.ba_bt.worldGen.structures;
 
-import com.BrassAmber.ba_bt.BattleTowersConfig;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.BrassAmber.ba_bt.worldGen.BTLandJigsawPlacement;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.*;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.NoiseColumn;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DeadBushBlock;
+import net.minecraft.world.level.block.FlowerBlock;
+import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructureSets;
-import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.BrassAmber.ba_bt.BattleTowersConfig.*;
 import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
-import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.locate;
-import static com.BrassAmber.ba_bt.util.BTStatics.*;
-import static com.BrassAmber.ba_bt.util.BTTags.Biomes.*;
-import static com.BrassAmber.ba_bt.util.BTUtil.chunkDistanceTo;
-import static com.BrassAmber.ba_bt.util.SaveTowers.towers;
 
 
-public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
+public class LandBattleTower extends BattleTowerStructure {
 
-    private static boolean watered;
+    public static final Codec<LandBattleTower> CODEC = RecordCodecBuilder.<LandBattleTower>mapCodec(instance ->
+            instance.group(LandBattleTower.settingsCodec(instance),
+                    StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
+                    Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
+                    RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("avoid_structures").forGetter(structure -> structure.avoidStructures),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_terra").forGetter(structure -> structure.biomesTerra),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_bop").forGetter(structure -> structure.biomesBOP),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_byg").forGetter(structure -> structure.biomesBYG),
 
-    public static final Codec<JigsawConfiguration> CODEC = RecordCodecBuilder.create((codec) -> codec.group(StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(JigsawConfiguration::startPool),
-            Codec.intRange(0, 40).fieldOf("size").forGetter(JigsawConfiguration::maxDepth)
-    ).apply(codec, JigsawConfiguration::new));
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy").forGetter(structure -> structure.biomesSandy),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy_terra").forGetter(structure -> structure.biomesSandyTerra),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy_bop").forGetter(structure -> structure.biomesSandyBOP),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy_byg").forGetter(structure -> structure.biomesSandyBYG),
 
-    public LandBattleTower() {
-        super(CODEC, LandBattleTower::createPiecesGenerator, LandBattleTower::afterPlace);
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle").forGetter(structure -> structure.biomesJungle),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle_terra").forGetter(structure -> structure.biomesJungleTerra),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle_bop").forGetter(structure -> structure.biomesJungleBOP),
+                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle_byg").forGetter(structure -> structure.biomesJungleBYG)
+            ).apply(instance, LandBattleTower::new)).codec();
+
+    private final HolderSet<Biome> biomesSandy;
+    private final HolderSet<Biome> biomesSandyTerra;
+    private final HolderSet<Biome> biomesSandyBOP;
+    private final HolderSet<Biome> biomesSandyBYG;
+
+    private final HolderSet<Biome> biomesJungle;
+    private final HolderSet<Biome> biomesJungleTerra;
+    private final HolderSet<Biome> biomesJungleBOP;
+    private final HolderSet<Biome> biomesJungleBYG;
+
+    private boolean watered;
+
+    public LandBattleTower(Structure.StructureSettings config,
+                           Holder<StructureTemplatePool> startPool,
+                           int size, HolderSet<Structure> avoidStructures,
+                           HolderSet<Biome> biomesTerra, HolderSet<Biome> biomesBOP, HolderSet<Biome> biomesBYG,
+                           HolderSet<Biome> biomesSandy, HolderSet<Biome> biomesSandyTerra, HolderSet<Biome> biomesSandyBOP, HolderSet<Biome> biomesSandyBYG,
+                           HolderSet<Biome> biomesJungle, HolderSet<Biome> biomesJungleTerra, HolderSet<Biome> biomesJungleBOP, HolderSet<Biome> biomesJungleBYG) {
+        super(config, startPool, size, avoidStructures, biomesTerra, biomesBOP, biomesBYG);
+
+        this.towerType = 1;
+        this.watered = false;
+        this.towerName = "Land Tower";
+
+        this.biomesSandy = biomesSandy;
+        this.biomesSandyTerra = biomesSandyTerra;
+        this.biomesSandyBOP = biomesSandyBOP;
+        this.biomesSandyBYG = biomesSandyBYG;
+
+        this.biomesJungle = biomesJungle;
+        this.biomesJungleTerra = biomesJungleTerra;
+        this.biomesJungleBOP = biomesJungleBOP;
+        this.biomesJungleBYG = biomesJungleBYG;
     }
 
-    @Override
-    public GenerationStep.@NotNull Decoration step() {
-        return GenerationStep.Decoration.SURFACE_STRUCTURES;
-    }
-
-
-    public static BlockPos isSpawnableChunk(PieceGeneratorSupplier.Context<JigsawConfiguration> context, int biomeType,
-                                            WorldgenRandom worldgenRandom, ChunkPos chunkPos, ChunkGenerator chunkGen) {
-
-        List<ResourceKey<StructureSet>> vanillaStructures = new ArrayList<>();
-        vanillaStructures.add(BuiltinStructureSets.VILLAGES);
-        vanillaStructures.add(BuiltinStructureSets.DESERT_PYRAMIDS);
-        vanillaStructures.add(BuiltinStructureSets.IGLOOS);
-        vanillaStructures.add(BuiltinStructureSets.JUNGLE_TEMPLES);
-        vanillaStructures.add(BuiltinStructureSets.SWAMP_HUTS);
-        vanillaStructures.add(BuiltinStructureSets.PILLAGER_OUTPOSTS);
-        vanillaStructures.add(BuiltinStructureSets.WOODLAND_MANSIONS);
-        vanillaStructures.add(BuiltinStructureSets.RUINED_PORTALS);
-        vanillaStructures.add(BuiltinStructureSets.SHIPWRECKS);
-
-
-        for (ResourceKey<StructureSet> set : vanillaStructures) {
-            // BrassAmberBattleTowers.LOGGER.info(context.chunkGenerator().hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3));
-
-            if (chunkGen.hasFeatureChunkInRange(set, context.seed(), chunkPos.x, chunkPos.z, 3)) {
-                // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
-                return BlockPos.ZERO;
-            }
-        }
+    public BlockPos isSpawnableChunk(Structure.GenerationContext context) {
+        WorldgenRandom worldgenRandom = context.random();
+        ChunkPos chunkPos = context.chunkPos();
+        ChunkGenerator chunkGen = context.chunkGenerator();
 
         // Test/Check 3 by 3 square of chunks for possible spawns
         List<ChunkPos> testables = new ArrayList<>(
@@ -97,6 +107,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         List<ChunkPos> usablePositions =  new ArrayList<>();
         ArrayList<Integer> usableHeights = new ArrayList<>();
         ArrayList<Boolean> hasWater = new ArrayList<>();
+        ArrayList<Integer> towerTypes = new ArrayList<>();
         int newLandHeight;
         int lowestY;
         int highestY;
@@ -107,8 +118,8 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
 
         for (ChunkPos pos : testables) {
             // BrassAmberBattleTowers.LOGGER.info("Land tower testing at " + pos);
-            int middleHieght = chunkGen.getFirstOccupiedHeight(pos.getMiddleBlockX(), pos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-            Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(pos.getMiddleBlockZ()));
+            int middleHieght = chunkGen.getFirstOccupiedHeight(pos.getMiddleBlockX(), pos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
+            Holder<Biome> biome = context.biomeSource().getNoiseBiome(QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(pos.getMiddleBlockZ()), context.randomState().sampler());
             lowestY = 215;
             highestY = 0;
             hasWater.clear();
@@ -119,14 +130,14 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 for (int z = 0; z < 6; z++) {
                     newX = minX + (x*3);
                     newZ = minZ + (z*3);
-                    newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+                    newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
 
                     lowestY = Math.min(newLandHeight, lowestY);
                     highestY = Math.max(newLandHeight, highestY);
 
                     // get column of blocks at blockpos.
-                    NoiseColumn columnOfBlocks = chunkGen.getBaseColumn(newX, newZ, context.heightAccessor());
-                    // combine the column of blocks with land height and you get the top block itself which you can test.
+                    NoiseColumn columnOfBlocks = chunkGen.getBaseColumn(newX, newZ, context.heightAccessor(), context.randomState());
+                    // combine the column of blocks with land height, and you get the top block itself which you can test.
                     BlockState topBlock = columnOfBlocks.getBlock(newLandHeight);
                     // check whether the topBlock is a source block of water.
                     if (topBlock == Blocks.WATER.defaultBlockState()) {
@@ -140,23 +151,26 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
                 return  BlockPos.ZERO;
             }
 
+            boolean acceptableBiome = acceptableBiome(biome, context);
+
             // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
             boolean isFlat = highestY - lowestY <= 12;
 
             // 256 blocks in one layer of a chunk, if more than 1/16 is water, avoid.
-            watered = hasWater.size() >= 16;
-            if (watered && biomeType != 1) {
+            this.watered = hasWater.size() >= 16;
+            if (this.watered && this.towerType != 1) {
                 return BlockPos.ZERO;
             }
             int usableHeight = lowestY + ((highestY - lowestY)/4);
 
-            boolean acceptableBiome = acceptableBiome(biome, biomeType);
+
 
             // BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight + " acceptable biome? " + acceptableBiome);
 
             if (isFlat && acceptableBiome) {
                 // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
                 usablePositions.add(pos);
+                towerTypes.add(this.towerType);
                 usableHeights.add(usableHeight);
             }
 
@@ -165,6 +179,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         if (usablePositions.size() > 0) {
             int index = worldgenRandom.nextInt(usablePositions.size());
             int landHeight = usableHeights.get(index);
+            this.towerType = towerTypes.get(index);
             // BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(index).getMiddleBlockPosition(landHeight));
             return usablePositions.get(index).getMiddleBlockPosition(landHeight);
         }
@@ -172,97 +187,7 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         return BlockPos.ZERO;
     }
 
-    public static @NotNull Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
-        // Check if the spot is valid for our structure. This is just as another method for cleanness.
-        // Returning an empty optional tells the game to skip this spot as it will not generate the structure. -- TelepathicGrunt
-
-        Optional<PieceGenerator<JigsawConfiguration>> piecesGenerator;
-        int firstTowerDistance = BattleTowersConfig.firstTowerDistance.get();
-        int minimumSeparation = BattleTowersConfig.landMinimumSeperation.get();
-        int seperationRange = BattleTowersConfig.landAverageSeperationModifier.get();
-
-        ChunkPos chunkPos = context.chunkPos();
-        ChunkGenerator chunkGen = context.chunkGenerator();
-
-        boolean firstTowerDistanceCheck = chunkDistanceTo(ChunkPos.ZERO, chunkPos) < firstTowerDistance;
-        if (firstTowerDistanceCheck) {
-            return Optional.empty();
-        }
-        // BrassAmberBattleTowers.LOGGER.info("current distance " + (int) Mth.absMax(chunkPos.x, chunkPos.z) + "  config distance " + BattleTowersConfig.firstTowerDistance.get());
-
-        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(chunkPos.x));
-        worldgenRandom.setLargeFeatureSeed(context.seed(), chunkPos.x, chunkPos.z);
-
-        int nextSeperation =  minimumSeparation + worldgenRandom.nextInt(seperationRange * 2);
-        int closestDistance = 2000;
-
-        if (!towers.get(0).isEmpty()) {
-            for (ChunkPos towerPos: towers.get(0)) {
-                int distance = chunkDistanceTo(chunkPos, towerPos);
-                closestDistance = Math.min(closestDistance, distance);
-                // BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
-            }
-        }
-
-        if (closestDistance <= nextSeperation) {
-            // BrassAmberBattleTowers.LOGGER.info("Land not outside tower separation " + nextSeperation);
-            return Optional.empty();
-        }
-
-        BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(0);
-        int x = chunkCenter.getX();
-        int z = chunkCenter.getZ();
-        int y =  chunkGen.getFirstFreeHeight(chunkCenter.getX(), chunkCenter.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-
-        Holder<Biome> biome = chunkGen.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z));
-        BlockPos spawnPos;
-        ResourceLocation location = context.config().startPool().value().getName();
-
-        // 0 = Normal, 1 = Overgrown, 2 = Sandy
-        int towerType = 0;
-        towerType = location.getPath().equals(locate("land_tower/start_pool_overgrown").getPath()) ? 1 : towerType;
-        towerType = location.getPath().equals(locate("land_tower/start_pool_sandy").getPath()) ? 2 : towerType;
-
-        // Moved Biome check from JigsawPlacement to here
-        boolean acceptableBiome = acceptableBiome(biome, towerType);
-
-        if (!acceptableBiome) {
-            // BrassAmberBattleTowers.LOGGER.info("Bad " + landTowerNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
-            return Optional.empty();
-        }
-
-
-
-        // BrassAmberBattleTowers.LOGGER.info(typeNames.get(towerType) + " Land Biome " + " : " + biome.unwrapKey());
-        spawnPos = isSpawnableChunk(context, towerType, worldgenRandom, chunkPos, chunkGen);
-        // BrassAmberBattleTowers.LOGGER.info("Land closest position: " + closestDistance);
-
-        boolean sandy = towerType == 2;
-
-        if (spawnPos.getY() != 0) {
-            piecesGenerator =
-                    BTLandJigsawPlacement.addPieces(
-                            context, // Used for JigsawPlacement to get all the proper behaviors done.
-                            PoolElementStructurePiece::new, // Needed in order to create a list of jigsaw pieces when making the structure's layout.
-                            spawnPos, // Position of the structure. Y value is ignored if last parameter is set to true. --TelepathicGrunt
-                            watered,
-                            sandy
-                    );
-
-            if (piecesGenerator.isPresent()) {
-                // I use to debug and quickly find out if the structure is spawning or not and where it is.
-                // This is returning the coordinates of the center starting piece.
-                BrassAmberBattleTowers.LOGGER.info(landTowerNames.get(towerType) + " Tower at " + spawnPos);
-                SAVETOWERS.addTower(chunkPos, "Land_Towers");
-            }
-            // Return the pieces generator that is now set up so that the game runs it when it needs to create the layout of structure pieces
-            return piecesGenerator;
-            // BrassAmberBattleTowers.LOGGER.info(landTowerNames.get(towerType) + "incorrect biome? " + biome);
-        }
-        return Optional.empty();
-    }
-
-    public static void afterPlace(WorldGenLevel worldGenLevel, StructureFeatureManager featureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+    public void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource random, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
         boundingbox.getCenter();
@@ -318,48 +243,52 @@ public class LandBattleTower extends StructureFeature<JigsawConfiguration> {
         }
     }
 
-    public static boolean acceptableBiome(Holder<Biome> biome, int towerType) {
-        boolean acceptable = false;
+    public boolean acceptableBiome(Holder<Biome> biome, Structure.GenerationContext context) {
 
         // Test base minecraft acceptable biomes
-        if (towerType == 0) {
-            acceptable = LAND.test(biome);
-        } else if (towerType == 1) {
-            acceptable = LAND_OVERGROWN.test(biome);
-        } else if (towerType == 2) {
-            acceptable = LAND_SANDY.test(biome);
+        boolean acceptable= super.acceptableBiome(biome, context);
+
+        if (!acceptable) {
+            acceptable = biomesJungle.contains(biome);
+            this.towerType = 2;
+        }
+        if (!acceptable) {
+            acceptable = biomesSandy.contains(biome);
+            this.towerType = 3;
         }
 
         // Test Terralith Mod acceptable biomes
-        if (terralithBiomeSpawning.get() && !acceptable) {
-            if (towerType == 0) {
-                acceptable = TERRA_LAND.test(biome);
-            } else if (towerType == 1) {
-                acceptable = TERRA_LAND_OVERGROWN.test(biome);
-            } else if (towerType == 2) {
-                acceptable = TERRA_LAND_SANDY.test(biome);
+        if (terralithBiomeSpawning.get()) {
+            if (!acceptable) {
+                acceptable = biomesJungleTerra.contains(biome);
+                this.towerType = 2;
+            }
+            if (!acceptable) {
+                acceptable = biomesSandyTerra.contains(biome);
+                this.towerType = 3;
             }
         }
 
         // Test Biomes Of Plenty Mod acceptable biomes
-        if (biomesOfPlentyBiomeSpawning.get() && !acceptable) {
-            if (towerType == 0) {
-                acceptable = BOP_LAND.test(biome);
-            } else if (towerType == 1) {
-                acceptable = BOP_LAND_OVERGROWN.test(biome);
-            } else if (towerType == 2) {
-                acceptable = BOP_LAND_SANDY.test(biome);
+        if (biomesOfPlentyBiomeSpawning.get()) {
+            if (!acceptable) {
+                acceptable = biomesJungleBOP.contains(biome);
+                this.towerType = 2;
+            }
+            if (!acceptable) {
+                acceptable = biomesSandyBOP.contains(biome);
+                this.towerType = 3;
             }
         }
 
-        // Test Oh The Biomes You'll Go mod acceptable biomes
-        if (biomesYoullGoBiomeSpawning.get() && !acceptable) {
-            if (towerType == 0) {
-                acceptable = BYG_LAND.test(biome);
-            } else if (towerType == 1) {
-                acceptable = BYG_LAND_OVERGROWN.test(biome);
-            } else if (towerType == 2) {
-                acceptable = BYG_LAND_SANDY.test(biome);
+        if (biomesYoullGoBiomeSpawning.get()) {
+            if (!acceptable) {
+                acceptable = biomesJungleBYG.contains(biome);
+                this.towerType = 2;
+            }
+            if (!acceptable) {
+                acceptable = biomesSandyBYG.contains(biome);
+                this.towerType = 3;
             }
         }
 

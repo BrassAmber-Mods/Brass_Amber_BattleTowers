@@ -4,7 +4,23 @@
   "start_pool": "ba_bt:land_tower/start_pool",
   "size": 15,
 
+  "avoid_structures": "#structure/land_tower_avoid_structures",
+
   "biomes": "#ba_bt:has_structure/land_tower_biomes",
+  "biomes_terra": "#has_structure/modded_biomes/terralith_land",
+  "biomes_bop": "#has_structure/modded_biomes/bop_land",
+  "biomes_byg": "#has_structure/modded_biomes/byg_land",
+
+  "biomes_sandy": "#has_structure/sandy_land_tower_biomes",
+  "biomes_sandy_terra": "#has_structure/modded_biomes/terralith_land_sandy",
+  "biomes_sandy_bop": "#has_structure/modded_biomes/bop_land_sandy",
+  "biomes_sandy_byg": "#has_structure/modded_biomes/byg_land_sandy",
+
+  "biomes_jungle": "#has_structure/overgrown_land_tower_biomes",
+  "biomes_jungle_terra": "#has_structure/modded_biomes/terralith_land_overgrown",
+  "biomes_jungle_bop": "#has_structure/modded_biomes/bop_land_overgrown",
+  "biomes_jungle_byg": "#has_structure/modded_biomes/byg_land_overgrown",
+
   "step": "surface_structures",
 
   "spawn_overrides": {}
