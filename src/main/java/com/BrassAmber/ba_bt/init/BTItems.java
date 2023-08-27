@@ -15,7 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class BTItems {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MOD_ID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrassAmberBattleTowers.MODID);
 
 	public static final RegistryObject<Item> PLATINUM_SKELETON_SPAWN_EGG = ITEMS.register("platinum_skeleton_spawn_egg", () -> new ForgeSpawnEggItem(BTEntityTypes.PLATINUM_SKELETON, 0xb4bebf, 0x4a4e4f, new Item.Properties()));
 	public static final RegistryObject<Item> CULTIST_SPAWN_EGG = ITEMS.register("cultist_spawn_egg", () -> new ForgeSpawnEggItem(BTEntityTypes.BT_CULTIST, 0xb4bebf, 0x4a4e4f, new Item.Properties()));

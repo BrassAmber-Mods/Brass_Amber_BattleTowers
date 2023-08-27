@@ -16,7 +16,6 @@ import com.BrassAmber.ba_bt.client.renderer.monolith.LandMonolithRenderer;
 import com.BrassAmber.ba_bt.client.model.hostile.*;
 import com.BrassAmber.ba_bt.client.renderer.obelisk.*;
 import com.BrassAmber.ba_bt.init.BTBlockEntityTypes;
-import com.BrassAmber.ba_bt.init.BTBlocks;
 import com.BrassAmber.ba_bt.init.BTEntityTypes;
 import com.BrassAmber.ba_bt.client.renderer.monolith.EndMonolithRenderer;
 import com.BrassAmber.ba_bt.client.renderer.monolith.NetherMonolithRenderer;
@@ -30,8 +29,6 @@ import com.BrassAmber.ba_bt.client.renderer.golem.OceanGolemRenderer;
 import com.BrassAmber.ba_bt.client.renderer.golem.SkyGolemRenderer;
 
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -40,7 +37,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
 
 	private ClientEvents() {}

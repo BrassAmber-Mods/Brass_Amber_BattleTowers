@@ -1,10 +1,6 @@
 package com.BrassAmber.ba_bt.util;
 
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
-import com.electronwill.nightconfig.toml.TomlParser;
-import com.electronwill.nightconfig.toml.TomlWriter;
-import jdk.dynalink.beans.StaticClass;
-import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -46,7 +42,7 @@ public class BTConfigurables {
                 1, 26
         );
 
-        Path configpath = defaultConfigPath.resolve(String.format(Locale.ROOT, "%s-%s.toml", BrassAmberBattleTowers.MOD_ID, ModConfig.Type.COMMON.extension()));
+        Path configpath = defaultConfigPath.resolve(String.format(Locale.ROOT, "%s-%s.toml", BrassAmberBattleTowers.MODID, ModConfig.Type.COMMON.extension()));
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("ba-battletowers-config"));
