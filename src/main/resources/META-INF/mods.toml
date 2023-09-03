@@ -29,13 +29,13 @@ credits='''Inspired by BattleTowers from YogBox
 
 authors="${mod_authors}"
 description='''${mod_description}'''
-[[dependencies.ba_bt]]
+[[dependencies.${mod_id}]]
     modId="forge"
     mandatory=true
     versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.ba_bt]]
+[[dependencies.${mod_id}]]
     modId="minecraft"
     mandatory=true
     versionRange="${minecraft_version_range}"

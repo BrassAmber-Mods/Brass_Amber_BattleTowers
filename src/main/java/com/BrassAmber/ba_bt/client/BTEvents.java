@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import static com.BrassAmber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
 
 
-@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BTEvents {
 
     @SubscribeEvent

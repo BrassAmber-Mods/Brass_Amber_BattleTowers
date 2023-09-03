@@ -14,7 +14,7 @@ public class BTTags {
         public static final TagKey<Structure> Ocean = createBT("structure/ocean_tower_avoid_structures");
 
         private static TagKey<Structure> createBT(String name) {
-            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BrassAmberBattleTowers.MODID, name));
+            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BrassAmberBattleTowers.MOD_ID, name));
         }
     }
 }

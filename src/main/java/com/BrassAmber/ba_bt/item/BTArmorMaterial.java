@@ -17,6 +17,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+
 /**
  * Reference from {@link ArmorMaterials}
  */
@@ -84,7 +86,7 @@ public enum BTArmorMaterial implements ArmorMaterial {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public @NotNull String getName() {
-		return BrassAmberBattleTowers.MODID + ":" + this.name;
+		return BrassAmberBattleTowers.MOD_ID + ":" + this.name;
 	}
 
 	@Override

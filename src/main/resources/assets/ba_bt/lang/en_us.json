@@ -1,6 +1,6 @@
 {
 	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
-	"creativemodetab.ba_bt.bt_tab": "BrassAmber Battletowers",
+	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
 	// Entities
 	"entity.ba_bt.land_golem": "Bahryn'muul, Entombed Watcher",

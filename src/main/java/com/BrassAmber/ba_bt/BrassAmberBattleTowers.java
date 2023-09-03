@@ -21,10 +21,10 @@ import org.apache.logging.log4j.Logger;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(BrassAmberBattleTowers.MODID)
+@Mod(BrassAmberBattleTowers.MOD_ID)
 public class BrassAmberBattleTowers {
 
-	public static final String MODID = "ba_bt";
+	public static final String MOD_ID = "ba_bt";
 	public static final SaveTowers SAVETOWERS = new SaveTowers();
 
 	// Directly reference a log4j logger
@@ -35,8 +35,6 @@ public class BrassAmberBattleTowers {
 	public BrassAmberBattleTowers() {
 		// Register the setup method for modloading
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC, "ba-battletowers-config.toml");
 
         // Register
 		BTCreativeTab.CREATIVE_MODE_TABS.register(eventBus);
@@ -57,7 +55,7 @@ public class BrassAmberBattleTowers {
 		// Register Structures
 		BTStructures.STRUCTURE_REGISTRY.register(eventBus);
 
-
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC, "ba-battletowers-config.toml");
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
@@ -95,7 +93,7 @@ public class BrassAmberBattleTowers {
 		}
 
 
-		/*if (event.getTab() == BTCreativeTab.BT_TAB.get()) {
+		if (event.getTab() == BTCreativeTab.BT_TAB.get()) {
 			event.accept(BTItems.PLATINUM_SKELETON_SPAWN_EGG);
 			event.accept(BTItems.CULTIST_SPAWN_EGG);
 
@@ -133,11 +131,11 @@ public class BrassAmberBattleTowers {
 			event.accept(BTItems.BT_END_RESONANCE_CRYSTAL);
 			event.accept(BTItems.BT_SKY_RESONANCE_CRYSTAL);
 			event.accept(BTItems.BT_CITY_RESONANCE_CRYSTAL);
-		}*/
+		}
 	}
 
 
 	public static ResourceLocation locate(String name) {
-		return new ResourceLocation(MODID, name);
+		return new ResourceLocation(MOD_ID, name);
 	}
 }

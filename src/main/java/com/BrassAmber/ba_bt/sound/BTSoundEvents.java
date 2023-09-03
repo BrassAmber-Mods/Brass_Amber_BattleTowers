@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class BTSoundEvents {
 
-	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, BrassAmberBattleTowers.MODID);
+	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, BrassAmberBattleTowers.MOD_ID);
 
 	public static final SoundEvent ENTITY_GOLEM_HURT = registerSoundEvent("entity.golem.hurt");
 	public static final SoundEvent ENTITY_GOLEM_DEATH = registerSoundEvent("entity.golem.death");

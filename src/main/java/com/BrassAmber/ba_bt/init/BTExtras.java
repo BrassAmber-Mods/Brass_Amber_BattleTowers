@@ -3,6 +3,8 @@ package com.BrassAmber.ba_bt.init;
 import com.BrassAmber.ba_bt.BrassAmberBattleTowers;
 import com.BrassAmber.ba_bt.effect.DepthDropperEffect;
 import com.BrassAmber.ba_bt.enchantment.DepthDropperEnchantment;
+import com.mojang.blaze3d.shaders.Effect;
+import net.minecraft.world.effect.AbsoptionMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,8 +16,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BTExtras {
 
-    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, BrassAmberBattleTowers.MODID);
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, BrassAmberBattleTowers.MODID);
+    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, BrassAmberBattleTowers.MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, BrassAmberBattleTowers.MOD_ID);
 
     public static final RegistryObject<Enchantment> DEPTH_DROPPER = ENCHANTMENTS.register("depth_dropper",
             () -> new DepthDropperEnchantment(Enchantment.Rarity.RARE,  EquipmentSlot.values())

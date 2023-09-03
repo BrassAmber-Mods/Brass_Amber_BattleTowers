@@ -3,14 +3,13 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.neoforged.gradle' version '[6.0.18,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 
 version = "${minecraft_version}-${mod_version}"
 group = mod_group_id // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 base {
-    archivesName = mod_id
+    archivesName = 'BrassAmberBattleTowers'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 17 to end users, so your mod should target Java 17.
