@@ -4,7 +4,7 @@ license="${mod_license}"
 issueTrackerURL="https://github.com/BrassAmber-Mods/Brass_Amber_BattleTowers/issues"
 [[mods]]
 modId= "${mod_id}"
-version="${file.jarVersion}"
+version="${mod_version}"
 displayName="Brass-Amber BattleTowers"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/brassamberbattletowers"
 logoFile="BrassAmberBattleTowers.png"
