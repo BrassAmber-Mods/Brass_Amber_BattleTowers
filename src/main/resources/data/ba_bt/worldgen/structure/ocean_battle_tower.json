@@ -4,7 +4,14 @@
   "start_pool": "ba_bt:ocean_tower/start_pool",
   "size": 15,
 
+  "avoid_structures": "#structure/land_tower_avoid_structures",
+
   "biomes": "#ba_bt:has_structure/ocean_tower_biomes",
+  "biomes_terra": "#has_structure/modded_biomes/terralith_ocean",
+  "biomes_bop": "#has_structure/modded_biomes/bop_ocean",
+  "biomes_byg": "#has_structure/modded_biomes/byg_ocean",
+
+
   "step": "surface_structures",
 
   "spawn_overrides": {}
