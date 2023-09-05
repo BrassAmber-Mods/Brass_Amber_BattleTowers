@@ -12,10 +12,14 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BTCreativeTab {
 
-	public static DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB.registry(), BrassAmberBattleTowers.MOD_ID);
+	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, BrassAmberBattleTowers.MOD_ID);
 
 	public static RegistryObject<CreativeModeTab> BT_TAB = CREATIVE_MODE_TABS.register("bt_tab", () ->
 			CreativeModeTab.builder().icon(() -> new ItemStack(BTBlocks.TAB_ICON.get()))
 					.title(Component.translatable("creativemodetab.bt_tab")).build());
+
+	public static void register(IEventBus eventBus) {
+		CREATIVE_MODE_TABS.register(eventBus);
+	}
 
 }
