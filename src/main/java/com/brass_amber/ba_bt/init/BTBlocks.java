@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -113,6 +114,10 @@ public class BTBlocks {
 
 	private static  <T extends Block> RegistryObject<Item> registerChestBlockItem(String name, RegistryObject<T> block, int stackSize) {
 		return BTItems.ITEMS.register(name, () -> new ChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
+	}
+
+	public static void register(IEventBus eventBus) {
+		BLOCKS.register(eventBus);
 	}
 
 }

@@ -6,6 +6,7 @@ import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -24,4 +25,9 @@ public class BTBlockEntityTypes {
 	public static final RegistryObject<BlockEntityType<BTNetherSpawnerEntity>> BT_NETHER_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_n_spawner", () -> BlockEntityType.Builder.of(BTNetherSpawnerEntity::new, BTBlocks.BT_NETHER_SPAWNER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<BTEndSpawnerEntity>> BT_END_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_e_spawner", () -> BlockEntityType.Builder.of(BTEndSpawnerEntity::new, BTBlocks.BT_END_SPAWNER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<BTSkySpawnerEntity>> BT_SKY_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("bt_s_spawner", () -> BlockEntityType.Builder.of(BTSkySpawnerEntity::new, BTBlocks.BT_SKY_SPAWNER.get()).build(null));
+
+	public static void register(IEventBus eventBus) {
+		BLOCK_ENTITY_TYPES.register(eventBus);
+	}
+
 }

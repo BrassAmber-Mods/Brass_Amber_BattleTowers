@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -64,5 +65,9 @@ public class BTItems {
 	public static final RegistryObject<Item> BT_END_RESONANCE_CRYSTAL = ITEMS.register("bt_end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END.getSerializedName(), new Item.Properties().stacksTo(1), 7800));
 	public static final RegistryObject<Item> BT_SKY_RESONANCE_CRYSTAL = ITEMS.register("bt_sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY.getSerializedName(), new Item.Properties().stacksTo(1), 4200));
 	public static final RegistryObject<Item> BT_CITY_RESONANCE_CRYSTAL = ITEMS.register("bt_city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY.getSerializedName(), new Item.Properties().stacksTo(1), 2100));
+
+	public static void register(IEventBus eventBus) {
+		ITEMS.register(eventBus);
+	}
 
 }

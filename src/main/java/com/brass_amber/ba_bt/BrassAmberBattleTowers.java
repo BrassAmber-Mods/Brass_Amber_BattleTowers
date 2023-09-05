@@ -37,23 +37,22 @@ public class BrassAmberBattleTowers {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register
-		BTCreativeTab.CREATIVE_MODE_TABS.register(eventBus);
+		BTCreativeTab.register(eventBus);
 
 		// Register Blocks
-		BTBlocks.BLOCKS.register(eventBus);
+		BTBlocks.register(eventBus);
 		// Register EntityTypes
-		BTEntityTypes.ENTITY_TYPES.register(eventBus);
-		BTExtras.ENCHANTMENTS.register(eventBus);
-		BTExtras.EFFECTS.register(eventBus);
+		BTEntityTypes.register(eventBus);
+		BTExtras.register(eventBus);
 		// Register Items
-		BTItems.ITEMS.register(eventBus);
+		BTItems.register(eventBus);
 		// Register TileEntityTypes
-		BTBlockEntityTypes.BLOCK_ENTITY_TYPES.register(eventBus);
+		BTBlockEntityTypes.register(eventBus);
 		// Register SoundEvents
-		BTSoundEvents.SOUND_EVENTS.register(eventBus);
+		BTSoundEvents.register(eventBus);
 
 		// Register Structures
-		BTStructures.STRUCTURE_REGISTRY.register(eventBus);
+		BTStructures.register(eventBus);
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC, "ba-battletowers-config.toml");
 

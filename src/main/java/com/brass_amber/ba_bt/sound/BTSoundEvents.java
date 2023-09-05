@@ -5,6 +5,7 @@ import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -63,6 +64,10 @@ public class BTSoundEvents {
 		SoundEvent soundEvent = SoundEvent.createFixedRangeEvent(BrassAmberBattleTowers.locate(registryName), 50);
 		SOUND_EVENTS.register(registryName, () -> soundEvent);
 		return soundEvent;
+	}
+
+	public static void register(IEventBus eventBus) {
+		SOUND_EVENTS.register(eventBus);
 	}
 
 }

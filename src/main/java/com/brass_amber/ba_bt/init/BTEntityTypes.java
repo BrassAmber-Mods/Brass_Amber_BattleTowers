@@ -21,6 +21,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -116,5 +117,9 @@ public class BTEntityTypes {
 	 */
 	private static <T extends Mob> void registerSpawnPlacement(SpawnPlacementRegisterEvent event, EntityType<T> entityType, SpawnPlacements.SpawnPredicate<T> placementPredicate) {
 		event.register(entityType, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, placementPredicate, SpawnPlacementRegisterEvent.Operation.REPLACE);
+	}
+
+	public static void register(IEventBus eventBus) {
+		ENTITY_TYPES.register(eventBus);
 	}
 }

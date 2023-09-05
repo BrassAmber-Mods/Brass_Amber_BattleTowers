@@ -8,6 +8,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -22,4 +23,9 @@ public class BTStructures {
     private static <T extends Structure> StructureType<T> explicitStructureTypeTyping(Codec<T> structureCodec) {
         return () -> structureCodec;
     }
+
+    public static void register(IEventBus eventBus) {
+        STRUCTURE_REGISTRY.register(eventBus);
+    }
+
 }
