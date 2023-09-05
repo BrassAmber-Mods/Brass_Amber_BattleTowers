@@ -1,16 +1,10 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
-import com.brass_amber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
-import com.brass_amber.ba_bt.entity.ai.goal.GolemLeapGoal;
-import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,21 +12,15 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.entity.monster.Drowned;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-import static com.brass_amber.ba_bt.BattleTowersConfig.oceanGolemHP;
 
 public class BTOceanGolem extends BTAbstractGolem {
 
@@ -54,15 +42,11 @@ public class BTOceanGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 350).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
 		return new WaterBoundPathNavigation(this, level);
-	}
-
-	@Override
-	protected void goDownInWater() {
 	}
 
 	@Override

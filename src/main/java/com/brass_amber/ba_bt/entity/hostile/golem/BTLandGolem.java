@@ -8,18 +8,20 @@ import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import org.antlr.v4.runtime.misc.MultiMap;
+
+import java.util.Map;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.brass_amber.ba_bt.BattleTowersConfig.oceanGolemHP;
@@ -32,6 +34,7 @@ public class BTLandGolem extends BTAbstractGolem {
 		super(type, levelIn, BossEvent.BossBarColor.BLUE);
 		this.setGolemName(GolemType.LAND.getDisplayName());
 		this.setBossBarName();
+
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 315;
 		this.golemType = GolemType.LAND;
@@ -50,7 +53,7 @@ public class BTLandGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, landGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	@Override
