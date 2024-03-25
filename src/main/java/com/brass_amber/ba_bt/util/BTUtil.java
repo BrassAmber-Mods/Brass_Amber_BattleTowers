@@ -233,7 +233,7 @@ public class BTUtil {
     public static void btFill(LootTable loot, Container container, LootContext lootContext, LootParams lootparams) {
         List<ItemStack> list = loot.getRandomItems(lootparams);
         RandomSource random = lootContext.getRandom();
-        List<Integer> list1 = btGetAvailableSlots(container, (Random) random);
+        List<Integer> list1 = btGetAvailableSlots(container,  new Random());
         btShuffleAndSplitItems(list, list1.size(), random);
 
         for(ItemStack itemstack : list) {
@@ -251,7 +251,7 @@ public class BTUtil {
 
     }
 
-    private static List<Integer> btGetAvailableSlots(Container p_79127_, Random p_79128_) {
+    private static List<Integer> btGetAvailableSlots(Container p_79127_, Random random) {
         List<Integer> list = Lists.newArrayList();
 
         for(int i = 0; i < p_79127_.getContainerSize(); ++i) {
@@ -260,7 +260,7 @@ public class BTUtil {
             }
         }
 
-        Collections.shuffle(list, p_79128_);
+        Collections.shuffle(list, random);
         return list;
     }
 
@@ -297,7 +297,7 @@ public class BTUtil {
         }
 
         itemStackList.addAll(list);
-        Collections.shuffle(itemStackList, (Random) random);
+        Collections.shuffle(itemStackList, new Random());
     }
 
     public static void doCommand(Entity self, String command) {

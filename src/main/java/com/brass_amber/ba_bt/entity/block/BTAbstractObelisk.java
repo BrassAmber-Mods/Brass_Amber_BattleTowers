@@ -235,17 +235,17 @@ public class BTAbstractObelisk extends Entity {
     public void checkPos(BlockPos toCheck, Level level) {
         try {
             Block block = level.getBlockState(toCheck).getBlock();
-            // Make suer that if there is a double Tower chest, only the first instance of the tower chest is added
+            // Make sure that if there is a double Tower chest, only the first instance of the tower chest is added
             if (block == this.chestBlock && !this.floorChestFound) {
                 this.CHESTS.add(toCheck);
                 this.floorChestFound = true;
                 // BrassAmberBattleTowers.LOGGER.info("Found chest");
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
-                BlockEntity entity = this.level().getBlockEntity(toCheck);
+                BlockEntity entity = level.getBlockEntity(toCheck);
                 if (entity instanceof BTAbstractSpawnerBlockEntity btspawnerEntity) {
+                    btspawnerEntity.getSpawner().setEntityId(this.towerMobs.get(this.random.nextInt(this.towerMobs.size())), level, level.getRandom(), toCheck);
                     btspawnerEntity.getSpawner().setBtSpawnData(
-                            this.towerMobs.get(this.random.nextInt(this.towerMobs.size())),
                             this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),
                             this.floorData.get(3), this.floorData.get(4), this.floorData.get(5)
                     );
@@ -474,13 +474,13 @@ public class BTAbstractObelisk extends Entity {
     private void checkSpawners(Level level) {
         // Make sure there are chests && spawners in the tower (tower has not been cleared)
         BlockPos chestPos;
-        if (this.SPAWNERS.size() == 0 || this.CHESTS.size() == 0) {
+        if (this.SPAWNERS.isEmpty() || this.CHESTS.isEmpty()) {
             this.doCheck = false;
             this.canCheck = false;
         } else {
             // Main loop to iterate over each 'floor' contained in the spawners list
             for (int i = 0; i < this.SPAWNERS.size(); i++) {
-                if (this.SPAWNERS.get(i).size() == 0) {
+                if (this.SPAWNERS.get(i).isEmpty()) {
                     // If no spawners left on the floor unlock the chest.
                     chestPos = this.CHESTS.get(i);
                     if (chestPos != null && level.getBlockEntity(chestPos) instanceof TowerChestBlockEntity chest) {

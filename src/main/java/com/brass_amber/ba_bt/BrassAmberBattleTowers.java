@@ -104,7 +104,7 @@ public class BrassAmberBattleTowers {
 			event.accept(BTItems.SKY_MONOLOITH_KEY);
 
 			event.accept(BTItems.LAND_GUARDIAN_EYE);
-			event.accept(BTItems.OCEAN_MONOLOITH_KEY);
+			event.accept(BTItems.OCEAN_GUARDIAN_EYE);
 			event.accept(BTItems.CORE_GUARDIAN_EYE);
 			event.accept(BTItems.NETHER_GUARDIAN_EYE);
 			event.accept(BTItems.END_GUARDIAN_EYE);

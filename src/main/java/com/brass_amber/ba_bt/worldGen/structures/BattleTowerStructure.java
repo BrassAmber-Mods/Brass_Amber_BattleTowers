@@ -8,7 +8,6 @@ import com.brass_amber.ba_bt.worldGen.BTTowerJigsawPlacement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.*;
@@ -50,7 +49,8 @@ public class BattleTowerStructure extends Structure {
 
     protected final List<Integer> minimumSeperations;
     protected final List<Integer> averageSeperations;
-    protected int towerType;
+    protected int towerType; // Tower Variant
+    protected int towerId = 0; // Tower number (Land = 0, Ocean = 1, etc. )
 
     protected final Boolean buryTower = false;
     protected final Boolean randomBuryDepth = false;
@@ -92,15 +92,15 @@ public class BattleTowerStructure extends Structure {
         }
 
         ChunkGenerator chunkGen = context.chunkGenerator();
-        int minimumSeparation = this.minimumSeperations.get(this.towerType);
-        int seperationRange = this.averageSeperations.get(this.towerType);
+        int minimumSeparation = this.minimumSeperations.get(this.towerId);
+        int seperationRange = this.averageSeperations.get(this.towerId);
 
         int nextSeperation =  minimumSeparation + context.random().nextInt(seperationRange * 2);
         int closestDistance = 2000;
 
         // Check for already generated towers
-        if (!SaveTowers.towers.get(this.towerType).isEmpty()) {
-            for (ChunkPos towerPos: SaveTowers.towers.get(this.towerType)) {
+        if (!SaveTowers.towers.get(this.towerId).isEmpty()) {
+            for (ChunkPos towerPos: SaveTowers.towers.get(this.towerId)) {
                 int distance = chunkDistanceTo(chunkPos, towerPos);
                 closestDistance = Math.min(closestDistance, distance);
                 // BrassAmberBattleTowers.LOGGER.info("Tower distance from generation try:" + distance);
@@ -112,7 +112,7 @@ public class BattleTowerStructure extends Structure {
             return Optional.empty();
         }
 
-        Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(Minecraft.getInstance().level.getServer().overworld(), this.avoidStructures, chunkPos.getMiddleBlockPosition(0),3, false);
+        Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(SAVETOWERS.server.getLevel(Level.OVERWORLD), this.avoidStructures, chunkPos.getMiddleBlockPosition(0),3, false);
 
         if (pair != null) {
             // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");

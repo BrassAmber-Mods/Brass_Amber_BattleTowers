@@ -1,9 +1,8 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "top": "ba_bt:entity/spawner/ocean_spawner_top",
-    "side": "ba_bt:entity/spawner/ocean_spawner",
-    "bottom": "ba_bt:entity/spawner/ocean_spawner_top"
+    "end": "ba_bt:entity/spawner/ocean_spawner_top",
+    "side": "ba_bt:entity/spawner/ocean_spawner"
   },
   "render_type": "cutout"
 }

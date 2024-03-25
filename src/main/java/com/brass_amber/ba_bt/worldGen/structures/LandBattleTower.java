@@ -64,6 +64,7 @@ public class LandBattleTower extends BattleTowerStructure {
     private final HolderSet<Biome> biomesJungleBYG;
 
     private boolean watered;
+    protected int towerId = 0;
 
     public LandBattleTower(Structure.StructureSettings config,
                            Holder<StructureTemplatePool> startPool,
@@ -73,7 +74,7 @@ public class LandBattleTower extends BattleTowerStructure {
                            HolderSet<Biome> biomesJungle, HolderSet<Biome> biomesJungleTerra, HolderSet<Biome> biomesJungleBOP, HolderSet<Biome> biomesJungleBYG) {
         super(config, startPool, size, avoidStructures, biomesTerra, biomesBOP, biomesBYG);
 
-        this.towerType = 1;
+        this.towerType = 0;
         this.watered = false;
         this.towerName = "Land Tower";
 
@@ -86,6 +87,8 @@ public class LandBattleTower extends BattleTowerStructure {
         this.biomesJungleTerra = biomesJungleTerra;
         this.biomesJungleBOP = biomesJungleBOP;
         this.biomesJungleBYG = biomesJungleBYG;
+
+        BrassAmberBattleTowers.LOGGER.info("Generating Ocean Tower");
     }
 
     public BlockPos isSpawnableChunk(Structure.GenerationContext context) {
@@ -176,7 +179,7 @@ public class LandBattleTower extends BattleTowerStructure {
 
         }
 
-        if (usablePositions.size() > 0) {
+        if (!usablePositions.isEmpty()) {
             int index = worldgenRandom.nextInt(usablePositions.size());
             int landHeight = usableHeights.get(index);
             this.towerType = towerTypes.get(index);

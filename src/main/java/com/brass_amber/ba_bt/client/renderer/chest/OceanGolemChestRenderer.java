@@ -6,9 +6,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class OceanChestBlockEntityRenderer extends BTChestBlockEntityRendererAbstract {
+public class OceanGolemChestRenderer extends BTChestRendererAbstract {
 
-	public OceanChestBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-		super(context, BTChestTextures.OCEAN_CHEST_TEXTURES);
+	public OceanGolemChestRenderer(BlockEntityRendererProvider.Context context) {
+		super(context, BTChestTextures.OCEAN_GOLEM_CHEST_TEXTURES);
 	}
 }

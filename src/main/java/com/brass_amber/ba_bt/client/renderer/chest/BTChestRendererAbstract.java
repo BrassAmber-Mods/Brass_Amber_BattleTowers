@@ -6,19 +6,21 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BTChestBlockEntityRendererAbstract extends ChestRenderer<ChestBlockEntity> {
+public abstract class BTChestRendererAbstract extends ChestRenderer<ChestBlockEntity> {
 	private final Material singleChest;
 	private final Material doubleChestLeft;
 	private final Material doubleChestRight;
 
-	public BTChestBlockEntityRendererAbstract(BlockEntityRendererProvider.Context context, ResourceLocation[] chestTextureLocations) {
+	public BTChestRendererAbstract(BlockEntityRendererProvider.Context context, ResourceLocation[] chestTextureLocations) {
 		super(context);
 		this.singleChest = chestMaterial(chestTextureLocations[0]);
 		this.doubleChestLeft = chestMaterial(chestTextureLocations[1]);
@@ -34,15 +36,15 @@ public abstract class BTChestBlockEntityRendererAbstract extends ChestRenderer<C
 		return new Material(Sheets.CHEST_SHEET, chestTextureLocation);
 	}
 
-	private static Material chooseMaterial(ChestType chestType, Material renderMaterialSingle, Material renderMaterialLeft, Material renderMaterialRight) {
+	private static Material chooseMaterial(ChestType chestType, Material single, Material doubleLeft, Material doubleRight) {
 		switch (chestType) {
-		case LEFT:
-			return renderMaterialLeft;
-		case RIGHT:
-			return renderMaterialRight;
-		case SINGLE:
-		default:
-			return renderMaterialSingle;
+			case LEFT:
+				return doubleLeft;
+			case RIGHT:
+				return doubleRight;
+			case SINGLE:
+			default:
+				return single;
 		}
 	}
 }

@@ -110,7 +110,7 @@ public abstract class MonolithRendererAbstract extends EntityRenderer<BTMonolith
 	}
 
 	private ResourceLocation setMonolithTextureLocation(String textureName) {
-		return BrassAmberBattleTowers.locate("textures/entity/monolith/" + this.monolithType + "/" + textureName + ".png");
+		return BrassAmberBattleTowers.locate("entity/monolith/" + this.monolithType + "/" + textureName + ".png");
 	}
 
 	/**

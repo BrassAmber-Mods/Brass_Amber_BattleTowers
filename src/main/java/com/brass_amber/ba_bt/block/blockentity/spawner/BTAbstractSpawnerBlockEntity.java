@@ -5,13 +5,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -30,7 +31,8 @@ public class BTAbstractSpawnerBlockEntity extends BlockEntity {
             }
 
         }
-        public net.minecraft.world.level.block.entity.@NotNull BlockEntity getSpawnerBlockEntity(){ return BTAbstractSpawnerBlockEntity.this; }
+        @org.jetbrains.annotations.Nullable
+        public net.minecraft.world.level.block.entity.BlockEntity getSpawnerBlockEntity() { return BTAbstractSpawnerBlockEntity.this; }
     };
 
     public BTAbstractSpawnerBlockEntity(BlockPos blockPos, BlockState blockState, BlockEntityType<?> spawnerType) {
@@ -71,6 +73,10 @@ public class BTAbstractSpawnerBlockEntity extends BlockEntity {
 
     public boolean onlyOpCanSetNbt() {
         return true;
+    }
+
+    public void setEntityId(EntityType<?> p_254530_, RandomSource p_253719_) {
+        this.spawner.setEntityId(p_254530_, this.level, p_253719_, this.worldPosition);
     }
 
     public BTBaseSpawner getSpawner() {

@@ -1,24 +1,21 @@
 package com.brass_amber.ba_bt.util;
 
+import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Marker;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brass_amber.ba_bt.BrassAmberBattleTowers.LOGGER;
 import static java.lang.Integer.parseInt;
-import static net.minecraftforge.fml.loading.LogMarkers.CORE;
+import static net.minecraftforge.fml.loading.FMLPaths.getOrCreateGameRelativePath;
 
 public class SaveTowers {
 
@@ -26,14 +23,14 @@ public class SaveTowers {
     public static ArrayList<ChunkPos> oceanTowers = new ArrayList<>();
     public static List<List<ChunkPos>> towers = List.of(landTowers, oceanTowers);
 
-    public static List<String> towerNames = List.of("Land_Towers", "Ocean_Towers");
+    public static List<String> towerNames = List.of("Land_Tower", "Ocean_Tower");
     public static MinecraftServer server;
     public static Path levelPath = Path.of("");
-
 
     public SaveTowers() {}
 
     public void setServer(MinecraftServer newServer) {
+        BrassAmberBattleTowers.LOGGER.info("Server: " + newServer);
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();
@@ -65,7 +62,7 @@ public class SaveTowers {
     }
 
     public void getTowers() {
-        levelPath = getOrCreateGameRelativePath(server.getWorldPath(LevelResource.ROOT).resolve("battletowers"), "battletowers");
+        levelPath = getOrCreateGameRelativePath(server.getWorldPath(LevelResource.ROOT).resolve("battletowers"));
 
         for (int i = 0; i < towerNames.size(); i++) {
             Path towerPath = levelPath.resolve(towerNames.get(i));
@@ -85,35 +82,9 @@ public class SaveTowers {
         }
     }
 
-
     public void addTower(ChunkPos pos, String name) {
         towers.get(towerNames.indexOf(name)).add(pos);
     }
 
-    public static Path getOrCreateDirectory(Path dirPath, String dirLabel) {
-        if (!Files.isDirectory(dirPath.getParent())) {
-            getOrCreateDirectory(dirPath.getParent(), "parent of "+dirLabel);
-        }
-        if (!Files.isDirectory(dirPath))
-        {
-            LOGGER.debug((Marker) CORE,"Making {} directory : {}", dirLabel, dirPath);
-            try {
-                Files.createDirectory(dirPath);
-            } catch (IOException e) {
-                if (e instanceof FileAlreadyExistsException) {
-                    LOGGER.fatal((Marker)CORE,"Failed to create {} directory - there is a file in the way", dirLabel);
-                } else {
-                    LOGGER.fatal((Marker)CORE,"Problem with creating {} directory (Permissions?)", dirLabel, e);
-                }
-                throw new RuntimeException("Problem creating directory", e);
-            }
-            LOGGER.debug((Marker) CORE,"Created {} directory : {}", dirLabel, dirPath);
-        }
-        return dirPath;
-    }
-
-    public static Path getOrCreateGameRelativePath(Path path, String name) {
-        return getOrCreateDirectory(FMLPaths.GAMEDIR.get().resolve(path), name);
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
+import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
@@ -32,12 +33,16 @@ import java.util.function.Predicate;
 
 public class OceanBattleTower extends BattleTowerStructure {
 
+
+    protected int towerId = 1;
     public OceanBattleTower(Structure.StructureSettings config,
                             Holder<StructureTemplatePool> startPool,
                             int size, HolderSet<Structure> avoidStructures,
                             HolderSet<Biome> biomesTerra, HolderSet<Biome> biomesBOP, HolderSet<Biome> biomesBYG) {
         super(config, startPool, size, avoidStructures, biomesTerra, biomesBOP, biomesBYG);
         this.towerName = "Ocean Tower";
+        this.towerType = 0;
+        BrassAmberBattleTowers.LOGGER.info("Generating Ocean Tower");
     }
 
     @Override

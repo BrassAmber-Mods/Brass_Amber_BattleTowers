@@ -5,10 +5,16 @@ import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.ChunkEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,9 +41,10 @@ public class BTEvents {
     }
 
     @SubscribeEvent
-    public static void serverSetup(ServerStartedEvent event) {
+    public static void serverSetup(ServerAboutToStartEvent event) {
         SAVETOWERS.setServer(event.getServer());
     }
+
 
     @SubscribeEvent
     public static void serverStop(ServerStoppedEvent event) {

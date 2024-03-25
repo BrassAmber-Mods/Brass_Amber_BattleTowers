@@ -20,26 +20,28 @@ public class BTSpawnerBlockEntityRenderer implements BlockEntityRenderer<BTAbstr
         this.entityRenderer = p_173673_.getEntityRenderer();
     }
 
-    public void render(BTAbstractSpawnerBlockEntity p_112563_, float p_112564_, PoseStack p_112565_, MultiBufferSource p_112566_, int p_112567_, int p_112568_) {
-        p_112565_.pushPose();
-        p_112565_.translate(0.5D, 0.0D, 0.5D);
-        BaseSpawner basespawner = p_112563_.getSpawner();
-        Entity entity = basespawner.getOrCreateDisplayEntity(p_112563_.getLevel(), p_112563_.getLevel().getRandom(), p_112563_.getBlockPos());
+    public void render(BTAbstractSpawnerBlockEntity spawnerBlockEntity, float rotation, PoseStack poseStack, MultiBufferSource bufferSource, int lightCoords, int p_112568_) {
+        poseStack.pushPose();
+        poseStack.translate(0.5F, 0.0D, 0.5F);
+        BaseSpawner basespawner = spawnerBlockEntity.getSpawner();
+        Entity entity = basespawner.getOrCreateDisplayEntity(spawnerBlockEntity.getLevel(), spawnerBlockEntity.getLevel().getRandom(), spawnerBlockEntity.getBlockPos());
         if (entity != null) {
             float f = 0.53125F;
             float f1 = Math.max(entity.getBbWidth(), entity.getBbHeight());
-            if ((double)f1 > 1.0D) {
+            if ((double) f1 > 1.0D) {
                 f /= f1;
             }
 
-            p_112565_.translate(0.0D, (double)0.4F, 0.0D);
-            p_112565_.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp((double)p_112564_, basespawner.getoSpin(), basespawner.getSpin()) * 10.0F));
-            p_112565_.translate(0.0D, (double)-0.2F, 0.0D);
-            p_112565_.mulPose(Axis.XP.rotationDegrees(-30.0F));
-            p_112565_.scale(f, f, f);
-            this.entityRenderer.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, p_112564_, p_112565_, p_112566_, p_112567_);
+            poseStack.translate(0.0F, (double)0.4F, 0.0F);
+            poseStack.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp((double) rotation, basespawner.getoSpin(), basespawner.getSpin()) * 10.0F));
+            poseStack.translate(0.0F, (double)-0.2F, 0.0F);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-30.0F));
+            poseStack.scale(f, f, f);
+            this.entityRenderer.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, rotation, poseStack, bufferSource, lightCoords);
         }
 
-        p_112565_.popPose();
+        poseStack.popPose();
     }
+
+
 }
