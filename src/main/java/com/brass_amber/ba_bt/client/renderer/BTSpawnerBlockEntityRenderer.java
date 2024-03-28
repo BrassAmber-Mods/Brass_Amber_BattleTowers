@@ -24,7 +24,7 @@ public class BTSpawnerBlockEntityRenderer implements BlockEntityRenderer<BTAbstr
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.0D, 0.5F);
         BaseSpawner basespawner = spawnerBlockEntity.getSpawner();
-        Entity entity = basespawner.getOrCreateDisplayEntity(spawnerBlockEntity.getLevel(), spawnerBlockEntity.getLevel().getRandom(), spawnerBlockEntity.getBlockPos());
+        Entity entity = basespawner.getOrCreateDisplayEntity(spawnerBlockEntity.getLevel(), spawnerBlockEntity.getBlockPos());
         if (entity != null) {
             float f = 0.53125F;
             float f1 = Math.max(entity.getBbWidth(), entity.getBbHeight());
