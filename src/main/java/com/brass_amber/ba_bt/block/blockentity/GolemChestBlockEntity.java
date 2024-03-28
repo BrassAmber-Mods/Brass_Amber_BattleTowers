@@ -115,13 +115,13 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 		}
 	}
 
-	private net.minecraftforge.items.IItemHandlerModifiable createHandler() {
+	private net.neoforged.neoforge.items.IItemHandlerModifiable createHandler() {
 		BlockState state = this.getBlockState();
 		if (!(state.getBlock() instanceof GolemChestBlock)) {
-			return new net.minecraftforge.items.wrapper.InvWrapper(this);
+			return new net.neoforged.neoforge.items.wrapper.InvWrapper(this);
 		}
 		Container inv = GolemChestBlock.getContainer((GolemChestBlock) state.getBlock(), state, getLevel(), getBlockPos(), true);
-		return new net.minecraftforge.items.wrapper.InvWrapper(inv == null ? this : inv);
+		return new net.neoforged.neoforge.items.wrapper.InvWrapper(inv == null ? this : inv);
 	}
 
 	public void setUnlocked(boolean tf) {
@@ -137,7 +137,7 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 			try {
 				chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
 			} catch (Exception e) {
-				BrassAmberBattleTowers.LOGGER.info(e);
+				BrassAmberBattleTowers.LOGGER.info(e.toString());
 			}
 
 			if (chestEntity != null) {

@@ -5,24 +5,19 @@ import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.ChunkEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-
-import static com.brass_amber.ba_bt.BrassAmberBattleTowers.SAVETOWERS;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 
 
-@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+import static com.brass_amber.ba_bt.BrassAmberBattleTowers.SAVE_TOWERS;
+
+
+@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BTEvents {
 
     @SubscribeEvent
@@ -42,13 +37,13 @@ public class BTEvents {
 
     @SubscribeEvent
     public static void serverSetup(ServerAboutToStartEvent event) {
-        SAVETOWERS.setServer(event.getServer());
+        SAVE_TOWERS.setServer(event.getServer());
     }
 
 
     @SubscribeEvent
     public static void serverStop(ServerStoppedEvent event) {
-        SAVETOWERS.serverClosed();
+        SAVE_TOWERS.serverClosed();
     }
 
 }

@@ -4,19 +4,18 @@ import javax.annotation.Nullable;
 
 import com.brass_amber.ba_bt.block.block.GolemChestBlock;
 import com.brass_amber.ba_bt.block.block.TowerChestBlock;
-import com.brass_amber.ba_bt.init.BTEntityTypes;
+import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.brass_amber.ba_bt.init.BTItems;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.DoubleTag;
-import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,12 +29,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -50,10 +46,10 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
-import net.minecraftforge.common.ForgeMod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
-
-import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 
 
 /**
@@ -99,7 +95,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return Monster.createMonsterAttributes().add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1f);
+		return Monster.createMonsterAttributes().add(NeoForgeMod.STEP_HEIGHT.value(), 1f);
 	}
 
 	/**
@@ -184,10 +180,10 @@ public abstract class BTAbstractGolem extends Monster {
 			ClientLevel client = (ClientLevel)this.level();
 
 			if (this.music == null) {
-				this.music = client.minecraft.getMusicManager();
+				this.music = Minecraft.getInstance().getMusicManager();
 			}
 
-			if (client.players().size() == 0) {
+			if (client.players().isEmpty()) {
 				return;
 			}
 			boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 30D);
@@ -199,11 +195,9 @@ public abstract class BTAbstractGolem extends Monster {
 			} else {
 				if (!this.music.isPlayingMusic(this.BOSS_MUSIC) && this.isAwake()) {
 					this.music.stopPlaying();
-					this.music.nextSongDelay = this.BOSS_MUSIC.getMinDelay();
 					this.music.startPlaying(this.BOSS_MUSIC);
 				}
 				if (!hasClientPlayer) {
-					this.music.nextSongDelay = 500;
 					this.music.stopPlaying();
 				}
 			}
@@ -253,7 +247,7 @@ public abstract class BTAbstractGolem extends Monster {
 	/**
 	 * Set LivingEntity to be targeted by the Golem.
 	 * (Used in TargetGoals)
-	 * 
+	 * <p>
 	 * Note: Finds the nearest player/loaded entity.
 	 */
 	@Override
@@ -307,7 +301,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	private void destroyBlocksNearby() {
-		if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) && this.getTarget() != null && this.isAwake()) {
+		if(EventHooks.getMobGriefingEvent(this.level(), this) && this.getTarget() != null && this.isAwake()) {
 			final Vec3 offset = this.getLookAngle().normalize().scale(0.5);
 			
 			int ox = Mth.floor(this.getX() + offset.x);
@@ -324,7 +318,7 @@ public abstract class BTAbstractGolem extends Monster {
 						BlockState state = this.level().getBlockState(pos);
 						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
 						if (!isChest) {
-							if(state.canEntityDestroy(this.level(), pos, this) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
+							if(state.canEntityDestroy(this.level(), pos, this) && EventHooks.onEntityDestroyBlock(this, pos, state)) {
 								playEffectFlag |= this.level().destroyBlock(pos, true, this);
 							}
 							if (state.getBlock() instanceof FireBlock) {
@@ -380,7 +374,7 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void die(@NotNull DamageSource source) {
 		if (this.level().isClientSide()) {
-			((ClientLevel) this.level()).minecraft.getMusicManager().stopPlaying();
+			music.stopPlaying();
 		}
 		super.die(source);
 	}
@@ -456,10 +450,6 @@ public abstract class BTAbstractGolem extends Monster {
 		return 0.2F;
 	}
 
-	@Override
-	public boolean canBreatheUnderwater() {
-		return true;
-	}
 
 	/**
 	 * Returns whether this Entity is on the same team as the given Entity.
@@ -521,14 +511,6 @@ public abstract class BTAbstractGolem extends Monster {
 	public boolean isPushable() {
 		return false;
 	}
-
-	/**
-	 * Prevents entity being pushed by water
-	 */
-	@Override
-	public boolean isPushedByFluid() {
-		return false;
-	}
 	
 	/**
 	 * Affects the movement speed?
@@ -554,17 +536,17 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public ItemStack getPickedResult(HitResult target) {
 		EntityType<?> entityType = this.getType();
-		if (entityType.equals(BTEntityTypes.LAND_GOLEM.get())) {
+		if (entityType.equals(BTEntityType.LAND_GOLEM.get())) {
 			return new ItemStack(BTItems.LAND_MONOLITH.get());
-		} else if (entityType.equals(BTEntityTypes.OCEAN_GOLEM.get())) {
+		} else if (entityType.equals(BTEntityType.OCEAN_GOLEM.get())) {
 			return new ItemStack(BTItems.OCEAN_MONOLITH.get());
-		} else if (entityType.equals(BTEntityTypes.CORE_GOLEM.get())) {
+		} else if (entityType.equals(BTEntityType.CORE_GOLEM.get())) {
 			return new ItemStack(BTItems.CORE_MONOLITH.get());
-		} else if (entityType.equals(BTEntityTypes.NETHER_GOLEM.get())) {
+		} else if (entityType.equals(BTEntityType.NETHER_GOLEM.get())) {
 			return new ItemStack(BTItems.NETHER_MONOLITH.get());
-		} else if (entityType.equals(BTEntityTypes.END_GOLEM.get())) {
+		} else if (entityType.equals(BTEntityType.END_GOLEM.get())) {
 			return new ItemStack(BTItems.END_MONOLITH.get());
-		} else if (entityType.equals(BTEntityTypes.SKY_GOLEM.get())) {
+		} else if (entityType.equals(BTEntityType.SKY_GOLEM.get())) {
 			return new ItemStack(BTItems.SKY_MONOLITH.get());
 		}
 
@@ -744,7 +726,7 @@ public abstract class BTAbstractGolem extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return this.isAwake() ? BTSoundEvents.ENTITY_GOLEM_AMBIENT : SoundEvents.AMBIENT_CAVE.get();
+		return this.isAwake() ? BTSoundEvents.ENTITY_GOLEM_AMBIENT : SoundEvents.AMBIENT_CAVE.value();
 	}
 
 	@Override

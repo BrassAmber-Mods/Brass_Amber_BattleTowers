@@ -74,7 +74,6 @@ public class BTLandGolem extends BTAbstractGolem {
 	protected void addBehaviorGoals() {
 		super.addBehaviorGoals();
 		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));
-		this.goalSelector.addGoal(3, new GolemLeapGoal(this,  8F, 16F));
 		this.goalSelector.addGoal(6, new GolemFireballAttackGoal(this));
 	}
 

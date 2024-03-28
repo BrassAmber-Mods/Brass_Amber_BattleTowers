@@ -1,17 +1,14 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.init.BTBlockEntityTypes;
+import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.google.common.collect.Lists;
-import com.mojang.brigadier.ParseResults;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -19,7 +16,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,7 +26,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -64,32 +59,28 @@ public class BTUtil {
 
     public static @NotNull BlockEntityType<? extends ChestBlockEntity> getChestEntity(Block block) {
         if (BTBlocks.LAND_CHEST.get().equals(block)) {
-            return BTBlockEntityTypes.LAND_CHEST.get();
+            return BTBlockEntityType.LAND_CHEST.get();
         } else if (BTBlocks.LAND_GOLEM_CHEST.get().equals(block)) {
-            return BTBlockEntityTypes.LAND_GOLEM_CHEST.get();
+            return BTBlockEntityType.LAND_GOLEM_CHEST.get();
         } else if (BTBlocks.OCEAN_CHEST.get().equals(block)) {
-            return BTBlockEntityTypes.OCEAN_CHEST.get();
+            return BTBlockEntityType.OCEAN_CHEST.get();
         } else if (BTBlocks.OCEAN_GOLEM_CHEST.get().equals(block)) {
-            return BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get();
+            return BTBlockEntityType.OCEAN_GOLEM_CHEST.get();
         }
 
-        return BTBlockEntityTypes.LAND_CHEST.get();
+        return BTBlockEntityType.LAND_CHEST.get();
     }
 
     public static @NotNull String getTowerName(BlockEntityType<? extends ChestBlockEntity> block) {
-        if (BTBlockEntityTypes.LAND_GOLEM_CHEST.get().equals(block) || BTBlockEntityTypes.LAND_CHEST.get().equals(block)) {
+        if (BTBlockEntityType.LAND_GOLEM_CHEST.get().equals(block) || BTBlockEntityType.LAND_CHEST.get().equals(block)) {
             return "land";
-        } else if (BTBlockEntityTypes.OCEAN_CHEST.get().equals(block) || BTBlockEntityTypes.OCEAN_GOLEM_CHEST.get().equals(block)) {
+        } else if (BTBlockEntityType.OCEAN_CHEST.get().equals(block) || BTBlockEntityType.OCEAN_GOLEM_CHEST.get().equals(block)) {
             return "ocean";
         }
 
         return "land";
     }
 
-
-    public static Item itemByString(String id) {
-        return ForgeRegistries.ITEMS.getHolder(ResourceLocation.tryParse(id)).orElseGet(() -> Holder.direct(Items.DIRT)).value();
-    }
 
     public static int median(ArrayList<Integer> nums) {
         Collections.sort(nums);
@@ -211,9 +202,7 @@ public class BTUtil {
         int randomSlot;
 
         // Find the middle of the chest and keep the slot free for a possible key injection
-        int rows = Math.floorDiv(container.getContainerSize(), 9);
-        // The middle of a smal chest (27 slots) would be 13 (27/9 = 3, 3 / 2 = 1.5, 1.5\/ = 1, 1*9 = 9, 9 + 4 = 13)
-        int middleOfChest = Math.floorDiv(rows, 2) * 9 + 4;
+        int middleOfChest = Math.floorDiv(container.getContainerSize(), 2) + 1;
         possibleSlots.removeIf(i -> i == middleOfChest);
 
         for (int i = 0; i < loot.size(); i++) {

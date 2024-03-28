@@ -4,9 +4,10 @@ import java.util.*;
 
 import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
-import com.brass_amber.ba_bt.init.BTEntityTypes;
+import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.BTUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -29,7 +30,6 @@ import com.brass_amber.ba_bt.util.TowerSpecs;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.network.NetworkHooks;
 
 import static com.brass_amber.ba_bt.sound.BTSoundEvents.TOWER_COLLAPSE_MUSIC;
 import static com.brass_amber.ba_bt.util.BTUtil.*;
@@ -68,7 +68,7 @@ public class LandDestructionEntity extends Entity {
     }
 
     public LandDestructionEntity(BlockPos golemSpawn, Level level) {
-        super(BTEntityTypes.LAND_DESTRUCTION.get(), level);
+        super(BTEntityType.LAND_DESTRUCTION.get(), level);
         this.golemType = GolemType.LAND;
         
         // Set the start for the tower crumbling to 6 blocks above the Monolith and in the corner of the tower area.
@@ -104,7 +104,7 @@ public class LandDestructionEntity extends Entity {
     }
 
     private void init() {
-    	BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Initializing");
+    	BrassAmberBattleTowers.LOGGER.debug("Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(
@@ -154,16 +154,14 @@ public class LandDestructionEntity extends Entity {
             this.hasPlayer = false;
         }
         if (this.golemDead && this.level().isClientSide()) {
-            MusicManager music = ((ClientLevel)this.level()).minecraft.getMusicManager();
+            MusicManager music = Minecraft.getInstance().getMusicManager();
             if (hasPlayer) {
                 if (!music.isPlayingMusic(TOWER_COLLAPSE_MUSIC)) {
                     music.stopPlaying();
-                    music.nextSongDelay = TOWER_COLLAPSE_MUSIC.getMinDelay();
                     music.startPlaying(TOWER_COLLAPSE_MUSIC);
                 }
             }
             else {
-                music.nextSongDelay = 500;
                 music.stopPlaying();
             }
             return;
@@ -218,7 +216,7 @@ public class LandDestructionEntity extends Entity {
                    // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                     if(this.random.nextDouble() <= 0.125 && this.removeBlock != null) {
                     	//Fancy physics stuff
-                    	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityTypes.PHYSICS_EXPLOSION.get(), this.level());
+                    	ExplosionPhysics explosion = new ExplosionPhysics(BTEntityType.PHYSICS_EXPLOSION.get(), this.level());
                     	explosion.setPos(this.removeBlock.getX(), this.removeBlock.getY(), this.removeBlock.getZ());
                     	this.level().addFreshEntity(explosion);
 
@@ -249,7 +247,7 @@ public class LandDestructionEntity extends Entity {
                 }
             } else if (this.getCurrentRow() >= this.rows){
                 // stop if we have done the final row already
-                BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "In Ending Sequence");
+                BrassAmberBattleTowers.LOGGER.debug("In Ending Sequence");
                 this.getNextRow();
                 for (int i = 0; i < 60; i++) {
                     if (this.blocksToRemove.isEmpty()) {
@@ -406,9 +404,4 @@ public class LandDestructionEntity extends Entity {
         return this.entityData.get(CURRENT_ROW);
     }
 
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

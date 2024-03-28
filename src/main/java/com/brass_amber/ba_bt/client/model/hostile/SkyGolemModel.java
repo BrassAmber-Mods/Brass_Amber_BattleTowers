@@ -10,8 +10,8 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class SkyGolemModel extends EntityModel<BTAbstractGolem> {
 
 	public SkyGolemModel(ModelPart root, ModelLayerLocation layer) {
 		this.bone = root.getChild("bone");
-		this.LAYER = layer;
+		LAYER = layer;
 	}
 
 	public static LayerDefinition createBodyLayer() {

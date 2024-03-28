@@ -3,15 +3,13 @@ package com.brass_amber.ba_bt.entity;
 import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.init.BTEntityTypes;
+import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import com.brass_amber.ba_bt.util.TowerSpecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,7 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 
 import java.util.*;
 
@@ -72,7 +69,7 @@ public class OceanDestructionEntity extends  Entity {
     }
 
     public OceanDestructionEntity(Level level) {
-        super(BTEntityTypes.OCEAN_DESTRUCTION.get(), level);
+        super(BTEntityType.OCEAN_DESTRUCTION.get(), level);
         this.golemType = GolemType.OCEAN;
 
         this.blocksToRemove = new ArrayList<>();
@@ -369,11 +366,6 @@ public class OceanDestructionEntity extends  Entity {
      */
     public Integer getCurrentRow() {
         return this.entityData.get(CURRENT_ROW);
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
 }

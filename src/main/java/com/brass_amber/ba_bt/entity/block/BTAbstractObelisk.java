@@ -11,6 +11,7 @@ import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -44,13 +45,10 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static com.brass_amber.ba_bt.util.BTLoot.getGolemLootTable;
-import static com.brass_amber.ba_bt.util.BTLoot.getLootTable;
 import static com.brass_amber.ba_bt.util.BTStatics.*;
 import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 import static com.brass_amber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
@@ -135,8 +133,7 @@ public class BTAbstractObelisk extends Entity {
     }
 
     public void clientInitialize() {
-        ClientLevel client = (ClientLevel)this.level();
-        this.music = client.minecraft.getMusicManager();
+        this.music = Minecraft.getInstance().getMusicManager();
         this.clientInitialized = true;
     }
 
@@ -294,11 +291,11 @@ public class BTAbstractObelisk extends Entity {
         if (this.doCheck) {
             try {
                 List<?> list = this.level().getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
-                this.canCheck = list.size() != 0;
+                this.canCheck = !list.isEmpty();
                 if (!this.canCheck) {
                     try {
                         List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
-                        this.canCheck = list2.size() != 0;
+                        this.canCheck = !list2.isEmpty();
                         if (!this.golemSpawned) {
                             this.golemSpawned = true;
                         }
@@ -358,11 +355,11 @@ public class BTAbstractObelisk extends Entity {
         } else if (this.golemChest != null) {
             if (this.chestsFound && this.initialized && this.tickCount > 40 && !this.golemChest.isUnlocked()) {
                 try {
-                    BrassAmberBattleTowers.LOGGER.log(org.apache.logging.log4j.Level.DEBUG, "Chest " + this.golemChest);
+                    BrassAmberBattleTowers.LOGGER.debug("Chest " + this.golemChest);
                     this.golemChest.setUnlocked(true);
                     LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos())).create(LootContextParamSets.CHEST);
                     LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
-                    getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(this.golemChest, lootparams, this.random.nextLong());
+                    // getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(this.golemChest, lootparams, this.random.nextLong());
                     this.chestUnlockingSound(this.level());
 
                 } catch (Exception e) {
@@ -377,18 +374,18 @@ public class BTAbstractObelisk extends Entity {
         if (!this.clientInitialized) {
             this.clientInitialize();
         }
-        if (client.players().size() == 0) {
+        if (client.players().isEmpty()) {
             return;
         }
 
         if (this.doCheck) {
             try {
                 List<?> list = client.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
-                this.canCheck = list.size() != 0;
+                this.canCheck = !list.isEmpty();
                 if (!this.canCheck) {
                     try {
                         List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
-                        this.canCheck = list2.size() != 0;
+                        this.canCheck = !list2.isEmpty();
                         if (!this.golemSpawned) {
                             this.golemSpawned = true;
                         }
@@ -433,13 +430,11 @@ public class BTAbstractObelisk extends Entity {
         if (tryPlayMusic) {
             if (playerInMusicRange && !this.music.isPlayingMusic(this.TOWER_MUSIC)) {
                 this.music.stopPlaying();
-                this.music.nextSongDelay = this.TOWER_MUSIC.getMinDelay();
                 this.music.startPlaying(this.TOWER_MUSIC);
                 this.musicPlaying = true;
             }
         } else {
             if (this.musicPlaying) {
-                this.music.nextSongDelay = 500;
                 this.music.stopPlaying();
                 this.musicPlaying = false;
             }
@@ -489,7 +484,7 @@ public class BTAbstractObelisk extends Entity {
                             LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestPos)).create(LootContextParamSets.CHEST);
                             LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
                             assert chest != null: "BTObelisk: Not a BTChest";
-                            BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);
+                            // BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);
                             this.chestUnlockingSound(level);
                             this.CHESTS.set(i, null);
                         }
@@ -553,7 +548,7 @@ public class BTAbstractObelisk extends Entity {
     @Override
     protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
         if (this.level().isClientSide()) {
-            ((ClientLevel) this.level()).minecraft.getMusicManager().stopPlaying();
+            music.stopPlaying();
         } else {
             BrassAmberBattleTowers.LOGGER.info("Setting obelisk data");
             tag.putString(towerName, this.golemType.getSerializedName());
@@ -583,11 +578,6 @@ public class BTAbstractObelisk extends Entity {
     @Override
     public @NotNull PushReaction getPistonPushReaction() {
         return PushReaction.BLOCK;
-    }
-
-    @Override
-    public boolean ignoreExplosion() {
-        return true;
     }
 
     /**
@@ -679,11 +669,4 @@ public class BTAbstractObelisk extends Entity {
     }
 
     /************************************************** COMMANDS **************************************************/
-
-
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

@@ -3,7 +3,9 @@ package com.brass_amber.ba_bt.util;
 import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.landTowerMobs;
 import static com.brass_amber.ba_bt.BattleTowersConfig.oceanTowerMobs;
@@ -25,7 +28,7 @@ public class BTStatics {
     public static final List<List<Integer>> towerChestUnlocking;
     public static final List<List<Block>> towerBlocks;
     public static final List<Block> icyOceanBlocks;
-    public static final List<List<EntityType<?>>> towerMobs;
+    public static List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
 
     static {
@@ -150,30 +153,16 @@ public class BTStatics {
                 )
         );
 
+
         towerMobs = List.of(
-                new ArrayList<>(),
-                new ArrayList<>()
+                landTowerMobs.get().stream()
+                        .map(entityName -> BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName)))
+                        .collect(Collectors.toList()),
+                oceanTowerMobs.get().stream()
+                        .map(entityName -> BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName)))
+                        .collect(Collectors.toList())
         );
 
-        for (String id : landTowerMobs.get()) {
-
-            try {
-                towerMobs.get(0).add(EntityType.byString(id).orElseThrow());
-            } catch (NoSuchElementException e) {
-                towerMobs.get(0).add(EntityType.ZOMBIE);
-                BrassAmberBattleTowers.LOGGER.info("Unable to add mob via mob id:" + id + " to Land Tower Mob list");
-            }
-        }
-
-        for (String id : oceanTowerMobs.get()) {
-            try {
-                towerMobs.get(1).add(EntityType.byString(id).orElseThrow());
-            } catch (NoSuchElementException e) {
-                towerMobs.get(1).add(EntityType.DROWNED);
-                BrassAmberBattleTowers.LOGGER.info("Unable to add mob via mob id:" + id + " to Ocean Tower Mob list");
-            }
-
-        }
 
     }
 

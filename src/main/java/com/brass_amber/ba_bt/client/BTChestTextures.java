@@ -4,15 +4,14 @@ import com.brass_amber.ba_bt.BrassAmberBattleTowers;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.TextureAtlasStitchedEvent;
 
 
-@EventBusSubscriber(modid = BrassAmberBattleTowers.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BrassAmberBattleTowers.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BTChestTextures {
 	public static final ResourceLocation[] LAND_GOLEM_CHEST_TEXTURES = locateChestTextures("golem", "land_golem");
 	public static final ResourceLocation[] LAND_CHEST_TEXTURES = locateChestTextures("tower", "land");
@@ -25,7 +24,7 @@ public class BTChestTextures {
 	 */
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent()
-	public static void textureStitch(TextureStitchEvent event) {
+	public static void textureStitch(TextureAtlasStitchedEvent event) {
 		stitchAll(event, LAND_GOLEM_CHEST_TEXTURES);
 		stitchAll(event, LAND_CHEST_TEXTURES);
 		stitchAll(event, OCEAN_GOLEM_CHEST_TEXTURES);
@@ -35,7 +34,7 @@ public class BTChestTextures {
 	/**
 	 * Stitch all textures in the array
 	 */
-	private static void stitchAll(TextureStitchEvent event, ResourceLocation[] textureLocations) {
+	private static void stitchAll(TextureAtlasStitchedEvent event, ResourceLocation[] textureLocations) {
 		for (ResourceLocation chestTexture : textureLocations) {
 			event.getAtlas().getSprite(chestTexture);
 		}

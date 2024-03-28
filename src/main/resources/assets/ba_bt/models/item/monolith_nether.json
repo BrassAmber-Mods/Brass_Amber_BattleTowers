@@ -1,6 +1,0 @@
-{
-    "parent": "ba_bt:item/monolith_template",
-    "textures": {
-        "texture": "ba_bt:entity/monolith/nether_monolith/nether_monolith_0"
-    }
-}

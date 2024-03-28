@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.BrassAmberBattleTowers;
-import com.brass_amber.ba_bt.init.BTEntityTypes;
+import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
@@ -11,8 +11,6 @@ import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -28,15 +26,13 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 /*
@@ -110,7 +106,7 @@ public class BTMonolith extends Entity {
 			this.spawnedObelisk = true;
 		}
 
-		boolean isLandMonolith = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get());
+		boolean isLandMonolith = this.monolithType.equals(BTEntityType.LAND_MONOLITH.get());
 		if (this.getKeyCountInEntity() == 2 && !isLandMonolith) {
 			this.nextStageCounter++;
 			int seconds = 2;
@@ -170,7 +166,7 @@ public class BTMonolith extends Entity {
 			Item itemInHand = player.getItemInHand(hand).getItem();
 			if (itemInHand.equals(this.correctMonolithKey)) {
 				// Need 3 keys for the Land Monolith and 2 for the others.
-				int keysNeeded = this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get()) ? 3 : 2;
+				int keysNeeded = this.monolithType.equals(BTEntityType.LAND_MONOLITH.get()) ? 3 : 2;
 				// Check how many keys are already in.
 				if (this.getKeyCountInEntity() < keysNeeded) {
 					// Increase Keys by one.
@@ -180,7 +176,7 @@ public class BTMonolith extends Entity {
 			}
 
 			// Test for a chance to insert a Guardian Eye.
-			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityTypes.LAND_MONOLITH.get()) && this.isEyeSlotDisplayed()) {
+			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityType.LAND_MONOLITH.get()) && this.isEyeSlotDisplayed()) {
 				this.increaseKeyCount(player, hand);
 				return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 			}
@@ -349,18 +345,13 @@ public class BTMonolith extends Entity {
 
 	/**
 	 * {@link PushReaction.IGNORE} is the only valid option for an entity I think to stop piston interaction
-	 * 
+	 * <p>
 	 * Used in: {@link PistonTileEntity.moveCollidedEntities method}
 	 */
 	@SuppressWarnings("JavadocReference")
 	@Override
 	public @NotNull PushReaction getPistonPushReaction() {
 		return PushReaction.BLOCK;
-	}
-
-	@Override
-	public boolean ignoreExplosion() {
-		return true;
 	}
 
 	/**
@@ -425,14 +416,6 @@ public class BTMonolith extends Entity {
 		}
 	}
 
-	/*********************************************************** Networking?? ********************************************************/
-	//	TODO Check the networking section on the Forge Docs
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
 	/*********************************************************** Sounds ********************************************************/
 
 	@Override
@@ -485,7 +468,7 @@ public class BTMonolith extends Entity {
 
 	private void playDestroySound() {
 		this.playSound(SoundEvents.IRON_GOLEM_STEP, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
-		this.playSound(SoundEvents.RESPAWN_ANCHOR_DEPLETE.get(), this.getSoundVolume(), this.getSoundPitch() + 1.5F);
+		this.playSound(SoundEvents.RESPAWN_ANCHOR_DEPLETE.value(), this.getSoundVolume(), this.getSoundPitch() + 1.5F);
 	}
 
 	private void playSpawnSound() {

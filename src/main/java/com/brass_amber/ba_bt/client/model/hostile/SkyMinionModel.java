@@ -10,8 +10,8 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SkyMinionModel extends EntityModel<SkyMinion> {
@@ -30,7 +30,7 @@ public class SkyMinionModel extends EntityModel<SkyMinion> {
 		this.leftArm = root.getChild("leftArm");
 		this.rightLeg = root.getChild("rightLeg");
 		this.leftLeg = root.getChild("leftLeg");
-		this.LAYER_LOCATION = layer;
+		LAYER_LOCATION = layer;
 	}
 
 	public static LayerDefinition createBodyLayer() {

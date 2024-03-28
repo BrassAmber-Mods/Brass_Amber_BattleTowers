@@ -28,12 +28,11 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 
 public class BTCultist extends AbstractIllager implements RangedAttackMob {
 
@@ -85,8 +84,8 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * difficultyInstance.getSpecialMultiplier());
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
-            int i = localdate.get(ChronoField.DAY_OF_MONTH);
-            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            int i = localdate.getDayOfMonth();
+            int j = localdate.getMonth().getValue();
             if (j == 10 && i == 31 && this.random.nextFloat() < 0.25F) {
                 this.setItemSlot(EquipmentSlot.HEAD,
                         new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN)
@@ -120,7 +119,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         ItemStack itemstack = Items.TIPPED_ARROW.getDefaultInstance();
         AbstractArrow abstractarrow = this.getArrow(itemstack, power);
         if (this.getMainHandItem().getItem() instanceof net.minecraft.world.item.BowItem)
-            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow);
+            abstractarrow = ((net.minecraft.world.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrow, itemstack);
         double d0 = entity.getX() - this.getX();
         double d1 = entity.getY(0.3333333333333333D) - abstractarrow.getY();
         double d2 = entity.getZ() - this.getZ();
@@ -143,8 +142,8 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         this.reassessWeaponGoal();
     }
 
-    public void setItemSlot(EquipmentSlot p_32138_, ItemStack p_32139_) {
-        super.setItemSlot(p_32138_, p_32139_);
+    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
+        super.setItemSlot(equipmentSlot, itemStack);
         if (!this.level().isClientSide) {
             this.reassessWeaponGoal();
         }
@@ -152,7 +151,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
 
     @Override
     public void die(DamageSource damageSource) {
-        if (ForgeHooks.onLivingDeath(this, damageSource)) return;
+        if (CommonHooks.onLivingDeath(this, damageSource)) return;
         if (!this.isRemoved() && !this.dead) {
             Entity entity = damageSource.getEntity();
             LivingEntity livingentity = this.getKillCredit();
@@ -184,7 +183,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
         }
     }
 
-    protected float getStandingEyeHeight(Pose p_32154_, EntityDimensions p_32155_) {
+    protected float getStandingEyeHeight(Pose pose, EntityDimensions entityDimensions) {
         return 1.74F;
     }
 
@@ -236,7 +235,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
     public void applyRaidBuffs(int power, boolean canApply) {}
 
     @Override
-    public SoundEvent getCelebrateSound() {
+    public @NotNull SoundEvent getCelebrateSound() {
         return SoundEvents.PILLAGER_CELEBRATE;
     }
 }

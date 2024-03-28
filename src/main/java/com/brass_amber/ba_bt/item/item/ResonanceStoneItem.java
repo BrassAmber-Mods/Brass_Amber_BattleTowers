@@ -1,8 +1,6 @@
 package com.brass_amber.ba_bt.item.item;
 
 import com.brass_amber.ba_bt.BrassAmberBattleTowers;
-import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
-import com.brass_amber.ba_bt.init.BTEntityTypes;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
@@ -11,10 +9,8 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.UseAnim;

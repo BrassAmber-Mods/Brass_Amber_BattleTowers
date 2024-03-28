@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.block.block;
 
 
-import com.brass_amber.ba_bt.init.BTBlockEntityTypes;
+import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -19,7 +19,7 @@ public class TowerChestBlock extends GolemChestBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return BTBlockEntityTypes.LAND_CHEST.get().create(blockPos, blockState);
+		return BTBlockEntityType.LAND_CHEST.get().create(blockPos, blockState);
 	}
 
 }

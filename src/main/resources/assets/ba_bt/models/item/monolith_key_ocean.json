@@ -1,6 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "ba_bt:item/monolith_key/ocean_monolith_key"
-    }
-}

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
-import static net.minecraftforge.fml.loading.FMLPaths.getOrCreateGameRelativePath;
+import static net.neoforged.fml.loading.FMLPaths.getOrCreateGameRelativePath;
 
 public class SaveTowers {
 

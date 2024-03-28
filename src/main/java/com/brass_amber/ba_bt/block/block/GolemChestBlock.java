@@ -92,7 +92,7 @@ public class GolemChestBlock extends ChestBlock {
 			Player player = (Player) livingEntity;
 			if (!player.isCreative()) {
 				GolemChestBlockEntity chestTileEntity = (GolemChestBlockEntity) world.getBlockEntity(blockPos);
-				chestTileEntity.setUnlocked(true);
+                chestTileEntity.setUnlocked(true);
 			}
 		} catch (Exception ignored) {
 
@@ -128,7 +128,7 @@ public class GolemChestBlock extends ChestBlock {
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
 		GolemChestBlockEntity chestTileEntity = (GolemChestBlockEntity) world.getBlockEntity(pos);
-		if (chestTileEntity.isUnlocked()) {
+        if (chestTileEntity.isUnlocked()) {
 			return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
 		} else if (player != null && player.isCreative()) {
 			return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);

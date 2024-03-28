@@ -14,8 +14,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 
 /**
@@ -47,7 +47,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 
 	public LandGolemModel(ModelPart root, ModelLayerLocation location) {
 		super(root);
-		this.LAYER_LOCATION = location;
+		LAYER_LOCATION = location;
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.hat = root.getChild("hat");
@@ -185,7 +185,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 			ModelPart arm = this.getArm(humanoidarm);
 			float f = this.attackTime;
 			this.body.yRot = Mth.sin(Mth.sqrt(f) * ((float) Math.PI * 2F)) * 0.2F;
-			if (humanoidarm == humanoidarm.LEFT) {
+			if (humanoidarm == HumanoidArm.LEFT) {
 				this.body.yRot *= -1.0F;
 			}
 
@@ -195,7 +195,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 			this.leftArm.x = Mth.cos(this.body.yRot) * 10.0F;
 			this.rightArm.yRot += this.body.yRot;
 			this.leftArm.yRot += this.body.yRot;
-			this.leftArm.xRot += this.body.yRot;
+			this.leftArm.xRot += this.body.xRot;
 			f = 1.0F - this.attackTime;
 			f = f * f;
 			f = f * f;

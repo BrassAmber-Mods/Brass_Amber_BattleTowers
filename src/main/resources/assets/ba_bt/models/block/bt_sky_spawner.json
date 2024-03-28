@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "ba_bt:entity/spawner/sky_spawner_top",
-    "side": "ba_bt:entity/spawner/sky_spawner"
-  },
-  "render_type": "cutout"
-}
