@@ -93,6 +93,7 @@ public class BTAbstractObelisk extends Entity {
     // Data Strings
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
+    private final String crystalSpawnedName = "CrystalSpawned";
 
     protected boolean musicPlaying;
     protected boolean canCheck;
@@ -637,6 +638,7 @@ public class BTAbstractObelisk extends Entity {
             // BrassAmberBattleTowers.LOGGER.info("Reading obelisk data " + tag);
             this.golemType = GolemType.getTypeForName(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
+            this.crystalSpawned = tag.getBoolean(crystalSpawnedName);
         }
     }
 
@@ -648,6 +650,7 @@ public class BTAbstractObelisk extends Entity {
             BABTMain.LOGGER.info("Setting obelisk data");
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
+            tag.putBoolean(crystalSpawnedName, this.crystalSpawned);
         }
     }
     /*************************************** Characteristics & Properties *******************************************/
