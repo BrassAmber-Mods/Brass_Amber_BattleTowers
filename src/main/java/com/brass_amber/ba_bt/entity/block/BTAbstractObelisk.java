@@ -161,6 +161,7 @@ public class BTAbstractObelisk extends Entity {
                     new ArrayList<>(this.spawnerAmounts.get(6)), new ArrayList<>(this.spawnerAmounts.get(7)));
 
         }
+
         this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
         this.towerMobs = BTStatics.towerMobs.get(golemNum);
         this.perFloorData = towerSpawnerData.get(golemNum);
@@ -215,6 +216,10 @@ public class BTAbstractObelisk extends Entity {
         // I.E. chest for floor 6 is ID 5 (-1 for list index) even when the chests on floors 3 and 4 are missing
         if (this.CHESTS.size() != this.checkLayer) {
             this.CHESTS.add(null);
+        }
+
+        while (this.SPAWNERS.get(this.checkLayer-1).size() < this.spawnerAmounts.get(this.checkLayer-1)) {
+            this.SPAWNERS.get(this.checkLayer-1).add(null);
         }
 
         if (this.checkLayer == 8) {
@@ -590,35 +595,36 @@ public class BTAbstractObelisk extends Entity {
                     }
                 } else {
                     List<BlockPos> positions = this.SPAWNERS.get(i);
+                    positions.removeIf(Objects::isNull);
                     if (positions.isEmpty()) {
                         this.SPAWNERS.set(i, null);
                     }
                     else {
-                        //noinspection ForLoopReplaceableByForEach
+                        positions = this.SPAWNERS.get(i);
                         for (int x = 0; x < positions.size(); x++) {
-                            BlockPos blockPos = positions.get(x);
-                            if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
-                                this.SPAWNERS.get(i).remove(blockPos);
-                                this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
-                                BABTMain.LOGGER.info("Spawners Destroyed: " + this.getSpawnersDestroyed());
-
-                                if (this.justSpawnedKey) {
-                                    this.justSpawnedKey = false;
+                            if (positions.get(x) != null) {
+                                BlockPos blockPos = positions.get(x);
+                                if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
+                                    this.SPAWNERS.get(i).set(x, null);
+                                    this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
+                                    BABTMain.LOGGER.info("Spawners Destroyed: {}", this.getSpawnersDestroyed());
                                 }
                             }
+
+                            if (this.keySpawnerAmounts.contains(this.getSpawnersDestroyed()) && !justSpawnedKey) {
+                                if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chest) {
+                                    // chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
+                                    chest.setItem(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
+                                }
+                                else if (this.CHESTS.get(i) == null) {
+                                    doNoOutputPostionedCommand(this, "/give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getDescriptionId(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                                }
+                                this.justSpawnedKey = true;
+                            }
+
                         }
                     }
 
-                    if (this.keySpawnerAmounts.contains(this.getSpawnersDestroyed()) && !justSpawnedKey) {
-                        if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof TowerChestBlockEntity chest) {
-                            // chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
-                            chest.setItem(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
-                        }
-                        else if (this.CHESTS.get(i) == null) {
-                            doNoOutputPostionedCommand(this, "/give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getDescriptionId(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
-                        }
-                        this.justSpawnedKey = true;
-                    }
                 }
             }
         }
@@ -769,6 +775,7 @@ public class BTAbstractObelisk extends Entity {
 
     public void setSpawnersDestroyed(int num) {
         this.entityData.set(SPAWNERS_DESTROYED, num);
+        this.justSpawnedKey = false;
     }
 
     public int getSpawnersDestroyed() {
