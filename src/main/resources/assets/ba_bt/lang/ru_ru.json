@@ -1,6 +1,6 @@
 {
-	"itemGroup.ba_bt": "BrassAmber Battletowers",
-	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
+	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
 	// Entities
 	"entity.ba_bt.land_golem": "Байрин'муул, Погребённый смотритель",
@@ -11,7 +11,6 @@
 	"entity.ba_bt.sky_golem": "Вейз'криин, Богиня небес",
 
 	"entity.ba_bt.sky_minion": "Небесный преспешник",
-	"entity.ba_bt.platinum_skeleton": "Платиновый рыцарь",
 	"entity.ba_bt.bt_cultist": "Культист",
 
 	"entity.ba_bt.land_monolith": "Монолит земли",
@@ -65,8 +64,17 @@
 	"block.ba_bt.ocean_golem_chest": "Сундук Морайзу'уна",
 	"block.ba_bt.ocean_chest": "Сундук океана",
 
-	"block.ba_bt.platinum_block": "Платиновый блок",
-	"block.ba_bt.platinum_tiles": "Платиновая плитка",
+	"block.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
+	"block.ba_bt.core_chest": "Core Chest",
+
+	"block.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
+	"block.ba_bt.nether_chest": "Nether Chest",
+
+	"block.ba_bt.end_golem_chest": "Shul'losniir's Chest",
+	"block.ba_bt.end_chest": "End Chest",
+
+	"block.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
+	"block.ba_bt.sky_chest": "Sky Chest",
 
 	"block.ba_bt.bt_land_spawner" : "Землянной рассадник монстров",
 	"block.ba_bt.bt_ocean_spawner" : "Океанический рассадник монстров",
@@ -76,6 +84,7 @@
 	"block.ba_bt.bt_sky_spawner" : "Небесный рассадник монстров",
 
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
+	"block.ba_bt.data_marker" : "Data Marker",
 
 	// Containers
 	"container.ba_bt.land_golem_chest": "Сундук Байрин'муула",
@@ -83,20 +92,40 @@
 	"container.ba_bt.land_chest": "Сундук земли",
 	"container.ba_bt.land_chest_double": "Большой сундук земли",
 
-	"container.ba_bt.tower_chest.isLocked": "Разблокируется при уничтожении ближайших спавенров.",
-	
 	"container.ba_bt.ocean_golem_chest": "Сундук Морайзу'уна",
 	"container.ba_bt.ocean_golem_chest_double": "Большой сундук Морайзу'уна",
 	"container.ba_bt.ocean_chest": "Сундук океана",
 	"container.ba_bt.ocean_chest_double": "Большой сундук океана",
 
+	"container.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
+	"container.ba_bt.core_golem_chest_double": "Large Obthu'uryn's Chest",
+	"container.ba_bt.core_chest": "Core Chest",
+	"container.ba_bt.core_chest_double": "Large Core Chest",
+
+	"container.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
+	"container.ba_bt.nether_golem_chest_double": "Large Infuur'niir's Chest",
+	"container.ba_bt.nether_chest": "Nether Chest",
+	"container.ba_bt.nether_chest_double": "Large Nether Chest",
+
+	"container.ba_bt.end_golem_chest": "Shul'losniir's Chest",
+	"container.ba_bt.end_golem_chest_double": "Large Shul'losniir's Chest",
+	"container.ba_bt.end_chest": "End Chest",
+	"container.ba_bt.end_chest_double": "Large End Chest",
+
+	"container.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
+	"container.ba_bt.sky_golem_chest_double": "Large Veyhz'kriin's Chest",
+	"container.ba_bt.sky_chest": "Sky Chest",
+	"container.ba_bt.sky_chest_double": "Large Sky Chest",
+
+	"container.ba_bt.tower_chest.isLocked": "Разблокируется при уничтожении ближайших спавенров.",
+
 	// Items
-	"item.ba_bt.monolith_key_land": "Ключ от монолита земли",
-	"item.ba_bt.monolith_key_ocean": "Ключ от монолита океана",
-	"item.ba_bt.monolith_key_core": "Ключ от монолита ядра",
-	"item.ba_bt.monolith_key_nether": "Ключ от монолита Незера",
-	"item.ba_bt.monolith_key_end": "Ключ от монолита Края",
-	"item.ba_bt.monolith_key_sky": "Ключ от монолита небес",
+	"item.ba_bt.land_monolith_key": "Ключ от монолита земли",
+	"item.ba_bt.ocean_monolith_key": "Ключ от монолита океана",
+	"item.ba_bt.core_monolith_key": "Ключ от монолита ядра",
+	"item.ba_bt.nether_monolith_key": "Ключ от монолита Незера",
+	"item.ba_bt.end_monolith_key": "Ключ от монолита Края",
+	"item.ba_bt.sky_monolith_key": "Ключ от монолита небес",
 
 	"item.ba_bt.guardian_eye_land": "Глаз Байрин'муула",
 	"item.ba_bt.guardian_eye_ocean": "Глаз Морайзу'уна",
@@ -105,35 +134,23 @@
 	"item.ba_bt.guardian_eye_end": "Глаз Шул'лосниира",
 	"item.ba_bt.guardian_eye_sky": "Глаз Вейз'криин",
 
-	"item.ba_bt.monolith_land": "Монолит земли",
-	"item.ba_bt.monolith_ocean": "Монолит океана",
-	"item.ba_bt.monolith_core": "Монолит ядра",
-	"item.ba_bt.monolith_nether": "Монолит Незера",
-	"item.ba_bt.monolith_end": "Монолит Края",
-	"item.ba_bt.monolith_sky": "Монолит небес",
-
-	"item.ba_bt.platinum_ingot": "Платиновый слиток",
-	"item.ba_bt.platinum_shard": "Платиновый осколок",
-	"item.ba_bt.platinum_sword": "Платиновый меч",
-
-	"item.ba_bt.platinum_helmet": "Платиновый шлем",
-	"item.ba_bt.platinum_chestplate": "Платиновый нагрудник",
-	"item.ba_bt.platinum_leggings": "Платиновые поножи",
-	"item.ba_bt.platinum_boots": "Платиновые сапоги",
+	"item.ba_bt.land_monolith": "Монолит земли",
+	"item.ba_bt.ocean_monolith": "Монолит океана",
+	"item.ba_bt.core_monolith": "Монолит ядра",
+	"item.ba_bt.nether_monolith": "Монолит Незера",
+	"item.ba_bt.end_monolith": "Монолит Края",
+	"item.ba_bt.sky_monolith": "Монолит небес",
 
 	"item.ba_bt.land_chest_shard": "Осколок сундука земли",
 	"item.ba_bt.ocean_chest_shard": "Осколок сундука океана",
 
-	"item.ba_bt.platinum_skeleton_spawn_egg": "Яйцо призыва платиного рыцаря",
-	"item.ba_bt.cultist_spawn_egg": "Яйцо призыва культиста",
-
-	"item.ba_bt.bt_land_resonance_stone": "Резонирующий камень земли",
-	"item.ba_bt.bt_ocean_resonance_stone": "Резонирующий камень океана",
-	"item.ba_bt.bt_core_resonance_stone": "Резонирующий камень ядра",
-	"item.ba_bt.bt_nether_resonance_stone": "Резонирующий камень Незера",
-	"item.ba_bt.bt_end_resonance_stone": "Резонирующий камень Края",
-	"item.ba_bt.bt_sky_resonance_stone": "Резонирующий камень небес",
-	"item.ba_bt.bt_city_resonance_stone": "Резонирующий камень города",
+	"item.ba_bt.land_resonance_stone": "Резонирующий камень земли",
+	"item.ba_bt.ocean_resonance_stone": "Резонирующий камень океана",
+	"item.ba_bt.core_resonance_stone": "Резонирующий камень ядра",
+	"item.ba_bt.nether_resonance_stone": "Резонирующий камень Незера",
+	"item.ba_bt.end_resonance_stone": "Резонирующий камень Края",
+	"item.ba_bt.sky_resonance_stone": "Резонирующий камень небес",
+	"item.ba_bt.city_resonance_stone": "Резонирующий камень города",
 
 	// Effects
 	"effect.ba_bt.depth_dropper_effect": "Глубинное погружение",
@@ -162,12 +179,12 @@
 	"tooltip.ba_bt.end_eye": "Она приближается... Через разлом...",
 	"tooltip.ba_bt.sky_eye": "Я подвела вас, Ваюс старший... ",
 
-	"item.ba_bt.bt_land_resonance_stone.desc": "Лена Рейн: Ancestry",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "C418: Dragonfish",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Лена Рейн: So Below",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Лена Рейн: Rubedo",
-	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
+	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
+	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
+	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
 	"item.ba_bt.bt_city_resonance_stone.desc": "Лена Рейн: Labyrinthine",
 
 	// Overscreen titles
