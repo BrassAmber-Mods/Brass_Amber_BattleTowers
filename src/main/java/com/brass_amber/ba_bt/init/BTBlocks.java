@@ -2,8 +2,7 @@ package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.*;
-import com.brass_amber.ba_bt.block.block.GolemChestBlock.BTChestType;
-import com.brass_amber.ba_bt.item.TowerChestBlockItem;
+import com.brass_amber.ba_bt.item.ChestBlockItem;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -28,81 +27,81 @@ public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, BABTMain.MODID);
 
 	public static final RegistryObject<Block> LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest",
-			() -> new GolemChestBlock(
-					BTChestType.GOLEM, GolemType.LAND, 
+			() -> new BTChestBlock(BTBlockEntityType.LAND_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.LAND),
+			1
 	);
 	public static final RegistryObject<Block> LAND_CHEST = registerChestBlock("land_chest",
-			() -> new TowerChestBlock(
-					BTChestType.TOWER, GolemType.LAND, 
+			() -> new TowerChestBlock(BTBlockEntityType.LAND_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F), GolemType.LAND),
+			1
 	);
 
 	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = registerChestBlock("ocean_golem_chest",
-			() -> new GolemChestBlock(
-					BTChestType.GOLEM, GolemType.OCEAN, 
+			() -> new BTChestBlock(BTBlockEntityType.OCEAN_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.OCEAN),
+			1
 	);
 	public static final RegistryObject<Block> OCEAN_CHEST = registerChestBlock("ocean_chest",
-			() -> new TowerChestBlock(
-					BTChestType.TOWER, GolemType.OCEAN, 
+			() -> new TowerChestBlock(BTBlockEntityType.OCEAN_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F), GolemType.OCEAN),
+			1
 	);
 
 	public static final RegistryObject<Block> CORE_GOLEM_CHEST = registerChestBlock("core_golem_chest",
-			() -> new GolemChestBlock(
-					BTChestType.GOLEM, GolemType.CORE,
+			() -> new BTChestBlock(BTBlockEntityType.CORE_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.CORE),
+			1
 	);
 	public static final RegistryObject<Block> CORE_CHEST = registerChestBlock("core_chest",
-			() -> new TowerChestBlock(
-					BTChestType.TOWER, GolemType.CORE,
+			() -> new TowerChestBlock(BTBlockEntityType.CORE_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F), GolemType.CORE),
+			1
 	);
 
 	public static final RegistryObject<Block> NETHER_GOLEM_CHEST = registerChestBlock("nether_golem_chest",
-			() -> new GolemChestBlock(
-					BTChestType.GOLEM, GolemType.NETHER,
+			() -> new BTChestBlock(BTBlockEntityType.NETHER_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.NETHER),
+			1
 	);
 	public static final RegistryObject<Block> NETHER_CHEST = registerChestBlock("nether_chest",
-			() -> new TowerChestBlock(
-					BTChestType.TOWER, GolemType.NETHER,
+			() -> new TowerChestBlock(BTBlockEntityType.NETHER_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F), GolemType.NETHER),
+			1
 	);
 
 	public static final RegistryObject<Block> END_GOLEM_CHEST = registerChestBlock("end_golem_chest",
-			() -> new GolemChestBlock(
-					BTChestType.GOLEM, GolemType.END,
+			() -> new BTChestBlock(BTBlockEntityType.END_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.END),
+			1
 	);
 	public static final RegistryObject<Block> END_CHEST = registerChestBlock("end_chest",
-			() -> new TowerChestBlock(
-					BTChestType.TOWER, GolemType.END,
+			() -> new TowerChestBlock(BTBlockEntityType.END_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F), GolemType.END),
+			1
 	);
 
 	public static final RegistryObject<Block> SKY_GOLEM_CHEST = registerChestBlock("sky_golem_chest",
-			() -> new GolemChestBlock(
-					BTChestType.GOLEM, GolemType.SKY,
+			() -> new BTChestBlock(BTBlockEntityType.SKY_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.SKY),
+			1
 	);
 	public static final RegistryObject<Block> SKY_CHEST = registerChestBlock("sky_chest",
-			() -> new TowerChestBlock(
-					BTChestType.TOWER, GolemType.SKY,
+			() -> new TowerChestBlock(BTBlockEntityType.SKY_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F)), 1
+							.sound(SoundType.STONE).noOcclusion().explosionResistance(6.0F), GolemType.SKY),
+			1
 	);
 
     public static final RegistryObject<Block> LAND_SPAWNER = registerBlock("land_spawner",
@@ -156,10 +155,10 @@ public class BTBlocks {
 		registerChestBlockItem(name, toReturn, stackSize);
 		return toReturn;
 	}
-
 	private static  <T extends Block> void registerChestBlockItem(String name, RegistryObject<T> block, int stackSize) {
-		BTItems.ITEMS.register(name, () -> new TowerChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
+		BTItems.ITEMS.register(name, () -> new ChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
 	}
+
 
 	public static void register(IEventBus eventBus) {
 		BLOCKS.register(eventBus);
