@@ -56,18 +56,20 @@ public class BABTMain {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        // Register the Deferred Register to the mod event bus so tabs get registered
         // Register the Deferred Register to the mod event bus so blocks get registered
         BTBlocks.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         BTItems.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
 
         BTEntityType.register(modEventBus);
         BTBlockEntityType.register(modEventBus);
+        BTContainerTypes.register(modEventBus);
         BTSoundEvents.register(modEventBus);
         BTExtras.register(modEventBus);
         BTStructures.register(modEventBus);
         BTStructurePieces.register(modEventBus);
+
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
@@ -117,10 +119,24 @@ public class BABTMain {
             event.accept(BTItems.SKY_MONOLITH);
 
             event.accept(BTItems.LAND_CHEST_SHARD);
+            event.accept(BTItems.OCEAN_CHEST_SHARD);
+            event.accept(BTItems.CORE_CHEST_SHARD);
+            event.accept(BTItems.NETHER_CHEST_SHARD);
+            event.accept(BTItems.END_CHEST_SHARD);
+            event.accept(BTItems.SKY_CHEST_SHARD);
+
             event.accept(BTBlocks.LAND_CHEST);
             event.accept(BTBlocks.LAND_GOLEM_CHEST);
             event.accept(BTBlocks.OCEAN_CHEST);
             event.accept(BTBlocks.OCEAN_GOLEM_CHEST);
+            event.accept(BTBlocks.CORE_CHEST);
+            event.accept(BTBlocks.CORE_GOLEM_CHEST);
+            event.accept(BTBlocks.NETHER_CHEST);
+            event.accept(BTBlocks.NETHER_GOLEM_CHEST);
+            event.accept(BTBlocks.END_CHEST);
+            event.accept(BTBlocks.END_GOLEM_CHEST);
+            event.accept(BTBlocks.SKY_CHEST);
+            event.accept(BTBlocks.SKY_GOLEM_CHEST);
 
             event.accept(BTItems.LAND_RESONANCE_CRYSTAL);
             event.accept(BTItems.OCEAN_RESONANCE_CRYSTAL);
