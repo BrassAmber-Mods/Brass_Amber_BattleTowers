@@ -1,7 +1,5 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.init.BTBlockEntityType;
-import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -20,15 +18,11 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -87,30 +81,6 @@ public class BTUtil {
             case CITY -> () -> BTSoundEvents.MUSIC_CITY;
             default -> () -> BTSoundEvents.MUSIC_LAND_TOWER;
         };
-    }
-
-    public static @NotNull BlockEntityType<? extends ChestBlockEntity> getChestEntity(Block block) {
-        if (BTBlocks.LAND_CHEST.get().equals(block)) {
-            return BTBlockEntityType.LAND_CHEST.get();
-        } else if (BTBlocks.LAND_GOLEM_CHEST.get().equals(block)) {
-            return BTBlockEntityType.LAND_GOLEM_CHEST.get();
-        } else if (BTBlocks.OCEAN_CHEST.get().equals(block)) {
-            return BTBlockEntityType.OCEAN_CHEST.get();
-        } else if (BTBlocks.OCEAN_GOLEM_CHEST.get().equals(block)) {
-            return BTBlockEntityType.OCEAN_GOLEM_CHEST.get();
-        }
-
-        return BTBlockEntityType.LAND_CHEST.get();
-    }
-
-    public static @NotNull String getTowerName(BlockEntityType<? extends ChestBlockEntity> block) {
-        if (BTBlockEntityType.LAND_GOLEM_CHEST.get().equals(block) || BTBlockEntityType.LAND_CHEST.get().equals(block)) {
-            return "land";
-        } else if (BTBlockEntityType.OCEAN_CHEST.get().equals(block) || BTBlockEntityType.OCEAN_GOLEM_CHEST.get().equals(block)) {
-            return "ocean";
-        }
-
-        return "land";
     }
 
 
