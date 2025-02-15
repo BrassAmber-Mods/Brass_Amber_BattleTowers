@@ -2,18 +2,19 @@ package com.brass_amber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.brass_amber.ba_bt.client.BTChestTextures;
+import com.brass_amber.ba_bt.block.block.BTChestBlock;
+import com.brass_amber.ba_bt.block.blockentity.*;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
+import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
@@ -21,8 +22,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -46,6 +48,8 @@ public enum GolemType implements StringRepresentable {
 		this.name = name;
 		this.displayName = displayName;
 	}
+
+	public static final GolemType[] VALUES = values();
 
 	/*********************************************************** Monolith Spawning ********************************************************/
 
@@ -154,6 +158,96 @@ public enum GolemType implements StringRepresentable {
 
 		// Couldn't get EntityType
 		return EMPTY;
+	}
+
+	/*********************************************************** Monolith ********************************************************/
+	/**
+	 * Return the correct GolemType for each ChestBlock Entity.
+	 */
+
+	public static GolemType getTypeForChest(BlockEntityType<? extends BTChestBlockEntity> blockEntityType) {
+
+		if (BTBlockEntityType.LAND_CHEST.get().equals(blockEntityType) || BTBlockEntityType.LAND_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return LAND;
+		} else if (BTBlockEntityType.OCEAN_CHEST.get().equals(blockEntityType) || BTBlockEntityType.OCEAN_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return OCEAN;
+		} else if (BTBlockEntityType.CORE_CHEST.get().equals(blockEntityType) || BTBlockEntityType.CORE_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return CORE;
+		} else if (BTBlockEntityType.NETHER_CHEST.get().equals(blockEntityType) || BTBlockEntityType.NETHER_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return NETHER;
+		} else if (BTBlockEntityType.END_CHEST.get().equals(blockEntityType) || BTBlockEntityType.END_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return END;
+		} else if (BTBlockEntityType.SKY_CHEST.get().equals(blockEntityType) || BTBlockEntityType.SKY_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return SKY;
+		}
+
+		// Couldn't get EntityType
+		return EMPTY;
+	}
+	/**
+	 * Return the correct ChestBlock Entity for each GolemType.
+	 */
+	public static BlockEntityType<? extends BTChestBlockEntity> getChestForType(GolemType golemType, boolean golemChest) {
+		if (golemChest) {
+			return switch (golemType) {
+				case OCEAN -> BTBlockEntityType.OCEAN_GOLEM_CHEST.get();
+				case CORE -> BTBlockEntityType.CORE_GOLEM_CHEST.get();
+				case NETHER -> BTBlockEntityType.NETHER_GOLEM_CHEST.get();
+				case END -> BTBlockEntityType.END_GOLEM_CHEST.get();
+				case SKY -> BTBlockEntityType.SKY_GOLEM_CHEST.get();
+				default -> BTBlockEntityType.LAND_GOLEM_CHEST.get();
+			};
+		}
+		return switch (golemType) {
+			case OCEAN -> BTBlockEntityType.OCEAN_CHEST.get();
+			case CORE -> BTBlockEntityType.CORE_CHEST.get();
+			case NETHER -> BTBlockEntityType.NETHER_CHEST.get();
+			case END -> BTBlockEntityType.END_CHEST.get();
+			case SKY -> BTBlockEntityType.SKY_CHEST.get();
+			default ->BTBlockEntityType.LAND_CHEST.get();
+		};
+	}
+
+	public static boolean isGolemChest(BlockEntityType<?> blockEntityType) {
+        return BTBlockEntityType.LAND_GOLEM_CHEST.get().equals(blockEntityType)
+                || BTBlockEntityType.OCEAN_GOLEM_CHEST.get().equals(blockEntityType)
+                || BTBlockEntityType.CORE_GOLEM_CHEST.get().equals(blockEntityType)
+                || BTBlockEntityType.NETHER_GOLEM_CHEST.get().equals(blockEntityType)
+                || BTBlockEntityType.END_GOLEM_CHEST.get().equals(blockEntityType)
+                || BTBlockEntityType.SKY_GOLEM_CHEST.get().equals(blockEntityType);
+    }
+
+	public static boolean isGolemChest(Block block) {
+		return BTBlocks.LAND_GOLEM_CHEST.get().equals(block)
+				|| BTBlocks.OCEAN_GOLEM_CHEST.get().equals(block)
+				|| BTBlocks.CORE_GOLEM_CHEST.get().equals(block)
+				|| BTBlocks.NETHER_GOLEM_CHEST.get().equals(block)
+				|| BTBlocks.END_GOLEM_CHEST.get().equals(block)
+				|| BTBlocks.SKY_GOLEM_CHEST.get().equals(block);
+	}
+
+	/**
+	 * Return the correct ChestBlock Entity for each GolemType.
+	 */
+	public static Block getChestBlockForType(GolemType golemType, boolean golemChest) {
+		if (golemChest) {
+			return switch (golemType) {
+				case OCEAN -> BTBlocks.OCEAN_GOLEM_CHEST.get();
+				case CORE -> BTBlocks.CORE_GOLEM_CHEST.get();
+				case NETHER -> BTBlocks.NETHER_GOLEM_CHEST.get();
+				case END -> BTBlocks.END_GOLEM_CHEST.get();
+				case SKY -> BTBlocks.SKY_GOLEM_CHEST.get();
+				default -> BTBlocks.LAND_GOLEM_CHEST.get();
+			};
+		}
+		return switch (golemType) {
+			case OCEAN -> BTBlocks.OCEAN_CHEST.get();
+			case CORE -> BTBlocks.CORE_CHEST.get();
+			case NETHER -> BTBlocks.NETHER_CHEST.get();
+			case END -> BTBlocks.END_CHEST.get();
+			case SKY -> BTBlocks.SKY_CHEST.get();
+			default ->BTBlocks.LAND_CHEST.get();
+		};
 	}
 
 	/*********************************************************** Eyes ********************************************************/
@@ -323,47 +417,4 @@ public enum GolemType implements StringRepresentable {
 		return this.displayName;
 	}
 
-    public static Supplier<BlockEntityType<? extends ChestBlockEntity>> getGolemChestType(GolemType golemType) {
-		return switch (golemType) {
-			default -> BTBlockEntityType.LAND_GOLEM_CHEST::get;
-			case OCEAN -> BTBlockEntityType.OCEAN_GOLEM_CHEST::get;
-			case CORE -> BTBlockEntityType.CORE_GOLEM_CHEST::get;
-			case NETHER -> BTBlockEntityType.NETHER_GOLEM_CHEST::get;
-			case END -> BTBlockEntityType.END_GOLEM_CHEST::get;
-			case SKY -> BTBlockEntityType.SKY_GOLEM_CHEST::get;
-		};
-    }
-
-	public static Supplier<BlockEntityType<? extends ChestBlockEntity>> getChestType(GolemType golemType) {
-		return switch (golemType) {
-			default  -> BTBlockEntityType.LAND_CHEST::get;
-			case OCEAN -> BTBlockEntityType.OCEAN_CHEST::get;
-			case CORE -> BTBlockEntityType.CORE_CHEST::get;
-			case NETHER -> BTBlockEntityType.NETHER_CHEST::get;
-			case END -> BTBlockEntityType.END_CHEST::get;
-			case SKY -> BTBlockEntityType.SKY_CHEST::get;
-		};
-	}
-
-	public static ResourceLocation[] getGolemChestTextures(GolemType golemType) {
-		return switch (golemType) {
-			default  -> BTChestTextures.LAND_CHEST_TEXTURES;
-			case OCEAN -> BTChestTextures.OCEAN_CHEST_TEXTURES;
-			case CORE -> BTChestTextures.CORE_CHEST_TEXTURES;
-			case NETHER -> BTChestTextures.NETHER_CHEST_TEXTURES;
-			case END -> BTChestTextures.END_CHEST_TEXTURES;
-			case SKY -> BTChestTextures.SKY_CHEST_TEXTURES;
-		};
-	}
-
-	public static ResourceLocation[] getChestTextures(GolemType golemType) {
-		return switch (golemType) {
-			default  -> BTChestTextures.LAND_GOLEM_CHEST_TEXTURES;
-			case OCEAN -> BTChestTextures.OCEAN_GOLEM_CHEST_TEXTURES;
-			case CORE -> BTChestTextures.CORE_GOLEM_CHEST_TEXTURES;
-			case NETHER -> BTChestTextures.NETHER_GOLEM_CHEST_TEXTURES;
-			case END -> BTChestTextures.END_GOLEM_CHEST_TEXTURES;
-			case SKY -> BTChestTextures.SKY_GOLEM_CHEST_TEXTURES;
-		};
-	}
 }
