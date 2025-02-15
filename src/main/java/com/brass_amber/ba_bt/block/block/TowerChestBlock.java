@@ -1,29 +1,14 @@
 package com.brass_amber.ba_bt.block.block;
 
-
-import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.util.GolemType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Supplier;
 
-public class TowerChestBlock extends GolemChestBlock {
-
-	public TowerChestBlock(BTChestType chestType, Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties) {
-		super(chestType, chestSupplier, properties);
-
-	}
-	public TowerChestBlock(BTChestType chestType, GolemType type, Properties properties) {
-		super(chestType, GolemType.getChestType(type), properties);
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return BTBlockEntityType.LAND_CHEST.get().create(blockPos, blockState);
-	}
-
+public class TowerChestBlock extends BTChestBlock {
+    public TowerChestBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties, GolemType type) {
+        super(chestSupplier, properties, type);
+        this.golemChest = false;
+    }
 }

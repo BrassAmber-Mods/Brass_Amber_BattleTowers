@@ -1,7 +1,9 @@
 package com.brass_amber.ba_bt.block.blockentity;
 
 import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.block.block.GolemChestBlock;
+import com.brass_amber.ba_bt.block.block.BTChestBlock;
+import com.brass_amber.ba_bt.init.BTBlockEntityType;
+import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -9,37 +11,36 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.LockCode;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import org.jetbrains.annotations.NotNull;
 
-import static com.brass_amber.ba_bt.util.BTUtil.getChestEntity;
-import static com.brass_amber.ba_bt.util.BTUtil.getTowerName;
 
-public class GolemChestBlockEntity extends ChestBlockEntity {
-	protected final String tower_name;
-	private LockCode lockKey = new LockCode("bt_spawner");
+public class BTChestBlockEntity extends ChestBlockEntity {
 	protected boolean unlocked = false;
+	protected GolemType golemType;
+	protected boolean golemChest;
 
 	private NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 
-	protected GolemChestBlockEntity(BlockEntityType<? extends ChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
-		super(blockEntityType, blockPos, blockState);
-		this.tower_name = getTowerName(blockEntityType);
+	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, GolemType golemType, boolean golemChest) {
+		this(GolemType.getChestForType(golemType, golemChest), blockPos, blockState);
 	}
 
-	public GolemChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(getChestEntity(blockState.getBlock()), blockPos, blockState);
+	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+		this(BTBlockEntityType.LAND_CHEST.get(), blockPos, blockState);
+	}
+
+	protected BTChestBlockEntity(BlockEntityType<? extends BTChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
+		super(blockEntityType, blockPos, blockState);
+		this.golemType = GolemType.getTypeForChest(blockEntityType);
+		this.golemChest = GolemType.isGolemChest(this.getType());
 	}
 
 	@Override
@@ -47,9 +48,8 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 		return 36;
 	}
 
-	@Override
-	protected AbstractContainerMenu createMenu(int p_59082_, Inventory p_59083_) {
-		return ChestMenu.fourRows(p_59082_, p_59083_);
+	public GolemType getChestType() {
+		return this.golemType;
 	}
 
 	/**
@@ -58,7 +58,10 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	 */
 	@Override
 	protected Component getDefaultName() {
-		return Component.translatable("container.ba_bt." + this.tower_name + "_golem_chest");
+		if (this.golemChest) {
+			return Component.translatable("container.ba_bt." + this.golemType.getSerializedName() + "_golem_chest");
+		}
+		return Component.translatable("container.ba_bt." + this.golemType.getSerializedName()+ "_chest");
 	}
 
 	@Override
@@ -81,27 +84,37 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 		compoundTag.putBoolean("Unlocked", this.unlocked);
 	}
 
-	private net.minecraftforge.items.IItemHandlerModifiable createHandler() {
-		BlockState state = this.getBlockState();
-		if (!(state.getBlock() instanceof GolemChestBlock)) {
-			return new net.minecraftforge.items.wrapper.InvWrapper(this);
+	@Override
+	protected NonNullList<ItemStack> getItems() {
+		return this.items;
+	}
+
+	protected void setItems(NonNullList<ItemStack> itemStack) {
+		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+
+		for (int i = 0; i < itemStack.size(); i++) {
+			if (i < this.items.size()) {
+				this.getItems().set(i, itemStack.get(i));
+			}
 		}
-		Container inv = GolemChestBlock.getContainer((GolemChestBlock) state.getBlock(), state, getLevel(), getBlockPos(), true);
-		return new net.minecraftforge.items.wrapper.InvWrapper(inv == null ? this : inv);
+	}
+
+	protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
+		return ChestMenu.fourRows(i, inventory);
 	}
 
 	public void setUnlocked(boolean tf) {
-		ChestType chesttype = this.getBlockState().getValue(ChestBlock.TYPE);
+		ChestType chesttype = this.getBlockState().getValue(BTChestBlock.TYPE);
 		this.unlocked = tf;
 
 		// BrassAmberBattleTowers.LOGGER.info(this.unlocked + " " + chesttype);
 
 		// Make sure that if this is a double chest the other half also gets unlocked.
 		if (chesttype != ChestType.SINGLE) {
-			Direction direction = ChestBlock.getConnectedDirection(this.getBlockState());
-			GolemChestBlockEntity chestEntity = null;
+			Direction direction = BTChestBlock.getConnectedDirection(this.getBlockState());
+			BTChestBlockEntity chestEntity = null;
 			try {
-				chestEntity = (GolemChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
+				chestEntity = (BTChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
 			} catch (Exception e) {
 				BABTMain.LOGGER.info(e.toString());
 			}
@@ -121,8 +134,18 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 	}
 
 	public boolean canUnlock(Player player, Component component) {
+		if (this.golemChest) {
+			if (!this.unlocked && !player.isSpectator()) {
+				player.displayClientMessage(Component.translatable("container.isLocked", component), true);
+				player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
 		if (!this.unlocked && !player.isSpectator()) {
-			player.displayClientMessage(Component.translatable("container.isLocked", component), true);
+			player.displayClientMessage(Component.literal(this.getDefaultName().getString() + " is sealed. ").append(Component.translatable("container.ba_bt.tower_chest.isLocked")), true);
 			player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
 			return false;
 		}
@@ -135,15 +158,8 @@ public class GolemChestBlockEntity extends ChestBlockEntity {
 		return this.unlocked;
 	}
 
-	@Override
-	public @NotNull BlockPos getBlockPos() {
-		return this.worldPosition;
-	}
-
-
-	@Override
-	public void setItems(@NotNull NonNullList<ItemStack> items) {
-		super.setItems(items);
+	public boolean isGolemChest() {
+		return golemChest;
 	}
 }
 

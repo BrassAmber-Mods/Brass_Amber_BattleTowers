@@ -1,9 +1,8 @@
 package com.brass_amber.ba_bt.block.blockentity.inventory;
 
-import com.brass_amber.ba_bt.block.blockentity.GolemChestBlockEntity;
-import com.brass_amber.ba_bt.block.blockentity.TowerChestBlockEntity;
-import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.init.BTItems;
+import com.brass_amber.ba_bt.block.block.BTChestBlock;
+import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
+import com.brass_amber.ba_bt.util.GolemType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -11,49 +10,46 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BTChestItemRenderer extends BlockEntityWithoutLevelRenderer {
+import java.util.function.Supplier;
 
-    public static BTChestItemRenderer INSTANCE = new BTChestItemRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+@OnlyIn(Dist.CLIENT)
+public class BTChestItemRenderer<T extends BlockEntity> extends BlockEntityWithoutLevelRenderer {
 
-    private final GolemChestBlockEntity landGolemChestEntity = new GolemChestBlockEntity(BlockPos.ZERO, BTBlocks.LAND_GOLEM_CHEST.get().defaultBlockState());
-    private final TowerChestBlockEntity landTowerChestEntity = new TowerChestBlockEntity(BlockPos.ZERO, BTBlocks.LAND_CHEST.get().defaultBlockState());
-    private final GolemChestBlockEntity oceanGolemChestEntity = new GolemChestBlockEntity(BlockPos.ZERO, BTBlocks.OCEAN_GOLEM_CHEST.get().defaultBlockState());
-    private final TowerChestBlockEntity oceanTowerChestEntity = new TowerChestBlockEntity(BlockPos.ZERO, BTBlocks.OCEAN_CHEST.get().defaultBlockState());
-    private final BlockEntityRenderDispatcher dispatcher;
+    public static BTChestItemRenderer INSTANCE = new BTChestItemRenderer();
 
-    public BTChestItemRenderer(BlockEntityRenderDispatcher dispatcherIn, EntityModelSet modelSet) {
-        super(dispatcherIn, modelSet);
-        this.dispatcher = dispatcherIn;
+    private BTChestBlockEntity[] tiles = new BTChestBlockEntity[GolemType.VALUES.length];
+    private BTChestBlockEntity[] tilesGolem = new BTChestBlockEntity[GolemType.VALUES.length];
+
+    {
+        for (GolemType type : GolemType.VALUES) {
+            tiles[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, false).defaultBlockState(), type, false);
+            tilesGolem[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, true).defaultBlockState(), type, true);
+        }
+    }
+
+    public BTChestItemRenderer() {
+        super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
     }
 
     @Override
-    public void renderByItem(ItemStack itemStack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLightIn, int combineOverLayIn) {
-        Item item = itemStack.getItem();
-        BlockEntity blockEntity = null;
-        if (item instanceof BlockItem) {
-            if (item == BTBlocks.LAND_CHEST.get().asItem()) {
-                blockEntity = this.landTowerChestEntity;
+    public void onResourceManagerReload(ResourceManager resourceManager) {
+    }
 
-            } else if (item == BTBlocks.LAND_GOLEM_CHEST.get().asItem()){
-                blockEntity = this.landGolemChestEntity;
-
-            } else if (item == BTBlocks.OCEAN_CHEST.get().asItem()) {
-                blockEntity = this.oceanTowerChestEntity;
-
-            } else if (item == BTBlocks.OCEAN_GOLEM_CHEST.get().asItem()){
-                blockEntity = this.oceanGolemChestEntity;
-
-            }
-            if (blockEntity == null) {
-                blockEntity = this.landTowerChestEntity;
-            }
-            this.dispatcher.renderItem(blockEntity, poseStack, multiBufferSource, combinedLightIn, combineOverLayIn);
+    @Override
+    public void renderByItem(ItemStack itemStack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLightIn, int combinedOverlayIn) {
+        Block block = Block.byItem(itemStack.getItem());
+        if (block instanceof BTChestBlock) {
+            Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.tiles[((BTChestBlock)block).getType().ordinal()], poseStack, multiBufferSource, combinedLightIn, combinedOverlayIn);
+        } else {
+            super.renderByItem(itemStack, displayContext, poseStack, multiBufferSource, combinedLightIn, combinedOverlayIn);
         }
     }
 }
