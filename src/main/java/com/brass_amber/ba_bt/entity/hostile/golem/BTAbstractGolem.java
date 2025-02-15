@@ -2,8 +2,7 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import javax.annotation.Nullable;
 
-import com.brass_amber.ba_bt.block.block.GolemChestBlock;
-import com.brass_amber.ba_bt.block.block.TowerChestBlock;
+import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.brass_amber.ba_bt.init.BTItems;
@@ -43,18 +42,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 
 /**
@@ -321,7 +314,7 @@ public abstract class BTAbstractGolem extends Monster {
 					for(int iz = oz - width; iz <= oz + width; iz++) {
 						BlockPos pos = new BlockPos(ix, iy, iz);
 						BlockState state = this.level().getBlockState(pos);
-						boolean isChest = state.getBlock() instanceof GolemChestBlock || state.getBlock() instanceof TowerChestBlock;
+						boolean isChest = state.getBlock() instanceof BTChestBlock;
 						if (!isChest) {
 							if(state.canEntityDestroy(this.level(), pos, this) && ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
 								playEffectFlag |= this.level().destroyBlock(pos, true, this);
