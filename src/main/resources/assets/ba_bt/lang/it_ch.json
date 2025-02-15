@@ -1,6 +1,6 @@
 {
-	"itemGroup.ba_bt": "BrassAmber Battletowers",
-	"block.ba_bt.tab_icon": "BrassAmber Battletowers",
+	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
+	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
 	// Entità (Entities)
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
@@ -11,7 +11,6 @@
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
 
 	"entity.ba_bt.sky_minion": "Minion celestiale",
-	"entity.ba_bt.platinum_skeleton": "Cavaliere di platino",
 	"entity.ba_bt.bt_cultist": "Cultista",
 
 	"entity.ba_bt.land_monolith": "Monolite della landa",
@@ -39,11 +38,17 @@
 	"ba_bt.subtitle.golem.special": "Attacco del Golem",
 
 	"ba_bt.subtitle.golem.land.fight": "Musica da boss del Golem",
+	"ba_bt.subtitle.golem.ocean.fight": "Void Of Moraizu'un",
+	"ba_bt.subtitle.golem.core.fight": "Awakening Of Obthu'ryn",
+	"ba_bt.subtitle.golem.nether.fight": "Throne Of Infuur'niir",
+	"ba_bt.subtitle.golem.end.fight": "Mind Of Shul'losniir",
+	"ba_bt.subtitle.golem.sky.fight": "Descent Of Veyhz'kriin",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Il Golem sta per liberarsi!",
 
 	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
 	"ba_bt.subtitle.tower.break.crumble": "La torre crolla",
+	"ba_bt.subtitle.tower.break.collapse": "Tower Collapsing",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre della landa",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
 	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre del nucleo",
@@ -59,8 +64,17 @@
 	"block.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
 	"block.ba_bt.ocean_chest": "Baule oceanico",
 
-	"block.ba_bt.platinum_block": "Blocco di platino",
-	"block.ba_bt.platinum_tiles": "Piastrelle di platino",
+	"block.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
+	"block.ba_bt.core_chest": "Core Chest",
+
+	"block.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
+	"block.ba_bt.nether_chest": "Nether Chest",
+
+	"block.ba_bt.end_golem_chest": "Shul'losniir's Chest",
+	"block.ba_bt.end_chest": "End Chest",
+
+	"block.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
+	"block.ba_bt.sky_chest": "Sky Chest",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
 	"block.ba_bt.bt_ocean_spawner" : "Generatore oceanico",
@@ -70,6 +84,7 @@
 	"block.ba_bt.bt_sky_spawner" : "Generatore celestiale",
 
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
+	"block.ba_bt.data_marker" : "Data Marker",
 
 	// Contenitori (Containers)
 	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
@@ -77,20 +92,40 @@
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	"container.ba_bt.tower_chest.isLocked": "Si sblocca dopo la distruzione dei generatori vicini",
-
 	"container.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
 	"container.ba_bt.ocean_golem_chest_double": "Baule doppio di Moraizu'un",
 	"container.ba_bt.ocean_chest": "Baule dell'oceano",
 	"container.ba_bt.ocean_chest_double": "Baule doppio dell'oceano",
 
+	"container.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
+	"container.ba_bt.core_golem_chest_double": "Large Obthu'uryn's Chest",
+	"container.ba_bt.core_chest": "Core Chest",
+	"container.ba_bt.core_chest_double": "Large Core Chest",
+
+	"container.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
+	"container.ba_bt.nether_golem_chest_double": "Large Infuur'niir's Chest",
+	"container.ba_bt.nether_chest": "Nether Chest",
+	"container.ba_bt.nether_chest_double": "Large Nether Chest",
+
+	"container.ba_bt.end_golem_chest": "Shul'losniir's Chest",
+	"container.ba_bt.end_golem_chest_double": "Large Shul'losniir's Chest",
+	"container.ba_bt.end_chest": "End Chest",
+	"container.ba_bt.end_chest_double": "Large End Chest",
+
+	"container.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
+	"container.ba_bt.sky_golem_chest_double": "Large Veyhz'kriin's Chest",
+	"container.ba_bt.sky_chest": "Sky Chest",
+	"container.ba_bt.sky_chest_double": "Large Sky Chest",
+
+	"container.ba_bt.tower_chest.isLocked": "Si sblocca dopo la distruzione dei generatori vicini",
+
 	// Oggetti (Items)
-	"item.ba_bt.monolith_key_land": "Chiave del monolite della landa",
-	"item.ba_bt.monolith_key_ocean": "Chiave del monolite oceanico",
-	"item.ba_bt.monolith_key_core": "Chiave del monolite del nucleo",
-	"item.ba_bt.monolith_key_nether": "Chiave del monolite infernale",
-	"item.ba_bt.monolith_key_end": "Chiave del monolite dell'End",
-	"item.ba_bt.monolith_key_sky": "Chiave del monolite celestiale",
+	"item.ba_bt.land_monolith_key": "Chiave del monolite della landa",
+	"item.ba_bt.ocean_monolith_key": "Chiave del monolite oceanico",
+	"item.ba_bt.core_monolith_key": "Chiave del monolite del nucleo",
+	"item.ba_bt.nether_monolith_key": "Chiave del monolite infernale",
+	"item.ba_bt.end_monolith_key": "Chiave del monolite dell'End",
+	"item.ba_bt.sky_monolith_key": "Chiave del monolite celestiale",
 
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
 	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
@@ -99,34 +134,23 @@
 	"item.ba_bt.guardian_eye_end": "Occhio di Shul'losniir",
 	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
-	"item.ba_bt.monolith_land": "Monolite della landa",
-	"item.ba_bt.monolith_ocean": "Monolite oceanico",
-	"item.ba_bt.monolith_core": "Monolite del nucleo",
-	"item.ba_bt.monolith_nether": "Monolite infernale",
-	"item.ba_bt.monolith_end": "Monolite dell'End",
-	"item.ba_bt.monolith_sky": "Monolite celestiale",
-
-	"item.ba_bt.platinum_ingot": "Lingotto di platino",
-	"item.ba_bt.platinum_shard": "Scheggia di platino",
-	"item.ba_bt.platinum_sword": "Spada di platino",
-
-	"item.ba_bt.platinum_helmet": "Elmo di platino",
-	"item.ba_bt.platinum_chestplate": "Armatura di platino",
-	"item.ba_bt.platinum_leggings": "Gambali di platino",
-	"item.ba_bt.platinum_boots": "Stivali di platino",
+	"item.ba_bt.land_monolith": "Monolite della landa",
+	"item.ba_bt.ocean_monolith": "Monolite oceanico",
+	"item.ba_bt.core_monolith": "Monolite del nucleo",
+	"item.ba_bt.nether_monolith": "Monolite infernale",
+	"item.ba_bt.end_monolith": "Monolite dell'End",
+	"item.ba_bt.sky_monolith": "Monolite celestiale",
 
 	"item.ba_bt.land_chest_shard": "Frammento baule della landa",
 	"item.ba_bt.ocean_chest_shard": "Frammento baule dell'oceano",
 
-	"item.ba_bt.platinum_skeleton_spawn_egg": "Uovo generatore del cavaliere di platino",
-
-	"item.ba_bt.bt_land_resonance_stone": "Pietra risonante della landa",
-	"item.ba_bt.bt_ocean_resonance_stone": "Pietra risonante oceanica",
-	"item.ba_bt.bt_core_resonance_stone": "Pietra risonante del nucleo",
-	"item.ba_bt.bt_nether_resonance_stone": "Pietra risonante infernale",
-	"item.ba_bt.bt_end_resonance_stone": "Pietra risonante dell'End",
-	"item.ba_bt.bt_sky_resonance_stone": "Pietra risonante celestiale",
-	"item.ba_bt.bt_city_resonance_stone": "Pietra risonante cittadina",
+	"item.ba_bt.land_resonance_stone": "Pietra risonante della landa",
+	"item.ba_bt.ocean_resonance_stone": "Pietra risonante oceanica",
+	"item.ba_bt.core_resonance_stone": "Pietra risonante del nucleo",
+	"item.ba_bt.nether_resonance_stone": "Pietra risonante infernale",
+	"item.ba_bt.end_resonance_stone": "Pietra risonante dell'End",
+	"item.ba_bt.sky_resonance_stone": "Pietra risonante celestiale",
+	"item.ba_bt.city_resonance_stone": "Pietra risonante cittadina",
 
 	// Effetti (Effects)
 	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
@@ -155,12 +179,12 @@
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
 	
-	"item.ba_bt.bt_land_resonance_stone.desc": "Lena Raine: Ancestry",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "DM DOKURO: Void",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Lena Raine: So Below",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "FHP: Pigstep Cinematic Remix",
-	"item.ba_bt.bt_end_resonance_stone.desc": "LudoCrypt: Complex Radiation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Emile van Kreiken: Clouds",
+	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
+	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
+	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
 	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
 	// Scritte in sovraimpressione (Overscreen titles)
