@@ -43,10 +43,10 @@ public class BTChestRenderer extends ChestRenderer<BTChestBlockEntity> {
 
 	private static Material getChestMaterial(String name, String type, boolean isGolem) {
 		if (isGolem) {
-			BABTMain.LOGGER.debug(BABTMain.locate("entity/chest/" + name + "_golem_chest" + type).getPath());
+			// BABTMain.LOGGER.debug(BABTMain.locate("entity/chest/" + name + "_golem_chest" + type).getPath());
 			return new Material(Sheets.CHEST_SHEET, BABTMain.locate("entity/chest/" + name + "_golem_chest" + type));
 		}
-		BABTMain.LOGGER.debug(BABTMain.locate("entity/chest/" + name + "_chest" + type).getPath());
+		// BABTMain.LOGGER.debug(BABTMain.locate("entity/chest/" + name + "_chest" + type).getPath());
 		return new Material(Sheets.CHEST_SHEET, BABTMain.locate("entity/chest/" + name + "_chest" + type));
 
 	}

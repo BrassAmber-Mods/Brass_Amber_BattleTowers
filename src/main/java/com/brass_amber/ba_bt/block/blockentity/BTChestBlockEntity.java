@@ -11,11 +11,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,7 +27,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	protected GolemType golemType;
 	protected boolean golemChest;
 
-	private NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
+	protected NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 
 	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, GolemType golemType, boolean golemChest) {
 		this(GolemType.getChestForType(golemType, golemChest), blockPos, blockState);
@@ -67,10 +67,6 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	@Override
 	public void load(CompoundTag compoundTag) {
 		super.load(compoundTag);
-		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(compoundTag)) {
-			ContainerHelper.loadAllItems(compoundTag, this.items);
-		}
 		this.unlocked = compoundTag.getBoolean("Unlocked");
 
 	}
@@ -78,9 +74,6 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	@Override
 	protected void saveAdditional(CompoundTag compoundTag) {
 		super.saveAdditional(compoundTag);
-		if (!this.trySaveLootTable(compoundTag)) {
-			ContainerHelper.saveAllItems(compoundTag, this.items);
-		}
 		compoundTag.putBoolean("Unlocked", this.unlocked);
 	}
 
@@ -97,10 +90,23 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 				this.getItems().set(i, itemStack.get(i));
 			}
 		}
+		this.setChanged();
+	}
+
+	@Override
+	public void setItem(int itemStack, ItemStack stack) {
+		BABTMain.LOGGER.info(" Set BTChest Item {} {}", itemStack, stack);
+		this.unpackLootTable(null);
+		this.items.set(itemStack, stack);
+		if (stack.getCount() > this.getMaxStackSize()) {
+			stack.setCount(this.getMaxStackSize());
+		}
+
+		this.setChanged();
 	}
 
 	protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
-		return ChestMenu.fourRows(i, inventory);
+		return new ChestMenu(MenuType.GENERIC_9x4, i, inventory, this,4);
 	}
 
 	public void setUnlocked(boolean tf) {
@@ -130,7 +136,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 
 	@Override
 	public boolean canOpen(Player player) {
-		return canUnlock(player, this.getDisplayName());
+		return super.canOpen(player) && canUnlock(player, this.getDisplayName());
 	}
 
 	public boolean canUnlock(Player player, Component component) {
