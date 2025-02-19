@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -238,7 +239,7 @@ public class BTUtil {
             }
         }
 
-        int itemAmount = isExtra ? 3 + randomSource.nextInt(5) : 13 + randomSource.nextInt(5);
+        int itemAmount = isExtra ? 3 + randomSource.nextInt(5) : 10 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
             int index = randomSource.nextInt(poolItems.size()-1);
             items.add(poolItems.get(index));
@@ -285,7 +286,8 @@ public class BTUtil {
         }
 
         btSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
-        possibleSlots = btGetAvailableSlots(container, random);
+
+        BABTMain.LOGGER.info("Container gets Items {}", chestLoot);
 
         for (ItemStack itemStack : chestLoot) {
             container.setItem(possibleSlots.remove(random.nextInt(possibleSlots.size())), itemStack);
