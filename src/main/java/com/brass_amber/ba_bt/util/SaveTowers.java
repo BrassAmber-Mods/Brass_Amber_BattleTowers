@@ -82,8 +82,8 @@ public class SaveTowers {
         }
     }
 
-    public void addTower(ChunkPos pos, String name) {
-        towers.get(towerNames.indexOf(name)).add(pos);
+    public void addTower(ChunkPos pos, int towerId) {
+        towers.get(towerId).add(pos);
     }
 
 
