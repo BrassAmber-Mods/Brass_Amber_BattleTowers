@@ -167,10 +167,10 @@ public abstract class TowerStructure extends Structure {
     // Used for tower saving and logging of tower positions
     public void saveTower(BlockPos spawnPos, ChunkPos chunkPos) {
         BABTMain.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, chunkPos);
-        SAVE_TOWERS.addTower(chunkPos, this.towerName);
+        SAVE_TOWERS.addTower(chunkPos, this.towerId);
     }
 
-    protected abstract boolean isValidBiome(Structure.GenerationStub generationStub, Structure.GenerationContext generationContext, Block topBlock);
+    protected abstract boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Biome biome);
 }
 
 

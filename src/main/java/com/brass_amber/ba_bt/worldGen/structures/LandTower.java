@@ -9,68 +9,37 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DeadBushBlock;
-import net.minecraft.world.level.block.FlowerBlock;
-import net.minecraft.world.level.block.TallGrassBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.*;
-
 public class LandTower extends TowerStructure {
+    @ObjectHolder(registryName = "minecraft:configured_feature", value = "minecraft:freeze_top_layer")
+    public static final PlacedFeature freezeTopLayer = null;
+
 
     public static final Codec<LandTower> CODEC = RecordCodecBuilder.<LandTower>mapCodec(instance ->
-            instance.group(TowerStructure.settingsCodec(instance),
-                    TowerStructure.extraSettingsCodec(),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy").forGetter(structure -> structure.biomesSandy),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy_terra").forGetter(structure -> structure.biomesSandyTerra),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy_bop").forGetter(structure -> structure.biomesSandyBOP),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_sandy_byg").forGetter(structure -> structure.biomesSandyBYG),
-
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle").forGetter(structure -> structure.biomesJungle),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle_terra").forGetter(structure -> structure.biomesJungleTerra),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle_bop").forGetter(structure -> structure.biomesJungleBOP),
-                    RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes_jungle_byg").forGetter(structure -> structure.biomesJungleBYG)
-            ).apply(instance, LandTower::new)).codec();
+            instance.group(TowerStructure.settingsCodec(instance), TowerStructure.extraSettingsCodec()).apply(instance, LandTower::new)).codec();
 
 
-    private final HolderSet<Biome> biomesSandy;
-    private final HolderSet<Biome> biomesSandyTerra;
-    private final HolderSet<Biome> biomesSandyBOP;
-    private final HolderSet<Biome> biomesSandyBYG;
-
-    private final HolderSet<Biome> biomesJungle;
-    private final HolderSet<Biome> biomesJungleTerra;
-    private final HolderSet<Biome> biomesJungleBOP;
-    private final HolderSet<Biome> biomesJungleBYG;
-    protected LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings,
-                        HolderSet<Biome> biomesSandy, HolderSet<Biome> biomesSandyTerra, HolderSet<Biome> biomesSandyBOP, HolderSet<Biome> biomesSandyBYG,
-                        HolderSet<Biome> biomesJungle, HolderSet<Biome> biomesJungleTerra, HolderSet<Biome> biomesJungleBOP, HolderSet<Biome> biomesJungleBYG) {
+    protected LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
         super(structureSettings, extraSettings);
-        this.biomesSandy = biomesSandy;
-        this.biomesSandyTerra = biomesSandyTerra;
-        this.biomesSandyBOP = biomesSandyBOP;
-        this.biomesSandyBYG = biomesSandyBYG;
-        this.biomesJungle = biomesJungle;
-        this.biomesJungleTerra = biomesJungleTerra;
-        this.biomesJungleBOP = biomesJungleBOP;
-        this.biomesJungleBYG = biomesJungleBYG;
 
         this.towerId = 0;
         this.towerName = "land_tower";
@@ -107,7 +76,7 @@ public class LandTower extends TowerStructure {
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         ArrayList<Integer> usableHeights = new ArrayList<>();
-        ArrayList<Boolean> hasWater = new ArrayList<>();
+        ArrayList<Boolean> hasLiquid = new ArrayList<>();
         ArrayList<Integer> towerTypes = new ArrayList<>();
 
         int newLandHeight;
@@ -129,13 +98,13 @@ public class LandTower extends TowerStructure {
             );
 
             // re-check biome for extra chunks skipping to next chunk if not valid
-            if (!acceptableBiome(this.getModifiedStructureSettings() ,this.extraSettings, biome)) {
+            if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome.get())) {
                 continue;
             }
 
             lowestY = 215;
             highestY = 0;
-            hasWater.clear();
+            hasLiquid.clear();
             minX = pos.getMinBlockX();
             minZ = pos.getMinBlockZ();
 
@@ -153,8 +122,8 @@ public class LandTower extends TowerStructure {
                     // combine the column of blocks with land height, and you get the top block itself which you can test.
                     BlockState topBlock = columnOfBlocks.getBlock(newLandHeight);
                     // check whether the topBlock is a source block of water.
-                    if (topBlock == Blocks.WATER.defaultBlockState()) {
-                        hasWater.add(Boolean.TRUE);
+                    if (topBlock.getBlock() instanceof LiquidBlock) {
+                        hasLiquid.add(Boolean.TRUE);
                     }
                 }
             }
@@ -168,7 +137,7 @@ public class LandTower extends TowerStructure {
             boolean isFlat = highestY - lowestY <= 12;
 
             // 256 blocks in one layer of a chunk, if more than 1/16 is water, avoid.
-            watered = hasWater.size() >= 16;
+            watered = hasLiquid.size() >= 16;
             if (watered && this.towerType != 1) {
                 return Pair.of(false, BlockPos.ZERO);
             }
@@ -194,61 +163,6 @@ public class LandTower extends TowerStructure {
         }
 
         return Pair.of(false, BlockPos.ZERO);
-    }
-
-
-    public boolean acceptableBiome(StructureSettings settings, BTStructureSettings extraSettings, Holder<Biome> biome) {
-        boolean acceptable = super.acceptableBiome(settings, extraSettings, biome);
-
-        towerType = acceptable ? 0 : -1;
-
-        // Test base minecraft acceptable biomes
-        if (!acceptable) {
-            acceptable = this.biomesJungle.contains(biome);
-            this.towerType = 1;
-        }
-        if (!acceptable) {
-            acceptable = this.biomesSandy.contains(biome);
-            this.towerType = 2;
-        }
-
-        // Test Terralith Mod acceptable biomes
-        if (terralithBiomeSpawning.get()) {
-            if (!acceptable) {
-                acceptable = this.biomesJungleTerra.contains(biome);
-                this.towerType = 1;
-            }
-            if (!acceptable) {
-                acceptable = this.biomesSandyTerra.contains(biome);
-                this.towerType = 2;
-            }
-        }
-
-        // Test Biomes Of Plenty Mod acceptable biomes
-        if (biomesOfPlentyBiomeSpawning.get()) {
-            if (!acceptable) {
-                acceptable = this.biomesJungleBOP.contains(biome);
-                this.towerType = 1;
-            }
-            if (!acceptable) {
-                acceptable = this.biomesSandyBOP.contains(biome);
-                this.towerType = 2;
-            }
-        }
-
-        // Test Oh The Biomes You'll Go mod acceptable biomes
-        if (biomesYoullGoBiomeSpawning.get()) {
-            if (!acceptable) {
-                acceptable = this.biomesJungleBYG.contains(biome);
-                this.towerType = 1;
-            }
-            if (!acceptable) {
-                acceptable = this.biomesSandyBYG.contains(biome);
-                this.towerType = 2;
-            }
-        }
-
-        return acceptable;
     }
 
     @Override
@@ -365,6 +279,39 @@ public class LandTower extends TowerStructure {
             BABTMain.LOGGER.info("Spawned Monolith at " + center);
             this.afterPlaceCount = 0;
         }
+    }
+
+    @Override
+    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Biome biome) {
+
+        boolean coldEnoughToSnow = biome.warmEnoughToRain(blockpos);
+        float temperature = biome.getBaseTemperature();
+        BlockState topblock = context.chunkGenerator().getBaseColumn(blockpos.getX(), blockpos.getZ(), context.heightAccessor(), context.randomState()).getBlock(blockpos.getY());
+
+        if (temperature > 0.8
+                && biome.getModifiedClimateSettings().downfall() >= .8
+                && biome.hasPrecipitation()
+        ) {
+            // Overgrown
+            this.towerType = 1;
+        } else if (temperature > 1.8
+                && !biome.hasPrecipitation()
+                && topblock.getBlock() instanceof FallingBlock
+        ) {
+            // Desert
+            this.towerType = 2;
+        } else if (coldEnoughToSnow
+                && biome.hasPrecipitation()
+                && biome.getGenerationSettings().hasFeature(freezeTopLayer)
+        ) {
+            // Snowy
+            this.towerType = 3;
+        } else {
+            // Default || Ruined
+            towerType = context.random().nextInt(50) > 7 ? 0 : 4;
+        }
+
+        return true;
     }
 
     @Override
