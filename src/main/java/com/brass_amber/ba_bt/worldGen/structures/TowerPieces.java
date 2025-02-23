@@ -44,24 +44,12 @@ public class TowerPieces {
         int floorHeight = BattleTowersConfig.landFloorHeight.get();
         int doubledFloorHeight = floorHeight * 2;
 
-        BlockPos rotated;
-        // get blockpos for rotated pieces
-        rotated = switch(rotation) {
-            case NONE -> blockPos.east(28).south(28);
-            case CLOCKWISE_90 -> blockPos.south(28).west(28);
-            case CLOCKWISE_180 -> blockPos.west(28).north(28);
-            case COUNTERCLOCKWISE_90 -> blockPos.north(28).east(28);
-        };
-
-
-        // Move base pos to account for tower base height
-        rotated = rotated.above(towerPieces.get(0).getHeight());
         blockPos = blockPos.above(towerPieces.get(0).getHeight());
 
 
 
         for (int i = 0; i < 4; i++) {
-            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, rotated.above(i*doubledFloorHeight), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
+            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.above(i*doubledFloorHeight), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
             towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.above(floorHeight + i*doubledFloorHeight), rotation, "", shellProcessors, variantProcessors));
         }
         towerPieces.add(new TowerPiece(templateManager, "top", towerName, blockPos.above(floorHeight*8), rotation, ""));
@@ -101,12 +89,11 @@ public class TowerPieces {
             if ((i & 1) == 0) {
                 // even
                 roomRotation = rotation.getRotated(Rotation.CLOCKWISE_180);
-                roomPos = rotated;
             } else {
                 // odd
                 roomRotation = rotation;
-                roomPos = blockPos;
             }
+            roomPos = blockPos;
 
             towerPieces.add(new RoomPiece(
                     templateManager, roomName, towerName,
@@ -156,7 +143,7 @@ public class TowerPieces {
 
 
         protected static StructurePlaceSettings makeSettings(Rotation rotation) {
-            return (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+            return (new StructurePlaceSettings()).setRotationPivot(new BlockPos(14, 0, 14)).setIgnoreEntities(true).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
         }
 
         protected void addAdditionalSaveData(StructurePieceSerializationContext serializationContext, CompoundTag compoundTag) {
