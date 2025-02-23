@@ -2,7 +2,7 @@
 	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
 	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
-	// Entities
+	"comment1":"Entities",
 	"entity.ba_bt.land_golem": "Golem Terrestre",
 	"entity.ba_bt.ocean_golem": "Golem Océanique",
 	"entity.ba_bt.core_golem": "Golem Volcanique",
@@ -29,7 +29,7 @@
 
 	"entity.ba_bt.destroy_tower": "Destroy Tower",
 
-	// Golem Sounds
+	"comment2":"Golem Sounds",
 	"ba_bt.subtitle.golem.hurt": "Golem blessé",
 	"ba_bt.subtitle.golem.death": "Golem meurt",
 	"ba_bt.subtitle.golem.charge": "Golem charges",
@@ -37,12 +37,12 @@
 	"ba_bt.subtitle.golem.ambient": "Golem grogne",
 	"ba_bt.subtitle.golem.special": "Golem attaques",
 
-	"ba_bt.subtitle.golem.land.fight": "Musique du Golem",
-	"ba_bt.subtitle.golem.ocean.fight": "Void Of Moraizu'un",
-	"ba_bt.subtitle.golem.core.fight": "Awakening Of Obthu'ryn",
-	"ba_bt.subtitle.golem.nether.fight": "Throne Of Infuur'niir",
-	"ba_bt.subtitle.golem.end.fight": "Mind Of Shul'losniir",
-	"ba_bt.subtitle.golem.sky.fight": "Descent Of Veyhz'kriin",
+	"ba_bt.subtitle.golem.land.fight": "Rage de Bahryn'muul",
+	"ba_bt.subtitle.golem.ocean.fight": "Vide de Moraizu'un",
+	"ba_bt.subtitle.golem.core.fight": "L'éveil d'Obthu'ryn",
+	"ba_bt.subtitle.golem.nether.fight": "Trône d'Infuur'niir",
+	"ba_bt.subtitle.golem.end.fight": "L'esprit de Shul'losniir",
+	"ba_bt.subtitle.golem.sky.fight": "Descente de Veyhz'kriin",
 
 	"ba_bt.subtitle.monolith.spawn.golem": "Le golem commence à apparaître",
 
@@ -57,36 +57,36 @@
 	"ba_bt.subtitle.tower.ambient.music.sky": "Musique ambiente de la Tour Angélique",
 	"ba_bt.subtitle.tower.ambient.music.city": "Musique ambiente du Village Reconstruit",
 
-	// Blocks
+	"comment3":"Blocks",
 	"block.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"block.ba_bt.land_chest": "Coffre Terrestre",
 
 	"block.ba_bt.ocean_golem_chest": "Coffre de Golem Océanique",
 	"block.ba_bt.ocean_chest": "Coffre Océanique",
 
-	"block.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
-	"block.ba_bt.core_chest": "Core Chest",
+	"block.ba_bt.core_golem_chest": "Coffre de Golem Volcanique",
+	"block.ba_bt.core_chest": "Coffre Volcanique",
 
-	"block.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
-	"block.ba_bt.nether_chest": "Nether Chest",
+	"block.ba_bt.nether_golem_chest": "Coffre de Golem du Nether",
+	"block.ba_bt.nether_chest": "Coffre du Nether",
 
-	"block.ba_bt.end_golem_chest": "Shul'losniir's Chest",
-	"block.ba_bt.end_chest": "End Chest",
+	"block.ba_bt.end_golem_chest": "Coffre de Golem de l'End",
+	"block.ba_bt.end_chest": "Coffre de l'End",
 
-	"block.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
-	"block.ba_bt.sky_chest": "Sky Chest",
+	"block.ba_bt.sky_golem_chest": "Coffre de Golem Angélique",
+	"block.ba_bt.sky_chest": "Coffre Angélique",
 
-	"block.ba_bt.bt_land_spawner": "Spawner Terrestre",
-	"block.ba_bt.bt_ocean_spawner" : "Spawner Océanique",
-	"block.ba_bt.bt_core_spawner" : "Spawner Volcanique",
-	"block.ba_bt.bt_nether_spawner" : "Spawner du Nether",
-	"block.ba_bt.bt_end_spawner" : "Spawner de l'End",
-	"block.ba_bt.bt_sky_spawner" : "Spawner Angélique",
+	"block.ba_bt.bt_land_spawner": "Générateur Terrestre",
+	"block.ba_bt.bt_ocean_spawner" : "Générateur Océanique",
+	"block.ba_bt.bt_core_spawner" : "Générateur Volcanique",
+	"block.ba_bt.bt_nether_spawner" : "Générateur du Nether",
+	"block.ba_bt.bt_end_spawner" : "Générateur de l'End",
+	"block.ba_bt.bt_sky_spawner" : "Générateur Angélique",
 
-	"block.ba_bt.spawner_marker" : "Spawner Marker",
-	"block.ba_bt.data_marker" : "Data Marker",
+	"block.ba_bt.spawner_marker" : "Générateur Marqueur",
+	"block.ba_bt.data_marker" : "Marqueur de données",
 
-	// Containers
+	"comment4":"Containers",
 	"container.ba_bt.land_golem_chest": "Coffre de Golem Terrestre",
 	"container.ba_bt.land_golem_chest_double": "Grand Coffre de Golem Terrestre",
 	"container.ba_bt.land_chest": "Coffre Terrestre",
@@ -97,29 +97,29 @@
 	"container.ba_bt.ocean_chest": "Coffre Océanique",
 	"container.ba_bt.ocean_chest_double": "Grand Coffre Océanique",
 
-	"container.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
-	"container.ba_bt.core_golem_chest_double": "Large Obthu'uryn's Chest",
-	"container.ba_bt.core_chest": "Core Chest",
-	"container.ba_bt.core_chest_double": "Large Core Chest",
+	"container.ba_bt.core_golem_chest": "Coffre de Golem Volcanique",
+	"container.ba_bt.core_golem_chest_double": "Grand Coffre de Golem Volcanique",
+	"container.ba_bt.core_chest": "Coffre Volcanique",
+	"container.ba_bt.core_chest_double": "Grand Coffre Volcanique",
 
-	"container.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
-	"container.ba_bt.nether_golem_chest_double": "Large Infuur'niir's Chest",
-	"container.ba_bt.nether_chest": "Nether Chest",
-	"container.ba_bt.nether_chest_double": "Large Nether Chest",
+	"container.ba_bt.nether_golem_chest": "Coffre de Golem du Nether",
+	"container.ba_bt.nether_golem_chest_double": "Grand Coffre de Golem du Nether",
+	"container.ba_bt.nether_chest": "Coffre du Nether",
+	"container.ba_bt.nether_chest_double": "Grand Coffre du Nether",
 
-	"container.ba_bt.end_golem_chest": "Shul'losniir's Chest",
-	"container.ba_bt.end_golem_chest_double": "Large Shul'losniir's Chest",
-	"container.ba_bt.end_chest": "End Chest",
-	"container.ba_bt.end_chest_double": "Large End Chest",
+	"container.ba_bt.end_golem_chest": "Coffre de Golem de l'End",
+	"container.ba_bt.end_golem_chest_double": "Grand Coffre de Golem de l'End",
+	"container.ba_bt.end_chest": "Coffre de l'End",
+	"container.ba_bt.end_chest_double": "Grand Coffre de l'End",
 
-	"container.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
-	"container.ba_bt.sky_golem_chest_double": "Large Veyhz'kriin's Chest",
-	"container.ba_bt.sky_chest": "Sky Chest",
-	"container.ba_bt.sky_chest_double": "Large Sky Chest",
+	"container.ba_bt.sky_golem_chest": "Coffre de Golem Angélique",
+	"container.ba_bt.sky_golem_chest_double": "Grand Coffre de Golem Angélique",
+	"container.ba_bt.sky_chest": "Coffre Angélique",
+	"container.ba_bt.sky_chest_double": "Grand Coffre Angélique",
 
 	"container.ba_bt.tower_chest.isLocked": "Pour accéder au contenu du coffre, détruisez les spawners proches",
 
-	// Items
+	"comment5":"Items",
 	"item.ba_bt.land_monolith_key": "Clé du Monolithe Terrestre",
 	"item.ba_bt.ocean_monolith_key": "Clé du Monolithe Océanique",
 	"item.ba_bt.core_monolith_key": "Clé du Monolithe Volcanique",
@@ -152,13 +152,13 @@
 	"item.ba_bt.sky_resonance_stone": "Pierre de résonance Angélique",
 	"item.ba_bt.city_resonance_stone": "Pierre de résonance du Village",
 
-	// Effects
+	"comment6":"Effects",
 	"effect.ba_bt.depth_dropper_effect": "Compte-gouttes des profondeurs",
 
-	// Enchantments
+	"comment7":"Enchantments",
 	"enchantment.ba_bt.depth_dropper": "Compte-gouttes des profondeurs",
 
-	// Item Tooltips
+	"comment8":"Item Tooltips",
 	"tooltip.ba_bt.hold_shift": "Maintenez §eMaj§r pour plus d'informations.",
 	"tooltip.ba_bt.monolith_key": "Placez 3 clés dans un monolithe pour invoquer un Golem de Combat.",
 	"tooltip.ba_bt.tower_chest": "Cassez tous les spawners de l'étage de la tour pour déverrouiller. Peut être placé 'déverrouillé' en mode survie.",
@@ -179,15 +179,15 @@
 	"tooltip.ba_bt.end_eye": "Elle s'approche, à travers la faille...",
 	"tooltip.ba_bt.sky_eye": "J'ai échoué, Sr. Vaayus... ",
 
-	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
-	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
-	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
+	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt : Protection forcée",
+	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt : Aération du vide",
+	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt : Tribulation en fusion",
+	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt : La damnation des flammes",
+	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt : Révélation biscornu",
+	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt : Lévitation par résonance",
+	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine : Labyrinthique",
 
-	// Overscreen titles
+	"comment9":"Overscreen titles",
 	"title.ba_bt.land": "Bahryn'muul, Golem Terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Golem Océanique",
 	"title.ba_bt.core": "Obthu'uryn, Dieu Volcanique",
@@ -215,7 +215,7 @@
 	"title.ba_bt.sky_defeated_2": "Tué par un simple joueur...",
 	"title.ba_bt.sky_defeated_3": "...La tour s'efface et s'écroule...",
 
-	// Advancements
+	"comment10":"Advancements",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Tours Hurlantes",
