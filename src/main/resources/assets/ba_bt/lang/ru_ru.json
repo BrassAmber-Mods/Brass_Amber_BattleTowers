@@ -2,7 +2,7 @@
 	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
 	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
-	// Entities
+	"comment1": "Entities",
 	"entity.ba_bt.land_golem": "Байрин'муул, Погребённый смотритель",
 	"entity.ba_bt.ocean_golem": "Морайзу'ун, Идол утоплеников",
 	"entity.ba_bt.core_golem": "Обтху'рин, Бог ядра",
@@ -29,7 +29,7 @@
 
 	"entity.ba_bt.destroy_tower": "Разруште башню",
 
-	// Golem Sounds
+	"comment2":"Golem Sounds",
 	"ba_bt.subtitle.golem.hurt": "Голем получает урон",
 	"ba_bt.subtitle.golem.death": "Голем погибает",
 	"ba_bt.subtitle.golem.charge": "Голем подготавливается",
@@ -57,7 +57,7 @@
 	"ba_bt.subtitle.tower.ambient.music.sky": "Музыка башни небес",
 	"ba_bt.subtitle.tower.ambient.music.city": "Музыка восстановленного города",
 
-	// Blocks
+	"comment3":"Blocks",
 	"block.ba_bt.land_golem_chest": "Сундук Байрин'муула",
 	"block.ba_bt.land_chest": "Сундук земли",
 
@@ -86,7 +86,7 @@
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
-	// Containers
+	"comment4":"Containers",
 	"container.ba_bt.land_golem_chest": "Сундук Байрин'муула",
 	"container.ba_bt.land_golem_chest_double": "Большой сундук Байрин'муула",
 	"container.ba_bt.land_chest": "Сундук земли",
@@ -119,7 +119,7 @@
 
 	"container.ba_bt.tower_chest.isLocked": "Разблокируется при уничтожении ближайших спавенров.",
 
-	// Items
+	"comment5":"Items",
 	"item.ba_bt.land_monolith_key": "Ключ от монолита земли",
 	"item.ba_bt.ocean_monolith_key": "Ключ от монолита океана",
 	"item.ba_bt.core_monolith_key": "Ключ от монолита ядра",
@@ -143,6 +143,10 @@
 
 	"item.ba_bt.land_chest_shard": "Осколок сундука земли",
 	"item.ba_bt.ocean_chest_shard": "Осколок сундука океана",
+	"item.ba_bt.core_chest_shard": "Core Chest Shard",
+	"item.ba_bt.nether_chest_shard": "Nether Chest Shard",
+	"item.ba_bt.end_chest_shard": "End Chest Shard",
+	"item.ba_bt.sky_chest_shard": "Sky Chest Shard",
 
 	"item.ba_bt.land_resonance_stone": "Резонирующий камень земли",
 	"item.ba_bt.ocean_resonance_stone": "Резонирующий камень океана",
@@ -152,13 +156,13 @@
 	"item.ba_bt.sky_resonance_stone": "Резонирующий камень небес",
 	"item.ba_bt.city_resonance_stone": "Резонирующий камень города",
 
-	// Effects
+	"comment6":"Effects",
 	"effect.ba_bt.depth_dropper_effect": "Глубинное погружение",
 
-	// Enchantments
+	"comment7":"Enchantments",
 	"enchantment.ba_bt.depth_dropper": "Глубинное погружение",
 
-	// Item Tooltips
+	"comment8":"Item Tooltips",
 	"tooltip.ba_bt.hold_shift": "Удерживайте §eSHIFT§r для получения дополнительной информации.",
 	"tooltip.ba_bt.monolith_key": "Я надеюсь ты знаешь что делаешь...",
 	"tooltip.ba_bt.tower_chest": "Разблокируется при уничтожении ближайших спавнеров.",
@@ -179,15 +183,15 @@
 	"tooltip.ba_bt.end_eye": "Она приближается... Через разлом...",
 	"tooltip.ba_bt.sky_eye": "Я подвела вас, Ваюс старший... ",
 
-	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
-	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
-	"item.ba_bt.bt_city_resonance_stone.desc": "Лена Рейн: Labyrinthine",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
+	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
+	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
+	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
+	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
+	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
+	"item.ba_bt.city_resonance_stone.desc": "Лена Рейн: Labyrinthine",
 
-	// Overscreen titles
+	"comment9":"Overscreen titles",
 	"title.ba_bt.land": "Байрин'муул, Страж земли",
 	"title.ba_bt.ocean": "Морайзу'ун, Страж океана",
 	"title.ba_bt.core": "Обтху'рин, Бог ядра",
@@ -215,7 +219,7 @@
 	"title.ba_bt.sky_defeated_2": "Богиня убита...",
 	"title.ba_bt.sky_defeated_3": "...Башня расстворяется в туман...",
 
-	// Advancements
+	"comment10":"Advancements",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Проверка временем",

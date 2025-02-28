@@ -143,6 +143,10 @@
 
 	"item.ba_bt.land_chest_shard": "Éclat de Coffre Terrestre",
 	"item.ba_bt.ocean_chest_shard": "Éclat de Coffre Océanique",
+	"item.ba_bt.core_chest_shard": "Core Chest Shard",
+	"item.ba_bt.nether_chest_shard": "Nether Chest Shard",
+	"item.ba_bt.end_chest_shard": "End Chest Shard",
+	"item.ba_bt.sky_chest_shard": "Sky Chest Shard",
 
 	"item.ba_bt.land_resonance_stone": "Pierre de résonance Terrestre",
 	"item.ba_bt.ocean_resonance_stone": "Pierre de résonance Océanique",
@@ -179,13 +183,13 @@
 	"tooltip.ba_bt.end_eye": "Elle s'approche, à travers la faille...",
 	"tooltip.ba_bt.sky_eye": "J'ai échoué, Sr. Vaayus... ",
 
-	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt : Protection forcée",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt : Aération du vide",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt : Tribulation en fusion",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt : La damnation des flammes",
-	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt : Révélation biscornu",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt : Lévitation par résonance",
-	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine : Labyrinthique",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt : Protection forcée",
+	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt : Aération du vide",
+	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt : Tribulation en fusion",
+	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt : La damnation des flammes",
+	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt : Révélation biscornu",
+	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt : Lévitation par résonance",
+	"item.ba_bt.city_resonance_stone.desc": "Lena Raine : Labyrinthique",
 
 	"comment9":"Overscreen titles",
 	"title.ba_bt.land": "Bahryn'muul, Golem Terrestre",

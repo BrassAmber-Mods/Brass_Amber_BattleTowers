@@ -2,7 +2,7 @@
 	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
 	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
-	// Entities
+	"comment1": "Entities",
 	"entity.ba_bt.land_golem": "Bahryn'muul, Vigilante sepultado",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Ídolo de las profundidades",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dios del núcleo",
@@ -29,7 +29,7 @@
 
 	"entity.ba_bt.destroy_tower": "Destruir Torre",
 
-	// Golem Sounds
+	"comment2":"Golem Sounds",
 	"ba_bt.subtitle.golem.hurt": "El gólem sufre",
 	"ba_bt.subtitle.golem.death": "El gólem muere",
 	"ba_bt.subtitle.golem.charge": "El gólem carga",
@@ -57,7 +57,7 @@
 	"ba_bt.subtitle.tower.ambient.music.sky": "Música ambiental de la torre del cielo",
 	"ba_bt.subtitle.tower.ambient.music.city": "Música ambiental de la ciudad ancestral",
 
-	// Blocks
+	"comment3":"Blocks",
 	"block.ba_bt.land_golem_chest": "Cofre de Bahryn'muul",
 	"block.ba_bt.land_chest": "Cofre terrestre",
 
@@ -86,7 +86,7 @@
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
-	// Containers
+	"comment4":"Containers",
 	"container.ba_bt.land_golem_chest": "Cofre de Bahryn'muul",
 	"container.ba_bt.land_golem_chest_double": "Cofre de Bahryn'muul grande",
 	"container.ba_bt.land_chest": "Cofre terrestre",
@@ -119,7 +119,7 @@
 
 	"container.ba_bt.tower_chest.isLocked": "Se desbloquea destruyendo los generadores cercanos",
 
-	// Items
+	"comment5":"Items",
 	"item.ba_bt.land_monolith_key": "Llave del monolito terrestre",
 	"item.ba_bt.ocean_monolith_key": "Llave del monolito oceánico",
 	"item.ba_bt.core_monolith_key": "Llave del monolito central",
@@ -143,6 +143,10 @@
 
 	"item.ba_bt.land_chest_shard": "Fragmento de cofre terrestre",
 	"item.ba_bt.ocean_chest_shard": "Fragmento de cofre oceánico",
+	"item.ba_bt.core_chest_shard": "Core Chest Shard",
+	"item.ba_bt.nether_chest_shard": "Nether Chest Shard",
+	"item.ba_bt.end_chest_shard": "End Chest Shard",
+	"item.ba_bt.sky_chest_shard": "Sky Chest Shard",
 
 	"item.ba_bt.land_resonance_stone": "Piedra de resonancia terrestre",
 	"item.ba_bt.ocean_resonance_stone": "Piedra de resonancia oceánica",
@@ -152,13 +156,13 @@
 	"item.ba_bt.sky_resonance_stone": "Piedra de resonancia del cielo",
 	"item.ba_bt.city_resonance_stone": "Piedra de resonancia ancestral",
 
-	// Effects
+	"comment6":"Effects",
 	"effect.ba_bt.depth_dropper_effect": "Dispensador de las profundidades",
 
-	// Enchantments
+	"comment7":"Enchantments",
 	"enchantment.ba_bt.depth_dropper": "Dispensador de las profundidades",
 
-	// Item Tooltips
+	"comment8":"Item Tooltips",
 	"tooltip.ba_bt.hold_shift": "Mantén <§6§oShift§r> para más info.",
 	"tooltip.ba_bt.monolith_key": "Espero que sepas lo que estás haciendo...",
 	"tooltip.ba_bt.tower_chest": "Se desbloquea al destruir los generadores cercanos",
@@ -179,15 +183,15 @@
 	"tooltip.ba_bt.end_eye": "Se acerca a través de la grieta...",
 	"tooltip.ba_bt.sky_eye": "Te he fallado, Sr. Vaayus... ",
 
-	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
-	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
-	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
+	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
+	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
+	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
+	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
+	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
+	"item.ba_bt.city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
-	// Overscreen titles
+	"comment9":"Overscreen titles",
 	"title.ba_bt.land": "Bahryn'muul, Guardián terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Guardián oceánico",
 	"title.ba_bt.core": "Obthu'uryn, Guardián del núcleo",
@@ -215,7 +219,7 @@
 	"title.ba_bt.sky_defeated_2": "Derrotado por un Dios...",
 	"title.ba_bt.sky_defeated_3": "...La torre se desmorona y se desvanece...",
 
-	// Advancements
+	"comment10":"Advancements",
 	"advancements.ba_bt.battle_tower.title": "Torres de Batalla",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Una prueba de tiempo",

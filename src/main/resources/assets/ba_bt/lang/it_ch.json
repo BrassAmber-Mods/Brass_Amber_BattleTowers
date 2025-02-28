@@ -2,7 +2,7 @@
 	"item.ba_bt.tab_icon": "BrassAmber Battletowers",
 	"creativemodetab.bt_tab": "BrassAmber Battletowers",
 
-	// Entità (Entities)
+	"comment1": "Entità (Entities)",
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Idolo degli affogati",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
@@ -29,7 +29,7 @@
 
 	"entity.ba_bt.destroy_tower": "Distruggi la torre",
 
-	// Suoni del Golem (Golem Sounds)
+	"comment2":"Suoni del Golem (Golem Sounds)",
 	"ba_bt.subtitle.golem.hurt": "Golem ferito",
 	"ba_bt.subtitle.golem.death": "Morte del Golem",
 	"ba_bt.subtitle.golem.charge": "Carica del Golem",
@@ -57,7 +57,7 @@
 	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celestiale",
 	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della città ripristinata",
 
-	// Blocchi (Blocks)
+	"comment3":"Blocchi (Blocks)",
 	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
 	"block.ba_bt.land_chest": "Baule della landa",
 
@@ -86,7 +86,7 @@
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
-	// Contenitori (Containers)
+	"comment4":"Contenitori (Containers)",
 	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
 	"container.ba_bt.land_golem_chest_double": "Baule doppio di Bahryn'muul",
 	"container.ba_bt.land_chest": "Baule della landa",
@@ -119,7 +119,7 @@
 
 	"container.ba_bt.tower_chest.isLocked": "Si sblocca dopo la distruzione dei generatori vicini",
 
-	// Oggetti (Items)
+	"comment5":"Oggetti (Items)",
 	"item.ba_bt.land_monolith_key": "Chiave del monolite della landa",
 	"item.ba_bt.ocean_monolith_key": "Chiave del monolite oceanico",
 	"item.ba_bt.core_monolith_key": "Chiave del monolite del nucleo",
@@ -143,6 +143,10 @@
 
 	"item.ba_bt.land_chest_shard": "Frammento baule della landa",
 	"item.ba_bt.ocean_chest_shard": "Frammento baule dell'oceano",
+	"item.ba_bt.core_chest_shard": "Core Chest Shard",
+	"item.ba_bt.nether_chest_shard": "Nether Chest Shard",
+	"item.ba_bt.end_chest_shard": "End Chest Shard",
+	"item.ba_bt.sky_chest_shard": "Sky Chest Shard",
 
 	"item.ba_bt.land_resonance_stone": "Pietra risonante della landa",
 	"item.ba_bt.ocean_resonance_stone": "Pietra risonante oceanica",
@@ -152,13 +156,13 @@
 	"item.ba_bt.sky_resonance_stone": "Pietra risonante celestiale",
 	"item.ba_bt.city_resonance_stone": "Pietra risonante cittadina",
 
-	// Effetti (Effects)
+	"comment6":"Effetti (Effects)",
 	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
 
-	// Incantamenti (Enchantments)
+	"comment7":"Incantamenti (Enchantments)",
 	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
 
-	// Sottotitoli degli oggetti (Item Tooltips)
+	"comment8":"Sottotitoli degli oggetti (Item Tooltips)",
 	"tooltip.ba_bt.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
 	"tooltip.ba_bt.monolith_key": "Confido tu sappia a cosa vai incontro...",
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
@@ -179,15 +183,15 @@
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
 	
-	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
-	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
-	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
+	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
+	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
+	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
+	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
+	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
+	"item.ba_bt.city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
-	// Scritte in sovraimpressione (Overscreen titles)
+	"comment9":"Scritte in sovraimpressione (Overscreen titles)",
 	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
 	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
@@ -215,7 +219,7 @@
 	"title.ba_bt.sky_defeated_2": "Ucciso da un pidocchioso umano...",
 	"title.ba_bt.sky_defeated_3": "...la torre si dissolve nella nebbia...",
 
-	// Traguardi (Advancements)
+	"comment10":"Traguardi (Advancements)",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Una prova del tempo",

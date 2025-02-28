@@ -2,7 +2,7 @@
 	"item.ba_bt.tab_icon": "BrassAmber战斗高塔",
 	"creativemodetab.bt_tab": "BrassAmber战斗高塔",
 
-	// 实体
+	"comment1": "实体 (Entities)",
 	"entity.ba_bt.land_golem": "巴林泽摩尔，沉睡的守望者",
 	"entity.ba_bt.ocean_golem": "默莱森，来自深渊的虚空狂兽",
 	"entity.ba_bt.core_golem": "奥布图林，炉心之神",
@@ -29,7 +29,7 @@
 
 	"entity.ba_bt.destroy_tower": "摧毁高塔",
 
-	// 魔像音效
+	"comment2":"魔像音效 (Golem Sounds)",
 	"ba_bt.subtitle.golem.hurt": "魔像受伤",
 	"ba_bt.subtitle.golem.death": "魔像死亡",
 	"ba_bt.subtitle.golem.charge": "魔像突袭",
@@ -57,7 +57,7 @@
 	"ba_bt.subtitle.tower.ambient.music.sky": "天域高塔环境音乐",
 	"ba_bt.subtitle.tower.ambient.music.city": "复苏古城环境音乐",
 
-	// 方块
+	"comment3":"方块 (Blocks)",
 	"block.ba_bt.land_golem_chest": "魔像宝箱",
 	"block.ba_bt.land_chest": "大地宝箱",
 
@@ -86,7 +86,7 @@
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
-	// 容器
+	"comment4":"容器 (Containers)",
 	"container.ba_bt.land_golem_chest": "大地魔像宝箱",
 	"container.ba_bt.land_golem_chest_double": "大型大地魔像宝箱",
 	"container.ba_bt.land_chest": "大地宝箱",
@@ -119,7 +119,7 @@
 
 	"container.ba_bt.tower_chest.isLocked": "通过摧毁周围的刷怪笼来解锁",
 
-	// 物品
+	"comment5":"物品 (Items)",
 	"item.ba_bt.land_monolith_key": "大地石碑之键",
 	"item.ba_bt.ocean_monolith_key": "海洋石碑之键",
 	"item.ba_bt.core_monolith_key": "炉心石碑之键",
@@ -143,6 +143,10 @@
 
 	"item.ba_bt.land_chest_shard": "大地宝箱碎片",
 	"item.ba_bt.ocean_chest_shard": "海洋宝箱碎片",
+	"item.ba_bt.core_chest_shard": "Core Chest Shard",
+	"item.ba_bt.nether_chest_shard": "Nether Chest Shard",
+	"item.ba_bt.end_chest_shard": "End Chest Shard",
+	"item.ba_bt.sky_chest_shard": "Sky Chest Shard",
 
 	"item.ba_bt.land_resonance_stone": "大地共鸣石",
 	"item.ba_bt.ocean_resonance_stone": "海洋共鸣石",
@@ -152,13 +156,13 @@
 	"item.ba_bt.sky_resonance_stone": "天域共鸣石",
 	"item.ba_bt.city_resonance_stone": "古城共鸣石",
 
-	// 药水效果
+	"comment6":"药水效果 (Effects)",
 	"effect.ba_bt.depth_dropper_effect": "坠渊",
 
-	// 附魔
+	"comment7":"附魔 (Enchantments)",
 	"enchantment.ba_bt.depth_dropper": "坠渊",
 
-	// 物品详情
+	"comment8":"物品详情 (Item Tooltips)",
 	"tooltip.ba_bt.hold_shift": "按住 §eSHIFT§r 查看更多信息",
 	"tooltip.ba_bt.monolith_key": "希望你明白自己在做些什么…",
 	"tooltip.ba_bt.tower_chest": "摧毁当前高塔所在层数的所有刷怪笼来解锁它",
@@ -179,15 +183,15 @@
 	"tooltip.ba_bt.end_eye": "她会从维度裂痕中降临……",
 	"tooltip.ba_bt.sky_eye": "我让您失望了，瓦尤斯大人……",
 
-	"item.ba_bt.bt_land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
-	"item.ba_bt.bt_ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
-	"item.ba_bt.bt_core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
-	"item.ba_bt.bt_nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
-	"item.ba_bt.bt_end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
-	"item.ba_bt.bt_sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
-	"item.ba_bt.bt_city_resonance_stone.desc": "Lena Raine: Labyrinthine",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
+	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
+	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
+	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
+	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
+	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
+	"item.ba_bt.city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
-	// 全屏标题
+	"comment9":"全屏标题 (Overscreen titles)",
 	"title.ba_bt.land": "大地",
 	"title.ba_bt.ocean": "海洋",
 	"title.ba_bt.core": "炉心",
@@ -215,7 +219,7 @@
 	"title.ba_bt.sky_defeated_2": "居然被区区一位玩家击败…",
 	"title.ba_bt.sky_defeated_3": "…高塔开始崩塌并逐渐消失…",
 
-	// 成就
+	"comment10":"成就 (Advancements)",
 	"advancements.ba_bt.battle_tower.title": "战斗高塔",
 	"advancements.ba_bt.battle_tower.description": "战斗高塔",
 	"advancements.ba_bt.land_tower_found.title": "来自高塔的呼啸",
