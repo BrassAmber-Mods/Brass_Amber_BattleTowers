@@ -260,7 +260,7 @@ public class BTMonolith extends Entity {
 				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());}
 			case LAND -> {
 				obelisk = new BTLandObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() - BattleTowersConfig.landObeliskSpawnDistance.get(), this.getZ());
+				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
 			}
 			case OCEAN -> {
 				// BABTMain.LOGGER.info("Ocean Obelisk");

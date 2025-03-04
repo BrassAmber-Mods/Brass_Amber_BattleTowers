@@ -28,7 +28,7 @@ public class BTLandObelisk extends BTAbstractObelisk {
 
     @Override
     public void serverInitialize() {
-        this.floorDistance = BattleTowersConfig.landFloorHeight.get();
+        this.floorDistance = 11;
         this.currentFloorY = this.getBlockY() - 1;
         this.chestBlock = BTBlocks.LAND_CHEST.get();
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();

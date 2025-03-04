@@ -30,9 +30,6 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> landGolemHP;
     public static final ForgeConfigSpec.ConfigValue<Double> oceanGolemHP;
 
-    public static final ForgeConfigSpec.ConfigValue<Integer> landObeliskSpawnDistance;
-    public static final ForgeConfigSpec.ConfigValue<Integer> landFloorHeight;
-    public static final ForgeConfigSpec.ConfigValue<Boolean> useOldSpawnerAmounts;
     public static final ForgeConfigSpec.ConfigValue<Boolean> minimalOceanCarving;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerMobs;
@@ -191,16 +188,6 @@ public class BattleTowersConfig {
                 BUILDER.defineListAllowEmpty(List.of("landTowerMobs"), () -> List.of("minecraft:zombie", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider"), BattleTowersConfig::validateEntityName);
         oceanTowerMobs =
                 BUILDER.defineListAllowEmpty(List.of("oceanTowerMobs"), () -> List.of("minecraft:drowned", "minecraft:guardian", "minecraft:drowned", "minecraft:drowned", "minecraft:drowned", "minecraft:pufferfish"), BattleTowersConfig::validateEntityName);
-        landObeliskSpawnDistance =
-                BUILDER.comment("Distance below Monolith the obelisk spawns, Only to be used in tandem " +
-                                "with floor height for creation of own 'Towers'")
-                        .defineInRange("landObeliskSpawnDistance", 90, 32, 200);
-        landFloorHeight =
-                BUILDER.comment("Distance between Land tower floors, only to be used in tandem with Land Obelisk Spawn Distance")
-                        .defineInRange("landTowerFloorHeight", 11, 4, 24);
-        useOldSpawnerAmounts =
-                BUILDER.comment("Whether to use the new spawner amounts for each floor, or old 2 spawners per floor")
-                        .define("oldSpawnerAmounts", false);
 
         BUILDER.pop();
 

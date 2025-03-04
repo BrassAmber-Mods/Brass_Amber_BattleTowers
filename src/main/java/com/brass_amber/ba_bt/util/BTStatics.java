@@ -120,47 +120,23 @@ public class BTStatics {
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
 
-        if (useOldSpawnerAmounts.get()) {
-            towerSpawnerAmounts = List.of(
-                    Arrays.asList(2, 2, 2, 2, 2, 2, 2, 2), // 16
-                    Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
-                    Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4), // 25
-                    Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5), // 27
-                    Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5), // 29
-                    Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5) // 31
-            );
-        }
-        else {
-            towerSpawnerAmounts = List.of(
-                    Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
-                    Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
-                    Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4), // 25
-                    Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5), // 27
-                    Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5), // 29
-                    Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5) // 31
-            );
-        }
+        towerSpawnerAmounts = List.of(
+                Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
+                Arrays.asList(2, 2, 2, 3, 3, 3, 4, 4), // 23
+                Arrays.asList(2, 2, 3, 3, 3, 4, 4, 4), // 25
+                Arrays.asList(2, 3, 3, 3, 3, 4, 4, 5), // 27
+                Arrays.asList(3, 3, 3, 3, 4, 4, 4, 5), // 29
+                Arrays.asList(3, 3, 3, 4, 4, 4, 5, 5) // 31
+        );
 
-        if (useOldSpawnerAmounts.get()) {
-            towerChestUnlocking = List.of(
-                    Arrays.asList(4, 9, 16),
-                    Arrays.asList(9, 23),
-                    Arrays.asList(10, 25),
-                    Arrays.asList(11, 27),
-                    Arrays.asList(12, 29),
-                    Arrays.asList(13, 31)
-            );
-        } else {
-            towerChestUnlocking = List.of(
-                    Arrays.asList(6, 14, 21),
-                    Arrays.asList(9, 23),
-                    Arrays.asList(10, 25),
-                    Arrays.asList(11, 27),
-                    Arrays.asList(12, 29),
-                    Arrays.asList(13, 31)
-            );
-        }
-
+        towerChestUnlocking = List.of(
+                Arrays.asList(6, 14, 21),
+                Arrays.asList(9, 23),
+                Arrays.asList(10, 25),
+                Arrays.asList(11, 27),
+                Arrays.asList(12, 29),
+                Arrays.asList(13, 31)
+        );
 
         // List of spawner data per 2 floors per tower
         towerSpawnerData = List.of(
