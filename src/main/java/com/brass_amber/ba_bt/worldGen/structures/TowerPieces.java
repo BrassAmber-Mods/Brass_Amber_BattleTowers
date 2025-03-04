@@ -41,7 +41,7 @@ public class TowerPieces {
 
         // Add tower shell to list first so it is generated first
         towerPieces.add(new BasePiece(templateManager, "base", towerName, blockPos, rotation, ""));
-        int floorHeight = BattleTowersConfig.landFloorHeight.get();
+        int floorHeight = 11;
         int doubledFloorHeight = floorHeight * 2;
 
         blockPos = blockPos.above(towerPieces.get(0).getHeight());
