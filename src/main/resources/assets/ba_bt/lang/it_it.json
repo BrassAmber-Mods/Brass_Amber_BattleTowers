@@ -6,7 +6,7 @@
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Idolo degli affogati",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
-	"entity.ba_bt.nether_golem": "Vuur'tyrahn, Tiranno infernale",
+	"entity.ba_bt.nether_golem": "Infuur'niir, Tiranno infernale",
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
 
@@ -58,42 +58,42 @@
 	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della citta' ripristinata",
 
 	"comment3":"Blocchi (Blocks)",
-	"block.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
+	"block.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
 	"block.ba_bt.land_chest": "Baule della landa",
 
-	"block.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
+	"block.ba_bt.ocean_golem_chest": "Forziere di Moraizu'un",
 	"block.ba_bt.ocean_chest": "Baule oceanico",
 
-	"block.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
-	"block.ba_bt.core_chest": "Core Chest",
+	"block.ba_bt.core_golem_chest": "Forziere di Obthu'uryn",
+	"block.ba_bt.core_chest": "Baule del nucleo",
 
-	"block.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
-	"block.ba_bt.nether_chest": "Nether Chest",
+	"block.ba_bt.nether_golem_chest": "Forziere di Infuur'niir",
+	"block.ba_bt.nether_chest": "Baule infernale",
 
-	"block.ba_bt.end_golem_chest": "Shul'losniir's Chest",
-	"block.ba_bt.end_chest": "End Chest",
+	"block.ba_bt.end_golem_chest": "Forziere di Shul'losniir",
+	"block.ba_bt.end_chest": "Baule dell'End",
 
-	"block.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
-	"block.ba_bt.sky_chest": "Sky Chest",
+	"block.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
+	"block.ba_bt.sky_chest": "Baule celeste",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
 	"block.ba_bt.bt_ocean_spawner" : "Generatore oceanico",
 	"block.ba_bt.bt_core_spawner" : "Generatore del Nucleo",
 	"block.ba_bt.bt_nether_spawner" : "Generatore infernale",
 	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
-	"block.ba_bt.bt_sky_spawner" : "Generatore celestiale",
+	"block.ba_bt.bt_sky_spawner" : "Generatore celeste",
 
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
 	"comment4":"Contenitori (Containers)",
-	"container.ba_bt.land_golem_chest": "Baule di Bahryn'muul",
-	"container.ba_bt.land_golem_chest_double": "Baule doppio di Bahryn'muul",
+	"container.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
+	"container.ba_bt.land_golem_chest_double": "Doppio forziere di Bahryn'muul",
 	"container.ba_bt.land_chest": "Baule della landa",
 	"container.ba_bt.land_chest_double": "Baule doppio della landa",
 
-	"container.ba_bt.ocean_golem_chest": "Baule di Moraizu'un",
-	"container.ba_bt.ocean_golem_chest_double": "Baule doppio di Moraizu'un",
+	"container.ba_bt.ocean_golem_chest": "Forziere di Moraizu'un",
+	"container.ba_bt.ocean_golem_chest_double": "Doppio forziere di Moraizu'un",
 	"container.ba_bt.ocean_chest": "Baule dell'oceano",
 	"container.ba_bt.ocean_chest_double": "Baule doppio dell'oceano",
 
@@ -130,7 +130,7 @@
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
 	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
 	"item.ba_bt.guardian_eye_core": "Occhio di Obthu'uryn",
-	"item.ba_bt.guardian_eye_nether": "Occhio di Vuur'tyrahn",
+	"item.ba_bt.guardian_eye_nether": "Occhio di Infuur'niir",
 	"item.ba_bt.guardian_eye_end": "Occhio di Shul'losniir",
 	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
@@ -163,19 +163,19 @@
 	"enchantment.ba_bt.depth_dropper": "Ancoraggio delle profondita'",
 
 	"comment8":"Sottotitoli degli oggetti (Item Tooltips)",
-	"tooltip.ba_bt.hold_shift": "Tieni premuto Maiusc per maggiori informazioni.",
+	"tooltip.ba_bt.hold_shift": "Tieni premuto §eMaiusc§r per maggiori informazioni.",
 	"tooltip.ba_bt.monolith_key": "Confido tu sappia a cosa vai incontro...",
 	"tooltip.ba_bt.tower_chest": "Si sblocca quando tutti i generatori del piano vengono distrutti",
-	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano, non si aprira'!",
+	"tooltip.ba_bt.golem_chest": "E' legata all'energia vitale del guardiano",
 
 	"tooltip.ba_bt.monolith_land": "Il guardiano sembra intrappolato all'interno!",
 	"tooltip.ba_bt.monolith_ocean": "La bestia all'interno attende pazientemente...",
-	"tooltip.ba_bt.monolith_core": "The God waits for fools to interfere...",
+	"tooltip.ba_bt.monolith_core": "Il dio attende che gli stolti interferiscano...",
 	"tooltip.ba_bt.monolith_nether": "Il tiranno ozia all'interno...",
 	"tooltip.ba_bt.monolith_end": "Il guardiano medita...",
 	"tooltip.ba_bt.monolith_sky": "La dea osserva...",
 
-	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eSHIFT§r per leggere le utlime parole del Guardiano",
+	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eMaiusc§r per leggere le utlime parole del Guardiano",
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre e' stata compromessa...",
 	"tooltip.ba_bt.ocean_eye": "Loda il vuoto... Lodami...",
 	"tooltip.ba_bt.core_eye": "Niente puo' piu' fermarmi adesso..",
@@ -183,7 +183,7 @@
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
 	
-	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection ",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
 	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
 	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
 	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
@@ -195,7 +195,7 @@
 	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
 	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
-	"title.ba_bt.nether": "Vraag'iidra, Tiranno dell'inferno",
+	"title.ba_bt.nether": "Infuur'niir, Tiranno dell'inferno",
 	"title.ba_bt.end": "Shul'losniir, Custode dell'End",
 	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
 	
@@ -216,11 +216,11 @@
 	"title.ba_bt.end_defeated_2": "Sconfitto ma non distrutto...",
 	"title.ba_bt.end_defeated_3": "...il pavimento comincia a sparire..",
 
-	"title.ba_bt.sky_defeated_2": "Ucciso da un pidocchioso umano...",
+	"title.ba_bt.sky_defeated_2": "Una dea assassinata...",
 	"title.ba_bt.sky_defeated_3": "...la torre si dissolve nella nebbia...",
 
 	"comment10":"Traguardi (Advancements)",
-	"advancements.ba_bt.battle_tower.title": "BattleTowers ",
+	"advancements.ba_bt.battle_tower.title": "BattleTowers",
 	"advancements.ba_bt.battle_tower.description": "BattleTowers",
 	"advancements.ba_bt.land_tower_found.title": "Una prova del tempo",
 	"advancements.ba_bt.land_tower_found.description": "-Riscopri un'antica torre di battaglia",
