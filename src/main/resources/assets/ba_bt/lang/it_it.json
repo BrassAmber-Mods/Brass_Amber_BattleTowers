@@ -90,17 +90,17 @@
 	"container.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
 	"container.ba_bt.land_golem_chest_double": "Doppio forziere di Bahryn'muul",
 	"container.ba_bt.land_chest": "Baule della landa",
-	"container.ba_bt.land_chest_double": "Baule doppio della landa",
+	"container.ba_bt.land_chest_double": "Doppio baule della landa",
 
 	"container.ba_bt.ocean_golem_chest": "Forziere di Moraizu'un",
 	"container.ba_bt.ocean_golem_chest_double": "Doppio forziere di Moraizu'un",
 	"container.ba_bt.ocean_chest": "Baule dell'oceano",
-	"container.ba_bt.ocean_chest_double": "Baule doppio dell'oceano",
+	"container.ba_bt.ocean_chest_double": "Doppio baule dell'oceano",
 
-	"container.ba_bt.core_golem_chest": "Obthu'uryn's Chest",
-	"container.ba_bt.core_golem_chest_double": "Large Obthu'uryn's Chest",
-	"container.ba_bt.core_chest": "Core Chest",
-	"container.ba_bt.core_chest_double": "Large Core Chest",
+	"container.ba_bt.core_golem_chest": "Forziere di Obthu'uryn",
+	"container.ba_bt.core_golem_chest_double": "Doppio forziere di Obthu'uryn",
+	"container.ba_bt.core_chest": "Baule del nucleo",
+	"container.ba_bt.core_chest_double": "Doppio baule del nucleo",
 
 	"container.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
 	"container.ba_bt.nether_golem_chest_double": "Large Infuur'niir's Chest",
