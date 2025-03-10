@@ -83,8 +83,8 @@
 	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
 	"block.ba_bt.bt_sky_spawner" : "Generatore celeste",
 
-	"block.ba_bt.spawner_marker" : "Spawner Marker",
-	"block.ba_bt.data_marker" : "Data Marker",
+	"block.ba_bt.spawner_marker" : "Segnaposto per Spawner",
+	"block.ba_bt.data_marker" : "Segnaposto per Contenitori",
 
 	"comment4":"Contenitori (Containers)",
 	"container.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
@@ -102,20 +102,20 @@
 	"container.ba_bt.core_chest": "Baule del nucleo",
 	"container.ba_bt.core_chest_double": "Doppio baule del nucleo",
 
-	"container.ba_bt.nether_golem_chest": "Infuur'niir's Chest",
-	"container.ba_bt.nether_golem_chest_double": "Large Infuur'niir's Chest",
-	"container.ba_bt.nether_chest": "Nether Chest",
-	"container.ba_bt.nether_chest_double": "Large Nether Chest",
+	"container.ba_bt.nether_golem_chest": "Forziere di Infuur'niir",
+	"container.ba_bt.nether_golem_chest_double": "Doppio forziere di Infuur'niir",
+	"container.ba_bt.nether_chest": "Baule infernale",
+	"container.ba_bt.nether_chest_double": "Doppio baule infernale",
 
-	"container.ba_bt.end_golem_chest": "Shul'losniir's Chest",
-	"container.ba_bt.end_golem_chest_double": "Large Shul'losniir's Chest",
-	"container.ba_bt.end_chest": "End Chest",
-	"container.ba_bt.end_chest_double": "Large End Chest",
+	"container.ba_bt.end_golem_chest": "Forziere di Shul'losniir",
+	"container.ba_bt.end_golem_chest_double": "Doppio forziere di Shul'losniir",
+	"container.ba_bt.end_chest": "Baule dell'End",
+	"container.ba_bt.end_chest_double": "Doppio baule dell'End",
 
-	"container.ba_bt.sky_golem_chest": "Veyhz'kriin's Chest",
-	"container.ba_bt.sky_golem_chest_double": "Large Veyhz'kriin's Chest",
-	"container.ba_bt.sky_chest": "Sky Chest",
-	"container.ba_bt.sky_chest_double": "Large Sky Chest",
+	"container.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
+	"container.ba_bt.sky_golem_chest_double": "Doppio forziere di Veyhz'kriin",
+	"container.ba_bt.sky_chest": "Baule celeste",
+	"container.ba_bt.sky_chest_double": "Doppio baule celeste",
 
 	"container.ba_bt.tower_chest.isLocked": "Si sblocca dopo la distruzione dei generatori vicini",
 
@@ -141,12 +141,12 @@
 	"item.ba_bt.end_monolith": "Monolite dell'End",
 	"item.ba_bt.sky_monolith": "Monolite celestiale",
 
-	"item.ba_bt.land_chest_shard": "Frammento baule della landa",
-	"item.ba_bt.ocean_chest_shard": "Frammento baule dell'oceano",
-	"item.ba_bt.core_chest_shard": "Core Chest Shard",
-	"item.ba_bt.nether_chest_shard": "Nether Chest Shard",
-	"item.ba_bt.end_chest_shard": "End Chest Shard",
-	"item.ba_bt.sky_chest_shard": "Sky Chest Shard",
+	"item.ba_bt.land_chest_shard": "Frammento del baule della landa",
+	"item.ba_bt.ocean_chest_shard": "Frammento del baule dell'oceano",
+	"item.ba_bt.core_chest_shard": "Frammento del baule del nucleo",
+	"item.ba_bt.nether_chest_shard": "Frammento del baule infernale",
+	"item.ba_bt.end_chest_shard": "Frammento del baule dell'End",
+	"item.ba_bt.sky_chest_shard": "Frammento del baule celeste",
 
 	"item.ba_bt.land_resonance_stone": "Pietra risonante della landa",
 	"item.ba_bt.ocean_resonance_stone": "Pietra risonante oceanica",
@@ -221,7 +221,7 @@
 
 	"comment10":"Traguardi (Advancements)",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
-	"advancements.ba_bt.battle_tower.description": "BattleTowers",
+	"advancements.ba_bt.battle_tower.description": "Torri di battaglia",
 	"advancements.ba_bt.land_tower_found.title": "Una prova del tempo",
 	"advancements.ba_bt.land_tower_found.description": "-Riscopri un'antica torre di battaglia",
 	"advancements.ba_bt.find_land_key.title": "La chiave di un antico potere...",
