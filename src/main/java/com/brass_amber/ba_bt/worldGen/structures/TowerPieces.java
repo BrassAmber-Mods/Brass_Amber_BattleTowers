@@ -1,20 +1,16 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.init.BTStructurePieces;
+import com.brass_amber.ba_bt.util.GolemType;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
@@ -40,19 +36,21 @@ public class TowerPieces {
         List<StructureProcessor> variantProcessors = TowerGenInfo.getVariantProcessors(towerGenInfo, variant);
 
         // Add tower shell to list first so it is generated first
-        towerPieces.add(new BasePiece(templateManager, "base", towerName, blockPos, rotation, ""));
-        int floorHeight = 11;
+        towerPieces.add(new StartPiece(templateManager, "start", towerName, blockPos, rotation, ""));
+        int floorHeight = GolemType.getFloorHeight(GolemType.getTypeForName(towerName.split("_")[0]));
         int doubledFloorHeight = floorHeight * 2;
 
-        blockPos = blockPos.above(towerPieces.get(0).getHeight());
-
-
+        switch (towerGenInfo) {
+            case OCEAN -> blockPos.offset(0, -towerPieces.get(0).getHeight(), 0);
+            default -> blockPos.offset(0, towerPieces.get(0).getHeight(), 0);
+        }
 
         for (int i = 0; i < 4; i++) {
-            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.above(i*doubledFloorHeight), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
-            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.above(floorHeight + i*doubledFloorHeight), rotation, "", shellProcessors, variantProcessors));
+            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, i*doubledFloorHeight, 0), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
+            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, floorHeight + i*doubledFloorHeight, 0), rotation, "", shellProcessors, variantProcessors));
         }
-        towerPieces.add(new TowerPiece(templateManager, "top", towerName, blockPos.above(floorHeight*8), rotation, ""));
+        towerPieces.add(new TowerPiece(templateManager, "end", towerName, blockPos.above(floorHeight*8), rotation, ""));
+
         // Add shell variant changes (if variant)
         if (!variant.equals("normal")) {
             // TODO add shell variation
@@ -64,7 +62,15 @@ public class TowerPieces {
         BlockPos roomPos;
         int failSafe;
 
-        towerPieces.add(new RoomPiece(templateManager, "entrance", towerName, blockPos, rotation, List.of(NORMAL_FLOOR_LAND),0 ));
+        List<StructureProcessor> startFloorProcessors;
+
+        startFloorProcessors =  switch (towerGenInfo) {
+            case LAND -> List.of(NORMAL_FLOOR_LAND);
+            case OCEAN -> List.of(WATERLOGGED);
+            default -> List.of();
+        };
+
+        towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation, startFloorProcessors,0));
 
         // Add random internal rooms (skipping entry floor)
         for (int i = 1; i < 7; i++) {
@@ -97,13 +103,21 @@ public class TowerPieces {
 
             towerPieces.add(new RoomPiece(
                     templateManager, roomName, towerName,
-                    roomPos.above(i*floorHeight), roomRotation,
+                    roomPos.offset(0, i*floorHeight, 0), roomRotation,
                     TowerGenInfo.getRoomProcessors(towerGenInfo, roomName), i
             ));
 
         }
 
-        towerPieces.add(new RoomPiece(templateManager, "top_floor", towerName, blockPos.above(floorHeight*7), rotation, List.of(CARPET_PLACER), 8));
+        List<StructureProcessor> endFloorProcessors;
+
+        endFloorProcessors =  switch (towerGenInfo) {
+            case LAND -> List.of(CARPET_PLACER);
+            case OCEAN -> List.of(WATERLOGGED);
+            default -> List.of();
+        };
+
+        towerPieces.add(new RoomPiece(templateManager, "end_floor", towerName, blockPos.offset(0, floorHeight*7, 0), rotation, endFloorProcessors, 8));
 
     }
 
@@ -177,16 +191,21 @@ public class TowerPieces {
         }
 
     }
-    public static class BasePiece extends TowerPiece implements PieceBeardifierModifier {
+    public static class StartPiece extends TowerPiece implements PieceBeardifierModifier {
 
-        public BasePiece(
+        public StartPiece(
                 StructureTemplateManager templateManager, String templateName, String towerName,
                 BlockPos blockPos, Rotation rotation, String variant
         ) {
             super(templateManager, templateName, towerName, blockPos, rotation, variant);
 
             this.placeSettings.addProcessor(BASE_PROTECTED);
-            this.placeSettings.addProcessor(NORMAL_LAND);
+
+            switch (TowerGenInfo.getTypeForName(towerName)) {
+                case OCEAN -> this.placeSettings.addProcessor(NORMAL_OCEAN);
+                default -> this.placeSettings.addProcessor(NORMAL_LAND);
+            }
+
         }
 
         @Override
