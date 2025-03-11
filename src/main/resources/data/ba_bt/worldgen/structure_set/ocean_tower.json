@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "ba_bt:ocean_tower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1535114201523518,
+
+    "spacing": 9,
+
+    "separation": 5,
+
+    "type": "minecraft:random_spread"
+  }
+}
