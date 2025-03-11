@@ -27,7 +27,7 @@ import static com.brass_amber.ba_bt.util.BTUtil.*;
 
 public class BTOceanObelisk extends BTAbstractObelisk {
 
-    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
+    private final List<BlockState> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
     private final List<BlockState> corals = List.of(Blocks.BRAIN_CORAL.defaultBlockState(),
             Blocks.BUBBLE_CORAL.defaultBlockState(), Blocks.FIRE_CORAL.defaultBlockState(),
             Blocks.HORN_CORAL.defaultBlockState(), Blocks.TUBE_CORAL.defaultBlockState());
@@ -191,15 +191,15 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                             this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                         } else if (distance2d < this.wallDistance - 1) {
                                             if (random.nextInt(50) > 30) {
-                                                this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
+                                                this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 0);
                                             } else {
                                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
                                             }
-                                        } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block)) {
-                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
+                                        } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block.defaultBlockState())) {
+                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 0);
                                         }
                                     }
-                                } else if (!this.avoidBlocks.contains(block)) {
+                                } else if (!this.avoidBlocks.contains(block.defaultBlockState())) {
                                     this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                 }
                             }
@@ -228,15 +228,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 for (int z = this.northWall; z <= this.southWall; z++) {
                     blockpos$mutableblockpos.set(x, y, z);
                     blockAbove = blockpos$mutableblockpos.above();
-                    double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
-                    if (distance2d > 13 && !this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)) {
+                    if (!this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)) {
                         int vegetation = random.nextInt(75);
                         if (vegetation > 55) {
                             this.level().setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
                         } else if (vegetation > 40) {
                             this.level().setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
-                        } else {
-                            this.level().setBlock(blockAbove, Blocks.WATER.defaultBlockState(), 2);
                         }
                     }
                 }
