@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 public enum TowerSpecs implements StringRepresentable {
     EMPTY(null,0,0, ""),
-    LAND("land", 112, 2, "#9BDAE7"),
-    OCEAN("ocean", 90, 2, "#EAE78A"),
+    LAND("land", 101, 2, "#9BDAE7"),
+    OCEAN("ocean", 114, 2, "#EAE78A"),
     NETHER("core", 112, 2, "#88EB63"),
     CORE("nether", 112, 1, "#F79B3A"),
     END("end", 112, 1, "#BA49EF"),
@@ -20,6 +20,7 @@ public enum TowerSpecs implements StringRepresentable {
     private final Component defeat1 = Component.translatable("title.ba_bt.guardian_defeated_1");
     private final Component defeat2;
     private final Component defeat3;
+
     TowerSpecs(String baseName, int height, int crumbleSpeed, String colorCode) {
         this.name = Component.translatable("title.ba_bt." + baseName);
         this.height = height;
