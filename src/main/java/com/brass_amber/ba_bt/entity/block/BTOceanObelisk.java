@@ -206,7 +206,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                         }
                     }
                 } else if (y == this.bottom){
-                    this.addCoral();
+                    this.addVegetation();
                 }
             }
             this.currentCarveLayer = bottomRange;
@@ -220,7 +220,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         BABTMain.LOGGER.info("Ocean Carved : " + this.oceanCarved);
     }
 
-    public void addCoral() {
+    public void addVegetation() {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         BlockPos blockAbove;
         for (int y = this.top; y > this.bottom - 1; y--) {
@@ -229,10 +229,16 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     blockpos$mutableblockpos.set(x, y, z);
                     blockAbove = blockpos$mutableblockpos.above();
                     if (!this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)) {
-                        int vegetation = random.nextInt(75);
-                        if (vegetation > 55) {
-                            this.level().setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
-                        } else if (vegetation > 40) {
+                        float vegetation = random.nextFloat();
+                        if (vegetation > .60) {
+                            if (vegetation > .70) {
+                                this.level().setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
+                            } else {
+                                this.level().setBlock(blockAbove, Blocks.TALL_SEAGRASS.defaultBlockState(), 2);
+                            }
+                        } else if (vegetation > .50) {
+                            this.level().setBlock(blockAbove, Blocks.KELP_PLANT.defaultBlockState(), 2);
+                        } else if (vegetation > .30) {
                             this.level().setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
                         }
                     }
