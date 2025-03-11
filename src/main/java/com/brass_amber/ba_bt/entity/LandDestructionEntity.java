@@ -106,7 +106,7 @@ public class LandDestructionEntity extends Entity {
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(
                 this.getCrumbleStart().getY() - (int)Math.round(
-                        (90 + 20) * BattleTowersConfig.landTowerCrumblePercent.get()
+                        this.specs.getHeight() * BattleTowersConfig.landTowerCrumblePercent.get()
                 )
         );
         this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3F);
