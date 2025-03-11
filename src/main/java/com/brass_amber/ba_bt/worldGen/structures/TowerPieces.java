@@ -210,17 +210,27 @@ public class TowerPieces {
 
         @Override
         public BoundingBox getBeardifierBox() {
-            return this.getBoundingBox().inflatedBy(-1);
+            return switch (TowerGenInfo.getTypeForName(towerName)) {
+                case LAND -> this.getBoundingBox().inflatedBy(-1);
+                default -> this.getBoundingBox();
+            };
         }
 
         @Override
         public TerrainAdjustment getTerrainAdjustment() {
-            return TerrainAdjustment.BURY;
+            return switch (TowerGenInfo.getTypeForName(towerName)) {
+                case LAND -> TerrainAdjustment.BURY;
+                default -> TerrainAdjustment.NONE;
+            };
         }
 
         @Override
         public int getGroundLevelDelta() {
-            return 3;
+            Random rand = new Random();
+            return switch (TowerGenInfo.getTypeForName(towerName)) {
+                case LAND -> rand.nextInt(0,3);
+                default -> 0;
+            };
         }
     }
 
