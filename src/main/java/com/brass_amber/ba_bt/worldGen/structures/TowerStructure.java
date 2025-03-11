@@ -319,7 +319,7 @@ public abstract class TowerStructure extends Structure {
         }
     }
 
-    protected abstract boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Biome biome);
+    protected abstract boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder);
 }
 
 

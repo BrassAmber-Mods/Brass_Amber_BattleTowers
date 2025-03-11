@@ -91,7 +91,7 @@ public class LandTower extends TowerStructure {
             );
 
             // re-check biome for extra chunks skipping to next chunk if not valid
-            if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome.get())) {
+            if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
                 continue;
             }
 
@@ -159,8 +159,8 @@ public class LandTower extends TowerStructure {
     }
 
     @Override
-    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Biome biome) {
-
+    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+        Biome biome = biomeHolder.get();
         boolean coldEnoughToSnow = biome.coldEnoughToSnow(blockpos);
         float temperature = biome.getBaseTemperature();
         BlockState topblock = context.chunkGenerator().getBaseColumn(blockpos.getX(), blockpos.getZ(), context.heightAccessor(), context.randomState()).getBlock(blockpos.getY());
