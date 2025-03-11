@@ -19,7 +19,6 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class OceanTower extends TowerStructure {
     @ObjectHolder(registryName = "minecraft:configured_feature", value = "minecraft:freeze_top_layer")
@@ -40,11 +39,9 @@ public class OceanTower extends TowerStructure {
 
     @Override
     protected Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext) {
-        WorldgenRandom worldgenRandom = generationContext.random();
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
-        Predicate<Holder<Biome>> predicate = generationContext.validBiome();
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
                 SaveTowers.server.getLevel(Level.OVERWORLD), extraSettings.avoidStructures(),
@@ -56,7 +53,7 @@ public class OceanTower extends TowerStructure {
             return Pair.of(false, BlockPos.ZERO);
         }
 
-        // Test/Check 3 by 3 square of chunks for possible spawns
+        // Test/Check 4 by 4 square of chunks for nearby land
         List<ChunkPos> testable = new ArrayList<>(
                 List.of(
                         new ChunkPos(chunkPos.x + 4, chunkPos.z + 2),
@@ -94,7 +91,7 @@ public class OceanTower extends TowerStructure {
                     QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(pos.getMiddleBlockZ()), generationContext.randomState().sampler()
             );
 
-            if (!predicate.test(biome)) {
+            if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(seaLevel), biome)) {
                 // BrassAmberBattleTowers.LOGGER.info("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
                 return Pair.of(false, BlockPos.ZERO);
             }
@@ -103,14 +100,14 @@ public class OceanTower extends TowerStructure {
     }
 
     @Override
-    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Biome biome) {
+    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
 
         if (context.random().nextInt(50) < 15) {
-            // Overgrown
+            // Gilded or Island
             towerType = context.random().nextInt(50) > 30 ? 2 : 1;
         }
 
-        return true;
+        return context.validBiome().test(biomeHolder);
     }
 
     @Override
