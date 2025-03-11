@@ -287,7 +287,7 @@ public class BTUtil {
 
         btSplitItems(chestLoot, possibleSlots.size(), lootContext.getRandom());
 
-        BABTMain.LOGGER.info("Container gets Items {}", chestLoot);
+        // BABTMain.LOGGER.debug("Container gets Items {}", chestLoot);
 
         for (ItemStack itemStack : chestLoot) {
             container.setItem(possibleSlots.remove(random.nextInt(possibleSlots.size())), itemStack);
