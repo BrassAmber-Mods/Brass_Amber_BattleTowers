@@ -246,7 +246,7 @@ public enum GolemType implements StringRepresentable {
 			case NETHER -> BTBlocks.NETHER_CHEST.get();
 			case END -> BTBlocks.END_CHEST.get();
 			case SKY -> BTBlocks.SKY_CHEST.get();
-			default ->BTBlocks.LAND_CHEST.get();
+			default -> BTBlocks.LAND_CHEST.get();
 		};
 	}
 
@@ -274,12 +274,12 @@ public enum GolemType implements StringRepresentable {
 
 	public static GolemType getPreviousGolemType(GolemType golemType) {
 		return switch (golemType) {
-			default -> EMPTY;
 			case OCEAN -> LAND;
 			case CORE -> OCEAN;
 			case NETHER -> CORE;
 			case END -> NETHER;
 			case SKY -> END;
+			default -> EMPTY;
 		};
 	}
 
@@ -288,13 +288,13 @@ public enum GolemType implements StringRepresentable {
 	@Nullable
 	public static Item getKeyFor(GolemType golemType) {
 		return switch (golemType) {
-			default -> null;
 			case LAND -> BTItems.LAND_MONOLITH_KEY.get();
 			case OCEAN -> BTItems.OCEAN_MONOLITH_KEY.get();
 			case CORE -> BTItems.CORE_MONOLITH_KEY.get();
 			case NETHER -> BTItems.NETHER_MONOLITH_KEY.get();
 			case END -> BTItems.END_MONOLITH_KEY.get();
 			case SKY -> BTItems.SKY_MONOLITH_KEY.get();
+			default -> null;
 		};
 	}
 
@@ -302,7 +302,6 @@ public enum GolemType implements StringRepresentable {
 
 	public static GolemType getTypeForName(String name) {
 		return switch (name) {
-			default -> null;
 			case "land" -> LAND;
 			case "ocean" -> OCEAN;
 			case "core" -> CORE;
@@ -310,14 +309,13 @@ public enum GolemType implements StringRepresentable {
 			case "end" -> END;
 			case "sky" -> SKY;
 			case "city" -> CITY;
+			default -> EMPTY;
 		};
 	}
 
 	public static Entity getDestructionEntity(GolemType golemType, Level level, BlockPos blockPos) {
 		Entity destruction = null;
 		switch (golemType) {
-			default -> {
-			}
 			case LAND -> {
 				destruction = new LandDestructionEntity(blockPos, level);
 				blockPos = blockPos.above(6);
@@ -325,6 +323,8 @@ public enum GolemType implements StringRepresentable {
 			case OCEAN -> {
 				destruction = new OceanDestructionEntity(level);
 				blockPos = blockPos.atY(level.getSeaLevel() - 88);
+			}
+			default -> {
 			}
 		}
 		if (destruction != null) {
@@ -336,56 +336,55 @@ public enum GolemType implements StringRepresentable {
 
 	public static String getTowerChestPool(GolemType golemType, int index) {
 		return switch (golemType) {
-			default -> "";
 			case LAND -> landTowerChestPools.get().get(index);
 			case OCEAN -> oceanTowerChestPools.get().get(index);
 			case CORE -> coreTowerChestPools.get().get(index);
 			case NETHER -> netherTowerChestPools.get().get(index);
 			case END -> endTowerChestPools.get().get(index);
 			case SKY -> skyTowerChestPools.get().get(index);
+			default -> "";
 
 		};
 	}
 
 	public static Entity getSpecialEnemy(GolemType golemType, ServerLevel serverLevel) {
 		return switch (golemType) {
-			default -> null;
 			case LAND -> BTEntityType.BT_CULTIST.get().create(serverLevel);
 			case OCEAN -> EntityType.GUARDIAN.create(serverLevel);
 			case CORE -> EntityType.MAGMA_CUBE.create(serverLevel);
 			case NETHER -> EntityType.WITHER_SKELETON.create(serverLevel);
 			case END -> EntityType.ENDERMAN.create(serverLevel);
 			case SKY -> EntityType.SKELETON.create(serverLevel);
+			default -> null;
 		};
 	}
 
 	public static EntityType<?> getSpecialEnemyType(GolemType golemType) {
 		return switch (golemType) {
-			default -> null;
 			case LAND -> BTEntityType.BT_CULTIST.get();
 			case OCEAN -> EntityType.GUARDIAN;
 			case CORE -> EntityType.MAGMA_CUBE;
 			case NETHER -> EntityType.WITHER_SKELETON;
 			case END -> EntityType.ENDERMAN;
 			case SKY -> EntityType.SKELETON;
+			default -> null;
 		};
 	}
 
 	public static Class<? extends Entity> getSpecialEnemyClass(GolemType golemType) {
 		return switch (golemType) {
-			default -> null;
 			case LAND -> BTCultist.class;
 			case OCEAN -> Guardian.class;
 			case CORE -> MagmaCube.class;
 			case NETHER -> WitherSkeleton.class;
 			case END -> EnderMan.class;
 			case SKY -> Skeleton.class;
+			default -> null;
 		};
 	}
 
 	public static Integer getNumForType(GolemType golemType) {
 		return switch (golemType) {
-			default -> null;
 			case LAND -> 0;
 			case OCEAN -> 1;
 			case CORE -> 2;
@@ -393,11 +392,12 @@ public enum GolemType implements StringRepresentable {
 			case END -> 4;
 			case SKY -> 5;
 			case CITY -> 6;
+			default -> null;
 		};
 	}
+
 	public static Item getResonanceCrystalForType(GolemType golemType) {
 		return switch (golemType) {
-			default -> null;
 			case LAND -> BTItems.LAND_RESONANCE_CRYSTAL.get();
 			case OCEAN -> BTItems.OCEAN_RESONANCE_CRYSTAL.get();
 			case CORE -> BTItems.CORE_RESONANCE_CRYSTAL.get();
@@ -405,6 +405,17 @@ public enum GolemType implements StringRepresentable {
 			case END -> BTItems.END_RESONANCE_CRYSTAL.get();
 			case SKY -> BTItems.SKY_RESONANCE_CRYSTAL.get();
 			case CITY -> BTItems.CITY_RESONANCE_CRYSTAL.get();
+			default -> null;
+		};
+	}
+
+	public static int getFloorHeight(GolemType golemType) {
+		return switch (golemType) {
+			case OCEAN -> -12;
+			case CORE -> 9;
+			case NETHER -> 10;
+			case SKY -> 12;
+            default -> 11;
 		};
 	}
 
