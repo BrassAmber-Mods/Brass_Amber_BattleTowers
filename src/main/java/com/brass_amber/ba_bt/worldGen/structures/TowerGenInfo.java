@@ -35,13 +35,13 @@ public enum TowerGenInfo implements StringRepresentable {
             List.of(
                     new String[]{}, new String[]{}, new String[]{}
             ),
-            Collections.emptyList(),
+            List.of(NORMAL_OCEAN, NORMAL_STAIRS_OCEAN, NORMAL_FLOOR_OCEAN, WATERLOGGED),
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{},
-            new float[]{},
-            Collections.emptyList()
+            new String[]{"garden", "guardian_nest", "shark_pens"},
+            new float[]{0.3f, 0.3f, 0.3f},
+            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
     ),
-    CORE("core_tower", new String[]{"normal", "frozen", "Colossal"},
+    CORE("core_tower", new String[]{"normal", "frozen", "colossal"},
             List.of(
                     new String[]{}, new String[]{}, new String[]{}
             ),
@@ -168,5 +168,9 @@ public enum TowerGenInfo implements StringRepresentable {
     @Override
     public String getSerializedName() {
         return this.towerName;
+    }
+
+    public String[] getVariants() {
+        return variants;
     }
 }
