@@ -3,6 +3,7 @@ package com.brass_amber.ba_bt.init;
 import com.brass_amber.ba_bt.BABTMain;
 
 import com.brass_amber.ba_bt.worldGen.structures.LandTower;
+import com.brass_amber.ba_bt.worldGen.structures.OceanTower;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -21,7 +22,7 @@ public class BTStructures {
      * this base structure will have the resourcelocation of babt:land_tower.
      */
     public static final RegistryObject<StructureType<LandTower>> LAND_TOWER = STRUCTURE_REGISTRY.register("land_tower", () -> explicitStructureTypeTyping(LandTower.CODEC));
-    // public static final RegistryObject<StructureType<BattleTowerStructure>> OCEAN__TOWER = STRUCTURE_REGISTRY.register("bt_ocean_tower", () -> explicitStructureTypeTyping(OceanBattleTower.CODEC));
+    public static final RegistryObject<StructureType<OceanTower>> OCEAN_TOWER = STRUCTURE_REGISTRY.register("ocean_tower", () -> explicitStructureTypeTyping(OceanTower.CODEC));
 
     /**
      * This method explicitly states what the return type
