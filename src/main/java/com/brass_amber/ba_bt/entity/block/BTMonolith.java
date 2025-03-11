@@ -255,19 +255,16 @@ public class BTMonolith extends Entity {
 	protected void spawnObelisk(ServerLevel serverWorld) {
 		Entity obelisk;
 		switch (this.golemType) {
-			default -> {
-				obelisk = new BTAbstractObelisk(this.golemType, this.level());
-				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());}
-			case LAND -> {
-				obelisk = new BTLandObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
-			}
 			case OCEAN -> {
 				// BABTMain.LOGGER.info("Ocean Obelisk");
 				obelisk = new BTOceanObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() + 87, this.getZ());
+				obelisk.setPos(this.getX(), this.getY() + 104, this.getZ());
 			}
-		}
+            default -> {
+				obelisk = new BTLandObelisk(this.level());
+				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
+			}
+        }
 		obelisk.setInvulnerable(true);
 		obelisk.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(obelisk);
