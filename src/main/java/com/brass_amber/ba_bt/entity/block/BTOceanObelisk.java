@@ -74,7 +74,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     }
 
     public void serverInitialize() {
-        this.floorDistance = -11;
+        this.floorDistance = -12;
 
         this.chestBlock = BTBlocks.OCEAN_CHEST.get();
         this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
@@ -86,8 +86,8 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.noise = 60 + ((random.nextInt(2) + 1) * 4);
         }
 
-        this.top = this.getBlockY() - 2;
-        this.bottom = this.getBlockY() - 92;
+        this.top = this.getBlockY() - 20;
+        this.bottom = this.getBlockY() - 110;
 
         this.currentFloorY = this.top;
         this.currentCarveLayer = this.top;
@@ -129,8 +129,9 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         }
 
         if (!this.oceanCarved && this.serverInitialized) {
+
             this.carveOcean();
-            doNoOutputCommand(this, "/kill @e[type=item]");
+            doNoOutputCommand(this, "/kill @e[distance=0..72,type=item]");
             return;
         }
 
@@ -138,11 +139,15 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
-                if (BTUtil.distanceTo2D(this, player) < this.musicDistance) {
+                boolean acceptableY = player.getBlockY() < this.getBlockY() && player.getBlockY() > this.bottom;
+                if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 320, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1,true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 160, 2,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 320, 1,true, true), player);
+                }
+                else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){
+                    player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
                 }
             }
         }
@@ -150,7 +155,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public void carveOcean() {
         // BrassAmberBattleTowers.LOGGER.info(this.level().isClientSide());
-        BABTMain.LOGGER.info("Round of carving: " + this.currentCarveLayer);
+        // BABTMain.LOGGER.info("Round of carving: " + this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
         if (this.currentCarveLayer >= this.bottom) {
@@ -160,17 +165,17 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             }
             // BrassAmberBattleTowers.LOGGER.info("Bottom Range: " + bottomRange);
             for (int y = this.currentCarveLayer; y >= bottomRange; y--) {
-                if (y == this.bottom + 33) {
+                if (y == this.bottom + 36 || y == this.bottom + 72) {
                     if (minimalOceanCarving.get()) {
                         this.wallDistance -= 2;
                     } else {
                         this.wallDistance -= 10;
                     }
-                } else if ((top - y) % this.nextStep == 0) {
+                } else if ((this.top - y) % this.nextStep == 0) {
                     this.wallDistance -= this.distanceChange;
                     this.nextStep = random.nextInt(4)+8;
-                    if (y > bottom + 33) {
-                        this.distanceChange = random.nextInt(3);
+                    if (y > this.bottom + 33) {
+                        this.distanceChange = random.nextInt(3)+1;
                     } else {
                         this.distanceChange = random.nextInt(2)+1;
                     }
@@ -186,7 +191,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                     if  (this.level().getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
                                         this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
 
-                                    } else if (!this.level().isWaterAt(blockpos$mutableblockpos) ){
+                                    } else if (!this.level().isWaterAt(blockpos$mutableblockpos) && !avoidBlocks.contains(this.level().getBlockState(blockpos$mutableblockpos))){
                                         if (distance2d < this.wallDistance - 2) {
                                             this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                         } else if (distance2d < this.wallDistance - 1) {
@@ -228,17 +233,17 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 for (int z = this.northWall; z <= this.southWall; z++) {
                     blockpos$mutableblockpos.set(x, y, z);
                     blockAbove = blockpos$mutableblockpos.above();
-                    if (!this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)) {
+                    if (!this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove) && distanceTo2D(this, blockpos$mutableblockpos) < this.noise +5) {
                         float vegetation = random.nextFloat();
-                        if (vegetation > .60) {
-                            if (vegetation > .70) {
+                        if (vegetation > .80) {
+                            if (vegetation > .85) {
                                 this.level().setBlock(blockAbove, Blocks.SEAGRASS.defaultBlockState(), 2);
                             } else {
                                 this.level().setBlock(blockAbove, Blocks.TALL_SEAGRASS.defaultBlockState(), 2);
                             }
-                        } else if (vegetation > .50) {
+                        } else if (vegetation > .70) {
                             this.level().setBlock(blockAbove, Blocks.KELP_PLANT.defaultBlockState(), 2);
-                        } else if (vegetation > .30) {
+                        } else if (vegetation > .60) {
                             this.level().setBlock(blockAbove, corals.get(random.nextInt(5)), 2);
                         }
                     }
