@@ -43,13 +43,4 @@ public class DepthDropperEnchantment extends Enchantment {
         return itemStack.is(BTItems.LAND_RESONANCE_CRYSTAL.get());
     }
 
-    @Override
-    public int getMinLevel() {
-        return 1;
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return 3;
-    }
 }

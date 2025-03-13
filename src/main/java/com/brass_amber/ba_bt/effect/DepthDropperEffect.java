@@ -15,35 +15,33 @@ public class DepthDropperEffect extends MobEffect {
     }
 
     @Override
-    public boolean isInstantenous() {
-        return super.isInstantenous();
-    }
-
-    @Override
-    public void applyInstantenousEffect(@Nullable Entity p_19462_, @Nullable Entity p_19463_, LivingEntity p_19464_, int p_19465_, double p_19466_) {
-        super.applyInstantenousEffect(p_19462_, p_19463_, p_19464_, p_19465_, p_19466_);
-    }
-
-    @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
+
         if (entity.isInWater()) {
-            Vec3 initVector = entity.getDeltaMovement();
-            Vec3 newVector;
-            if (initVector.y() > -.45) {
-                newVector = initVector.add(0, -.12, 0);
-                entity.setDeltaMovement(newVector);
+
+            Vec3 motion = entity.getDeltaMovement();
+            boolean jumping = entity.jumping;
+            entity.setOnGround(entity.onGround() || entity.verticalCollision);
+
+            if (jumping && entity.onGround()) {
+                motion = motion.add(0, .5f, 0);
+                entity.setOnGround(false);
+            } else {
+                motion = motion.add(0, -0.05f, 0);
             }
+
+            float multiplier = 1.3f;
+            if (motion.multiply(1, 0, 1)
+                    .length() < 0.145f && (entity.zza > 0 || entity.xxa != 0) && !entity.isShiftKeyDown())
+                motion = motion.multiply(multiplier, 1, multiplier);
+
+            entity.setDeltaMovement(motion);
         }
     }
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        int j = 15 >> amplifier;
-        if (j > 0) {
-            return duration % j == 0;
-        } else {
-            return true;
-        }
+        return true;
     }
 
 }
