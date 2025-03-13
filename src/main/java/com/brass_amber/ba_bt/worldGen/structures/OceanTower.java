@@ -32,7 +32,7 @@ public class OceanTower extends TowerStructure {
     protected OceanTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
         super(structureSettings, extraSettings);
 
-        this.towerId = 0;
+        this.towerId = 1;
         this.towerName = "ocean_tower";
         this.towerTypeConversion = new String[]{"normal", "gilded", "island"};
     }
@@ -96,15 +96,15 @@ public class OceanTower extends TowerStructure {
                 return Pair.of(false, BlockPos.ZERO);
             }
         }
-        return Pair.of(true, chunkPos.getMiddleBlockPosition(seaLevel + 18));
+        return Pair.of(true, chunkPos.getMiddleBlockPosition(seaLevel + 12));
     }
 
     @Override
     protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
 
-        if (context.random().nextInt(50) < 15) {
+        if (context.random().nextFloat() < 25) {
             // Gilded or Island
-            towerType = context.random().nextInt(50) > 30 ? 2 : 1;
+            towerType = context.random().nextFloat() > .6 ? 2 : 1;
         }
 
         return context.validBiome().test(biomeHolder);
