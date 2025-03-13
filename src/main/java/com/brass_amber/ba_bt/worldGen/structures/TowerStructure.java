@@ -32,6 +32,7 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
@@ -71,6 +72,11 @@ public abstract class TowerStructure extends Structure {
 
     @Override
     public @NotNull StructureStart generate(RegistryAccess registryAccess, ChunkGenerator chunkGenerator, BiomeSource biomeSource, RandomState randomState, StructureTemplateManager templateManager, long seed, ChunkPos chunkPos, int i, LevelHeightAccessor heightAccessor, Predicate<Holder<Biome>> biomePredicate) {
+
+        if (chunkGenerator instanceof FlatLevelSource) {
+            return StructureStart.INVALID_START;
+        }
+
         Structure.GenerationContext structure$generationcontext = new Structure.GenerationContext(registryAccess, chunkGenerator, biomeSource, randomState, templateManager, seed, chunkPos, heightAccessor, biomePredicate);
         Optional<Structure.GenerationStub> optional = this.findGenerationPoint(structure$generationcontext);
         if (optional.isPresent()) {
@@ -287,7 +293,7 @@ public abstract class TowerStructure extends Structure {
 
             switch (this.towerId) {
                 case 1 -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(4);
+                    center = endBB.getCenter().atY(endBB.minY()).above(3);
                     type = BTEntityType.OCEAN_MONOLITH.get();
                 }
                 case 2 -> {
