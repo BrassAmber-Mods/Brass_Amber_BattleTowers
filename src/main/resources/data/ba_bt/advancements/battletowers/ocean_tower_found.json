@@ -23,12 +23,10 @@
       "trigger": "minecraft:location",
       "conditions": {
         "player": {
-          "advancements": {
-            "ba_bt:battletowers/land_tower_found": true
+          "type": "minecraft:player",
+          "location": {
+            "structure": "ba_bt:ocean_tower"
           }
-        },
-        "location": {
-          "feature": "ba_bt:ocean_tower"
         }
       }
     }
