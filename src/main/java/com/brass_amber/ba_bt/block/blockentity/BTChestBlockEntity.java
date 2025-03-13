@@ -95,7 +95,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 
 	@Override
 	public void setItem(int itemStack, ItemStack stack) {
-		BABTMain.LOGGER.info(" Set BTChest Item {} {}", itemStack, stack);
+		// BABTMain.LOGGER.debug(" Set BTChest Item {} {}", itemStack, stack);
 		this.unpackLootTable(null);
 		this.items.set(itemStack, stack);
 		if (stack.getCount() > this.getMaxStackSize()) {
