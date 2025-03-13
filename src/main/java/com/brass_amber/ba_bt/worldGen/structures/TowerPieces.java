@@ -28,7 +28,7 @@ public class TowerPieces {
     static final Logger LOGGER = LogUtils.getLogger();
 
     public static void generateTower(StructureTemplateManager templateManager, BlockPos blockPos, Rotation rotation, List<TowerPiece> towerPieces, RandomSource randomSource, String towerName, String variant) {
-        LOGGER.info("Tower name: " + towerName + " Variant: " + variant);
+        LOGGER.debug("Tower name: {} Variant: {}", towerName, variant);
         TowerGenInfo towerGenInfo = TowerGenInfo.getTypeForName(towerName);
 
         // decide on wall/stair processors (different for each variant)
@@ -40,17 +40,18 @@ public class TowerPieces {
         int floorHeight = GolemType.getFloorHeight(GolemType.getTypeForName(towerName.split("_")[0]));
         int doubledFloorHeight = floorHeight * 2;
 
-        switch (towerGenInfo) {
-            case OCEAN -> blockPos.offset(0, -towerPieces.get(0).getHeight(), 0);
+        blockPos = switch (towerGenInfo) {
+            case OCEAN -> blockPos.offset(0, floorHeight, 0);
             default -> blockPos.offset(0, towerPieces.get(0).getHeight(), 0);
-        }
+        };
 
         for (int i = 0; i < 4; i++) {
             towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, i*doubledFloorHeight, 0), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
             towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, floorHeight + i*doubledFloorHeight, 0), rotation, "", shellProcessors, variantProcessors));
         }
-        towerPieces.add(new TowerPiece(templateManager, "end", towerName, blockPos.above(floorHeight*8), rotation, ""));
+        towerPieces.add(new TowerPiece(templateManager, "end", towerName, blockPos.offset(0,floorHeight*8, 0), rotation, ""));
 
+        LOGGER.debug("{} placed shell", towerName);
         // Add shell variant changes (if variant)
         if (!variant.equals("normal")) {
             // TODO add shell variation
@@ -71,7 +72,7 @@ public class TowerPieces {
         };
 
         towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation, startFloorProcessors,0));
-
+        // LOGGER.debug("{} placed start floor", towerName);
         // Add random internal rooms (skipping entry floor)
         for (int i = 1; i < 7; i++) {
             failSafe = 0;
@@ -81,10 +82,12 @@ public class TowerPieces {
                 failSafe ++;
                 if (failSafe > 80) {
                     roomName = towerGenInfo.getRooms().get(0);
+                    break;
                 }
                 if (usedRooms.isEmpty()) {
                     usedRooms.put(roomName, 1);
                 }
+                // LOGGER.debug("{} in do while {}", towerName, failSafe);
             }
             while (usedRooms.getOrDefault(roomName, 0) == 2);
 
@@ -113,12 +116,13 @@ public class TowerPieces {
 
         endFloorProcessors =  switch (towerGenInfo) {
             case LAND -> List.of(CARPET_PLACER);
-            case OCEAN -> List.of(WATERLOGGED);
+            case OCEAN -> List.of(NORMAL_FLOOR_OCEAN);
             default -> List.of();
         };
 
         towerPieces.add(new RoomPiece(templateManager, "end_floor", towerName, blockPos.offset(0, floorHeight*7, 0), rotation, endFloorProcessors, 8));
 
+        LOGGER.debug("{} placed floors", towerName);
     }
 
     public static class TowerPiece extends TemplateStructurePiece {
@@ -211,7 +215,7 @@ public class TowerPieces {
         @Override
         public BoundingBox getBeardifierBox() {
             return switch (TowerGenInfo.getTypeForName(towerName)) {
-                case LAND -> this.getBoundingBox().inflatedBy(-1);
+                case LAND -> this.getBoundingBox();
                 default -> this.getBoundingBox();
             };
         }
