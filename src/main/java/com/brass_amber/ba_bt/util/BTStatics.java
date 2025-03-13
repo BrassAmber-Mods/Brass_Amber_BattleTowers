@@ -12,7 +12,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class BTStatics {
         towerBlocks = List.of(
                 // Land
                 List.of(
-                        Blocks.COBBLESTONE.defaultBlockState(), Blocks.COBBLESTONE_SLAB.defaultBlockState(), Blocks.COBBLESTONE_STAIRS.defaultBlockState(),
+                        Blocks.COBBLESTONE.defaultBlockState(), Blocks.COBBLESTONE_SLAB.defaultBlockState(), Blocks.COBBLESTONE_STAIRS.defaultBlockState(), Blocks.CRACKED_STONE_BRICKS.defaultBlockState(),
                         Blocks.STONE_BRICK_SLAB.defaultBlockState(), Blocks.STONE_BRICKS.defaultBlockState(), Blocks.STONE_BRICK_STAIRS.defaultBlockState(),
                         Blocks.CHISELED_STONE_BRICKS.defaultBlockState(), Blocks.GRAVEL.defaultBlockState(), Blocks.SAND.defaultBlockState(),
                         Blocks.MOSSY_STONE_BRICK_SLAB.defaultBlockState(), Blocks.MOSSY_STONE_BRICKS.defaultBlockState(), Blocks.MOSSY_STONE_BRICK_STAIRS.defaultBlockState(),
@@ -105,9 +107,9 @@ public class BTStatics {
                 ),
                 // Ocean
                 List.of(
-                        Blocks.PRISMARINE.defaultBlockState(), Blocks.PRISMARINE_SLAB.defaultBlockState(), Blocks.PRISMARINE_STAIRS.defaultBlockState(),
-                        Blocks.PRISMARINE_BRICKS.defaultBlockState(), Blocks.PRISMARINE_BRICK_SLAB.defaultBlockState(), Blocks.PRISMARINE_BRICK_STAIRS.defaultBlockState(),
-                        Blocks.SEA_LANTERN.defaultBlockState(), Blocks.DARK_PRISMARINE.defaultBlockState(), Blocks.DARK_PRISMARINE_STAIRS.defaultBlockState(),
+                        Blocks.PRISMARINE.defaultBlockState(), Blocks.PRISMARINE_SLAB.defaultBlockState(), Blocks.PRISMARINE_STAIRS.defaultBlockState(), Blocks.PACKED_ICE.defaultBlockState(),
+                        Blocks.PRISMARINE_BRICKS.defaultBlockState(), Blocks.PRISMARINE_BRICK_SLAB.defaultBlockState(), Blocks.PRISMARINE_BRICK_STAIRS.defaultBlockState(), Blocks.KELP_PLANT.defaultBlockState(),
+                        Blocks.SEA_LANTERN.defaultBlockState(), Blocks.DARK_PRISMARINE.defaultBlockState(), Blocks.DARK_PRISMARINE_STAIRS.defaultBlockState(), Blocks.ICE.defaultBlockState(),
                         Blocks.DARK_PRISMARINE_SLAB.defaultBlockState(), Blocks.SEA_LANTERN.defaultBlockState(), Blocks.MAGMA_BLOCK.defaultBlockState(), Blocks.SOUL_SAND.defaultBlockState(),
                         Blocks.SEAGRASS.defaultBlockState(), Blocks.TALL_SEAGRASS.defaultBlockState(), Blocks.KELP_PLANT.defaultBlockState(), Blocks.BRAIN_CORAL.defaultBlockState(),
                         Blocks.BUBBLE_CORAL.defaultBlockState(), Blocks.FIRE_CORAL.defaultBlockState(), Blocks.TUBE_CORAL.defaultBlockState(), Blocks.HORN_CORAL.defaultBlockState(),
@@ -115,7 +117,7 @@ public class BTStatics {
                         Blocks.TUBE_CORAL_BLOCK.defaultBlockState(), Blocks.HORN_CORAL_BLOCK.defaultBlockState(), Blocks.IRON_BARS.defaultBlockState(), Blocks.BONE_BLOCK.defaultBlockState(),
                         Blocks.COPPER_BLOCK.defaultBlockState(), Blocks.EXPOSED_COPPER.defaultBlockState(), Blocks.OXIDIZED_COPPER.defaultBlockState(), Blocks.WARPED_STEM.defaultBlockState(),
                         BTBlocks.OCEAN_SPAWNER.get().defaultBlockState(), BTBlocks.OCEAN_CHEST.get().defaultBlockState(), BTBlocks.OCEAN_GOLEM_CHEST.get().defaultBlockState(),
-                        BTBlocks.SPAWNER_MARKER.get().defaultBlockState()
+                        BTBlocks.SPAWNER_MARKER.get().defaultBlockState(), Blocks.LAPIS_BLOCK.defaultBlockState(), Blocks.PRISMARINE_SLAB.defaultBlockState()
                 )
         );
 
@@ -517,7 +519,7 @@ public class BTStatics {
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(4.8f, 4.8f, 4.12f, 2.6f, 2.6f));
+                    addAll(Arrays.asList(4.8f, 4.8f, 4.12f, 2.6f, 2.6f,  2.6f));
                     addAll(buildingBlocksPoolAmount.get().stream().filter(itemRange -> (buildingBlocksPoolRarity.get().get(buildingBlocksPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
