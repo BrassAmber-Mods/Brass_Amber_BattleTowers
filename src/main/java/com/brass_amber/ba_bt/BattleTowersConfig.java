@@ -129,11 +129,11 @@ public class BattleTowersConfig {
         landMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
                                 "(9 chunk minimum. Default: 20 Chunks")
-                        .defineInRange("landMinimumSeparation", 20, 9, 999999999);
+                        .defineInRange("landMinimumSeparation", 30, 9, 999999999);
         oceanMinimumSeperation =
                 BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
                                 "(6 chunk minimum. Default: 16 Chunks")
-                        .defineInRange("oceanMinimumSeparation", 16, 6, 999999999);
+                        .defineInRange("oceanMinimumSeparation", 35, 9, 999999999);
         firstTowerDistance = BUILDER.comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 25 chunks ")
                 .define("firstTowerDistance", 25);
         terralithBiomeSpawning = BUILDER.comment("Whether to include acceptable Terralith biomes during the tower's Biome check.")
@@ -179,8 +179,8 @@ public class BattleTowersConfig {
                         .define("smallOceanTrench", false);
         BUILDER.pop();
 
-        BUILDER.comment("Crash-able settings -- If you edit these, and the game crashes, its on you");
-        BUILDER.push("crash-able");
+        BUILDER.comment("Crashable settings -- If you edit these, and the game crashes, its on you");
+        BUILDER.push("crashable");
 
         BUILDER.push("towerMobs");
         BUILDER.comment("Lists of mob ids of possible mobs to spawn in spawners inside each Tower. Each list must contain at least one value");
