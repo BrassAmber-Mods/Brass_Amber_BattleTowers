@@ -409,16 +409,6 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
-	public static int getFloorHeight(GolemType golemType) {
-		return switch (golemType) {
-			case OCEAN -> -12;
-			case CORE -> 9;
-			case NETHER -> 10;
-			case SKY -> 12;
-            default -> 11;
-		};
-	}
-
 	@Override
 	public @NotNull String getSerializedName() {
 		return this.name;
