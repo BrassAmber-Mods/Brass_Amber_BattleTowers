@@ -196,7 +196,7 @@ public class BTUtil {
         removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
-    public static Pair<List<Item>, List<Integer>> createItems(int rarity, List<String> pools, RandomSource randomSource, boolean isExtra) {
+    public static Pair<List<Item>, List<Integer>> createItems(int rarity, ArrayList<String> pools, RandomSource randomSource, boolean isExtra) {
         List<Item> items = new ArrayList<>();
         List<Item> poolItems = new ArrayList<>();
 
