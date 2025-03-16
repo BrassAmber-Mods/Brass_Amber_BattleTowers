@@ -55,6 +55,9 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> toolPoolExtra;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> consumablePoolExtra;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> bedsidePoolExtra;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> plantsPoolExtra;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> waterPlantsPoolExtra;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> treePlantsPoolExtra;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> meatPoolRarity;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> veggiePoolRarity;
@@ -69,6 +72,9 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> toolPoolRarity;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> consumablePoolRarity;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> bedsidePoolRarity;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> plantsPoolRarity;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> waterPlantsPoolRarity;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> treePlantsPoolRarity;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> meatPoolAmount;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> veggiePoolAmount;
@@ -83,6 +89,9 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> toolPoolAmount;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> consumablePoolAmount;
     public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> bedsidePoolAmount;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> plantsPoolAmount;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> waterPlantsPoolAmount;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends Float>> treePlantsPoolAmount;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> landTowerChestPools;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> oceanTowerChestPools;
@@ -259,6 +268,19 @@ public class BattleTowersConfig {
         bedsidePoolExtra = BUILDER.defineListAllowEmpty("bedsideLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
         bedsidePoolRarity = BUILDER.defineListAllowEmpty("bedsideLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
         bedsidePoolAmount = BUILDER.defineListAllowEmpty("bedsideLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+
+        plantsPoolExtra = BUILDER.defineListAllowEmpty("plantsLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        plantsPoolRarity = BUILDER.defineListAllowEmpty("plantsLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        plantsPoolAmount = BUILDER.defineListAllowEmpty("plantsLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+
+        waterPlantsPoolExtra = BUILDER.defineListAllowEmpty("waterPlantsLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        waterPlantsPoolRarity = BUILDER.defineListAllowEmpty("waterPlantsLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        waterPlantsPoolAmount = BUILDER.defineListAllowEmpty("waterPlantsLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+
+        treePlantsPoolExtra = BUILDER.defineListAllowEmpty("treePlantsLootPool", Collections.emptyList(), BattleTowersConfig::validateItem);
+        treePlantsPoolRarity = BUILDER.defineListAllowEmpty("treePlantsLootRarity", Collections.emptyList(), BattleTowersConfig::validateRarity);
+        treePlantsPoolAmount = BUILDER.defineListAllowEmpty("treePlantsLootAmounts", Collections.emptyList(), BattleTowersConfig::validateFloat);
+
         BUILDER.pop();
 
         BUILDER.push("towerChestLootTableReplacements");

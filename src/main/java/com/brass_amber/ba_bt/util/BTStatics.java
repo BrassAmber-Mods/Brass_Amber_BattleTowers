@@ -10,9 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,6 +50,9 @@ public class BTStatics {
     public static final List<List<Item>> toolPool;
     public static final List<List<Item>> consumablePool;
     public static final List<List<Item>> bedsidePool;
+    public static final List<List<Item>> plantsPool;
+    public static final List<List<Item>> waterPlantsPool;
+    public static final List<List<Item>> treePlantsPool;
 
     public static final List<List<Float>> meatPoolAmounts;
     public static final List<List<Float>> veggiePoolAmounts;
@@ -66,6 +67,9 @@ public class BTStatics {
     public static final List<List<Float>> toolPoolAmounts;
     public static final List<List<Float>> consumablePoolAmounts;
     public static final List<List<Float>> bedsidePoolAmounts;
+    public static final List<List<Float>> plantsPoolAmounts;
+    public static final List<List<Float>> waterPlantsPoolAmounts;
+    public static final List<List<Float>> treePlantsPoolAmounts;
     
 
     public static final List<Potion> potions;
@@ -809,6 +813,144 @@ public class BTStatics {
                 }}
         );
 
+        plantsPool = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.ALLIUM, Items.AZURE_BLUET, Items.CACTUS, Items.CORNFLOWER, Items.DANDELION, Items.OXEYE_DAISY, Items.POPPY, Items.GRASS, Items.TALL_GRASS));
+                    addAll(plantsPoolExtra.get().stream().filter(itemName -> (plantsPoolRarity.get().get(plantsPoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 0
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BAMBOO, Items.BLUE_ORCHID, Items.FERN, Items.GLOW_LICHEN, Items.LILY_OF_THE_VALLEY, Items.ORANGE_TULIP, Items.WHITE_TULIP, Items.RED_TULIP, Items.WHITE_TULIP, Items.PEONY, Items.ROSE_BUSH, Items.SUGAR_CANE, Items.VINE));
+                    addAll(plantsPoolExtra.get().stream().filter(itemName -> (plantsPoolRarity.get().get(plantsPoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 1
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.DEAD_BUSH, Items.HANGING_ROOTS, Items.LARGE_FERN, Items.LILAC, Items.MOSS_BLOCK, Items.MOSS_CARPET, Items.SUNFLOWER));
+                    addAll(plantsPoolExtra.get().stream().filter(itemName -> (plantsPoolRarity.get().get(plantsPoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 2
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.CRIMSON_FUNGUS, Items.CRIMSON_ROOTS, Items.NETHER_WART, Items.NETHER_SPROUTS, Items.SHROOMLIGHT, Items.TWISTING_VINES, Items.WARPED_FUNGUS, Items.WARPED_ROOTS, Items.WEEPING_VINES));
+                    addAll(plantsPoolExtra.get().stream().filter(itemName -> (plantsPoolRarity.get().get(plantsPoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 3
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.CHORUS_FLOWER, Items.PITCHER_PLANT, Items.PITCHER_POD, Items.TORCHFLOWER, Items.WITHER_ROSE , Items.SPORE_BLOSSOM));
+                    addAll(plantsPoolExtra.get().stream().filter(itemName -> (plantsPoolRarity.get().get(plantsPoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }} // Rarity 4
+        );
+
+        plantsPoolAmounts = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(plantsPoolAmount.get().stream().filter(itemRange -> (plantsPoolRarity.get().get(plantsPoolAmount.get().indexOf(itemRange)) == 0)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(plantsPoolAmount.get().stream().filter(itemRange -> (plantsPoolRarity.get().get(plantsPoolAmount.get().indexOf(itemRange)) == 1)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(plantsPoolAmount.get().stream().filter(itemRange -> (plantsPoolRarity.get().get(plantsPoolAmount.get().indexOf(itemRange)) == 2)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(plantsPoolAmount.get().stream().filter(itemRange -> (plantsPoolRarity.get().get(plantsPoolAmount.get().indexOf(itemRange)) == 3)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(plantsPoolAmount.get().stream().filter(itemRange -> (plantsPoolRarity.get().get(plantsPoolAmount.get().indexOf(itemRange)) == 4)).toList());
+                }}
+        );
+
+        waterPlantsPool = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.KELP, Items.SEAGRASS));
+                    addAll(waterPlantsPoolExtra.get().stream().filter(itemName -> (waterPlantsPoolRarity.get().get(waterPlantsPoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 0
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.LILY_PAD, Items.SEA_PICKLE, Items.MANGROVE_ROOTS));
+                    addAll(waterPlantsPoolExtra.get().stream().filter(itemName -> (waterPlantsPoolRarity.get().get(waterPlantsPoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 1
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BIG_DRIPLEAF, Items.SMALL_DRIPLEAF, Items.MUDDY_MANGROVE_ROOTS));
+                    addAll(waterPlantsPoolExtra.get().stream().filter(itemName -> (waterPlantsPoolRarity.get().get(waterPlantsPoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 2
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BRAIN_CORAL, Items.BUBBLE_CORAL, Items.HORN_CORAL, Items.TUBE_CORAL));
+                    addAll(waterPlantsPoolExtra.get().stream().filter(itemName -> (waterPlantsPoolRarity.get().get(waterPlantsPoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 3
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BRAIN_CORAL_FAN, Items.BUBBLE_CORAL_FAN, Items.HORN_CORAL_FAN, Items.TUBE_CORAL_FAN));
+                    addAll(waterPlantsPoolExtra.get().stream().filter(itemName -> (waterPlantsPoolRarity.get().get(waterPlantsPoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }} // Rarity 4
+        );
+
+        waterPlantsPoolAmounts = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.6f));
+                    addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 0)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.6f));
+                    addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 1)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.6f, 2.4f));
+                    addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 2)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 3)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.4f, 2.4f, 2.4f));
+                    addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 4)).toList());
+                }}
+        );
+
+        treePlantsPool = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.BIRCH_SAPLING, Items.BIRCH_LEAVES, Items.OAK_SAPLING, Items.OAK_LEAVES, Items.SPRUCE_SAPLING, Items.SPRUCE_LEAVES));
+                    addAll(treePlantsPoolExtra.get().stream().filter(itemName -> (treePlantsPoolRarity.get().get(treePlantsPoolExtra.get().indexOf(itemName)) == 0)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 0
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.ACACIA_SAPLING, Items.ACACIA_LEAVES, Items.DARK_OAK_SAPLING, Items.DARK_OAK_LEAVES, Items.JUNGLE_SAPLING, Items.JUNGLE_LEAVES));
+                    addAll(treePlantsPoolExtra.get().stream().filter(itemName -> (treePlantsPoolRarity.get().get(treePlantsPoolExtra.get().indexOf(itemName)) == 1)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 1
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.AZALEA, Items.AZALEA_LEAVES, Items.MUSHROOM_STEM, Items.MANGROVE_ROOTS));
+                    addAll(treePlantsPoolExtra.get().stream().filter(itemName -> (treePlantsPoolRarity.get().get(treePlantsPoolExtra.get().indexOf(itemName)) == 2)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 2
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.FLOWERING_AZALEA, Items.FLOWERING_AZALEA_LEAVES, Items.MUDDY_MANGROVE_ROOTS));
+                    addAll(treePlantsPoolExtra.get().stream().filter(itemName -> (treePlantsPoolRarity.get().get(treePlantsPoolExtra.get().indexOf(itemName)) == 3)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }}, // Rarity 3
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(Items.CHERRY_SAPLING, Items.CHERRY_LEAVES, Items.MANGROVE_PROPAGULE, Items.MANGROVE_LEAVES));
+                    addAll(treePlantsPoolExtra.get().stream().filter(itemName -> (treePlantsPoolRarity.get().get(treePlantsPoolExtra.get().indexOf(itemName)) == 4)).map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).toList());
+                }} // Rarity 4
+        );
+
+        treePlantsPoolAmounts = List.of(
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.8f, 2.4f, 2.8f, 2.4f, 2.8f));
+                    addAll(treePlantsPoolAmount.get().stream().filter(itemRange -> (treePlantsPoolRarity.get().get(treePlantsPoolAmount.get().indexOf(itemRange)) == 0)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.8f, 2.4f, 2.8f, 2.4f, 2.8f));
+                    addAll(treePlantsPoolAmount.get().stream().filter(itemRange -> (treePlantsPoolRarity.get().get(treePlantsPoolAmount.get().indexOf(itemRange)) == 1)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.8f, 2.8f, 2.8f));
+                    addAll(treePlantsPoolAmount.get().stream().filter(itemRange -> (treePlantsPoolRarity.get().get(treePlantsPoolAmount.get().indexOf(itemRange)) == 2)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.8f, 2.8f));
+                    addAll(treePlantsPoolAmount.get().stream().filter(itemRange -> (treePlantsPoolRarity.get().get(treePlantsPoolAmount.get().indexOf(itemRange)) == 3)).toList());
+                }},
+                new ArrayList<>() {{
+                    addAll(Arrays.asList(2.4f, 2.8f, 2.4f, 2.8f));
+                    addAll(treePlantsPoolAmount.get().stream().filter(itemRange -> (treePlantsPoolRarity.get().get(treePlantsPoolAmount.get().indexOf(itemRange)) == 4)).toList());
+                }}
+        );
+
         lootMap = new HashMap<>();
         lootMap.put("Meat", Pair.of(meatPool, meatPoolAmounts));
         lootMap.put("Veggie", Pair.of(veggiePool,veggiePoolAmounts));
@@ -823,6 +965,9 @@ public class BTStatics {
         lootMap.put("Tools", Pair.of(toolPool, toolPoolAmounts));
         lootMap.put("Consumables", Pair.of(consumablePool, consumablePoolAmounts));
         lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts));
+        lootMap.put("Plants", Pair.of(plantsPool, plantsPoolAmounts));
+        lootMap.put("Water Plants", Pair.of(waterPlantsPool, waterPlantsPoolAmounts));
+        lootMap.put("Tree Plants", Pair.of(treePlantsPool, treePlantsPoolAmounts));
 
         potions = ForgeRegistries.POTIONS.getValues().stream().toList();
         dyes = List.of(
