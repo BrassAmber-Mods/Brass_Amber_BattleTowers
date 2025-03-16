@@ -37,7 +37,7 @@ public class TowerPieces {
 
         // Add tower shell to list first so it is generated first
         towerPieces.add(new StartPiece(templateManager, "start", towerName, blockPos, rotation, ""));
-        int floorHeight = GolemType.getFloorHeight(GolemType.getTypeForName(towerName.split("_")[0]));
+        int floorHeight = TowerGenInfo.getFloorHeight(towerGenInfo);
         int doubledFloorHeight = floorHeight * 2;
 
         blockPos = switch (towerGenInfo) {

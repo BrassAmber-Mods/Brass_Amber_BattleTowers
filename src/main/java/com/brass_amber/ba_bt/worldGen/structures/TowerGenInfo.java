@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.BABTMain;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
@@ -164,6 +163,17 @@ public enum TowerGenInfo implements StringRepresentable {
     public static List<StructureProcessor> getVariantProcessors(TowerGenInfo towerGenInfo, String variant) {
         return towerGenInfo.extraProcessors.get(variant);
     }
+
+    public static int getFloorHeight(TowerGenInfo towerGenInfo) {
+        return switch (towerGenInfo) {
+            case OCEAN -> -12;
+            case CORE -> 9;
+            case NETHER -> 10;
+            case SKY -> 12;
+            default -> 11;
+        };
+    }
+
 
     @Override
     public String getSerializedName() {
