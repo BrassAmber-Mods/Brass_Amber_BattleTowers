@@ -12,6 +12,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -80,6 +82,10 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.OCEAN_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
+        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gems");
+        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metals", "Water Plants", "Plants");
+        this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
+
         if (minimalOceanCarving.get()) {
             this.noise = 30 + ((random.nextInt(2) + 1) * 4);
         } else {
@@ -128,8 +134,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-        if (!this.oceanCarved && this.serverInitialized) {
-
+        if (!this.oceanCarved && this.serverInitialized && this.tickCount % 60 <= 5) {
             this.carveOcean();
             doNoOutputCommand(this, "/kill @e[distance=0..72,type=item]");
             return;

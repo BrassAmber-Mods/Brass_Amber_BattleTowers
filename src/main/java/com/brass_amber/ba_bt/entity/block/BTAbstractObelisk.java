@@ -112,6 +112,9 @@ public class BTAbstractObelisk extends Entity {
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
     protected BTChestBlockEntity golemChest;
+    protected List<String> golemChestLootTypes;
+    protected List<String> towerChestLootTypes;
+    protected ItemStack[] golemLoot;
     public boolean displayCrystal = true;
     private boolean crystalSpawned = false;
 
@@ -293,7 +296,7 @@ public class BTAbstractObelisk extends Entity {
         placeState.trySetValue(BlockStateProperties.FACING, facing);
 
         // Get and clean lootTypes list (this accounts for datamarkers with empty lists)
-        List<String> lootTypes = dataMarker.getLootTypes();
+        ArrayList<String> lootTypes = new ArrayList<>(dataMarker.getLootTypes());
         lootTypes.removeIf((type) -> type.equals("Invalid"));
         lootTypes.removeIf(String::isEmpty);
 
@@ -421,15 +424,15 @@ public class BTAbstractObelisk extends Entity {
                     this.golemChest.setUnlocked(true);
 
                     for (int i = 2; i < 7; i++) {
-                        this.golemChest.setItem(i, Items.STONE_BRICKS.getDefaultInstance());
+                        this.golemChest.setItem(i, this.golemLoot[0]);
                     }
                     for (int i = 19; i < 24; i++) {
-                        this.golemChest.setItem(i, Items.CLAY.getDefaultInstance());
+                        this.golemChest.setItem(i, this.golemLoot[1]);
                     }
                     for (int i = 10; i < 17; i++) {
-                        this.golemChest.setItem(i, Items.STONE_BRICKS.getDefaultInstance());
+                        this.golemChest.setItem(i, this.golemLoot[0]);
                     }
-                    this.golemChest.setItem(13, Items.DIAMOND.getDefaultInstance());
+                    this.golemChest.setItem(13, this.golemLoot[2]);
 
                     LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos())).create(LootContextParamSets.CHEST);
                     LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
@@ -438,7 +441,7 @@ public class BTAbstractObelisk extends Entity {
                         btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), this.golemChest, lootcontext, lootparams);
                     }
                     else {
-                        Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(4, List.of("Weapon", "Armor", "Gems"), this.random, false);
+                        Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(4, new ArrayList<>(this.golemChestLootTypes), this.random, false);
                         btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), this.golemChest, lootcontext);
                     }
 
@@ -587,7 +590,7 @@ public class BTAbstractObelisk extends Entity {
                                     btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), chest, lootcontext, lootparams);
                                 }
                                 else {
-                                    Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, List.of("Weapon", "Armor", "Metals", "Consumables"), this.random, false);
+                                    Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, new ArrayList<>(this.towerChestLootTypes), this.random, false);
                                     btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), chest, lootcontext);
                                 }
                                 // BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);

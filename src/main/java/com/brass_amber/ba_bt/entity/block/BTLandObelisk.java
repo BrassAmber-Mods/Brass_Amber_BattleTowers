@@ -6,8 +6,14 @@ import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BTLandObelisk extends BTAbstractObelisk {
 
@@ -34,16 +40,18 @@ public class BTLandObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.LAND_SPAWNER.get();
         this.spawnerFillBlock = Blocks.STONE_BRICKS;
+        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gems");
+        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metals", "Consumables", "Consumables");
+        this.golemLoot = new ItemStack[]{Items.STONE_BRICKS.getDefaultInstance(), Items.CLAY.getDefaultInstance(), Items.DIAMOND.getDefaultInstance()};
         super.serverInitialize();
     }
+
     @Override
     public void clientInitialize() {
         this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
         this.TOWER_MUSIC = BTSoundEvents.LAND_TOWER_MUSIC;
         super.clientInitialize();
     }
-
-
 
     @Override
     public void extraCheck(BlockPos toUpdate, Level level) {
