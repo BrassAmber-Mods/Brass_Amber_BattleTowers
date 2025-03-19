@@ -83,8 +83,8 @@
 	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
 	"block.ba_bt.bt_sky_spawner" : "Generatore celeste",
 
-	"block.ba_bt.spawner_marker" : "Segnaposto per Spawner",
-	"block.ba_bt.data_marker" : "Segnaposto per Contenitori",
+	"block.ba_bt.spawner_marker" : "Segnaposto per generatori",
+	"block.ba_bt.data_marker" : "Segnaposto per contenitori",
 
 	"comment4":"Contenitori (Containers)",
 	"container.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
