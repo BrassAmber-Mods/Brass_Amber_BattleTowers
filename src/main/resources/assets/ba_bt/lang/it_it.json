@@ -6,7 +6,7 @@
 	"entity.ba_bt.land_golem": "Bahryn'muul, L'Antico osservatore",
 	"entity.ba_bt.ocean_golem": "Moraizu'un, Idolo degli affogati",
 	"entity.ba_bt.core_golem": "Obthu'ryn, Dio del nucleo",
-	"entity.ba_bt.nether_golem": "Infuur'niir, Tiranno infernale",
+	"entity.ba_bt.nether_golem": "Infuur'niir, Tiranno re della fiamma",
 	"entity.ba_bt.end_golem": "Shul'losniir, Il Guardiano sfigurato",
 	"entity.ba_bt.sky_golem": "Veyhz'kriin, Dea dei cieli",
 
@@ -15,16 +15,16 @@
 
 	"entity.ba_bt.land_monolith": "Monolite terrestre",
 	"entity.ba_bt.ocean_monolith": "Monolite oceanico",
-	"entity.ba_bt.core_monolith": "Monolite del nucleo",
+	"entity.ba_bt.core_monolith": "Monolite primordiale",
 	"entity.ba_bt.nether_monolith": "Monolite infernale",
-	"entity.ba_bt.end_monolith": "Monolite dell'End",
+	"entity.ba_bt.end_monolith": "Monolite remoto",
 	"entity.ba_bt.sky_monolith": "Monolite celestiale",
 
 	"entity.ba_bt.land_obelisk": "Obelisco terrestre",
 	"entity.ba_bt.ocean_obelisk": "Obelisco oceanico",
-	"entity.ba_bt.core_obelisk": "Obelisco del nucleo",
+	"entity.ba_bt.core_obelisk": "Obelisco primordiale",
 	"entity.ba_bt.nether_obelisk": "Obelisco infernale",
-	"entity.ba_bt.end_obelisk": "Obelisco dell'End",
+	"entity.ba_bt.end_obelisk": "Obelisco remoto",
 	"entity.ba_bt.sky_obelisk": "Obelisco celestiale",
 
 	"entity.ba_bt.destroy_tower": "Distruggi la torre",
@@ -51,9 +51,9 @@
 	"ba_bt.subtitle.tower.break.collapse": "Crolli della torre",
 	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre terrestre",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
-	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre del nucleo",
+	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre primordiale",
 	"ba_bt.subtitle.tower.ambient.music.nether": "Musica ambientale della torre infernale",
-	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre dell'End",
+	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre remota",
 	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celestiale",
 	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della citta' ripristinata",
 
@@ -65,22 +65,22 @@
 	"block.ba_bt.ocean_chest": "Baule oceanico",
 
 	"block.ba_bt.core_golem_chest": "Forziere di Obthu'uryn",
-	"block.ba_bt.core_chest": "Baule del nucleo",
+	"block.ba_bt.core_chest": "Baule primordiale",
 
 	"block.ba_bt.nether_golem_chest": "Forziere di Infuur'niir",
 	"block.ba_bt.nether_chest": "Baule infernale",
 
 	"block.ba_bt.end_golem_chest": "Forziere di Shul'losniir",
-	"block.ba_bt.end_chest": "Baule dell'End",
+	"block.ba_bt.end_chest": "Baule remoto",
 
 	"block.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
 	"block.ba_bt.sky_chest": "Baule celeste",
 
 	"block.ba_bt.bt_land_spawner" : "Generatore terrestre",
 	"block.ba_bt.bt_ocean_spawner" : "Generatore oceanico",
-	"block.ba_bt.bt_core_spawner" : "Generatore del Nucleo",
+	"block.ba_bt.bt_core_spawner" : "Generatore primordiale",
 	"block.ba_bt.bt_nether_spawner" : "Generatore infernale",
-	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
+	"block.ba_bt.bt_end_spawner" : "Generatore remoto",
 	"block.ba_bt.bt_sky_spawner" : "Generatore celeste",
 
 	"block.ba_bt.spawner_marker" : "Segnaposto per generatori",
@@ -99,8 +99,8 @@
 
 	"container.ba_bt.core_golem_chest": "Forziere di Obthu'uryn",
 	"container.ba_bt.core_golem_chest_double": "Doppio forziere di Obthu'uryn",
-	"container.ba_bt.core_chest": "Baule del nucleo",
-	"container.ba_bt.core_chest_double": "Doppio baule del nucleo",
+	"container.ba_bt.core_chest": "Baule primordiale",
+	"container.ba_bt.core_chest_double": "Doppio baule primordiale",
 
 	"container.ba_bt.nether_golem_chest": "Forziere di Infuur'niir",
 	"container.ba_bt.nether_golem_chest_double": "Doppio forziere di Infuur'niir",
@@ -109,8 +109,8 @@
 
 	"container.ba_bt.end_golem_chest": "Forziere di Shul'losniir",
 	"container.ba_bt.end_golem_chest_double": "Doppio forziere di Shul'losniir",
-	"container.ba_bt.end_chest": "Baule dell'End",
-	"container.ba_bt.end_chest_double": "Doppio baule dell'End",
+	"container.ba_bt.end_chest": "Baule remoto",
+	"container.ba_bt.end_chest_double": "Doppio baule remoto",
 
 	"container.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
 	"container.ba_bt.sky_golem_chest_double": "Doppio forziere di Veyhz'kriin",
@@ -122,9 +122,9 @@
 	"comment5":"Oggetti (Items)",
 	"item.ba_bt.land_monolith_key": "Chiave del monolite terrestre",
 	"item.ba_bt.ocean_monolith_key": "Chiave del monolite oceanico",
-	"item.ba_bt.core_monolith_key": "Chiave del monolite del nucleo",
+	"item.ba_bt.core_monolith_key": "Chiave del monolite primordiale",
 	"item.ba_bt.nether_monolith_key": "Chiave del monolite infernale",
-	"item.ba_bt.end_monolith_key": "Chiave del monolite dell'End",
+	"item.ba_bt.end_monolith_key": "Chiave del monolite remoto",
 	"item.ba_bt.sky_monolith_key": "Chiave del monolite celestiale",
 
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
@@ -136,23 +136,23 @@
 
 	"item.ba_bt.land_monolith": "Monolite terrestre",
 	"item.ba_bt.ocean_monolith": "Monolite oceanico",
-	"item.ba_bt.core_monolith": "Monolite del nucleo",
+	"item.ba_bt.core_monolith": "Monolite primordiale",
 	"item.ba_bt.nether_monolith": "Monolite infernale",
-	"item.ba_bt.end_monolith": "Monolite dell'End",
+	"item.ba_bt.end_monolith": "Monolite remoto",
 	"item.ba_bt.sky_monolith": "Monolite celestiale",
 
 	"item.ba_bt.land_chest_shard": "Frammento del baule terrestre",
 	"item.ba_bt.ocean_chest_shard": "Frammento del baule dell'oceano",
-	"item.ba_bt.core_chest_shard": "Frammento del baule del nucleo",
+	"item.ba_bt.core_chest_shard": "Frammento del baule primordiale",
 	"item.ba_bt.nether_chest_shard": "Frammento del baule infernale",
-	"item.ba_bt.end_chest_shard": "Frammento del baule dell'End",
+	"item.ba_bt.end_chest_shard": "Frammento del baule remoto",
 	"item.ba_bt.sky_chest_shard": "Frammento del baule celeste",
 
 	"item.ba_bt.land_resonance_stone": "Pietra risonante terrestre",
 	"item.ba_bt.ocean_resonance_stone": "Pietra risonante oceanica",
-	"item.ba_bt.core_resonance_stone": "Pietra risonante del nucleo",
+	"item.ba_bt.core_resonance_stone": "Pietra risonante primordiale",
 	"item.ba_bt.nether_resonance_stone": "Pietra risonante infernale",
-	"item.ba_bt.end_resonance_stone": "Pietra risonante dell'End",
+	"item.ba_bt.end_resonance_stone": "Pietra risonante remota",
 	"item.ba_bt.sky_resonance_stone": "Pietra risonante celestiale",
 	"item.ba_bt.city_resonance_stone": "Pietra risonante cittadina",
 
@@ -178,11 +178,12 @@
 	"tooltip.ba_bt.eye_hold_shift": "Tieni premuto §eMaiusc§r per leggere le utlime parole del Guardiano",
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre e' stata compromessa...",
 	"tooltip.ba_bt.ocean_eye": "Loda il vuoto... Lodami...",
-	"tooltip.ba_bt.core_eye": "Niente puo' piu' fermarmi adesso..",
+	"tooltip.ba_bt.core_eye": "Niente puo' piu' fermarli adesso..",
 	"tooltip.ba_bt.nether_eye": "Ti faro' MARCIRE nelle mie PRIGIONI per questo!...",
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
-	"tooltip.ba_bt.sky_eye": "Ti ho deluso, Sr. Vaayus... ",
+	"tooltip.ba_bt.sky_eye": "Ti ho deluso, illustre Vaayus... ",
 	
+	"comment8b":"Sottotitoli degli oggetti - Dischi musicali (Item Tooltips - Music Disc)",
 	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
 	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
 	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
@@ -194,10 +195,10 @@
 	"comment9":"Scritte in sovraimpressione (Overscreen titles)",
 	"title.ba_bt.land": "Bahryn'muul, Guardiano terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
-	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
-	"title.ba_bt.nether": "Infuur'niir, Tiranno dell'inferno",
-	"title.ba_bt.end": "Shul'losniir, Custode dell'End",
-	"title.ba_bt.sky": "Veyhz'kriin, Dea del cielo",
+	"title.ba_bt.core": "Obthu'ryn, Dio primordiale",
+	"title.ba_bt.nether": "Infuur'niir, Tiranno infernale",
+	"title.ba_bt.end": "Shul'losniir, Custode della fine",
+	"title.ba_bt.sky": "Veyhz'kriin, Dea celeste",
 	
 	"title.ba_bt.guardian_defeated_1": " e' caduto.",
 
