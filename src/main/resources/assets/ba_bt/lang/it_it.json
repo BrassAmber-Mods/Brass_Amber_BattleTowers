@@ -13,14 +13,14 @@
 	"entity.ba_bt.sky_minion": "Servitore celeste",
 	"entity.ba_bt.bt_cultist": "Cultista",
 
-	"entity.ba_bt.land_monolith": "Monolite della landa",
+	"entity.ba_bt.land_monolith": "Monolite terrestre",
 	"entity.ba_bt.ocean_monolith": "Monolite oceanico",
 	"entity.ba_bt.core_monolith": "Monolite del nucleo",
 	"entity.ba_bt.nether_monolith": "Monolite infernale",
 	"entity.ba_bt.end_monolith": "Monolite dell'End",
 	"entity.ba_bt.sky_monolith": "Monolite celestiale",
 
-	"entity.ba_bt.land_obelisk": "Obelisco della landa",
+	"entity.ba_bt.land_obelisk": "Obelisco terrestre",
 	"entity.ba_bt.ocean_obelisk": "Obelisco oceanico",
 	"entity.ba_bt.core_obelisk": "Obelisco del nucleo",
 	"entity.ba_bt.nether_obelisk": "Obelisco infernale",
@@ -49,7 +49,7 @@
 	"ba_bt.subtitle.tower.break.start": "La torre comincia a distruggersi",
 	"ba_bt.subtitle.tower.break.crumble": "Pavimento trema",
 	"ba_bt.subtitle.tower.break.collapse": "Crolli della torre",
-	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre della landa",
+	"ba_bt.subtitle.tower.ambient.music.land": "Musica ambientale della torre terrestre",
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
 	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre del nucleo",
 	"ba_bt.subtitle.tower.ambient.music.nether": "Musica ambientale della torre infernale",
@@ -59,7 +59,7 @@
 
 	"comment3":"Blocchi (Blocks)",
 	"block.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
-	"block.ba_bt.land_chest": "Baule della landa",
+	"block.ba_bt.land_chest": "Baule terrestre",
 
 	"block.ba_bt.ocean_golem_chest": "Forziere di Moraizu'un",
 	"block.ba_bt.ocean_chest": "Baule oceanico",
@@ -76,7 +76,7 @@
 	"block.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
 	"block.ba_bt.sky_chest": "Baule celeste",
 
-	"block.ba_bt.bt_land_spawner" : "Generatore della landa",
+	"block.ba_bt.bt_land_spawner" : "Generatore terrestre",
 	"block.ba_bt.bt_ocean_spawner" : "Generatore oceanico",
 	"block.ba_bt.bt_core_spawner" : "Generatore del Nucleo",
 	"block.ba_bt.bt_nether_spawner" : "Generatore infernale",
@@ -89,8 +89,8 @@
 	"comment4":"Contenitori (Containers)",
 	"container.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
 	"container.ba_bt.land_golem_chest_double": "Doppio forziere di Bahryn'muul",
-	"container.ba_bt.land_chest": "Baule della landa",
-	"container.ba_bt.land_chest_double": "Doppio baule della landa",
+	"container.ba_bt.land_chest": "Baule terrestre",
+	"container.ba_bt.land_chest_double": "Doppio baule terrestre",
 
 	"container.ba_bt.ocean_golem_chest": "Forziere di Moraizu'un",
 	"container.ba_bt.ocean_golem_chest_double": "Doppio forziere di Moraizu'un",
@@ -120,7 +120,7 @@
 	"container.ba_bt.tower_chest.isLocked": "Si sblocca dopo la distruzione dei generatori vicini",
 
 	"comment5":"Oggetti (Items)",
-	"item.ba_bt.land_monolith_key": "Chiave del monolite della landa",
+	"item.ba_bt.land_monolith_key": "Chiave del monolite terrestre",
 	"item.ba_bt.ocean_monolith_key": "Chiave del monolite oceanico",
 	"item.ba_bt.core_monolith_key": "Chiave del monolite del nucleo",
 	"item.ba_bt.nether_monolith_key": "Chiave del monolite infernale",
@@ -134,21 +134,21 @@
 	"item.ba_bt.guardian_eye_end": "Occhio di Shul'losniir",
 	"item.ba_bt.guardian_eye_sky": "Occhio di Veyhz'kriin",
 
-	"item.ba_bt.land_monolith": "Monolite della landa",
+	"item.ba_bt.land_monolith": "Monolite terrestre",
 	"item.ba_bt.ocean_monolith": "Monolite oceanico",
 	"item.ba_bt.core_monolith": "Monolite del nucleo",
 	"item.ba_bt.nether_monolith": "Monolite infernale",
 	"item.ba_bt.end_monolith": "Monolite dell'End",
 	"item.ba_bt.sky_monolith": "Monolite celestiale",
 
-	"item.ba_bt.land_chest_shard": "Frammento del baule della landa",
+	"item.ba_bt.land_chest_shard": "Frammento del baule terrestre",
 	"item.ba_bt.ocean_chest_shard": "Frammento del baule dell'oceano",
 	"item.ba_bt.core_chest_shard": "Frammento del baule del nucleo",
 	"item.ba_bt.nether_chest_shard": "Frammento del baule infernale",
 	"item.ba_bt.end_chest_shard": "Frammento del baule dell'End",
 	"item.ba_bt.sky_chest_shard": "Frammento del baule celeste",
 
-	"item.ba_bt.land_resonance_stone": "Pietra risonante della landa",
+	"item.ba_bt.land_resonance_stone": "Pietra risonante terrestre",
 	"item.ba_bt.ocean_resonance_stone": "Pietra risonante oceanica",
 	"item.ba_bt.core_resonance_stone": "Pietra risonante del nucleo",
 	"item.ba_bt.nether_resonance_stone": "Pietra risonante infernale",
@@ -192,7 +192,7 @@
 	"item.ba_bt.city_resonance_stone.desc": "Lena Raine: Labyrinthine",
 
 	"comment9":"Scritte in sovraimpressione (Overscreen titles)",
-	"title.ba_bt.land": "Bahryn'muul, Guardiano della landa",
+	"title.ba_bt.land": "Bahryn'muul, Guardiano terrestre",
 	"title.ba_bt.ocean": "Moraizu'un, Guardiano dell'oceano",
 	"title.ba_bt.core": "Obthu'ryn, Dio del Nucleo",
 	"title.ba_bt.nether": "Infuur'niir, Tiranno dell'inferno",
@@ -202,7 +202,7 @@
 	"title.ba_bt.guardian_defeated_1": " e' caduto.",
 
 	"title.ba_bt.land_defeated_2": "Senza la sua energia...",
-	"title.ba_bt.land_defeated_3": "...la torre' esplodera'!",
+	"title.ba_bt.land_defeated_3": "...la torre esplodera'!",
 
 	"title.ba_bt.ocean_defeated_2": "Esiliato nuovamente nel vuoto...",
 	"title.ba_bt.ocean_defeated_3": "...il pavimento comincia a crollare!",
