@@ -18,14 +18,14 @@
 	"entity.ba_bt.core_monolith": "Monolite primordiale",
 	"entity.ba_bt.nether_monolith": "Monolite infernale",
 	"entity.ba_bt.end_monolith": "Monolite remoto",
-	"entity.ba_bt.sky_monolith": "Monolite celestiale",
+	"entity.ba_bt.sky_monolith": "Monolite etereo",
 
 	"entity.ba_bt.land_obelisk": "Obelisco terrestre",
 	"entity.ba_bt.ocean_obelisk": "Obelisco oceanico",
 	"entity.ba_bt.core_obelisk": "Obelisco primordiale",
 	"entity.ba_bt.nether_obelisk": "Obelisco infernale",
 	"entity.ba_bt.end_obelisk": "Obelisco remoto",
-	"entity.ba_bt.sky_obelisk": "Obelisco celestiale",
+	"entity.ba_bt.sky_obelisk": "Obelisco etereo",
 
 	"entity.ba_bt.destroy_tower": "Distruggi la torre",
 
@@ -54,8 +54,8 @@
 	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre primordiale",
 	"ba_bt.subtitle.tower.ambient.music.nether": "Musica ambientale della torre infernale",
 	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre remota",
-	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celestiale",
-	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della citta' ripristinata",
+	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celeste",
+	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della citta' ancestrale",
 
 	"comment3":"Blocchi (Blocks)",
 	"block.ba_bt.land_golem_chest": "Forziere di Bahryn'muul",
@@ -125,7 +125,7 @@
 	"item.ba_bt.core_monolith_key": "Chiave del monolite primordiale",
 	"item.ba_bt.nether_monolith_key": "Chiave del monolite infernale",
 	"item.ba_bt.end_monolith_key": "Chiave del monolite remoto",
-	"item.ba_bt.sky_monolith_key": "Chiave del monolite celestiale",
+	"item.ba_bt.sky_monolith_key": "Chiave del monolite etereo",
 
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
 	"item.ba_bt.guardian_eye_ocean": "Occhio di Moraizu'un",
@@ -139,7 +139,7 @@
 	"item.ba_bt.core_monolith": "Monolite primordiale",
 	"item.ba_bt.nether_monolith": "Monolite infernale",
 	"item.ba_bt.end_monolith": "Monolite remoto",
-	"item.ba_bt.sky_monolith": "Monolite celestiale",
+	"item.ba_bt.sky_monolith": "Monolite etereo",
 
 	"item.ba_bt.land_chest_shard": "Frammento del baule terrestre",
 	"item.ba_bt.ocean_chest_shard": "Frammento del baule dell'oceano",
@@ -184,13 +184,13 @@
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, illustre Vaayus... ",
 	
 	"comment8b":"Sottotitoli degli oggetti - Dischi musicali (Item Tooltips - Music Disc)",
-	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
-	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
-	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
-	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt: Blazen Damnation",
-	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt: Warped Revelation",
-	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt: Resonance Levitation",
-	"item.ba_bt.city_resonance_stone.desc": "Lena Raine: Labyrinthine",
+	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt - Forced Protection",
+	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt - Void Aeration",
+	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt - Molten Tribulation",
+	"item.ba_bt.nether_resonance_stone.desc": "Rotch Gwylt - Blazen Damnation",
+	"item.ba_bt.end_resonance_stone.desc": "Rotch Gwylt - Warped Revelation",
+	"item.ba_bt.sky_resonance_stone.desc": "Rotch Gwylt - Resonance Levitation",
+	"item.ba_bt.city_resonance_stone.desc": "Lena Raine - Labyrinthine",
 
 	"comment9":"Scritte in sovraimpressione (Overscreen titles)",
 	"title.ba_bt.land": "Bahryn'muul, Guardiano terrestre",
