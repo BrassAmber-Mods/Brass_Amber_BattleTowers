@@ -1,0 +1,35 @@
+package com.brass_amber.ba_bt.item;
+import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class DataMarkerBlockItem extends BlockItem {
+    public DataMarkerBlockItem(Block block, Properties properties) {
+        super(block, properties);
+    }
+
+    @Override
+    protected boolean placeBlock(BlockPlaceContext blockPlaceContext, BlockState blockState) {
+        Level level = blockPlaceContext.getLevel();
+        BlockPos placePos = blockPlaceContext.getClickedPos().relative(blockPlaceContext.getClickedFace().getOpposite());
+        BlockState placeState = level.getBlockState(placePos);
+        BlockEntity blockEntity = level.getBlockEntity(placePos);
+        boolean placed = level.setBlock(placePos, blockState, 11);
+
+
+        if (placed) {
+            DataMarkerBlockEntity dataMarkerBlockEntity = (DataMarkerBlockEntity) level.getBlockEntity(placePos);
+            dataMarkerBlockEntity.setPlaceBlockState(placeState);
+            if (blockEntity != null) {
+                dataMarkerBlockEntity.setNbt(blockEntity.saveWithFullMetadata());
+            }
+        }
+
+        return placed;
+    }
+}

@@ -3,6 +3,7 @@ package com.brass_amber.ba_bt.init;
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.*;
 import com.brass_amber.ba_bt.item.ChestBlockItem;
+import com.brass_amber.ba_bt.item.DataMarkerBlockItem;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -128,7 +129,7 @@ public class BTBlocks {
 	public static final RegistryObject<Block> AIR_FILL = registerBlock("air_fill",
 			() -> new BTBlockingAirBlock(BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().air().forceSolidOn()), 1);
 
-	public static final RegistryObject<Block> DATA_MARKER = registerBlock("data_marker",
+	public static final RegistryObject<Block> DATA_MARKER = registerDataMarkerBlock("data_marker",
 			() -> new DataMarkerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F).noOcclusion().noLootTable().isValidSpawn(BTBlocks::never)), 1);
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
@@ -155,8 +156,19 @@ public class BTBlocks {
 		registerChestBlockItem(name, toReturn, stackSize);
 		return toReturn;
 	}
+
 	private static  <T extends Block> void registerChestBlockItem(String name, RegistryObject<T> block, int stackSize) {
 		BTItems.ITEMS.register(name, () -> new ChestBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
+	}
+
+	private static <T extends Block> RegistryObject<T> registerDataMarkerBlock(String name, Supplier<T> block, int stackSize) {
+		RegistryObject<T> toReturn = BLOCKS.register(name, block);
+		registerDataMarkerBlockItem(name, toReturn, stackSize);
+		return toReturn;
+	}
+
+	private static  <T extends Block> void registerDataMarkerBlockItem(String name, RegistryObject<T> block, int stackSize) {
+		BTItems.ITEMS.register(name, () -> new DataMarkerBlockItem(block.get(), new Item.Properties().stacksTo(stackSize)));
 	}
 
 
