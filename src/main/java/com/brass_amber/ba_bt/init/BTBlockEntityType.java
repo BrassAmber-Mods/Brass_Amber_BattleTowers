@@ -63,7 +63,7 @@ public class BTBlockEntityType {
 	public static final RegistryObject<BlockEntityType<BTEndSpawnerEntity>> END_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("e_spawner", () -> BlockEntityType.Builder.of(BTEndSpawnerEntity::new, BTBlocks.END_SPAWNER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<BTSkySpawnerEntity>> SKY_MOB_SPAWNER = BLOCK_ENTITY_TYPES.register("s_spawner", () -> BlockEntityType.Builder.of(BTSkySpawnerEntity::new, BTBlocks.SKY_SPAWNER.get()).build(null));
 
-	public static final RegistryObject<BlockEntityType<DataMarkerBlockEntity>> DATA_MARKER = BLOCK_ENTITY_TYPES.register("data_marker", () -> BlockEntityType.Builder.of(DataMarkerBlockEntity::new).build(null));
+	public static final RegistryObject<BlockEntityType<DataMarkerBlockEntity>> DATA_MARKER = BLOCK_ENTITY_TYPES.register("data_marker", () -> BlockEntityType.Builder.of(DataMarkerBlockEntity::new, BTBlocks.DATA_MARKER.get()).build(null));
 
 	public static void register(IEventBus eventBus) {
 		BLOCK_ENTITY_TYPES.register(eventBus);
