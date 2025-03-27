@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
@@ -140,16 +141,16 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-        if (this.tickCount % 320 <= 5 && this.hasPlayer && this.canCheck) {
+        if (this.tickCount % 100 <= 5 && this.hasPlayer && this.canCheck) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
                 boolean acceptableY = player.getBlockY() < this.getBlockY() && player.getBlockY() > this.bottom;
                 if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 320, 0, true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 220, 1,true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 320, 1,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), player);
                 }
                 else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){
                     player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
@@ -201,12 +202,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                             this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
                                         } else if (distance2d < this.wallDistance - 1) {
                                             if (random.nextInt(50) > 30) {
-                                                this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 0);
+                                                this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                             } else {
                                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
                                             }
                                         } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block.defaultBlockState())) {
-                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 0);
+                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                         }
                                     }
                                 } else if (!this.avoidBlocks.contains(block.defaultBlockState())) {
@@ -238,7 +239,11 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 for (int z = this.northWall; z <= this.southWall; z++) {
                     blockpos$mutableblockpos.set(x, y, z);
                     blockAbove = blockpos$mutableblockpos.above();
-                    if (!this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove) && distanceTo2D(this, blockpos$mutableblockpos) < this.noise +5) {
+                    if (
+                            !this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)
+                                    && distanceTo2D(this, blockpos$mutableblockpos) < this.noise +5
+                                    && !(this.level().getBlockState(blockAbove).getBlock() instanceof BTChestBlock)
+                    ) {
                         float vegetation = random.nextFloat();
                         if (vegetation > .80) {
                             if (vegetation > .85) {

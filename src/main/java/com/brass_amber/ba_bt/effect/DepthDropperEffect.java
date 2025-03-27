@@ -23,6 +23,10 @@ public class DepthDropperEffect extends MobEffect {
             boolean jumping = entity.jumping;
             entity.setOnGround(entity.onGround() || entity.verticalCollision);
 
+            if (entity.isSwimming()) {
+                entity.setSwimming(false);
+            }
+
             if (jumping && entity.onGround()) {
                 motion = motion.add(0, .5f, 0);
                 entity.setOnGround(false);
