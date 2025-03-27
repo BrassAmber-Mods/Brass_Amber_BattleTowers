@@ -1,11 +1,13 @@
 package com.brass_amber.ba_bt;
 
 import com.brass_amber.ba_bt.init.*;
+import com.brass_amber.ba_bt.inventory.DataMarkerScreen;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.logging.LogUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -64,7 +66,7 @@ public class BABTMain {
 
         BTEntityType.register(modEventBus);
         BTBlockEntityType.register(modEventBus);
-        BTContainerTypes.register(modEventBus);
+        BTMenuTypes.register(modEventBus);
         BTSoundEvents.register(modEventBus);
         BTExtras.register(modEventBus);
         BTStructures.register(modEventBus);
@@ -166,6 +168,8 @@ public class BABTMain {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+            MenuScreens.register(BTMenuTypes.DATA_MARKER_MENU.get(), DataMarkerScreen::new);
         }
     }
 
