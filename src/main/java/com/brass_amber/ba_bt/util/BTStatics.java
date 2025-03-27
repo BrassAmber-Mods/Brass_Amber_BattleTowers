@@ -15,10 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
@@ -33,9 +30,8 @@ public class BTStatics {
     public static final List<Block> icyOceanBlocks;
     public static List<List<EntityType<?>>> towerMobs;
     public static final List<List<List<Integer>>> towerSpawnerData;
-    public static final List<String> containerTypes;
     public static HashMap<String, Pair<List<List<Item>>, List<List<Float>>>> lootMap;
-    public static final List<Block> containerBlocks;
+    public static ArrayList<String> lootNames;
 
     public static final List<List<Item>> meatPool;
     public static final List<List<Item>> veggiePool;
@@ -175,7 +171,6 @@ public class BTStatics {
                 )
         );
 
-
         towerMobs = List.of(
                 landTowerMobs.get().stream()
                         .map(entityName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName)))
@@ -184,15 +179,6 @@ public class BTStatics {
                         .map(entityName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName)))
                         .collect(Collectors.toList())
         );
-
-        containerTypes = new ArrayList<>() {{
-            addAll(Arrays.asList("Invalid", "Chest", "Barrel", "Trapped Chest"));
-            addAll(extraContainerTypes.get());
-        }};
-        containerBlocks = new ArrayList<>() {{
-            addAll(Arrays.asList(Blocks.BEDROCK, Blocks.CHEST, Blocks.BARREL, Blocks.TRAPPED_CHEST));
-            addAll(extraContainerBlocks.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).toList());
-        }};
 
         meatPool = List.of(
                 new ArrayList<>() {{
@@ -952,22 +938,33 @@ public class BTStatics {
         );
 
         lootMap = new HashMap<>();
+        lootMap.put("Invalid", Pair.of(Collections.emptyList(), Collections.emptyList()));
         lootMap.put("Meat", Pair.of(meatPool, meatPoolAmounts));
         lootMap.put("Veggie", Pair.of(veggiePool,veggiePoolAmounts));
         lootMap.put("Cooked", Pair.of(cookedPool, cookedPoolAmounts));
-        lootMap.put("Gems", Pair.of(gemsPool, gemsPoolAmounts));
-        lootMap.put("Metals", Pair.of(metalsPool, metalsPoolAmounts));
+        lootMap.put("Gem", Pair.of(gemsPool, gemsPoolAmounts));
+        lootMap.put("Metal", Pair.of(metalsPool, metalsPoolAmounts));
         lootMap.put("Ore", Pair.of(orePool, orePoolAmounts));
-        lootMap.put("Building Blocks", Pair.of(buildingBlocksPool, buildingBlocksPoolAmounts));
+        lootMap.put("Building Block", Pair.of(buildingBlocksPool, buildingBlocksPoolAmounts));
         lootMap.put("Library", Pair.of(libraryPool, libraryPoolAmounts));
         lootMap.put("Weapon", Pair.of(weaponPool, weaponPoolAmounts));
         lootMap.put("Armor", Pair.of(armorPool, armorPoolAmounts));
-        lootMap.put("Tools", Pair.of(toolPool, toolPoolAmounts));
-        lootMap.put("Consumables", Pair.of(consumablePool, consumablePoolAmounts));
+        lootMap.put("Tool", Pair.of(toolPool, toolPoolAmounts));
+        lootMap.put("Consumable", Pair.of(consumablePool, consumablePoolAmounts));
         lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts));
-        lootMap.put("Plants", Pair.of(plantsPool, plantsPoolAmounts));
-        lootMap.put("Water Plants", Pair.of(waterPlantsPool, waterPlantsPoolAmounts));
-        lootMap.put("Tree Plants", Pair.of(treePlantsPool, treePlantsPoolAmounts));
+        lootMap.put("Plant", Pair.of(plantsPool, plantsPoolAmounts));
+        lootMap.put("Water Plant", Pair.of(waterPlantsPool, waterPlantsPoolAmounts));
+        lootMap.put("Tree Plant", Pair.of(treePlantsPool, treePlantsPoolAmounts));
+
+        lootNames = new ArrayList<>(
+                List.of(
+                        "Meat", "Veggie", "Cooked", "Gem", "Metal",
+                    "Ore", "Building Blocks", "Library", "Weapon",
+                    "Armor", "Tool", "Consumable", "Bedside",
+                    "Plant", "Water Plant", "Tree Plant"
+                )
+        );
+
 
         potions = ForgeRegistries.POTIONS.getValues().stream().toList();
         dyes = List.of(
