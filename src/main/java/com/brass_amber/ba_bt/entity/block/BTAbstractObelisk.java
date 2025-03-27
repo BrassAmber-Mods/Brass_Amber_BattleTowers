@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.BTSpawnerBlock;
-import com.brass_amber.ba_bt.block.block.DataMarkerBlock;
 import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
@@ -17,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -37,12 +35,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -54,6 +50,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.brass_amber.ba_bt.BABTMain.SAVE_TOWERS;
 import static com.brass_amber.ba_bt.util.BTStatics.*;
 import static com.brass_amber.ba_bt.util.BTUtil.*;
 
@@ -289,35 +286,50 @@ public class BTAbstractObelisk extends Entity {
     }
 
     private void processDataMarker(BlockPos toProcess, Level level) {
-        BlockState state = level.getBlockState(toProcess);
         DataMarkerBlockEntity dataMarker = (DataMarkerBlockEntity) level.getBlockEntity(toProcess);
-        Direction facing = state.getValue(DataMarkerBlock.FACING);
-        BlockState placeState = dataMarker.getContainerState();
-        placeState.trySetValue(BlockStateProperties.FACING, facing);
+
+        Rotation rotation = SAVE_TOWERS.getTowerRotation(GolemType.getNumForType(this.golemType), level.getChunkAt(this.blockPosition()).getPos());
+
+        BlockState placeState = dataMarker.getPlaceBlockState();
+        placeState.rotate(level, toProcess, rotation);
 
         // Get and clean lootTypes list (this accounts for datamarkers with empty lists)
-        ArrayList<String> lootTypes = new ArrayList<>(dataMarker.getLootTypes());
+        ArrayList<String> lootTypes = dataMarker.getLootTypes();
         lootTypes.removeIf((type) -> type.equals("Invalid"));
         lootTypes.removeIf(String::isEmpty);
 
         // Rarity = half of tower level (0-1 = 0, 2-3 = 1, etc)
         int rarity = dataMarker.getRarity();
-        if (rarity == -1) {
-            rarity = this.checkLayer - 1 < 2 ? 0 : this.checkLayer / 2;
+        if (rarity <= -1) {
+            rarity = rarity + 1 + this.checkLayer - 1 < 2 ? 0 : this.checkLayer / 2;
         }
 
         level.setBlockAndUpdate(toProcess, placeState);
+
+        BlockEntity blockEntity = level.getBlockEntity(toProcess);
+
+        if (blockEntity == null) {
+            return;
+        }
+
+        blockEntity.load(dataMarker.getNbt());
+
         if (lootTypes.isEmpty()) {
             return;
         }
-        BaseContainerBlockEntity placedEntity = (BaseContainerBlockEntity) level.getBlockEntity(toProcess);
+
+        BaseContainerBlockEntity placedEntity;
+        try {
+            placedEntity = (BaseContainerBlockEntity) level.getBlockEntity(toProcess);
+        } catch (ClassCastException e) {
+            return;
+        }
 
         LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(toProcess)).create(LootContextParamSets.CHEST);
         LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
 
         Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, lootTypes, this.random, true);
         btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), placedEntity, lootcontext);
-
     }
 
 

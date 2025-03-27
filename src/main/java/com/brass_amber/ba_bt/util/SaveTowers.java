@@ -1,8 +1,10 @@
 package com.brass_amber.ba_bt.util;
 
 import com.brass_amber.ba_bt.BABTMain;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.storage.LevelResource;
 import org.apache.commons.io.FileUtils;
 
@@ -19,9 +21,9 @@ import static net.minecraftforge.fml.loading.FMLPaths.getOrCreateGameRelativePat
 
 public class SaveTowers {
 
-    public static ArrayList<ChunkPos> landTowers = new ArrayList<>();
-    public static ArrayList<ChunkPos> oceanTowers = new ArrayList<>();
-    public static List<List<ChunkPos>> towers = List.of(landTowers, oceanTowers);
+    public static ArrayList<Pair<ChunkPos, Rotation>> landTowers = new ArrayList<>();
+    public static ArrayList<Pair<ChunkPos, Rotation>> oceanTowers = new ArrayList<>();
+    public static List<List<Pair<ChunkPos, Rotation>>> towers = List.of(landTowers, oceanTowers);
 
     public static List<String> towerNames = List.of("land_tower", "ocean_tower");
     public static MinecraftServer server;
@@ -47,8 +49,11 @@ public class SaveTowers {
 
             List<String> towerStrings = new ArrayList<>();
 
-            for (ChunkPos xz: towers.get(towerNames.indexOf(name))) {
-                towerStrings.add(xz.x + "," + xz.z);
+            for (Pair<ChunkPos, Rotation> xzr: towers.get(towerNames.indexOf(name))) {
+                ChunkPos xz = xzr.getFirst();
+                Rotation r = xzr.getSecond();
+
+                towerStrings.add(xz.x + "," + xz.z + "," + r.name());
             }
             // BrassAmberBattleTowers.LOGGER.info(name + " Towers Saved:" + towerStrings);
 
@@ -75,15 +80,28 @@ public class SaveTowers {
             }
 
             for (String line: lines) {
-                String[] xz = line.split(",");
-                towers.get(i).add(new ChunkPos(parseInt(xz[0]), parseInt(xz[1])));
+                String[] xzr = line.split(",");
+                towers.get(i).add(Pair.of(new ChunkPos(parseInt(xzr[0]), parseInt(xzr[1])), Rotation.valueOf(xzr[2])));
+
             }
             // BrassAmberBattleTowers.LOGGER.info(" Towers Loaded:" + towers);
         }
     }
 
-    public void addTower(ChunkPos pos, int towerId) {
-        towers.get(towerId).add(pos);
+    public Rotation getTowerRotation(int towerId, ChunkPos pos) {
+        for (Pair<ChunkPos, Rotation> xzr: towers.get(towerId)) {
+            ChunkPos xz = xzr.getFirst();
+            Rotation r = xzr.getSecond();
+
+            if (xz.x == pos.x && xz.z == pos.z) {
+                return r;
+            }
+        }
+        return Rotation.NONE;
+    }
+
+    public void addTower(ChunkPos pos, Rotation rotation, int towerId) {
+        towers.get(towerId).add(Pair.of(pos, rotation));
     }
 
 

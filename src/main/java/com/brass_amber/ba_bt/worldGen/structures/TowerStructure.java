@@ -96,7 +96,8 @@ public abstract class TowerStructure extends Structure {
     public @NotNull Optional<GenerationStub> findValidGenerationPoint(GenerationContext generationContext) {
         boolean canSpawn = false;
         ChunkPos checkPos = generationContext.chunkPos();
-        for (ChunkPos towerPos : SaveTowers.towers.get(this.towerId)) {
+        for (Pair<ChunkPos, Rotation> towerPosRotation : SaveTowers.towers.get(this.towerId)) {
+            ChunkPos towerPos = towerPosRotation.getFirst();
             if (towerPos.x == checkPos.x && towerPos.z == checkPos.z) {
                 canSpawn = true;
                 break;
@@ -128,8 +129,8 @@ public abstract class TowerStructure extends Structure {
         int closestDistance = 2000;
 
         if (!SaveTowers.towers.get(this.towerId).isEmpty()) {
-            for (ChunkPos towerPos: SaveTowers.towers.get(this.towerId)) {
-                closestDistance = Math.min(closestDistance, chunkDistanceTo(chunkPos, towerPos));
+            for (Pair<ChunkPos, Rotation> towerPosRotation: SaveTowers.towers.get(this.towerId)) {
+                closestDistance = Math.min(closestDistance, chunkDistanceTo(chunkPos, towerPosRotation.getFirst()));
                 // BABTMain.LOGGER.info("Tower distance from generation try:" + closestDistance);
             }
         }
@@ -143,7 +144,7 @@ public abstract class TowerStructure extends Structure {
         Rotation rotation = Rotation.getRandom(generationContext.random());
 
         if (canSpawn.getFirst()) {
-            saveTower(canSpawn.getSecond(), chunkPos);
+            saveTower(canSpawn.getSecond(), chunkPos, rotation);
             return Optional.of(new Structure.GenerationStub(canSpawn.getSecond(), (piecesBuilder) -> {
                 this.generatePieces(piecesBuilder, generationContext, canSpawn.getSecond(), rotation);
             }));
@@ -173,9 +174,10 @@ public abstract class TowerStructure extends Structure {
     }
 
     // Used for tower saving and logging of tower positions
-    public void saveTower(BlockPos spawnPos, ChunkPos chunkPos) {
+    // Rotation is saved for rotation of loaded datamarker block containers after generation
+    public void saveTower(BlockPos spawnPos, ChunkPos chunkPos, Rotation rotation) {
         BABTMain.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, chunkPos);
-        SAVE_TOWERS.addTower(chunkPos, this.towerId);
+        SAVE_TOWERS.addTower(chunkPos, rotation, this.towerId);
     }
 
     @Override
