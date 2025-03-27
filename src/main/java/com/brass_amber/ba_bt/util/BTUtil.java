@@ -46,27 +46,22 @@ public class BTUtil {
     }
 
 
-    public static CompoundTag newStringList(List<String> strings) {
+    public static CompoundTag newStringList(ArrayList<String> strings) {
         CompoundTag listtag = new CompoundTag();
-
         for (int i = 0; i < strings.size(); i++) {
-            listtag.putString(String.valueOf(i), strings.get(i));
+            listtag.putString(String.valueOf(i), strings.get(i) != null ? strings.get(i) : "");
         }
 
         return listtag;
     }
 
-    public static List<String> listFromTag(CompoundTag tag, Optional<List<String>> checkFrom) {
-        List<String> list = new ArrayList<>();
+    public static ArrayList<String> listFromTag(CompoundTag tag, List<String> checkFrom) {
+        ArrayList<String> list = new ArrayList<>();
 
         for (int i = 0; i < tag.getAllKeys().size(); i++) {
             String value = tag.getString(String.valueOf(i));
             // BABTMain.LOGGER.info("get compound value: " + value + " | is in list? " + checkFrom.get().contains(value));
-            if (checkFrom.isPresent()) {
-                list.add(checkFrom.get().contains(value) ? value : "Invalid") ;
-            } else {
-                list.add(value);
-            }
+            list.add(checkFrom.contains(value) ? value : "Invalid");
         }
 
         return list;
@@ -206,40 +201,34 @@ public class BTUtil {
 
         // BABTMain.LOGGER.info("Pools " + pools);
 
-        while (pools.size() > 4) {
-            pools.remove(randomSource.nextInt(pools.size()));
-        }
+        int timesAdded;
 
         for (String pool: pools) {
             Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Blocks"));
             for (int i = Math.max(rarity-1, 0); i < Math.min(rarity + 1, 4); i++) {
-                poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
+
+                // Add items of wanted rarity thrice, items of the rarity below twice, and items of a higher rarity once.
+                if (i < rarity) {
+                    timesAdded = 2;
+                } else if (i == rarity) {
+                    timesAdded = 3;
+                } else {
+                    timesAdded = 1;
+                }
+
+                for (int j = 0; j < timesAdded ; j++) {
+                    poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
                 List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
                 for (float amount: floats) {
                     // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                     poolMins.add((int) amount);
                     poolMaxes.add((int) (((amount - (int) amount) * 10)));
                 }
-                if (itemPoolAndAmounts.getFirst().get(i).size() < 4) {
-                    poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
-                    for (float amount: floats) {
-                        // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
-                        poolMins.add((int) amount);
-                        poolMaxes.add((int) (((amount - (int) amount) * 10)));
-                    }
                 }
-            }
-            // Add actually rarity pool twice (higher chance)
-            poolItems.addAll(itemPoolAndAmounts.getFirst().get(rarity));
-            List<Float> floats = itemPoolAndAmounts.getSecond().get(rarity);
-            for (float amount: floats) {
-                // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
-                poolMins.add((int) amount);
-                poolMaxes.add((int) (((amount - (int) amount) * 10)));
             }
         }
 
-        int itemAmount = isExtra ? 3 + randomSource.nextInt(5) : 10 + randomSource.nextInt(5);
+        int itemAmount = isExtra ? 4 + randomSource.nextInt(4) : 10 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
             int index = randomSource.nextInt(poolItems.size()-1);
             items.add(poolItems.get(index));
@@ -265,7 +254,7 @@ public class BTUtil {
         for (int i = 0; i < loot.size(); i++) {
             Item item = loot.get(i);
             ItemStack itemStack;
-            if (item instanceof SplashPotionItem) {
+            if (item instanceof PotionItem) {
                 itemStack = getRandomPotion(lootContext.getRandom());
             } else if (item instanceof DyeItem) {
                 itemStack = getRandomDye(lootContext.getRandom());
