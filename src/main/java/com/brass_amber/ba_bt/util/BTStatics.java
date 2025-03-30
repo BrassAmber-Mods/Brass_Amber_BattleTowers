@@ -939,22 +939,22 @@ public class BTStatics {
 
         lootMap = new HashMap<>();
         lootMap.put("Invalid", Pair.of(Collections.emptyList(), Collections.emptyList()));
-        lootMap.put("Meat", Pair.of(meatPool, meatPoolAmounts));
-        lootMap.put("Veggie", Pair.of(veggiePool,veggiePoolAmounts));
-        lootMap.put("Cooked", Pair.of(cookedPool, cookedPoolAmounts));
-        lootMap.put("Gem", Pair.of(gemsPool, gemsPoolAmounts));
-        lootMap.put("Metal", Pair.of(metalsPool, metalsPoolAmounts));
-        lootMap.put("Ore", Pair.of(orePool, orePoolAmounts));
+        lootMap.put("Meat", Pair.of(meatPool, meatPoolAmounts)); // 1
+        lootMap.put("Veggie", Pair.of(veggiePool,veggiePoolAmounts)); // 2
+        lootMap.put("Cooked", Pair.of(cookedPool, cookedPoolAmounts)); // 3
+        lootMap.put("Gem", Pair.of(gemsPool, gemsPoolAmounts)); // 4
+        lootMap.put("Metal", Pair.of(metalsPool, metalsPoolAmounts)); // 5
+        lootMap.put("Ore", Pair.of(orePool, orePoolAmounts)); // 6
         lootMap.put("Building Block", Pair.of(buildingBlocksPool, buildingBlocksPoolAmounts));
-        lootMap.put("Library", Pair.of(libraryPool, libraryPoolAmounts));
-        lootMap.put("Weapon", Pair.of(weaponPool, weaponPoolAmounts));
-        lootMap.put("Armor", Pair.of(armorPool, armorPoolAmounts));
-        lootMap.put("Tool", Pair.of(toolPool, toolPoolAmounts));
+        lootMap.put("Library", Pair.of(libraryPool, libraryPoolAmounts)); // 8
+        lootMap.put("Weapon", Pair.of(weaponPool, weaponPoolAmounts)); // 9
+        lootMap.put("Armor", Pair.of(armorPool, armorPoolAmounts)); // 10
+        lootMap.put("Tool", Pair.of(toolPool, toolPoolAmounts)); // 11
         lootMap.put("Consumable", Pair.of(consumablePool, consumablePoolAmounts));
-        lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts));
-        lootMap.put("Plant", Pair.of(plantsPool, plantsPoolAmounts));
-        lootMap.put("Water Plant", Pair.of(waterPlantsPool, waterPlantsPoolAmounts));
-        lootMap.put("Tree Plant", Pair.of(treePlantsPool, treePlantsPoolAmounts));
+        lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts)); // 12
+        lootMap.put("Plant", Pair.of(plantsPool, plantsPoolAmounts)); // 13
+        lootMap.put("Water Plant", Pair.of(waterPlantsPool, waterPlantsPoolAmounts)); // 14
+        lootMap.put("Tree Plant", Pair.of(treePlantsPool, treePlantsPoolAmounts)); // 15
 
         lootNames = new ArrayList<>(
                 List.of(
