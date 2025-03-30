@@ -2,11 +2,14 @@ package com.brass_amber.ba_bt.block.block;
 
 import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
+import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -36,29 +39,32 @@ public class DataMarkerBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newBlockState, boolean isMoving) {
-        if (blockState.getBlock() != newBlockState.getBlock()) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof DataMarkerBlockEntity) {
-                ((DataMarkerBlockEntity)blockEntity).drops();
-            }
-        }
-
-        super.onRemove(blockState, level, blockPos, newBlockState, isMoving);
-    }
-
-    @Override
     public @NotNull InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
-        if (!level.isClientSide()) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof DataMarkerBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer) player), (DataMarkerBlockEntity) blockEntity, blockPos);
-            } else {
-                throw new IllegalStateException("Our Container Provider is missing!");
+        ItemStack itemstack = player.getItemInHand(interactionHand);
+        BlockEntity entity = level.getBlockEntity(hitResult.getBlockPos());
+
+        if (entity instanceof DataMarkerBlockEntity dataMarkerBlockEntity) {
+            if (itemstack.getItem() == BTItems.LAND_GUARDIAN_EYE.get()) {
+                dataMarkerBlockEntity.setRarity(-1);
+            } else if (itemstack.getItem() == BTItems.OCEAN_GUARDIAN_EYE.get()) {
+                dataMarkerBlockEntity.setRarity(0);
+            } else if (itemstack.getItem() == BTItems.CORE_GUARDIAN_EYE.get()) {
+                dataMarkerBlockEntity.setRarity(1);
+            } else if (itemstack.getItem() == BTItems.NETHER_GUARDIAN_EYE.get()) {
+                dataMarkerBlockEntity.setRarity(2);
+            } else if (itemstack.getItem() == BTItems.END_GUARDIAN_EYE.get()) {
+                dataMarkerBlockEntity.setRarity(3);
+            } else if (itemstack.getItem() == BTItems.SKY_GUARDIAN_EYE.get()) {
+                dataMarkerBlockEntity.setRarity(4);
             }
+
+            if (itemstack.getItem() instanceof BlockItem blockItem) {
+                dataMarkerBlockEntity.setPlaceBlockState(blockItem.getBlock().defaultBlockState());
+            }
+            return InteractionResult.PASS;
         }
 
-        return  InteractionResult.sidedSuccess(level.isClientSide());
+        return super.use(blockState, level, blockPos, player, interactionHand, hitResult);
     }
 
     @Override

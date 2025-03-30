@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt;
 
 import com.brass_amber.ba_bt.init.*;
-import com.brass_amber.ba_bt.inventory.DataMarkerScreen;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.logging.LogUtils;
@@ -169,7 +168,6 @@ public class BABTMain {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
-            MenuScreens.register(BTMenuTypes.DATA_MARKER_MENU.get(), DataMarkerScreen::new);
         }
     }
 

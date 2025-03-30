@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.inventory.BTChestMenu;
-import com.brass_amber.ba_bt.inventory.DataMarkerMenu;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -18,8 +17,6 @@ public class BTMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, BABTMain.MODID);
 
     public static final RegistryObject<MenuType<BTChestMenu>> GENERIC_9x8 = MENUS.register("generic_9x8", () -> new MenuType<>(BTChestMenu::eightRows, FeatureFlags.REGISTRY.allFlags()));
-
-    public static final RegistryObject<MenuType<DataMarkerMenu>> DATA_MARKER_MENU = registerMenuType(DataMarkerMenu::new, "data_marker_menu");
 
     private static  <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));
