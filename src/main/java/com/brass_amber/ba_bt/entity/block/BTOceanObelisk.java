@@ -83,8 +83,8 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.OCEAN_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
-        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gems");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metals", "Water Plants", "Plants");
+        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
+        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metal", "Water Plant", "Plant");
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
         if (minimalOceanCarving.get()) {

@@ -218,12 +218,12 @@ public class BTUtil {
 
                 for (int j = 0; j < timesAdded ; j++) {
                     poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
-                List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
-                for (float amount: floats) {
-                    // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
-                    poolMins.add((int) amount);
-                    poolMaxes.add((int) (((amount - (int) amount) * 10)));
-                }
+                    List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
+                    for (float amount: floats) {
+                        // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                        poolMins.add((int) amount);
+                        poolMaxes.add((int) (((amount - (int) amount) * 10)));
+                    }
                 }
             }
         }

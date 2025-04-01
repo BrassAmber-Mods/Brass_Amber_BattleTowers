@@ -40,8 +40,8 @@ public class BTLandObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.LAND_SPAWNER.get();
         this.spawnerFillBlock = Blocks.STONE_BRICKS;
-        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gems");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metals", "Consumables", "Consumables");
+        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
+        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metal", "Consumable", "Consumable");
         this.golemLoot = new ItemStack[]{Items.STONE_BRICKS.getDefaultInstance(), Items.CLAY.getDefaultInstance(), Items.DIAMOND.getDefaultInstance()};
         super.serverInitialize();
     }
