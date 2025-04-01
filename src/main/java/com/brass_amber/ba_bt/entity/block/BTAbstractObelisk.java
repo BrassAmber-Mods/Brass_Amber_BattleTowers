@@ -401,7 +401,7 @@ public class BTAbstractObelisk extends Entity {
 
             this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
 
-            int timeCheck = (this.random.nextInt(2) + 4) * 10;
+            int timeCheck = (this.random.nextInt(2) + 4) * 40;
 
             if (this.tickCount % timeCheck == 0) {
                 List<? extends Entity> specialEnemies = this.level().getEntitiesOfClass(this.specialEnemy, this.getBoundingBox().inflate(15, 110, 15));
