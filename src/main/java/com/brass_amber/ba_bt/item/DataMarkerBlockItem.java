@@ -2,8 +2,8 @@ package com.brass_amber.ba_bt.item;
 import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +19,11 @@ public class DataMarkerBlockItem extends BlockItem {
     }
 
     @Override
+    protected boolean canPlace(BlockPlaceContext p_40611_, BlockState p_40612_) {
+        return true;
+    }
+
+    @Override
     protected boolean placeBlock(BlockPlaceContext blockPlaceContext, BlockState blockState) {
         Level level = blockPlaceContext.getLevel();
         Player player = blockPlaceContext.getPlayer();
@@ -26,6 +31,13 @@ public class DataMarkerBlockItem extends BlockItem {
         BlockPos placePos = blockPlaceContext.getClickedPos().relative(blockPlaceContext.getClickedFace().getOpposite());
         BlockState placeState = level.getBlockState(placePos);
         BlockEntity blockEntity = level.getBlockEntity(placePos);
+
+        CompoundTag blockData;
+        if (blockEntity != null) {
+            blockData = blockEntity.saveWithFullMetadata();
+        } else {
+            blockData = new CompoundTag();
+        }
 
         boolean placed = level.setBlock(placePos, blockState, 11);
 
@@ -38,9 +50,9 @@ public class DataMarkerBlockItem extends BlockItem {
             }
 
             DataMarkerBlockEntity dataMarkerBlockEntity = (DataMarkerBlockEntity) level.getBlockEntity(placePos);
-            dataMarkerBlockEntity.setPlaceBlockState(placeState);
-            if (blockEntity != null) {
-                dataMarkerBlockEntity.setNbt(blockEntity.saveWithFullMetadata());
+            if (dataMarkerBlockEntity != null) {
+                dataMarkerBlockEntity.setPlaceBlockState(placeState);
+                dataMarkerBlockEntity.setNbt(blockData);
             }
         }
 
