@@ -951,10 +951,10 @@ public class BTStatics {
         lootMap.put("Armor", Pair.of(armorPool, armorPoolAmounts)); // 10
         lootMap.put("Tool", Pair.of(toolPool, toolPoolAmounts)); // 11
         lootMap.put("Consumable", Pair.of(consumablePool, consumablePoolAmounts));
-        lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts)); // 12
-        lootMap.put("Plant", Pair.of(plantsPool, plantsPoolAmounts)); // 13
-        lootMap.put("Water Plant", Pair.of(waterPlantsPool, waterPlantsPoolAmounts)); // 14
-        lootMap.put("Tree Plant", Pair.of(treePlantsPool, treePlantsPoolAmounts)); // 15
+        lootMap.put("Bedside", Pair.of(bedsidePool, bedsidePoolAmounts)); // 13
+        lootMap.put("Plant", Pair.of(plantsPool, plantsPoolAmounts)); // 14
+        lootMap.put("Water Plant", Pair.of(waterPlantsPool, waterPlantsPoolAmounts)); // 15
+        lootMap.put("Tree Plant", Pair.of(treePlantsPool, treePlantsPoolAmounts)); // 16
 
         lootNames = new ArrayList<>(
                 List.of(
