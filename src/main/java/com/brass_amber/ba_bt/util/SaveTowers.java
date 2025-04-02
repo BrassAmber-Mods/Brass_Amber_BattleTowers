@@ -32,12 +32,13 @@ public class SaveTowers {
     public SaveTowers() {}
 
     public void setServer(MinecraftServer newServer) {
-        BABTMain.LOGGER.info("Server: " + newServer);
+        BABTMain.LOGGER.info("Server: {}", newServer);
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();
 
         getTowers();
+        // BABTMain.LOGGER.debug("Towers: {}", towers);
     }
 
     public void serverClosed() {
@@ -89,10 +90,11 @@ public class SaveTowers {
     }
 
     public Rotation getTowerRotation(int towerId, ChunkPos pos) {
+        // BABTMain.LOGGER.debug("Get Rotation for chunkpos: {}", pos);
         for (Pair<ChunkPos, Rotation> xzr: towers.get(towerId)) {
             ChunkPos xz = xzr.getFirst();
             Rotation r = xzr.getSecond();
-
+            // BABTMain.LOGGER.debug("Checking pos: {}", xz);
             if (xz.x == pos.x && xz.z == pos.z) {
                 return r;
             }
