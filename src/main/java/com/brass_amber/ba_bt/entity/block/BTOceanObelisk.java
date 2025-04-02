@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.minimalOceanCarving;
+import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
+import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_TOWER_MUSIC;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
 import static com.brass_amber.ba_bt.util.BTUtil.*;
 
@@ -67,12 +69,13 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.musicDistance = 58;
         this.towerRange = 62;
         super.initialize();
+        this.enemySpawnRange = 15;
     }
 
     @Override
     public void clientInitialize() {
-        this.BOSS_MUSIC = BTSoundEvents.OCEAN_GOLEM_FIGHT_MUSIC;
-        this.TOWER_MUSIC = BTSoundEvents.OCEAN_TOWER_MUSIC;
+        this.BOSS_MUSIC = OCEAN_GOLEM_FIGHT_MUSIC;
+        this.TOWER_MUSIC = OCEAN_TOWER_MUSIC;
         super.clientInitialize();
     }
 
