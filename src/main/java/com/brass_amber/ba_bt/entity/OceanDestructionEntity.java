@@ -186,13 +186,13 @@ public class OceanDestructionEntity extends  Entity {
                         + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level().playSound(null, this.blockPosition().above(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START.get(), SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
                 doNoOutputCommand(this,"/title @a title \"\"");
                 doNoOutputCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
                         + " \",\"color\":\"#aaaaaa\"}");
                 this.level().playSound(null, this.blockPosition().above(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START.get(), SoundSource.AMBIENT, 4.0F, 1F);
 
             } else if (this.currentTicks == 500) {
                 doNoOutputCommand(this,"/title @a title \"\"");
@@ -201,7 +201,7 @@ public class OceanDestructionEntity extends  Entity {
 
             } else if (this.currentTicks == 600) {
                 this.level().playSound(null, this.blockPosition().above(6),
-                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4.0F, 1F);
             }
 
             // if the current number of ticks is greater than the wait time before the crumbling starts
@@ -209,7 +209,7 @@ public class OceanDestructionEntity extends  Entity {
             if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0) {
                 if (this.currentTicks % 240 == 0) {
                     this.level().playSound(null, this.blockPosition().above(this.getCurrentRow()*4),
-                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
+                            BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
                 }
 
                 if (this.blocksToRemove.size() < 20) {

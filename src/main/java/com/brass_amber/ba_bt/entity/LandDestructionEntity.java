@@ -28,7 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-import static com.brass_amber.ba_bt.sound.BTSoundEvents.TOWER_COLLAPSE_MUSIC;
+import static com.brass_amber.ba_bt.sound.BTMusic.TOWER_COLLAPSE_MUSIC;
 import static com.brass_amber.ba_bt.util.BTUtil.*;
 
 public class LandDestructionEntity extends Entity {
@@ -180,13 +180,13 @@ public class LandDestructionEntity extends Entity {
                         + "\",\"color\":\"" + this.specs.getColorCode() + "\"}");
 
                 this.level().playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START.get(), SoundSource.AMBIENT, 4.0F, 1F);
             } else if (this.currentTicks == 400) {
                 doNoOutputCommand(this,"/title @a title \"\"");
                 doNoOutputCommand(this,"/title @a subtitle {\"text\":\"" + this.specs.getTitleText2()
                         + " \",\"color\":\"#aaaaaa\"}");
                 this.level().playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_START, SoundSource.AMBIENT, 4.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_START.get(), SoundSource.AMBIENT, 4.0F, 1F);
 
             }  else if (this.currentTicks == 500) {
                 doNoOutputCommand(this,"/title @a title \"\"");
@@ -195,7 +195,7 @@ public class LandDestructionEntity extends Entity {
 
             }else if (this.currentTicks == 600) {
                 this.level().playSound(null, this.getCrumbleStart().below(6),
-                        BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4.0F, 1F);
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4.0F, 1F);
             }
 
 
@@ -204,7 +204,7 @@ public class LandDestructionEntity extends Entity {
             if (this.currentTicks > this.startTicks && this.currentTicks % this.getCrumbleSpeed() == 0 && this.getCurrentRow() < this.rows) {
                 if (this.currentTicks % 240 == 0) {
                     this.level().playSound(null, this.getCrumbleStart().below(this.getCurrentRow()*3),
-                            BTSoundEvents.TOWER_BREAK_CRUMBLE, SoundSource.AMBIENT, 4F, 1F);
+                            BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
                 }
                 if (this.blocksToRemove.isEmpty()) {
                     // Water checks/removal is done inside this method to prevent flowing water + explosions
