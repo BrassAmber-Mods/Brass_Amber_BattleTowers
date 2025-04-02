@@ -113,7 +113,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 		ChestType chesttype = this.getBlockState().getValue(BTChestBlock.TYPE);
 		this.unlocked = tf;
 
-		// BrassAmberBattleTowers.LOGGER.info(this.unlocked + " " + chesttype);
+        // BABTMain.LOGGER.info("{} {}", this.unlocked, chesttype);
 
 		// Make sure that if this is a double chest the other half also gets unlocked.
 		if (chesttype != ChestType.SINGLE) {
