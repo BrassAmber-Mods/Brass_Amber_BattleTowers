@@ -172,7 +172,7 @@ public class BattleTowersConfig {
 
         oceanGolemHP =
                 BUILDER.comment("The total health of the Ocean Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
-                        .defineInRange("oceanGolemHealth", 350D, 250, 100000);
+                        .defineInRange("oceanGolemHealth", 300D, 250, 100000);
         oceanAverageSeperationModifier = BUILDER.comment("This value is added to the Ocean Tower minimum separation"
                                 + " above to get the average separation between Ocean Towers for spawning measured in chunks.",
                         "See Land Tower Average Separation for explanation of use.")
