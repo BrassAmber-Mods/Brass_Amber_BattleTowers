@@ -958,8 +958,8 @@ public class BTStatics {
 
         lootNames = new ArrayList<>(
                 List.of(
-                        "Meat", "Veggie", "Cooked", "Gem", "Metal",
-                    "Ore", "Building Blocks", "Library", "Weapon",
+                        "Invalid", "Meat", "Veggie", "Cooked", "Gem", "Metal",
+                    "Ore", "Building Block", "Library", "Weapon",
                     "Armor", "Tool", "Consumable", "Bedside",
                     "Plant", "Water Plant", "Tree Plant"
                 )
