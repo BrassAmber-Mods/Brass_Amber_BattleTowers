@@ -4,6 +4,7 @@ import com.brass_amber.ba_bt.BABTMain;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +24,9 @@ public class DataGenerators {
 
         generator.addProvider(event.includeServer(), new BTRecipeProvider(packoutput));
         generator.addProvider(event.includeServer(), BTLootTableProvider.create(packoutput));
-        generator.addProvider(event.includeServer(), new BTBlockTagGenerator(packoutput, lookupProvider, existingFileHelper));
+        BlockTagsProvider blockTagsProvider = new BTBlockTagGenerator(packoutput, lookupProvider, existingFileHelper);
+        generator.addProvider(event.includeServer(), blockTagsProvider);
+        generator.addProvider(event.includeServer(), new BTItemtagGenerator(packoutput, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
 
         generator.addProvider(event.includeClient(), new BTModelProvider(packoutput,existingFileHelper));
         generator.addProvider(event.includeClient(), new BTBlocksStateProvider(packoutput, existingFileHelper));
