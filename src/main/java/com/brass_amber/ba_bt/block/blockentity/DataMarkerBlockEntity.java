@@ -3,7 +3,6 @@ package com.brass_amber.ba_bt.block.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 
 import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
+
 import static com.brass_amber.ba_bt.util.BTStatics.*;
 
 public class DataMarkerBlockEntity extends BlockEntity {
@@ -32,7 +32,7 @@ public class DataMarkerBlockEntity extends BlockEntity {
     @Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
-        BABTMain.LOGGER.debug("Loading Marker Data");
+        // BABTMain.LOGGER.debug("Loading Marker Data {}", compoundTag);
         try {
             this.lootTypes = compoundTag.getIntArray("Loot");
         } catch (Exception ignored) {
@@ -47,11 +47,7 @@ public class DataMarkerBlockEntity extends BlockEntity {
         if (this.rarity <= -5 || this.rarity >= 5) {
             this.rarity = -1;
         }
-
-        try {
-            this.placeBlockState = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), compoundTag.getCompound("BlockState"));
-        } catch (Exception ignored) {
-        }
+        this.placeBlockState = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), compoundTag.getCompound("BlockState"));
 
         this.nbt = compoundTag.getCompound("nbt");
     }
@@ -64,9 +60,7 @@ public class DataMarkerBlockEntity extends BlockEntity {
         compoundTag.putIntArray("Loot", this.lootTypes);
         compoundTag.putInt("Rarity", rarity);
 
-        ListTag blockTag = new ListTag();
-        blockTag.add(NbtUtils.writeBlockState(this.placeBlockState));
-        compoundTag.put("BlockState", blockTag);
+        compoundTag.put("BlockState", NbtUtils.writeBlockState(this.placeBlockState));
 
         compoundTag.put("nbt", this.nbt);
     }
