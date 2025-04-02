@@ -144,7 +144,7 @@ public abstract class TowerStructure extends Structure {
         Rotation rotation = Rotation.getRandom(generationContext.random());
 
         if (canSpawn.getFirst()) {
-            saveTower(canSpawn.getSecond(), chunkPos, rotation);
+            saveTower(canSpawn.getSecond(), rotation);
             return Optional.of(new Structure.GenerationStub(canSpawn.getSecond(), (piecesBuilder) -> {
                 this.generatePieces(piecesBuilder, generationContext, canSpawn.getSecond(), rotation);
             }));
@@ -175,9 +175,9 @@ public abstract class TowerStructure extends Structure {
 
     // Used for tower saving and logging of tower positions
     // Rotation is saved for rotation of loaded datamarker block containers after generation
-    public void saveTower(BlockPos spawnPos, ChunkPos chunkPos, Rotation rotation) {
-        BABTMain.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, chunkPos);
-        SAVE_TOWERS.addTower(chunkPos, rotation, this.towerId);
+    public void saveTower(BlockPos spawnPos, Rotation rotation) {
+        BABTMain.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, new ChunkPos(spawnPos));
+        SAVE_TOWERS.addTower(new ChunkPos(spawnPos), rotation, this.towerId);
     }
 
     @Override

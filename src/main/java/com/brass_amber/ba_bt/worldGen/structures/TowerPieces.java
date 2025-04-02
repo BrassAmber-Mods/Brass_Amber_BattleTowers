@@ -35,6 +35,9 @@ public class TowerPieces {
         List<StructureProcessor> shellProcessors = TowerGenInfo.getShellProcessors(towerGenInfo, variant);
         List<StructureProcessor> variantProcessors = TowerGenInfo.getVariantProcessors(towerGenInfo, variant);
 
+        // offset tower to account for size of toer pieces (29/29)
+        blockPos = blockPos.offset(-14 , 0, -14);
+
         // Add tower shell to list first so it is generated first
         towerPieces.add(new StartPiece(templateManager, "start", towerName, blockPos, rotation, ""));
         int floorHeight = TowerGenInfo.getFloorHeight(towerGenInfo);
