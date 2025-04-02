@@ -15,6 +15,8 @@ import net.minecraftforge.fml.common.Mod;
 
 
 import static com.brass_amber.ba_bt.BABTMain.SAVE_TOWERS;
+import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
+import static com.brass_amber.ba_bt.sound.BTMusic.LAND_TOWER_MUSIC;
 
 
 @Mod.EventBusSubscriber(modid = BABTMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -29,7 +31,7 @@ public class BTEvents {
         if (player.level().isClientSide() || !event.isEndConquered()) {
             Minecraft mc = Minecraft.getInstance();
             MusicManager musicManager = mc.getMusicManager();
-            if (musicManager.isPlayingMusic(BTSoundEvents.LAND_TOWER_MUSIC) || musicManager.isPlayingMusic(BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC)) {
+            if (musicManager.isPlayingMusic(LAND_TOWER_MUSIC) || musicManager.isPlayingMusic(LAND_GOLEM_FIGHT_MUSIC)) {
                 musicManager.stopPlaying();
             }
         }
