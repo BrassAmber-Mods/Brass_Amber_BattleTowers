@@ -1,25 +1,20 @@
 package com.brass_amber.ba_bt.item.item;
 
-import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.init.BTExtras;
-import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ResonanceStoneItem extends RecordItem {
 
@@ -29,8 +24,8 @@ public class ResonanceStoneItem extends RecordItem {
     public boolean effectOn;
     private boolean initialized;
 
-    public ResonanceStoneItem(String golemName, Properties properties, int length) {
-        super(2, BTUtil.getTowerMusic(GolemType.getTypeForName(golemName)), properties, length);
+    public ResonanceStoneItem(String golemName, Supplier<SoundEvent> soundSupplier, Properties properties, int length) {
+        super(4, soundSupplier, properties, length);
         this.golemType = GolemType.getTypeForName(golemName);
         this.effectOn = false;
         this.initialized = false;
@@ -38,30 +33,6 @@ public class ResonanceStoneItem extends RecordItem {
 
     public boolean isEnchantable(ItemStack itemStack) {
         return itemStack.getCount() == 1;
-    }
-    public UseAnim getUseAnimation(ItemStack p_40678_) {
-        return UseAnim.SPYGLASS;
-    }
-    @Override
-    public int getUseDuration(@NotNull ItemStack itemStack) {
-        return 2000;
-    }
-
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        player.startUsingItem(hand);
-        return InteractionResultHolder.consume(itemstack);
-    }
-
-    @Override
-    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity entity, int time) {
-        int i = this.getUseDuration(itemStack) - time;
-        if (i > 4 && !level.isClientSide()) {
-            this.effectOn = !this.effectOn;
-            BABTMain.LOGGER.info("Resonance effect: " + this.effectOn);
-        }
-        super.releaseUsing(itemStack, level, entity, time);
     }
 
     public void addEnchantment(ItemStack stackInUse) {
