@@ -1,30 +1,17 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
-import com.brass_amber.ba_bt.entity.ai.goal.GolemLeapGoal;
 import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.*;
-import net.minecraft.world.entity.monster.Guardian;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import org.antlr.v4.runtime.misc.MultiMap;
 
-import java.util.Map;
-
-import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
-import static com.brass_amber.ba_bt.BattleTowersConfig.oceanGolemHP;
+import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
 
 public class BTLandGolem extends BTAbstractGolem {
 
@@ -40,7 +27,7 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.golemType = GolemType.LAND;
 		this.leap = false;
 
-		this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
+		this.BOSS_MUSIC = LAND_GOLEM_FIGHT_MUSIC;
 
 		// Reference for disregarding lava taken from ZombiefiedPiglin
 		this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);

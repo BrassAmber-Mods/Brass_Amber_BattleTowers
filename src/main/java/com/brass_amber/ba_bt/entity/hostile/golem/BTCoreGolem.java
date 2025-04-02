@@ -1,15 +1,13 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.oceanGolemHP;
+import static com.brass_amber.ba_bt.sound.BTMusic.CORE_GOLEM_FIGHT_MUSIC;
 
 public class BTCoreGolem extends BTAbstractGolem {
 
@@ -17,7 +15,7 @@ public class BTCoreGolem extends BTAbstractGolem {
 		super(type, levelIn, BossEvent.BossBarColor.PURPLE);
 		this.setGolemName(GolemType.CORE.getDisplayName());
 		this.setBossBarName();
-		this.BOSS_MUSIC = BTSoundEvents.CORE_GOLEM_FIGHT_MUSIC;
+		this.BOSS_MUSIC = CORE_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 2045;
 		this.golemType = GolemType.CORE;

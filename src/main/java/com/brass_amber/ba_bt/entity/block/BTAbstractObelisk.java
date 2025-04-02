@@ -140,7 +140,7 @@ public class BTAbstractObelisk extends Entity {
 
     public void initialize() {
         this.initialized = true;
-        this.enemySpawnRange = 15;
+        this.enemySpawnRange = 12;
     }
 
     public void clientInitialize() {
@@ -274,7 +274,7 @@ public class BTAbstractObelisk extends Entity {
                 // BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
             } else if (block == this.golemChestBlock) {
                 this.golemChest = (BTChestBlockEntity) level.getBlockEntity(toCheck);
-                // BrassAmberBattleTowers.LOGGER.info("Found Golem Chest");
+                // BABTMain.LOGGER.info("Found Golem Chest");
             } else if (block == BTBlocks.DATA_MARKER.get()) {
                 this.processDataMarker(toCheck, level);
             }
@@ -288,13 +288,17 @@ public class BTAbstractObelisk extends Entity {
     private void processDataMarker(BlockPos toProcess, Level level) {
         DataMarkerBlockEntity dataMarker = (DataMarkerBlockEntity) level.getBlockEntity(toProcess);
 
-        Rotation rotation = SAVE_TOWERS.getTowerRotation(GolemType.getNumForType(this.golemType), level.getChunkAt(this.blockPosition()).getPos());
+        Rotation rotation = SAVE_TOWERS.getTowerRotation(GolemType.getNumForType(this.golemType), level.getChunk(this.blockPosition()).getPos());
 
         BlockState placeState = dataMarker.getPlaceBlockState();
-        placeState.rotate(level, toProcess, rotation);
+
+        // BABTMain.LOGGER.info("Getting Block Rotation: {}  {}", placeState, rotation);
+        placeState = placeState.rotate(level, toProcess, rotation);
 
         // Get and clean lootTypes list (this accounts for datamarkers with empty lists)
         ArrayList<String> lootTypes = dataMarker.getLootTypes();
+        // BABTMain.LOGGER.info("Setting Block loot types: {}", lootTypes);
+
         lootTypes.removeIf((type) -> type.equals("Invalid"));
         lootTypes.removeIf(String::isEmpty);
 
@@ -367,11 +371,11 @@ public class BTAbstractObelisk extends Entity {
         }
         if (this.doCheck) {
             try {
-                List<?> list = this.level().getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
+                List<?> list = this.level().getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 115, 15));
                 this.canCheck = !list.isEmpty();
                 if (!this.canCheck) {
                     try {
-                        List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
+                        List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 115, 15));
                         this.canCheck = !list2.isEmpty();
                         if (!this.golemSpawned) {
                             this.golemSpawned = true;
@@ -429,10 +433,11 @@ public class BTAbstractObelisk extends Entity {
                 this.checkSpawners(this.level());
                 // BrassAmberBattleTowers.LOGGER.info(this.towerEffect + " effect ");
             }
-        } else if (this.golemChest != null) {
+        }
+        if (!this.canCheck && this.golemChest != null) {
             if (this.chestsFound && this.initialized && this.tickCount > 40 && !this.golemChest.isUnlocked()) {
                 try {
-                    BABTMain.LOGGER.debug("Chest " + this.golemChest);
+                    // BABTMain.LOGGER.debug("Chest IS GETTING UNLOCKED {}", this.golemChest);
                     this.golemChest.setUnlocked(true);
 
                     for (int i = 2; i < 7; i++) {

@@ -68,7 +68,7 @@ public class GolemFireballAttackGoal extends Goal {
 				// Prepare to shoot. (10 more ticks, or 0.5 seconds)
 				if (this.chargeTime == 10 && !this.golem.isSilent()) {
 					// Play charging sound
-					this.golem.playSoundEventWithVariation(BTSoundEvents.ENTITY_GOLEM_CHARGE);
+					this.golem.playSoundEventWithVariation(BTSoundEvents.ENTITY_GOLEM_CHARGE.get());
 				}
 
 				// Shoot fireball

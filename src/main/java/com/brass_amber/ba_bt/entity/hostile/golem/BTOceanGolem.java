@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
+
 public class BTOceanGolem extends BTAbstractGolem {
 
 	private int drowned;
@@ -31,7 +33,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
 		this.setBossBarName();
-		this.BOSS_MUSIC = BTSoundEvents.OCEAN_GOLEM_FIGHT_MUSIC;
+		this.BOSS_MUSIC = OCEAN_GOLEM_FIGHT_MUSIC;
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.moveControl = new SmoothSwimmingMoveControl(this, 90, 90, .08f, .5f, false);

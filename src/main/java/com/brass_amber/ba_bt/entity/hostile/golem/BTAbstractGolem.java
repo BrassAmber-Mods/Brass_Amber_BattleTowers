@@ -170,7 +170,7 @@ public abstract class BTAbstractGolem extends Monster {
 		// Set the golemState to enraged when health drops below 1/3.
 		if (this.isEnragedBasedOnHP() && !this.isEnraged() && this.isAwake()) {
 			// TODO Maybe stand still for a moment with hands up growling?
-			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL, 0.3f); // LOUD AF (Still? I adjusted the volume)
+			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL.get(), 0.3f); // LOUD AF (Still? I adjusted the volume)
 			this.setGolemState(SPECIAL);
 		}
 
@@ -724,18 +724,18 @@ public abstract class BTAbstractGolem extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return this.isAwake() ? BTSoundEvents.ENTITY_GOLEM_AMBIENT : SoundEvents.AMBIENT_CAVE.value();
+		return this.isAwake() ? BTSoundEvents.ENTITY_GOLEM_AMBIENT.get() : SoundEvents.AMBIENT_CAVE.value();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		playSoundEvent(BTSoundEvents.ENTITY_GOLEM_HURT);
+		playSoundEvent(BTSoundEvents.ENTITY_GOLEM_HURT.get());
 		return SoundEvents.NETHER_BRICKS_BREAK;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BTSoundEvents.ENTITY_GOLEM_DEATH;
+		return BTSoundEvents.ENTITY_GOLEM_DEATH.get();
 	}
 
 	@Override

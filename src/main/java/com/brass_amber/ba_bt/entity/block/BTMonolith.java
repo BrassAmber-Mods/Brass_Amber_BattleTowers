@@ -469,7 +469,7 @@ public class BTMonolith extends Entity {
 	}
 
 	private void playSpawnSound() {
-		this.playSound(BTSoundEvents.MONOLITH_SPAWN_GOLEM, this.getSoundVolume() -.4F, 1F);
+		this.playSound(BTSoundEvents.MONOLITH_SPAWN_GOLEM.get(), this.getSoundVolume() -.4F, 1F);
 	}
 
 	@Override
