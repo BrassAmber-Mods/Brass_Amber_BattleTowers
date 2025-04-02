@@ -1,19 +1,18 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.Arrays;
 import java.util.List;
+
+import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
+import static com.brass_amber.ba_bt.sound.BTMusic.LAND_TOWER_MUSIC;
 
 public class BTLandObelisk extends BTAbstractObelisk {
 
@@ -48,8 +47,8 @@ public class BTLandObelisk extends BTAbstractObelisk {
 
     @Override
     public void clientInitialize() {
-        this.BOSS_MUSIC = BTSoundEvents.LAND_GOLEM_FIGHT_MUSIC;
-        this.TOWER_MUSIC = BTSoundEvents.LAND_TOWER_MUSIC;
+        this.BOSS_MUSIC = LAND_GOLEM_FIGHT_MUSIC;
+        this.TOWER_MUSIC = LAND_TOWER_MUSIC;
         super.clientInitialize();
     }
 
