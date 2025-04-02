@@ -1,7 +1,5 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
@@ -10,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
@@ -27,7 +24,6 @@ import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 import static com.brass_amber.ba_bt.util.BTStatics.*;
 
@@ -65,18 +61,6 @@ public class BTUtil {
         }
 
         return list;
-    }
-
-    public static Supplier<SoundEvent> getTowerMusic(GolemType type) {
-        return switch (type) {
-            case OCEAN -> () -> BTSoundEvents.MUSIC_OCEAN_TOWER;
-            case CORE -> () -> BTSoundEvents.MUSIC_CORE_TOWER;
-            case NETHER -> () -> BTSoundEvents.MUSIC_NETHER_TOWER;
-            case END -> () -> BTSoundEvents.MUSIC_END_TOWER;
-            case SKY -> () -> BTSoundEvents.MUSIC_SKY_TOWER;
-            case CITY -> () -> BTSoundEvents.MUSIC_CITY;
-            default -> () -> BTSoundEvents.MUSIC_LAND_TOWER;
-        };
     }
 
 
@@ -204,14 +188,14 @@ public class BTUtil {
         int timesAdded;
 
         for (String pool: pools) {
-            Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Blocks"));
-            for (int i = Math.max(rarity-1, 0); i < Math.min(rarity + 1, 4); i++) {
+            Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Block"));
+            for (int i = Math.max(rarity-4, 0); i < Math.min(rarity + 1, 4); i++) {
 
                 // Add items of wanted rarity thrice, items of the rarity below twice, and items of a higher rarity once.
-                if (i < rarity) {
-                    timesAdded = 2;
-                } else if (i == rarity) {
+                if (i == rarity) {
                     timesAdded = 3;
+                } else if (i == rarity - 1) {
+                    timesAdded = 2;
                 } else {
                     timesAdded = 1;
                 }
