@@ -7,12 +7,10 @@ import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -89,7 +87,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.spawnerBlock = BTBlocks.OCEAN_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
         this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metal", "Gem", "Water Plant");
+        this.towerChestLootTypes = List.of("Weapon", "Armor", "Gem", "Water Plant", "Water Plant");
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
         if (minimalOceanCarving.get()) {
@@ -146,7 +144,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-        if (this.tickCount % 100 <= 5 && this.hasPlayer && this.canCheck) {
+        if (this.tickCount % 100 <= 5 && this.hasPlayer) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
