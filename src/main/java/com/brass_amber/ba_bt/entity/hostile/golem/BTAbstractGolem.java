@@ -349,7 +349,7 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
 		// Disregard Fire Damage
-		if (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE)) {
+		if (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE) || source.is(DamageTypes.DROWN)) {
 			return super.hurt(source, 0.0F);
 		}
 		if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)) {
@@ -604,7 +604,7 @@ public abstract class BTAbstractGolem extends Monster {
 	 * Reset the Golem to its defined spawn location.
 	 */
 	private void resetGolem() {
-		if(this.isDormant()) {
+		if (this.isDormant()) {
 			return;
 		}
 		final double x = this.getX();

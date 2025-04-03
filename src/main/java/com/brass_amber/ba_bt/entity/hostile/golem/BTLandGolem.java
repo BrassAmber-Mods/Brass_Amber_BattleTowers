@@ -1,17 +1,24 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
 import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
 import com.brass_amber.ba_bt.util.GolemType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
+import javax.annotation.Nullable;
+
+import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
 
 public class BTLandGolem extends BTAbstractGolem {
@@ -38,12 +45,21 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
 
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-
-		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.landGolemHP.get());
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 200).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+	}
+
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+		// TODO Delete, Testing
+		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
+
+		// Set spawn position and direction centered on the spawning Block.
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(landGolemHP.get());
+		this.setHealth(this.getMaxHealth());
+		return spawnDataIn;
 	}
 
 	@Override

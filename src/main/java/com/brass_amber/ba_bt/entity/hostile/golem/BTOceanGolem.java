@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -17,9 +18,11 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
@@ -41,7 +44,6 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.xpReward = 910;
 		this.drowned = 0;
 		this.golemType = GolemType.OCEAN;
-		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.oceanGolemHP.get());
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
@@ -50,6 +52,17 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
 		return new WaterBoundPathNavigation(this, level);
+	}
+
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+		// TODO Delete, Testing
+		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
+
+		// Set spawn position and direction centered on the spawning Block.
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.oceanGolemHP.get());
+		this.setHealth(this.getMaxHealth());
+		return spawnDataIn;
 	}
 
 	@Override
@@ -93,6 +106,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
+
 		if (!this.level().isClientSide() && this.drowned < 4) {
 			if (this.getHealth() < this.getMaxHealth() * .7 && this.drowned == 0) {
 				this.spawnDrowned((ServerLevel) this.level());
