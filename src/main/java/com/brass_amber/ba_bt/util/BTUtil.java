@@ -187,6 +187,8 @@ public class BTUtil {
 
         int timesAdded;
 
+        rarity = isExtra ? rarity - 1: rarity;
+
         for (String pool: pools) {
             Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Block"));
             for (int i = Math.max(rarity-4, 0); i < Math.min(rarity + 1, 4); i++) {
