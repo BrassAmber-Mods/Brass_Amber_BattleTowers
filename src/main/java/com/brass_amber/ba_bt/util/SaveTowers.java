@@ -42,7 +42,10 @@ public class SaveTowers {
     }
 
     public void serverClosed() {
+        writeData();
+    }
 
+    private void writeData() {
         for (int i = 0; i < towerNames.size(); i++) {
             String name = towerNames.get(i);
 
@@ -64,7 +67,6 @@ public class SaveTowers {
                 // System.err.format("IOException: %s%n", x);
             }
         }
-
     }
 
     public void getTowers() {
@@ -104,6 +106,7 @@ public class SaveTowers {
 
     public void addTower(ChunkPos pos, Rotation rotation, int towerId) {
         towers.get(towerId).add(Pair.of(pos, rotation));
+        writeData();
     }
 
 
