@@ -98,7 +98,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.noise = 60 + ((random.nextInt(2) + 1) * 4);
         }
 
-        this.top = this.getBlockY() - 12;
+        this.top = this.getBlockY() - 14;
         this.bottom = this.getBlockY() - 110;
 
         this.currentFloorY = this.getBlockY() - 2;
@@ -155,8 +155,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 200, 0,true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 360, 0,true, true), player);
 
                 }
                 else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){
@@ -165,17 +164,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 }
             }
 
-            for (Entity entity: ((ServerLevel) level()).getEntities(EntityType.DROWNED, EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
-                if (distanceTo2D(this, entity) < towerRange) {
+            for (Entity entity: level().getEntities(this, this.getBoundingBox().inflate(60, 115, 60), entity -> entity.isAlive() && entity.isInWater())) {
+                if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity) {
                     ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
                 }
             }
 
-            for (Entity entity: ((ServerLevel) level()).getEntities(EntityType.GUARDIAN, EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
-                if (distanceTo2D(this, entity) < towerRange) {
-                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
-                }
-            }
         }
     }
 
@@ -201,9 +195,9 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     this.wallDistance -= this.distanceChange;
                     this.nextStep = random.nextInt(4)+8;
                     if (y > this.bottom + 33) {
-                        this.distanceChange = random.nextInt(3)+1;
-                    } else {
                         this.distanceChange = random.nextInt(2)+1;
+                    } else {
+                        this.distanceChange = 1;
                     }
                 }
                 if (y > this.bottom) {
