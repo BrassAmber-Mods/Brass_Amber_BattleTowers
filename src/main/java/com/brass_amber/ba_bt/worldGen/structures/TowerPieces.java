@@ -164,7 +164,7 @@ public class TowerPieces {
 
 
         protected static StructurePlaceSettings makeSettings(Rotation rotation) {
-            return (new StructurePlaceSettings()).setRotationPivot(new BlockPos(14, 0, 14)).setIgnoreEntities(true).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+            return (new StructurePlaceSettings()).setRotationPivot(new BlockPos(14, 0, 14)).setIgnoreEntities(false).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK).setFinalizeEntities(true);
         }
 
         protected void addAdditionalSaveData(StructurePieceSerializationContext serializationContext, CompoundTag compoundTag) {
