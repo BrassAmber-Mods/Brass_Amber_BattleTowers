@@ -57,6 +57,9 @@ public class BABTMain {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC);
+
         // Register the Deferred Register to the mod event bus so tabs get registered
         // Register the Deferred Register to the mod event bus so blocks get registered
         BTBlocks.register(modEventBus);
@@ -81,8 +84,7 @@ public class BABTMain {
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BattleTowersConfig.SPEC);
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
