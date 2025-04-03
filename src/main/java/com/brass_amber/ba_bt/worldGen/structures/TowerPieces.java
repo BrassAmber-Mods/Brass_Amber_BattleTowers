@@ -74,7 +74,10 @@ public class TowerPieces {
             default -> List.of();
         };
 
-        towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation, startFloorProcessors,0));
+        switch (towerGenInfo) {
+            case OCEAN -> towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation.getRotated(Rotation.CLOCKWISE_180), startFloorProcessors,0));
+            default -> towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation, startFloorProcessors,0));
+        }
         // LOGGER.debug("{} placed start floor", towerName);
         // Add random internal rooms (skipping entry floor)
         for (int i = 1; i < 7; i++) {
