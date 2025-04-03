@@ -54,7 +54,6 @@ public abstract class TowerStructure extends Structure {
     protected int towerType = 0;
     protected int towerId = -1; // Tower number (Land = 0, Ocean = 1, etc. )
     protected String[] towerTypeConversion;
-    protected int afterPlaceCount = 0;
 
     protected final Boolean buryTower = false;
     protected final Boolean randomBuryDepth = false;
@@ -185,7 +184,6 @@ public abstract class TowerStructure extends Structure {
         super.afterPlace(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, piecesContainer);
 
         // After Place is called for every chunk that the structure occupies.
-        this.afterPlaceCount++;
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
 
@@ -265,7 +263,6 @@ public abstract class TowerStructure extends Structure {
             }
         }
 
-
         for (BlockPos startPos: startPositions) {
             for (int y = startPos.getY(); y > worldGenLevel.getMinBuildHeight() ; y--) {
                 blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
@@ -282,49 +279,6 @@ public abstract class TowerStructure extends Structure {
             }
         }
 
-        // All Battletowers take up at least 9 chunks (29x29 XZ) on ninth chunk, place monolith at tower end.
-        // Monolith handles placement of Obelisk.
-        if (afterPlaceCount == 9) {
-            BoundingBox endBB = piecesContainer.pieces().get(9).getBoundingBox();
-            BlockPos center;
-            ServerLevel level = worldGenLevel.getLevel();
-
-            EntityType<BTMonolith> type;
-
-            Entity monolith;
-
-            switch (this.towerId) {
-                case 1 -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(3);
-                    type = BTEntityType.OCEAN_MONOLITH.get();
-                }
-                case 2 -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(2);
-                    type = BTEntityType.CORE_MONOLITH.get();
-                }
-                case 3 -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(3);
-                    type = BTEntityType.NETHER_MONOLITH.get();
-                }
-                case 4 -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(3);
-                    type = BTEntityType.END_MONOLITH.get();
-                }
-                case 5 -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(3);
-                    type = BTEntityType.SKY_MONOLITH.get();
-                }
-                default -> {
-                    center = endBB.getCenter().atY(endBB.minY()).above(3);
-                    type = BTEntityType.LAND_MONOLITH.get();
-                }
-            }
-
-            monolith = new BTMonolith(type, level, center.getX() + .5, center.getY(), center.getZ() + .5, Blocks.CLAY.defaultBlockState());
-            worldGenLevel.addFreshEntity(monolith);
-            BABTMain.LOGGER.debug("Spawned Monolith for {} at {}", this.towerName, center);
-            this.afterPlaceCount = 0;
-        }
     }
 
     protected abstract boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder);
