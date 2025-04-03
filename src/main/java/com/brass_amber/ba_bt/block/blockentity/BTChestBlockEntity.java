@@ -29,18 +29,18 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 
-	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, GolemType golemType, boolean golemChest) {
-		this(GolemType.getChestForType(golemType, golemChest), blockPos, blockState);
+	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, GolemType golemType) {
+		this(GolemType.getChestForType(golemType, GolemType.isGolemChest(blockState.getBlock())), blockPos, blockState);
 	}
 
 	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BTBlockEntityType.LAND_CHEST.get(), blockPos, blockState);
+		this(GolemType.getChestForType(GolemType.getTypeForChest(blockState.getBlock()), GolemType.isGolemChest(blockState.getBlock())), blockPos, blockState);
 	}
 
 	protected BTChestBlockEntity(BlockEntityType<? extends BTChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
 		this.golemType = GolemType.getTypeForChest(blockEntityType);
-		this.golemChest = GolemType.isGolemChest(this.getType());
+		this.golemChest = GolemType.isGolemChest(blockState.getBlock());
 	}
 
 	@Override
@@ -68,7 +68,6 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	public void load(CompoundTag compoundTag) {
 		super.load(compoundTag);
 		this.unlocked = compoundTag.getBoolean("Unlocked");
-
 	}
 
 	@Override

@@ -89,7 +89,7 @@ public class BTChestBlock extends ChestBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		return new BTChestBlockEntity(blockPos, blockState, type, this.getName().toString().toLowerCase().contains("golem"));
+		return new BTChestBlockEntity(blockPos, blockState, type);
 	}
 
 	@Override

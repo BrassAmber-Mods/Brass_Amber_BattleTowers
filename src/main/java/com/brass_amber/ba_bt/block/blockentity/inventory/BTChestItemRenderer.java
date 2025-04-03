@@ -30,8 +30,8 @@ public class BTChestItemRenderer<T extends BlockEntity> extends BlockEntityWitho
 
     {
         for (GolemType type : GolemType.VALUES) {
-            tiles[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, false).defaultBlockState(), type, false);
-            tilesGolem[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, true).defaultBlockState(), type, true);
+            tiles[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, false).defaultBlockState(), type);
+            tilesGolem[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, true).defaultBlockState(), type);
         }
     }
 
