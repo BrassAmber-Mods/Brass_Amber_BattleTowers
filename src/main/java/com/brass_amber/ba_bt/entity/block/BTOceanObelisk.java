@@ -1,18 +1,20 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -87,7 +89,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.spawnerBlock = BTBlocks.OCEAN_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
         this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metal", "Water Plant", "Plant");
+        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metal", "Gem", "Water Plant");
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
         if (minimalOceanCarving.get()) {
@@ -96,10 +98,10 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.noise = 60 + ((random.nextInt(2) + 1) * 4);
         }
 
-        this.top = this.getBlockY() - 20;
+        this.top = this.getBlockY() - 12;
         this.bottom = this.getBlockY() - 110;
 
-        this.currentFloorY = this.top;
+        this.currentFloorY = this.getBlockY() - 2;
         this.currentCarveLayer = this.top;
         this.wallDistance = this.noise -.5;
         this.nextStep = random.nextInt(4) + 8;
@@ -127,7 +129,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.oceanCarved = tag.getBoolean(oceanCarvedName);
-        BABTMain.LOGGER.info("Ocean Carved in read data " + this.oceanCarved);
+        // BABTMain.LOGGER.info("Ocean Carved in read data " + this.oceanCarved);
     }
 
     @Override
@@ -138,9 +140,9 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-        if (!this.oceanCarved && this.serverInitialized && this.tickCount % 60 <= 5) {
+        if (!this.oceanCarved && this.serverInitialized && this.tickCount % 120 <= 5) {
             this.carveOcean();
-            doNoOutputCommand(this, "/kill @e[distance=0..72,type=item]");
+            doNoOutputCommand(this, "/kill @e[distance=0..100,type=item,nbt={Item:{id:'minecraft:kelp'}}]");
             return;
         }
 
@@ -148,15 +150,30 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
-                boolean acceptableY = player.getBlockY() < this.getBlockY() && player.getBlockY() > this.bottom;
+                boolean acceptableY = player.getBlockY() < this.getBlockY() - 13 && player.getBlockY() > this.bottom;
                 if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 200, 0,true, true), player);
                     player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), player);
+
                 }
                 else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){
                     player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
+                    player.removeEffect(MobEffects.NIGHT_VISION);
+                }
+            }
+
+            for (Entity entity: ((ServerLevel) level()).getEntities(EntityType.DROWNED, EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
+                if (distanceTo2D(this, entity) < towerRange) {
+                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
+                }
+            }
+
+            for (Entity entity: ((ServerLevel) level()).getEntities(EntityType.GUARDIAN, EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
+                if (distanceTo2D(this, entity) < towerRange) {
+                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
                 }
             }
         }
@@ -178,7 +195,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     if (minimalOceanCarving.get()) {
                         this.wallDistance -= 2;
                     } else {
-                        this.wallDistance -= 10;
+                        this.wallDistance -= 8;
                     }
                 } else if ((this.top - y) % this.nextStep == 0) {
                     this.wallDistance -= this.distanceChange;
@@ -245,7 +262,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     if (
                             !this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)
                                     && distanceTo2D(this, blockpos$mutableblockpos) < this.noise +5
-                                    && !(this.level().getBlockState(blockAbove).getBlock() instanceof BTChestBlock)
+                                    && !avoidBlocks.contains(this.level().getBlockState(blockpos$mutableblockpos).getBlock().defaultBlockState())
                     ) {
                         float vegetation = random.nextFloat();
                         if (vegetation > .80) {
