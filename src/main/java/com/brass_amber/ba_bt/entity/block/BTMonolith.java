@@ -68,7 +68,6 @@ public class BTMonolith extends Entity {
 	public BTMonolith(EntityType<BTMonolith> monolithEntityType, Level levelIn, double x, double y, double z, BlockState placedOnState) {
 		this(monolithEntityType, levelIn);
 		this.setPos(x, y, z);
-		this.fromItem = placedOnState != Blocks.CLAY.defaultBlockState();
 	}
 
 	/*********************************************************** Data ********************************************************/
