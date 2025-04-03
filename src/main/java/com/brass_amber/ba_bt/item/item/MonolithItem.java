@@ -86,7 +86,7 @@ public class MonolithItem extends Item {
 	 */
 	private boolean hasEnoughSpace(Level world, BlockPos pos, Direction clickedBlockFace) {
 		for (int height = 0; height < 3; height++) {
-			if (!world.isEmptyBlock(pos.offset(0, height, 0))) {
+			if (!world.isEmptyBlock(pos.offset(0, height, 0)) && !world.isWaterAt(pos.offset(0, height, 0))) {
 				return false;
 			}
 		}
