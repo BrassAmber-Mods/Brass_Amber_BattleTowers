@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
+import com.brass_amber.ba_bt.BABTMain;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
@@ -183,7 +184,7 @@ public class BTUtil {
         List<Integer> poolMins = new ArrayList<>();
         List<Integer> poolMaxes = new ArrayList<>();
 
-        // BABTMain.LOGGER.info("Pools " + pools);
+        BABTMain.LOGGER.debug("Pools {}", pools);
 
         int timesAdded;
 
@@ -191,7 +192,7 @@ public class BTUtil {
 
         for (String pool: pools) {
             Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Block"));
-            for (int i = Math.max(rarity-4, 0); i < Math.min(rarity + 1, 4); i++) {
+            for (int i = Math.max(rarity-4, 0); i < Math.max(Math.min(rarity + 1, 4), 1); i++) {
 
                 // Add items of wanted rarity thrice, items of the rarity below twice, and items of a higher rarity once.
                 if (i == rarity) {
@@ -206,13 +207,15 @@ public class BTUtil {
                     poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
                     List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
                     for (float amount: floats) {
-                        // BABTMain.LOGGER.info("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
+                        // BABTMain.LOGGER.debug("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                         poolMins.add((int) amount);
                         poolMaxes.add((int) (((amount - (int) amount) * 10)));
                     }
                 }
             }
         }
+
+        BABTMain.LOGGER.debug("Pools {}", poolItems);
 
         int itemAmount = isExtra ? 4 + randomSource.nextInt(4) : 10 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
@@ -248,7 +251,7 @@ public class BTUtil {
                 itemStack = new ItemStack(item);
             }
 
-            // Alow item count to work for non-stackable items
+            // Allow item count to work for non-stackable items
             if (item.getMaxStackSize(itemStack) == 1) {
                 for (int j = 0; j < amounts.get(i); j++) {
                     chestLoot.add(itemStack);
