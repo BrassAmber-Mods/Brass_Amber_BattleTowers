@@ -38,10 +38,12 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
 
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.landGolemHP.get());
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.landGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	@Override

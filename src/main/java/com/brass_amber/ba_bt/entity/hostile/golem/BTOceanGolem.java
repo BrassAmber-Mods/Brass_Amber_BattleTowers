@@ -41,10 +41,11 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.xpReward = 910;
 		this.drowned = 0;
 		this.golemType = GolemType.OCEAN;
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.oceanGolemHP.get());
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.oceanGolemHP.get()).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 12.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 12.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
