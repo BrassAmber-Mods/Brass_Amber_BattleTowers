@@ -173,17 +173,17 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     public void carveOcean() {
         // BrassAmberBattleTowers.LOGGER.info(this.level().isClientSide());
-        // BABTMain.LOGGER.info("Round of carving: " + this.currentCarveLayer);
+        // BABTMain.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
         if (this.currentCarveLayer >= this.bottom) {
             int bottomRange = this.currentCarveLayer + this.floorDistance;
-            if (this.currentCarveLayer - this.bottom < 20) {
+            if (this.currentCarveLayer - this.bottom < 25) {
                 bottomRange = this.bottom;
             }
             // BrassAmberBattleTowers.LOGGER.info("Bottom Range: " + bottomRange);
             for (int y = this.currentCarveLayer; y >= bottomRange; y--) {
-                if (y == this.bottom + 36 || y == this.bottom + 72) {
+                if (y == this.bottom + 37 || y == this.bottom + 73) {
                     if (minimalOceanCarving.get()) {
                         this.wallDistance -= 2;
                     } else {
