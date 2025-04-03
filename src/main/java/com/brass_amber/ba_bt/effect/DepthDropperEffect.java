@@ -28,7 +28,7 @@ public class DepthDropperEffect extends MobEffect {
             }
 
             if (!(entity instanceof Player)) {
-                motion = motion.add(0, -0.02f, 0);
+                motion = motion.add(0, -0.01f, 0);
                 entity.setDeltaMovement(motion);
 
             } else if (jumping && entity.onGround()) {
