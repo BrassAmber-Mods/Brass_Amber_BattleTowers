@@ -23,11 +23,15 @@ public class DepthDropperEffect extends MobEffect {
             boolean jumping = entity.jumping;
             entity.setOnGround(entity.onGround() || entity.verticalCollision);
 
-            if (entity.isSwimming()) {
+            if (entity.isSwimming() && entity instanceof Player) {
                 entity.setSwimming(false);
             }
 
-            if (jumping && entity.onGround()) {
+            if (!(entity instanceof Player)) {
+                motion = motion.add(0, -0.02f, 0);
+                entity.setDeltaMovement(motion);
+
+            } else if (jumping && entity.onGround()) {
                 motion = motion.add(0, .5f, 0);
                 entity.setOnGround(false);
             } else {
@@ -36,8 +40,9 @@ public class DepthDropperEffect extends MobEffect {
 
             float multiplier = 1.3f;
             if (motion.multiply(1, 0, 1)
-                    .length() < 0.145f && (entity.zza > 0 || entity.xxa != 0) && !entity.isShiftKeyDown())
+                    .length() < 0.145f && (entity.zza > 0 || entity.xxa != 0) && !entity.isShiftKeyDown()) {
                 motion = motion.multiply(multiplier, 1, multiplier);
+            }
 
             entity.setDeltaMovement(motion);
         }
