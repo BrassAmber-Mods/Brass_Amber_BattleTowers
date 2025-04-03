@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTUtil;
@@ -51,6 +52,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     private boolean oceanCarved;
 
     private final String oceanCarvedName = "OceanCarved";
+    private boolean golemDead = false;
 
 
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
@@ -144,7 +146,15 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-        if (this.tickCount % 100 <= 5 && this.hasPlayer) {
+        try {
+            List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 115, 15));
+            this.golemDead = list2.isEmpty() && this.golemSpawned;
+        } catch (Exception f) {
+
+            BABTMain.LOGGER.error("Exception finding Golem: " + f);
+        }
+
+        if (this.tickCount % 100 <= 5 && this.hasPlayer && !this.golemDead) {
             List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {

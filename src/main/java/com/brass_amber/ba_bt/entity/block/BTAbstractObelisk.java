@@ -93,7 +93,7 @@ public class BTAbstractObelisk extends Entity {
 
     protected boolean musicPlaying;
     protected boolean canCheck;
-    private boolean golemSpawned = false;
+    protected boolean golemSpawned = false;
     private Class<? extends Entity> specialEnemy;
     private boolean chestsFound;
     public boolean hasPlayer;
