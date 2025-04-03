@@ -503,15 +503,18 @@ public class BTAbstractObelisk extends Entity {
         }
 
         // Make sure we have a player within range.
-        boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
+
+        boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 200D);
         boolean playerInTowerRange;
         boolean playerInMusicRange;
 
         if (hasClientPlayer && !this.golemSpawned) {
+            Player player = client.getNearestPlayer(this, 200D);
+            double distanceTo = BTUtil.distanceTo2D(this, player);
             //noinspection ConstantConditions
-            playerInTowerRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) <= this.towerRange;
+            playerInTowerRange = distanceTo <= this.towerRange;
             //noinspection ConstantConditions
-            playerInMusicRange = BTUtil.distanceTo2D(this, client.getNearestPlayer(this, 100D)) < this.musicDistance;
+            playerInMusicRange = distanceTo < this.musicDistance;
         } else {
             playerInTowerRange = false;
             playerInMusicRange = false;
