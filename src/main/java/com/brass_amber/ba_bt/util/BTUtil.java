@@ -184,7 +184,7 @@ public class BTUtil {
         List<Integer> poolMins = new ArrayList<>();
         List<Integer> poolMaxes = new ArrayList<>();
 
-        BABTMain.LOGGER.debug("Pools {}", pools);
+        // BABTMain.LOGGER.debug("Pools {}", pools);
 
         int timesAdded;
 
@@ -215,7 +215,7 @@ public class BTUtil {
             }
         }
 
-        BABTMain.LOGGER.debug("Pools {}", poolItems);
+        // BABTMain.LOGGER.debug("Pools {}", poolItems);
 
         int itemAmount = isExtra ? 4 + randomSource.nextInt(4) : 10 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
