@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.block.blockentity.*;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
@@ -23,11 +22,8 @@ import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Supplier;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
@@ -178,6 +174,26 @@ public enum GolemType implements StringRepresentable {
 		} else if (BTBlockEntityType.END_CHEST.get().equals(blockEntityType) || BTBlockEntityType.END_GOLEM_CHEST.get().equals(blockEntityType)) {
 			return END;
 		} else if (BTBlockEntityType.SKY_CHEST.get().equals(blockEntityType) || BTBlockEntityType.SKY_GOLEM_CHEST.get().equals(blockEntityType)) {
+			return SKY;
+		}
+
+		// Couldn't get EntityType
+		return EMPTY;
+	}
+	
+	public static GolemType getTypeForChest(Block block) {
+
+		if (BTBlocks.LAND_CHEST.get().equals(block) || BTBlocks.LAND_GOLEM_CHEST.get().equals(block)) {
+			return LAND;
+		} else if (BTBlocks.OCEAN_CHEST.get().equals(block) || BTBlocks.OCEAN_GOLEM_CHEST.get().equals(block)) {
+			return OCEAN;
+		} else if (BTBlocks.CORE_CHEST.get().equals(block) || BTBlocks.CORE_GOLEM_CHEST.get().equals(block)) {
+			return CORE;
+		} else if (BTBlocks.NETHER_CHEST.get().equals(block) || BTBlocks.NETHER_GOLEM_CHEST.get().equals(block)) {
+			return NETHER;
+		} else if (BTBlocks.END_CHEST.get().equals(block) || BTBlocks.END_GOLEM_CHEST.get().equals(block)) {
+			return END;
+		} else if (BTBlocks.SKY_CHEST.get().equals(block) || BTBlocks.SKY_GOLEM_CHEST.get().equals(block)) {
 			return SKY;
 		}
 
