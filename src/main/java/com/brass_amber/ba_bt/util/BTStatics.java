@@ -870,7 +870,7 @@ public class BTStatics {
 
         waterPlantsPoolAmounts = List.of(
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(2.6f));
+                    addAll(Arrays.asList(2.6f, 2.6f));
                     addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 0)).toList());
                 }},
                 new ArrayList<>() {{
@@ -878,7 +878,7 @@ public class BTStatics {
                     addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 1)).toList());
                 }},
                 new ArrayList<>() {{
-                    addAll(Arrays.asList(2.6f, 2.4f));
+                    addAll(Arrays.asList(2.6f, 2.4f, 2.4f));
                     addAll(waterPlantsPoolAmount.get().stream().filter(itemRange -> (waterPlantsPoolRarity.get().get(waterPlantsPoolAmount.get().indexOf(itemRange)) == 2)).toList());
                 }},
                 new ArrayList<>() {{
