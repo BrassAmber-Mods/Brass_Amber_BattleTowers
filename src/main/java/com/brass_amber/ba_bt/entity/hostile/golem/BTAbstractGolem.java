@@ -2,6 +2,7 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import javax.annotation.Nullable;
 
+import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.ai.target.TargetTaskGolem;
@@ -16,6 +17,7 @@ import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -48,6 +50,8 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
+
+import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 
 
 /**
@@ -131,7 +135,7 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		compound.put(this.spawnPosName, BTUtil.newIntList(this.getSpawnPos().getX(), this.getSpawnPos().getY(), this.getSpawnPos().getZ()));
+		compound.put(this.spawnPosName, NbtUtils.writeBlockPos(blockPosition()));
 		compound.putFloat(this.spawnDirectionName, this.getSpawnDirection());
 		compound.putByte(this.golemStateName, this.getGolemState());
 		compound.putInt(this.explosionPowerName, this.explosionPower);
@@ -143,11 +147,7 @@ public abstract class BTAbstractGolem extends Monster {
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
-		ListTag spawnPos = compound.getList(this.spawnPosName, 9);
-		int x = spawnPos.getInt(0);
-		int y = spawnPos.getInt(1);
-		int z = spawnPos.getInt(2);
-		this.setSpawnPos(new BlockPos(x, y, z));
+		this.setSpawnPos(NbtUtils.readBlockPos(compound.getCompound(this.spawnPosName)));
 		this.setSpawnDirection(compound.getFloat(this.spawnDirectionName));
 		this.setGolemState(compound.getByte(this.golemStateName));
 		if (compound.contains(this.explosionPowerName, 99)) {
@@ -350,7 +350,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public boolean hurt(DamageSource source, float damage) {
 		// Disregard Fire Damage
 		if (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE) || source.is(DamageTypes.DROWN)) {
-			return super.hurt(source, 0.0F);
+			return false;
 		}
 		if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)) {
 			return super.hurt(source, damage / 4f);
@@ -374,6 +374,7 @@ public abstract class BTAbstractGolem extends Monster {
 		if (this.level().isClientSide()) {
 			music.stopPlaying();
 		}
+		BABTMain.LOGGER.debug("Golem Died from: {}", source);
 		super.die(source);
 	}
 
@@ -612,7 +613,7 @@ public abstract class BTAbstractGolem extends Monster {
 		final double z = this.getZ();
 		BlockPos spawnPos = this.getSpawnPos();
 
-		if(this.distanceToSqr(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()) > 4) {
+		if (distanceTo2D(this, spawnPos.getX(), spawnPos.getZ()) > 4) {
 			this.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		}
 
