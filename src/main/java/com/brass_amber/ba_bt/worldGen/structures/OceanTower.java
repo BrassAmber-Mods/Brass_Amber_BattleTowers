@@ -95,7 +95,7 @@ public class OceanTower extends TowerStructure {
                 return Pair.of(false, BlockPos.ZERO);
             }
         }
-        return Pair.of(true, chunkPos.getMiddleBlockPosition(seaLevel + 12));
+        return Pair.of(true, chunkPos.getMiddleBlockPosition(seaLevel));
     }
 
     @Override

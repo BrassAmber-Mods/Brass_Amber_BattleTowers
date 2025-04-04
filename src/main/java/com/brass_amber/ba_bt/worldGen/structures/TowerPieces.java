@@ -34,6 +34,10 @@ public class TowerPieces {
         // decide on wall/stair processors (different for each variant)
         List<StructureProcessor> shellProcessors = TowerGenInfo.getShellProcessors(towerGenInfo, variant);
         List<StructureProcessor> variantProcessors = TowerGenInfo.getVariantProcessors(towerGenInfo, variant);
+        ArrayList<StructureProcessor> oddFloorProcessors = new ArrayList<>(shellProcessors);
+        //if (towerGenInfo == TowerGenInfo.OCEAN) {
+        //    oddFloorProcessors.add(BONE_REMOVE);
+        //}
 
         // offset tower to account for size of toer pieces (29/29)
         blockPos = blockPos.offset(-14 , 0, -14);
@@ -49,8 +53,9 @@ public class TowerPieces {
         };
 
         for (int i = 0; i < 4; i++) {
+
             towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, i*doubledFloorHeight, 0), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
-            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, floorHeight + i*doubledFloorHeight, 0), rotation, "", shellProcessors, variantProcessors));
+            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, floorHeight + i*doubledFloorHeight, 0), rotation, "", oddFloorProcessors, variantProcessors));
         }
         towerPieces.add(new TowerPiece(templateManager, "end", towerName, blockPos.offset(0,floorHeight*8, 0), rotation, ""));
 

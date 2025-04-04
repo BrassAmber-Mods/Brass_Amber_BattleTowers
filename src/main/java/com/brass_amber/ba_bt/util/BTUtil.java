@@ -219,7 +219,7 @@ public class BTUtil {
 
         int itemAmount = isExtra ? 4 + randomSource.nextInt(4) : 10 + randomSource.nextInt(5);
         for (int i = 0; i < itemAmount; i++) {
-            int index = randomSource.nextInt(poolItems.size()-1);
+            int index = randomSource.nextInt(Math.max(0, poolItems.size()-1));
             items.add(poolItems.get(index));
             int min = poolMins.get(index);
             int max = poolMaxes.get(index);

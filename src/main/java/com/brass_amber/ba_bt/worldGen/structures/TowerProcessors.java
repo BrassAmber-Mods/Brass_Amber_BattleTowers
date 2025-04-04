@@ -280,7 +280,7 @@ public class TowerProcessors {
 
         BONE_REMOVE = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.BONE_BLOCK, 0.2F),
+                        new BlockMatchTest(Blocks.BONE_BLOCK),
                         AlwaysTrueTest.INSTANCE,
                         Blocks.WATER.defaultBlockState()
                 )

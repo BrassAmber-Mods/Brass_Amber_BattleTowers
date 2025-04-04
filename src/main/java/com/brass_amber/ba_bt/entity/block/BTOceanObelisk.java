@@ -98,7 +98,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.noise = 60 + ((random.nextInt(2) + 1) * 4);
         }
 
-        this.top = this.getBlockY() - 14;
+        this.top = this.getBlockY() - 2;
         this.bottom = this.getBlockY() - 110;
 
         this.currentFloorY = this.getBlockY() - 2;
@@ -158,12 +158,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
             for (ServerPlayer player : players
             ) {
-                boolean acceptableY = player.getBlockY() < this.getBlockY() - 13 && player.getBlockY() > this.bottom;
+                boolean acceptableY = player.getBlockY() < this.getBlockY() - 1 && player.getBlockY() > this.bottom;
                 if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 360, 0,true, true), player);
+                    // player.forceAddEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 360, 0,true, true), player);
 
                 }
                 else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){

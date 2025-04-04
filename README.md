@@ -13,7 +13,7 @@ Some code comments are from a Structure Tutorial by Telepathic Grunt and have be
 >- Land Tower 
 >   - Worldgen
 >   - Spawners 
->   - ~~Locked chests and loot~~
+>   - Locked chests and loot
 >   - Golem
 >     - Ai
 >     - Loot
