@@ -83,9 +83,12 @@ public class SaveTowers {
             }
 
             for (String line: lines) {
-                String[] xzr = line.split(",");
-                towers.get(i).add(Pair.of(new ChunkPos(parseInt(xzr[0]), parseInt(xzr[1])), Rotation.valueOf(xzr[2])));
-
+                try {
+                    String[] xzr = line.split(",");
+                    towers.get(i).add(Pair.of(new ChunkPos(parseInt(xzr[0]), parseInt(xzr[1])), xzr.length == 3 ? Rotation.valueOf( xzr[2]) : Rotation.NONE));
+                } catch (Exception e) {
+                    BABTMain.LOGGER.info(e.getLocalizedMessage());
+                }
             }
             // BrassAmberBattleTowers.LOGGER.info(" Towers Loaded:" + towers);
         }
