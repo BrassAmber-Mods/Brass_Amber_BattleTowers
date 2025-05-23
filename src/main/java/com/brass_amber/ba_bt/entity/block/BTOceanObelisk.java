@@ -159,7 +159,8 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             for (ServerPlayer player : players
             ) {
                 boolean acceptableY = player.getBlockY() < this.getBlockY() - 1 && player.getBlockY() > this.bottom;
-                if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY) {
+                boolean not_survival = player.isCreative() || player.isSpectator();
+                if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY && !not_survival) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
