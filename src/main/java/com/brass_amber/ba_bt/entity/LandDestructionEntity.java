@@ -143,13 +143,7 @@ public class LandDestructionEntity extends Entity {
                 this.currentTicks = 0;
             }
         }
-        boolean alivePlayer = this.level().hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 100D);
-        if (alivePlayer) {
-            //noinspection ConstantConditions
-            this.hasPlayer = BTUtil.distanceTo2D(this, this.level().getNearestPlayer(this, 100D)) < 125;
-        } else {
-            this.hasPlayer = false;
-        }
+        this.hasPlayer = this.level().getNearestPlayer(this, 256D) != null;
         if (this.golemDead && this.level().isClientSide()) {
             MusicManager music = Minecraft.getInstance().getMusicManager();
             if (hasPlayer) {
