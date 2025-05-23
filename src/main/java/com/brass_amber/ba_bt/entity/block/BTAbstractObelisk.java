@@ -44,6 +44,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -114,6 +115,7 @@ public class BTAbstractObelisk extends Entity {
     protected ItemStack[] golemLoot;
     public boolean displayCrystal = true;
     private boolean crystalSpawned = false;
+    protected AABB entityCheckAABB;
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -130,6 +132,7 @@ public class BTAbstractObelisk extends Entity {
         this.towerRange = 0;
         this.floorChestFound = false;
         this.lastSpawnerType = EntityType.IRON_GOLEM;
+
     }
 
     public BTAbstractObelisk(GolemType golemType, Level level) {
@@ -141,6 +144,7 @@ public class BTAbstractObelisk extends Entity {
     public void initialize() {
         this.initialized = true;
         this.enemySpawnRange = 12;
+        this.entityCheckAABB = this.getBoundingBox().inflate(this.towerRange, 115, this.towerRange);
     }
 
     public void clientInitialize() {
@@ -371,11 +375,11 @@ public class BTAbstractObelisk extends Entity {
         }
         if (this.doCheck) {
             try {
-                List<?> list = this.level().getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 115, 15));
+                List<?> list = this.level().getEntitiesOfClass(BTMonolith.class, this.entityCheckAABB);
                 this.canCheck = !list.isEmpty();
                 if (!this.canCheck) {
                     try {
-                        List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 115, 15));
+                        List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.entityCheckAABB);
                         this.canCheck = !list2.isEmpty();
                         if (!this.golemSpawned) {
                             this.golemSpawned = true;
@@ -389,26 +393,13 @@ public class BTAbstractObelisk extends Entity {
             }
         }
 
-
         if (this.canCheck) {
-            List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
-            List<Boolean> playersClose = new ArrayList<>();
-            for (ServerPlayer player : players
-            ) {
-                if (distanceTo2D(this, player) < this.towerRange) {
-                    playersClose.add(Boolean.TRUE);
-                    // BrassAmberBattleTowers.LOGGER.info("Player " +  distanceTo2D(this, player) + " blocks away");
-                } else {
-                    playersClose.add(Boolean.FALSE);
-                }
-            }
-
-            this.hasPlayer = Collections.frequency(playersClose, Boolean.TRUE) > 0;
+            this.hasPlayer = this.level().getNearestPlayer(this, 256D) != null;
 
             int timeCheck = (this.random.nextInt(2) + 4) * 40;
 
             if (this.tickCount % timeCheck == 0) {
-                List<? extends Entity> specialEnemies = this.level().getEntitiesOfClass(this.specialEnemy, this.getBoundingBox().inflate(15, 110, 15));
+                List<? extends Entity> specialEnemies = this.level().getEntitiesOfClass(this.specialEnemy, this.entityCheckAABB);
                 if (specialEnemies.size() < 10) {
                     int floor = this.blockPosition().getY() + this.random.nextInt(8) * 11;
                     int x = this.blockPosition().getX() + this.random.nextInt(24) - 12;
@@ -484,11 +475,11 @@ public class BTAbstractObelisk extends Entity {
 
         if (this.doCheck) {
             try {
-                List<?> list = client.getEntitiesOfClass(BTMonolith.class, this.getBoundingBox().inflate(15, 110, 15));
+                List<?> list = client.getEntitiesOfClass(BTMonolith.class, this.entityCheckAABB);
                 this.canCheck = !list.isEmpty();
                 if (!this.canCheck) {
                     try {
-                        List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 110, 15));
+                        List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.entityCheckAABB);
                         this.canCheck = !list2.isEmpty();
                         if (!this.golemSpawned) {
                             this.golemSpawned = true;
@@ -557,7 +548,7 @@ public class BTAbstractObelisk extends Entity {
         boolean onGround;
         boolean specialEnemyCap;
 
-        List<?> nearby = serverWorld.getEntitiesOfClass(GolemType.getSpecialEnemyClass(this.golemType), this.getBoundingBox().inflate(15, 110, 15));
+        List<?> nearby = serverWorld.getEntitiesOfClass(this.specialEnemy, this.entityCheckAABB);
         specialEnemyCap = nearby.size() > 4;
         if (checkOnGround) {
             onGround = !serverWorld.getBlockState(spawn.below()).isAir() && serverWorld.getBlockState(spawn).isAir();

@@ -14,6 +14,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -147,7 +149,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         }
 
         try {
-            List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.getBoundingBox().inflate(15, 115, 15));
+            List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.entityCheckAABB);
             this.golemDead = list2.isEmpty() && this.golemSpawned;
         } catch (Exception f) {
 
@@ -155,12 +157,13 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         }
 
         if (this.tickCount % 100 <= 5 && this.hasPlayer && !this.golemDead) {
-            List<ServerPlayer> players = Objects.requireNonNull(this.level().getServer()).getPlayerList().getPlayers();
-            for (ServerPlayer player : players
+            List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null,  this.entityCheckAABB);
+
+            for (Player player : players
             ) {
                 boolean acceptableY = player.getBlockY() < this.getBlockY() - 1 && player.getBlockY() > this.bottom;
                 boolean not_survival = player.isCreative() || player.isSpectator();
-                if (BTUtil.distanceTo2D(this, player) < this.towerRange && player.isInWater() && acceptableY && !not_survival) {
+                if (player.isInWater() && acceptableY && !not_survival) {
                     // BrassAmberBattleTowers.LOGGER.debug("Set effects");
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
@@ -173,7 +176,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 }
             }
 
-            for (Entity entity: level().getEntities(this, this.getBoundingBox().inflate(60, 115, 60), entity -> entity.isAlive() && entity.isInWater())) {
+            for (Entity entity: level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater())) {
                 if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity) {
                     ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
                 }
