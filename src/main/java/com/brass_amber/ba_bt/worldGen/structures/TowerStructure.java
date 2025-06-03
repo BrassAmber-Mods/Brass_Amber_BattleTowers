@@ -187,19 +187,19 @@ public abstract class TowerStructure extends Structure {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
 
-        BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
+        BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
+        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunkCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
         // get start and end postions for x/z, using min/max to account for the MinBlock being -25 and the MaxBlock being -27
-        int startX = chunckCenter.getX() - 15;
-        int endX = chunckCenter.getX() + 15;
+        int startX = chunkCenter.getX() - 15;
+        int endX = chunkCenter.getX() + 15;
         // BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
 
-        int startZ = chunckCenter.getZ() - 15;
-        int endZ = chunckCenter.getZ() + 15;
+        int startZ = chunkCenter.getZ() - 15;
+        int endZ = chunkCenter.getZ() + 15;
         // BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
 
         List<BlockState> towerBlocks = BTStatics.towerBlocks.get(towerId);
