@@ -14,6 +14,7 @@ import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
@@ -33,11 +34,17 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.GeodeFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraft.world.level.levelgen.synth.NormalNoise;
+import net.minecraftforge.registries.ObjectHolder;
 import org.jetbrains.annotations.NotNull;
 
 import static com.brass_amber.ba_bt.BABTMain.SAVE_TOWERS;
@@ -45,6 +52,8 @@ import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 import static com.brass_amber.ba_bt.util.BTUtil.chunkDistanceTo;
 
 public abstract class TowerStructure extends Structure {
+    @ObjectHolder(registryName = "minecraft:configured_feature", value = "minecraft:freeze_top_layer")
+    public static final PlacedFeature freezeTopLayer = null;
 
     protected final TowerStructure.BTStructureSettings extraSettings;
     protected String towerName;
@@ -66,7 +75,7 @@ public abstract class TowerStructure extends Structure {
     }
 
     public static <S extends TowerStructure> RecordCodecBuilder<S, TowerStructure.BTStructureSettings> extraSettingsCodec() {
-        return TowerStructure.BTStructureSettings.CODEC.forGetter((object) -> new BTStructureSettings(null));
+        return TowerStructure.BTStructureSettings.CODEC.forGetter((object) -> new BTStructureSettings(null, 3));
     }
 
     @Override
@@ -166,9 +175,10 @@ public abstract class TowerStructure extends Structure {
 
     protected abstract Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext);
 
-    public record BTStructureSettings(HolderSet<Structure> avoidStructures) {
+    public record BTStructureSettings(HolderSet<Structure> avoidStructures, int minDistanceFromAvoidStructures) {
         public static final MapCodec<TowerStructure.BTStructureSettings> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-                RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("avoid_structures").forGetter(btStructureSettings -> btStructureSettings.avoidStructures)
+                RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("avoid_structures").forGetter(btStructureSettings -> btStructureSettings.avoidStructures),
+                Codec.intRange(3, Integer.MAX_VALUE).fieldOf("min_distance_from_avoid_structures").forGetter(btStructureSettings -> btStructureSettings.minDistanceFromAvoidStructures)
         ).apply(instance, BTStructureSettings::new));
     }
 
@@ -187,19 +197,21 @@ public abstract class TowerStructure extends Structure {
         BoundingBox boundingbox = piecesContainer.calculateBoundingBox();
         int bbYStart = boundingbox.minY();
 
-        BlockPos chunkCenter = chunkPos.getMiddleBlockPosition(bbYStart);
+        BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunkCenter);
+        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(worldGenLevel.getSeed()));
+        NormalNoise normalnoise = NormalNoise.create(worldgenrandom, -4, 1.0D);
+        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
         // get start and end postions for x/z, using min/max to account for the MinBlock being -25 and the MaxBlock being -27
-        int startX = chunkCenter.getX() - 15;
-        int endX = chunkCenter.getX() + 15;
+        int startX = chunckCenter.getX() - 15;
+        int endX = chunckCenter.getX() + 15;
         // BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
 
-        int startZ = chunkCenter.getZ() - 15;
-        int endZ = chunkCenter.getZ() + 15;
+        int startZ = chunckCenter.getZ() - 15;
+        int endZ = chunckCenter.getZ() + 15;
         // BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
 
         List<BlockState> towerBlocks = BTStatics.towerBlocks.get(towerId);

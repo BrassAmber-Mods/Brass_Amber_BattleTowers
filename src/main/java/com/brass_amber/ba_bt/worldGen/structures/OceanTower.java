@@ -11,18 +11,13 @@ import net.minecraft.core.QuartPos;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OceanTower extends TowerStructure {
-    @ObjectHolder(registryName = "minecraft:configured_feature", value = "minecraft:freeze_top_layer")
-    public static final PlacedFeature freezeTopLayer = null;
-
 
     public static final Codec<OceanTower> CODEC = RecordCodecBuilder.<OceanTower>mapCodec(instance ->
             instance.group(TowerStructure.settingsCodec(instance), TowerStructure.extraSettingsCodec()).apply(instance, OceanTower::new)).codec();
@@ -44,7 +39,7 @@ public class OceanTower extends TowerStructure {
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
                 SaveTowers.server.getLevel(Level.OVERWORLD), extraSettings.avoidStructures(),
-                chunkPos.getMiddleBlockPosition(0),3, false
+                chunkPos.getMiddleBlockPosition(0), extraSettings.minDistanceFromAvoidStructures(), false
         );
 
         if (pair != null) {

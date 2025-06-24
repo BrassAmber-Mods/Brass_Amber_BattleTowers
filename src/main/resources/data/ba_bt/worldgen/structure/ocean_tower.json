@@ -2,6 +2,7 @@
   "type": "ba_bt:ocean_tower",
 
   "avoid_structures": "#structure/ocean_tower_avoid_structures",
+  "min_distance_from_avoid_structures": 4,
 
   "biomes": "#ba_bt:has_structure/ocean_tower_biomes",
 

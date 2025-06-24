@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -23,17 +24,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LandTower extends TowerStructure {
-    @ObjectHolder(registryName = "minecraft:configured_feature", value = "minecraft:freeze_top_layer")
-    public static final PlacedFeature freezeTopLayer = null;
 
+    private final float waterBlocksThreshold;
 
     public static final Codec<LandTower> CODEC = RecordCodecBuilder.<LandTower>mapCodec(instance ->
-            instance.group(TowerStructure.settingsCodec(instance), TowerStructure.extraSettingsCodec()).apply(instance, LandTower::new)).codec();
+            instance.group(
+                    TowerStructure.settingsCodec(instance),
+                    TowerStructure.extraSettingsCodec(),
+                    Codec.floatRange(0, 1).fieldOf("water_prevent_spawn_threshold").forGetter(codec -> codec.waterBlocksThreshold)
+            ).apply(instance, LandTower::new)).codec();
 
 
-    protected LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
+
+    protected LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings, float waterBlocksThreshold) {
         super(structureSettings, extraSettings);
 
+        this.waterBlocksThreshold = waterBlocksThreshold;
         this.towerId = 0;
         this.towerName = "land_tower";
         this.towerTypeConversion = new String[]{"normal", "overgrown", "sandy", "icy", "ruined"};
@@ -47,9 +53,8 @@ public class LandTower extends TowerStructure {
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
                 SaveTowers.server.getLevel(Level.OVERWORLD), extraSettings.avoidStructures(),
-                chunkPos.getMiddleBlockPosition(0),3, false
+                chunkPos.getMiddleBlockPosition(0),extraSettings.minDistanceFromAvoidStructures(), false
         );
-
         if (pair != null) {
             // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
             return Pair.of(false, BlockPos.ZERO);
@@ -79,7 +84,7 @@ public class LandTower extends TowerStructure {
         int minZ;
         int newX;
         int newZ;
-        boolean watered;
+        boolean watered = false;
 
         for (ChunkPos pos : testables) {
             // BrassAmberBattleTowers.LOGGER.info("Land tower testing at " + pos);
@@ -103,6 +108,7 @@ public class LandTower extends TowerStructure {
 
             for (int x = 0; x < 6; x++) {
                 for (int z = 0; z < 6; z++) {
+
                     newX = minX + (x*3);
                     newZ = minZ + (z*3);
                     newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState());
@@ -129,8 +135,12 @@ public class LandTower extends TowerStructure {
             // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
             boolean isFlat = highestY - lowestY <= 12;
 
-            // 256 blocks in one layer of a chunk, if more than 1/16 is water, avoid.
-            watered = hasLiquid.size() >= 16;
+            if (!hasLiquid.isEmpty()) {
+                // 256 blocks in one layer of a chunk, we check 36, if more 6 (16%) are water don't spawn.
+                watered = (float) hasLiquid.size() / 36 > waterBlocksThreshold;
+            }
+
+            // Allow watered placement for jungle/swamp placements
             if (watered && this.towerType != 1) {
                 return Pair.of(false, BlockPos.ZERO);
             }
