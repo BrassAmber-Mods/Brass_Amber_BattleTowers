@@ -1,7 +1,8 @@
 package com.brass_amber.ba_bt.init;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 
+import com.brass_amber.ba_bt.worldGen.structures.CoreTower;
 import com.brass_amber.ba_bt.worldGen.structures.LandTower;
 import com.brass_amber.ba_bt.worldGen.structures.OceanTower;
 import com.mojang.serialization.Codec;
@@ -15,7 +16,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BTStructures {
 
-    public static final DeferredRegister<StructureType<?>> STRUCTURE_REGISTRY = DeferredRegister.create(Registries.STRUCTURE_TYPE, BABTMain.MODID);
+    public static final DeferredRegister<StructureType<?>> STRUCTURE_REGISTRY = DeferredRegister.create(Registries.STRUCTURE_TYPE, BABattleTowers.MOD_ID);
 
     /**
      * Registers the base structure itself and sets what its path is. In this case,
@@ -23,6 +24,7 @@ public class BTStructures {
      */
     public static final RegistryObject<StructureType<LandTower>> LAND_TOWER = STRUCTURE_REGISTRY.register("land_tower", () -> explicitStructureTypeTyping(LandTower.CODEC));
     public static final RegistryObject<StructureType<OceanTower>> OCEAN_TOWER = STRUCTURE_REGISTRY.register("ocean_tower", () -> explicitStructureTypeTyping(OceanTower.CODEC));
+    public static final RegistryObject<StructureType<CoreTower>> CORE_TOWER = STRUCTURE_REGISTRY.register("core_tower", () -> explicitStructureTypeTyping(CoreTower.CODEC));
 
     /**
      * This method explicitly states what the return type

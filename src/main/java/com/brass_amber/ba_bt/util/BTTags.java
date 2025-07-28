@@ -1,23 +1,16 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
+import static com.brass_amber.ba_bt.BABattleTowers.locate;
+
 public class BTTags {
-
-    public static class Structures {
-
-        public static final TagKey<Structure> LAND = createBT("structure/land_tower_avoid_structures");
-        public static final TagKey<Structure> OCEAN = createBT("structure/ocean_tower_avoid_structures");
-
-        private static TagKey<Structure> createBT(String name) {
-            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BABTMain.MODID, name));
-        }
-    }
 
     public static class Blocks {
 
@@ -25,7 +18,31 @@ public class BTTags {
         public static TagKey<Block> BASE_PROTECTED_TAG = createBT("blocks/tower_base_cannot_replace");
 
         private static TagKey<Block> createBT(String name) {
-            return TagKey.create(Registries.BLOCK, new ResourceLocation(BABTMain.MODID, name));
+            return TagKey.create(Registries.BLOCK, new ResourceLocation(BABattleTowers.MOD_ID, name));
+        }
+    }
+
+    public static class Structures {
+
+        public static final TagKey<Structure> LAND_TOWER_AVOID_STRUCTURES = createBT("land_tower_avoid_structures");
+        public static final TagKey<Structure> OCEAN_TOWER_AVOID_STRUCTURES = createBT("ocean_tower_avoid_structures");
+        public static final TagKey<Structure> CORE_TOWER_AVOID_STRUCTURES = createBT("core_tower_avoid_structures");
+
+        private static TagKey<Structure> createBT(String name) {
+            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BABattleTowers.MOD_ID, name));
+        }
+    }
+
+    public static class Biomes {
+        public static final TagKey<Biome> LAND_TOWER_BIOMES = createTag("has_structure/land_tower_biomes");
+        public static final TagKey<Biome> OCEAN_TOWER_BIOMES = createTag("has_structure/ocean_tower_biomes");
+        public static final TagKey<Biome> CORE_TOWER_BIOMES = createTag("has_structure/core_tower_biomes");
+
+        private static TagKey<Biome> createTag(String name) {
+            return create(locate(name));
+        }
+        public static TagKey<Biome> create(final ResourceLocation name) {
+            return TagKey.create(Registries.BIOME, name);
         }
     }
 }

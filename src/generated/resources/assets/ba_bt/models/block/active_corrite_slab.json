@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "ba_bt:block/active_corrite_block",
+    "side": "ba_bt:block/active_corrite_block",
+    "top": "ba_bt:block/active_corrite_block"
+  }
+}

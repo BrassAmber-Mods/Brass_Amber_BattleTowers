@@ -87,6 +87,15 @@ public class BTBlockLootTables extends BlockLootSubProvider {
                 BTItems.SKY_GUARDIAN_EYE.get(),
                 0, 1
         );
+        this.dropSelf(BTBlocks.CORRITE_BLOCK.get());
+        this.dropSelf(BTBlocks.CORRITE_SLAB.get());
+        this.dropSelf(BTBlocks.CORRITE_STAIR.get());
+        this.dropSelf(BTBlocks.CORRITE_WALL.get());
+
+        this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_BLOCK.get());
+        this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_SLAB.get());
+        this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_STAIR.get());
+        this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_WALL.get());
     }
 
     @Override

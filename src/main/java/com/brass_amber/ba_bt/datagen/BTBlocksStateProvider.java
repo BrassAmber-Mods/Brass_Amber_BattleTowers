@@ -1,22 +1,22 @@
 package com.brass_amber.ba_bt.datagen;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
-import net.minecraft.client.model.ModelUtils;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
-import org.apache.commons.lang3.ObjectUtils;
+
+import static com.brass_amber.ba_bt.BABattleTowers.locate;
 
 public class BTBlocksStateProvider extends BlockStateProvider {
     public BTBlocksStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
-        super(output, BABTMain.MODID, exFileHelper);
+        super(output, BABattleTowers.MOD_ID, exFileHelper);
     }
 
     @Override
@@ -43,9 +43,26 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         spawnerBlock(BTBlocks.SPAWNER_MARKER);
 
         simpleBlock(BTBlocks.AIR_FILL.get(), models().getBuilder(BTBlocks.AIR_FILL.getId().getPath()));
-        simpleBlockWithItem(BTBlocks.DATA_MARKER.get(), models().cubeAll(BTBlocks.DATA_MARKER.getId().getPath(), new ResourceLocation(BABTMain.MODID,"block/" + BTBlocks.DATA_MARKER.getId().getPath())));
+        simpleBTBlock(BTBlocks.DATA_MARKER);
+
+        simpleBTBlock(BTBlocks.CORRITE_BLOCK);
+        slabBlock(BTBlocks.CORRITE_SLAB);
+        stairBlock(BTBlocks.CORRITE_STAIR);
+        wallBlock(BTBlocks.CORRITE_WALL);
+
+        simpleBTBlock(BTBlocks.ACTIVE_CORRITE_BLOCK);
+        slabBlock(BTBlocks.ACTIVE_CORRITE_SLAB);
+        stairBlock(BTBlocks.ACTIVE_CORRITE_STAIR);
+        wallBlock(BTBlocks.ACTIVE_CORRITE_WALL);
     }
 
+    public void simpleBTBlock(RegistryObject<Block> block) {
+        simpleBlockWithItem(block.get(), models().cubeAll(block.getId().getPath(), locate("block/" + block.getId().getPath())));
+    }
+
+    public void simpleBTBlock(RegistryObject<Block> block, String extra) {
+        simpleBlockWithItem(block.get(), models().cubeAll(block.getId().getPath(), locate("block/" + extra + block.getId().getPath())));
+    }
 
     private void chestBlock(RegistryObject<Block> block) {
         simpleBlock(
@@ -56,9 +73,41 @@ public class BTBlocksStateProvider extends BlockStateProvider {
     }
 
     private void spawnerBlock(RegistryObject<Block> block) {
-        simpleBlockWithItem(
-                block.get(),
-                models().cubeAll(block.getId().getPath(), new ResourceLocation(BABTMain.MODID,"block/spawner/" + block.getId().getPath()))
+        simpleBTBlock(
+                block,
+                "spawner/"
         );
     }
+
+    private void slabBlock(RegistryObject<Block> block) {
+        String baseName = block.getId().getPath();
+        ResourceLocation location = locate("block/" + baseName.replace("slab", "block"));
+        ModelFile bottom = models().slab(baseName, location, location, location);
+        ModelFile top = models().slabTop(baseName + "_top", location, location, location);
+        ModelFile doubleslab = models().getExistingFile(location);
+        slabBlock((SlabBlock) block.get(), bottom, top, doubleslab);
+        simpleBlockItem(block.get(), bottom);
+    }
+
+    private void stairBlock(RegistryObject<Block> block) {
+        String baseName = block.getId().getPath();
+        ResourceLocation location = locate("block/" + baseName.replace("stair", "block"));
+        ModelFile stairs = models().stairs(baseName, location, location, location);
+        ModelFile stairsInner = models().stairsInner(baseName + "_inner", location, location, location);
+        ModelFile stairsOuter = models().stairsOuter(baseName + "_outer", location, location, location);
+        stairsBlock((StairBlock) block.get(), stairs, stairsInner, stairsOuter);
+        simpleBlockItem(block.get(), stairs);
+    }
+
+    private void wallBlock(RegistryObject<Block> block) {
+        String baseName = block.getId().getPath();
+        ResourceLocation location = locate("block/" + baseName.replace("wall", "block"));
+
+        ModelFile post = models().wallPost(baseName, location);
+        ModelFile side = models().wallSide(baseName + "_inner", location);
+        ModelFile sideTall = models().wallSideTall(baseName + "_outer", location);
+        wallBlock((WallBlock) block.get(), post, side, sideTall);
+        simpleBlockItem(block.get(), itemModels().wallInventory(baseName + "_inventory", location));
+    }
+
 }

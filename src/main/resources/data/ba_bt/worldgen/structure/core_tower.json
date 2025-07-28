@@ -1,0 +1,13 @@
+{
+  "type": "ba_bt:core_tower",
+
+  "avoid_structures": "#structure/core_tower_avoid_structures",
+  "min_distance_from_avoid_structures": 5,
+
+  "biomes": "#ba_bt:has_structure/core_tower_biomes",
+
+  "step": "surface_structures",
+
+  "spawn_overrides": {}
+
+}

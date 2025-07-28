@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.datagen;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.data.PackOutput;
@@ -11,9 +11,11 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
+import static com.brass_amber.ba_bt.BABattleTowers.locate;
+
 public class BTModelProvider extends ItemModelProvider {
     public BTModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, BABTMain.MODID, existingFileHelper);
+        super(output, BABattleTowers.MOD_ID, existingFileHelper);
     }
 
     @Override
@@ -56,6 +58,8 @@ public class BTModelProvider extends ItemModelProvider {
         simpleExtraFolderItem(BTItems.SKY_RESONANCE_CRYSTAL, "resonance_crystal");
         simpleExtraFolderItem(BTItems.CITY_RESONANCE_CRYSTAL, "resonance_crystal");
 
+        wallInventory(BTBlocks.CORRITE_WALL.getId().getPath() + "_inventory", locate("block/corrite_block"));
+        wallInventory(BTBlocks.ACTIVE_CORRITE_WALL.getId().getPath() + "_inventory", locate("block/active_corrite_block"));
     }
 
     private ItemModelBuilder emptyItem(ResourceLocation location) {
@@ -65,25 +69,25 @@ public class BTModelProvider extends ItemModelProvider {
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(BABTMain.MODID, "item/" + item.getId().getPath()));
+                new ResourceLocation(BABattleTowers.MOD_ID, "item/" + item.getId().getPath()));
     }
 
     private ItemModelBuilder simpleExtraFolderItem(RegistryObject<Item> item, String folder) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(BABTMain.MODID, "item/"+ folder + "/" + item.getId().getPath()));
+                new ResourceLocation(BABattleTowers.MOD_ID, "item/"+ folder + "/" + item.getId().getPath()));
     }
 
     private ItemModelBuilder resonanceStoneItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/template_music_disc")).texture("texture",
-                new ResourceLocation(BABTMain.MODID, "item/resonance_crystal/" + item.getId().getPath()));
+                new ResourceLocation(BABattleTowers.MOD_ID, "item/resonance_crystal/" + item.getId().getPath()));
     }
 
 
     private ItemModelBuilder monolithItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
-                new ResourceLocation(BABTMain.MODID, "item/monolith_template")).texture("texture",
-                new ResourceLocation(BABTMain.MODID, "item/monolith/" + item.getId().getPath()));
+                new ResourceLocation(BABattleTowers.MOD_ID, "item/monolith_template")).texture("texture",
+                new ResourceLocation(BABattleTowers.MOD_ID, "item/monolith/" + item.getId().getPath()));
     }
 }

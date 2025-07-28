@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.entity.block.BTMonolith;
-import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.SaveTowers;
+import com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerPieces;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -19,10 +18,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.StructureManager;
@@ -37,7 +33,6 @@ import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.GeodeFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
@@ -47,8 +42,9 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.minecraftforge.registries.ObjectHolder;
 import org.jetbrains.annotations.NotNull;
 
-import static com.brass_amber.ba_bt.BABTMain.SAVE_TOWERS;
-import static com.brass_amber.ba_bt.BattleTowersConfig.*;
+import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
+import static com.brass_amber.ba_bt.util.BTStatics.averageSeperations;
+import static com.brass_amber.ba_bt.util.BTStatics.minimumSeperations;
 import static com.brass_amber.ba_bt.util.BTUtil.chunkDistanceTo;
 
 public abstract class TowerStructure extends Structure {
@@ -58,8 +54,6 @@ public abstract class TowerStructure extends Structure {
     protected final TowerStructure.BTStructureSettings extraSettings;
     protected String towerName;
 
-    protected final List<Integer> minimumSeperations;
-    protected final List<Integer> averageSeperations;
     protected int towerType = 0;
     protected int towerId = -1; // Tower number (Land = 0, Ocean = 1, etc. )
     protected String[] towerTypeConversion;
@@ -70,8 +64,6 @@ public abstract class TowerStructure extends Structure {
     protected TowerStructure(StructureSettings structureSettings, BTStructureSettings extraSettings) {
         super(structureSettings);
         this.extraSettings = extraSettings;
-        this.minimumSeperations = List.of(landMinimumSeperation.get(), oceanMinimumSeperation.get());
-        this.averageSeperations = List.of(landAverageSeperationModifier.get(), oceanAverageSeperationModifier.get());
     }
 
     public static <S extends TowerStructure> RecordCodecBuilder<S, TowerStructure.BTStructureSettings> extraSettingsCodec() {
@@ -129,8 +121,8 @@ public abstract class TowerStructure extends Structure {
             return Optional.empty();
         }
 
-        int minimumSeparation = this.minimumSeperations.get(this.towerId);
-        int seperationRange = this.averageSeperations.get(this.towerId);
+        int minimumSeparation = minimumSeperations.get(this.towerId);
+        int seperationRange = averageSeperations.get(this.towerId);
 
         //
         int nextSeperation =  minimumSeparation + generationContext.random().nextInt(seperationRange * 2);
@@ -185,7 +177,7 @@ public abstract class TowerStructure extends Structure {
     // Used for tower saving and logging of tower positions
     // Rotation is saved for rotation of loaded datamarker block containers after generation
     public void saveTower(BlockPos spawnPos, Rotation rotation) {
-        BABTMain.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, new ChunkPos(spawnPos));
+        BABattleTowers.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, new ChunkPos(spawnPos));
         SAVE_TOWERS.addTower(new ChunkPos(spawnPos), rotation, this.towerId);
     }
 
