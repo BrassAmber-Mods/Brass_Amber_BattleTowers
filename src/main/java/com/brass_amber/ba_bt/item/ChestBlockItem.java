@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.item;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.block.blockentity.inventory.BTChestItemRenderer;
 import net.minecraft.ChatFormatting;
@@ -45,7 +45,7 @@ public class ChestBlockItem extends BlockItem {
                 tooltip.add(Component.translatable("tooltip.ba_bt.tower_chest").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
         } else {
-            tooltip.add(BABTMain.HOLD_SHIFT_TOOLTIP);
+            tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
         }
     }
 }

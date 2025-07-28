@@ -1,8 +1,7 @@
 package com.brass_amber.ba_bt.block.blockentity;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
-import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -121,7 +120,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 			try {
 				chestEntity = (BTChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
 			} catch (Exception e) {
-				BABTMain.LOGGER.info(e.toString());
+				BABattleTowers.LOGGER.info(e.toString());
 			}
 
 			if (chestEntity != null) {

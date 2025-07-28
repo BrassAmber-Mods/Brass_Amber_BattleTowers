@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt.client;
 
-import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
+import com.brass_amber.ba_bt.BABattleTowers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.world.entity.player.Player;
@@ -14,18 +13,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-import static com.brass_amber.ba_bt.BABTMain.SAVE_TOWERS;
+import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
 import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
 import static com.brass_amber.ba_bt.sound.BTMusic.LAND_TOWER_MUSIC;
 
 
-@Mod.EventBusSubscriber(modid = BABTMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = BABattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BTEvents {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
-        BABTMain.LOGGER.info("In Respawn code-");
+        BABattleTowers.LOGGER.info("In Respawn code-");
         Player player = event.getEntity();
 
         if (player.level().isClientSide() || !event.isEndConquered()) {

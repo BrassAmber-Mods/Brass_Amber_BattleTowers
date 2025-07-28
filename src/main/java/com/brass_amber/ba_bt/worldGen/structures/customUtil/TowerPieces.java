@@ -1,8 +1,7 @@
-package com.brass_amber.ba_bt.worldGen.structures;
+package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructurePieces;
-import com.brass_amber.ba_bt.util.GolemType;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +20,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
-import static com.brass_amber.ba_bt.worldGen.structures.TowerProcessors.*;
+import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
 
 
 public class TowerPieces {
@@ -165,9 +164,9 @@ public class TowerPieces {
         protected static ResourceLocation makeLocation(String towerName, String templateName, String variant) {
             // Example: land_tower/normal/entry
             if (variant == null || variant.isEmpty()) {
-                return new ResourceLocation(BABTMain.MODID, towerName + "/" + templateName);
+                return new ResourceLocation(BABattleTowers.MOD_ID, towerName + "/" + templateName);
             }
-            return new ResourceLocation(BABTMain.MODID, towerName + "/" + variant  + "/" + templateName);
+            return new ResourceLocation(BABattleTowers.MOD_ID, towerName + "/" + variant  + "/" + templateName);
         }
 
 

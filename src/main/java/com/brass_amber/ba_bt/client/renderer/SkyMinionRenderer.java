@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.client.model.hostile.SkyMinionModel;
 import com.brass_amber.ba_bt.entity.hostile.SkyMinion;
 
@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SkyMinionRenderer extends MobRenderer<SkyMinion, SkyMinionModel> {
-	public static final ResourceLocation LOCATION = BABTMain.locate("textures/entity/sky_minion.png");
+	public static final ResourceLocation LOCATION = BABattleTowers.locate("textures/entity/sky_minion.png");
 	public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(LOCATION,"main");
 
 	public SkyMinionRenderer(EntityRendererProvider.Context context) {

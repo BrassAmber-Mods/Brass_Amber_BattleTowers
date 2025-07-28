@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.datagen;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 public class BTItemtagGenerator extends ItemTagsProvider {
     public BTItemtagGenerator(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> completableFuture,
                               CompletableFuture<TagLookup<Block>> lookupCompletableFuture, @Nullable ExistingFileHelper existingFileHelper) {
-        super(packOutput, completableFuture, lookupCompletableFuture, BABTMain.MODID, existingFileHelper);
+        super(packOutput, completableFuture, lookupCompletableFuture, BABattleTowers.MOD_ID, existingFileHelper);
     }
 
     @Override

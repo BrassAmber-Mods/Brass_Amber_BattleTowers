@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.item.item;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -33,7 +33,7 @@ public class GuardianEyeItem extends Item {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("tooltip.ba_bt." + this.golemType.getSerializedName() + "_eye").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
-			tooltip.add(BABTMain.HOLD_SHIFT_TOOLTIP);
+			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
 	}
 }

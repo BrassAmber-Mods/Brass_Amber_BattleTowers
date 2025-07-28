@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.client.model.hostile.BTCultistModel;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class BTCultistRenderer extends HumanoidMobRenderer<BTCultist, BTCultistModel<BTCultist>> {
 
-    private static final ResourceLocation CULTIST = BABTMain.locate("textures/entity/bt_cultist.png");
+    private static final ResourceLocation CULTIST = BABattleTowers.locate("textures/entity/bt_cultist.png");
 
     public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(CULTIST, "main");
 

@@ -1,4 +1,4 @@
-package com.brass_amber.ba_bt.worldGen.structures;
+package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.Direction;
@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 
-import java.util.List;
 import java.util.Random;
 
 import static com.brass_amber.ba_bt.util.BTTags.Blocks.BASE_PROTECTED_TAG;

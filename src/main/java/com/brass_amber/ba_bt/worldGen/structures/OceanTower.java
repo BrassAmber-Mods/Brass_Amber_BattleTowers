@@ -23,7 +23,7 @@ public class OceanTower extends TowerStructure {
             instance.group(TowerStructure.settingsCodec(instance), TowerStructure.extraSettingsCodec()).apply(instance, OceanTower::new)).codec();
 
 
-    protected OceanTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
+    public OceanTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
         super(structureSettings, extraSettings);
 
         this.towerId = 1;

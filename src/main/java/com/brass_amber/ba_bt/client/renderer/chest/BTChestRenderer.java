@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer.chest;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.client.renderer.Sheets;
@@ -44,10 +44,10 @@ public class BTChestRenderer extends ChestRenderer<BTChestBlockEntity> {
 	private static Material getChestMaterial(String name, String type, boolean isGolem) {
 		if (isGolem) {
 			// BABTMain.LOGGER.debug(BABTMain.locate("entity/chest/" + name + "_golem_chest" + type).getPath());
-			return new Material(Sheets.CHEST_SHEET, BABTMain.locate("entity/chest/" + name + "_golem_chest" + type));
+			return new Material(Sheets.CHEST_SHEET, BABattleTowers.locate("entity/chest/" + name + "_golem_chest" + type));
 		}
 		// BABTMain.LOGGER.debug(BABTMain.locate("entity/chest/" + name + "_chest" + type).getPath());
-		return new Material(Sheets.CHEST_SHEET, BABTMain.locate("entity/chest/" + name + "_chest" + type));
+		return new Material(Sheets.CHEST_SHEET, BABattleTowers.locate("entity/chest/" + name + "_chest" + type));
 
 	}
 

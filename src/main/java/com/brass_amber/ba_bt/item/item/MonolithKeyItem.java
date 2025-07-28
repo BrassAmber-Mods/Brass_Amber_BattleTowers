@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.item.item;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -31,7 +31,7 @@ public class MonolithKeyItem extends Item {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_key").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
-			tooltip.add(BABTMain.HOLD_SHIFT_TOOLTIP);
+			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
 	}
 }

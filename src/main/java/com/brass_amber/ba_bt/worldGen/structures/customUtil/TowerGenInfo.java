@@ -1,6 +1,6 @@
-package com.brass_amber.ba_bt.worldGen.structures;
+package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 
 import java.util.*;
 
-import static com.brass_amber.ba_bt.worldGen.structures.TowerProcessors.*;
+import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
 
 public enum TowerGenInfo implements StringRepresentable {
     EMPTY("", new String[]{},
@@ -123,7 +123,7 @@ public enum TowerGenInfo implements StringRepresentable {
     }
 
     public static ResourceLocation getRandomVariantShellPiece(TowerGenInfo towerGenInfo, String variant, RandomSource randomSource) {
-        return new ResourceLocation(BABTMain.MODID,
+        return new ResourceLocation(BABattleTowers.MOD_ID,
                 towerGenInfo.towerName + "/" + variant + "_" +
                         TowerGenInfo.getShellOverwritePieces(towerGenInfo, variant)[
                                 randomSource.nextInt(towerGenInfo.shellOverwritePieces.size())

@@ -1,13 +1,10 @@
 package com.brass_amber.ba_bt.init;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.blockentity.*;
 import com.brass_amber.ba_bt.block.blockentity.spawner.*;
 
-import com.brass_amber.ba_bt.util.GolemType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class BTBlockEntityType {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BABTMain.MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BABattleTowers.MOD_ID);
 
 
 	public static final RegistryObject<BlockEntityType<BTChestBlockEntity>> LAND_CHEST = BLOCK_ENTITY_TYPES.register(

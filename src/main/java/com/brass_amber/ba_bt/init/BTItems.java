@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.init;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.item.item.*;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.registries.Registries;
@@ -14,7 +14,7 @@ import static com.brass_amber.ba_bt.sound.BTSoundEvents.*;
 
 
 public class BTItems {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, BABTMain.MODID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, BABattleTowers.MOD_ID);
 
 	public static final RegistryObject<Item> TAB_ICON = ITEMS.register("tab_icon",() -> new Item(new Item.Properties().stacksTo(16)));
 	public static final RegistryObject<Item> LAND_MONOLITH_KEY = ITEMS.register("land_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));

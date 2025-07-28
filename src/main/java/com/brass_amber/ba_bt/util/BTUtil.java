@@ -1,6 +1,5 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BABTMain;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;

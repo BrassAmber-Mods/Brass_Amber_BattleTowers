@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt.client;
 
-import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.client.model.block.MonolithModel;
 import com.brass_amber.ba_bt.client.model.block.ObeliskModel;
 import com.brass_amber.ba_bt.client.renderer.*;
@@ -29,7 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber(modid = BABTMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BABattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
 
 	private ClientEvents() {}

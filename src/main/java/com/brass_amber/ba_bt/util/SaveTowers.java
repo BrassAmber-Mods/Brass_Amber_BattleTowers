@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
@@ -32,7 +32,7 @@ public class SaveTowers {
     public SaveTowers() {}
 
     public void setServer(MinecraftServer newServer) {
-        BABTMain.LOGGER.info("Server: {}", newServer);
+        BABattleTowers.LOGGER.info("Server: {}", newServer);
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();

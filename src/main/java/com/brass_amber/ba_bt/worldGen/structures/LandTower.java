@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
@@ -13,12 +13,9 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ public class LandTower extends TowerStructure {
 
 
 
-    protected LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings, float waterBlocksThreshold) {
+    public LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings, float waterBlocksThreshold) {
         super(structureSettings, extraSettings);
 
         this.waterBlocksThreshold = waterBlocksThreshold;
@@ -53,7 +50,7 @@ public class LandTower extends TowerStructure {
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
                 SaveTowers.server.getLevel(Level.OVERWORLD), extraSettings.avoidStructures(),
-                chunkPos.getMiddleBlockPosition(0),extraSettings.minDistanceFromAvoidStructures(), false
+                chunkPos.getMiddleBlockPosition(0), extraSettings.minDistanceFromAvoidStructures(), false
         );
         if (pair != null) {
             // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
@@ -128,7 +125,7 @@ public class LandTower extends TowerStructure {
             }
 
             if (highestY > 215) {
-                BABTMain.LOGGER.info("Terrain to high for Land Tower");
+                BABattleTowers.LOGGER.info("Terrain to high for Land Tower");
                 continue;
             }
 

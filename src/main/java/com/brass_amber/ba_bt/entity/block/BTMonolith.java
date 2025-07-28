@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BABTMain;
-import com.brass_amber.ba_bt.BattleTowersConfig;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
@@ -375,7 +374,7 @@ public class BTMonolith extends Entity {
 	@Override
 	public void kill() {
 		// Do nothing to prevent people deleting a Monolith by accident.
-		BABTMain.LOGGER.info("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+		BABattleTowers.LOGGER.info("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
 	}
 
 	/**

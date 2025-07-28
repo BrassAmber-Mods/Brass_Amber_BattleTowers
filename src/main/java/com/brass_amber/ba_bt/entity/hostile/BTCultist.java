@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.entity.hostile;
 
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -164,7 +164,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
             }
 
             if (!this.level().isClientSide && this.hasCustomName()) {
-                BABTMain.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
+                BABattleTowers.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
             }
 
             this.dead = true;

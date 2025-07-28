@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.init;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.ExplosionPhysics;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
@@ -13,7 +13,6 @@ import com.brass_amber.ba_bt.entity.hostile.SkyMinion;
 import com.brass_amber.ba_bt.entity.hostile.golem.*;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTLandGolem;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.block.Blocks;
@@ -28,11 +27,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 
-@Mod.EventBusSubscriber(modid = BABTMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = BABattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BTEntityType {
 
 
-	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, BABTMain.MODID);
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, BABattleTowers.MOD_ID);
 
 	//*********************** GOLEMS *********************\\
 	public static final RegistryObject<EntityType<BTLandGolem>> LAND_GOLEM = ENTITY_TYPES.register("land_golem", () -> EntityType.Builder.of( BTLandGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("land_golem"));

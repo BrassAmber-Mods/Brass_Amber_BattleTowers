@@ -2,6 +2,7 @@ package com.brass_amber.ba_bt.entity;
 
 import java.util.*;
 
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTEntityType;
@@ -20,7 +21,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
-import com.brass_amber.ba_bt.BABTMain;
 import com.brass_amber.ba_bt.util.GolemType;
 import com.brass_amber.ba_bt.util.TowerSpecs;
 
@@ -101,7 +101,7 @@ public class LandDestructionEntity extends Entity {
     }
 
     private void init() {
-    	BABTMain.LOGGER.debug("Initializing");
+    	BABattleTowers.LOGGER.debug("Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(
@@ -238,7 +238,7 @@ public class LandDestructionEntity extends Entity {
                 }
             } else if (this.getCurrentRow() >= this.rows){
                 // stop if we have done the final row already
-                BABTMain.LOGGER.debug("In Ending Sequence");
+                BABattleTowers.LOGGER.debug("In Ending Sequence");
                 this.getNextRow();
                 for (int i = 0; i < 60; i++) {
                     if (this.blocksToRemove.isEmpty()) {

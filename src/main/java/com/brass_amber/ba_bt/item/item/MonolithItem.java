@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.item.item;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.ChatFormatting;
@@ -102,7 +102,7 @@ public class MonolithItem extends Item {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.monolithType.getSerializedName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
-			tooltip.add(BABTMain.HOLD_SHIFT_TOOLTIP);
+			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.model.hostile;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
@@ -18,7 +18,7 @@ import net.minecraft.world.item.Items;
 
 public class BTCultistModel<T extends Mob & RangedAttackMob> extends HumanoidModel<T> {
 
-    public static final ModelLayerLocation BT_CULTIST_TEXTURE = new ModelLayerLocation(BABTMain.locate("bt_cultist.png"), "main");
+    public static final ModelLayerLocation BT_CULTIST_TEXTURE = new ModelLayerLocation(BABattleTowers.locate("bt_cultist.png"), "main");
 
     public BTCultistModel(ModelPart modelPart) {
         super(modelPart);

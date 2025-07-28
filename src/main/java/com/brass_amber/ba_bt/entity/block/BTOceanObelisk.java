@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
@@ -153,7 +153,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.golemDead = list2.isEmpty() && this.golemSpawned;
         } catch (Exception f) {
 
-            BABTMain.LOGGER.error("Exception finding Golem: " + f);
+            BABattleTowers.LOGGER.error("Exception finding Golem: " + f);
         }
 
         if (this.tickCount % 100 <= 5 && this.hasPlayer && !this.golemDead) {
@@ -254,7 +254,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             this.oceanCarved = true;
 
         }
-        BABTMain.LOGGER.info("Ocean Carved : " + this.oceanCarved);
+        BABattleTowers.LOGGER.info("Ocean Carved : " + this.oceanCarved);
     }
 
     public void addVegetation() {

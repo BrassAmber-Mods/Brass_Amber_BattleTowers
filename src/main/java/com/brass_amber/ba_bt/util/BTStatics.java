@@ -33,6 +33,9 @@ public class BTStatics {
     public static HashMap<String, Pair<List<List<Item>>, List<List<Float>>>> lootMap;
     public static ArrayList<String> lootNames;
 
+    public static final List<Integer> minimumSeperations;
+    public static final List<Integer> averageSeperations;
+
     public static final List<List<Item>> meatPool;
     public static final List<List<Item>> veggiePool;
     public static final List<List<Item>> cookedPool;
@@ -125,6 +128,8 @@ public class BTStatics {
 
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
+        minimumSeperations = List.of(landMinimumSeperation.get(), oceanMinimumSeperation.get());
+        averageSeperations = List.of(landAverageSeperationModifier.get(), oceanAverageSeperationModifier.get());
 
         towerSpawnerAmounts = List.of(
                 Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21

@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer.obelisk;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.client.model.block.ObeliskModel;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -9,10 +9,8 @@ import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
@@ -61,7 +59,7 @@ public class AbstractBTObeliskRenderer extends EntityRenderer<BTAbstractObelisk>
     }
 
     private void setObeliskTextureLocation() {
-        this.obeliskTexture = BABTMain.locate("textures/entity/obelisk/" + this.obeliskType + ".png");
-        this.obeliskTextureWithoutStone = BABTMain.locate("textures/entity/obelisk/" + this.obeliskType + "_empty" + ".png");
+        this.obeliskTexture = BABattleTowers.locate("textures/entity/obelisk/" + this.obeliskType + ".png");
+        this.obeliskTextureWithoutStone = BABattleTowers.locate("textures/entity/obelisk/" + this.obeliskType + "_empty" + ".png");
     }
 }

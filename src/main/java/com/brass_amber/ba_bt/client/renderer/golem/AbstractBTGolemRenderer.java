@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer.golem;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -41,6 +41,6 @@ public abstract class AbstractBTGolemRenderer<E extends BTAbstractGolem, M exten
 	}
 	
 	protected ResourceLocation setGolemTexture(String textureName) {
-		return BABTMain.locate("textures/entity/golem/" + this.golemType + "/" + textureName + ".png");
+		return BABattleTowers.locate("textures/entity/golem/" + this.golemType + "/" + textureName + ".png");
 	}
 }

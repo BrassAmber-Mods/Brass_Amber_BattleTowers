@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import javax.annotation.Nullable;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.ai.target.TargetTaskGolem;
@@ -16,7 +16,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -374,7 +373,7 @@ public abstract class BTAbstractGolem extends Monster {
 		if (this.level().isClientSide()) {
 			music.stopPlaying();
 		}
-		BABTMain.LOGGER.debug("Golem Died from: {}", source);
+		BABattleTowers.LOGGER.debug("Golem Died from: {}", source);
 		super.die(source);
 	}
 

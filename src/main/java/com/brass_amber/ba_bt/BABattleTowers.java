@@ -6,7 +6,6 @@ import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.logging.LogUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -31,17 +30,17 @@ import org.slf4j.Logger;
 import static com.brass_amber.ba_bt.init.BTItems.TAB_ICON;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(BABTMain.MODID)
-public class BABTMain {
+@Mod(BABattleTowers.MOD_ID)
+public class BABattleTowers {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "ba_bt";
+    public static final String MOD_ID = "ba_bt";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final SaveTowers SAVE_TOWERS = new SaveTowers();
     public static final Component HOLD_SHIFT_TOOLTIP = (Component.translatable("tooltip.ba_bt.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
 
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> BT_TAB = CREATIVE_MODE_TABS.register("bt_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("creativemodetab.bt_tab")) //The language key for the title of your CreativeModeTab
@@ -51,7 +50,7 @@ public class BABTMain {
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public BABTMain()
+    public BABattleTowers()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the commonSetup method for modloading
@@ -141,6 +140,16 @@ public class BABTMain {
             event.accept(BTBlocks.SKY_CHEST);
             event.accept(BTBlocks.SKY_GOLEM_CHEST);
 
+            event.accept(BTBlocks.CORRITE_BLOCK);
+            event.accept(BTBlocks.CORRITE_SLAB);
+            event.accept(BTBlocks.CORRITE_STAIR);
+            event.accept(BTBlocks.CORRITE_WALL);
+
+            event.accept(BTBlocks.ACTIVE_CORRITE_BLOCK);
+            event.accept(BTBlocks.ACTIVE_CORRITE_SLAB);
+            event.accept(BTBlocks.ACTIVE_CORRITE_STAIR);
+            event.accept(BTBlocks.ACTIVE_CORRITE_WALL);
+
             event.accept(BTItems.LAND_RESONANCE_CRYSTAL);
             event.accept(BTItems.OCEAN_RESONANCE_CRYSTAL);
             event.accept(BTItems.CORE_RESONANCE_CRYSTAL);
@@ -160,7 +169,7 @@ public class BABTMain {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
@@ -174,6 +183,6 @@ public class BABTMain {
     }
 
     public static ResourceLocation locate(String name) {
-        return new ResourceLocation(MODID, name);
+        return new ResourceLocation(MOD_ID, name);
     }
 }

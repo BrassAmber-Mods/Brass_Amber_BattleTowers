@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
 
 import static com.brass_amber.ba_bt.util.BTStatics.*;
@@ -71,7 +71,7 @@ public class DataMarkerBlockEntity extends BlockEntity {
     }
 
     public void setRarity(int rarity) {
-        BABTMain.LOGGER.debug("Set Rarity");
+        BABattleTowers.LOGGER.debug("Set Rarity");
         this.rarity = rarity;
         setChanged();
     }

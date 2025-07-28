@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.client.renderer.monolith;
 
 import java.util.List;
 
-import com.brass_amber.ba_bt.BABTMain;
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
 import com.brass_amber.ba_bt.client.model.block.MonolithModel;
 import com.google.common.collect.Lists;
@@ -110,7 +110,7 @@ public abstract class AbstractBTMonolithRenderer extends EntityRenderer<BTMonoli
 	}
 
 	private ResourceLocation setMonolithTextureLocation(String textureName) {
-		return BABTMain.locate("textures/entity/monolith/" + this.monolithType + "/" + textureName + ".png");
+		return BABattleTowers.locate("textures/entity/monolith/" + this.monolithType + "/" + textureName + ".png");
 	}
 
 	/**
