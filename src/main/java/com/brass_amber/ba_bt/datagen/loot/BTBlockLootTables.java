@@ -95,7 +95,6 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_BLOCK.get());
         this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_SLAB.get());
         this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_STAIR.get());
-        this.dropWhenSilkTouch(BTBlocks.ACTIVE_CORRITE_WALL.get());
     }
 
     @Override

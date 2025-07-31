@@ -59,7 +59,6 @@ public class BTModelProvider extends ItemModelProvider {
         simpleExtraFolderItem(BTItems.CITY_RESONANCE_CRYSTAL, "resonance_crystal");
 
         wallInventory(BTBlocks.CORRITE_WALL.getId().getPath() + "_inventory", locate("block/corrite_block"));
-        wallInventory(BTBlocks.ACTIVE_CORRITE_WALL.getId().getPath() + "_inventory", locate("block/active_corrite_block"));
     }
 
     private ItemModelBuilder emptyItem(ResourceLocation location) {

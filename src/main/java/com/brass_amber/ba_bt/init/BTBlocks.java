@@ -29,8 +29,8 @@ public class BTBlocks {
 
 	public static final RegistryObject<Block> LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest",
 			() -> new BTChestBlock(BTBlockEntityType.LAND_GOLEM_CHEST::get,
-					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
-							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), GolemType.LAND)
+					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
+							.sound(SoundType.STONE).noOcclusion(), GolemType.LAND)
 	);
 	public static final RegistryObject<Block> LAND_CHEST = registerChestBlock("land_chest",
 			() -> new TowerChestBlock(BTBlockEntityType.LAND_CHEST::get,
@@ -135,23 +135,23 @@ public class BTBlocks {
 
 
 	public static final RegistryObject<Block> ACTIVE_CORRITE_BLOCK = registerBlock("active_corrite_block",
-			() -> new ActiveCorriteBlock(BlockBehaviour.Properties.copy(Blocks.MAGMA_BLOCK)), 64);
+			() -> new ActiveCorriteBlock(
+					Block.Properties.of().mapColor(MapColor.NETHER).strength(2.5F, 1200.0F).sound(SoundType.DEEPSLATE)
+							.requiresCorrectToolForDrops().lightLevel((blockState) -> 3)
+							.isValidSpawn((blockState, blockGetter, blockPos, entityType) -> entityType.fireImmune())
+							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
 	public static final RegistryObject<Block> ACTIVE_CORRITE_STAIR = registerBlock("active_corrite_stair",
-			() -> new ActiveCorriteStair(ACTIVE_CORRITE_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.MAGMA_BLOCK)), 64);
+			() -> new ActiveCorriteStair(ACTIVE_CORRITE_BLOCK.get().defaultBlockState(), BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
 
 	public static final RegistryObject<Block> ACTIVE_CORRITE_SLAB = registerBlock("active_corrite_slab",
-			() -> new ActiveCorriteSlab(BlockBehaviour.Properties.copy(Blocks.MAGMA_BLOCK)), 64);
-
-	public static final RegistryObject<Block> ACTIVE_CORRITE_WALL = registerBlock("active_corrite_wall",
-			() -> new ActiveCorriteWall(BlockBehaviour.Properties.copy(Blocks.MAGMA_BLOCK)), 64);
-
+			() -> new ActiveCorriteSlab(BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return false;
 	}
 
-	private static Boolean always(BlockState p_50810_, BlockGetter p_50811_, BlockPos p_50812_, EntityType<?> p_50813_) {
+	private static Boolean always(BlockState p_50810_, BlockGetter p_50811_, BlockPos p_50812_) {
 		return true;
 	}
 

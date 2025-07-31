@@ -53,7 +53,6 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         simpleBTBlock(BTBlocks.ACTIVE_CORRITE_BLOCK);
         slabBlock(BTBlocks.ACTIVE_CORRITE_SLAB);
         stairBlock(BTBlocks.ACTIVE_CORRITE_STAIR);
-        wallBlock(BTBlocks.ACTIVE_CORRITE_WALL);
     }
 
     public void simpleBTBlock(RegistryObject<Block> block) {
