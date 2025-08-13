@@ -352,12 +352,12 @@ public enum GolemType implements StringRepresentable {
 
 	public static String getTowerChestPool(GolemType golemType, int index) {
 		return switch (golemType) {
-			case LAND -> landTowerChestPools.get().get(index);
-			case OCEAN -> oceanTowerChestPools.get().get(index);
-			case CORE -> coreTowerChestPools.get().get(index);
-			case NETHER -> netherTowerChestPools.get().get(index);
-			case END -> endTowerChestPools.get().get(index);
-			case SKY -> skyTowerChestPools.get().get(index);
+			case LAND -> landTowerChestPools.get(index);
+			case OCEAN -> oceanTowerChestPools.get(index);
+			case CORE -> coreTowerChestPools.get(index);
+			case NETHER -> netherTowerChestPools.get(index);
+			case END -> endTowerChestPools.get(index);
+			case SKY -> skyTowerChestPools.get(index);
 			default -> "";
 
 		};

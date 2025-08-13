@@ -94,7 +94,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.towerChestLootTypes = List.of("Weapon", "Armor", "Gem", "Water Plant", "Water Plant");
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
-        if (minimalOceanCarving.get()) {
+        if (minimalOceanCarving) {
             this.noise = 30 + ((random.nextInt(2) + 1) * 4);
         } else {
             this.noise = 60 + ((random.nextInt(2) + 1) * 4);
@@ -198,7 +198,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             // BrassAmberBattleTowers.LOGGER.info("Bottom Range: " + bottomRange);
             for (int y = this.currentCarveLayer; y >= bottomRange; y--) {
                 if (y == this.bottom + 37 || y == this.bottom + 73) {
-                    if (minimalOceanCarving.get()) {
+                    if (minimalOceanCarving) {
                         this.wallDistance -= 2;
                     } else {
                         this.wallDistance -= 8;

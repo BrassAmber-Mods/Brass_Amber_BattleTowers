@@ -61,7 +61,7 @@ public class LandDestructionEntity extends Entity {
 
     public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
         super(type, level);
-        this.startTicks = BattleTowersConfig.landTimeBeforeCollapse.get() * 20;
+        this.startTicks = BattleTowersConfig.landTimeBeforeCollapse * 20;
     }
 
     public LandDestructionEntity(BlockPos golemSpawn, Level level) {
@@ -106,7 +106,7 @@ public class LandDestructionEntity extends Entity {
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
         this.setCrumbleBottom(
                 this.getCrumbleStart().getY() - (int)Math.round(
-                        this.specs.getHeight() * BattleTowersConfig.landTowerCrumblePercent.get()
+                        this.specs.getHeight() * BattleTowersConfig.landTowerCrumblePercent
                 )
         );
         this.rows = (int) Math.floor((this.getCrumbleStart().getY() - this.getCrumbleBottom()) / 3F);

@@ -117,7 +117,7 @@ public abstract class TowerStructure extends Structure {
         // BABTMain.LOGGER.info("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
 
         // Ensure tower chunk is outside initial player requested spawn range
-        if (chunkDistanceTo(ChunkPos.ZERO, chunkPos) < BattleTowersConfig.firstTowerDistance.get()) {
+        if (chunkDistanceTo(ChunkPos.ZERO, chunkPos) < BattleTowersConfig.firstTowerDistance) {
             return Optional.empty();
         }
 

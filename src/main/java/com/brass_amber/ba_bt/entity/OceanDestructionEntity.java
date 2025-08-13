@@ -62,7 +62,7 @@ public class OceanDestructionEntity extends  Entity {
         super(type, level);
         this.golemType = GolemType.OCEAN;
 
-        this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse.get() * 20;
+        this.startTicks = BattleTowersConfig.oceanTimeBeforeCollapse * 20;
 
         this.blocksToRemove = new ArrayList<>();
         this.fallingBlocks = new ArrayList<>();
@@ -104,7 +104,7 @@ public class OceanDestructionEntity extends  Entity {
         // BrassAmberBattleTowers.LOGGER.debug("Initializing");
         this.specs = TowerSpecs.getTowerFromGolem(this.golemType); // Get tower specifics (height, crumble speed)
         this.setCrumbleSpeed(this.specs.getCrumbleSpeed());
-        this.crumbleStop = this.getBlockY() + (int)Math.round(this.specs.getHeight() * BattleTowersConfig.oceanTowerCrumblePercent.get() - 1);
+        this.crumbleStop = this.getBlockY() + (int) Math.round(this.specs.getHeight() * BattleTowersConfig.oceanTowerCrumblePercent - 1);
         this.fallingBlocks = new ArrayList<>();
         this.initialized = true;
         this.currentRowY = -64 + (this.getCurrentRow()-1) * 4;

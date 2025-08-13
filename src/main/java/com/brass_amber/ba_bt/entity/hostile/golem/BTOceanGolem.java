@@ -60,7 +60,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
 
 		// Set spawn position and direction centered on the spawning Block.
-		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.oceanGolemHP.get());
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.oceanGolemHP);
 		this.setHealth(this.getMaxHealth());
 		return spawnDataIn;
 	}
