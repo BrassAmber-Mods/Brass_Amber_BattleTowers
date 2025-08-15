@@ -15,7 +15,9 @@ public class BTTags {
     public static class Blocks {
 
 
-        public static TagKey<Block> BASE_PROTECTED_TAG = createBT("blocks/tower_base_cannot_replace");
+        public static TagKey<Block> BASE_PROTECTED_TAG = createBT("tower_base_cannot_replace");
+        public static TagKey<Block> BT_CHESTS = createBT("bt_chests");
+        public static TagKey<Block> BT_SPAWNERS = createBT("bt_spawners");
 
         private static TagKey<Block> createBT(String name) {
             return TagKey.create(Registries.BLOCK, new ResourceLocation(BABattleTowers.MOD_ID, name));

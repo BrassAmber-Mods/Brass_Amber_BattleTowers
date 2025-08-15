@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 121144999,
+    "separation": 5,
+    "spacing": 9
+  },
+  "structures": [
+    {
+      "structure": "ba_bt:land_tower",
+      "weight": 1
+    }
+  ]
+}

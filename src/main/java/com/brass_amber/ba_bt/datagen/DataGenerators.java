@@ -18,19 +18,21 @@ public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
-        PackOutput packoutput = generator.getPackOutput();
+        PackOutput packOutput = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeClient(), new BTModelProvider(packoutput,existingFileHelper));
-        generator.addProvider(event.includeClient(), new BTBlocksStateProvider(packoutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BTModelProvider(packOutput,existingFileHelper));
+        generator.addProvider(event.includeClient(), new BTBlocksStateProvider(packOutput, existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new BTRecipeProvider(packoutput));
-        generator.addProvider(event.includeServer(), BTLootTableProvider.create(packoutput));
-        BlockTagsProvider blockTagsProvider = new BTBlockTagProvider(packoutput, lookupProvider, existingFileHelper);
+        generator.addProvider(event.includeServer(), new BTRecipeProvider(packOutput));
+        generator.addProvider(event.includeServer(), BTLootTableProvider.create(packOutput));
+        BlockTagsProvider blockTagsProvider = new BTBlockTagProvider(packOutput, lookupProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
-        generator.addProvider(event.includeServer(), new BTItemtagGenerator(packoutput, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new BTStructureTagProvider(packoutput, lookupProvider, BABattleTowers.MOD_ID, existingFileHelper));
-        generator.addProvider(event.includeServer(), new BTBiomeTagProvider(packoutput, lookupProvider, BABattleTowers.MOD_ID,existingFileHelper));
+        generator.addProvider(event.includeServer(), new BTItemtagGenerator(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new BTStructureTagProvider(packOutput, lookupProvider, BABattleTowers.MOD_ID, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BTBiomeTagProvider(packOutput, lookupProvider, BABattleTowers.MOD_ID,existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new BTWorldGenProvider(packOutput, lookupProvider));
     }
 }
