@@ -1,0 +1,132 @@
+{
+  "COMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:iron_helmet"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_chestplate"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_leggings"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_boots"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_horse_armor"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:shield"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_helmet"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_chestplate"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_leggings"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_boots"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:elytra"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": 1,
+      "item": "minecraft:leather_helmet"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:leather_chestplate"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:leather_leggings"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:leather_boots"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_helmet"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_chestplate"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_leggings"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_boots"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_helmet"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_chestplate"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_leggings"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_boots"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_horse_armor"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:chainmail_helmet"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:chainmail_chestplate"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:chainmail_leggings"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:chainmail_boots"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_horse_armor"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:turtle_helmet"
+    }
+  ]
+}

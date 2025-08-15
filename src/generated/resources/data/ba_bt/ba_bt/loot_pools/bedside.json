@@ -1,0 +1,144 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:bowl"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 7,
+          "min_inclusive": 3
+        }
+      },
+      "item": "minecraft:torch"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:ink_sac"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:flower_pot"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:axolotl_bucket"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:spyglass"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:paper"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:stick"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:leather"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:feather"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": 1,
+      "item": "minecraft:rabbit_foot"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:clock"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:brush"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:compass"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:writable_book"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:glow_ink_sac"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:book"
+    }
+  ]
+}

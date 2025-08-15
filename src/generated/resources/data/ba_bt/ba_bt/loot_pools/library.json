@@ -1,0 +1,116 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:string"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 3
+        }
+      },
+      "item": "minecraft:paper"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:diamond"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:chiseled_bookshelf"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:leather"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:feather"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:ink_sac"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:emerald"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:bookshelf"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:book"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:writable_book"
+    }
+  ]
+}

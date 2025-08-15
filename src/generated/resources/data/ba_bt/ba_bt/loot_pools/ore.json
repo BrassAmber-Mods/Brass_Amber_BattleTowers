@@ -1,0 +1,176 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:iron_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_iron_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:copper_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_copper_ore"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:ancient_debris"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:coal_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_coal_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:redstone_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_redstone_ore"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:diamond_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:lapis_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_diamond_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_lapis_ore"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:gold_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:emerald_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_gold_ore"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:deepslate_emerald_ore"
+    }
+  ]
+}

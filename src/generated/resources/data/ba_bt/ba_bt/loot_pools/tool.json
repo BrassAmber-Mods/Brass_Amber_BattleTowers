@@ -1,0 +1,150 @@
+{
+  "COMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:stone_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:stone_pickaxe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:stone_shovel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_hoe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:compass"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:warped_fungus_on_a_stick"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:clock"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:shears"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_pickaxe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_shovel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:spyglass"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": 1,
+      "item": "minecraft:wooden_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:wooden_pickaxe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:wooden_shovel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:wooden_hoe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:stone_hoe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:fishing_rod"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:carrot_on_a_stick"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:flint_and_steel"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": 1,
+      "item": "minecraft:golden_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_pickaxe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_shovel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_hoe"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:golden_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_pickaxe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_shovel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_hoe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_pickaxe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_shovel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_hoe"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:lead"
+    }
+  ]
+}

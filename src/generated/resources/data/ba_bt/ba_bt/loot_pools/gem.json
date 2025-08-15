@@ -1,0 +1,116 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:quartz"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:echo_shard"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:redstone"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": 1,
+      "item": "minecraft:ghast_tear"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:prismarine_shard"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:prismarine_crystals"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:emerald"
+    }
+  ]
+}

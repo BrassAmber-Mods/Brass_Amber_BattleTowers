@@ -1,0 +1,144 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 4
+        }
+      },
+      "item": "minecraft:sweet_berries"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 4
+        }
+      },
+      "item": "minecraft:glow_berries"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:melon_slice"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:golden_apple"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:enchanted_golden_apple"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 3
+        }
+      },
+      "item": "minecraft:dried_kelp"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:poisonous_potato"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:potato"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:beetroot"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:golden_carrot"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:chorus_fruit"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:carrot"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:apple"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:baked_potato"
+    }
+  ]
+}

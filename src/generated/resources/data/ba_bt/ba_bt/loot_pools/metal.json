@@ -1,0 +1,118 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:raw_iron_block"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:raw_gold_block"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_block"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:raw_iron"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:raw_gold"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 8,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:raw_copper"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:diamond"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_scrap"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:iron_block"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:gold_block"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:copper_block"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:raw_copper_block"
+    }
+  ]
+}

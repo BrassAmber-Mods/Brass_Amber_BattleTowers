@@ -1,0 +1,96 @@
+{
+  "COMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:salmon"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:cod"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:mutton"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:chicken"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_porkchop"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_beef"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": 1,
+      "item": "minecraft:pufferfish"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:tropical_fish"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:spider_eye"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_chicken"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_mutton"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_salmon"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:beef"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:rabbit"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:porkchop"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_rabbit"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:cooked_cod"
+    }
+  ]
+}

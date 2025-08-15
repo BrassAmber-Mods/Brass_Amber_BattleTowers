@@ -17,6 +17,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -175,6 +176,7 @@ public class BTUtil {
         removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
+
     public static Pair<List<Item>, List<Integer>> createItems(int rarity, ArrayList<String> pools, RandomSource randomSource, boolean isExtra) {
         List<Item> items = new ArrayList<>();
         List<Item> poolItems = new ArrayList<>();
@@ -190,7 +192,7 @@ public class BTUtil {
         rarity = isExtra ? rarity - 1: rarity;
 
         for (String pool: pools) {
-            Pair<List<List<Item>>, List<List<Float>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Block"));
+            Pair<List<List<Item>>, List<List<Double>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Block"));
             for (int i = Math.max(rarity-4, 0); i < Math.max(Math.min(rarity + 1, 4), 1); i++) {
 
                 // Add items of wanted rarity thrice, items of the rarity below twice, and items of a higher rarity once.
@@ -204,8 +206,8 @@ public class BTUtil {
 
                 for (int j = 0; j < timesAdded ; j++) {
                     poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
-                    List<Float> floats = itemPoolAndAmounts.getSecond().get(i);
-                    for (float amount: floats) {
+                    List<Double> floats = itemPoolAndAmounts.getSecond().get(i);
+                    for (double amount: floats) {
                         // BABTMain.LOGGER.debug("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
                         poolMins.add((int) amount);
                         poolMaxes.add((int) (((amount - (int) amount) * 10)));

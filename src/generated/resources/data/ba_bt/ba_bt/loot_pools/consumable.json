@@ -1,0 +1,128 @@
+{
+  "COMMON": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 5,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:white_dye"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 7,
+          "min_inclusive": 3
+        }
+      },
+      "item": "minecraft:cookie"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:flint_and_steel"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:writable_book"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 5,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:splash_potion"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:bowl"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:potion"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:golden_carrot"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:name_tag"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:rabbit_stew"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 2,
+          "min_inclusive": 1
+        }
+      },
+      "item": "minecraft:golden_apple"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:beetroot_soup"
+    },
+    {
+      "amount": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 2
+        }
+      },
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:mushroom_stew"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:map"
+    }
+  ]
+}

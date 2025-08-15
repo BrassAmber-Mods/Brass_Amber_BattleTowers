@@ -1,0 +1,72 @@
+{
+  "COMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:golden_sword"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:golden_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:spectral_arrow"
+    }
+  ],
+  "EPIC": [
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_sword"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_axe"
+    }
+  ],
+  "JUNK": [
+    {
+      "amount": 1,
+      "item": "minecraft:wooden_sword"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:wooden_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:arrow"
+    }
+  ],
+  "RARE": [
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:trident"
+    }
+  ],
+  "UNCOMMON": [
+    {
+      "amount": 1,
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:iron_axe"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:bow"
+    },
+    {
+      "amount": 1,
+      "item": "minecraft:crossbow"
+    }
+  ]
+}
