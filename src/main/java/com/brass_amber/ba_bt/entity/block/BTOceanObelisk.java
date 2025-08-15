@@ -27,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+import static com.brass_amber.ba_bt.BattleTowersConfig.depthDropperAffectsMobs;
 import static com.brass_amber.ba_bt.BattleTowersConfig.minimalOceanCarving;
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_TOWER_MUSIC;
@@ -177,7 +178,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             }
 
             for (Entity entity: level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater())) {
-                if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity) {
+                if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity && depthDropperAffectsMobs) {
                     ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
                 }
             }

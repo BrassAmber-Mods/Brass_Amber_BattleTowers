@@ -50,6 +50,9 @@ public class BattleTowersConfig {
                         "See Land Tower Average Separation for explanation of use.")
                 .defineInRange("oceanAverageSeparationModifier", 8, 1, 100);
 
+    private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS = BUILDER.comment("Whether the Depth Dropper effect given by the Ocean Tower"
+                                + " affects mobs.")
+                .define("depthDropperAffectsMobs", false);
 
 
     private static final ForgeConfigSpec.ConfigValue<Integer> LAND_TIME_BEFORE_COLLAPSE =
@@ -84,10 +87,10 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_MOBS =
                 BUILDER.pop().comment("Crashable settings -- If you edit these, and the game crashes, its on you").push("crashable")
                         .push("towerMobs").comment("Lists of mob ids of possible mobs to spawn in spawners inside each Tower. Each list must contain at least one value")
-                        .defineListAllowEmpty(List.of("landTowerMobs"), () -> List.of("minecraft:zombie", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider"), BattleTowersConfig::validateEntityName);
+                        .defineListAllowEmpty("landTowerMobs", () -> List.of("minecraft:zombie", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider"), BattleTowersConfig::validateEntityName);
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> OCEAN_TOWER_MOBS =
-                BUILDER.defineListAllowEmpty(List.of("oceanTowerMobs"), () -> List.of("minecraft:drowned", "minecraft:guardian", "minecraft:drowned", "minecraft:drowned", "minecraft:drowned", "minecraft:pufferfish"), BattleTowersConfig::validateEntityName);
+                BUILDER.defineListAllowEmpty("oceanTowerMobs", () -> List.of("minecraft:drowned", "minecraft:guardian", "minecraft:drowned", "minecraft:drowned", "minecraft:drowned", "minecraft:pufferfish"), BattleTowersConfig::validateEntityName);
 
 
     private static final ForgeConfigSpec.ConfigValue<Integer> BOOK_LEVEL_ENCHANT = BUILDER.pop().push("towerLootOptions")
@@ -118,6 +121,7 @@ public class BattleTowersConfig {
     public static int landMinimumSeperation;
     public static int oceanAverageSeperationModifier;
     public static int oceanMinimumSeperation;
+    public static boolean depthDropperAffectsMobs;
     public static boolean terralithBiomeSpawning;
     public static boolean biomesOfPlentyBiomeSpawning;
     public static boolean biomesYoullGoBiomeSpawning;
@@ -177,15 +181,18 @@ public class BattleTowersConfig {
     private static boolean validateItem(final Object obj) {
         return obj instanceof String blockName && ForgeRegistries.ITEMS.containsKey((new ResourceLocation(blockName)));
     }
-    
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
         
         firstTowerDistance = FIRST_TOWER_DISTANCE.get();
         landMinimumSeperation = LAND_MINIMUM_SEPERATION.get();
+        landAverageSeperationModifier = LAND_AVERAGE_SEPERATION_MODIFIER.get();
 
         oceanMinimumSeperation = OCEAN_MINIMUM_SEPERATION.get();
+        oceanAverageSeperationModifier = OCEAN_AVERAGE_SEPERATION_MODIFIER.get();
+
+        depthDropperAffectsMobs = DEPTH_DROPPER_AFFECTS_MOBS.get();
 
         terralithBiomeSpawning = TERRALITH_BIOME_SPAWNING.get();
         biomesOfPlentyBiomeSpawning = BIOMES_OF_PLENTY_BIOME_SPAWNING.get();
@@ -193,11 +200,10 @@ public class BattleTowersConfig {
 
 
         landGolemHP = LAND_GOLEM_HP.get();
-        landAverageSeperationModifier = LAND_AVERAGE_SEPERATION_MODIFIER.get();
+
         landTimeBeforeCollapse = LAND_TIME_BEFORE_COLLAPSE.get();
         landTowerCrumblePercent =  LAND_TOWER_CRUMBLE_PERCENT.get();
         oceanGolemHP = OCEAN_GOLEM_HP.get();
-        oceanAverageSeperationModifier = OCEAN_AVERAGE_SEPERATION_MODIFIER.get();
         oceanTimeBeforeCollapse =  OCEAN_TIME_BEFORE_COLLAPSE.get();
         oceanTowerCrumblePercent = OCEAN_TOWER_CRUMBLE_PERCENT.get();
         minimalOceanCarving = MINIMAL_OCEAN_CARVING.get();
