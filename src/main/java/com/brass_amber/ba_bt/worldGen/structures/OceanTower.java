@@ -1,13 +1,16 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.init.BTStructures;
+import com.brass_amber.ba_bt.util.BTTags;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.QuartPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -29,6 +32,7 @@ public class OceanTower extends TowerStructure {
         this.towerId = 1;
         this.towerName = "ocean_tower";
         this.towerTypeConversion = new String[]{"normal", "gilded", "island"};
+
     }
 
     @Override
@@ -36,9 +40,10 @@ public class OceanTower extends TowerStructure {
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
+        HolderSet.Named<Structure> avoidStructures = SaveTowers.server.registryAccess().registryOrThrow(Registries.STRUCTURE).getTag(BTTags.Structures.OCEAN_TOWER_AVOID_STRUCTURES).orElseThrow();
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), extraSettings.avoidStructures(),
+                SaveTowers.server.getLevel(Level.OVERWORLD), avoidStructures,
                 chunkPos.getMiddleBlockPosition(0), extraSettings.minDistanceFromAvoidStructures(), false
         );
 

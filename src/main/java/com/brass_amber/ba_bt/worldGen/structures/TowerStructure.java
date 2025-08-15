@@ -67,7 +67,7 @@ public abstract class TowerStructure extends Structure {
     }
 
     public static <S extends TowerStructure> RecordCodecBuilder<S, TowerStructure.BTStructureSettings> extraSettingsCodec() {
-        return TowerStructure.BTStructureSettings.CODEC.forGetter((object) -> new BTStructureSettings(null, 3));
+        return TowerStructure.BTStructureSettings.CODEC.forGetter((object) -> new BTStructureSettings(3));
     }
 
     @Override
@@ -167,9 +167,8 @@ public abstract class TowerStructure extends Structure {
 
     protected abstract Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext);
 
-    public record BTStructureSettings(HolderSet<Structure> avoidStructures, int minDistanceFromAvoidStructures) {
+    public record BTStructureSettings(int minDistanceFromAvoidStructures) {
         public static final MapCodec<TowerStructure.BTStructureSettings> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-                RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("avoid_structures").forGetter(btStructureSettings -> btStructureSettings.avoidStructures),
                 Codec.intRange(3, Integer.MAX_VALUE).fieldOf("min_distance_from_avoid_structures").forGetter(btStructureSettings -> btStructureSettings.minDistanceFromAvoidStructures)
         ).apply(instance, BTStructureSettings::new));
     }

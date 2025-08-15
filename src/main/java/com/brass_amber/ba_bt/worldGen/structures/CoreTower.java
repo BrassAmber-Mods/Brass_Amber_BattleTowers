@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.init.BTStructures;
+import com.brass_amber.ba_bt.util.BTTags;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -43,11 +44,10 @@ public class CoreTower extends TowerStructure {
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
-
-
+        HolderSet.Named<Structure> avoidStructures = SaveTowers.server.registryAccess().registryOrThrow(Registries.STRUCTURE).getTag(BTTags.Structures.CORE_TOWER_AVOID_STRUCTURES).orElseThrow();
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), extraSettings.avoidStructures(),
+                SaveTowers.server.getLevel(Level.OVERWORLD), avoidStructures,
                 chunkPos.getMiddleBlockPosition(0), extraSettings.minDistanceFromAvoidStructures(), false
         );
 
