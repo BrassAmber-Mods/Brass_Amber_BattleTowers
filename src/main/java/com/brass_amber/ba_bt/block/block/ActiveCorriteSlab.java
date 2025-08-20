@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -21,9 +22,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-import static com.brass_amber.ba_bt.block.block.ActiveCorriteBlock.BUBBLE_COLUMN_CHECK_DELAY;
-import static com.brass_amber.ba_bt.block.block.ActiveCorriteBlock.CORRITE;
+import static com.brass_amber.ba_bt.block.block.ActiveCorriteBlock.*;
 
 public class ActiveCorriteSlab extends SlabBlock {
     int ticks;
@@ -35,14 +38,21 @@ public class ActiveCorriteSlab extends SlabBlock {
 
     public void stepOn(Level level, BlockPos blockPos, BlockState blockState, Entity entity) {
         if (!entity.isSteppingCarefully() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity)) {
-            entity.hurt(level.damageSources().hotFloor(), 3.0F);
+            entity.hurt(level.damageSources().hotFloor(), FOOT_DAMAGE);
         }
         super.stepOn(level, blockPos, blockState, entity);
     }
 
+    public void attack(BlockState p_55467_, Level p_55468_, BlockPos p_55469_, Player p_55470_) {
+        interact(p_55467_, p_55468_, p_55469_);
+        super.attack(p_55467_, p_55468_, p_55469_, p_55470_);
+    }
+
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
-      entity.makeStuckInBlock(blockState, new Vec3(0.25D, (double)0.20F, 0.25D));
-      entity.hurt(level.damageSources().lava(), 6.0F);
+        if (blockState.getValue(CORRITE) > 0) {
+            entity.makeStuckInBlock(blockState, new Vec3(0.25D, (double) 0.20F, 0.25D));
+            entity.hurt(level.damageSources().lava(), FOOT_DAMAGE * 2);
+        }
    }
 
     public void tick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
@@ -73,14 +83,18 @@ public class ActiveCorriteSlab extends SlabBlock {
         return super.updateShape(blockState, direction, blockState1, levelAccessor, blockPos, blockPos1);
     }
 
+    public VoxelShape getCollisionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext p_56071_) {
+        return blockState.getValue(CORRITE) != 0 ? Shapes.empty() : blockState.getShape(blockGetter, blockPos);
+    }
+
     public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState1, boolean b) {
         level.scheduleTick(blockPos, this, BUBBLE_COLUMN_CHECK_DELAY);
     }
 
     public void animateTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource) {
-      if (blockState.getValue(CORRITE) > 0) {
-         spawnParticles(level, blockPos);
-      }
+        if (blockState.getValue(CORRITE) > 0) {
+            spawnParticles(level, blockPos);
+        }
     }
 
     private static void interact(BlockState blockState, Level level, BlockPos blockPos) {
@@ -90,10 +104,6 @@ public class ActiveCorriteSlab extends SlabBlock {
       }
 
     }
-
-    public boolean isRandomlyTicking(BlockState blockState) {
-      return blockState.getValue(CORRITE) > 0;
-   }
 
     private static void spawnParticles(Level level, BlockPos blockPos) {
         double d0 = 0.5625D;

@@ -18,9 +18,10 @@ public class BTTags {
         public static TagKey<Block> BASE_PROTECTED_TAG = createBT("tower_base_cannot_replace");
         public static TagKey<Block> BT_CHESTS = createBT("bt_chests");
         public static TagKey<Block> BT_SPAWNERS = createBT("bt_spawners");
+        public static TagKey<Block> BT_CORRITE_BLOCKS = createBT("corrite_blocks");
 
         private static TagKey<Block> createBT(String name) {
-            return TagKey.create(Registries.BLOCK, new ResourceLocation(BABattleTowers.MOD_ID, name));
+            return TagKey.create(Registries.BLOCK, locate(name));
         }
     }
 
@@ -31,7 +32,7 @@ public class BTTags {
         public static final TagKey<Structure> CORE_TOWER_AVOID_STRUCTURES = createBT("core_tower_avoid_structures");
 
         private static TagKey<Structure> createBT(String name) {
-            return TagKey.create(Registries.STRUCTURE, new ResourceLocation(BABattleTowers.MOD_ID, name));
+            return TagKey.create(Registries.STRUCTURE, locate(name));
         }
     }
 

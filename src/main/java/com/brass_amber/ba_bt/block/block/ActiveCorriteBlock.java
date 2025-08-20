@@ -1,5 +1,7 @@
 package com.brass_amber.ba_bt.block.block;
 
+import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.init.BTBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
@@ -19,6 +22,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ActiveCorriteBlock extends MagmaBlock {
     public static final int BUBBLE_COLUMN_CHECK_DELAY = 20;
@@ -44,6 +50,11 @@ public class ActiveCorriteBlock extends MagmaBlock {
         super.stepOn(level, blockPos, blockState, entity);
     }
 
+    public void attack(BlockState p_55467_, Level p_55468_, BlockPos p_55469_, Player p_55470_) {
+        interact(p_55467_, p_55468_, p_55469_);
+        super.attack(p_55467_, p_55468_, p_55469_, p_55470_);
+    }
+
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
       entity.makeStuckInBlock(blockState, new Vec3(0.25D, FALL_SPEED, 0.25D));
       entity.hurt(level.damageSources().lava(), LAVA_DAMAGE);
@@ -53,10 +64,11 @@ public class ActiveCorriteBlock extends MagmaBlock {
         BubbleColumnBlock.updateColumn(serverLevel, blockPos.above(), blockState);
         if (blockState.getValue(CORRITE) > 0) {
             serverLevel.setBlock(blockPos, blockState.setValue(CORRITE, blockState.getValue(CORRITE) - 1), 3);
-            if (blockState.getValue(CORRITE) == 20) {
-                this.properties.forceSolidOn().noCollission();
-            }
         }
+    }
+
+    public VoxelShape getCollisionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext p_56071_) {
+        return blockState.getValue(CORRITE) != 0 ? Shapes.empty() : blockState.getShape(blockGetter, blockPos);
     }
 
     @Override
@@ -89,7 +101,9 @@ public class ActiveCorriteBlock extends MagmaBlock {
 
     private static void interact(BlockState blockState, Level level, BlockPos blockPos) {
         spawnParticles(level, blockPos);
-        if (blockState.getValue(CORRITE) == 0) {
+        BABattleTowers.LOGGER.debug("Corrite Interaction {}", blockState.getValue(CORRITE));
+
+        if (blockState.getValue(CORRITE) == 0 && !level.getBlockState(blockPos).is(BTBlocks.ACTIVE_CORRITE_STAIR.get())) {
             level.setBlock(blockPos, blockState.setValue(CORRITE, 10), 3);
         }
     }
@@ -115,4 +129,5 @@ public class ActiveCorriteBlock extends MagmaBlock {
         super.createBlockStateDefinition(blockStateBuilder);
         blockStateBuilder.add(CORRITE);
     }
+
 }

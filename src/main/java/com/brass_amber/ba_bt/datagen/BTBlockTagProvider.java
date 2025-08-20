@@ -61,9 +61,20 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
                 Blocks.SAND
         );
 
+        this.tag(BT_CORRITE_BLOCKS).add(
+                BTBlocks.CORRITE_BLOCK.get(),
+                BTBlocks.CORRITE_SLAB.get(),
+                BTBlocks.CORRITE_STAIR.get(),
+                BTBlocks.CORRITE_WALL.get(),
+                BTBlocks.ACTIVE_CORRITE_BLOCK.get(),
+                BTBlocks.ACTIVE_CORRITE_SLAB.get(),
+                BTBlocks.ACTIVE_CORRITE_STAIR.get()
+        );
+
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(BT_CHESTS)
-                .addTag(BT_SPAWNERS);
+                .addTag(BT_SPAWNERS)
+                .addTag(BT_CORRITE_BLOCKS);
 
         this.tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(BT_CHESTS)
