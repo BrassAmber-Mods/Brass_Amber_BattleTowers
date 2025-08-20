@@ -201,7 +201,7 @@ public class LandTower extends TowerStructure {
             towerType = context.random().nextInt(50) > 7 ? 0 : 4;
         }
 
-        return true;
+        return context.validBiome().test(biomeHolder);
     }
 
     @Override
