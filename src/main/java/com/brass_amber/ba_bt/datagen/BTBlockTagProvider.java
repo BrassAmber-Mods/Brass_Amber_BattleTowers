@@ -89,6 +89,10 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
         this.tag(BlockTags.WITHER_IMMUNE)
                 .addTag(BT_CHESTS)
                 .addTag(BT_SPAWNERS);
+
+        this.tag(IS_MAGMA_BLOCK)
+                .add(Blocks.MAGMA_BLOCK)
+                .addTag(BT_CORRITE_BLOCKS);
     }
 
     @Override
