@@ -3,7 +3,6 @@ package com.brass_amber.ba_bt.util;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -12,11 +11,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
@@ -34,13 +31,11 @@ public class BTStatics {
     public static ArrayList<String> lootNames;
 
     public static final List<Integer> minimumSeperations;
-    public static final List<Integer> averageSeperations;
 
     public static final List<Potion> potions;
     public static final List<Item> dyes;
 
     static {
-
         landTowerBiomes = List.of(
                 // Land
                 List.of(
@@ -94,7 +89,6 @@ public class BTStatics {
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
         minimumSeperations = List.of(landMinimumSeperation, oceanMinimumSeperation);
-        averageSeperations = List.of(landAverageSeperationModifier, oceanAverageSeperationModifier);
 
         towerSpawnerAmounts = List.of(
                 Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21

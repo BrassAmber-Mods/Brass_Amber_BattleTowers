@@ -164,7 +164,7 @@ public class BTCultist extends AbstractIllager implements RangedAttackMob {
             }
 
             if (!this.level().isClientSide && this.hasCustomName()) {
-                BABattleTowers.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
+                BABattleTowers.LOGGER.debug("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
             }
 
             this.dead = true;

@@ -93,7 +93,7 @@ public class OceanDestructionEntity extends  Entity {
                     }
                 }
             }
-            // BrassAmberBattleTowers.LOGGER.info("Blocks to remove size " + this.blocksToRemove.size());
+            // BrassAmberBattleTowers.LOGGER.debug("Blocks to remove size " + this.blocksToRemove.size());
         }
         // add 1 to the row counter so that next time this is called it adds the blocks on the next row
         this.currentRowY = this.currentRowY + 4;

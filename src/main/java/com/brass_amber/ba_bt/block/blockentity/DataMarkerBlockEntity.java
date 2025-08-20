@@ -55,7 +55,7 @@ public class DataMarkerBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
-        // BABTMain.LOGGER.info("Saving Marker Data");
+        // BABTMain.LOGGER.debug("Saving Marker Data");
 
         compoundTag.putIntArray("Loot", this.lootTypes);
         compoundTag.putInt("Rarity", rarity);

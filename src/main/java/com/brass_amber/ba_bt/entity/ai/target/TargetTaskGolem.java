@@ -28,7 +28,7 @@ public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackabl
 
 	@Override
 	public boolean canUse() {
-//		BrassAmberBattleTowers.LOGGER.info("Target.canUse()");
+//		BrassAmberBattleTowers.LOGGER.debug("Target.canUse()");
 		if(((BTAbstractGolem)this.mob).isDormant()) {
 			return false;
 		}
@@ -43,7 +43,7 @@ public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackabl
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean canContinueToUse() {
-//		BrassAmberBattleTowers.LOGGER.info("Target.canContinueToUse()");
+//		BrassAmberBattleTowers.LOGGER.debug("Target.canContinueToUse()");
 
 		return !((BTAbstractGolem) this.mob).isDormant() && super.canContinueToUse();
 	}
@@ -55,8 +55,8 @@ public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackabl
 	 */
 	@Override
 	public void tick() {
-//		BrassAmberBattleTowers.LOGGER.info("Target.tick()");
-//		BrassAmberBattleTowers.LOGGER.info(this.target);
+//		BrassAmberBattleTowers.LOGGER.debug("Target.tick()");
+//		BrassAmberBattleTowers.LOGGER.debug(this.target);
 		super.tick();
 		// Stop targeting if the target is lost, or the target is too far away.
 		if(this.target != null && this.mob.distanceTo(this.target) > this.getFollowDistance()) {

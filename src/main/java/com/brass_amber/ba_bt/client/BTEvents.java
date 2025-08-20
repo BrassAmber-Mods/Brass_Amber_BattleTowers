@@ -24,7 +24,7 @@ public class BTEvents {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
-        BABattleTowers.LOGGER.info("In Respawn code-");
+        BABattleTowers.LOGGER.debug("In Respawn code-");
         Player player = event.getEntity();
 
         if (player.level().isClientSide() || !event.isEndConquered()) {

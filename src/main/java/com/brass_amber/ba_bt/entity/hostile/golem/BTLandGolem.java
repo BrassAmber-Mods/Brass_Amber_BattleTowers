@@ -54,7 +54,7 @@ public class BTLandGolem extends BTAbstractGolem {
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		// TODO Delete, Testing
-		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
+		// BrassAmberBattleTowers.LOGGER.debug("SPAWN GOLEM");
 
 		// Set spawn position and direction centered on the spawning Block.
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(landGolemHP);

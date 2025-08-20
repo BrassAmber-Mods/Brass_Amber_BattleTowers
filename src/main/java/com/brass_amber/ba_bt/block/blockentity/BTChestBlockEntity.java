@@ -111,7 +111,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 		ChestType chesttype = this.getBlockState().getValue(BTChestBlock.TYPE);
 		this.unlocked = tf;
 
-        // BABTMain.LOGGER.info("{} {}", this.unlocked, chesttype);
+        // BABTMain.LOGGER.debug("{} {}", this.unlocked, chesttype);
 
 		// Make sure that if this is a double chest the other half also gets unlocked.
 		if (chesttype != ChestType.SINGLE) {
@@ -120,7 +120,7 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 			try {
 				chestEntity = (BTChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
 			} catch (Exception e) {
-				BABattleTowers.LOGGER.info(e.toString());
+				BABattleTowers.LOGGER.debug(e.toString());
 			}
 
 			if (chestEntity != null) {

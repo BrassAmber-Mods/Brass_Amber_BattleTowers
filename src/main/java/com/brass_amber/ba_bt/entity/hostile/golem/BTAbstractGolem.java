@@ -389,13 +389,13 @@ public abstract class BTAbstractGolem extends Monster {
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12.0F) {
 			@Override
 			public boolean canUse() {
-//				BrassAmberBattleTowers.LOGGER.info("Look");
+//				BrassAmberBattleTowers.LOGGER.debug("Look");
 				return !BTAbstractGolem.this.isDormant() && super.canUse();
 			}
 
 			@Override
 			public boolean canContinueToUse() {
-//				BrassAmberBattleTowers.LOGGER.info("Look canContinueToUse()");
+//				BrassAmberBattleTowers.LOGGER.debug("Look canContinueToUse()");
 				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
@@ -414,7 +414,7 @@ public abstract class BTAbstractGolem extends Monster {
 
 			@Override
 			public boolean canContinueToUse() {
-//				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
+//				BrassAmberBattleTowers.LOGGER.debug("Melee canContinueToUse():" +getTarget());
 				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
@@ -427,7 +427,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		// TODO Delete, Testing
-		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
+		// BrassAmberBattleTowers.LOGGER.debug("SPAWN GOLEM");
 
 		// Set spawn position and direction centered on the spawning Block.
 		this.setSpawnPos(this.blockPosition());
@@ -664,7 +664,7 @@ public abstract class BTAbstractGolem extends Monster {
 	}
 
 	public void setSpawnDirection(float yRot) {
-		// BrassAmberBattleTowers.LOGGER.info("Set Spawn Direction: " + yRot);
+		// BrassAmberBattleTowers.LOGGER.debug("Set Spawn Direction: " + yRot);
 		this.entityData.set(SPAWN_DIRECTION, yRot);
 	}
 

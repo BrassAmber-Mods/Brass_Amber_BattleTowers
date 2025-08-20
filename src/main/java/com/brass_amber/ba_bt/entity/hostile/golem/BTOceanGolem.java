@@ -57,7 +57,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		// TODO Delete, Testing
-		// BrassAmberBattleTowers.LOGGER.info("SPAWN GOLEM");
+		// BrassAmberBattleTowers.LOGGER.debug("SPAWN GOLEM");
 
 		// Set spawn position and direction centered on the spawning Block.
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(BattleTowersConfig.oceanGolemHP);
@@ -140,7 +140,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 				mob.setPos(x, this.getY(), z);
 				mob.finalizeSpawn(level, level.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				level.addFreshEntity(drowned);
-				// BrassAmberBattleTowers.LOGGER.info("Success");
+				// BrassAmberBattleTowers.LOGGER.debug("Success");
 				if (x < this.getBlockX()) {
 					x += 2;
 				} else if (z < this.getBlockZ()) {

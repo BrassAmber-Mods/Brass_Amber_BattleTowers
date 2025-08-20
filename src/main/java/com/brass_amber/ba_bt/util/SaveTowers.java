@@ -32,7 +32,7 @@ public class SaveTowers {
     public SaveTowers() {}
 
     public void setServer(MinecraftServer newServer) {
-        BABattleTowers.LOGGER.info("Server: {}", newServer);
+        BABattleTowers.LOGGER.debug("Server: {}", newServer);
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();
@@ -59,7 +59,7 @@ public class SaveTowers {
 
                 towerStrings.add(xz.x + "," + xz.z + "," + r.name());
             }
-            // BrassAmberBattleTowers.LOGGER.info(name + " Towers Saved:" + towerStrings);
+            // BrassAmberBattleTowers.LOGGER.debug(name + " Towers Saved:" + towerStrings);
 
             try {
                 FileUtils.writeLines(towerFile, towerStrings);
@@ -87,10 +87,10 @@ public class SaveTowers {
                     String[] xzr = line.split(",");
                     towers.get(i).add(Pair.of(new ChunkPos(parseInt(xzr[0]), parseInt(xzr[1])), xzr.length == 3 ? Rotation.valueOf( xzr[2]) : Rotation.NONE));
                 } catch (Exception e) {
-                    BABTMain.LOGGER.info(e.getLocalizedMessage());
+                    BABattleTowers.LOGGER.debug(e.getLocalizedMessage());
                 }
             }
-            // BrassAmberBattleTowers.LOGGER.info(" Towers Loaded:" + towers);
+            // BrassAmberBattleTowers.LOGGER.debug(" Towers Loaded:" + towers);
         }
     }
 

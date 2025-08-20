@@ -53,7 +53,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 
 			@Override
 			public boolean canContinueToUse() {
-//				BrassAmberBattleTowers.LOGGER.info("Melee canContinueToUse():" +getTarget());
+//				BrassAmberBattleTowers.LOGGER.debug("Melee canContinueToUse():" +getTarget());
 				return !BTSkyGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});

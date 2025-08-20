@@ -148,7 +148,7 @@ public class BTMonolith extends Entity {
 		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
 			this.resetMinSoundInterval();
 			this.playAmbientSound();
-			// BrassAmberBattleTowers.LOGGER.info("Spawned Obelisk? : " + this.spawnedObelisk);
+			// BrassAmberBattleTowers.LOGGER.debug("Spawned Obelisk? : " + this.spawnedObelisk);
 		}
 	}
 
@@ -254,7 +254,7 @@ public class BTMonolith extends Entity {
 		Entity obelisk;
 		switch (this.golemType) {
 			case OCEAN -> {
-				// BABTMain.LOGGER.info("Ocean Obelisk");
+				// BABTMain.LOGGER.debug("Ocean Obelisk");
 				obelisk = new BTOceanObelisk(this.level());
 				obelisk.setPos(this.getX(), this.getY() + 106, this.getZ());
 			}
@@ -374,7 +374,7 @@ public class BTMonolith extends Entity {
 	@Override
 	public void kill() {
 		// Do nothing to prevent people deleting a Monolith by accident.
-		BABattleTowers.LOGGER.info("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+		BABattleTowers.LOGGER.debug("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
 	}
 
 	/**
