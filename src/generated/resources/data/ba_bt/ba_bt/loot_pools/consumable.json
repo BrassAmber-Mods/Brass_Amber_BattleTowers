@@ -124,5 +124,6 @@
       "amount": 1,
       "item": "minecraft:map"
     }
-  ]
+  ],
+  "name": "consumable"
 }

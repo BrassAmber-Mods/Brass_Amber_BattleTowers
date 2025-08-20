@@ -448,5 +448,6 @@
       },
       "item": "minecraft:sunflower"
     }
-  ]
+  ],
+  "name": "plant"
 }

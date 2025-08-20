@@ -114,5 +114,6 @@
       "amount": 1,
       "item": "minecraft:raw_copper_block"
     }
-  ]
+  ],
+  "name": "metal"
 }

@@ -48,5 +48,6 @@
       "amount": 1,
       "item": "minecraft:mushroom_stew"
     }
-  ]
+  ],
+  "name": "cooked"
 }

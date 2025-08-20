@@ -1,5 +1,6 @@
-package com.brass_amber.ba_bt.util;
+package com.brass_amber.ba_bt.item;
 
+import com.brass_amber.ba_bt.util.BTRarity;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.brass_amber.ba_bt.util.BTRarity.*;
 
@@ -25,6 +27,7 @@ public class ItemPool {
 
     public static final Codec<ItemPool> CODEC = RecordCodecBuilder.create(lootPoolInstance ->
             lootPoolInstance.group(
+                    Codec.STRING.fieldOf("name").forGetter(itemPool -> itemPool.name),
                     Codec.list(PoolItem.CODEC.codec()).fieldOf(JUNK.getSerializedName()).forGetter(itemPool -> itemPool.junkItems),
                     Codec.list(PoolItem.CODEC.codec()).fieldOf(COMMON.getSerializedName()).forGetter(itemPool -> itemPool.commonItems),
                     Codec.list(PoolItem.CODEC.codec()).fieldOf(UNCOMMON.getSerializedName()).forGetter(itemPool -> itemPool.uncommonItems),
@@ -33,7 +36,7 @@ public class ItemPool {
             ).apply(lootPoolInstance, ItemPool::new)
     );
 
-
+    protected final String name;
     protected final List<List<PoolItem>> items;
     protected final List<PoolItem> junkItems;
     protected final List<PoolItem> commonItems;
@@ -41,7 +44,8 @@ public class ItemPool {
     protected final List<PoolItem> rareItems;
     protected final List<PoolItem> epicItems;
 
-    public ItemPool(List<PoolItem> junkItems, List<PoolItem> commonItems, List<PoolItem> uncommonItems, List<PoolItem> rareItems, List<PoolItem> epicItems) {
+    public ItemPool(String name, List<PoolItem> junkItems, List<PoolItem> commonItems, List<PoolItem> uncommonItems, List<PoolItem> rareItems, List<PoolItem> epicItems) {
+        this.name = name;
         this.junkItems = junkItems;
         this.commonItems = commonItems;
         this.uncommonItems = uncommonItems;
@@ -57,11 +61,12 @@ public class ItemPool {
         for (int i = 0; i < this.items.size(); i++) {
 
             if (i <= requestedRarity.getRarity()) {
-                for (PoolItem item : this.items.get(i)) {
+                for (PoolItem poolItem : this.items.get(i)) {
                     timesToAdd = (5 - requestedRarity.getRarity()) * 2;
 
-                    pool.add(LootItem.lootTableItem(item.item()).setWeight(timesToAdd).apply(
-                                SetItemCountFunction.setCount(UniformGenerator.between(item.intProvider.getMinValue(), Math.min(new ItemStack(item.item).getMaxStackSize(), item.intProvider.getMaxValue()))
+
+                    pool.add(LootItem.lootTableItem(poolItem.item).setWeight(timesToAdd).apply(
+                                SetItemCountFunction.setCount(UniformGenerator.between(poolItem.intProvider.getMinValue(), Math.min(new ItemStack(poolItem.item).getMaxStackSize(), poolItem.intProvider.getMaxValue()))
                                 )
                     ));
                 }
@@ -69,6 +74,14 @@ public class ItemPool {
         }
 
         return pool;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isName(String name) {
+        return Objects.equals(this.name, name);
     }
 
     public static PoolItem singlePoolItem(ItemLike itemLike) {

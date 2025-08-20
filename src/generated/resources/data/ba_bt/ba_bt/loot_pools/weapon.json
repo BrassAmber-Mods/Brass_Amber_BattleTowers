@@ -68,5 +68,6 @@
       "amount": 1,
       "item": "minecraft:crossbow"
     }
-  ]
+  ],
+  "name": "weapon"
 }

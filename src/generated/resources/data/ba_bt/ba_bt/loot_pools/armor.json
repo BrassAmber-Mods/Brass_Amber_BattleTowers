@@ -128,5 +128,6 @@
       "amount": 1,
       "item": "minecraft:turtle_helmet"
     }
-  ]
+  ],
+  "name": "armor"
 }

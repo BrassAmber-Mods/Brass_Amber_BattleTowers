@@ -92,5 +92,6 @@
       "amount": 1,
       "item": "minecraft:cooked_cod"
     }
-  ]
+  ],
+  "name": "meat"
 }

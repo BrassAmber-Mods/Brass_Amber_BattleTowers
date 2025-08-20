@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.item;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTRegistries;
-import com.brass_amber.ba_bt.util.ItemPool;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
@@ -19,8 +18,6 @@ public class BTItemPools {
     public static final ResourceKey<ItemPool> METAL = registerItemPoolKey("metal");
     public static final ResourceKey<ItemPool> ORE = registerItemPoolKey("ore");
     public static final ResourceKey<ItemPool> LAND_TOWER_BLOCKS = registerItemPoolKey("land_tower_blocks");
-    public static final ResourceKey<ItemPool> OCEAN_TOWER_BLOCKS = registerItemPoolKey("ocean_tower_blocks");
-    public static final ResourceKey<ItemPool> CORE_TOWER_BLOCKS = registerItemPoolKey("core_tower_blocks");
     public static final ResourceKey<ItemPool> LIBRARY = registerItemPoolKey("library");
     public static final ResourceKey<ItemPool> WEAPON = registerItemPoolKey("weapon");
     public static final ResourceKey<ItemPool> ARMOR = registerItemPoolKey("armor");
@@ -30,12 +27,15 @@ public class BTItemPools {
     public static final ResourceKey<ItemPool> PLANT = registerItemPoolKey("plant");
     public static final ResourceKey<ItemPool> WATER_PLANT = registerItemPoolKey("water_plant");
     public static final ResourceKey<ItemPool> TREE_PLANT = registerItemPoolKey("tree_plant");
+    public static final ResourceKey<ItemPool> OCEAN_TOWER_BLOCKS = registerItemPoolKey("ocean_tower_blocks");
+    public static final ResourceKey<ItemPool> CORE_TOWER_BLOCKS = registerItemPoolKey("core_tower_blocks");
 
 
     public static void bootstrap(BootstapContext<ItemPool> itemPoolContext) {
         itemPoolContext.register(
                 INVALID,
                 new ItemPool(
+                        "invalid",
                         List.of(ItemPool.singlePoolItem(Items.AIR)),
                         List.of(),
                         List.of(),
@@ -47,6 +47,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 MEAT,
                 new ItemPool(
+                        "meat",
                         List.of(
                                 ItemPool.singlePoolItem(Items.PUFFERFISH),
                                 ItemPool.singlePoolItem(Items.TROPICAL_FISH),
@@ -81,6 +82,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 VEGGIE,
                 new ItemPool(
+                        "veggie",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.DRIED_KELP, 3, 6),
                                 ItemPool.singlePoolItem(Items.POISONOUS_POTATO),
@@ -112,6 +114,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 COOKED,
                 new ItemPool(
+                        "cooked",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.COOKIE, 4, 8)
                                 ),
@@ -135,6 +138,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 GEM,
                 new ItemPool(
+                        "gem",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.GLOWSTONE_DUST, 2, 8),
                                 ItemPool.offsetRangePoolItem(Items.REDSTONE, 2, 8)
@@ -162,6 +166,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 METAL,
                 new ItemPool(
+                        "metal",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.RAW_IRON, 2, 8),
                                 ItemPool.offsetRangePoolItem(Items.RAW_GOLD, 2, 8),
@@ -194,6 +199,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 ORE,
                 new ItemPool(
+                        "ore",
                         List.of(
                                 ItemPool.rangePoolItem(Items.COAL_ORE, 3),
                                 ItemPool.rangePoolItem(Items.DEEPSLATE_COAL_ORE, 3),
@@ -226,8 +232,21 @@ public class BTItemPools {
         );
 
         itemPoolContext.register(
+                LAND_TOWER_BLOCKS,
+                new ItemPool(
+                        "land_tower_blocks",
+                        List.of(),
+                        List.of(),
+                        List.of(),
+                        List.of(),
+                        List.of()
+                )
+        );
+
+        itemPoolContext.register(
                 LIBRARY,
                 new ItemPool(
+                        "library",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.LEATHER, 2, 6),
                                 ItemPool.offsetRangePoolItem(Items.FEATHER, 2, 4),
@@ -256,6 +275,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 WEAPON,
                 new ItemPool(
+                        "weapon",
                         List.of(
                                 ItemPool.singlePoolItem(Items.WOODEN_SWORD),
                                 ItemPool.singlePoolItem(Items.WOODEN_AXE),
@@ -287,6 +307,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 ARMOR,
                 new ItemPool(
+                        "armor",
                         List.of(
                                 ItemPool.singlePoolItem(Items.LEATHER_HELMET),
                                 ItemPool.singlePoolItem(Items.LEATHER_CHESTPLATE),
@@ -333,6 +354,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 TOOL,
                 new ItemPool(
+                        "tool",
                         List.of(
                                 ItemPool.singlePoolItem(Items.WOODEN_AXE),
                                 ItemPool.singlePoolItem(Items.WOODEN_PICKAXE),
@@ -382,6 +404,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 CONSUMABLE,
                 new ItemPool(
+                        "consumable",
                         List.of(
                                 ItemPool.rangePoolItem(Items.GLASS_BOTTLE, 3),
                                 ItemPool.offsetRangePoolItem(Items.BOWL, 2, 3),
@@ -415,6 +438,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 BEDSIDE,
                 new ItemPool(
+                        "bedside",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.PAPER, 2, 4),
                                 ItemPool.offsetRangePoolItem(Items.STICK, 2, 4),
@@ -449,6 +473,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 PLANT,
                 new ItemPool(
+                        "plant",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.ALLIUM, 2,4),
                                 ItemPool.offsetRangePoolItem(Items.AZURE_BLUET, 2,4),
@@ -509,6 +534,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 WATER_PLANT,
                 new ItemPool(
+                        "water_plant",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.KELP, 2,4),
                                 ItemPool.offsetRangePoolItem(Items.SEAGRASS, 2,4)
@@ -541,6 +567,7 @@ public class BTItemPools {
         itemPoolContext.register(
                 TREE_PLANT,
                 new ItemPool(
+                        "tree_plant",
                         List.of(
                                 ItemPool.offsetRangePoolItem(Items.BIRCH_SAPLING, 2,4),
                                 ItemPool.offsetRangePoolItem(Items.BIRCH_LEAVES, 2,8),

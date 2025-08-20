@@ -112,5 +112,6 @@
       },
       "item": "minecraft:emerald"
     }
-  ]
+  ],
+  "name": "gem"
 }

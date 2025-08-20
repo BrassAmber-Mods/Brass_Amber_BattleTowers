@@ -172,5 +172,6 @@
       },
       "item": "minecraft:deepslate_emerald_ore"
     }
-  ]
+  ],
+  "name": "ore"
 }

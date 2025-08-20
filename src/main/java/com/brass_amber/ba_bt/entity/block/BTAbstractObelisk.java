@@ -42,6 +42,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
@@ -184,7 +186,7 @@ public class BTAbstractObelisk extends Entity {
         }
 
 
-        // BrassAmberBattleTowers.LOGGER.info("Floor y: " + this.currentFloorY + " Next y: " + nextFloorY);
+        // BrassAmberBattleTowers.LOGGER.debug("Floor y: " + this.currentFloorY + " Next y: " + nextFloorY);
 
         // Get corners of tower area.
         BlockPos corner = center.offset(-15, 0, -15);
@@ -205,7 +207,7 @@ public class BTAbstractObelisk extends Entity {
                     toCheck = new BlockPos(x, y, z);
                     // This is here to avoid unnecessary variable passing to checkPos()
                     if (level.getBlockState(toCheck).getBlock() == this.spawnerMarker) {
-                        // BrassAmberBattleTowers.LOGGER.info(toCheck + " " + this.level().getBlockState(toCheck));
+                        // BrassAmberBattleTowers.LOGGER.debug(toCheck + " " + this.level().getBlockState(toCheck));
                         spawnersSet = this.setSpawnerBlock(toCheck, this.checkLayer, level, spawnersSet);
                     }
                     this.checkPos(toCheck, level);
@@ -242,7 +244,7 @@ public class BTAbstractObelisk extends Entity {
     protected int setSpawnerBlock(BlockPos pos, int floor, Level level, int spawnersSet) {
         if (spawnersSet < this.spawnerAmounts.get(floor-1)) {
             level.setBlock(pos, this.spawnerBlock.defaultBlockState(), 2);
-            // BrassAmberBattleTowers.LOGGER.info("Set Spawner at: " +pos + " floor: " + floor + " Spawners: " + spawnersSet);
+            // BrassAmberBattleTowers.LOGGER.debug("Set Spawner at: " +pos + " floor: " + floor + " Spawners: " + spawnersSet);
             return spawnersSet + 1;
         } else {
             level.setBlock(pos, this.spawnerFillBlock.defaultBlockState(), 2);
@@ -257,7 +259,7 @@ public class BTAbstractObelisk extends Entity {
             if (block == this.chestBlock && !this.floorChestFound) {
                 this.CHESTS.add(toCheck);
                 this.floorChestFound = true;
-                // BrassAmberBattleTowers.LOGGER.info("Found chest");
+                // BrassAmberBattleTowers.LOGGER.debug("Found chest");
             } else if (block == this.spawnerBlock || block == Blocks.SPAWNER) {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 BlockEntity entity = level.getBlockEntity(toCheck);
@@ -274,16 +276,16 @@ public class BTAbstractObelisk extends Entity {
                             this.blockPosition(), this.enemySpawnRange
                     );
                 }
-                // BrassAmberBattleTowers.LOGGER.info("Found spawner: " + this.checkLayer + " " + this.spawnersFound);
-                // BrassAmberBattleTowers.LOGGER.info(this.SPAWNERS.get(this.checkLayer-1).size());
+                BABattleTowers.LOGGER.debug("Found spawner: " + this.checkLayer);
+                // BrassAmberBattleTowers.LOGGER.debug(this.SPAWNERS.get(this.checkLayer-1).size());
             } else if (block == this.golemChestBlock) {
                 this.golemChest = (BTChestBlockEntity) level.getBlockEntity(toCheck);
-                // BABTMain.LOGGER.info("Found Golem Chest");
+                // BABTMain.LOGGER.debug("Found Golem Chest");
             } else if (block == BTBlocks.DATA_MARKER.get()) {
                 this.processDataMarker(toCheck, level);
             }
         } catch (Exception e) {
-            BABattleTowers.LOGGER.info("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
+            BABattleTowers.LOGGER.debug("Exception in Obelisk class, not a chest or spawner: " + level.getBlockState(toCheck).getBlock());
             e.printStackTrace();
 
         }
@@ -296,15 +298,14 @@ public class BTAbstractObelisk extends Entity {
 
         BlockState placeState = dataMarker.getPlaceBlockState();
 
-        // BABTMain.LOGGER.info("Getting Block Rotation: {}  {}", placeState, rotation);
+        // BABTMain.LOGGER.debug("Getting Block Rotation: {}  {}", placeState, rotation);
         placeState = placeState.rotate(level, toProcess, rotation);
 
         // Get and clean lootTypes list (this accounts for datamarkers with empty lists)
         ArrayList<String> lootTypes = dataMarker.getLootTypes();
-        // BABTMain.LOGGER.info("Setting Block loot types: {}", lootTypes);
+        BABattleTowers.LOGGER.debug("Setting Block loot types: {}", lootTypes);
 
-        lootTypes.removeIf((type) -> type.equals("Invalid"));
-        lootTypes.removeIf(String::isEmpty);
+
 
         // Rarity = half of tower level (0-1 = 0, 2-3 = 1, etc)
         int rarity = dataMarker.getRarity();
@@ -336,8 +337,9 @@ public class BTAbstractObelisk extends Entity {
         LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(toProcess)).create(LootContextParamSets.CHEST);
         LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
 
-        Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, lootTypes, this.random, true);
-        btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), placedEntity, lootcontext);
+        LootPool.Builder itemsAmounts = createItems(rarity, lootTypes, this.random, true);
+
+        btFill(LootTable.lootTable().withPool(itemsAmounts).build(),  placedEntity, lootcontext, lootparams);
     }
 
 
@@ -348,7 +350,7 @@ public class BTAbstractObelisk extends Entity {
         super.tick();
 
         if (!this.initialized) {
-            // BrassAmberBattleTowers.LOGGER.info("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
+            BABattleTowers.LOGGER.debug("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
             this.initialize();
             return;
         }
@@ -420,9 +422,9 @@ public class BTAbstractObelisk extends Entity {
             }
 
             if (this.tickCount % 20 == 0 && this.hasPlayer) {
-                // BrassAmberBattleTowers.LOGGER.info("Checking Spawners");
+                // BrassAmberBattleTowers.LOGGER.debug("Checking Spawners");
                 this.checkSpawners(this.level());
-                // BrassAmberBattleTowers.LOGGER.info(this.towerEffect + " effect ");
+                // BrassAmberBattleTowers.LOGGER.debug(this.towerEffect + " effect ");
             }
         }
         if (!this.canCheck && this.golemChest != null) {
@@ -445,14 +447,13 @@ public class BTAbstractObelisk extends Entity {
                     LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos())).create(LootContextParamSets.CHEST);
                     LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
                     String lootPath = GolemType.getTowerChestPool(this.golemType, 8);
-                    if (!lootPath.equals("")) {
+                    if (!lootPath.isEmpty()) {
                         btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), this.golemChest, lootcontext, lootparams);
                     }
                     else {
-                        Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(4, new ArrayList<>(this.golemChestLootTypes), this.random, false);
-                        btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), this.golemChest, lootcontext);
+                        LootPool.Builder itemsAmounts = createItems(4, new ArrayList<>(this.golemChestLootTypes), this.random, false);
+                        btFill(LootTable.lootTable().withPool(itemsAmounts).build(),  this.golemChest, lootcontext, lootparams);
                     }
-
 
                     // getGolemLootTable(GolemType.getNumForType(this.golemType)).fill(this.golemChest, lootparams, this.random.nextLong());
                     this.chestUnlockingSound(this.level());
@@ -515,10 +516,10 @@ public class BTAbstractObelisk extends Entity {
 
         if (this.BOSS_MUSIC == null) {
             tryPlayMusic = playerInTowerRange;
-            // BrassAmberBattleTowers.LOGGER.info("No Boss Music");
+            // BrassAmberBattleTowers.LOGGER.debug("No Boss Music");
 
         } else {
-            // BrassAmberBattleTowers.LOGGER.info("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
+            // BrassAmberBattleTowers.LOGGER.debug("Player: " + true + "  In Music Range: " + playerInMusicRange + " Tower music playing?: " + this.musicPlaying);
             if (!this.music.isPlayingMusic(this.BOSS_MUSIC)) {
                 tryPlayMusic = playerInTowerRange;
             }
@@ -541,7 +542,7 @@ public class BTAbstractObelisk extends Entity {
 
     protected void spawnSpecialEnemy(ServerLevel serverWorld, BlockPos spawn, double lowerRadiusBound,
                                      double upperRadiusBound, boolean checkOnGround) {
-        // BrassAmberBattleTowers.LOGGER.info("Trying to spawn cultist at: " + spawn);
+        // BrassAmberBattleTowers.LOGGER.debug("Trying to spawn cultist at: " + spawn);
         double distance = BTUtil.distanceTo2D(this, spawn.getX(), spawn.getZ());
         boolean canSpawn = SpawnPlacements.checkSpawnRules(GolemType.getSpecialEnemyType(this.golemType), serverWorld, MobSpawnType.STRUCTURE, spawn, this.random);
         boolean acceptableDistance = lowerRadiusBound < distance && distance < upperRadiusBound;
@@ -562,7 +563,7 @@ public class BTAbstractObelisk extends Entity {
                 mob.setPos(spawn.getX() + .5, spawn.getY(), spawn.getZ() + .5);
                 net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
                 serverWorld.addFreshEntity(entity);
-                // BrassAmberBattleTowers.LOGGER.info("Success");
+                // BrassAmberBattleTowers.LOGGER.debug("Success");
             }
         }
     }
@@ -601,8 +602,8 @@ public class BTAbstractObelisk extends Entity {
                                     btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), chest, lootcontext, lootparams);
                                 }
                                 else {
-                                    Pair<List<Item>, List<Integer>> itemsAmounts =  createItems(rarity, new ArrayList<>(this.towerChestLootTypes), this.random, false);
-                                    btListFill(itemsAmounts.getFirst(), itemsAmounts.getSecond(), chest, lootcontext);
+                                    LootPool.Builder itemsAmounts = createItems(rarity, new ArrayList<>(this.towerChestLootTypes), this.random, false);
+                                    btFill(LootTable.lootTable().withPool(itemsAmounts).build(),  chest, lootcontext, lootparams);
                                 }
                                 // BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);
                                 this.chestUnlockingSound(level);
@@ -618,7 +619,7 @@ public class BTAbstractObelisk extends Entity {
                                 if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
                                     this.SPAWNERS.get(i).set(x, null);
                                     this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
-                                    BABattleTowers.LOGGER.info("Spawners Destroyed: {}", this.getSpawnersDestroyed());
+                                    BABattleTowers.LOGGER.debug("Spawners Destroyed: {}", this.getSpawnersDestroyed());
                                 }
                             }
 
@@ -658,8 +659,8 @@ public class BTAbstractObelisk extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (!this.level().isClientSide()) {
-            // BrassAmberBattleTowers.LOGGER.info("Reading obelisk data");
-            // BrassAmberBattleTowers.LOGGER.info("Reading obelisk data " + tag);
+            // BrassAmberBattleTowers.LOGGER.debug("Reading obelisk data");
+            // BrassAmberBattleTowers.LOGGER.debug("Reading obelisk data " + tag);
             this.golemType = GolemType.getTypeForName(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
             this.crystalSpawned = tag.getBoolean(crystalSpawnedName);
@@ -671,7 +672,7 @@ public class BTAbstractObelisk extends Entity {
         if (this.level().isClientSide()) {
             music.stopPlaying();
         } else {
-            BABattleTowers.LOGGER.info("Setting obelisk data");
+            BABattleTowers.LOGGER.debug("Setting obelisk data");
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
             tag.putBoolean(crystalSpawnedName, this.crystalSpawned);
@@ -727,17 +728,17 @@ public class BTAbstractObelisk extends Entity {
         Player player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), 50, EntitySelector.NO_SPECTATORS);
 
         if (player != null && player.isCreative()) {
-            BABattleTowers.LOGGER.info("Item: " + player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
+            BABattleTowers.LOGGER.debug("Item: " + player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
                 this.remove(RemovalReason.KILLED);
             } else {
                 // Do nothing to prevent people deleting a Monolith by accident.
-                BABattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+                BABattleTowers.LOGGER.debug("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
             }
         }
         else {
             // Do nothing to prevent people deleting a Monolith by accident.
-            BABattleTowers.LOGGER.info("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+            BABattleTowers.LOGGER.debug("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
         }
 
     }

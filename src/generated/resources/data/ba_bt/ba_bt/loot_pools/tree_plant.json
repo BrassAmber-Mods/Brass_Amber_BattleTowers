@@ -238,5 +238,6 @@
       },
       "item": "minecraft:mangrove_roots"
     }
-  ]
+  ],
+  "name": "tree_plant"
 }

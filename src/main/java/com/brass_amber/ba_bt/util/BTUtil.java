@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.util;
 
+import com.brass_amber.ba_bt.item.ItemPool;
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -17,15 +17,18 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
 import java.util.*;
 
+import static com.brass_amber.ba_bt.BABattleTowers.itemPools;
 import static com.brass_amber.ba_bt.util.BTStatics.*;
 
 public class BTUtil {
@@ -57,7 +60,7 @@ public class BTUtil {
 
         for (int i = 0; i < tag.getAllKeys().size(); i++) {
             String value = tag.getString(String.valueOf(i));
-            // BABTMain.LOGGER.info("get compound value: " + value + " | is in list? " + checkFrom.get().contains(value));
+            // BABTMain.LOGGER.debug("get compound value: " + value + " | is in list? " + checkFrom.get().contains(value));
             list.add(checkFrom.contains(value) ? value : "Invalid");
         }
 
@@ -177,61 +180,24 @@ public class BTUtil {
     }
 
 
-    public static Pair<List<Item>, List<Integer>> createItems(int rarity, ArrayList<String> pools, RandomSource randomSource, boolean isExtra) {
-        List<Item> items = new ArrayList<>();
-        List<Item> poolItems = new ArrayList<>();
-
-        List<Integer> amounts = new ArrayList<>();
-        List<Integer> poolMins = new ArrayList<>();
-        List<Integer> poolMaxes = new ArrayList<>();
-
+    public static LootPool.Builder createItems(int rarity, ArrayList<String> poolStrings, RandomSource randomSource, boolean isExtra) {
         // BABTMain.LOGGER.debug("Pools {}", pools);
-
-        int timesAdded;
 
         rarity = isExtra ? rarity - 1: rarity;
 
-        for (String pool: pools) {
-            Pair<List<List<Item>>, List<List<Double>>> itemPoolAndAmounts = lootMap.getOrDefault(pool, lootMap.get("Building Block"));
-            for (int i = Math.max(rarity-4, 0); i < Math.max(Math.min(rarity + 1, 4), 1); i++) {
+        List<ItemPool> pools = itemPools.stream().filter(itemPool -> poolStrings.contains(itemPool.getName())).toList();
+        LootPool.Builder itemPool = new LootPool.Builder();
 
-                // Add items of wanted rarity thrice, items of the rarity below twice, and items of a higher rarity once.
-                if (i == rarity) {
-                    timesAdded = 3;
-                } else if (i == rarity - 1) {
-                    timesAdded = 2;
-                } else {
-                    timesAdded = 1;
-                }
-
-                for (int j = 0; j < timesAdded ; j++) {
-                    poolItems.addAll(itemPoolAndAmounts.getFirst().get(i));
-                    List<Double> floats = itemPoolAndAmounts.getSecond().get(i);
-                    for (double amount: floats) {
-                        // BABTMain.LOGGER.debug("Min amount = " + (int) amount + "  Max amount = " + ((amount - Mth.floor(amount)) * 10));
-                        poolMins.add((int) amount);
-                        poolMaxes.add((int) (((amount - (int) amount) * 10)));
-                    }
-                }
-            }
+        for (ItemPool pool: pools) {
+            itemPool = pool.getLootTableForRarity(itemPool, BTRarity.getByNum(rarity), randomSource);
         }
 
         // BABTMain.LOGGER.debug("Pools {}", poolItems);
 
-        int itemAmount = isExtra ? 4 + randomSource.nextInt(4) : 10 + randomSource.nextInt(5);
-        for (int i = 0; i < itemAmount; i++) {
-            int index = randomSource.nextInt(Math.max(0, poolItems.size()-1));
-            items.add(poolItems.get(index));
-            int min = poolMins.get(index);
-            int max = poolMaxes.get(index);
-            if (min < max) {
-                amounts.add(randomSource.nextIntBetweenInclusive(min, max));
-            } else {
-                amounts.add(min);
-            }
-        }
+        int itemAmount = isExtra ? 4 : 10;
+        itemPool = itemPool.setRolls(ConstantValue.exactly(itemAmount)).setBonusRolls(UniformGenerator.between(0, 4));
 
-        return Pair.of(items, amounts);
+        return itemPool;
     }
 
     public static void btListFill(List<Item> loot, List<Integer> amounts, Container container, LootContext lootContext) {
