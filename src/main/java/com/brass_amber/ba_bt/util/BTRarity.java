@@ -3,7 +3,7 @@ package com.brass_amber.ba_bt.util;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 
-import static java.lang.Math.round;
+import static net.minecraft.util.Mth.clamp;
 
 public enum BTRarity implements StringRepresentable {
     JUNK("JUNK", 0),
@@ -11,7 +11,6 @@ public enum BTRarity implements StringRepresentable {
     UNCOMMON("UNCOMMON", 2),
     RARE("RARE", 3),
     EPIC("EPIC", 4);
-
 
     private final int rarity;
     private final String name;
@@ -41,6 +40,16 @@ public enum BTRarity implements StringRepresentable {
             case COMMON -> UNCOMMON;
             case UNCOMMON -> RARE;
             default -> EPIC;
+        };
+    }
+
+    public static BTRarity getByNum(int num) {
+        return switch (clamp(num, 0, 4)) {
+            case 1 -> COMMON;
+            case 2 -> UNCOMMON;
+            case 3 -> RARE;
+            case 4 -> EPIC;
+            default -> JUNK;
         };
     }
 
