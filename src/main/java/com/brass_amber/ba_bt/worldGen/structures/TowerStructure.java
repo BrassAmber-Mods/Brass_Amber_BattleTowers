@@ -19,10 +19,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 
 import net.minecraft.world.level.biome.BiomeSource;
@@ -43,7 +40,6 @@ import net.minecraftforge.registries.ObjectHolder;
 import org.jetbrains.annotations.NotNull;
 
 import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
-import static com.brass_amber.ba_bt.util.BTStatics.averageSeperations;
 import static com.brass_amber.ba_bt.util.BTStatics.minimumSeperations;
 import static com.brass_amber.ba_bt.util.BTUtil.chunkDistanceTo;
 
@@ -67,7 +63,7 @@ public abstract class TowerStructure extends Structure {
     }
 
     public static <S extends TowerStructure> RecordCodecBuilder<S, TowerStructure.BTStructureSettings> extraSettingsCodec() {
-        return TowerStructure.BTStructureSettings.CODEC.forGetter((object) -> new BTStructureSettings(3));
+        return TowerStructure.BTStructureSettings.CODEC.forGetter((object) -> new BTStructureSettings(null, 3));
     }
 
     @Override
@@ -91,7 +87,7 @@ public abstract class TowerStructure extends Structure {
     }
 
     @Override
-    // Override findValidGeneration point as well as findGenerationPoint is called during locate command.
+    // Override findValidGeneration point as well as findValidGenerationPoint is called during locate command.
     // Override of generate above removes this being called anywhere except when locating the tower after chunkGen
     public @NotNull Optional<GenerationStub> findValidGenerationPoint(GenerationContext generationContext) {
         boolean canSpawn = false;
@@ -114,7 +110,7 @@ public abstract class TowerStructure extends Structure {
     protected @NotNull Optional<Structure.GenerationStub> findGenerationPoint(GenerationContext generationContext) {
 
         ChunkPos chunkPos = generationContext.chunkPos();
-        // BABTMain.LOGGER.info("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
 
         // Ensure tower chunk is outside initial player requested spawn range
         if (chunkDistanceTo(ChunkPos.ZERO, chunkPos) < BattleTowersConfig.firstTowerDistance) {
@@ -122,23 +118,20 @@ public abstract class TowerStructure extends Structure {
         }
 
         int minimumSeparation = minimumSeperations.get(this.towerId);
-        int seperationRange = averageSeperations.get(this.towerId);
-
-        //
-        int nextSeperation =  minimumSeparation + generationContext.random().nextInt(seperationRange * 2);
         int closestDistance = 2000;
 
         if (!SaveTowers.towers.get(this.towerId).isEmpty()) {
             for (Pair<ChunkPos, Rotation> towerPosRotation: SaveTowers.towers.get(this.towerId)) {
                 closestDistance = Math.min(closestDistance, chunkDistanceTo(chunkPos, towerPosRotation.getFirst()));
-                // BABTMain.LOGGER.info("Tower distance from generation try:" + closestDistance);
+                // BABTMain.LOGGER.debug("Tower distance from generation try:" + closestDistance);
             }
         }
 
-        if (closestDistance <= nextSeperation) {
-            // BABTMain.LOGGER.info("Land not outside tower separation " + nextSeperation);
+        if (closestDistance <= minimumSeparation) {
+            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
             return Optional.empty();
         }
+
 
         Pair<Boolean, BlockPos> canSpawn = isSpawnableChunk(generationContext);
         Rotation rotation = Rotation.getRandom(generationContext.random());
@@ -167,8 +160,9 @@ public abstract class TowerStructure extends Structure {
 
     protected abstract Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext);
 
-    public record BTStructureSettings(int minDistanceFromAvoidStructures) {
+    public record BTStructureSettings(HolderSet<Structure> avoidStructures, int minDistanceFromAvoidStructures) {
         public static final MapCodec<TowerStructure.BTStructureSettings> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("avoid_structures").forGetter(avoidStructure -> avoidStructure.avoidStructures),
                 Codec.intRange(3, Integer.MAX_VALUE).fieldOf("min_distance_from_avoid_structures").forGetter(btStructureSettings -> btStructureSettings.minDistanceFromAvoidStructures)
         ).apply(instance, BTStructureSettings::new));
     }
@@ -176,7 +170,7 @@ public abstract class TowerStructure extends Structure {
     // Used for tower saving and logging of tower positions
     // Rotation is saved for rotation of loaded datamarker block containers after generation
     public void saveTower(BlockPos spawnPos, Rotation rotation) {
-        BABattleTowers.LOGGER.info("{} Tower at {} {}", this.towerName, spawnPos, new ChunkPos(spawnPos));
+        BABattleTowers.LOGGER.debug("{} Tower at {} {}", this.towerName, spawnPos, new ChunkPos(spawnPos));
         SAVE_TOWERS.addTower(new ChunkPos(spawnPos), rotation, this.towerId);
     }
 
@@ -192,18 +186,18 @@ public abstract class TowerStructure extends Structure {
 
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(worldGenLevel.getSeed()));
         NormalNoise normalnoise = NormalNoise.create(worldgenrandom, -4, 1.0D);
-        // BrassAmberBattleTowers.LOGGER.info("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
+        // BrassAmberBattleTowers.LOGGER.debug("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         blockpos$mutableblockpos.setY(bbYStart);
         // get start and end postions for x/z, using min/max to account for the MinBlock being -25 and the MaxBlock being -27
         int startX = chunckCenter.getX() - 15;
         int endX = chunckCenter.getX() + 15;
-        // BrassAmberBattleTowers.LOGGER.info("X start: " + startX + " end: " + endX);
+        // BrassAmberBattleTowers.LOGGER.debug("X start: " + startX + " end: " + endX);
 
         int startZ = chunckCenter.getZ() - 15;
         int endZ = chunckCenter.getZ() + 15;
-        // BrassAmberBattleTowers.LOGGER.info("X start: " + startZ + " end: " + endZ);
+        // BrassAmberBattleTowers.LOGGER.debug("X start: " + startZ + " end: " + endZ);
 
         List<BlockState> towerBlocks = BTStatics.towerBlocks.get(towerId);
         BlockState baseBlock = BTStatics.towerBaseBlocks.get(towerId);
@@ -212,9 +206,9 @@ public abstract class TowerStructure extends Structure {
         for (int x = startX; x <= endX; x++) {
             for (int z = startZ; z <= endZ; z++) {
                 blockpos$mutableblockpos.set(x, bbYStart, z);
-                // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                // BrassAmberBattleTowers.LOGGER.debug("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (towerBlocks.contains(worldGenLevel.getBlockState(blockpos$mutableblockpos))) {
-                    // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                    // BrassAmberBattleTowers.LOGGER.debug("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
                     startPositions.add(new BlockPos(x, bbYStart - 1, z));
                 }
             }
@@ -223,7 +217,7 @@ public abstract class TowerStructure extends Structure {
         for (BlockPos startPos: startPositions) {
             for (int y = startPos.getY(); y > worldGenLevel.getMinBuildHeight() ; y--) {
                 blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
-                // BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                // BrassAmberBattleTowers.LOGGER.debug("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)
                         || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof TallGrassBlock
                         || worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock() instanceof FlowerBlock
@@ -258,9 +252,9 @@ public abstract class TowerStructure extends Structure {
             for (int z = startZ; z <= endZ; z++) {
                 blockpos$mutableblockpos.set(x, bbYStart + 3, z);
                 state = worldGenLevel.getBlockState(blockpos$mutableblockpos);
-                // BrassAmberBattleTowers.LOGGER.info("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                // BrassAmberBattleTowers.LOGGER.debug("Block at: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (acceptableDirtBlocks.contains(state) || acceptableStoneBlocks.contains(state)) {
-                    // BrassAmberBattleTowers.LOGGER.info("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                    // BrassAmberBattleTowers.LOGGER.debug("Block is acceptable: " + blockpos$mutableblockpos + " "+ worldGenLevel.getBlockState(blockpos$mutableblockpos));
                     startPositions.add(new BlockPos(x, bbYStart + 2, z));
                 }
             }
@@ -271,7 +265,7 @@ public abstract class TowerStructure extends Structure {
                 blockpos$mutableblockpos.set(startPos.getX(), y, startPos.getZ());
                 state = worldGenLevel.getBlockState(blockpos$mutableblockpos.above());
 
-                // BrassAmberBattleTowers.LOGGER.info("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
+                // BrassAmberBattleTowers.LOGGER.debug("Block to check: " + blockpos$mutableblockpos + " is: " + worldGenLevel.getBlockState(blockpos$mutableblockpos));
                 if (worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) || worldGenLevel.isWaterAt(blockpos$mutableblockpos)) {
                     if (acceptableDirtBlocks.contains(state) ){
                         worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);

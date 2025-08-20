@@ -6,10 +6,12 @@ import com.brass_amber.ba_bt.util.BTTags;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
@@ -19,10 +21,10 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LandTower extends TowerStructure {
 
@@ -51,14 +53,13 @@ public class LandTower extends TowerStructure {
         WorldgenRandom worldgenRandom = generationContext.random();
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
-        HolderSet.Named<Structure> avoidStructures = SaveTowers.server.registryAccess().registryOrThrow(Registries.STRUCTURE).getTag(BTTags.Structures.LAND_TOWER_AVOID_STRUCTURES).orElseThrow();
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), avoidStructures,
-                chunkPos.getMiddleBlockPosition(0), extraSettings.minDistanceFromAvoidStructures(), false
+                SaveTowers.server.getLevel(Level.OVERWORLD), this.extraSettings.avoidStructures(),
+                chunkPos.getMiddleBlockPosition(0), this.extraSettings.minDistanceFromAvoidStructures(), false
         );
         if (pair != null) {
-            // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
+            // BrassAmberBattleTowers.LOGGER.debug("Has " + set + " Feature in range");
             return Pair.of(false, BlockPos.ZERO);
         }
         // Test/Check 3 by 3 square of chunks for possible spawns (x pattern)
@@ -72,7 +73,7 @@ public class LandTower extends TowerStructure {
                 )
         );
 
-        // BABTMain.LOGGER.info("Rquesting chunks to test: " + testables.toString());
+        // BABTMain.LOGGER.debug("Rquesting chunks to test: " + testables.toString());
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         ArrayList<Integer> usableHeights = new ArrayList<>();
@@ -89,7 +90,7 @@ public class LandTower extends TowerStructure {
         boolean watered = false;
 
         for (ChunkPos pos : testables) {
-            // BrassAmberBattleTowers.LOGGER.info("Land tower testing at " + pos);
+            BABattleTowers.LOGGER.debug("Land tower testing at {}", pos);
             int middleHieght = chunkGen.getFirstOccupiedHeight(
                     pos.getMiddleBlockX(), pos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
             );
@@ -130,7 +131,7 @@ public class LandTower extends TowerStructure {
             }
 
             if (highestY > 215) {
-                BABattleTowers.LOGGER.info("Terrain to high for Land Tower");
+                BABattleTowers.LOGGER.debug("Terrain to high for Land Tower");
                 continue;
             }
 
@@ -148,10 +149,10 @@ public class LandTower extends TowerStructure {
             }
             int usableHeight = lowestY + ((highestY - lowestY)/4);
 
-            // BrassAmberBattleTowers.LOGGER.info("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight);
+            // BrassAmberBattleTowers.LOGGER.debug("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight);
 
             if (isFlat) {
-                // BrassAmberBattleTowers.LOGGER.info("Usable position at: " + pos + " " + usableHeight);
+                // BrassAmberBattleTowers.LOGGER.debug("Usable position at: " + pos + " " + usableHeight);
                 usablePositions.add(pos);
                 towerTypes.add(this.towerType);
                 usableHeights.add(usableHeight);
@@ -163,7 +164,7 @@ public class LandTower extends TowerStructure {
         if (!usablePositions.isEmpty()) {
             int i = worldgenRandom.nextInt(usablePositions.size());
             this.towerType = towerTypes.get(i);
-            // BrassAmberBattleTowers.LOGGER.info("Position chosen: " + usablePositions.get(i).getMiddleBlockPosition(usableHeights.get(i));
+            // BrassAmberBattleTowers.LOGGER.debug("Position chosen: " + usablePositions.get(i).getMiddleBlockPosition(usableHeights.get(i));
             return Pair.of(true, usablePositions.get(i).getMiddleBlockPosition(usableHeights.get(i)));
         }
 

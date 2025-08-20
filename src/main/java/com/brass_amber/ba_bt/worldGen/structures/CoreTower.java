@@ -44,15 +44,13 @@ public class CoreTower extends TowerStructure {
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
-        HolderSet.Named<Structure> avoidStructures = SaveTowers.server.registryAccess().registryOrThrow(Registries.STRUCTURE).getTag(BTTags.Structures.CORE_TOWER_AVOID_STRUCTURES).orElseThrow();
 
         Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), avoidStructures,
-                chunkPos.getMiddleBlockPosition(0), extraSettings.minDistanceFromAvoidStructures(), false
+                SaveTowers.server.overworld(), this.extraSettings.avoidStructures(),
+                chunkPos.getMiddleBlockPosition(0), this.extraSettings.minDistanceFromAvoidStructures(), false
         );
-
         if (pair != null) {
-            // BrassAmberBattleTowers.LOGGER.info("Has " + set + " Feature in range");
+            // BrassAmberBattleTowers.LOGGER.debug("Has " + set + " Feature in range");
             return Pair.of(false, BlockPos.ZERO);
         }
 
@@ -67,7 +65,7 @@ public class CoreTower extends TowerStructure {
                 )
         );
 
-        // BABTMain.LOGGER.info("Requesting chunks to test: " + testables.toString());
+        // BABTMain.LOGGER.debug("Requesting chunks to test: " + testables.toString());
 
         for (ChunkPos pos : testable) {
             Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
@@ -75,13 +73,13 @@ public class CoreTower extends TowerStructure {
             );
 
             if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(seaLevel), biome)) {
-                // BrassAmberBattleTowers.LOGGER.info("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
+                // BrassAmberBattleTowers.LOGGER.debug("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
                 return Pair.of(false, BlockPos.ZERO);
             }
         }
 
         pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), HolderSet.direct(generationContext.registryAccess().registryOrThrow(Registries.STRUCTURE).getHolder(BuiltinStructures.ANCIENT_CITY).get()),
+                SaveTowers.server.overworld(), HolderSet.direct(generationContext.registryAccess().registryOrThrow(Registries.STRUCTURE).getHolder(BuiltinStructures.ANCIENT_CITY).get()),
                 chunkPos.getMiddleBlockPosition(0), 10, false
         );
         if (pair != null) {
