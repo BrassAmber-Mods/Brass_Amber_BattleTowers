@@ -23,10 +23,10 @@ public class BattleTowersConfig {
                 .define("firstTowerDistance", 25);
     
     private static final ForgeConfigSpec.ConfigValue<Integer> LAND_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
-                                "(9 chunk minimum. Default: 20 Chunks")
+                                "(9 chunk minimum. Default: 30 Chunks")
                         .defineInRange("landMinimumSeparation", 30, 9, 999999999);;
     private static final ForgeConfigSpec.ConfigValue<Integer> OCEAN_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
-                                "(6 chunk minimum. Default: 16 Chunks")
+                                "(6 chunk minimum. Default: 35 Chunks")
                         .defineInRange("oceanMinimumSeparation", 35, 9, 999999999);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> TERRALITH_BIOME_SPAWNING = BUILDER.comment("Whether to include acceptable Terralith biomes during the tower's Biome check.")
@@ -36,19 +36,6 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<Boolean> BIOMES_YOULL_GO_BIOME_SPAWNING = BUILDER.comment("Whether to include acceptable Oh The Biomes You'll Go biomes during the tower's Biome check.")
                 .define("ohTheBiomesYoullGo", false);
 
-
-    private static final ForgeConfigSpec.ConfigValue<Integer> LAND_AVERAGE_SEPERATION_MODIFIER = BUILDER.pop().comment("Advanced Settings -- take note of the range for each value, values outside the ranges will be discarded")
-            .push("advanced")
-            .comment("This value is added to the Land Tower minimum separation"
-                                + " above to get the average separation between Land Towers for spawning measured in chunks.",
-                        "I.E. if you leave the minimum separation at 20, and change this value to 8 then Land Towers would spawn"
-                                + " at:  minimum = 20 chunks | average = 28 chunks (20 + 8) | maximum = 36 chunks (20 + 16)")
-                .defineInRange("landAverageSeparationModifier", 4, 1, 100);
-
-    private static final ForgeConfigSpec.ConfigValue<Integer> OCEAN_AVERAGE_SEPERATION_MODIFIER = BUILDER.comment("This value is added to the Ocean Tower minimum separation"
-                                + " above to get the average separation between Ocean Towers for spawning measured in chunks.",
-                        "See Land Tower Average Separation for explanation of use.")
-                .defineInRange("oceanAverageSeparationModifier", 8, 1, 100);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS = BUILDER.comment("Whether the Depth Dropper effect given by the Ocean Tower"
                                 + " affects mobs.")
@@ -117,9 +104,7 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec SPEC = BUILDER.pop().build();;
     
     public static int firstTowerDistance;
-    public static int landAverageSeperationModifier;
     public static int landMinimumSeperation;
-    public static int oceanAverageSeperationModifier;
     public static int oceanMinimumSeperation;
     public static boolean depthDropperAffectsMobs;
     public static boolean terralithBiomeSpawning;
@@ -187,10 +172,7 @@ public class BattleTowersConfig {
         
         firstTowerDistance = FIRST_TOWER_DISTANCE.get();
         landMinimumSeperation = LAND_MINIMUM_SEPERATION.get();
-        landAverageSeperationModifier = LAND_AVERAGE_SEPERATION_MODIFIER.get();
-
         oceanMinimumSeperation = OCEAN_MINIMUM_SEPERATION.get();
-        oceanAverageSeperationModifier = OCEAN_AVERAGE_SEPERATION_MODIFIER.get();
 
         depthDropperAffectsMobs = DEPTH_DROPPER_AFFECTS_MOBS.get();
 
