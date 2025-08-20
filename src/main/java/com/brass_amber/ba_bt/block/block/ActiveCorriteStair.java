@@ -50,8 +50,10 @@ public class ActiveCorriteStair extends StairBlock {
     }
 
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
-        entity.makeStuckInBlock(blockState, new Vec3(0.25D, FALL_SPEED, 0.25D));
-        entity.hurt(level.damageSources().lava(), LAVA_DAMAGE);
+        if (blockState.getValue(CORRITE) > 0) {
+            entity.makeStuckInBlock(blockState, new Vec3(0.25D, FALL_SPEED, 0.25D));
+            entity.hurt(level.damageSources().lava(), FOOT_DAMAGE * 2);
+        }
     }
 
     public void tick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
