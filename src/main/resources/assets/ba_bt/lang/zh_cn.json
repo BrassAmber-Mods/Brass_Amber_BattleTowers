@@ -83,6 +83,14 @@
 	"block.ba_bt.bt_end_spawner": "末影刷怪笼",
 	"block.ba_bt.bt_sky_spawner": "天域刷怪笼",
 
+	"block.ba_bt.corrite_block": "Corrite Block",
+	"block.ba_bt.corrite_slab": "Corrite Slab",
+	"block.ba_bt.corrite_stair": "Corrite Stair",
+	"block.ba_bt.corrite_wall": "Corrite Wall",
+	"block.ba_bt.active_corrite_block": "Active Corrite Block",
+	"block.ba_bt.active_corrite_slab": "Active Corrite Slab",
+	"block.ba_bt.active_corrite_stair": "Active Corrite Stair",
+
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
