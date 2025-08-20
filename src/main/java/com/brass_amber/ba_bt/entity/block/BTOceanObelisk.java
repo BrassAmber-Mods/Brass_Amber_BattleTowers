@@ -27,8 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.depthDropperAffectsMobs;
-import static com.brass_amber.ba_bt.BattleTowersConfig.minimalOceanCarving;
+import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_TOWER_MUSIC;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
@@ -95,10 +94,9 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.towerChestLootTypes = List.of("Weapon", "Armor", "Gem", "Water Plant", "Water Plant");
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
+        this.noise = 60 + ((random.nextInt(2) + 1) * 4);
         if (minimalOceanCarving) {
-            this.noise = 30 + ((random.nextInt(2) + 1) * 4);
-        } else {
-            this.noise = 60 + ((random.nextInt(2) + 1) * 4);
+            this.noise /= 2;
         }
 
         this.top = this.getBlockY() - 2;
