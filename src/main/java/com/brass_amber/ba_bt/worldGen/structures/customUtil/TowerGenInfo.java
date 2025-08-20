@@ -11,13 +11,14 @@ import java.util.*;
 import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
 
 public enum TowerGenInfo implements StringRepresentable {
-    EMPTY("", new String[]{},
-            List.of(new String[]{}, new String[]{}),
-            Collections.emptyList(),
-            Collections.emptyList(),
-            new String[]{},
-            new float[]{},
-            Collections.emptyList()
+    EMPTY("", // name
+            new String[]{}, // variants
+            List.of(new String[]{}, new String[]{}), // Variant shell overwrites
+            Collections.emptyList(), // Shell Processors
+            Collections.emptyList(), // Extra Processors
+            new String[]{}, // Room names
+            new float[]{}, // Room Chances
+            Collections.emptyList() // Room Processors
     ),
     LAND("land_tower", new String[]{"normal", "overgrown", "sandy", "icy", "ruined"},
             List.of(
