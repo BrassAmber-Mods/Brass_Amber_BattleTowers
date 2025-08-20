@@ -1,16 +1,14 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.init.BTStructures;
-import com.brass_amber.ba_bt.util.BTTags;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.Structures;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
@@ -19,6 +17,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class CoreTower extends TowerStructure {
 
@@ -86,19 +85,22 @@ public class CoreTower extends TowerStructure {
             this.towerType = 2;
         }
 
-        return Pair.of(true, chunkPos.getMiddleBlockPosition(seaLevel));
+        return Pair.of(true, chunkPos.getMiddleBlockPosition(0));
     }
 
     @Override
     protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+        HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BiomeTags.IS_OCEAN).orElseThrow();
+        Predicate<Holder<Biome>> predicate = holderset::contains;
 
+        Pair<BlockPos, Holder<Biome>> oceanBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 128, predicate, context.random(), context.randomState().sampler());
 
         if (context.random().nextFloat() < 25) {
             // Gilded or Island
             this.towerType = context.random().nextFloat() > .8 ? 1 : 0;
         }
 
-        return context.validBiome().test(biomeHolder);
+        return context.validBiome().test(biomeHolder) && oceanBiomeNearby == null;
     }
 
     @Override
