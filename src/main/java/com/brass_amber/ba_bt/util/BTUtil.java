@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.item.ItemPool;
 import com.google.common.collect.Lists;
 import com.mojang.logging.LogUtils;
@@ -28,8 +29,8 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
-import static com.brass_amber.ba_bt.BABattleTowers.itemPools;
 import static com.brass_amber.ba_bt.util.BTStatics.*;
+import static com.brass_amber.ba_bt.util.SaveTowers.itemPools;
 
 public class BTUtil {
     static final Logger LOGGER = LogUtils.getLogger();
@@ -179,23 +180,26 @@ public class BTUtil {
         removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
+    public static List<ItemPool> getPools(ArrayList<String> poolStrings) {
+        return itemPools.stream().filter(itemPool -> poolStrings.contains(itemPool.getName())).toList();
+    }
 
-    public static LootPool.Builder createItems(int rarity, ArrayList<String> poolStrings, RandomSource randomSource, boolean isExtra) {
-        // BABTMain.LOGGER.debug("Pools {}", pools);
+    public static LootPool.Builder createItems(int rarity, List<ItemPool> pools, RandomSource randomSource, boolean isExtra) {
+        BABattleTowers.LOGGER.debug("Pools {}", pools);
 
         rarity = isExtra ? rarity - 1: rarity;
 
-        List<ItemPool> pools = itemPools.stream().filter(itemPool -> poolStrings.contains(itemPool.getName())).toList();
         LootPool.Builder itemPool = new LootPool.Builder();
 
         for (ItemPool pool: pools) {
             itemPool = pool.getLootTableForRarity(itemPool, BTRarity.getByNum(rarity), randomSource);
         }
 
-        // BABTMain.LOGGER.debug("Pools {}", poolItems);
+        BABattleTowers.LOGGER.debug("Finished Item Pool: {}", itemPool);
 
         int itemAmount = isExtra ? 4 : 10;
         itemPool = itemPool.setRolls(ConstantValue.exactly(itemAmount)).setBonusRolls(UniformGenerator.between(0, 4));
+
 
         return itemPool;
     }
