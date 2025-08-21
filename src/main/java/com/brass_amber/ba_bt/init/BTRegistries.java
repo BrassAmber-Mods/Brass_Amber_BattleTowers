@@ -8,15 +8,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DataPackRegistryEvent;
 
-import static com.brass_amber.ba_bt.init.BTRegistries.Keys.*;
-
 @Mod.EventBusSubscriber(modid = BABattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BTRegistries {
 
-
     public static final class Keys {
-
-        public static final ResourceKey<Registry<ItemPool>> ITEM_POOLS = key("loot_pools");
+        public static final ResourceKey<Registry<ItemPool>> ITEM_POOLS = key("item_pools");
     }
 
     private static <T> ResourceKey<Registry<T>> key(String name) {
@@ -26,8 +22,7 @@ public class BTRegistries {
     @SubscribeEvent
     public static void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(
-                ITEM_POOLS,
-                ItemPool.CODEC,
+                Keys.ITEM_POOLS,
                 ItemPool.CODEC
         );
     }
