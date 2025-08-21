@@ -142,25 +142,25 @@ public class BTStatics {
 
         lootNames = new ArrayList<>(
                 List.of(
-                        "Invalid", // 0
-                        "Meat", // 1
-                        "Veggie", // 2
-                        "Cooked", // 3
-                        "Gem", // 4
-                        "Metal", // 5
-                        "Ore", // 6
-                        "Land Tower Blocks", // 7
-                        "Library", // 8
-                        "Weapon", // 9
-                        "Armor", // 10
-                        "Tool", // 11
-                        "Consumable", // 12
-                        "Bedside", // 13
-                        "Plant", // 14
-                        "Water Plant", // 15
-                        "Tree Plant", // 16
-                        "Ocean Tower Blocks", // 17
-                        "Core Tower Blocks" // 18
+                        "invalid", // 0
+                        "meat", // 1
+                        "veggie", // 2
+                        "cooked", // 3
+                        "gem", // 4
+                        "metal", // 5
+                        "ore", // 6
+                        "land_tower_blocks", // 7
+                        "library", // 8
+                        "weapon", // 9
+                        "armor", // 10
+                        "tool", // 11
+                        "consumable", // 12
+                        "bedside", // 13
+                        "plant", // 14
+                        "water plant", // 15
+                        "tree plant", // 16
+                        "ocean_tower_blocks", // 17
+                        "core_tower_blocks" // 18
                 )
         );
 
