@@ -94,16 +94,16 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_CONTAINER_TYPES = BUILDER.comment("List of extra specifiable container types for use in custom tower floors").defineList("extraChestTypes", () -> List.of("White Shulker"), BattleTowersConfig::validateString);
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_CONTAINER_BLOCKS = BUILDER.comment("List of extra container blocks for placing in custom tower floors").defineList("extraChestBlocks", () -> List.of("minecraft:white_shulker_box"), BattleTowersConfig::validateBlock);
 
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_CHEST_POOLS = BUILDER.pop().pop().push("towerChestLootTableReplacements")
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_CHEST_LOOT_TABLES = BUILDER.pop().pop().push("towerChestLootTableReplacements")
             .comment("Adding a resource location of a custom loot-table to one of these lists replaces the loot generated ")
             .comment("    using the Tower Extendable Loot Pools above  for floor/golem chests with loot from the supplied loot-table.")
             .comment("Each list is in floor order with the first item being the table for floor 1 and the last item being the table for the Golem (Boss) chest")
             .defineList("landTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> OCEAN_TOWER_CHEST_POOLS = BUILDER.defineList("oceanTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> CORE_TOWER_CHEST_POOLS = BUILDER.defineList("coreTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> NETHER_TOWER_CHEST_POOLS = BUILDER.defineList("netherTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> END_TOWER_CHEST_POOLS = BUILDER.defineList("endTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> SKY_TOWER_CHEST_POOLS = BUILDER.defineList("skyTowerChestPools", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> OCEAN_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("oceanTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> CORE_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("coreTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> NETHER_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("netherTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> END_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("endTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> SKY_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("skyTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
     
     public static final ForgeConfigSpec SPEC = BUILDER.pop().build();;
     
@@ -135,13 +135,13 @@ public class BattleTowersConfig {
 
     public static List<String> extraContainerTypes;
     public static List<String> extraContainerBlocks;
-    
-    public static List<String> landTowerChestPools;
-    public static List<String> oceanTowerChestPools;
-    public static List<String> coreTowerChestPools;
-    public static List<String> netherTowerChestPools;
-    public static List<String> endTowerChestPools;
-    public static List<String> skyTowerChestPools;
+
+    public static List<String> landTowerChestLootTables;
+    public static List<String> oceanTowerChestLootTables;
+    public static List<String> coreTowerChestLootTables;
+    public static List<String> netherTowerChestLootTables;
+    public static List<String> endTowerChestLootTables;
+    public static List<String> skyTowerChestLootTables;
     
 
     private static boolean validateString(final Object obj) {
@@ -209,11 +209,11 @@ public class BattleTowersConfig {
         extraContainerTypes = EXTRA_CONTAINER_TYPES.get().stream().collect(Collectors.toUnmodifiableList());
         extraContainerBlocks = EXTRA_CONTAINER_BLOCKS.get().stream().collect(Collectors.toUnmodifiableList());
 
-        landTowerChestPools = LAND_TOWER_CHEST_POOLS.get().stream().collect(Collectors.toUnmodifiableList());
-        oceanTowerChestPools = OCEAN_TOWER_CHEST_POOLS.get().stream().collect(Collectors.toUnmodifiableList());
-        coreTowerChestPools = CORE_TOWER_CHEST_POOLS.get().stream().collect(Collectors.toUnmodifiableList());
-        netherTowerChestPools = NETHER_TOWER_CHEST_POOLS.get().stream().collect(Collectors.toUnmodifiableList());
-        endTowerChestPools = END_TOWER_CHEST_POOLS.get().stream().collect(Collectors.toUnmodifiableList());
-        skyTowerChestPools = SKY_TOWER_CHEST_POOLS.get().stream().collect(Collectors.toUnmodifiableList());
+        landTowerChestLootTables = LAND_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
+        oceanTowerChestLootTables = OCEAN_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
+        coreTowerChestLootTables = CORE_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
+        netherTowerChestLootTables = NETHER_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
+        endTowerChestLootTables = END_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
+        skyTowerChestLootTables = SKY_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
     }
 }
