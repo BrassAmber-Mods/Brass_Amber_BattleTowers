@@ -8,7 +8,6 @@ import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -24,8 +23,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
@@ -90,8 +89,8 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.OCEAN_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.OCEAN_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
-        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Gem", "Water Plant", "Water Plant");
+        this.golemChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "gem"));
+        this.towerChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "plant", "water_plant"));
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
         this.noise = 60 + ((random.nextInt(2) + 1) * 4);
@@ -177,7 +176,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
             for (Entity entity: level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater())) {
                 if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity && depthDropperAffectsMobs) {
-                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 100, 1,true, true), entity);
+                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 10, 1,true, true), entity);
                 }
             }
 

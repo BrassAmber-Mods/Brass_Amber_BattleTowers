@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
@@ -39,8 +40,8 @@ public class BTLandObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.LAND_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.LAND_SPAWNER.get();
         this.spawnerFillBlock = Blocks.STONE_BRICKS;
-        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Metal", "Consumable", "Consumable");
+        this.golemChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "gem"));
+        this.towerChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "metal", "consumable"));
         this.golemLoot = new ItemStack[]{Items.STONE_BRICKS.getDefaultInstance(), Items.CLAY.getDefaultInstance(), Items.DIAMOND.getDefaultInstance()};
         super.serverInitialize();
     }

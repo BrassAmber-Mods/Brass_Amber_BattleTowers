@@ -7,6 +7,7 @@ import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
+import com.brass_amber.ba_bt.item.ItemPool;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.BTUtil;
@@ -26,6 +27,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -112,8 +114,8 @@ public class BTAbstractObelisk extends Entity {
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
     protected BTChestBlockEntity golemChest;
-    protected List<String> golemChestLootTypes;
-    protected List<String> towerChestLootTypes;
+    protected ArrayList<String> golemChestLootTypes;
+    protected ArrayList<String> towerChestLootTypes;
     protected ItemStack[] golemLoot;
     public boolean displayCrystal = true;
     private boolean crystalSpawned = false;
@@ -337,7 +339,7 @@ public class BTAbstractObelisk extends Entity {
         LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(toProcess)).create(LootContextParamSets.CHEST);
         LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
 
-        LootPool.Builder itemsAmounts = createItems(rarity, lootTypes, this.random, true);
+        LootPool.Builder itemsAmounts = createItems(rarity, getPools(lootTypes), this.random, true);
 
         btFill(LootTable.lootTable().withPool(itemsAmounts).build(),  placedEntity, lootcontext, lootparams);
     }
@@ -451,7 +453,7 @@ public class BTAbstractObelisk extends Entity {
                         btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), this.golemChest, lootcontext, lootparams);
                     }
                     else {
-                        LootPool.Builder itemsAmounts = createItems(4, new ArrayList<>(this.golemChestLootTypes), this.random, false);
+                        LootPool.Builder itemsAmounts = createItems(4, getPools(this.golemChestLootTypes), this.random, false);
                         btFill(LootTable.lootTable().withPool(itemsAmounts).build(),  this.golemChest, lootcontext, lootparams);
                     }
 
@@ -602,7 +604,7 @@ public class BTAbstractObelisk extends Entity {
                                     btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), chest, lootcontext, lootparams);
                                 }
                                 else {
-                                    LootPool.Builder itemsAmounts = createItems(rarity, new ArrayList<>(this.towerChestLootTypes), this.random, false);
+                                    LootPool.Builder itemsAmounts = createItems(rarity, getPools(this.towerChestLootTypes), this.random, false);
                                     btFill(LootTable.lootTable().withPool(itemsAmounts).build(),  chest, lootcontext, lootparams);
                                 }
                                 // BTUtil.btFill(getLootTable(GolemType.getNumForType(this.golemType), i), chest, lootcontext, lootparams);

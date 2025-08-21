@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
@@ -85,8 +86,8 @@ public class BTCoreObelisk extends BTAbstractObelisk {
         this.golemChestBlock = BTBlocks.CORE_GOLEM_CHEST.get();
         this.spawnerBlock = BTBlocks.CORE_SPAWNER.get();
         this.spawnerFillBlock = Blocks.PRISMARINE_BRICKS;
-        this.golemChestLootTypes = List.of("Weapon", "Armor", "Gem");
-        this.towerChestLootTypes = List.of("Weapon", "Armor", "Gem", "Water Plant", "Water Plant");
+        this.golemChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "gem"));
+        this.towerChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "ore", "consumable"));
         this.golemLoot = new ItemStack[]{Items.PRISMARINE_BRICKS.getDefaultInstance(), Items.PRISMARINE.getDefaultInstance(), Items.HEART_OF_THE_SEA.getDefaultInstance()};
 
         this.noise = 80 + ((random.nextInt(2) + 1) * 4);
