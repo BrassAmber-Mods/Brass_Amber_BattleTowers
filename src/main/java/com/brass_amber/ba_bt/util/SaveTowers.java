@@ -1,7 +1,11 @@
 package com.brass_amber.ba_bt.util;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.init.BTRegistries;
+import com.brass_amber.ba_bt.item.ItemPool;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Rotation;
@@ -25,6 +29,8 @@ public class SaveTowers {
     public static ArrayList<Pair<ChunkPos, Rotation>> oceanTowers = new ArrayList<>();
     public static List<List<Pair<ChunkPos, Rotation>>> towers = List.of(landTowers, oceanTowers);
 
+    public static Registry<ItemPool> itemPoolReg;
+    public static List<ItemPool> itemPools;
     public static List<String> towerNames = List.of("land_tower", "ocean_tower");
     public static MinecraftServer server;
     public static Path levelPath = Path.of("");
@@ -36,6 +42,11 @@ public class SaveTowers {
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();
+
+        itemPoolReg = newServer.registryAccess().registryOrThrow(BTRegistries.Keys.ITEM_POOLS);
+        itemPools = itemPoolReg.holders().map(Holder::value).toList();
+        BABattleTowers.LOGGER.debug("Pools {}", itemPools.stream().map(ItemPool::getName).toList());
+        BABattleTowers.LOGGER.debug("Pools from tags {}", itemPoolReg.getTags().toList().stream().map(Pair::getSecond).map(holders -> holders.key().location()).toList());
 
         getTowers();
         // BABTMain.LOGGER.debug("Towers: {}", towers);

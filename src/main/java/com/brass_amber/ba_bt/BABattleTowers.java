@@ -2,12 +2,10 @@ package com.brass_amber.ba_bt;
 
 import com.brass_amber.ba_bt.init.*;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
-import com.brass_amber.ba_bt.item.ItemPool;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.logging.LogUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +14,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -28,8 +26,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
-
-import java.util.List;
 
 import static com.brass_amber.ba_bt.init.BTItems.TAB_ICON;
 
@@ -43,7 +39,6 @@ public class BABattleTowers {
 
     public static final SaveTowers SAVE_TOWERS = new SaveTowers();
     public static final Component HOLD_SHIFT_TOOLTIP = (Component.translatable("tooltip.ba_bt.hold_shift").withStyle(ChatFormatting.DARK_GRAY));
-    public static List<ItemPool> itemPools;
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
@@ -87,8 +82,6 @@ public class BABattleTowers {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -165,11 +158,10 @@ public class BABattleTowers {
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(ServerAboutToStartEvent event)
+    public void onServerStarting(ServerStartingEvent event)
     {
         // Do something when the server starts
         LOGGER.info("server starting");
-        itemPools = event.getServer().registryAccess().registryOrThrow(BTRegistries.Keys.ITEM_POOLS).holders().map(Holder::value).toList();
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
