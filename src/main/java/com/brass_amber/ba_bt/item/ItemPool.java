@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.item;
 
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.util.BTRarity;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -63,15 +64,18 @@ public class ItemPool {
             if (i <= requestedRarity.getRarity()) {
                 for (PoolItem poolItem : this.items.get(i)) {
                     timesToAdd = (5 - requestedRarity.getRarity()) * 2;
-
-
-                    pool.add(LootItem.lootTableItem(poolItem.item).setWeight(timesToAdd).apply(
+                    // BABattleTowers.LOGGER.debug("Adding item {}", poolItem.item);
+                    pool = pool.add(LootItem.lootTableItem(poolItem.item).setWeight(timesToAdd).apply(
                                 SetItemCountFunction.setCount(UniformGenerator.between(poolItem.intProvider.getMinValue(), Math.min(new ItemStack(poolItem.item).getMaxStackSize(), poolItem.intProvider.getMaxValue()))
                                 )
-                    ));
+                            )
+                    );
                 }
             }
         }
+
+        // BABattleTowers.LOGGER.debug("Current Pool {}", pool);
+
 
         return pool;
     }
