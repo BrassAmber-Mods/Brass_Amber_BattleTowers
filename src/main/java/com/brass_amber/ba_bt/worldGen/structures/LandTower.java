@@ -90,7 +90,7 @@ public class LandTower extends TowerStructure {
         boolean watered = false;
 
         for (ChunkPos pos : testables) {
-            BABattleTowers.LOGGER.debug("Land tower testing at {}", pos);
+            // BABattleTowers.LOGGER.debug("Land tower testing at {}", pos);
             int middleHieght = chunkGen.getFirstOccupiedHeight(
                     pos.getMiddleBlockX(), pos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
             );
