@@ -19,23 +19,18 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<Integer> FIRST_TOWER_DISTANCE = BUILDER.comment("General Settings -- Negative values are ignored").push("general")
             .comment("Tower Separation values below only change how often the game tries to spawn the structure. " +
                 "Several other factors (Land height/other structures) can affect whether the structure actually spawns.")
-            .comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 25 chunks ")
-                .define("firstTowerDistance", 25);
+            .comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 30 chunks ")
+                .define("firstTowerDistance", 30);
     
     private static final ForgeConfigSpec.ConfigValue<Integer> LAND_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
-                                "(9 chunk minimum. Default: 30 Chunks")
-                        .defineInRange("landMinimumSeparation", 30, 9, 999999999);;
+                                "(9 chunk minimum. Default: 45 Chunks")
+                        .defineInRange("landMinimumSeparation", 45, 9, 999999999);;
     private static final ForgeConfigSpec.ConfigValue<Integer> OCEAN_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
-                                "(6 chunk minimum. Default: 35 Chunks")
-                        .defineInRange("oceanMinimumSeparation", 35, 9, 999999999);
-
-    private static final ForgeConfigSpec.ConfigValue<Boolean> TERRALITH_BIOME_SPAWNING = BUILDER.comment("Whether to include acceptable Terralith biomes during the tower's Biome check.")
-                .define("terralith", false);
-    private static final ForgeConfigSpec.ConfigValue<Boolean> BIOMES_OF_PLENTY_BIOME_SPAWNING = BUILDER.comment("Whether to include acceptable Biomes of Plenty biomes during the tower's Biome check.")
-                .define("biomesofPlenty", false);
-    private static final ForgeConfigSpec.ConfigValue<Boolean> BIOMES_YOULL_GO_BIOME_SPAWNING = BUILDER.comment("Whether to include acceptable Oh The Biomes You'll Go biomes during the tower's Biome check.")
-                .define("ohTheBiomesYoullGo", false);
-
+                                "(11 chunk minimum. Default: 60 Chunks")
+                        .defineInRange("oceanMinimumSeparation", 60, 9, 999999999);
+    private static final ForgeConfigSpec.ConfigValue<Integer> CORE_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Core Towers measured in chunks. " +
+                    "(15 chunk minimum. Default: 75 Chunks")
+            .defineInRange("coreMinimumSeparation", 75, 15, 999999999);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS = BUILDER.comment("Whether the Depth Dropper effect given by the Ocean Tower"
                                 + " affects mobs.")
@@ -83,6 +78,9 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> OCEAN_TOWER_MOBS =
                 BUILDER.defineListAllowEmpty("oceanTowerMobs", () -> List.of("minecraft:drowned", "minecraft:guardian", "minecraft:drowned", "minecraft:drowned", "minecraft:drowned", "minecraft:pufferfish"), BattleTowersConfig::validateEntityName);
 
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> CORE_TOWER_MOBS =
+            BUILDER.defineListAllowEmpty("coreTowerMobs", () -> List.of("minecraft:magma_cube", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider", "minecraft:cave_spider"), BattleTowersConfig::validateEntityName);
+
 
     private static final ForgeConfigSpec.ConfigValue<Integer> BOOK_LEVEL_ENCHANT = BUILDER.pop().push("towerLootOptions")
             .comment("The number of xp levels books and tools are enchanted with in loot, " +
@@ -110,10 +108,8 @@ public class BattleTowersConfig {
     public static int firstTowerDistance;
     public static int landMinimumSeperation;
     public static int oceanMinimumSeperation;
+    public static int coreMinimumSeperation;
     public static boolean depthDropperAffectsMobs;
-    public static boolean terralithBiomeSpawning;
-    public static boolean biomesOfPlentyBiomeSpawning;
-    public static boolean biomesYoullGoBiomeSpawning;
 
     public static int landTimeBeforeCollapse;
     public static int oceanTimeBeforeCollapse;
@@ -128,6 +124,7 @@ public class BattleTowersConfig {
 
     public static List<EntityType<?>> landTowerMobs;
     public static List<EntityType<?>> oceanTowerMobs;
+    public static List<EntityType<?>> coreTowerMobs;
 
     public static int bookLevelEnchant;
     public static boolean enchantArmor;
@@ -178,13 +175,9 @@ public class BattleTowersConfig {
         firstTowerDistance = FIRST_TOWER_DISTANCE.get();
         landMinimumSeperation = LAND_MINIMUM_SEPERATION.get();
         oceanMinimumSeperation = OCEAN_MINIMUM_SEPERATION.get();
+        coreMinimumSeperation = CORE_MINIMUM_SEPERATION.get();
 
         depthDropperAffectsMobs = DEPTH_DROPPER_AFFECTS_MOBS.get();
-
-        terralithBiomeSpawning = TERRALITH_BIOME_SPAWNING.get();
-        biomesOfPlentyBiomeSpawning = BIOMES_OF_PLENTY_BIOME_SPAWNING.get();
-        biomesYoullGoBiomeSpawning = BIOMES_YOULL_GO_BIOME_SPAWNING.get();
-
 
         landGolemHP = LAND_GOLEM_HP.get();
 
@@ -200,6 +193,9 @@ public class BattleTowersConfig {
                 .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
                 .collect(Collectors.toList());
         oceanTowerMobs = OCEAN_TOWER_MOBS.get().stream()
+                .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
+                .collect(Collectors.toList());
+        coreTowerMobs = CORE_TOWER_MOBS.get().stream()
                 .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
                 .collect(Collectors.toList());
 
