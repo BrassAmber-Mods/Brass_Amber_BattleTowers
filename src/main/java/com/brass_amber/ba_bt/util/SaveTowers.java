@@ -27,11 +27,12 @@ public class SaveTowers {
 
     public static ArrayList<Pair<ChunkPos, Rotation>> landTowers = new ArrayList<>();
     public static ArrayList<Pair<ChunkPos, Rotation>> oceanTowers = new ArrayList<>();
-    public static List<List<Pair<ChunkPos, Rotation>>> towers = List.of(landTowers, oceanTowers);
+    public static ArrayList<Pair<ChunkPos, Rotation>> coreTowers = new ArrayList<>();
+    public static List<List<Pair<ChunkPos, Rotation>>> towers = List.of(landTowers, oceanTowers, coreTowers);
 
     public static Registry<ItemPool> itemPoolReg;
     public static List<ItemPool> itemPools;
-    public static List<String> towerNames = List.of("land_tower", "ocean_tower");
+    public static List<String> towerNames = List.of("land_tower", "ocean_tower", "core_tower");
     public static MinecraftServer server;
     public static Path levelPath = Path.of("");
 
@@ -42,6 +43,7 @@ public class SaveTowers {
         server = newServer;
         towers.get(0).clear();
         towers.get(1).clear();
+        towers.get(2).clear();
 
         itemPoolReg = newServer.registryAccess().registryOrThrow(BTRegistries.Keys.ITEM_POOLS);
         itemPools = itemPoolReg.holders().map(Holder::value).toList();
