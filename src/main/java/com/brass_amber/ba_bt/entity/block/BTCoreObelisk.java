@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 import static com.brass_amber.ba_bt.sound.BTMusic.*;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
+import static java.lang.Math.abs;
 
 public class BTCoreObelisk extends BTAbstractObelisk {
 
@@ -115,12 +117,13 @@ public class BTCoreObelisk extends BTAbstractObelisk {
     public void gatherAreaBlocks() {
         // BrassAmberBattleTowers.LOGGER.debug(this.level().isClientSide());
         int removeSize = this.toRemove.size();
-        BABattleTowers.LOGGER.debug("Round of carving: {} {}", this.currentCarveLayer, removeSize);
+
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-        while (this.currentCarveLayer <= this.top) {
+        while (this.currentCarveLayer < this.top) {
+            BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
             int topRange = this.currentCarveLayer + this.floorDistance;
-            if (this.top - this.currentCarveLayer < this.floorDistance) {
-                topRange = this.bottom;
+            if (this.top - this.currentCarveLayer <= abs(this.floorDistance) + 1) {
+                topRange = this.top;
             }
             // BrassAmberBattleTowers.LOGGER.debug("Bottom Range: " + bottomRange);
             for (int y = this.currentCarveLayer; y <= topRange; y++) {
@@ -140,19 +143,26 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         // }
                     }
                 }
-                if (y == this.top) {
-                    this.addAreaFeatures();
-                }
             }
             this.currentCarveLayer = topRange;
             // BrassAmberBattleTowers.LOGGER.debug("This Round of carving: " + this.currentCarveLayer);
-
-            if (this.currentCarveLayer == this.top) {
-                this.generationState = GenerationState.SET_BLOCKS;
-            }
         }
 
+        this.generationState = GenerationState.SET_BLOCKS;
         // BABattleTowers.LOGGER.debug("Core Carved : " + this.coreCarved);
+    }
+
+    @Override
+    public void removeAreaBlocks() {
+        int removeSize = this.toRemove.size();
+        BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
+        if (removeSize > 0) {
+            for (int i = 0; i < Math.min(removeSize, 2048); i++) {
+                this.level().setBlock(this.toRemove.remove(0), Blocks.AIR.defaultBlockState(), 2);
+            }
+        } else {
+            this.generationState = GenerationState.ADD_FEATURES;
+        }
     }
 
     public void addAreaFeatures() {

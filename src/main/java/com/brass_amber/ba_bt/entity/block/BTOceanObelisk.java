@@ -31,6 +31,7 @@ import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_TOWER_MUSIC;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
 import static com.brass_amber.ba_bt.util.BTUtil.*;
+import static java.lang.Math.abs;
 
 public class BTOceanObelisk extends BTAbstractObelisk {
 
@@ -174,21 +175,16 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         }
     }
 
-    @Override
-    public void removeAreaBlocks() {
-        super.removeAreaBlocks();
-        doNoOutputCommand(this, "/kill @e[distance=0..100,type=item,nbt={Item:{id:'minecraft:kelp'}}]");
-    }
-
     public void gatherAreaBlocks() {
         // BrassAmberBattleTowers.LOGGER.debug(this.level().isClientSide());
-        // BABTMain.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
+
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
 
-        while (this.currentCarveLayer >= this.bottom) {
+        while (this.currentCarveLayer > this.bottom) {
+            BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
             int bottomRange = this.currentCarveLayer + this.floorDistance;
-            if (this.currentCarveLayer - this.bottom < this.floorDistance) {
+            if (this.currentCarveLayer - this.bottom < abs(this.floorDistance) + 1) {
                 bottomRange = this.bottom;
             }
             // BrassAmberBattleTowers.LOGGER.debug("Bottom Range: " + bottomRange);
@@ -220,7 +216,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                         this.toRemove.add(blockpos$mutableblockpos);
                                     } else if (!this.level().isWaterAt(blockpos$mutableblockpos)){
                                         if (distance2d < this.wallDistance - 2) {
-                                            this.toRemove.add(blockpos$mutableblockpos);
+                                            this.toRemove.add(blockpos$mutableblockpos.immutable());
                                         } else if (distance2d < this.wallDistance - 1) {
                                             if (random.nextInt(50) > 30) {
                                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
@@ -232,7 +228,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                         }
                                     }
                                 } else if (!this.avoidBlocks.contains(block.defaultBlockState())) {
-                                    this.toRemove.add(blockpos$mutableblockpos);
+                                    this.toRemove.add(blockpos$mutableblockpos.immutable());
                                 }
                             }
                         }
@@ -245,6 +241,20 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
         this.generationState = GenerationState.SET_BLOCKS;
         BABattleTowers.LOGGER.debug("Ocean Carved : " + this.oceanCarved);
+    }
+
+    @Override
+    public void removeAreaBlocks() {
+        int removeSize = this.toRemove.size();
+        BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
+        if (removeSize > 0) {
+            for (int i = 0; i < Math.min(removeSize, 2048); i++) {
+                this.level().setBlock(this.toRemove.remove(0), Blocks.WATER.defaultBlockState(), 2);
+            }
+            doNoOutputCommand(this, "/kill @e[distance=0..100,type=item,nbt={Item:{id:'minecraft:kelp'}}]");
+        } else {
+            this.generationState = GenerationState.ADD_FEATURES;
+        }
     }
 
     public void addAreaFeatures() {

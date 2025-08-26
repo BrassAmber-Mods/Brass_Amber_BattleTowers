@@ -37,7 +37,7 @@ public class CoreTower extends TowerStructure {
 
     @Override
     protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
-        BABattleTowers.LOGGER.debug("Can Spawn Core");
+        // BABattleTowers.LOGGER.debug("Can Spawn Core");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
 
@@ -61,7 +61,7 @@ public class CoreTower extends TowerStructure {
 
     @Override
     protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
-        BABattleTowers.LOGGER.debug("Is Valid Core Tower Biome");
+        // BABattleTowers.LOGGER.debug("Is Valid Core Tower Biome");
         HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BiomeTags.IS_OCEAN).orElseThrow();
         Predicate<Holder<Biome>> predicate = holderset::contains;
         Pair<BlockPos, Holder<Biome>> oceanBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 128, predicate, context.random(), context.randomState().sampler());

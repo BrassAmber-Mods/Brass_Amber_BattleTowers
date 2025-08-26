@@ -35,7 +35,7 @@ public class OceanTower extends TowerStructure {
 
     @Override
     protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
-        BABattleTowers.LOGGER.debug("Can Spawn Ocean");
+        // BABattleTowers.LOGGER.debug("Can Spawn Ocean");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();

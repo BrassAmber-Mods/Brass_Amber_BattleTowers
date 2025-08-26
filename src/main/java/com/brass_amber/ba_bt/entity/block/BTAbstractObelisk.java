@@ -837,15 +837,7 @@ public class BTAbstractObelisk extends Entity {
     }
 
     public void removeAreaBlocks() {
-        int removeSize = this.toRemove.size();
-        BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
-        if (removeSize > 0) {
-            for (int i = 0; i < Math.min(removeSize, 2048); i++) {
-                this.level().setBlock(this.toRemove.remove(0), Blocks.AIR.defaultBlockState(), 2);
-            }
-        } else {
-            this.generationState = GenerationState.ADD_FEATURES;
-        }
+
     }
 
     public void addAreaFeatures() {

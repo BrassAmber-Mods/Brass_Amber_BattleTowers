@@ -45,7 +45,7 @@ public class LandTower extends TowerStructure {
 
     @Override
     protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
-        BABattleTowers.LOGGER.debug("Can Spawn Land");
+        // BABattleTowers.LOGGER.debug("Can Spawn Land");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
 
@@ -137,7 +137,7 @@ public class LandTower extends TowerStructure {
 
     @Override
     protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
-        BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome");
+        // BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome");
         WorldgenRandom worldgenRandom = context.random();
         worldgenRandom.setSeed(context.seed());
         RandomSource randomSource = worldgenRandom.forkPositional().at(blockpos);

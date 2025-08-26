@@ -1,13 +1,12 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.BattleTowersConfig;
+import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerPieces;
@@ -16,6 +15,8 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.longs.Long2BooleanMap;
+import it.unimi.dsi.fastutil.longs.Long2BooleanOpenHashMap;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
@@ -73,7 +74,14 @@ public abstract class TowerStructure extends Structure {
 
     public Optional<Structure.GenerationStub> findValidGenerationPoint(Structure.GenerationContext generationContext) {
         BABattleTowers.LOGGER.debug("Attempting to LOCATE {} Spawn at {}", this.towerName, generationContext.chunkPos());
-        return this.findGenerationPoint(generationContext);
+        Optional<Structure.GenerationStub> stub = this.findGenerationPoint(generationContext);
+        long i = generationContext.chunkPos().toLong();
+        StructureCheckResult structurecheckresult;
+        Map<Structure, Long2BooleanMap> featureChecks = new HashMap<>();
+        boolean flag = featureChecks.computeIfAbsent(this, (p_226739_) -> new Long2BooleanOpenHashMap()).computeIfAbsent(i, (p_226728_) -> stub.isPresent());
+        structurecheckresult = !flag ? StructureCheckResult.START_NOT_PRESENT : StructureCheckResult.CHUNK_LOAD_NEEDED;
+        BABattleTowers.LOGGER.debug("Structure check Result {}", structurecheckresult);
+        return stub;
     }
 
     protected @NotNull Optional<Structure.GenerationStub> findGenerationPoint(GenerationContext generationContext) {
@@ -120,9 +128,10 @@ public abstract class TowerStructure extends Structure {
         if (canSpawn.getFirst()) {
             BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
             saveTower(spawnPos, rotation);
-            return Optional.of(new Structure.GenerationStub(spawnPos, (piecesBuilder) -> {
+            Structure.GenerationStub stub = new Structure.GenerationStub(spawnPos, (piecesBuilder) -> {
                 this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
-            }));
+            });
+            return Optional.of(stub);
         }
 
         return Optional.empty();
