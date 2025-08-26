@@ -1,17 +1,18 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
-import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 
 import java.util.ArrayList;
@@ -33,19 +34,11 @@ public class OceanTower extends TowerStructure {
     }
 
     @Override
-    protected Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext) {
+    protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
+        BABattleTowers.LOGGER.debug("Can Spawn Ocean");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
-
-        Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), this.extraSettings.avoidStructures(),
-                chunkPos.getMiddleBlockPosition(0), this.extraSettings.minDistanceFromAvoidStructures(), false
-        );
-        if (pair != null) {
-            // BrassAmberBattleTowers.LOGGER.debug("Has " + set + " Feature in range");
-            return Pair.of(false, BlockPos.ZERO);
-        }
 
         // Test/Check 4 by 4 square of chunks for nearby land
         List<ChunkPos> testable = new ArrayList<>(
@@ -87,18 +80,23 @@ public class OceanTower extends TowerStructure {
 
             if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(seaLevel), biome)) {
                 // BrassAmberBattleTowers.LOGGER.debug("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
-                return Pair.of(false, BlockPos.ZERO);
+                return Pair.of(false, 0);
             }
         }
-        return Pair.of(true, chunkPos.getMiddleBlockPosition(seaLevel));
+        return Pair.of(true, seaLevel);
     }
 
     @Override
     protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+        // BABattleTowers.LOGGER.debug("Is Valid Ocean Tower Biome");
+        WorldgenRandom worldgenRandom = context.random();
+        worldgenRandom.setSeed(context.seed());
+        RandomSource randomSource = worldgenRandom.forkPositional().at(blockpos);
 
-        if (context.random().nextFloat() < 25) {
+
+        if (randomSource.nextFloat() < 25) {
             // Gilded or Island
-            towerType = context.random().nextFloat() > .6 ? 2 : 1;
+            towerType = randomSource.nextFloat() > .6 ? 2 : 1;
         }
 
         return context.validBiome().test(biomeHolder);
