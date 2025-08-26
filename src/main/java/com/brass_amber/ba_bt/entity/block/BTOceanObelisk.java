@@ -276,5 +276,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 }
             }
         }
+        this.generationState = GenerationState.FINISHED;
     }
 }
