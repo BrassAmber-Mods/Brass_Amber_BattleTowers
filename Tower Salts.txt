@@ -1,0 +1,6 @@
+Land   Guard   7211184
+Ocean  Void    221594
+Core   Awaken  123111514
+Nether Throne  2081815145
+End    Mind    139144
+Sky    Descend 451935144
