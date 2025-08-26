@@ -185,7 +185,7 @@ public class BTUtil {
     }
 
     public static LootPool.Builder createItems(int rarity, List<ItemPool> pools, RandomSource randomSource, boolean isExtra) {
-        BABattleTowers.LOGGER.debug("Pools {}", pools);
+        // BABattleTowers.LOGGER.debug("Pools {}", pools);
 
         rarity = isExtra ? rarity - 1: rarity;
 
@@ -195,7 +195,7 @@ public class BTUtil {
             itemPool = pool.getLootTableForRarity(itemPool, BTRarity.getByNum(rarity), randomSource);
         }
 
-        BABattleTowers.LOGGER.debug("Finished Item Pool: {}", itemPool);
+        // BABattleTowers.LOGGER.debug("Finished Item Pool: {}", itemPool);
 
         int itemAmount = isExtra ? 4 : 10;
         itemPool = itemPool.setRolls(ConstantValue.exactly(itemAmount)).setBonusRolls(UniformGenerator.between(0, 4));
