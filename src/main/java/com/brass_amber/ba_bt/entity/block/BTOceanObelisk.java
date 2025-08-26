@@ -51,8 +51,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     private int nextStep;
     private int distanceChange;
     private boolean oceanCarved;
-
-    private final String oceanCarvedName = "OceanCarved";
     private boolean golemDead = false;
 
 
@@ -121,14 +119,12 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
     @Override
     protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        tag.putBoolean(oceanCarvedName, this.oceanCarved);
         super.addAdditionalSaveData(tag);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.oceanCarved = tag.getBoolean(oceanCarvedName);
         // BABTMain.LOGGER.debug("Ocean Carved in read data " + this.oceanCarved);
     }
 
@@ -140,11 +136,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-        if (!this.oceanCarved && this.serverInitialized && this.tickCount % 120 <= 5) {
-            this.carveOcean();
-            doNoOutputCommand(this, "/kill @e[distance=0..100,type=item,nbt={Item:{id:'minecraft:kelp'}}]");
-            return;
-        }
 
         try {
             List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.entityCheckAABB);
@@ -154,7 +145,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             BABattleTowers.LOGGER.error("Exception finding Golem: " + f);
         }
 
-        if (this.tickCount % 100 <= 5 && this.hasPlayer && !this.golemDead) {
+        if (this.tickCount % 100 == 0 && this.hasPlayer && !this.golemDead) {
             List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null,  this.entityCheckAABB);
 
             for (Player player : players
@@ -176,21 +167,28 @@ public class BTOceanObelisk extends BTAbstractObelisk {
 
             for (Entity entity: level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater())) {
                 if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity && depthDropperAffectsMobs) {
-                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 10, 1,true, true), entity);
+                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 15, 1,true, true), entity);
                 }
             }
 
         }
     }
 
-    public void carveOcean() {
+    @Override
+    public void removeAreaBlocks() {
+        super.removeAreaBlocks();
+        doNoOutputCommand(this, "/kill @e[distance=0..100,type=item,nbt={Item:{id:'minecraft:kelp'}}]");
+    }
+
+    public void gatherAreaBlocks() {
         // BrassAmberBattleTowers.LOGGER.debug(this.level().isClientSide());
         // BABTMain.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Block block;
-        if (this.currentCarveLayer >= this.bottom) {
+
+        while (this.currentCarveLayer >= this.bottom) {
             int bottomRange = this.currentCarveLayer + this.floorDistance;
-            if (this.currentCarveLayer - this.bottom < 25) {
+            if (this.currentCarveLayer - this.bottom < this.floorDistance) {
                 bottomRange = this.bottom;
             }
             // BrassAmberBattleTowers.LOGGER.debug("Bottom Range: " + bottomRange);
@@ -218,12 +216,11 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                             double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
                             if (y > this.bottom) {
                                 if (distance2d > 15.5D) {
-                                    if  (this.level().getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
-                                        this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 3);
-
-                                    } else if (!this.level().isWaterAt(blockpos$mutableblockpos) && !avoidBlocks.contains(this.level().getBlockState(blockpos$mutableblockpos))){
+                                    if (this.level().getBlockState(blockpos$mutableblockpos).getBlock() == Blocks.KELP_PLANT) {
+                                        this.toRemove.add(blockpos$mutableblockpos);
+                                    } else if (!this.level().isWaterAt(blockpos$mutableblockpos)){
                                         if (distance2d < this.wallDistance - 2) {
-                                            this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
+                                            this.toRemove.add(blockpos$mutableblockpos);
                                         } else if (distance2d < this.wallDistance - 1) {
                                             if (random.nextInt(50) > 30) {
                                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
@@ -235,27 +232,22 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                         }
                                     }
                                 } else if (!this.avoidBlocks.contains(block.defaultBlockState())) {
-                                    this.level().setBlock(blockpos$mutableblockpos, Blocks.WATER.defaultBlockState(), 2);
+                                    this.toRemove.add(blockpos$mutableblockpos);
                                 }
                             }
                         }
                     }
-                } else if (y == this.bottom){
-                    this.addVegetation();
                 }
             }
             this.currentCarveLayer = bottomRange;
             // BrassAmberBattleTowers.LOGGER.debug("This Round of carving: " + this.currentCarveLayer);
         }
 
-        if (this.currentCarveLayer == this.bottom) {
-            this.oceanCarved = true;
-
-        }
+        this.generationState = GenerationState.SET_BLOCKS;
         BABattleTowers.LOGGER.debug("Ocean Carved : " + this.oceanCarved);
     }
 
-    public void addVegetation() {
+    public void addAreaFeatures() {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         BlockPos blockAbove;
         for (int y = this.top; y > this.bottom - 1; y--) {
