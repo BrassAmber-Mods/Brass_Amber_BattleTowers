@@ -18,8 +18,6 @@ import java.util.*;
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
 public class BTStatics {
-    public static final List<List<ResourceKey<Biome>>> landTowerBiomes;
-    public static final List<ResourceKey<Biome>> oceanTowerBiomes;
     public static final List<List<Integer>> towerSpawnerAmounts;
     public static final List<List<Integer>> towerChestUnlocking;
     public static final List<List<BlockState>> towerBlocks;
@@ -36,25 +34,6 @@ public class BTStatics {
     public static final List<Item> dyes;
 
     static {
-        landTowerBiomes = List.of(
-                // Land
-                List.of(
-                        Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
-                        Biomes.WINDSWEPT_FOREST, Biomes.MEADOW, Biomes.PLAINS, Biomes.TAIGA,
-                        Biomes.OLD_GROWTH_PINE_TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA, Biomes.SAVANNA,
-                        Biomes.SUNFLOWER_PLAINS, Biomes.GROVE, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_GRAVELLY_HILLS
-                ),
-                // Overgrown
-                List.of(
-                        Biomes.SWAMP, Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE, Biomes.SPARSE_JUNGLE
-                ),
-                // Sandy
-                List.of(
-                        Biomes.DESERT
-                )
-        );
-
-        oceanTowerBiomes = List.of(Biomes.DEEP_FROZEN_OCEAN, Biomes.FROZEN_OCEAN);
 
         towerBlocks = List.of(
                 // Land
@@ -81,14 +60,23 @@ public class BTStatics {
                         Blocks.COPPER_BLOCK.defaultBlockState(), Blocks.EXPOSED_COPPER.defaultBlockState(), Blocks.OXIDIZED_COPPER.defaultBlockState(), Blocks.WARPED_STEM.defaultBlockState(),
                         BTBlocks.OCEAN_SPAWNER.get().defaultBlockState(), BTBlocks.OCEAN_CHEST.get().defaultBlockState(), BTBlocks.OCEAN_GOLEM_CHEST.get().defaultBlockState(),
                         BTBlocks.SPAWNER_MARKER.get().defaultBlockState(), Blocks.LAPIS_BLOCK.defaultBlockState(), Blocks.PRISMARINE_SLAB.defaultBlockState()
+                ),
+                List.of(
+                        Blocks.DEEPSLATE_BRICKS.defaultBlockState(), Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState(), Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState(), Blocks.DEEPSLATE_TILES.defaultBlockState(),
+                        Blocks.BLACKSTONE.defaultBlockState(), Blocks.BLACKSTONE_SLAB.defaultBlockState(),  Blocks.BLACKSTONE_STAIRS.defaultBlockState(), Blocks.IRON_BARS.defaultBlockState(),
+                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState(), BTBlocks.CORRITE_SLAB.get().defaultBlockState(), BTBlocks.CORRITE_STAIR.get().defaultBlockState(),
+                        BTBlocks.ACTIVE_CORRITE_BLOCK.get().defaultBlockState(), BTBlocks.ACTIVE_CORRITE_SLAB.get().defaultBlockState(), BTBlocks.ACTIVE_CORRITE_STAIR.get().defaultBlockState(),
+                        Blocks.CHISELED_STONE_BRICKS.defaultBlockState(), Blocks.GRAVEL.defaultBlockState(), Blocks.SAND.defaultBlockState(),
+                        BTBlocks.CORE_SPAWNER.get().defaultBlockState(), BTBlocks.CORE_CHEST.get().defaultBlockState(), BTBlocks.CORE_GOLEM_CHEST.get().defaultBlockState(),
+                        BTBlocks.SPAWNER_MARKER.get().defaultBlockState()
                 )
         );
 
-        towerBaseBlocks = List.of(Blocks.STONE_BRICKS.defaultBlockState(), Blocks.PRISMARINE_BRICKS.defaultBlockState());
+        towerBaseBlocks = List.of(Blocks.STONE_BRICKS.defaultBlockState(), Blocks.PRISMARINE_BRICKS.defaultBlockState(), BTBlocks.CORRITE_BLOCK.get().defaultBlockState());
 
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
 
-        minimumSeperations = List.of(landMinimumSeperation, oceanMinimumSeperation);
+        minimumSeperations = List.of(landMinimumSeperation, oceanMinimumSeperation, coreMinimumSeperation);
 
         towerSpawnerAmounts = List.of(
                 Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
@@ -132,12 +120,24 @@ public class BTStatics {
                         Arrays.asList(160, 200, 3, 4, 14, 8),
                         // Floor 7-8
                         Arrays.asList(160, 200, 4, 4, 13, 8)
+                ),
+                // Core
+                List.of(
+                        // Floor 1-2 data
+                        Arrays.asList(180, 220, 2, 5, 12, 6),
+                        // Floor 3-4
+                        Arrays.asList(180, 220, 3, 5, 12, 6),
+                        // Floor 5-6
+                        Arrays.asList(160, 200, 3, 6, 12, 6),
+                        // Floor 7-8
+                        Arrays.asList(160, 200, 4, 6, 12, 6)
                 )
         );
 
         towerMobs = List.of(
                 landTowerMobs,
-                oceanTowerMobs
+                oceanTowerMobs,
+                coreTowerMobs
         );
 
         lootNames = new ArrayList<>(
