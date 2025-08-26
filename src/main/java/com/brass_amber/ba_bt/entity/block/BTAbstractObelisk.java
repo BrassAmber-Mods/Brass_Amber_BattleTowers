@@ -73,37 +73,32 @@ public class BTAbstractObelisk extends Entity {
 
     //Other Parameters
     private boolean initialized;
-    protected boolean clientInitialized;
-    protected boolean serverInitialized;
-    protected int checkLayer;
-    protected int currentFloorY;
-
     private boolean doCheck;
-
-    protected MusicManager music;
-    protected int musicDistance;
-    protected int towerRange;
-    protected int enemySpawnRange;
-
-    protected GolemType golemType;
+    private Class<? extends Entity> specialEnemy;
+    private boolean chestsFound;
     private boolean justSpawnedKey;
-
-    public Music TOWER_MUSIC;
-    public Music BOSS_MUSIC;
+    private boolean crystalSpawned = false;
 
     // Data Strings
     private final String towerName = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
     private final String crystalSpawnedName = "CrystalSpawned";
+    private final String generationStateName = "GenerationState";
+
+    protected boolean clientInitialized;
+    protected boolean serverInitialized;
+    protected int musicDistance;
+    protected int towerRange;
+    protected int enemySpawnRange;
 
     protected boolean musicPlaying;
     protected boolean canCheck;
     protected boolean golemSpawned = false;
-    private Class<? extends Entity> specialEnemy;
-    private boolean chestsFound;
-    public boolean hasPlayer;
-    public EntityType<?> lastSpawnerType;
+    protected GenerationState generationState = GenerationState.GATHER_BLOCKS;
+    protected List<BlockPos> toRemove;
 
+    protected int checkLayer;
+    protected int currentFloorY;
     protected int floorDistance;
     protected boolean floorChestFound;
     protected Block chestBlock;
@@ -117,9 +112,15 @@ public class BTAbstractObelisk extends Entity {
     protected ArrayList<String> golemChestLootTypes;
     protected ArrayList<String> towerChestLootTypes;
     protected ItemStack[] golemLoot;
-    public boolean displayCrystal = true;
-    private boolean crystalSpawned = false;
     protected AABB entityCheckAABB;
+    protected MusicManager music;
+    protected GolemType golemType;
+
+    public boolean hasPlayer;
+    public EntityType<?> lastSpawnerType;
+    public Music TOWER_MUSIC;
+    public Music BOSS_MUSIC;
+    public boolean displayCrystal = true;
 
     public BTAbstractObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -149,6 +150,7 @@ public class BTAbstractObelisk extends Entity {
         this.initialized = true;
         this.enemySpawnRange = 12;
         this.entityCheckAABB = this.getBoundingBox().inflate(this.towerRange, 115, this.towerRange);
+        this.toRemove = new ArrayList<>();
     }
 
     public void clientInitialize() {
@@ -305,7 +307,7 @@ public class BTAbstractObelisk extends Entity {
 
         // Get and clean lootTypes list (this accounts for datamarkers with empty lists)
         ArrayList<String> lootTypes = dataMarker.getLootTypes();
-        BABattleTowers.LOGGER.debug("Setting Block loot types: {}", lootTypes);
+        // BABattleTowers.LOGGER.debug("Setting Block loot types: {}", lootTypes);
 
 
 
@@ -369,6 +371,14 @@ public class BTAbstractObelisk extends Entity {
             return;
         }
 
+        if (generationState != GenerationState.FINISHED) {
+            switch (generationState) {
+                case GATHER_BLOCKS -> this.gatherAreaBlocks();
+                case SET_BLOCKS -> this.removeAreaBlocks();
+                case ADD_FEATURES -> this.addAreaFeatures();
+            }
+        }
+
         if (!this.displayCrystal && !this.crystalSpawned) {
             this.spawnAtLocation(GolemType.getResonanceCrystalForType(this.golemType), 1);
             this.crystalSpawned = true;
@@ -413,12 +423,10 @@ public class BTAbstractObelisk extends Entity {
                     ServerLevel serverWorld = (ServerLevel) this.level();
 
                     switch (this.golemType) {
-                        case LAND -> this.spawnSpecialEnemy(serverWorld, new BlockPos(x, y, z),
+                        case LAND, CORE -> this.spawnSpecialEnemy(serverWorld, new BlockPos(x, y, z),
                                 0D, 11.5D, true);
                         case OCEAN -> this.spawnSpecialEnemy(serverWorld, new BlockPos(x, y, z),
                                 12.5D, 17.5D, false);
-                        case CORE -> this.spawnSpecialEnemy(serverWorld, new BlockPos(x, y, z),
-                                12.5D, 17.5D, true);
                     }
                 }
             }
@@ -666,6 +674,7 @@ public class BTAbstractObelisk extends Entity {
             this.golemType = GolemType.getTypeForName(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
             this.crystalSpawned = tag.getBoolean(crystalSpawnedName);
+            this.generationState = GenerationState.getState(tag.getInt(generationStateName));
         }
     }
 
@@ -678,6 +687,7 @@ public class BTAbstractObelisk extends Entity {
             tag.putString(towerName, this.golemType.getSerializedName());
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
             tag.putBoolean(crystalSpawnedName, this.crystalSpawned);
+            tag.putInt(generationStateName, this.generationState.getValue());
         }
     }
     /*************************************** Characteristics & Properties *******************************************/
@@ -795,5 +805,50 @@ public class BTAbstractObelisk extends Entity {
         return this.entityData.get(SPAWNERS_DESTROYED);
     }
 
-    /************************************************** COMMANDS **************************************************/
+    /************************************************** GENERATION **************************************************/
+
+    public enum GenerationState {
+        GATHER_BLOCKS(0),
+        SET_BLOCKS(1),
+        ADD_FEATURES(2),
+        FINISHED(3);
+
+        private final int value;
+
+        GenerationState(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static GenerationState getState(int value) {
+            return switch (value) {
+                case 2 -> GenerationState.ADD_FEATURES;
+                case 3 -> GenerationState.FINISHED;
+                default -> GenerationState.GATHER_BLOCKS;
+            };
+        }
+    }
+
+    public void gatherAreaBlocks() {
+
+    }
+
+    public void removeAreaBlocks() {
+        int removeSize = this.toRemove.size();
+        BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
+        if (removeSize > 0) {
+            for (int i = 0; i < Math.min(removeSize, 2048); i++) {
+                this.level().setBlock(this.toRemove.remove(0), Blocks.AIR.defaultBlockState(), 2);
+            }
+        } else {
+            this.generationState = GenerationState.ADD_FEATURES;
+        }
+    }
+
+    public void addAreaFeatures() {
+
+    }
 }
