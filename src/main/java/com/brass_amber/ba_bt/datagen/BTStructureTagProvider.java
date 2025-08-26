@@ -47,14 +47,6 @@ public class BTStructureTagProvider extends StructureTagsProvider {
 
         this.tag(BTTags.Structures.CORE_TOWER_AVOID_STRUCTURES)
                 .add(BuiltinStructures.STRONGHOLD)
-                .add(BuiltinStructures.RUINED_PORTAL_STANDARD)
-                .add(BuiltinStructures.OCEAN_RUIN_WARM)
-                .add(BuiltinStructures.SHIPWRECK)
-                .add(BuiltinStructures.OCEAN_MONUMENT)
-                .add(BuiltinStructures.OCEAN_RUIN_COLD)
-                .add(BuiltinStructures.OCEAN_RUIN_WARM)
-                .add(BuiltinStructures.SHIPWRECK)
                 .add(BuiltinStructures.ANCIENT_CITY);
-
     }
 }
