@@ -1,6 +1,5 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -13,7 +12,6 @@ import static com.brass_amber.ba_bt.BABattleTowers.locate;
 public class BTTags {
 
     public static class Blocks {
-
 
         public static TagKey<Block> BASE_PROTECTED_TAG = createBT("tower_base_cannot_replace");
         public static TagKey<Block> BT_CHESTS = createBT("bt_chests");
@@ -39,6 +37,9 @@ public class BTTags {
 
     public static class Biomes {
         public static final TagKey<Biome> LAND_TOWER_BIOMES = createTag("has_structure/land_tower_biomes");
+        public static final TagKey<Biome> LAND_TOWER_OVERGROWN_BIOMES = createTag("land_tower_overgrown_biomes");
+        public static final TagKey<Biome> LAND_TOWER_SANDY_BIOMES = createTag("land_tower_sandy_biomes");
+        public static final TagKey<Biome> LAND_TOWER_SNOWY_BIOMES = createTag("land_tower_snowy_biomes");
         public static final TagKey<Biome> OCEAN_TOWER_BIOMES = createTag("has_structure/ocean_tower_biomes");
         public static final TagKey<Biome> CORE_TOWER_BIOMES = createTag("has_structure/core_tower_biomes");
 
