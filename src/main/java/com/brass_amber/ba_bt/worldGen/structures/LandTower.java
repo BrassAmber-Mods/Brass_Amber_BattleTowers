@@ -3,28 +3,23 @@ package com.brass_amber.ba_bt.worldGen.structures;
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.BTTags;
-import com.brass_amber.ba_bt.util.SaveTowers;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.RegistryOps;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraftforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Predicate;
 
 public class LandTower extends TowerStructure {
 
@@ -49,19 +44,11 @@ public class LandTower extends TowerStructure {
     }
 
     @Override
-    protected Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext) {
-        WorldgenRandom worldgenRandom = generationContext.random();
+    protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
+        BABattleTowers.LOGGER.debug("Can Spawn Land");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
 
-        Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
-                SaveTowers.server.getLevel(Level.OVERWORLD), this.extraSettings.avoidStructures(),
-                chunkPos.getMiddleBlockPosition(0), this.extraSettings.minDistanceFromAvoidStructures(), false
-        );
-        if (pair != null) {
-            // BrassAmberBattleTowers.LOGGER.debug("Has " + set + " Feature in range");
-            return Pair.of(false, BlockPos.ZERO);
-        }
         // Test/Check 3 by 3 square of chunks for possible spawns (x pattern)
         List<ChunkPos> testables = new ArrayList<>(
                 List.of(
@@ -77,8 +64,6 @@ public class LandTower extends TowerStructure {
 
         List<ChunkPos> usablePositions =  new ArrayList<>();
         ArrayList<Integer> usableHeights = new ArrayList<>();
-        ArrayList<Boolean> hasLiquid = new ArrayList<>();
-        ArrayList<Integer> towerTypes = new ArrayList<>();
 
         int newLandHeight;
         int lowestY;
@@ -87,7 +72,6 @@ public class LandTower extends TowerStructure {
         int minZ;
         int newX;
         int newZ;
-        boolean watered = false;
 
         for (ChunkPos pos : testables) {
             // BABattleTowers.LOGGER.debug("Land tower testing at {}", pos);
@@ -100,12 +84,13 @@ public class LandTower extends TowerStructure {
 
             // re-check biome for extra chunks skipping to next chunk if not valid
             if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
-                continue;
+                usablePositions.clear();
+                usableHeights.clear();
+                break;
             }
 
             lowestY = 215;
             highestY = 0;
-            hasLiquid.clear();
             minX = pos.getMinBlockX();
             minZ = pos.getMinBlockZ();
 
@@ -119,34 +104,12 @@ public class LandTower extends TowerStructure {
                     lowestY = Math.min(newLandHeight, lowestY);
                     highestY = Math.max(newLandHeight, highestY);
 
-                    // get column of blocks at blockpos.
-                    NoiseColumn columnOfBlocks = chunkGen.getBaseColumn(newX, newZ, generationContext.heightAccessor(), generationContext.randomState());
-                    // combine the column of blocks with land height, and you get the top block itself which you can test.
-                    BlockState topBlock = columnOfBlocks.getBlock(newLandHeight);
-                    // check whether the topBlock is a source block of water.
-                    if (topBlock.getBlock() instanceof LiquidBlock) {
-                        hasLiquid.add(Boolean.TRUE);
-                    }
                 }
-            }
-
-            if (highestY > 215) {
-                BABattleTowers.LOGGER.debug("Terrain to high for Land Tower");
-                continue;
             }
 
             // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
             boolean isFlat = highestY - lowestY <= 12;
 
-            if (!hasLiquid.isEmpty()) {
-                // 256 blocks in one layer of a chunk, we check 36, if more 6 (16%) are water don't spawn.
-                watered = (float) hasLiquid.size() / 36 > waterBlocksThreshold;
-            }
-
-            // Allow watered placement for jungle/swamp placements
-            if (watered && this.towerType != 1) {
-                return Pair.of(false, BlockPos.ZERO);
-            }
             int usableHeight = lowestY + ((highestY - lowestY)/4);
 
             // BrassAmberBattleTowers.LOGGER.debug("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight);
@@ -154,54 +117,64 @@ public class LandTower extends TowerStructure {
             if (isFlat) {
                 // BrassAmberBattleTowers.LOGGER.debug("Usable position at: " + pos + " " + usableHeight);
                 usablePositions.add(pos);
-                towerTypes.add(this.towerType);
                 usableHeights.add(usableHeight);
             }
 
         }
 
         // Get a random usable position from the list, otherwise return false
-        if (!usablePositions.isEmpty()) {
-            int i = worldgenRandom.nextInt(usablePositions.size());
-            this.towerType = towerTypes.get(i);
-            // BrassAmberBattleTowers.LOGGER.debug("Position chosen: " + usablePositions.get(i).getMiddleBlockPosition(usableHeights.get(i));
-            return Pair.of(true, usablePositions.get(i).getMiddleBlockPosition(usableHeights.get(i)));
+        if (!usablePositions.isEmpty() && usableHeights.get(0) < 215) {
+            return Pair.of(true, usableHeights.get(0));
         }
 
-        return Pair.of(false, BlockPos.ZERO);
+        if (!usablePositions.isEmpty() && usableHeights.get(0) > 215) {
+            BABattleTowers.LOGGER.debug("Terrain to high for Land Tower");
+
+        }
+
+        return Pair.of(false, 0);
     }
 
     @Override
     protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
-        Biome biome = biomeHolder.get();
-        boolean coldEnoughToSnow = biome.coldEnoughToSnow(blockpos);
-        float temperature = biome.getBaseTemperature();
-        BlockState topblock = context.chunkGenerator().getBaseColumn(blockpos.getX(), blockpos.getZ(), context.heightAccessor(), context.randomState()).getBlock(blockpos.getY());
+        BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome");
+        WorldgenRandom worldgenRandom = context.random();
+        worldgenRandom.setSeed(context.seed());
+        RandomSource randomSource = worldgenRandom.forkPositional().at(blockpos);
 
-        if (temperature > 0.8
-                && biome.getModifiedClimateSettings().downfall() >= .8
-                && biome.hasPrecipitation()
-        ) {
+        HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(Tags.Biomes.IS_WATER).orElseThrow();
+        Predicate<Holder<Biome>> predicate = holderset::contains;
+        Pair<BlockPos, Holder<Biome>> waterBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 64, predicate, context.random(), context.randomState().sampler());
+
+        HolderSet<Biome> overgrownHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_OVERGROWN_BIOMES).orElseThrow();
+        Predicate<Holder<Biome>> overgrownPredicate = overgrownHolderset::contains;
+        Pair<BlockPos, Holder<Biome>> overgrownBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, overgrownPredicate, context.random(), context.randomState().sampler());
+
+
+        HolderSet<Biome> sandyHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_SANDY_BIOMES).orElseThrow();
+        Predicate<Holder<Biome>> sandyPredicate = sandyHolderset::contains;
+        Pair<BlockPos, Holder<Biome>> sandyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, sandyPredicate, context.random(), context.randomState().sampler());
+
+
+        HolderSet<Biome> snowyHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_SNOWY_BIOMES).orElseThrow();
+        Predicate<Holder<Biome>> snowyPredicate = snowyHolderset::contains;
+        Pair<BlockPos, Holder<Biome>> snowyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, snowyPredicate, context.random(), context.randomState().sampler());
+
+        if (overgrownBiomeNearby != null) {
             // Overgrown
             this.towerType = 1;
-        } else if (temperature > 1.8
-                && !biome.hasPrecipitation()
-                && topblock.getBlock() instanceof FallingBlock
-        ) {
+        } else if (sandyBiomeNearby != null) {
             // Desert
             this.towerType = 2;
-        } else if (coldEnoughToSnow
-                && biome.hasPrecipitation()
-                && biome.getGenerationSettings().hasFeature(freezeTopLayer)
-        ) {
+        } else if (snowyBiomeNearby != null) {
             // Snowy
             this.towerType = 3;
         } else {
             // Default || Ruined
-            towerType = context.random().nextInt(50) > 7 ? 0 : 4;
+            towerType = randomSource.nextInt(50) > 7 ? 0 : 4;
         }
 
-        return context.validBiome().test(biomeHolder);
+        return context.validBiome().test(biomeHolder) && waterBiomeNearby == null;
     }
 
     @Override
