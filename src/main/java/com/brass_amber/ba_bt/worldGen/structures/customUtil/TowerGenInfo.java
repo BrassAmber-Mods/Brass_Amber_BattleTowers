@@ -45,11 +45,11 @@ public enum TowerGenInfo implements StringRepresentable {
             List.of(
                     new String[]{}, new String[]{}, new String[]{}
             ),
-            Collections.emptyList(),
+            List.of(NORMAL_CORE, NORMAL_STAIRS_CORE, NORMAL_FLOOR_CORE),
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{},
-            new float[]{},
-            Collections.emptyList()
+            new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen", "library"},
+            new float[]{.05f, .15f, .15f, .3f, .2f},
+            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(CARPET_PLACER))
     ),
     NETHER("nether_tower", new String[]{"normal", "crimson", "blue", "anomaly"},
             List.of(
@@ -168,7 +168,6 @@ public enum TowerGenInfo implements StringRepresentable {
     public static int getFloorHeight(TowerGenInfo towerGenInfo) {
         return switch (towerGenInfo) {
             case OCEAN -> -12;
-            case CORE -> 9;
             case NETHER -> 10;
             case SKY -> 12;
             default -> 11;

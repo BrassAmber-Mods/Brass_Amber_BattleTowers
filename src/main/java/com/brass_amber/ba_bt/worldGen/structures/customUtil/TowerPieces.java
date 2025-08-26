@@ -125,7 +125,7 @@ public class TowerPieces {
         List<StructureProcessor> endFloorProcessors;
 
         endFloorProcessors =  switch (towerGenInfo) {
-            case LAND -> List.of(CARPET_PLACER);
+            case LAND, CORE -> List.of(CARPET_PLACER);
             case OCEAN -> List.of(NORMAL_FLOOR_OCEAN);
             default -> List.of();
         };
