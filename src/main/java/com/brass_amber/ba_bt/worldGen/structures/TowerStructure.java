@@ -26,17 +26,11 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
-import net.minecraft.world.level.levelgen.RandomState;
-import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
-import net.minecraftforge.registries.ObjectHolder;
 import org.jetbrains.annotations.NotNull;
 
 import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
@@ -44,8 +38,6 @@ import static com.brass_amber.ba_bt.util.BTStatics.minimumSeperations;
 import static com.brass_amber.ba_bt.util.BTUtil.chunkDistanceTo;
 
 public abstract class TowerStructure extends Structure {
-    @ObjectHolder(registryName = "minecraft:configured_feature", value = "minecraft:freeze_top_layer")
-    public static final PlacedFeature freezeTopLayer = null;
 
     protected final TowerStructure.BTStructureSettings extraSettings;
     protected String towerName;
@@ -53,9 +45,6 @@ public abstract class TowerStructure extends Structure {
     protected int towerType = 0;
     protected int towerId = -1; // Tower number (Land = 0, Ocean = 1, etc. )
     protected String[] towerTypeConversion;
-
-    protected final Boolean buryTower = false;
-    protected final Boolean randomBuryDepth = false;
 
     protected TowerStructure(StructureSettings structureSettings, BTStructureSettings extraSettings) {
         super(structureSettings);
@@ -68,10 +57,6 @@ public abstract class TowerStructure extends Structure {
 
     @Override
     public @NotNull StructureStart generate(RegistryAccess registryAccess, ChunkGenerator chunkGenerator, BiomeSource biomeSource, RandomState randomState, StructureTemplateManager templateManager, long seed, ChunkPos chunkPos, int i, LevelHeightAccessor heightAccessor, Predicate<Holder<Biome>> biomePredicate) {
-
-        if (chunkGenerator instanceof FlatLevelSource) {
-            return StructureStart.INVALID_START;
-        }
 
         Structure.GenerationContext structure$generationcontext = new Structure.GenerationContext(registryAccess, chunkGenerator, biomeSource, randomState, templateManager, seed, chunkPos, heightAccessor, biomePredicate);
         Optional<Structure.GenerationStub> optional = this.findGenerationPoint(structure$generationcontext);
@@ -86,31 +71,17 @@ public abstract class TowerStructure extends Structure {
         return StructureStart.INVALID_START;
     }
 
-    @Override
-    // Override findValidGeneration point as well as findValidGenerationPoint is called during locate command.
-    // Override of generate above removes this being called anywhere except when locating the tower after chunkGen
-    public @NotNull Optional<GenerationStub> findValidGenerationPoint(GenerationContext generationContext) {
-        boolean canSpawn = false;
-        ChunkPos checkPos = generationContext.chunkPos();
-        for (Pair<ChunkPos, Rotation> towerPosRotation : SaveTowers.towers.get(this.towerId)) {
-            ChunkPos towerPos = towerPosRotation.getFirst();
-            if (towerPos.x == checkPos.x && towerPos.z == checkPos.z) {
-                canSpawn = true;
-                break;
-            }
-        }
-
-        if (canSpawn) {
-            return Optional.of(new Structure.GenerationStub(checkPos.getWorldPosition(), (structurePiecesBuilder) -> new StructurePiecesBuilder()));
-        }
-        return Optional.empty();
+    public Optional<Structure.GenerationStub> findValidGenerationPoint(Structure.GenerationContext generationContext) {
+        BABattleTowers.LOGGER.debug("Attempting to LOCATE {} Spawn at {}", this.towerName, generationContext.chunkPos());
+        return this.findGenerationPoint(generationContext);
     }
 
-    @Override
     protected @NotNull Optional<Structure.GenerationStub> findGenerationPoint(GenerationContext generationContext) {
-
         ChunkPos chunkPos = generationContext.chunkPos();
-        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+        ChunkGenerator chunkGen = generationContext.chunkGenerator();
+        WorldgenRandom worldgenRandom = generationContext.random();
+        worldgenRandom.setSeed(generationContext.seed());
+        RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
 
         // Ensure tower chunk is outside initial player requested spawn range
         if (chunkDistanceTo(ChunkPos.ZERO, chunkPos) < BattleTowersConfig.firstTowerDistance) {
@@ -132,14 +103,25 @@ public abstract class TowerStructure extends Structure {
             return Optional.empty();
         }
 
+        Pair<BlockPos, Holder<Structure>> pair = chunkGen.findNearestMapStructure(
+                SaveTowers.server.overworld(), this.extraSettings.avoidStructures(),
+                chunkPos.getMiddleBlockPosition(0), this.extraSettings.minDistanceFromAvoidStructures(), false
+        );
+        if (pair != null) {
+            BABattleTowers.LOGGER.debug("Has {} Feature in range", pair.getSecond().get());
+            return Optional.empty();
+        }
 
-        Pair<Boolean, BlockPos> canSpawn = isSpawnableChunk(generationContext);
-        Rotation rotation = Rotation.getRandom(generationContext.random());
+        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+
+        Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
+        Rotation rotation = Rotation.getRandom(randomSource);
 
         if (canSpawn.getFirst()) {
-            saveTower(canSpawn.getSecond(), rotation);
-            return Optional.of(new Structure.GenerationStub(canSpawn.getSecond(), (piecesBuilder) -> {
-                this.generatePieces(piecesBuilder, generationContext, canSpawn.getSecond(), rotation);
+            BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
+            saveTower(spawnPos, rotation);
+            return Optional.of(new Structure.GenerationStub(spawnPos, (piecesBuilder) -> {
+                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
             }));
         }
 
@@ -158,7 +140,7 @@ public abstract class TowerStructure extends Structure {
         list.forEach(piecesBuilder::addPiece);
     }
 
-    protected abstract Pair<Boolean, BlockPos> isSpawnableChunk(GenerationContext generationContext);
+    protected abstract Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext);
 
     public record BTStructureSettings(HolderSet<Structure> avoidStructures, int minDistanceFromAvoidStructures) {
         public static final MapCodec<TowerStructure.BTStructureSettings> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
@@ -184,8 +166,6 @@ public abstract class TowerStructure extends Structure {
 
         BlockPos chunckCenter = chunkPos.getMiddleBlockPosition(bbYStart);
 
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(worldGenLevel.getSeed()));
-        NormalNoise normalnoise = NormalNoise.create(worldgenrandom, -4, 1.0D);
         // BrassAmberBattleTowers.LOGGER.debug("Post Processing: In chunk: " + chunkPos + " " + chunckCenter);
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
