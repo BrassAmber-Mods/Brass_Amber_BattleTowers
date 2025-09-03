@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:pillager_outposts",
+    "minecraft:woodland_mansions",
+    "minecraft:jungle_temples",
+    "minecraft:desert_pyramids",
+    "minecraft:igloos",
+    "minecraft:swamp_huts",
+    "minecraft:villages",
+    "minecraft:ruined_portals",
+    "minecraft:trail_ruins"
+  ]
+}
