@@ -18,22 +18,22 @@ public class TowerProcessors {
 
     static final StructureProcessor BASE_PROTECTED;
 
-    static final StructureProcessor NORMAL_LAND;
-    static final StructureProcessor NORMAL_FLOOR_LAND;
-    static final StructureProcessor NORMAL_STAIRS_LAND;
+    static final StructureProcessor LAND_WALL;
+    static final StructureProcessor LAND_NORMAL_FLOOR;
+    static final StructureProcessor LAND_NORMAL_STAIRS;
+    static final StructureProcessor LAND_CARPET_PLACER;
 
-    static final StructureProcessor CARPET_PLACER;
-
-    static final StructureProcessor NORMAL_OCEAN;
-    static final StructureProcessor NORMAL_FLOOR_OCEAN;
+    static final StructureProcessor OCEAN_NORMAL;
+    static final StructureProcessor OCEAN_NORMAL_FLOOR;
     static final StructureProcessor NORMAL_STAIRS_OCEAN;
 
     static final StructureProcessor BONE_REMOVE;
     static final StructureProcessor WATERLOGGED;
 
-    static final StructureProcessor NORMAL_CORE;
-    static final StructureProcessor NORMAL_FLOOR_CORE;
-    static final StructureProcessor NORMAL_STAIRS_CORE;
+    static final StructureProcessor CORE_WALL;
+    static final StructureProcessor CORE_FLOOR;
+    static final StructureProcessor CORE_STAIRS;
+    static final StructureProcessor CORE_ROOF;
 
     static {
 
@@ -41,7 +41,7 @@ public class TowerProcessors {
 
         BASE_PROTECTED = new ProtectedBlockProcessor(BASE_PROTECTED_TAG);
 
-        NORMAL_LAND = new RuleProcessor(ImmutableList.of(
+        LAND_WALL = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.33F),
                         AlwaysTrueTest.INSTANCE,
@@ -58,18 +58,34 @@ public class TowerProcessors {
                         Blocks.CHISELED_STONE_BRICKS.defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICK_STAIRS, 0.22F),
+                        new RandomBlockMatchTest(Blocks.COBBLESTONE_STAIRS, 0.22F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.MOSSY_STONE_BRICK_STAIRS.defaultBlockState()
+                        Blocks.MOSSY_COBBLESTONE_STAIRS.defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICK_SLAB, 0.11F),
+                        new RandomBlockMatchTest(Blocks.PRISMARINE_SLAB, 0.65F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.MOSSY_STONE_BRICK_SLAB.defaultBlockState()
+                        Blocks.MOSSY_COBBLESTONE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
+                ),
+                new ProcessorRule(
+                        new BlockMatchTest(Blocks.PRISMARINE_SLAB),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.COBBLESTONE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.PRISMARINE_BRICK_SLAB, 0.65F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.MOSSY_COBBLESTONE_SLAB.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new BlockMatchTest(Blocks.PRISMARINE_BRICK_SLAB),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.COBBLESTONE_SLAB.defaultBlockState()
                 )
 
         ));
-        NORMAL_STAIRS_LAND = new RuleProcessor(ImmutableList.of(
+
+        LAND_NORMAL_STAIRS = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_SLAB, 0.4F),
                         AlwaysTrueTest.INSTANCE,
@@ -111,16 +127,6 @@ public class TowerProcessors {
                         Blocks.MOSSY_STONE_BRICK_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
                 ),
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PRISMARINE_SLAB, 0.65F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.MOSSY_COBBLESTONE_SLAB.defaultBlockState()
-                        ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.PRISMARINE_SLAB),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.COBBLESTONE_SLAB.defaultBlockState()
-                ),
-                new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_BLOCK, 0.3F),
                         AlwaysTrueTest.INSTANCE,
                         Blocks.COBBLESTONE.defaultBlockState()
@@ -152,7 +158,7 @@ public class TowerProcessors {
                 )
         ));
 
-        NORMAL_FLOOR_LAND = new RuleProcessor(ImmutableList.of(
+        LAND_NORMAL_FLOOR = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICKS, 0.33F),
                         AlwaysTrueTest.INSTANCE,
@@ -181,7 +187,7 @@ public class TowerProcessors {
         ));
 
 
-        CARPET_PLACER = new RuleProcessor(ImmutableList.of(
+        LAND_CARPET_PLACER = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new BlockMatchTest(Blocks.RED_WOOL),
                         AlwaysTrueTest.INSTANCE,
@@ -196,7 +202,7 @@ public class TowerProcessors {
         ));
 
 
-        NORMAL_OCEAN = new RuleProcessor(ImmutableList.of(
+        OCEAN_NORMAL = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.DARK_PRISMARINE, 0.29F),
                         AlwaysTrueTest.INSTANCE,
@@ -253,7 +259,7 @@ public class TowerProcessors {
                 )
         ));
 
-        NORMAL_FLOOR_OCEAN = new RuleProcessor(ImmutableList.of(
+        OCEAN_NORMAL_FLOOR = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_BLOCK, 0.2F),
                         AlwaysTrueTest.INSTANCE,
@@ -292,86 +298,65 @@ public class TowerProcessors {
 
         WATERLOGGED = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.IRON_BARS, 0.2F),
+                        new BlockMatchTest(Blocks.IRON_BARS),
                         AlwaysTrueTest.INSTANCE,
                         Blocks.IRON_BARS.defaultBlockState().setValue(CrossCollisionBlock.WATERLOGGED, true)
                 )
         ));
 
-        NORMAL_CORE = new RuleProcessor(ImmutableList.of(
+        CORE_WALL = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.33F),
+                        new RandomBlockMatchTest(Blocks.DEEPSLATE_BRICKS, 0.33F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.DEEPSLATE_BRICKS.defaultBlockState()
+                        Blocks.POLISHED_DEEPSLATE.defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.22F),
+                        new RandomBlockMatchTest(Blocks.DEEPSLATE_BRICKS, 0.22F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.BLACKSTONE.defaultBlockState()
+                        Blocks.CHISELED_DEEPSLATE.defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.08F),
+                        new RandomBlockMatchTest(Blocks.DEEPSLATE_BRICKS, 0.08F),
                         AlwaysTrueTest.INSTANCE,
                         BTBlocks.ACTIVE_CORRITE_BLOCK.get().defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new BlockMatchTest(Blocks.STONE_BRICKS),
+                        new BlockMatchTest(Blocks.RED_STAINED_GLASS),
                         AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICK_STAIRS, 0.22F),
-                        AlwaysTrueTest.INSTANCE,
-                        BTBlocks.ACTIVE_CORRITE_STAIR.get().defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.STONE_BRICK_STAIRS),
-                        AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_STAIR.get().defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.STONE_BRICK_SLAB, 0.11F),
-                        AlwaysTrueTest.INSTANCE,
-                        BTBlocks.ACTIVE_CORRITE_SLAB.get().defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.STONE_BRICK_SLAB),
-                        AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_SLAB.get().defaultBlockState()
+                        Blocks.LAVA.defaultBlockState()
                 )
-
         ));
 
-        NORMAL_STAIRS_CORE = new RuleProcessor(ImmutableList.of(
+        CORE_STAIRS = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_SLAB, 0.4F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState()
+                        BTBlocks.CORRITE_SLAB.get().defaultBlockState()
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_SLAB, 0.6F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.BLACKSTONE_SLAB.defaultBlockState()
+                        Blocks.POLISHED_DEEPSLATE_SLAB.defaultBlockState()
                 ),
                 new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PURPUR_SLAB, 0.6F),
+                        new RandomBlockMatchTest(Blocks.PURPUR_SLAB, 0.08F),
                         AlwaysTrueTest.INSTANCE,
                         BTBlocks.ACTIVE_CORRITE_SLAB.get().defaultBlockState()
                 ),
                 new ProcessorRule(
                         new BlockMatchTest(Blocks.PURPUR_SLAB),
                         AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_SLAB.get().defaultBlockState()
+                        Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState()
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICK_SLAB, 0.4F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
+                        BTBlocks.CORRITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICK_SLAB, 0.6F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.BLACKSTONE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
+                        Blocks.POLISHED_DEEPSLATE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICK_SLAB, 0.6F),
@@ -381,27 +366,12 @@ public class TowerProcessors {
                 new ProcessorRule(
                         new BlockMatchTest(Blocks.END_STONE_BRICK_SLAB),
                         AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PRISMARINE_SLAB, 0.65F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.PRISMARINE_SLAB),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.BLACKSTONE_SLAB.defaultBlockState()
+                        Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_BLOCK, 0.3F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.DEEPSLATE_BRICKS.defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new RandomBlockMatchTest(Blocks.PURPUR_BLOCK, 0.3F),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.BLACKSTONE.defaultBlockState()
+                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState()
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.PURPUR_BLOCK, 0.5F),
@@ -419,13 +389,18 @@ public class TowerProcessors {
                         Blocks.LAVA.defaultBlockState()
                 ),
                 new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.PURPUR_BLOCK, 0.2F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.CRYING_OBSIDIAN.defaultBlockState()
+                ),
+                new ProcessorRule(
                         new BlockMatchTest(Blocks.PURPUR_BLOCK),
                         AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState()
+                        Blocks.DEEPSLATE_BRICKS.defaultBlockState()
                 )
         ));
 
-        NORMAL_FLOOR_CORE = new RuleProcessor(ImmutableList.of(
+        CORE_FLOOR = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICKS, 0.33F),
                         AlwaysTrueTest.INSTANCE,
@@ -434,7 +409,7 @@ public class TowerProcessors {
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICKS, 0.22F),
                         AlwaysTrueTest.INSTANCE,
-                        Blocks.DEEPSLATE_BRICKS.defaultBlockState()
+                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState()
                 ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.END_STONE_BRICKS, 0.08F),
@@ -449,7 +424,25 @@ public class TowerProcessors {
                 new ProcessorRule(
                         new BlockMatchTest(Blocks.END_STONE_BRICKS),
                         AlwaysTrueTest.INSTANCE,
-                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState()
+                        Blocks.DEEPSLATE_BRICKS.defaultBlockState()
+                )
+        ));
+
+        CORE_ROOF = new RuleProcessor(ImmutableList.of(
+                new ProcessorRule(
+                        new BlockMatchTest(Blocks.RED_STAINED_GLASS),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.LAVA.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.OBSIDIAN, 0.2F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.CRYING_OBSIDIAN.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new BlockMatchTest(Blocks.PRISMARINE_SLAB),
+                        AlwaysTrueTest.INSTANCE,
+                        BTBlocks.CORRITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)
                 )
         ));
     }
