@@ -20,7 +20,7 @@ import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 public class BTStatics {
     public static final List<List<Integer>> towerSpawnerAmounts;
     public static final List<List<Integer>> towerChestUnlocking;
-    public static final List<List<BlockState>> towerBlocks;
+    public static final List<List<Block>> towerBlocks;
     public static final List<BlockState> towerBaseBlocks;
     public static final List<Block> icyOceanBlocks;
     public static List<List<EntityType<?>>> towerMobs;
@@ -38,37 +38,37 @@ public class BTStatics {
         towerBlocks = List.of(
                 // Land
                 List.of(
-                        Blocks.COBBLESTONE.defaultBlockState(), Blocks.COBBLESTONE_SLAB.defaultBlockState(), Blocks.COBBLESTONE_STAIRS.defaultBlockState(), Blocks.CRACKED_STONE_BRICKS.defaultBlockState(),
-                        Blocks.STONE_BRICK_SLAB.defaultBlockState(), Blocks.STONE_BRICKS.defaultBlockState(), Blocks.STONE_BRICK_STAIRS.defaultBlockState(),
-                        Blocks.CHISELED_STONE_BRICKS.defaultBlockState(), Blocks.GRAVEL.defaultBlockState(), Blocks.SAND.defaultBlockState(),
-                        Blocks.MOSSY_STONE_BRICK_SLAB.defaultBlockState(), Blocks.MOSSY_STONE_BRICKS.defaultBlockState(), Blocks.MOSSY_STONE_BRICK_STAIRS.defaultBlockState(),
-                        Blocks.SANDSTONE.defaultBlockState(), Blocks.SANDSTONE_SLAB.defaultBlockState(), Blocks.SANDSTONE_STAIRS.defaultBlockState(),
-                        Blocks.CHISELED_SANDSTONE.defaultBlockState(), Blocks.CUT_SANDSTONE.defaultBlockState(), Blocks.CUT_SANDSTONE_SLAB.defaultBlockState(),
-                        BTBlocks.LAND_SPAWNER.get().defaultBlockState(), BTBlocks.LAND_CHEST.get().defaultBlockState(), BTBlocks.LAND_GOLEM_CHEST.get().defaultBlockState(),
-                        BTBlocks.SPAWNER_MARKER.get().defaultBlockState()
+                        Blocks.COBBLESTONE, Blocks.COBBLESTONE_SLAB, Blocks.COBBLESTONE_STAIRS, Blocks.CRACKED_STONE_BRICKS,
+                        Blocks.STONE_BRICK_SLAB, Blocks.STONE_BRICKS, Blocks.STONE_BRICK_STAIRS,
+                        Blocks.CHISELED_STONE_BRICKS, Blocks.GRAVEL, Blocks.SAND,
+                        Blocks.MOSSY_STONE_BRICK_SLAB, Blocks.MOSSY_STONE_BRICKS, Blocks.MOSSY_STONE_BRICK_STAIRS,
+                        Blocks.SANDSTONE, Blocks.SANDSTONE_SLAB, Blocks.SANDSTONE_STAIRS,
+                        Blocks.CHISELED_SANDSTONE, Blocks.CUT_SANDSTONE, Blocks.CUT_SANDSTONE_SLAB,
+                        BTBlocks.LAND_SPAWNER.get(), BTBlocks.LAND_CHEST.get(), BTBlocks.LAND_GOLEM_CHEST.get(),
+                        BTBlocks.SPAWNER_MARKER.get()
                 ),
                 // Ocean
                 List.of(
-                        Blocks.PRISMARINE.defaultBlockState(), Blocks.PRISMARINE_SLAB.defaultBlockState(), Blocks.PRISMARINE_STAIRS.defaultBlockState(), Blocks.PACKED_ICE.defaultBlockState(),
-                        Blocks.PRISMARINE_BRICKS.defaultBlockState(), Blocks.PRISMARINE_BRICK_SLAB.defaultBlockState(), Blocks.PRISMARINE_BRICK_STAIRS.defaultBlockState(), Blocks.KELP_PLANT.defaultBlockState(),
-                        Blocks.SEA_LANTERN.defaultBlockState(), Blocks.DARK_PRISMARINE.defaultBlockState(), Blocks.DARK_PRISMARINE_STAIRS.defaultBlockState(), Blocks.ICE.defaultBlockState(),
-                        Blocks.DARK_PRISMARINE_SLAB.defaultBlockState(), Blocks.SEA_LANTERN.defaultBlockState(), Blocks.MAGMA_BLOCK.defaultBlockState(), Blocks.SOUL_SAND.defaultBlockState(),
-                        Blocks.SEAGRASS.defaultBlockState(), Blocks.TALL_SEAGRASS.defaultBlockState(), Blocks.KELP_PLANT.defaultBlockState(), Blocks.BRAIN_CORAL.defaultBlockState(),
-                        Blocks.BUBBLE_CORAL.defaultBlockState(), Blocks.FIRE_CORAL.defaultBlockState(), Blocks.TUBE_CORAL.defaultBlockState(), Blocks.HORN_CORAL.defaultBlockState(),
-                        Blocks.BRAIN_CORAL_BLOCK.defaultBlockState(), Blocks.BUBBLE_CORAL_BLOCK.defaultBlockState(), Blocks.FIRE_CORAL_BLOCK.defaultBlockState(), Blocks.WARPED_HYPHAE.defaultBlockState(),
-                        Blocks.TUBE_CORAL_BLOCK.defaultBlockState(), Blocks.HORN_CORAL_BLOCK.defaultBlockState(), Blocks.IRON_BARS.defaultBlockState(), Blocks.BONE_BLOCK.defaultBlockState(),
-                        Blocks.COPPER_BLOCK.defaultBlockState(), Blocks.EXPOSED_COPPER.defaultBlockState(), Blocks.OXIDIZED_COPPER.defaultBlockState(), Blocks.WARPED_STEM.defaultBlockState(),
-                        BTBlocks.OCEAN_SPAWNER.get().defaultBlockState(), BTBlocks.OCEAN_CHEST.get().defaultBlockState(), BTBlocks.OCEAN_GOLEM_CHEST.get().defaultBlockState(),
-                        BTBlocks.SPAWNER_MARKER.get().defaultBlockState(), Blocks.LAPIS_BLOCK.defaultBlockState(), Blocks.PRISMARINE_SLAB.defaultBlockState()
+                        Blocks.PRISMARINE, Blocks.PRISMARINE_SLAB, Blocks.PRISMARINE_STAIRS, Blocks.PACKED_ICE,
+                        Blocks.PRISMARINE_BRICKS, Blocks.PRISMARINE_BRICK_SLAB, Blocks.PRISMARINE_BRICK_STAIRS, Blocks.KELP_PLANT,
+                        Blocks.SEA_LANTERN, Blocks.DARK_PRISMARINE, Blocks.DARK_PRISMARINE_STAIRS, Blocks.ICE,
+                        Blocks.DARK_PRISMARINE_SLAB, Blocks.SEA_LANTERN, Blocks.MAGMA_BLOCK, Blocks.SOUL_SAND,
+                        Blocks.SEAGRASS, Blocks.TALL_SEAGRASS, Blocks.KELP_PLANT, Blocks.BRAIN_CORAL,
+                        Blocks.BUBBLE_CORAL, Blocks.FIRE_CORAL, Blocks.TUBE_CORAL, Blocks.HORN_CORAL,
+                        Blocks.BRAIN_CORAL_BLOCK, Blocks.BUBBLE_CORAL_BLOCK, Blocks.FIRE_CORAL_BLOCK, Blocks.WARPED_HYPHAE,
+                        Blocks.TUBE_CORAL_BLOCK, Blocks.HORN_CORAL_BLOCK, Blocks.IRON_BARS, Blocks.BONE_BLOCK,
+                        Blocks.COPPER_BLOCK, Blocks.EXPOSED_COPPER, Blocks.OXIDIZED_COPPER, Blocks.WARPED_STEM,
+                        BTBlocks.OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get(),
+                        BTBlocks.SPAWNER_MARKER.get(), Blocks.LAPIS_BLOCK, Blocks.PRISMARINE_SLAB
                 ),
                 List.of(
-                        Blocks.DEEPSLATE_BRICKS.defaultBlockState(), Blocks.DEEPSLATE_BRICK_SLAB.defaultBlockState(), Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState(), Blocks.DEEPSLATE_TILES.defaultBlockState(),
-                        Blocks.BLACKSTONE.defaultBlockState(), Blocks.BLACKSTONE_SLAB.defaultBlockState(),  Blocks.BLACKSTONE_STAIRS.defaultBlockState(), Blocks.IRON_BARS.defaultBlockState(),
-                        BTBlocks.CORRITE_BLOCK.get().defaultBlockState(), BTBlocks.CORRITE_SLAB.get().defaultBlockState(), BTBlocks.CORRITE_STAIR.get().defaultBlockState(),
-                        BTBlocks.ACTIVE_CORRITE_BLOCK.get().defaultBlockState(), BTBlocks.ACTIVE_CORRITE_SLAB.get().defaultBlockState(), BTBlocks.ACTIVE_CORRITE_STAIR.get().defaultBlockState(),
-                        Blocks.CHISELED_STONE_BRICKS.defaultBlockState(), Blocks.GRAVEL.defaultBlockState(), Blocks.SAND.defaultBlockState(),
-                        BTBlocks.CORE_SPAWNER.get().defaultBlockState(), BTBlocks.CORE_CHEST.get().defaultBlockState(), BTBlocks.CORE_GOLEM_CHEST.get().defaultBlockState(),
-                        BTBlocks.SPAWNER_MARKER.get().defaultBlockState()
+                        Blocks.DEEPSLATE_BRICKS, Blocks.DEEPSLATE_BRICK_SLAB, Blocks.DEEPSLATE_BRICK_STAIRS, Blocks.DEEPSLATE_BRICK_WALL, Blocks.DEEPSLATE_TILES, Blocks.DEEPSLATE_TILE_WALL,
+                        Blocks.CHISELED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE,  Blocks.BLACKSTONE_STAIRS, Blocks.DIAMOND_BLOCK, Blocks.CHISELED_NETHER_BRICKS,
+                        Blocks.OBSIDIAN, Blocks.CRYING_OBSIDIAN, Blocks.RED_STAINED_GLASS, Blocks.REINFORCED_DEEPSLATE, Blocks.LAVA, Blocks.SAND,
+                        BTBlocks.CORRITE_BLOCK.get(), BTBlocks.CORRITE_SLAB.get(), BTBlocks.CORRITE_STAIR.get(), BTBlocks.CORRITE_WALL.get(),
+                        BTBlocks.ACTIVE_CORRITE_BLOCK.get(), BTBlocks.ACTIVE_CORRITE_SLAB.get(), BTBlocks.ACTIVE_CORRITE_STAIR.get(),
+                        BTBlocks.CORE_SPAWNER.get(), BTBlocks.CORE_CHEST.get(), BTBlocks.CORE_GOLEM_CHEST.get(),
+                        BTBlocks.SPAWNER_MARKER.get()
                 )
         );
 

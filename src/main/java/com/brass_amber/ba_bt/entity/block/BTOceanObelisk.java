@@ -35,7 +35,7 @@ import static java.lang.Math.abs;
 
 public class BTOceanObelisk extends BTAbstractObelisk {
 
-    private final List<BlockState> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
+    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
     private final List<BlockState> corals = List.of(Blocks.BRAIN_CORAL.defaultBlockState(),
             Blocks.BUBBLE_CORAL.defaultBlockState(), Blocks.FIRE_CORAL.defaultBlockState(),
             Blocks.HORN_CORAL.defaultBlockState(), Blocks.TUBE_CORAL.defaultBlockState());
@@ -223,11 +223,11 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                                             } else {
                                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.GRAVEL.defaultBlockState(), 2);
                                             }
-                                        } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block.defaultBlockState())) {
+                                        } else if (distance2d < this.wallDistance && !this.avoidBlocks.contains(block)) {
                                             this.level().setBlock(blockpos$mutableblockpos, Blocks.DIRT.defaultBlockState(), 2);
                                         }
                                     }
-                                } else if (!this.avoidBlocks.contains(block.defaultBlockState())) {
+                                } else if (!this.avoidBlocks.contains(block)) {
                                     this.toRemove.add(blockpos$mutableblockpos.immutable());
                                 }
                             }
