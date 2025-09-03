@@ -1,14 +1,16 @@
 {
   "placement": {
-    "type": "minecraft:random_spread",
+    "type": "ba_bt:avoid_structures_structure_placement",
     "salt": 123111514,
     "separation": 5,
     "spacing": 9,
     "locate_offset": [
       8,
-      0,
+      -60,
       8
-    ]
+    ],
+    "avoid_structure_sets": "#ba_bt:core_tower_avoid_structures",
+    "min_distance_from_avoid_structures": 8
   },
   "structures": [
     {
