@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,7 @@ import static java.lang.Math.abs;
 
 public class BTCoreObelisk extends BTAbstractObelisk {
 
-    private final List<BlockState> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.CORE));
+    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.CORE));
 
     private int noise;
     private int westWall;
@@ -73,24 +74,21 @@ public class BTCoreObelisk extends BTAbstractObelisk {
         this.towerChestLootTypes = new ArrayList<>(List.of("armor", "weapon", "ore", "consumable"));
         this.golemLoot = new ItemStack[]{BTBlocks.CORRITE_BLOCK.get().asItem().getDefaultInstance(), Items.MAGMA_CREAM.getDefaultInstance(), Items.NETHERITE_INGOT.getDefaultInstance()};
 
-        this.noise = 75;
-        if (minimalCoreCarving) {
-            this.noise -= 30;
-        }
+        this.noise = 55;
 
-        this.top = this.getBlockY() + noise*2;
-        this.bottom = this.getBlockY() - 2;
-        this.towerTop = this.bottom + 92;
+        this.top = this.getBlockY() + noise * 2;
+        this.bottom = this.getBlockY() - 3;
+        this.towerTop = this.getBlockY() + 97;
 
-        this.currentFloorY = this.getBlockY() - 2;
-        this.currentCarveLayer = this.bottom;
+        this.currentFloorY = this.top;
+        this.currentCarveLayer = this.top;
         this.wallDistance = this.noise -.5;
 
 
-        this.westWall = this.getBlockX() - this.noise;
-        this.northWall = this.getBlockZ() - this.noise;
-        this.eastWall = this.getBlockX() + this.noise;
-        this.southWall = this.getBlockZ() + this.noise;
+        this.westWall = this.getBlockX() - this.noise + (minimalCoreCarving ? 5 : 0);
+        this.northWall = this.getBlockZ() - this.noise + (minimalCoreCarving ? 5 : 0);
+        this.eastWall = this.getBlockX() + this.noise - (minimalCoreCarving ? 5 : 0);
+        this.southWall = this.getBlockZ() + this.noise - (minimalCoreCarving ? 5 : 0);
 
         super.serverInitialize();
 
@@ -116,35 +114,39 @@ public class BTCoreObelisk extends BTAbstractObelisk {
 
     public void gatherAreaBlocks() {
         // BrassAmberBattleTowers.LOGGER.debug(this.level().isClientSide());
-        int removeSize = this.toRemove.size();
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-        while (this.currentCarveLayer < this.top) {
+        while (this.currentCarveLayer > this.bottom) {
             BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
-            int topRange = this.currentCarveLayer + this.floorDistance;
-            if (this.top - this.currentCarveLayer <= abs(this.floorDistance) + 1) {
-                topRange = this.top;
+            int bottomRange = this.currentCarveLayer - this.floorDistance;
+            if (this.currentCarveLayer - this.bottom <= abs(this.floorDistance) + 1) {
+                bottomRange = this.bottom;
             }
             // BrassAmberBattleTowers.LOGGER.debug("Bottom Range: " + bottomRange);
-            for (int y = this.currentCarveLayer; y <= topRange; y++) {
+            for (int y = this.currentCarveLayer; y >= bottomRange; y--) {
 
                 for (int x = this.westWall; x <= this.eastWall; x++) {
                     for (int z = this.northWall; z <= this.southWall; z++) {
                         blockpos$mutableblockpos.set(x, y, z);
                         BlockState state = this.level().getBlockState(blockpos$mutableblockpos);
-                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise), blockpos$mutableblockpos);
+                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 5), blockpos$mutableblockpos);
                         double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
-                        if (distance3d < this.wallDistance && (distance2d > 12.5 || y > this.towerTop)) {
-                            if ((this.level().isWaterAt(blockpos$mutableblockpos) || !state.isAir()) && !avoidBlocks.contains(state)) {
+                        if (distance3d < this.wallDistance ) {
+                            if ((distance2d > 15.5 || y >= this.towerTop) && !state.isAir()) {
+                                this.toRemove.add(blockpos$mutableblockpos.immutable());
+                            } else if (distance2d > 12.5 && !avoidBlocks.contains(state.getBlock())) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
                             }
-                        } // else {
+                        } else if (distance3d < this.wallDistance + 1) {
+                            this.level().setBlock(blockpos$mutableblockpos, Blocks.OBSIDIAN.defaultBlockState(), 2);
+                        }
                         //     BABattleTowers.LOGGER.debug("Position Refused: {} {} {}", distance3d, distance2d, y > this.towerTop);
                         // }
                     }
+
                 }
             }
-            this.currentCarveLayer = topRange;
+            this.currentCarveLayer = bottomRange;
             // BrassAmberBattleTowers.LOGGER.debug("This Round of carving: " + this.currentCarveLayer);
         }
 
@@ -155,10 +157,10 @@ public class BTCoreObelisk extends BTAbstractObelisk {
     @Override
     public void removeAreaBlocks() {
         int removeSize = this.toRemove.size();
-        BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
+        // BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
         if (removeSize > 0) {
             for (int i = 0; i < Math.min(removeSize, 2048); i++) {
-                this.level().setBlock(this.toRemove.remove(0), Blocks.AIR.defaultBlockState(), 2);
+                this.level().setBlock(this.toRemove.remove(0), Blocks.AIR.defaultBlockState(), 3);
             }
         } else {
             this.generationState = GenerationState.ADD_FEATURES;
@@ -171,7 +173,11 @@ public class BTCoreObelisk extends BTAbstractObelisk {
         for (int y = this.top; y > this.bottom - 1; y--) {
             for (int x = this.westWall; x <= this.eastWall; x++) {
                 for (int z = this.northWall; z <= this.southWall; z++) {
-
+                    blockpos$mutableblockpos.set(x, y, z);
+                    blockAbove = blockpos$mutableblockpos.above();
+                    if (this.level().getBlockState(blockpos$mutableblockpos).is(Blocks.GRAVEL)) {
+                        this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
+                    }
                 }
             }
         }
