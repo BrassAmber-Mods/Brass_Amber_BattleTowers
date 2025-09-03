@@ -1,6 +1,5 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -11,36 +10,86 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
-public class CoreTower extends TowerStructure {
+public class CoreTower extends Structure implements TowerStructure{
 
     public static final Codec<CoreTower> CODEC = RecordCodecBuilder.<CoreTower>mapCodec(instance ->
             instance.group(
-                    TowerStructure.settingsCodec(instance),
-                    TowerStructure.extraSettingsCodec()
+                    Structure.settingsCodec(instance)
             ).apply(instance, CoreTower::new)).codec();
 
+    private int towerType = 0;
 
-    public CoreTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
-        super(structureSettings, extraSettings);
-
-        this.towerId = 2;
-        this.towerName = "core_tower";
-        this.towerTypeConversion = new String[]{"normal", "colossal", "ancient"};
+    @Override
+    public String getTowerName() {
+        return "core_tower";
     }
 
     @Override
-    protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
+    public int getTowerId() {
+        return 2; // Tower number (Land = 0, Ocean = 1, etc. )
+    }
+
+    @Override
+    public String[] getTowerTypeConversion() {
+        return new String[]{"normal", "colossal", "ancient"};
+    }
+
+    @Override
+    public int getTowerType() {
+        return this.towerType;
+    }
+
+    public CoreTower(StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        WorldgenRandom worldgenRandom = generationContext.random();
+        worldgenRandom.setSeed(generationContext.seed());
+        RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
+
+
+        if (hasNearbyTower(chunkPos)) {
+            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
+            return Optional.empty();
+        }
+
+        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+
+        Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
+        Rotation rotation = Rotation.getRandom(randomSource);
+
+        if (canSpawn.getFirst()) {
+            BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
+
+            saveTower(spawnPos, rotation);
+            return Optional.of(
+                    new GenerationStub(
+                            spawnPos, (piecesBuilder) -> this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation)
+                    )
+            );
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
         // BABattleTowers.LOGGER.debug("Can Spawn Core");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
-
 
         int middleHieght = chunkGen.getFirstOccupiedHeight(
                 chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
@@ -50,21 +99,20 @@ public class CoreTower extends TowerStructure {
                 QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
         );
 
-        if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
+        if (isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
             // BrassAmberBattleTowers.LOGGER.debug("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
-            return Pair.of(false, 0);
+            return Pair.of(true, middleHieght);
         }
 
-
-        return Pair.of(true, -60);
+        return Pair.of(false, 0);
     }
 
     @Override
-    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+    public boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
         // BABattleTowers.LOGGER.debug("Is Valid Core Tower Biome");
         HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BiomeTags.IS_OCEAN).orElseThrow();
         Predicate<Holder<Biome>> predicate = holderset::contains;
-        Pair<BlockPos, Holder<Biome>> oceanBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 128, predicate, context.random(), context.randomState().sampler());
+        Pair<BlockPos, Holder<Biome>> oceanBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), context.chunkGenerator().getSeaLevel(), blockpos.getZ(), 128, predicate, context.random(), context.randomState().sampler());
 
         WorldgenRandom worldgenRandom = context.random();
         worldgenRandom.setSeed(context.seed());

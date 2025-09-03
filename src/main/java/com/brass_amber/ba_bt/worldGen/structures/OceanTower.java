@@ -1,6 +1,5 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -8,33 +7,88 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class OceanTower extends TowerStructure {
+public class OceanTower extends Structure implements TowerStructure {
 
     public static final Codec<OceanTower> CODEC = RecordCodecBuilder.<OceanTower>mapCodec(instance ->
-            instance.group(TowerStructure.settingsCodec(instance), TowerStructure.extraSettingsCodec()).apply(instance, OceanTower::new)).codec();
+            instance.group(Structure.settingsCodec(instance)).apply(instance, OceanTower::new)).codec();
 
+    private int towerType = 0;
 
-    public OceanTower(StructureSettings structureSettings, BTStructureSettings extraSettings) {
-        super(structureSettings, extraSettings);
-
-        this.towerId = 1;
-        this.towerName = "ocean_tower";
-        this.towerTypeConversion = new String[]{"normal", "gilded", "island"};
-
+    @Override
+    public String getTowerName() {
+        return "ocean_tower";
     }
 
     @Override
-    protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
+    public int getTowerId() {
+        return 1; // Tower number (Land = 0, Ocean = 1, etc. )
+    }
+
+    @Override
+    public String[] getTowerTypeConversion() {
+        return new String[]{"normal", "gilded", "island"};
+    }
+
+    @Override
+    public int getTowerType() {
+        return this.towerType;
+    }
+
+    public OceanTower(StructureSettings structureSettings) {
+        super(structureSettings);
+    }
+
+    protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        ChunkGenerator chunkGen = generationContext.chunkGenerator();
+        WorldgenRandom worldgenRandom = generationContext.random();
+        worldgenRandom.setSeed(generationContext.seed());
+        RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
+
+
+        if (hasNearbyTower(chunkPos)) {
+            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
+            return Optional.empty();
+        }
+
+        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+
+        Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
+        Rotation rotation = Rotation.getRandom(randomSource);
+
+        if (canSpawn.getFirst()) {
+            BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
+
+            saveTower(spawnPos, rotation);
+            return Optional.of(
+                    new GenerationStub(
+                            spawnPos, (piecesBuilder) -> generatePieces(piecesBuilder, generationContext, spawnPos, rotation)
+                    )
+            );
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
         // BABattleTowers.LOGGER.debug("Can Spawn Ocean");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
@@ -78,28 +132,42 @@ public class OceanTower extends TowerStructure {
                     QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(pos.getMiddleBlockZ()), generationContext.randomState().sampler()
             );
 
-            if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(seaLevel), biome)) {
-                // BrassAmberBattleTowers.LOGGER.debug("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
+            if (!biome.is(BiomeTags.REQUIRED_OCEAN_MONUMENT_SURROUNDING)) {
                 return Pair.of(false, 0);
             }
         }
-        return Pair.of(true, seaLevel);
+
+        Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
+                QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
+        );
+
+        if (isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(seaLevel), biome)) {
+            // BrassAmberBattleTowers.LOGGER.debug("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
+            return Pair.of(true, seaLevel);
+        }
+
+        return Pair.of(false, 0);
     }
 
     @Override
-    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+    public boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
         // BABattleTowers.LOGGER.debug("Is Valid Ocean Tower Biome");
         WorldgenRandom worldgenRandom = context.random();
         worldgenRandom.setSeed(context.seed());
         RandomSource randomSource = worldgenRandom.forkPositional().at(blockpos);
 
-
         if (randomSource.nextFloat() < 25) {
             // Gilded or Island
-            towerType = randomSource.nextFloat() > .6 ? 2 : 1;
+            this.towerType = randomSource.nextFloat() > .6 ? 2 : 1;
         }
 
         return context.validBiome().test(biomeHolder);
+    }
+
+    @Override
+    public void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+        super.afterPlace(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, piecesContainer);
+        afterPlaceBT(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, piecesContainer);
     }
 
     @Override
