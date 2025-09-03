@@ -38,8 +38,12 @@ public class TowerPieces {
         //    oddFloorProcessors.add(BONE_REMOVE);
         //}
 
-        // offset tower to account for size of toer pieces (29/29)
+        // offset tower to account for size of tower pieces (29/29)
         blockPos = blockPos.offset(-14 , 0, -14);
+        blockPos = switch (towerGenInfo) {
+            case CORE -> blockPos.offset(-16, 0, -16).atY(-60);
+            default -> blockPos.offset(-14, 0, -14);
+        };
 
         // Add tower shell to list first so it is generated first
         towerPieces.add(new StartPiece(templateManager, "start", towerName, blockPos, rotation, ""));
@@ -47,16 +51,23 @@ public class TowerPieces {
         int doubledFloorHeight = floorHeight * 2;
 
         blockPos = switch (towerGenInfo) {
+            case CORE -> blockPos.offset(2, 1, 2);
             case OCEAN -> blockPos.offset(0, floorHeight, 0);
             default -> blockPos.offset(0, towerPieces.get(0).getHeight(), 0);
         };
 
         for (int i = 0; i < 4; i++) {
-
             towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, i*doubledFloorHeight, 0), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
             towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, floorHeight + i*doubledFloorHeight, 0), rotation, "", oddFloorProcessors, variantProcessors));
         }
-        towerPieces.add(new TowerPiece(templateManager, "end", towerName, blockPos.offset(0,floorHeight*8, 0), rotation, ""));
+
+        List<StructureProcessor> endShellProcessors;
+
+        endShellProcessors = switch (towerGenInfo) {
+            case CORE -> List.of(CORE_ROOF, CORE_FLOOR, CORE_WALL);
+            default -> List.of();
+        };
+        towerPieces.add(new ShellPiece(templateManager, "end", towerName, blockPos.offset(0,floorHeight*8, 0), rotation, "", endShellProcessors, List.of()));
 
         LOGGER.debug("{} placed shell", towerName);
         // Add shell variant changes (if variant)
@@ -73,7 +84,7 @@ public class TowerPieces {
         List<StructureProcessor> startFloorProcessors;
 
         startFloorProcessors =  switch (towerGenInfo) {
-            case LAND -> List.of(NORMAL_FLOOR_LAND);
+            case LAND -> List.of(LAND_NORMAL_FLOOR);
             case OCEAN -> List.of(WATERLOGGED);
             default -> List.of();
         };
@@ -125,8 +136,8 @@ public class TowerPieces {
         List<StructureProcessor> endFloorProcessors;
 
         endFloorProcessors =  switch (towerGenInfo) {
-            case LAND, CORE -> List.of(CARPET_PLACER);
-            case OCEAN -> List.of(NORMAL_FLOOR_OCEAN);
+            case LAND, CORE -> List.of(LAND_CARPET_PLACER);
+            case OCEAN -> List.of(OCEAN_NORMAL_FLOOR);
             default -> List.of();
         };
 
@@ -145,9 +156,9 @@ public class TowerPieces {
         }
 
         public TowerPiece(StructureTemplateManager templateManager, CompoundTag compoundTag) {
-            super(BTStructurePieces.TOWER_PIECE.get(), compoundTag, templateManager, (resourceLocation) -> {
-                return makeSettings(Rotation.valueOf(compoundTag.getString("Rotation")));
-            });
+            super(BTStructurePieces.TOWER_PIECE.get(), compoundTag, templateManager,
+                    (resourceLocation) -> makeSettings(Rotation.valueOf(compoundTag.getString("Rotation")))
+            );
             this.towerName = compoundTag.getString("TowerName");
             this.variant = compoundTag.getString("Variant");
 
@@ -216,8 +227,8 @@ public class TowerPieces {
             this.placeSettings.addProcessor(BASE_PROTECTED);
 
             switch (TowerGenInfo.getTypeForName(towerName)) {
-                case OCEAN -> this.placeSettings.addProcessor(NORMAL_OCEAN);
-                default -> this.placeSettings.addProcessor(NORMAL_LAND);
+                case OCEAN -> this.placeSettings.addProcessor(OCEAN_NORMAL);
+                default -> this.placeSettings.addProcessor(LAND_WALL);
             }
 
         }
