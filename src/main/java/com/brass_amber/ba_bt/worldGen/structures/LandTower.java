@@ -11,40 +11,88 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraftforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
-public class LandTower extends TowerStructure {
-
-    private final float waterBlocksThreshold;
+public class LandTower extends Structure implements TowerStructure {
 
     public static final Codec<LandTower> CODEC = RecordCodecBuilder.<LandTower>mapCodec(instance ->
             instance.group(
-                    TowerStructure.settingsCodec(instance),
-                    TowerStructure.extraSettingsCodec(),
+                    Structure.settingsCodec(instance),
                     Codec.floatRange(0, 1).fieldOf("water_prevent_spawn_threshold").forGetter(codec -> codec.waterBlocksThreshold)
             ).apply(instance, LandTower::new)).codec();
 
+    private final float waterBlocksThreshold;
+    private int towerType = 0;
 
-
-    public LandTower(StructureSettings structureSettings, BTStructureSettings extraSettings, float waterBlocksThreshold) {
-        super(structureSettings, extraSettings);
-
-        this.waterBlocksThreshold = waterBlocksThreshold;
-        this.towerId = 0;
-        this.towerName = "land_tower";
-        this.towerTypeConversion = new String[]{"normal", "overgrown", "sandy", "icy", "ruined"};
+    @Override
+    public String getTowerName() {
+        return "land_tower";
     }
 
     @Override
-    protected Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
+    public int getTowerId() {
+        return 0; // Tower number (Land = 0, Ocean = 1, etc. )
+    }
+
+    @Override
+    public String[] getTowerTypeConversion() {
+        return new String[]{"normal", "overgrown", "sandy", "icy", "ruined"};
+    }
+
+    @Override
+    public int getTowerType() {
+        return this.towerType;
+    }
+
+    public LandTower(StructureSettings structureSettings, float waterBlocksThreshold) {
+        super(structureSettings);
+        this.waterBlocksThreshold = waterBlocksThreshold;
+    }
+
+    protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
+        ChunkPos chunkPos = generationContext.chunkPos();
+        WorldgenRandom worldgenRandom = generationContext.random();
+        worldgenRandom.setSeed(generationContext.seed());
+        RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
+
+        if (hasNearbyTower(chunkPos)) {
+            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
+            return Optional.empty();
+        }
+
+        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+
+        Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
+        Rotation rotation = Rotation.getRandom(randomSource);
+
+        if (canSpawn.getFirst()) {
+            BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
+
+            saveTower(spawnPos, rotation);
+            return Optional.of(new GenerationStub(spawnPos, (piecesBuilder) -> {
+                                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
+            }));
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
         // BABattleTowers.LOGGER.debug("Can Spawn Land");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
@@ -75,19 +123,6 @@ public class LandTower extends TowerStructure {
 
         for (ChunkPos pos : testables) {
             // BABattleTowers.LOGGER.debug("Land tower testing at {}", pos);
-            int middleHieght = chunkGen.getFirstOccupiedHeight(
-                    pos.getMiddleBlockX(), pos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
-            );
-            Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
-                    QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(pos.getMiddleBlockZ()), generationContext.randomState().sampler()
-            );
-
-            // re-check biome for extra chunks skipping to next chunk if not valid
-            if (!isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
-                usablePositions.clear();
-                usableHeights.clear();
-                break;
-            }
 
             lowestY = 215;
             highestY = 0;
@@ -122,8 +157,18 @@ public class LandTower extends TowerStructure {
 
         }
 
+        int middleHieght = chunkGen.getFirstOccupiedHeight(
+                chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
+        );
+        Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
+                QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
+        );
+        BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome ? {} ", biome);
+
+        // re-check biome for extra chunks skipping to next chunk if not valid
+
         // Get a random usable position from the list, otherwise return false
-        if (!usablePositions.isEmpty() && usableHeights.get(0) < 215) {
+        if (!usablePositions.isEmpty() && usableHeights.get(0) < 215 && isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
             return Pair.of(true, usableHeights.get(0));
         }
 
@@ -136,29 +181,29 @@ public class LandTower extends TowerStructure {
     }
 
     @Override
-    protected boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+    public boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
         // BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome");
         WorldgenRandom worldgenRandom = context.random();
         worldgenRandom.setSeed(context.seed());
         RandomSource randomSource = worldgenRandom.forkPositional().at(blockpos);
 
         HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(Tags.Biomes.IS_WATER).orElseThrow();
+        // BABattleTowers.LOGGER.debug("Ocean Holderset = {}", holderset);
         Predicate<Holder<Biome>> predicate = holderset::contains;
-        Pair<BlockPos, Holder<Biome>> waterBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 64, predicate, context.random(), context.randomState().sampler());
+        Pair<BlockPos, Holder<Biome>> waterBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), context.chunkGenerator().getSeaLevel(), blockpos.getZ(), 64, predicate, context.random(), context.randomState().sampler());
+        // BABattleTowers.LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
 
         HolderSet<Biome> overgrownHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_OVERGROWN_BIOMES).orElseThrow();
         Predicate<Holder<Biome>> overgrownPredicate = overgrownHolderset::contains;
         Pair<BlockPos, Holder<Biome>> overgrownBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, overgrownPredicate, context.random(), context.randomState().sampler());
 
-
         HolderSet<Biome> sandyHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_SANDY_BIOMES).orElseThrow();
         Predicate<Holder<Biome>> sandyPredicate = sandyHolderset::contains;
         Pair<BlockPos, Holder<Biome>> sandyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, sandyPredicate, context.random(), context.randomState().sampler());
 
-
         HolderSet<Biome> snowyHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_SNOWY_BIOMES).orElseThrow();
         Predicate<Holder<Biome>> snowyPredicate = snowyHolderset::contains;
-        Pair<BlockPos, Holder<Biome>> snowyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, snowyPredicate, context.random(), context.randomState().sampler());
+        Pair<BlockPos, Holder<Biome>> snowyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 48, snowyPredicate, context.random(), context.randomState().sampler());
 
         if (overgrownBiomeNearby != null) {
             // Overgrown
@@ -175,6 +220,12 @@ public class LandTower extends TowerStructure {
         }
 
         return context.validBiome().test(biomeHolder) && waterBiomeNearby == null;
+    }
+
+    @Override
+    public void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
+        super.afterPlace(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, piecesContainer);
+        afterPlaceBT(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, piecesContainer);
     }
 
     @Override
