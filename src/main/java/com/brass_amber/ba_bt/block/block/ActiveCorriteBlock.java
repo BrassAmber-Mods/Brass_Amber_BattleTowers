@@ -38,6 +38,7 @@ public class ActiveCorriteBlock extends MagmaBlock {
      * as well as from net.minecraft.world.level.block.WebBlock
      */
 
+
     public ActiveCorriteBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(CORRITE, 0));
@@ -50,9 +51,9 @@ public class ActiveCorriteBlock extends MagmaBlock {
         super.stepOn(level, blockPos, blockState, entity);
     }
 
-    public void attack(BlockState p_55467_, Level p_55468_, BlockPos p_55469_, Player p_55470_) {
-        interact(p_55467_, p_55468_, p_55469_);
-        super.attack(p_55467_, p_55468_, p_55469_, p_55470_);
+    public void attack(BlockState blockState, Level level, BlockPos blockPos, Player player) {
+        interact(blockState, level, blockPos);
+        super.attack(blockState, level, blockPos, player);
     }
 
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
@@ -130,4 +131,8 @@ public class ActiveCorriteBlock extends MagmaBlock {
         blockStateBuilder.add(CORRITE);
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
 }
