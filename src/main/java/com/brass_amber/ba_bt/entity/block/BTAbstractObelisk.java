@@ -280,7 +280,7 @@ public class BTAbstractObelisk extends Entity {
                             this.blockPosition(), this.enemySpawnRange
                     );
                 }
-                BABattleTowers.LOGGER.debug("Found spawner: " + this.checkLayer);
+                // BABattleTowers.LOGGER.debug("Found spawner: " + this.checkLayer);
                 // BrassAmberBattleTowers.LOGGER.debug(this.SPAWNERS.get(this.checkLayer-1).size());
             } else if (block == this.golemChestBlock) {
                 this.golemChest = (BTChestBlockEntity) level.getBlockEntity(toCheck);
@@ -354,7 +354,7 @@ public class BTAbstractObelisk extends Entity {
         super.tick();
 
         if (!this.initialized) {
-            BABattleTowers.LOGGER.debug("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
+            // BABattleTowers.LOGGER.debug("Finding Chests for layer: " + this.checkLayer + "  At block level: " + this.currentFloorY);
             this.initialize();
             return;
         }
