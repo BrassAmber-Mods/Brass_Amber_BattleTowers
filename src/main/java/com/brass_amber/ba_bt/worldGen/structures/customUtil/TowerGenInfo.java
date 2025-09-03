@@ -15,7 +15,7 @@ public enum TowerGenInfo implements StringRepresentable {
             new String[]{}, // variants
             List.of(new String[]{}, new String[]{}), // Variant shell overwrites
             Collections.emptyList(), // Shell Processors
-            Collections.emptyList(), // Extra Processors
+            Collections.emptyList(), // Variant Processors
             new String[]{}, // Room names
             new float[]{}, // Room Chances
             Collections.emptyList() // Room Processors
@@ -25,17 +25,17 @@ public enum TowerGenInfo implements StringRepresentable {
                     new String[]{}, new String[]{}, new String[]{},
                     new String[]{}, new String[]{}
             ),
-            List.of(NORMAL_LAND, NORMAL_STAIRS_LAND, NORMAL_FLOOR_LAND),
+            List.of(LAND_WALL, LAND_NORMAL_STAIRS, LAND_NORMAL_FLOOR),
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
             new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen", "library"},
             new float[]{.05f, .15f, .15f, .3f, .2f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(CARPET_PLACER))
+            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(LAND_CARPET_PLACER))
     ),
     OCEAN("ocean_tower", new String[]{"normal", "gilded", "island"},
             List.of(
                     new String[]{}, new String[]{}, new String[]{}
             ),
-            List.of(NORMAL_OCEAN, NORMAL_STAIRS_OCEAN, NORMAL_FLOOR_OCEAN, WATERLOGGED),
+            List.of(OCEAN_NORMAL, NORMAL_STAIRS_OCEAN, OCEAN_NORMAL_FLOOR, WATERLOGGED),
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
             new String[]{"garden", "guardian_nest", "shark_pens"},
             new float[]{0.3f, 0.3f, 0.3f},
@@ -45,11 +45,11 @@ public enum TowerGenInfo implements StringRepresentable {
             List.of(
                     new String[]{}, new String[]{}, new String[]{}
             ),
-            List.of(NORMAL_CORE, NORMAL_STAIRS_CORE, NORMAL_FLOOR_CORE),
+            List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR),
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
             new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen", "library"},
             new float[]{.05f, .15f, .15f, .3f, .2f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(CARPET_PLACER))
+            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(LAND_CARPET_PLACER))
     ),
     NETHER("nether_tower", new String[]{"normal", "crimson", "blue", "anomaly"},
             List.of(
