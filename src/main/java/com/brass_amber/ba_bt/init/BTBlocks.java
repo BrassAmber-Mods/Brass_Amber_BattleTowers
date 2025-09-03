@@ -122,7 +122,8 @@ public class BTBlocks {
 
 
 	public static final RegistryObject<Block> CORRITE_BLOCK = registerBlock("corrite_block",
-			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(15F, 1200.0F)), 64);
+			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER).instrument(NoteBlockInstrument.BASEDRUM)
+					.requiresCorrectToolForDrops().lightLevel((blockState) -> 8).strength(15F, 1200.0F)), 64);
 
 	public static final RegistryObject<Block> CORRITE_STAIR = registerBlock("corrite_stair",
 			() -> new StairBlock(CORRITE_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(CORRITE_BLOCK.get())), 64);
@@ -133,11 +134,10 @@ public class BTBlocks {
 	public static final RegistryObject<Block> CORRITE_WALL = registerBlock("corrite_wall",
 			() -> new WallBlock(BlockBehaviour.Properties.copy(CORRITE_BLOCK.get())), 64);
 
-
 	public static final RegistryObject<Block> ACTIVE_CORRITE_BLOCK = registerBlock("active_corrite_block",
 			() -> new ActiveCorriteBlock(
-					Block.Properties.of().mapColor(MapColor.NETHER).strength(5F, 1200.0F).sound(SoundType.DEEPSLATE)
-							.requiresCorrectToolForDrops().lightLevel((blockState) -> 3)
+					Block.Properties.of().mapColor(MapColor.NETHER).strength(5F, 1200.0F).sound(SoundType.DEEPSLATE).instrument(NoteBlockInstrument.BASEDRUM)
+							.requiresCorrectToolForDrops().lightLevel((blockState) -> 12)
 							.isValidSpawn((blockState, blockGetter, blockPos, entityType) -> entityType.fireImmune())
 							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
