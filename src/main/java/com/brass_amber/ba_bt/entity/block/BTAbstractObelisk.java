@@ -94,7 +94,7 @@ public class BTAbstractObelisk extends Entity {
     protected boolean musicPlaying;
     protected boolean canCheck;
     protected boolean golemSpawned = false;
-    protected GenerationState generationState = GenerationState.GATHER_BLOCKS;
+    protected GenerationState generationState = GenerationState.REMOVE_MOTION_BLOCKS ;
     protected List<BlockPos> toRemove;
 
     protected int checkLayer;
@@ -373,6 +373,7 @@ public class BTAbstractObelisk extends Entity {
 
         if (generationState != GenerationState.FINISHED) {
             switch (generationState) {
+                case REMOVE_MOTION_BLOCKS -> this.removeMotionActiveBlocks();
                 case GATHER_BLOCKS -> this.gatherAreaBlocks();
                 case SET_BLOCKS -> this.removeAreaBlocks();
                 case ADD_FEATURES -> this.addAreaFeatures();
@@ -808,10 +809,11 @@ public class BTAbstractObelisk extends Entity {
     /************************************************** GENERATION **************************************************/
 
     public enum GenerationState {
-        GATHER_BLOCKS(0),
-        SET_BLOCKS(1),
-        ADD_FEATURES(2),
-        FINISHED(3);
+        REMOVE_MOTION_BLOCKS(0),
+        GATHER_BLOCKS(1),
+        SET_BLOCKS(2),
+        ADD_FEATURES(3),
+        FINISHED(4);
 
         private final int value;
 
@@ -830,6 +832,10 @@ public class BTAbstractObelisk extends Entity {
                 default -> GenerationState.GATHER_BLOCKS;
             };
         }
+    }
+
+    public void removeMotionActiveBlocks() {
+
     }
 
     public void gatherAreaBlocks() {
