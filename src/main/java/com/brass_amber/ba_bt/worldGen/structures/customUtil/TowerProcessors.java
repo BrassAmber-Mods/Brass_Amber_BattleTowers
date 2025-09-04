@@ -319,11 +319,6 @@ public class TowerProcessors {
                         new RandomBlockMatchTest(Blocks.DEEPSLATE_BRICKS, 0.08F),
                         AlwaysTrueTest.INSTANCE,
                         BTBlocks.ACTIVE_CORRITE_BLOCK.get().defaultBlockState()
-                ),
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.RED_STAINED_GLASS),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.LAVA.defaultBlockState()
                 )
         ));
 
@@ -429,11 +424,6 @@ public class TowerProcessors {
         ));
 
         CORE_ROOF = new RuleProcessor(ImmutableList.of(
-                new ProcessorRule(
-                        new BlockMatchTest(Blocks.RED_STAINED_GLASS),
-                        AlwaysTrueTest.INSTANCE,
-                        Blocks.LAVA.defaultBlockState()
-                ),
                 new ProcessorRule(
                         new RandomBlockMatchTest(Blocks.OBSIDIAN, 0.2F),
                         AlwaysTrueTest.INSTANCE,
