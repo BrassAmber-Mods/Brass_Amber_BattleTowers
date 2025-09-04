@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
+import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerGenInfo.CORE;
 import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
 
 
@@ -39,7 +40,6 @@ public class TowerPieces {
         //}
 
         // offset tower to account for size of tower pieces (29/29)
-        blockPos = blockPos.offset(-14 , 0, -14);
         blockPos = switch (towerGenInfo) {
             case CORE -> blockPos.offset(-16, 0, -16).atY(-60);
             default -> blockPos.offset(-14, 0, -14);
@@ -91,11 +91,14 @@ public class TowerPieces {
 
         switch (towerGenInfo) {
             case OCEAN -> towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation.getRotated(Rotation.CLOCKWISE_180), startFloorProcessors,0));
+            case CORE -> {
+
+            }
             default -> towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation, startFloorProcessors,0));
         }
         // LOGGER.debug("{} placed start floor", towerName);
         // Add random internal rooms (skipping entry floor)
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < (towerGenInfo == CORE ? 1 : 7); i++) {
             failSafe = 0;
             // Get random room
             do {
@@ -141,7 +144,9 @@ public class TowerPieces {
             default -> List.of();
         };
 
-        towerPieces.add(new RoomPiece(templateManager, "end_floor", towerName, blockPos.offset(0, floorHeight*7, 0), rotation, endFloorProcessors, 8));
+        if (towerGenInfo != CORE) {
+            towerPieces.add(new RoomPiece(templateManager, "end_floor", towerName, blockPos.offset(0, floorHeight * 7, 0), rotation, endFloorProcessors, 8));
+        }
 
         LOGGER.debug("{} placed floors", towerName);
     }
