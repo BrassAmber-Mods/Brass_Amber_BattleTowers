@@ -127,6 +127,12 @@ public class BTUtil {
         return Math.sqrt(dX * dX + dZ * dZ);
     }
 
+    public static int distanceTo2DInt(BlockPos origin, BlockPos end) {
+        double dX = Math.abs(origin.getX() - end.getX());
+        double dZ = Math.abs(origin.getZ() - end.getZ());
+        return (int) Math.sqrt(dX * dX + dZ * dZ);
+    }
+
     public static double distanceTo2D(double side, double side2) {
         return  Math.sqrt(side * side + side2 * side2);
     }
