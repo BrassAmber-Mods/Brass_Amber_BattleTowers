@@ -7,12 +7,10 @@ import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.item.ItemPool;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
@@ -27,7 +25,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -374,9 +371,9 @@ public class BTAbstractObelisk extends Entity {
         if (generationState != GenerationState.FINISHED) {
             switch (generationState) {
                 case REMOVE_MOTION_BLOCKS -> this.removeMotionActiveBlocks();
-                case GATHER_BLOCKS -> this.gatherAreaBlocks();
-                case SET_BLOCKS -> this.removeAreaBlocks();
-                case ADD_FEATURES -> this.addAreaFeatures();
+                case GATHER_AREA_BLOCKS -> this.gatherAreaBlocks();
+                case REMOVE_AREA_BLOCKS -> this.removeAreaBlocks();
+                case ADD_AREA_FEATURES -> this.addAreaFeatures();
             }
         }
 
@@ -810,9 +807,9 @@ public class BTAbstractObelisk extends Entity {
 
     public enum GenerationState {
         REMOVE_MOTION_BLOCKS(0),
-        GATHER_BLOCKS(1),
-        SET_BLOCKS(2),
-        ADD_FEATURES(3),
+        GATHER_AREA_BLOCKS(1),
+        REMOVE_AREA_BLOCKS(2),
+        ADD_AREA_FEATURES(3),
         FINISHED(4);
 
         private final int value;
@@ -827,26 +824,27 @@ public class BTAbstractObelisk extends Entity {
 
         public static GenerationState getState(int value) {
             return switch (value) {
-                case 2 -> GenerationState.ADD_FEATURES;
-                case 3 -> GenerationState.FINISHED;
-                default -> GenerationState.GATHER_BLOCKS;
+                case 1,2 -> GenerationState.GATHER_AREA_BLOCKS;
+                case 3 -> GenerationState.ADD_AREA_FEATURES;
+                case 4 -> GenerationState.FINISHED;
+                default -> GenerationState.REMOVE_MOTION_BLOCKS;
             };
         }
     }
 
     public void removeMotionActiveBlocks() {
-
+        this.generationState = GenerationState.GATHER_AREA_BLOCKS;
     }
 
     public void gatherAreaBlocks() {
-
+        this.generationState = GenerationState.REMOVE_AREA_BLOCKS;
     }
 
     public void removeAreaBlocks() {
-
+        this.generationState = GenerationState.ADD_AREA_FEATURES;
     }
 
     public void addAreaFeatures() {
-
+        this.generationState = GenerationState.FINISHED;
     }
 }

@@ -51,18 +51,15 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     private double wallDistance;
     private int nextStep;
     private int distanceChange;
-    private boolean oceanCarved;
     private boolean golemDead = false;
 
 
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.oceanCarved = false;
     }
 
     public BTOceanObelisk(Level level) {
         super(GolemType.OCEAN, level);
-        this.oceanCarved = false;
     }
 
 
@@ -239,8 +236,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             // BrassAmberBattleTowers.LOGGER.debug("This Round of carving: " + this.currentCarveLayer);
         }
 
-        this.generationState = GenerationState.SET_BLOCKS;
-        BABattleTowers.LOGGER.debug("Ocean Carved : " + this.oceanCarved);
+        this.generationState = GenerationState.REMOVE_AREA_BLOCKS;
     }
 
     @Override
@@ -253,7 +249,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             }
             doNoOutputCommand(this, "/kill @e[distance=0..100,type=item,nbt={Item:{id:'minecraft:kelp'}}]");
         } else {
-            this.generationState = GenerationState.ADD_FEATURES;
+            this.generationState = GenerationState.ADD_AREA_FEATURES;
         }
     }
 

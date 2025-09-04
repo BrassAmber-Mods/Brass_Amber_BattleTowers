@@ -138,7 +138,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                 }
             }
         }
-        this.generationState = GenerationState.GATHER_BLOCKS;
+        this.generationState = GenerationState.GATHER_AREA_BLOCKS;
     }
 
     public void gatherAreaBlocks() {
@@ -179,7 +179,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
             // BrassAmberBattleTowers.LOGGER.debug("This Round of carving: " + this.currentCarveLayer);
         }
 
-        this.generationState = GenerationState.SET_BLOCKS;
+        this.generationState = GenerationState.REMOVE_AREA_BLOCKS;
         // BABattleTowers.LOGGER.debug("Core Carved : " + this.coreCarved);
     }
 
@@ -192,7 +192,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                 this.level().setBlock(this.toRemove.remove(0), Blocks.AIR.defaultBlockState(), 3);
             }
         } else {
-            this.generationState = GenerationState.ADD_FEATURES;
+            this.generationState = GenerationState.ADD_AREA_FEATURES;
         }
     }
 
