@@ -41,15 +41,15 @@ public enum TowerGenInfo implements StringRepresentable {
             new float[]{0.3f, 0.3f, 0.3f},
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
     ),
-    CORE("core_tower", new String[]{"normal", "frozen", "colossal"},
+    CORE("core_tower", new String[]{"normal", "city", "colossal"},
             List.of(
                     new String[]{}, new String[]{}, new String[]{}
             ),
             List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR),
             List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen", "library"},
-            new float[]{.05f, .15f, .15f, .3f, .2f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(LAND_CARPET_PLACER))
+            new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen"},
+            new float[]{.05f, .15f, .15f, .3f},
+            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
     ),
     NETHER("nether_tower", new String[]{"normal", "crimson", "blue", "anomaly"},
             List.of(
