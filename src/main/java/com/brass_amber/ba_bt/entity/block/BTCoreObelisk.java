@@ -86,10 +86,10 @@ public class BTCoreObelisk extends BTAbstractObelisk {
         this.wallDistance = this.noise -.5;
 
 
-        this.westWall = this.getBlockX() - this.noise + (minimalCoreCarving ? 5 : 0);
-        this.northWall = this.getBlockZ() - this.noise + (minimalCoreCarving ? 5 : 0);
-        this.eastWall = this.getBlockX() + this.noise - (minimalCoreCarving ? 5 : 0);
-        this.southWall = this.getBlockZ() + this.noise - (minimalCoreCarving ? 5 : 0);
+        this.westWall = this.getBlockX() - this.noise;
+        this.northWall = this.getBlockZ() - this.noise;
+        this.eastWall = this.getBlockX() + this.noise;
+        this.southWall = this.getBlockZ() + this.noise;
 
         super.serverInitialize();
 
@@ -127,12 +127,11 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         if (state.is(Blocks.GRAVEL)) {
                             this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
                         } else if (state.getFluidState().getAmount() > 0) {
-                            if (state.isAir()) {
+                            try {
+                                this.level().setBlock(blockpos$mutableblockpos, state.setValue(BlockStateProperties.WATERLOGGED, false), 2);
+                            } catch (Exception e) {
                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
-                            } else {
-                                this.level().setBlock(blockpos$mutableblockpos, state.trySetValue(BlockStateProperties.WATERLOGGED, false), 2);
                             }
-
                         }
                     }
                 }
@@ -158,7 +157,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                     for (int z = this.northWall; z <= this.southWall; z++) {
                         blockpos$mutableblockpos.set(x, y, z);
                         BlockState state = this.level().getBlockState(blockpos$mutableblockpos);
-                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 5), blockpos$mutableblockpos);
+                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 12), blockpos$mutableblockpos);
                         double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
                         if (distance3d < this.wallDistance ) {
                             if ((distance2d > 15.5 || y >= this.towerTop) && !state.isAir()) {
