@@ -52,6 +52,7 @@ public class BTTags {
         public static final TagKey<Biome> LAND_TOWER_SNOWY_BIOMES = createTag("land_tower_snowy_biomes");
         public static final TagKey<Biome> OCEAN_TOWER_BIOMES = createTag("has_structure/ocean_tower_biomes");
         public static final TagKey<Biome> CORE_TOWER_BIOMES = createTag("has_structure/core_tower_biomes");
+        public static final TagKey<Biome> CORE_TOWER_MOUNTAIN_BIOMES = createTag("core_tower_mountain_biomes");
 
         private static TagKey<Biome> createTag(String name) {
             return create(locate(name));

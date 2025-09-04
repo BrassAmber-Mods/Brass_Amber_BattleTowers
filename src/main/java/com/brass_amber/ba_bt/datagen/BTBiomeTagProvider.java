@@ -42,6 +42,9 @@ public class BTBiomeTagProvider extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_OCEAN);
 
         this.tag(BTTags.Biomes.CORE_TOWER_BIOMES)
+                .addTag(BiomeTags.IS_OVERWORLD);
+
+        this.tag(BTTags.Biomes.CORE_TOWER_MOUNTAIN_BIOMES)
                 .addTag(BiomeTags.HAS_RUINED_PORTAL_MOUNTAIN)
                 .addTag(Tags.Biomes.IS_MOUNTAIN);
     }

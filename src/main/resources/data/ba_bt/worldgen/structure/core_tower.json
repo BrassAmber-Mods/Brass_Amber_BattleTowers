@@ -2,5 +2,5 @@
   "type": "ba_bt:core_tower",
   "biomes": "#ba_bt:has_structure/core_tower_biomes",
   "spawn_overrides": {},
-  "step": "underground_decoration"
+  "step": "underground_structures"
 }

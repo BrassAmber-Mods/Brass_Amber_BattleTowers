@@ -2,8 +2,8 @@
   "placement": {
     "type": "ba_bt:avoid_structures_structure_placement",
     "salt": 123111514,
-    "separation": 5,
-    "spacing": 9,
+    "separation": 9,
+    "spacing": 16,
     "locate_offset": [
       8,
       -60,

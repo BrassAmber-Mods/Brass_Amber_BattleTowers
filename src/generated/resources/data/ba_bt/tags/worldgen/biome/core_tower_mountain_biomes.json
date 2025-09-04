@@ -1,0 +1,6 @@
+{
+  "values": [
+    "#minecraft:has_structure/ruined_portal_mountain",
+    "#forge:is_mountain"
+  ]
+}
