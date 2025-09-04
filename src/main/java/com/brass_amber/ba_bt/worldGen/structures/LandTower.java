@@ -63,6 +63,11 @@ public class LandTower extends Structure implements TowerStructure {
         this.waterBlocksThreshold = waterBlocksThreshold;
     }
 
+    @Override
+    public Optional<Structure.GenerationStub> findValidGenerationPoint(Structure.GenerationContext generationContext) {
+        return this.findGenerationPoint(generationContext);
+    }
+
     protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
         ChunkPos chunkPos = generationContext.chunkPos();
         WorldgenRandom worldgenRandom = generationContext.random();
@@ -82,10 +87,11 @@ public class LandTower extends Structure implements TowerStructure {
         if (canSpawn.getFirst()) {
             BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
 
+            GenerationStub stub = new GenerationStub(spawnPos, (piecesBuilder) -> {
+                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
+            });
             saveTower(spawnPos, rotation);
-            return Optional.of(new GenerationStub(spawnPos, (piecesBuilder) -> {
-                                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
-            }));
+            return Optional.of(stub);
         }
 
         return Optional.empty();
@@ -163,7 +169,7 @@ public class LandTower extends Structure implements TowerStructure {
         Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
                 QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
         );
-        BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome ? {} ", biome);
+        // BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome ? {} ", biome);
 
         // re-check biome for extra chunks skipping to next chunk if not valid
 

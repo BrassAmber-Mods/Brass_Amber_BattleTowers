@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
+import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -55,6 +56,11 @@ public class OceanTower extends Structure implements TowerStructure {
         super(structureSettings);
     }
 
+    @Override
+    public Optional<Structure.GenerationStub> findValidGenerationPoint(Structure.GenerationContext generationContext) {
+        return this.findGenerationPoint(generationContext);
+    }
+
     protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
@@ -76,12 +82,11 @@ public class OceanTower extends Structure implements TowerStructure {
         if (canSpawn.getFirst()) {
             BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
 
+            GenerationStub stub = new GenerationStub(spawnPos, (piecesBuilder) -> {
+                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
+            });
             saveTower(spawnPos, rotation);
-            return Optional.of(
-                    new GenerationStub(
-                            spawnPos, (piecesBuilder) -> generatePieces(piecesBuilder, generationContext, spawnPos, rotation)
-                    )
-            );
+            return Optional.of(stub);
         }
 
         return Optional.empty();
