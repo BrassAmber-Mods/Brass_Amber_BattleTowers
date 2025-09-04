@@ -66,10 +66,6 @@ public class BattleTowersConfig {
                 BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
                         .define("smallOceanTrench", false);
 
-    private static final ForgeConfigSpec.ConfigValue<Boolean> MINIMAL_CORE_CARVING =
-            BUILDER.comment("Makes the Core cave around the Core tower much smaller, reducing the lag on load")
-                    .define("smallCoreCave", false);
-
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_MOBS =
                 BUILDER.pop().comment("Crashable settings -- If you edit these, and the game crashes, its on you").push("crashable")
                         .push("towerMobs").comment("Lists of mob ids of possible mobs to spawn in spawners inside each Tower. Each list must contain at least one value")
@@ -119,8 +115,7 @@ public class BattleTowersConfig {
     public static double landGolemHP;
     public static double oceanGolemHP;
 
-    public static boolean minimalOceanCarving;
-    public static boolean minimalCoreCarving;
+    public static boolean minimalOceanCarving;;
 
     public static List<EntityType<?>> landTowerMobs;
     public static List<EntityType<?>> oceanTowerMobs;
@@ -187,7 +182,6 @@ public class BattleTowersConfig {
         oceanTimeBeforeCollapse =  OCEAN_TIME_BEFORE_COLLAPSE.get();
         oceanTowerCrumblePercent = OCEAN_TOWER_CRUMBLE_PERCENT.get();
         minimalOceanCarving = MINIMAL_OCEAN_CARVING.get();
-        minimalCoreCarving = MINIMAL_CORE_CARVING.get();
         
         landTowerMobs = LAND_TOWER_MOBS.get().stream()
                 .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
