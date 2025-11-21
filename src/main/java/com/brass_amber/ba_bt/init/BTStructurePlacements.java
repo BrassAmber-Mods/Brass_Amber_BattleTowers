@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.worldGen.AvoidStructuresStructurePlacement;
+import com.brass_amber.ba_bt.worldGen.TowerStructurePlacement;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
@@ -14,7 +14,7 @@ public class BTStructurePlacements {
 
     public static final DeferredRegister<StructurePlacementType<?>> STRUCTURE_PLACEMENT_TYPE_REGISTRY = DeferredRegister.create(Registries.STRUCTURE_PLACEMENT, BABattleTowers.MOD_ID);
 
-    public static final RegistryObject<StructurePlacementType<AvoidStructuresStructurePlacement>> AVOID_STRUCTURES_STRUCTURE_PLACEMENT = STRUCTURE_PLACEMENT_TYPE_REGISTRY.register("avoid_structures_structure_placement", () -> explicitStructureTypeTyping(AvoidStructuresStructurePlacement.CODEC));
+    public static final RegistryObject<StructurePlacementType<TowerStructurePlacement>> TOWER_STRUCTURE_PLACEMENT = STRUCTURE_PLACEMENT_TYPE_REGISTRY.register("tower_structure_placement", () -> explicitStructureTypeTyping(TowerStructurePlacement.CODEC));
 
     private static <T extends StructurePlacement> StructurePlacementType<T> explicitStructureTypeTyping(Codec<T> structurePlacementTypeCodec) {
         return () -> structurePlacementTypeCodec;
