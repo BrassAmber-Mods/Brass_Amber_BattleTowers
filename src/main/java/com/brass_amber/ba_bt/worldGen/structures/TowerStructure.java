@@ -1,25 +1,30 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
 
-import java.util.*;
-
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerPieces;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.structure.*;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
 import static com.brass_amber.ba_bt.util.BTStatics.minimumSeperations;
@@ -38,7 +43,8 @@ public interface TowerStructure {
 
         if (!SaveTowers.towers.get(towerId).isEmpty()) {
             for (Pair<ChunkPos, Rotation> towerPosRotation : SaveTowers.towers.get(towerId)) {
-                if (chunkDistanceTo(towerPos, towerPosRotation.getFirst()) < minimumSeparation) {
+                var distance = chunkDistanceTo(towerPos, towerPosRotation.getFirst());
+                if (distance < minimumSeparation && distance > 0) {
                     return true;
                 }
                 // BABTMain.LOGGER.debug("Tower distance from generation try:" + closestDistance);
