@@ -2,6 +2,5 @@
   "type": "ba_bt:land_tower",
   "biomes": "#ba_bt:has_structure/land_tower_biomes",
   "spawn_overrides": {},
-  "step": "surface_structures",
-  "water_prevent_spawn_threshold": 0.17
+  "step": "surface_structures"
 }

@@ -295,7 +295,7 @@ public class BTAbstractObelisk extends Entity {
     private void processDataMarker(BlockPos toProcess, Level level) {
         DataMarkerBlockEntity dataMarker = (DataMarkerBlockEntity) level.getBlockEntity(toProcess);
 
-        Rotation rotation = SAVE_TOWERS.getTowerRotation(GolemType.getNumForType(this.golemType), level.getChunk(this.blockPosition()).getPos());
+        Rotation rotation = (this.checkLayer & 1) == 0 ? Rotation.CLOCKWISE_180 : Rotation.NONE;
 
         BlockState placeState = dataMarker.getPlaceBlockState();
 
@@ -729,29 +729,6 @@ public class BTAbstractObelisk extends Entity {
     }
 
     /***************************************************** Breaking *************************************************/
-
-    /**
-     * Called by the /kill command.
-     */
-    @Override
-    public void kill() {
-        Player player = this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), 50, EntitySelector.NO_SPECTATORS);
-
-        if (player != null && player.isCreative()) {
-            BABattleTowers.LOGGER.debug("Item: " + player.getItemInHand(InteractionHand.MAIN_HAND).getItem());
-            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Items.CLAY_BALL) {
-                this.remove(RemovalReason.KILLED);
-            } else {
-                // Do nothing to prevent people deleting a Monolith by accident.
-                BABattleTowers.LOGGER.debug("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
-            }
-        }
-        else {
-            // Do nothing to prevent people deleting a Monolith by accident.
-            BABattleTowers.LOGGER.debug("Used the /kill command. However, an Obelisk has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
-        }
-
-    }
 
     /**
      * Called when the entity is attacked.

@@ -66,26 +66,17 @@ public class CoreTower extends Structure implements TowerStructure{
         ChunkPos chunkPos = generationContext.chunkPos();
         WorldgenRandom worldgenRandom = generationContext.random();
         worldgenRandom.setSeed(generationContext.seed());
-        RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
-
-
-        if (this.hasNearbyTower(chunkPos)) {
-            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
-            return Optional.empty();
-        }
 
         // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
 
         Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
-        Rotation rotation = Rotation.getRandom(randomSource);
 
         if (canSpawn.getFirst()) {
             BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
 
             GenerationStub stub = new GenerationStub(spawnPos, (piecesBuilder) -> {
-                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
+                this.generatePieces(piecesBuilder, generationContext, spawnPos);
             });
-            saveTower(spawnPos, rotation);
             return Optional.of(stub);
         }
 
@@ -114,7 +105,6 @@ public class CoreTower extends Structure implements TowerStructure{
         return Pair.of(false, 0);
     }
 
-    @Override
     public boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
         // BABattleTowers.LOGGER.debug("Is Valid Core Tower Biome");
         HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BiomeTags.IS_OCEAN).orElseThrow();

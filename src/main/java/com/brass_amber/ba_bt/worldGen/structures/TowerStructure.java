@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
-import static com.brass_amber.ba_bt.util.BTStatics.minimumSeperations;
 import static com.brass_amber.ba_bt.util.BTUtil.chunkDistanceTo;
+
 
 public interface TowerStructure {
     String getTowerName();
@@ -39,7 +39,7 @@ public interface TowerStructure {
 
     default boolean hasNearbyTower(ChunkPos towerPos) {
         int towerId = getTowerId();
-        int minimumSeparation = minimumSeperations.get(towerId);
+        int minimumSeparation = 12;
 
         if (!SaveTowers.towers.get(towerId).isEmpty()) {
             for (Pair<ChunkPos, Rotation> towerPosRotation : SaveTowers.towers.get(towerId)) {
@@ -53,7 +53,7 @@ public interface TowerStructure {
         return false;
     }
 
-    default void generatePieces(StructurePiecesBuilder piecesBuilder, Structure.GenerationContext generationContext, BlockPos blockPos, Rotation rotation) {
+    default void generatePieces(StructurePiecesBuilder piecesBuilder, Structure.GenerationContext generationContext, BlockPos blockPos) {
         List<TowerPieces.TowerPiece> list = Lists.newLinkedList();
         String variant;
         try {
@@ -61,8 +61,9 @@ public interface TowerStructure {
         } catch (IndexOutOfBoundsException e) {
             variant = "normal";
         }
-        TowerPieces.generateTower(generationContext.structureTemplateManager(), blockPos, rotation, list, generationContext.random(), getTowerName(), variant);
+        TowerPieces.generateTower(generationContext.structureTemplateManager(), blockPos, list, generationContext.random(), getTowerName(), variant);
         list.forEach(piecesBuilder::addPiece);
+        BABattleTowers.LOGGER.debug("Pieces : {}", list.stream().map(TowerPieces.TowerPiece::makeTemplateLocation).toList());
     }
 
     default void afterPlaceBT(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox chunkBoundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer) {
@@ -94,18 +95,14 @@ public interface TowerStructure {
         }
     }
 
-    // This ensures that a new tower class will error if the afterPlace method isn't overridden
-    void afterPlace(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, PiecesContainer piecesContainer);
 
     Pair<Boolean, Integer> isSpawnableChunk(Structure.GenerationContext generationContext);
 
-    boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder);
-
     // Used for tower saving and logging of tower positions
     // Rotation is saved for rotation of loaded datamarker block containers after generation
-    default void saveTower(BlockPos spawnPos, Rotation rotation) {
+    default void saveTower(BlockPos spawnPos) {
         BABattleTowers.LOGGER.debug("{} Tower at {} {}", getTowerName(), spawnPos, new ChunkPos(spawnPos));
-        SAVE_TOWERS.addTower(new ChunkPos(spawnPos), rotation, getTowerId());
+        SAVE_TOWERS.addTower(new ChunkPos(spawnPos), Rotation.NONE, getTowerId());
     }
 
 

@@ -68,24 +68,16 @@ public class OceanTower extends Structure implements TowerStructure {
         worldgenRandom.setSeed(generationContext.seed());
         RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
 
-
-        if (hasNearbyTower(chunkPos)) {
-            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
-            return Optional.empty();
-        }
-
         // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
 
         Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
-        Rotation rotation = Rotation.getRandom(randomSource);
 
         if (canSpawn.getFirst()) {
             BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
 
             GenerationStub stub = new GenerationStub(spawnPos, (piecesBuilder) -> {
-                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
+                this.generatePieces(piecesBuilder, generationContext, spawnPos);
             });
-            saveTower(spawnPos, rotation);
             return Optional.of(stub);
         }
 
@@ -154,7 +146,6 @@ public class OceanTower extends Structure implements TowerStructure {
         return Pair.of(false, 0);
     }
 
-    @Override
     public boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
         // BABattleTowers.LOGGER.debug("Is Valid Ocean Tower Biome");
         WorldgenRandom worldgenRandom = context.random();

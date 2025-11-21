@@ -1,9 +1,10 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.BTTags;
+import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
@@ -11,31 +12,32 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class LandTower extends Structure implements TowerStructure {
-
+    static final Logger LOGGER = LogUtils.getLogger();
+    
     public static final Codec<LandTower> CODEC = RecordCodecBuilder.<LandTower>mapCodec(instance ->
             instance.group(
-                    Structure.settingsCodec(instance),
-                    Codec.floatRange(0, 1).fieldOf("water_prevent_spawn_threshold").forGetter(codec -> codec.waterBlocksThreshold)
+                    Structure.settingsCodec(instance)
             ).apply(instance, LandTower::new)).codec();
-
-    private final float waterBlocksThreshold;
     private int towerType = 0;
 
     @Override
@@ -58,40 +60,41 @@ public class LandTower extends Structure implements TowerStructure {
         return this.towerType;
     }
 
-    public LandTower(StructureSettings structureSettings, float waterBlocksThreshold) {
+    public LandTower(StructureSettings structureSettings) {
         super(structureSettings);
-        this.waterBlocksThreshold = waterBlocksThreshold;
     }
 
-    @Override
-    public Optional<Structure.GenerationStub> findValidGenerationPoint(Structure.GenerationContext generationContext) {
-        return this.findGenerationPoint(generationContext);
+    public StructureStart generate(RegistryAccess registryAccess, ChunkGenerator chunkGenerator, BiomeSource biomeSource, RandomState randomState, StructureTemplateManager templateManager, long seed, ChunkPos chunkPos, int references, LevelHeightAccessor heightAccessor, Predicate<Holder<Biome>> biomes) {
+        Structure.GenerationContext structure$generationcontext = new Structure.GenerationContext(registryAccess, chunkGenerator, biomeSource, randomState, templateManager, seed, chunkPos, heightAccessor, biomes);
+        Optional<Structure.GenerationStub> optional = this.findValidGenerationPoint(structure$generationcontext);
+
+        if (optional.isPresent()) {
+
+            StructurePiecesBuilder structurepiecesbuilder = optional.get().getPiecesBuilder();
+            StructureStart structurestart = new StructureStart(this, chunkPos, references, structurepiecesbuilder.build());
+            LOGGER.debug("Got stub for: {} | Structure Start is : {}", chunkPos, structurestart.isValid());
+            if (structurestart.isValid()) {
+                return structurestart;
+            }
+        }
+
+        return StructureStart.INVALID_START;
     }
 
     protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
         ChunkPos chunkPos = generationContext.chunkPos();
-        WorldgenRandom worldgenRandom = generationContext.random();
-        worldgenRandom.setSeed(generationContext.seed());
-        RandomSource randomSource = worldgenRandom.forkPositional().at(chunkPos.getMiddleBlockPosition(0));
 
-        if (hasNearbyTower(chunkPos)) {
-            // BABTMain.LOGGER.debug("Land not outside tower separation " + nextSeperation);
-            return Optional.empty();
-        }
-
-        // BABattleTowers.LOGGER.debug("Attempting Land Tower Spawn at " + chunkPos.x + " " + chunkPos.z);
+        LOGGER.debug("Attempting Land Tower Spawn at {} {}", chunkPos.x, chunkPos.z);
 
         Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
-        Rotation rotation = Rotation.getRandom(randomSource);
 
         if (canSpawn.getFirst()) {
+            LOGGER.debug("Can Spawn, Blockpos: {}", canSpawn.getSecond());
             BlockPos spawnPos = chunkPos.getMiddleBlockPosition(canSpawn.getSecond());
 
-            GenerationStub stub = new GenerationStub(spawnPos, (piecesBuilder) -> {
-                this.generatePieces(piecesBuilder, generationContext, spawnPos, rotation);
-            });
-            saveTower(spawnPos, rotation);
-            return Optional.of(stub);
+            StructurePiecesBuilder piecesBuilder = new StructurePiecesBuilder();
+            this.generatePieces(piecesBuilder, generationContext, spawnPos);
+            return Optional.of(new GenerationStub(spawnPos, Either.right(piecesBuilder)));
         }
 
         return Optional.empty();
@@ -99,69 +102,38 @@ public class LandTower extends Structure implements TowerStructure {
 
     @Override
     public Pair<Boolean, Integer> isSpawnableChunk(GenerationContext generationContext) {
-        // BABattleTowers.LOGGER.debug("Can Spawn Land");
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
 
-        // Test/Check 3 by 3 square of chunks for possible spawns (x pattern)
-        List<ChunkPos> testables = new ArrayList<>(
-                List.of(
-                        chunkPos,
-                        new ChunkPos(chunkPos.x + 1, chunkPos.z + 1),
-                        new ChunkPos(chunkPos.x + 1, chunkPos.z - 1),
-                        new ChunkPos(chunkPos.x - 1, chunkPos.z - 1),
-                        new ChunkPos(chunkPos.x - 1, chunkPos.z + 1)
-                )
-        );
-
-        // BABTMain.LOGGER.debug("Rquesting chunks to test: " + testables.toString());
-
-        List<ChunkPos> usablePositions =  new ArrayList<>();
-        ArrayList<Integer> usableHeights = new ArrayList<>();
+        LOGGER.debug("Checking Land Spawn at: {}", chunkPos);
 
         int newLandHeight;
-        int lowestY;
-        int highestY;
-        int minX;
-        int minZ;
+        int lowestY = 215;
+        int highestY = 0;
+        int minX = chunkPos.getMinBlockX();
+        int minZ= chunkPos.getMinBlockZ();;
         int newX;
         int newZ;
 
-        for (ChunkPos pos : testables) {
-            // BABattleTowers.LOGGER.debug("Land tower testing at {}", pos);
+        for (int x = 0; x < 6; x++) {
+            for (int z = 0; z < 6; z++) {
 
-            lowestY = 215;
-            highestY = 0;
-            minX = pos.getMinBlockX();
-            minZ = pos.getMinBlockZ();
+                newX = minX + (x * 3);
+                newZ = minZ + (z * 3);
+                newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState());
 
-            for (int x = 0; x < 6; x++) {
-                for (int z = 0; z < 6; z++) {
+                lowestY = Math.min(newLandHeight, lowestY);
+                highestY = Math.max(newLandHeight, highestY);
 
-                    newX = minX + (x*3);
-                    newZ = minZ + (z*3);
-                    newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState());
-
-                    lowestY = Math.min(newLandHeight, lowestY);
-                    highestY = Math.max(newLandHeight, highestY);
-
-                }
             }
-
-            // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
-            boolean isFlat = highestY - lowestY <= 12;
-
-            int usableHeight = lowestY + ((highestY - lowestY)/4);
-
-            // BrassAmberBattleTowers.LOGGER.debug("flat?: " + isFlat + " water?: " + watered + " usable height: " + usableHeight);
-
-            if (isFlat) {
-                // BrassAmberBattleTowers.LOGGER.debug("Usable position at: " + pos + " " + usableHeight);
-                usablePositions.add(pos);
-                usableHeights.add(usableHeight);
-            }
-
         }
+
+        // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
+        boolean isFlat = highestY - lowestY <= 12;
+
+        int usableHeight = lowestY + ((highestY - lowestY) / 4);
+
+        LOGGER.debug("flat?: {} usable height: {}", isFlat, usableHeight);
 
         int middleHieght = chunkGen.getFirstOccupiedHeight(
                 chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
@@ -169,35 +141,34 @@ public class LandTower extends Structure implements TowerStructure {
         Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
                 QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
         );
-        // BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome ? {} ", biome);
 
-        // re-check biome for extra chunks skipping to next chunk if not valid
+        BlockPos middleBlock = chunkPos.getMiddleBlockPosition(middleHieght + 1);
 
+        HolderSet<Biome> holderset = generationContext.registryAccess().registryOrThrow(Registries.BIOME).getTag(Tags.Biomes.IS_WATER).orElseThrow();
+        // LOGGER.debug("Ocean Holderset = {}", holderset);
+        Predicate<Holder<Biome>> predicate = holderset::contains;
+        Pair<BlockPos, Holder<Biome>> waterBiomeNearby = chunkGen.getBiomeSource().findBiomeHorizontal(
+                middleBlock.getX(), chunkGen.getSeaLevel(), middleBlock.getZ(), 24, predicate, generationContext.random(), generationContext.randomState().sampler()
+        );
+        LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
+
+        checkVariant(generationContext, middleBlock);
         // Get a random usable position from the list, otherwise return false
-        if (!usablePositions.isEmpty() && usableHeights.get(0) < 215 && isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(middleHieght), biome)) {
-            return Pair.of(true, usableHeights.get(0));
+        if (isFlat && generationContext.validBiome().test(biome) && waterBiomeNearby == null) {
+            return Pair.of(true, usableHeight);
         }
 
-        if (!usablePositions.isEmpty() && usableHeights.get(0) > 215) {
-            BABattleTowers.LOGGER.debug("Terrain to high for Land Tower");
-
+        if (usableHeight > 215) {
+            LOGGER.debug("Terrain to high for Land Tower");
         }
 
         return Pair.of(false, 0);
     }
 
-    @Override
-    public boolean isValidBiome(GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
-        // BABattleTowers.LOGGER.debug("Is Valid Land Tower Biome");
+    public void checkVariant(GenerationContext context, BlockPos blockpos) {
+        // LOGGER.debug("Is Valid Land Tower Biome");
         WorldgenRandom worldgenRandom = context.random();
-        worldgenRandom.setSeed(context.seed());
-        RandomSource randomSource = worldgenRandom.forkPositional().at(blockpos);
-
-        HolderSet<Biome> holderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(Tags.Biomes.IS_WATER).orElseThrow();
-        // BABattleTowers.LOGGER.debug("Ocean Holderset = {}", holderset);
-        Predicate<Holder<Biome>> predicate = holderset::contains;
-        Pair<BlockPos, Holder<Biome>> waterBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), context.chunkGenerator().getSeaLevel(), blockpos.getZ(), 64, predicate, context.random(), context.randomState().sampler());
-        // BABattleTowers.LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
+        worldgenRandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
 
         HolderSet<Biome> overgrownHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_OVERGROWN_BIOMES).orElseThrow();
         Predicate<Holder<Biome>> overgrownPredicate = overgrownHolderset::contains;
@@ -222,10 +193,8 @@ public class LandTower extends Structure implements TowerStructure {
             this.towerType = 3;
         } else {
             // Default || Ruined
-            towerType = randomSource.nextInt(50) > 7 ? 0 : 4;
+            towerType = worldgenRandom.nextInt(50) > 7 ? 0 : 4;
         }
-
-        return context.validBiome().test(biomeHolder) && waterBiomeNearby == null;
     }
 
     @Override
