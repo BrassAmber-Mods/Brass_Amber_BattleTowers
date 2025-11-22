@@ -14,7 +14,10 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
-import net.minecraft.world.level.levelgen.structure.templatesystem.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraftforge.common.world.PieceBeardifierModifier;
 import org.slf4j.Logger;
 
@@ -161,12 +164,14 @@ public class TowerPieces {
         }
 
         public TowerPiece(StructureTemplateManager templateManager, CompoundTag compoundTag) {
-            super(BTStructurePieces.TOWER_PIECE.get(), compoundTag, templateManager,
-                    (resourceLocation) -> makeSettings(Rotation.valueOf(compoundTag.getString("Rotation")))
+            this(
+                templateManager,
+                compoundTag.getString("Template"),
+                compoundTag.getString("TowerName"),
+                new BlockPos(compoundTag.getInt("TPX"), compoundTag.getInt("TPY"), compoundTag.getInt("TPZ")),
+                Rotation.valueOf(compoundTag.getString("Rotation")),
+                compoundTag.getString("Variant")
             );
-            this.towerName = compoundTag.getString("TowerName");
-            this.variant = compoundTag.getString("Variant");
-
         }
 
         public int getHeight() {
