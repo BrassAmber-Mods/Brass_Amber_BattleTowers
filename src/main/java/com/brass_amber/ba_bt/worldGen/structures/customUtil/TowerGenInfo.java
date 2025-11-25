@@ -1,140 +1,162 @@
 package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 
-import com.brass_amber.ba_bt.BABattleTowers;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionStructure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraftforge.common.world.ForgeBiomeModifiers;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
 
 public enum TowerGenInfo implements StringRepresentable {
-    EMPTY("", // name
-            new String[]{}, // variants
-            List.of(new String[]{}, new String[]{}), // Variant shell overwrites
-            Collections.emptyList(), // Shell Processors
-            Collections.emptyList(), // Variant Processors
-            new String[]{}, // Room names
-            new float[]{}, // Room Chances
-            Collections.emptyList() // Room Processors
+    EMPTY("", // Name
+            new String[]{}, // Variant Names
+            List.of() // All variants (Normal is first variant)
     ),
-    LAND("land_tower", new String[]{"normal", "overgrown", "sandy", "icy", "ruined"},
+    LAND(
+            "land_tower",
+            new String[]{"normal", "overgrown", "sandy", "icy", "ruined"},
             List.of(
-                    new String[]{}, new String[]{}, new String[]{},
-                    new String[]{}, new String[]{}
-            ),
-            List.of(LAND_WALL, LAND_NORMAL_STAIRS, LAND_NORMAL_FLOOR),
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen", "library"},
-            new float[]{.05f, .15f, .15f, .3f, .2f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), List.of(LAND_CARPET_PLACER))
+                    new VariantPieces(
+                            List.of(new WeightedPiece("shell", 1, List.of(LAND_WALL, LAND_NORMAL_STAIRS, LAND_NORMAL_FLOOR), Vec3i.ZERO)),
+                            List.of(new WeightedPiece("base", 1, List.of(LAND_WALL), Vec3i.ZERO)),
+                            List.of(new WeightedPiece("main_hall", 1, List.of(LAND_NORMAL_FLOOR), Vec3i.ZERO)),
+                            List.of(
+                                    new WeightedPiece("barracks_abandoned", 0.05f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("barracks_open", 0.18f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("barracks", 0.18f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("kitchen", 0.34f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("library", 0.25f, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)
+                            ),
+                            List.of(new WeightedPiece("cult_floor", 1, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)),
+                            List.of(new WeightedPiece("boss_floor", 1, List.of(), Vec3i.ZERO))
+                    ),
+                    new VariantPieces(
+                            List.of(
+                                    new WeightedPiece("lush", 0.5f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("farm", 0.3f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("integrated", 0.2f, List.of(), Vec3i.ZERO)
+                            ),
+                            List.of(new WeightedPiece("base", 1, List.of(LAND_WALL), new Vec3i(-3, 0, -3))),
+                            List.of(new WeightedPiece("main_hall", 1, List.of(LAND_NORMAL_FLOOR), new Vec3i(-3, 0, 0))),
+                            List.of(),
+                            List.of(),
+                            List.of(new WeightedPiece("giant_tree", 1, List.of(), new Vec3i(0, -6, 0)))
+                    ),
+                    new VariantPieces(
+                            List.of(
+                                    new WeightedPiece("ruined_shell", 0.4f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("windswept_corner", 0.3f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("heavy_sand", 0.2f, List.of(SAND_REMOVE_7), Vec3i.ZERO),
+                                    new WeightedPiece("cactus_infested", 0.1f, List.of(), Vec3i.ZERO)
+                            ),
+                            List.of(new WeightedPiece("base", 1, List.of(SANDSTONE, SAND_REMOVE_7), new Vec3i(-2, 0, -2))),
+                            List.of(new WeightedPiece("main_hall", 1, List.of(SAND_REMOVE_7), new Vec3i(-2, 0, -2))),
+                            List.of(),
+                            List.of(),
+                            List.of(new WeightedPiece("boss_floor", 1, List.of(), new Vec3i(0, -3, 0)))
+                    )
+            )
     ),
-    OCEAN("ocean_tower", new String[]{"normal", "gilded", "island"},
+    OCEAN("ocean_tower",
+            new String[]{"normal", "gilded", "island"},
             List.of(
-                    new String[]{}, new String[]{}, new String[]{}
-            ),
-            List.of(OCEAN_NORMAL, NORMAL_STAIRS_OCEAN, OCEAN_NORMAL_FLOOR, WATERLOGGED),
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{"garden", "guardian_nest", "shark_pens"},
-            new float[]{0.3f, 0.3f, 0.3f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
+                    new VariantPieces(
+                            List.of(new WeightedPiece("shell", 1, List.of(OCEAN_NORMAL, NORMAL_STAIRS_OCEAN, OCEAN_NORMAL_FLOOR, WATERLOGGED), Vec3i.ZERO)),
+                            List.of(new WeightedPiece("obelisk_platform", 1, List.of(OCEAN_NORMAL), Vec3i.ZERO)),
+                            List.of(new WeightedPiece("main_hall", 1, List.of(), Vec3i.ZERO)),
+                            List.of(
+                                    new WeightedPiece("garden", 0.33f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("guardian_nest", 0.33f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("shark_pens", 0.34f, List.of(), Vec3i.ZERO)
+                            ),
+                            List.of(new WeightedPiece("open_shrine", 1, List.of(OCEAN_NORMAL_FLOOR), Vec3i.ZERO)),
+                            List.of(new WeightedPiece("boss_floor", 1, List.of(), Vec3i.ZERO))
+                    )
+            )
     ),
-    CORE("core_tower", new String[]{"normal", "city", "colossal"},
-            List.of(
-                    new String[]{}, new String[]{}, new String[]{}
-            ),
-            List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR),
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{"barracks_abandoned", "barracks_open", "barracks", "kitchen"},
-            new float[]{.05f, .15f, .15f, .3f},
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
+    CORE("core_tower",
+            new String[]{"normal", "city", "colossal"},
+            List.of(new VariantPieces(
+                    List.of(new WeightedPiece("shell", 1, List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR), Vec3i.ZERO)),
+                    List.of(new WeightedPiece("base", 1, List.of(LAND_WALL), Vec3i.ZERO)),
+                    List.of(new WeightedPiece("main_hall", 1, List.of(LAND_NORMAL_FLOOR), Vec3i.ZERO)),
+                    List.of(
+                            new WeightedPiece("barracks_abandoned", 0.05f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("barracks_open", 0.18f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("barracks", 0.18f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("kitchen", 0.34f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("library", 0.25f, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)
+                    ),
+                    List.of(new WeightedPiece("cult_floor", 1, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)),
+                    List.of(new WeightedPiece("boss_floor", 1, List.of(), Vec3i.ZERO))
+            ))
     ),
-    NETHER("nether_tower", new String[]{"normal", "crimson", "blue", "anomaly"},
-            List.of(
-                    new String[]{}, new String[]{}, new String[]{}, new String[]{}
-            ),
-            Collections.emptyList(),
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{},
-            new float[]{},
-            Collections.emptyList()
+    NETHER("nether_tower",
+            new String[]{"normal", "crimson", "blue", "anomaly"}, // Variant Names
+            List.of()
     ),
-    END("end_tower", new String[]{"normal", "disturbance", "city"},
-            List.of(
-                    new String[]{}, new String[]{}, new String[]{}
-            ),
-            Collections.emptyList(),
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{},
-            new float[]{},
-            Collections.emptyList()
+    END("end_tower",
+            new String[]{"normal", "disturbance", "city"}, // Variant Names
+            List.of()
     ),
-    SKY("sky_tower", new String[]{"normal", "village", "hanging_gardens"},
-            List.of(
-                    new String[]{}, new String[]{}, new String[]{}
-            ),
-            Collections.emptyList(),
-            List.of(Collections.emptyList(), Collections.emptyList(), Collections.emptyList()),
-            new String[]{},
-            new float[]{},
-            Collections.emptyList()
+    SKY("sky_tower",
+            new String[]{"normal", "village", "hanging_gardens"}, // Variant Names
+            List.of()
     );
 
     private final String towerName;
     private final String[] variants;
-    private final HashMap<String, String[]> shellOverwritePieces = new HashMap<>();
-    private final List<StructureProcessor> shellProcessors;
-    private final HashMap<String, List<StructureProcessor>> extraProcessors = new HashMap<>();
-    private final ArrayList<String> rooms = new ArrayList<>();
-    private final HashMap<String, List<StructureProcessor>> roomProcessors = new HashMap<>();
+    private final Map<String, VariantPieces> variantPieces;
+
 
     TowerGenInfo(
-            String towerName, String[] variants, List<String[]> shellOverwritePieces,
-            List<StructureProcessor> shellProcessors,
-            List<List<StructureProcessor>> extraProcessors,
-            String[] roomNames, float[] room_chances,
-            List<List<StructureProcessor>> roomProcessors
+            String towerName,
+            String[] variants,
+            List<VariantPieces>variantPiecesList
     ) {
         this.towerName = towerName;
         this.variants = variants;
-        this.shellProcessors = shellProcessors;
-
-        for (int i = 0; i < variants.length; i++) {
-            this.shellOverwritePieces.put(variants[i], shellOverwritePieces.get(i));
-            this.extraProcessors.put(variants[i], extraProcessors.get(i));
-        }
-
-        int amount = 0;
-        float percent;
-
-        for (int i = 0; i < roomNames.length; i++) {
-            percent = room_chances[i];
-            amount = (int) (percent * 20);
-            for (int e = 0; e < amount; e++) {
-                this.rooms.add(roomNames[i]);
-            }
-            this.roomProcessors.put(roomNames[i], roomProcessors.get(i));
-        }
-    }
-
-    public static String[] getShellOverwritePieces(TowerGenInfo towerGenInfo, String variant) {
-        return towerGenInfo.shellOverwritePieces.get(variant);
-    }
-
-    public static ResourceLocation getRandomVariantShellPiece(TowerGenInfo towerGenInfo, String variant, RandomSource randomSource) {
-        return new ResourceLocation(BABattleTowers.MOD_ID,
-                towerGenInfo.towerName + "/" + variant + "_" +
-                        TowerGenInfo.getShellOverwritePieces(towerGenInfo, variant)[
-                                randomSource.nextInt(towerGenInfo.shellOverwritePieces.size())
-                                ]
+        this.variantPieces = IntStream.range(0, variants.length).boxed().collect(
+                Collectors.toMap(i -> variants[i], i -> i < variantPiecesList.size() ? variantPiecesList.get(i) : EMPTY_VARIANT)
         );
-
     }
 
-    public ArrayList<String> getRooms() {
-        return rooms;
+    public Pair<WeightedPiece, String> getRandomVariantPieceFrom(PieceListType listType, String variant, RandomSource randomSource) {
+        float chanceGate = 0;
+        float chance = randomSource.nextFloat();
+        for (WeightedPiece piece : this.variantPieces.get(variant).getListForType(listType)) {
+            chanceGate += piece.chance();
+            if (chance <= chanceGate) {
+                return Pair.of(piece, variant);
+            }
+        }
+        chanceGate = 0;
+        for (WeightedPiece piece : this.variantPieces.get("normal").getListForType(listType)) {
+            chanceGate += piece.chance();
+            if (chance <= chanceGate) {
+                return Pair.of(piece, "normal");
+            }
+        }
+        return null;
+    }
+
+    public Map<String, VariantPieces> getVariantPieces() {
+        return variantPieces;
     }
 
     public static TowerGenInfo getTypeForName(String name) {
@@ -147,22 +169,6 @@ public enum TowerGenInfo implements StringRepresentable {
             case "end_tower" -> TowerGenInfo.END;
             case "sky_tower" -> TowerGenInfo.SKY;
         };
-    }
-
-    public static String getRandomRoom(TowerGenInfo towerGenInfo, RandomSource randomSource) {
-        return towerGenInfo.rooms.get(randomSource.nextInt(towerGenInfo.rooms.size()));
-    }
-
-    public static List<StructureProcessor> getRoomProcessors(TowerGenInfo towerGenInfo, String roomName) {
-        return towerGenInfo.roomProcessors.get(roomName);
-    }
-
-    public static List<StructureProcessor> getShellProcessors(TowerGenInfo towerGenInfo, String variant) {
-        return towerGenInfo.shellProcessors;
-    }
-
-    public static List<StructureProcessor> getVariantProcessors(TowerGenInfo towerGenInfo, String variant) {
-        return towerGenInfo.extraProcessors.get(variant);
     }
 
     public static int getFloorHeight(TowerGenInfo towerGenInfo) {
@@ -183,4 +189,35 @@ public enum TowerGenInfo implements StringRepresentable {
     public String[] getVariants() {
         return variants;
     }
+
+    public record WeightedPiece(String name, float chance, List<StructureProcessor> structureProcessors, Vec3i offset) {
+
+    }
+
+    public record VariantPieces(List<WeightedPiece> shellPieces, List<WeightedPiece> startPieces,
+                                List<WeightedPiece> firstFloorPieces, List<WeightedPiece> middleFloorPieces,
+                                List<WeightedPiece> finalFloorPieces, List<WeightedPiece> endPieces) {
+
+        public List<WeightedPiece> getListForType(PieceListType type) {
+            return switch (type) {
+                case SHELL -> shellPieces();
+                case START -> startPieces();
+                case FIRST_FLOOR -> firstFloorPieces();
+                case MIDDLE_FLOOR -> middleFloorPieces();
+                case FINAL_FLOOR -> finalFloorPieces();
+                case END -> endPieces();
+            };
+        }
+    }
+
+    public enum PieceListType {
+        SHELL,
+        START,
+        FIRST_FLOOR,
+        MIDDLE_FLOOR,
+        FINAL_FLOOR,
+        END
+    }
+
+    private final VariantPieces EMPTY_VARIANT = new VariantPieces(List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
 }
