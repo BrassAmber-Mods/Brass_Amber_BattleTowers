@@ -21,16 +21,6 @@ public class BattleTowersConfig {
                 "Several other factors (Land height/other structures) can affect whether the structure actually spawns.")
             .comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 30 chunks ")
                 .define("firstTowerDistance", 30);
-    
-    private static final ForgeConfigSpec.ConfigValue<Integer> LAND_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Land Towers measured in chunks. " +
-                                "(9 chunk minimum. Default: 45 Chunks")
-                        .defineInRange("landMinimumSeparation", 45, 9, 999999999);;
-    private static final ForgeConfigSpec.ConfigValue<Integer> OCEAN_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Ocean Towers measured in chunks. " +
-                                "(11 chunk minimum. Default: 60 Chunks")
-                        .defineInRange("oceanMinimumSeparation", 60, 9, 999999999);
-    private static final ForgeConfigSpec.ConfigValue<Integer> CORE_MINIMUM_SEPERATION = BUILDER.comment("The minimum possible distance between Core Towers measured in chunks. " +
-                    "(15 chunk minimum. Default: 75 Chunks")
-            .defineInRange("coreMinimumSeparation", 75, 15, 999999999);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS = BUILDER.comment("Whether the Depth Dropper effect given by the Ocean Tower"
                                 + " affects mobs.")
@@ -102,9 +92,6 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec SPEC = BUILDER.pop().build();;
     
     public static int firstTowerDistance;
-    public static int landMinimumSeperation;
-    public static int oceanMinimumSeperation;
-    public static int coreMinimumSeperation;
     public static boolean depthDropperAffectsMobs;
 
     public static int landTimeBeforeCollapse;
@@ -168,9 +155,6 @@ public class BattleTowersConfig {
     static void onLoad(final ModConfigEvent event) {
         
         firstTowerDistance = FIRST_TOWER_DISTANCE.get();
-        landMinimumSeperation = LAND_MINIMUM_SEPERATION.get();
-        oceanMinimumSeperation = OCEAN_MINIMUM_SEPERATION.get();
-        coreMinimumSeperation = CORE_MINIMUM_SEPERATION.get();
 
         depthDropperAffectsMobs = DEPTH_DROPPER_AFFECTS_MOBS.get();
 
