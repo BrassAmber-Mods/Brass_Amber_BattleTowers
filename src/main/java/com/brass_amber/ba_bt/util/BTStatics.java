@@ -28,8 +28,6 @@ public class BTStatics {
     public static HashMap<String, Pair<List<List<Item>>, List<List<Double>>>> lootMap;
     public static ArrayList<String> lootNames;
 
-    public static final List<Integer> minimumSeperations;
-
     public static final List<Potion> potions;
     public static final List<Item> dyes;
 
@@ -75,8 +73,6 @@ public class BTStatics {
         towerBaseBlocks = List.of(Blocks.STONE_BRICKS.defaultBlockState(), Blocks.PRISMARINE_BRICKS.defaultBlockState(), BTBlocks.CORRITE_BLOCK.get().defaultBlockState());
 
         icyOceanBlocks = List.of(Blocks.SNOW, Blocks.SNOW_BLOCK, Blocks.ICE, Blocks.PACKED_ICE);
-
-        minimumSeperations = List.of(landMinimumSeperation, oceanMinimumSeperation, coreMinimumSeperation);
 
         towerSpawnerAmounts = List.of(
                 Arrays.asList(2, 2, 2, 2, 3, 3, 3, 4), // 21
