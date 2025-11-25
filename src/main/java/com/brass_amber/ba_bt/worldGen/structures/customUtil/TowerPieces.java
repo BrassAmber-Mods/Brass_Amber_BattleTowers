@@ -2,9 +2,13 @@ package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructurePieces;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -12,35 +16,29 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
-import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraftforge.common.world.PieceBeardifierModifier;
+import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import org.slf4j.Logger;
 
 import java.util.*;
 
-import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerGenInfo.CORE;
-import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
+import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerGenInfo.*;
 
 
 public class TowerPieces {
     static final Logger LOGGER = LogUtils.getLogger();
 
-    public static void generateTower(StructureTemplateManager templateManager, BlockPos blockPos, Rotation rotation, List<TowerPiece> towerPieces, RandomSource randomSource, String towerName, String variant) {
+    public static void generateTower(StructureTemplateManager templateManager, BlockPos blockPos, List<TowerPiece> towerPieces, RandomSource randomSource, String towerName, String variant) {
         LOGGER.debug("Tower name: {} Variant: {}", towerName, variant);
-        TowerGenInfo towerGenInfo = TowerGenInfo.getTypeForName(towerName);
+        TowerGenInfo towerGenInfo = getTypeForName(towerName);
+        Direction baseDirection = Direction.Plane.HORIZONTAL.getRandomDirection(randomSource);
+        Direction flippedDirection = baseDirection.getOpposite();
+        
+        String baseName = towerName + "/";
+        String variantName = "";
 
-        // decide on wall/stair processors (different for each variant)
-        List<StructureProcessor> shellProcessors = TowerGenInfo.getShellProcessors(towerGenInfo, variant);
-        List<StructureProcessor> variantProcessors = TowerGenInfo.getVariantProcessors(towerGenInfo, variant);
-        ArrayList<StructureProcessor> oddFloorProcessors = new ArrayList<>(shellProcessors);
-        //if (towerGenInfo == TowerGenInfo.OCEAN) {
-        //    oddFloorProcessors.add(BONE_REMOVE);
-        //}
+        Pair<WeightedPiece, String> pieceResult;
+        WeightedPiece piece;
 
         // offset tower to account for size of tower pieces (29/29)
         blockPos = switch (towerGenInfo) {
@@ -49,9 +47,19 @@ public class TowerPieces {
         };
 
         // Add tower shell to list first so it is generated first
-        towerPieces.add(new StartPiece(templateManager, "start", towerName, blockPos, rotation, ""));
-        int floorHeight = TowerGenInfo.getFloorHeight(towerGenInfo);
-        int doubledFloorHeight = floorHeight * 2;
+        pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.START, variant, randomSource);
+        if (pieceResult != null) {
+            piece = pieceResult.getFirst();
+            variantName = baseName + pieceResult.getSecond() + "/";
+            towerPieces.add(
+                    new TowerPiece(
+                            templateManager, variantName + piece.name(),
+                            blockPos.offset(piece.offset()), baseDirection, piece.structureProcessors(), false
+                    )
+            );
+        }
+
+        int floorHeight = getFloorHeight(towerGenInfo);
 
         blockPos = switch (towerGenInfo) {
             case CORE -> blockPos.offset(2, 1, 2);
@@ -59,58 +67,108 @@ public class TowerPieces {
             default -> blockPos.offset(0, towerPieces.get(0).getHeight(), 0);
         };
 
-        for (int i = 0; i < 4; i++) {
-            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, i*doubledFloorHeight, 0), rotation.getRotated(Rotation.CLOCKWISE_180), "", shellProcessors, variantProcessors));
-            towerPieces.add(new ShellPiece(templateManager, "shell", towerName, blockPos.offset(0, floorHeight + i*doubledFloorHeight, 0), rotation, "", oddFloorProcessors, variantProcessors));
+        // Always add normal shell
+        for (int i = 0; i < 8; i++) {
+            pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.SHELL, "normal", randomSource);
+            if (pieceResult != null) {
+                piece = pieceResult.getFirst();
+                variantName = baseName + pieceResult.getSecond() + "/";
+                towerPieces.add(
+                        new TowerPiece(
+                                templateManager, variantName + piece.name(),
+                                blockPos.offset(0, i * floorHeight, 0).offset(piece.offset()),
+                                baseDirection, piece.structureProcessors(), (i & 1) == 0
+                        )
+                );
+            }
         }
 
-        List<StructureProcessor> endShellProcessors;
-
-        endShellProcessors = switch (towerGenInfo) {
-            case CORE -> List.of(CORE_ROOF, CORE_FLOOR, CORE_WALL);
-            default -> List.of();
-        };
-        towerPieces.add(new ShellPiece(templateManager, "end", towerName, blockPos.offset(0,floorHeight*8, 0), rotation, "", endShellProcessors, List.of()));
-
-        LOGGER.debug("{} placed shell", towerName);
         // Add shell variant changes (if variant)
         if (!variant.equals("normal")) {
-            // TODO add shell variation
+            for (int i = 0; i < 8; i++) {
+                if (i == 0 && variant.equals("overgrown")) {
+                    continue;
+                }
+                pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.SHELL, variant, randomSource);
+                if (pieceResult != null) {
+                    piece = pieceResult.getFirst();
+                    variantName = baseName + pieceResult.getSecond() + "/";
+                    towerPieces.add(
+                            new TowerPiece(
+                                    templateManager, variantName + piece.name(),
+                                    blockPos.offset(0, i * floorHeight, 0).offset(piece.offset()),
+                                    baseDirection,  piece.structureProcessors(), (i & 1) == 0
+                            )
+                    );
+                }
+            }
         }
 
-        String roomName;
+        pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.END, variant, randomSource);
+        if (pieceResult != null) {
+            piece = pieceResult.getFirst();
+            variantName = baseName + pieceResult.getSecond() + "/";
+            towerPieces.add(
+                    new TowerPiece(
+                            templateManager, variantName + piece.name(),
+                            blockPos.offset(0, floorHeight * 8, 0).offset(piece.offset()),
+                            baseDirection,  piece.structureProcessors(), false
+                    )
+            );
+        }
+
+        LOGGER.debug("{} added shell to piece list", towerName);
+
+
+        String roomName = "";
         Map<String, Integer> usedRooms = new HashMap<>();
-        Rotation roomRotation;
         BlockPos roomPos;
         int failSafe;
 
-        List<StructureProcessor> startFloorProcessors;
+        pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.FIRST_FLOOR, variant, randomSource);
+        if (pieceResult != null) {
+            piece = pieceResult.getFirst();
+            variantName = baseName + pieceResult.getSecond() + "/";
+            switch (towerGenInfo) {
+                case OCEAN -> towerPieces.add(
+                        new TowerPiece(
+                                templateManager, variantName + "rooms/" + piece.name(),
+                                blockPos.offset(piece.offset()), 
+                                flippedDirection, piece.structureProcessors(), false
+                        )
+                );
+                case CORE -> {
 
-        startFloorProcessors =  switch (towerGenInfo) {
-            case LAND -> List.of(LAND_NORMAL_FLOOR);
-            case OCEAN -> List.of(WATERLOGGED);
-            default -> List.of();
-        };
-
-        switch (towerGenInfo) {
-            case OCEAN -> towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation.getRotated(Rotation.CLOCKWISE_180), startFloorProcessors,0));
-            case CORE -> {
-
+                }
+                default -> towerPieces.add(
+                        new TowerPiece(
+                                templateManager, variantName + "rooms/" + piece.name(),
+                                blockPos.offset(piece.offset()), 
+                                baseDirection, piece.structureProcessors(), false
+                        )
+                );
             }
-            default -> towerPieces.add(new RoomPiece(templateManager, "start_floor", towerName, blockPos, rotation, startFloorProcessors,0));
         }
+
+
         // LOGGER.debug("{} placed start floor", towerName);
         // Add random internal rooms (skipping entry floor)
         for (int i = 1; i < (towerGenInfo == CORE ? 1 : 7); i++) {
             failSafe = 0;
             // Get random room
             do {
-                roomName = TowerGenInfo.getRandomRoom(towerGenInfo, randomSource);
                 failSafe ++;
-                if (failSafe > 80) {
-                    roomName = towerGenInfo.getRooms().get(0);
+                if (failSafe > 60) {
+                    piece = towerGenInfo.getVariantPieces().get("normal").middleFloorPieces().get(0);
+                    roomName = piece.name();
                     break;
                 }
+
+                pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.MIDDLE_FLOOR, variant, randomSource);
+                piece = pieceResult.getFirst();
+                variantName = baseName + pieceResult.getSecond() + "/";
+                roomName = piece.name();
+
                 if (usedRooms.isEmpty()) {
                     usedRooms.put(roomName, 1);
                 }
@@ -122,169 +180,98 @@ public class TowerPieces {
                 usedRooms.put(roomName, usedRooms.getOrDefault(roomName, 0)+1);
             }
 
-            if ((i & 1) == 0) {
-                // even
-                roomRotation = rotation.getRotated(Rotation.CLOCKWISE_180);
-            } else {
-                // odd
-                roomRotation = rotation;
-            }
             roomPos = blockPos;
 
-            towerPieces.add(new RoomPiece(
-                    templateManager, roomName, towerName,
-                    roomPos.offset(0, i*floorHeight, 0), roomRotation,
-                    TowerGenInfo.getRoomProcessors(towerGenInfo, roomName), i
-            ));
+            towerPieces.add(
+                    new TowerPiece(
+                            templateManager, variantName + "rooms/" + piece.name(),
+                            roomPos.offset(0, i * floorHeight, 0).offset(piece.offset()), 
+                            baseDirection, piece.structureProcessors(), (i & 1) == 0
+                    )
+            );
 
         }
-
-        List<StructureProcessor> endFloorProcessors;
-
-        endFloorProcessors =  switch (towerGenInfo) {
-            case LAND, CORE -> List.of(LAND_CARPET_PLACER);
-            case OCEAN -> List.of(OCEAN_NORMAL_FLOOR);
-            default -> List.of();
-        };
 
         if (towerGenInfo != CORE) {
-            towerPieces.add(new RoomPiece(templateManager, "end_floor", towerName, blockPos.offset(0, floorHeight * 7, 0), rotation, endFloorProcessors, 8));
+            pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.FINAL_FLOOR, variant, randomSource);
+            if (pieceResult != null) {
+                piece = pieceResult.getFirst();
+                variantName = baseName + pieceResult.getSecond() + "/";
+                towerPieces.add(
+                        new TowerPiece(
+                                templateManager, variantName + "rooms/" + piece.name(),
+                                blockPos.offset(0, floorHeight * 7, 0).offset(piece.offset()),
+                                baseDirection, piece.structureProcessors(), false
+                        )
+                );
+            }
+
         }
 
-        LOGGER.debug("{} placed floors", towerName);
+        LOGGER.debug("{} added floors to piece list", towerName);
     }
 
     public static class TowerPiece extends TemplateStructurePiece {
-        protected String towerName;  // Used to find the piece for the correct tower type (Land, Ocean, Etc)
-        protected String variant;  // Used to find the pieces for the tower variant. If no variant this will be ""
-        public TowerPiece(StructureTemplateManager templateManager, String templateName, String towerName, BlockPos blockPos, Rotation rotation, String variant) {
-            super(BTStructurePieces.TOWER_PIECE.get(), 0, templateManager, makeLocation(towerName, templateName, variant), templateName, makeSettings(rotation), blockPos);
-            this.towerName = towerName;
-            this.variant = variant;
+
+        public TowerPiece(StructureTemplateManager templateManager, String templateName, BlockPos blockPos, Direction direction,  List<StructureProcessor> processors, boolean mirrored) {
+            super(
+                    BTStructurePieces.TOWER_PIECE.get(), 0, templateManager,
+                    makeLocation(templateName), templateName,
+                    makeSettings(Mirror.NONE, mirrored ? Rotation.CLOCKWISE_180 : Rotation.NONE),
+                    blockPos
+            );
+            this.setOrientation(mirrored ? direction.getOpposite() : direction);
+            this.addProcessors(processors);
         }
 
         public TowerPiece(StructureTemplateManager templateManager, CompoundTag compoundTag) {
-            this(
-                templateManager,
-                compoundTag.getString("Template"),
-                compoundTag.getString("TowerName"),
-                new BlockPos(compoundTag.getInt("TPX"), compoundTag.getInt("TPY"), compoundTag.getInt("TPZ")),
-                Rotation.valueOf(compoundTag.getString("Rotation")),
-                compoundTag.getString("Variant")
+            super(
+                    BTStructurePieces.TOWER_PIECE.get(), 0, templateManager,
+                    makeLocation(compoundTag.getString("Template")),
+                    compoundTag.getString("Template"),
+                    makeSettings(Mirror.valueOf(compoundTag.getString("Mi")), Rotation.valueOf(compoundTag.getString("Rot"))),
+                    new BlockPos(compoundTag.getInt("TPX"), compoundTag.getInt("TPY"), compoundTag.getInt("TPZ"))
             );
+            int i = compoundTag.getInt("O");
+            this.setOrientation(i == -1 ? null : Direction.from2DDataValue(i));
+            this.addProcessors(StructureProcessorType.LIST_CODEC.parse(NbtOps.INSTANCE, compoundTag.get("Processors")).result().get().get().list());
         }
 
         public int getHeight() {
             return this.template.getBoundingBox(this.placeSettings(), this.templatePosition).getYSpan();
         }
 
-        protected ResourceLocation makeTemplateLocation() {
-            return makeLocation(this.towerName, this.templateName, this.variant);
+        public ResourceLocation makeTemplateLocation() {
+            return makeLocation(this.templateName);
         }
 
-        protected static ResourceLocation makeLocation(String towerName, String templateName, String variant) {
-            // Example: land_tower/normal/entry
-            if (variant == null || variant.isEmpty()) {
-                return new ResourceLocation(BABattleTowers.MOD_ID, towerName + "/" + templateName);
+        protected static ResourceLocation makeLocation(String templateName) {
+            return new ResourceLocation(BABattleTowers.MOD_ID, templateName);
+        }
+
+
+        protected static StructurePlaceSettings makeSettings(Mirror mirror, Rotation rotation) {
+            return (new StructurePlaceSettings()).setMirror(mirror).setRotation(rotation).setRotationPivot(new BlockPos(14, 0, 14)).setIgnoreEntities(false).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        }
+
+        protected void addProcessors(List<StructureProcessor> processors) {
+            for (StructureProcessor processor : processors) {
+                this.placeSettings.addProcessor(processor);
             }
-            return new ResourceLocation(BABattleTowers.MOD_ID, towerName + "/" + variant  + "/" + templateName);
         }
 
-
-        protected static StructurePlaceSettings makeSettings(Rotation rotation) {
-            return (new StructurePlaceSettings()).setRotationPivot(new BlockPos(14, 0, 14)).setIgnoreEntities(false).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK).setFinalizeEntities(true);
-        }
 
         protected void addAdditionalSaveData(StructurePieceSerializationContext serializationContext, CompoundTag compoundTag) {
             super.addAdditionalSaveData(serializationContext, compoundTag);
-            compoundTag.putString("Rotation", this.placeSettings.getRotation().name());
-            compoundTag.putString("TowerName", this.towerName);
-            compoundTag.putString("Variant", this.variant);
+            StructureProcessorList processorList = new StructureProcessorList(this.placeSettings.getProcessors());
+            compoundTag.put(
+                    "Processors", StructureProcessorType.LIST_CODEC.encodeStart(NbtOps.INSTANCE, Holder.direct(processorList)).getOrThrow(false, LOGGER::error)
+            );
         }
 
         @Override
         protected void handleDataMarker(String string, BlockPos blockPos, ServerLevelAccessor serverLevelAccessor, RandomSource randomSource, BoundingBox boundingBox) {
 
         }
-    }
-
-    public static class ShellPiece extends TowerPiece {
-
-        public ShellPiece(
-                StructureTemplateManager templateManager, String templateName, String towerName,
-                BlockPos blockPos, Rotation rotation, String variant,
-                List<StructureProcessor> shellProcessors, List<StructureProcessor> variantProcessors
-        ) {
-            super(templateManager, templateName, towerName, blockPos, rotation, variant);
-
-            for (StructureProcessor processor : shellProcessors) {
-                this.placeSettings.addProcessor(processor);
-            }
-            for (StructureProcessor processor : variantProcessors) {
-                this.placeSettings.addProcessor(processor);
-            }
-        }
-
-    }
-    public static class StartPiece extends TowerPiece implements PieceBeardifierModifier {
-
-        public StartPiece(
-                StructureTemplateManager templateManager, String templateName, String towerName,
-                BlockPos blockPos, Rotation rotation, String variant
-        ) {
-            super(templateManager, templateName, towerName, blockPos, rotation, variant);
-
-            this.placeSettings.addProcessor(BASE_PROTECTED);
-
-            switch (TowerGenInfo.getTypeForName(towerName)) {
-                case OCEAN -> this.placeSettings.addProcessor(OCEAN_NORMAL);
-                default -> this.placeSettings.addProcessor(LAND_WALL);
-            }
-
-        }
-
-        @Override
-        public BoundingBox getBeardifierBox() {
-            return switch (TowerGenInfo.getTypeForName(towerName)) {
-                case LAND -> this.getBoundingBox();
-                default -> this.getBoundingBox();
-            };
-        }
-
-        @Override
-        public TerrainAdjustment getTerrainAdjustment() {
-            return switch (TowerGenInfo.getTypeForName(towerName)) {
-                case LAND -> TerrainAdjustment.BURY;
-                default -> TerrainAdjustment.NONE;
-            };
-        }
-
-        @Override
-        public int getGroundLevelDelta() {
-            Random rand = new Random();
-            return switch (TowerGenInfo.getTypeForName(towerName)) {
-                case LAND -> rand.nextInt(0,3);
-                default -> 0;
-            };
-        }
-    }
-
-
-    public static class RoomPiece extends TowerPiece {
-        public int towerlayer;
-        public RoomPiece(StructureTemplateManager templateManager, String templateName, String towerName, BlockPos blockPos, Rotation rotation, List<StructureProcessor> proccessors, int towerLayer) {
-            super(templateManager, templateName, towerName, blockPos, rotation, "normal");
-            for (StructureProcessor processor : proccessors) {
-                this.placeSettings.addProcessor(processor);
-            }
-            this.towerlayer = towerLayer;
-        }
-
-        public RoomPiece(StructureTemplateManager templateManager, CompoundTag compoundTag) {
-            super(templateManager, compoundTag);
-            this.towerlayer = compoundTag.getInt("TowerLayer");
-        }
-
-
     }
 }
