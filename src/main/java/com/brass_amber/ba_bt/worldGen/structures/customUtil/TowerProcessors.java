@@ -23,6 +23,9 @@ public class TowerProcessors {
     static final StructureProcessor LAND_NORMAL_STAIRS;
     static final StructureProcessor LAND_CARPET_PLACER;
 
+    static final StructureProcessor SAND_REMOVE_7;
+    static final StructureProcessor SANDSTONE;
+
     static final StructureProcessor OCEAN_NORMAL;
     static final StructureProcessor OCEAN_NORMAL_FLOOR;
     static final StructureProcessor NORMAL_STAIRS_OCEAN;
@@ -201,6 +204,21 @@ public class TowerProcessors {
 
         ));
 
+        SANDSTONE = new RuleProcessor(ImmutableList.of(
+                new ProcessorRule(
+                        new BlockMatchTest(Blocks.STONE_BRICKS),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.SANDSTONE.defaultBlockState()
+                )
+        ));
+
+        SAND_REMOVE_7 = new RuleProcessor(ImmutableList.of(
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.SAND, 0.07F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.AIR.defaultBlockState()
+                )
+        ));
 
         OCEAN_NORMAL = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
