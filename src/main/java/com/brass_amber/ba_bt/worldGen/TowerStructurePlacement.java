@@ -1,6 +1,5 @@
 package com.brass_amber.ba_bt.worldGen;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -91,7 +90,7 @@ public class TowerStructurePlacement extends RandomSpreadStructurePlacement {
         for (Holder<StructureSet> set : avoidStructures) {
             hasStructure = chunkGeneratorStructureState.hasStructureChunkInRange(set, x, z, minDistanceFromAvoidStructures);
             if (hasStructure) {
-                BABattleTowers.LOGGER.debug("Structure from set {} in range", set.unwrapKey().get().location().getPath());
+                // BABattleTowers.LOGGER.debug("Structure from set {} in range", set.unwrapKey().get().location().getPath());
                 break;
             }
         }
