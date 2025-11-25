@@ -131,7 +131,7 @@ public class LandTower extends Structure implements TowerStructure {
         // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
         boolean isFlat = highestY - lowestY <= 12;
 
-        int usableHeight = lowestY + ((highestY - lowestY) / 4);
+        int usableHeight = lowestY + ((highestY - lowestY) / 2);
 
         LOGGER.debug("flat?: {} usable height: {}", isFlat, usableHeight);
 
@@ -142,7 +142,7 @@ public class LandTower extends Structure implements TowerStructure {
                 QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(middleHieght), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
         );
 
-        BlockPos middleBlock = chunkPos.getMiddleBlockPosition(middleHieght + 1);
+        BlockPos middleBlock = chunkPos.getMiddleBlockPosition(middleHieght);
 
         HolderSet<Biome> holderset = generationContext.registryAccess().registryOrThrow(Registries.BIOME).getTag(Tags.Biomes.IS_WATER).orElseThrow();
         // LOGGER.debug("Ocean Holderset = {}", holderset);
@@ -152,9 +152,13 @@ public class LandTower extends Structure implements TowerStructure {
         );
         LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
 
-        checkVariant(generationContext, middleBlock);
+
         // Get a random usable position from the list, otherwise return false
         if (isFlat && generationContext.validBiome().test(biome) && waterBiomeNearby == null) {
+            checkVariant(generationContext, middleBlock);
+            if (this.towerType == 2) {
+                usableHeight -= 2;
+            }
             return Pair.of(true, usableHeight);
         }
 
