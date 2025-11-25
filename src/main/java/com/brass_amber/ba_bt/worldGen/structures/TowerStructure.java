@@ -8,13 +8,13 @@ import com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerPieces;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -81,14 +81,19 @@ public interface TowerStructure {
         for (int x = chunkBoundingBox.minX(); x <= chunkBoundingBox.maxX(); ++x) {
             for (int z = chunkBoundingBox.minZ(); z <= chunkBoundingBox.maxZ(); ++z) {
                 blockpos$mutableblockpos.set(x, bbYStart, z);
-                if (!worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) && boundingbox.isInside(blockpos$mutableblockpos) && towerBlocks.contains(worldGenLevel.getBlockState(blockpos$mutableblockpos).getBlock())) {
+                BlockState block = worldGenLevel.getBlockState(blockpos$mutableblockpos);
+                if (!worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) && boundingbox.isInside(blockpos$mutableblockpos) && (towerBlocks.contains(block.getBlock()) || block.is(BlockTags.DIRT))) {
                     for (int i1 = bbYStart - 1; i1 > minBuildHeight; --i1) {
                         blockpos$mutableblockpos.setY(i1);
                         if (!worldGenLevel.isEmptyBlock(blockpos$mutableblockpos) && !worldGenLevel.getBlockState(blockpos$mutableblockpos).getFluidState().isEmpty()) {
                             break;
                         }
-
-                        worldGenLevel.setBlock(blockpos$mutableblockpos, baseBlock, 2);
+                        if (block.is(Blocks.SAND) || block.is(Blocks.SANDSTONE)) {
+                            worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.SANDSTONE.defaultBlockState(), 2);
+                        }
+                        else {
+                            worldGenLevel.setBlock(blockpos$mutableblockpos, baseBlock, 2);
+                        }
                     }
                 }
             }
