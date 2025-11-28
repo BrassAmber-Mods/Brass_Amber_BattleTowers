@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,24 +17,38 @@ public class BattleTowersConfig {
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    private static final ForgeConfigSpec.ConfigValue<Integer> FIRST_TOWER_DISTANCE = BUILDER.comment("General Settings -- Negative values are ignored").push("general")
-            .comment("Tower Separation values below only change how often the game tries to spawn the structure. " +
-                "Several other factors (Land height/other structures) can affect whether the structure actually spawns.")
-            .comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 30 chunks ")
-                .define("firstTowerDistance", 30);
-
-    private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS = BUILDER.comment("Whether the Depth Dropper effect given by the Ocean Tower"
-                                + " affects mobs.")
-                .define("depthDropperAffectsMobs", false);
+    private static final ForgeConfigSpec.ConfigValue<Integer> FIRST_TOWER_DISTANCE =
+            BUILDER.comment("General Settings -- Negative values are ignored").push("general")
+                    .comment("Tower Separation values below only change how often the game tries to spawn the structure. " +
+                            "Several other factors (Land height/other structures) can affect whether the structure actually spawns.")
+                    .comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 30 chunks ")
+                    .define("firstTowerDistance", 30);
 
 
     private static final ForgeConfigSpec.ConfigValue<Integer> LAND_TIME_BEFORE_COLLAPSE =
-                BUILDER.comment("Length of time in seconds after Golem is defeated before the Land Tower collapses")
-                        .defineInRange("landCollapseTimer", 30, 30, 60);
+            BUILDER.comment("Length of time in seconds after Golem is defeated before the Land Tower collapses")
+                    .defineInRange("landCollapseTimer", 30, 30, 60);
 
     private static final ForgeConfigSpec.ConfigValue<Integer> OCEAN_TIME_BEFORE_COLLAPSE =
-                BUILDER.comment("Length of time in seconds after Golem is defeated before the Ocean Tower crumbles")
-                        .defineInRange("oceanCollapseTimer", 30, 30, 60);
+            BUILDER.comment("Length of time in seconds after Golem is defeated before the Ocean Tower crumbles")
+                    .defineInRange("oceanCollapseTimer", 45, 30, 60);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> CORE_TIME_BEFORE_COLLAPSE =
+            BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
+                    .defineInRange("coreCollapseTimer", 45, 30, 60);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> NETHER_TIME_BEFORE_COLLAPSE =
+            BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
+                    .defineInRange("netherCollapseTimer", 45, 30, 60);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> END_TIME_BEFORE_COLLAPSE =
+            BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
+                    .defineInRange("endCollapseTimer", 45, 30, 60);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> SKY_TIME_BEFORE_COLLAPSE =
+            BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
+                    .defineInRange("skyCollapseTimer", 45, 30, 60);
+
 
     private static final ForgeConfigSpec.ConfigValue<Double> LAND_TOWER_CRUMBLE_PERCENT =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 85% of tower.")
@@ -41,20 +56,62 @@ public class BattleTowersConfig {
 
     private static final ForgeConfigSpec.ConfigValue<Double> OCEAN_TOWER_CRUMBLE_PERCENT =
                 BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
-                        .defineInRange("oceanTowerDestruction", 1D, .5D,1D);
+                        .defineInRange("oceanTowerDestruction", .95D, 0,1D);
+
+    private static final ForgeConfigSpec.ConfigValue<Double> CORE_TOWER_CRUMBLE_PERCENT =
+            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
+                    .defineInRange("coreTowerDestruction", 1D, 0, 1D);
+
+    private static final ForgeConfigSpec.ConfigValue<Double> NETHER_TOWER_CRUMBLE_PERCENT =
+            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
+                    .defineInRange("netherTowerDestruction", 1D, 0, 1D);
+
+    private static final ForgeConfigSpec.ConfigValue<Double> END_TOWER_CRUMBLE_PERCENT =
+            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
+                    .defineInRange("endTowerDestruction", 1D, 0, 1D);
+
+    private static final ForgeConfigSpec.ConfigValue<Double> SKY_TOWER_CRUMBLE_PERCENT =
+            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
+                    .defineInRange("skyTowerDestruction", 1D, 0, 1D);
+
+    private static final ForgeConfigSpec.ConfigValue<Boolean> MINIMAL_OCEAN_CARVING =
+            BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
+                    .define("smallOceanTrench", false);
+
+    private static final ForgeConfigSpec.ConfigValue<Boolean> OCEAN_TOWER_VOID_HOLE =
+            BUILDER.comment("Whether the ocean tower destruction opens a hole into the void. Default: true.")
+                    .define("oceanTowerVoidHole", true);
+
+    private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS =
+            BUILDER.comment("Whether the Depth Dropper effect given by the Ocean Tower affects mobs.")
+            .define("depthDropperAffectsMobs", false);
+
 
 
     private static final ForgeConfigSpec.ConfigValue<Double> LAND_GOLEM_HP =
                 BUILDER.comment("The total health of the Land Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
                         .defineInRange("landGolemHealth", 250D, 200, 100000);
+
     private static final ForgeConfigSpec.ConfigValue<Double> OCEAN_GOLEM_HP =
                 BUILDER.comment("The total health of the Ocean Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
                         .defineInRange("oceanGolemHealth", 300D, 250, 100000);
 
+    private static final ForgeConfigSpec.ConfigValue<Double> CORE_GOLEM_HP =
+            BUILDER.comment("The total health of the Core Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
+                    .defineInRange("coreGolemHealth", 350D, 300, 100000);
 
-    private static final ForgeConfigSpec.ConfigValue<Boolean> MINIMAL_OCEAN_CARVING =
-                BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
-                        .define("smallOceanTrench", false);
+    private static final ForgeConfigSpec.ConfigValue<Double> NETHER_GOLEM_HP =
+            BUILDER.comment("The total health of the Nether Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
+                    .defineInRange("netherGolemHealth", 400D, 350, 100000);
+
+    private static final ForgeConfigSpec.ConfigValue<Double> END_GOLEM_HP =
+            BUILDER.comment("The total health of the End Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
+                    .defineInRange("endGolemHealth", 450D, 400, 100000);
+
+    private static final ForgeConfigSpec.ConfigValue<Double> SKY_GOLEM_HP =
+            BUILDER.comment("The total health of the Sky Golem, divide by two per heart. I.E a value of 300 is 150 hearts")
+                    .defineInRange("skyGolemHealth", 500D, 450, 100000);
+
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_MOBS =
                 BUILDER.pop().comment("Crashable settings -- If you edit these, and the game crashes, its on you").push("crashable")
@@ -67,13 +124,14 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> CORE_TOWER_MOBS =
             BUILDER.defineListAllowEmpty("coreTowerMobs", () -> List.of("minecraft:magma_cube", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider", "minecraft:cave_spider"), BattleTowersConfig::validateEntityName);
 
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> NETHER_TOWER_MOBS =
+            BUILDER.defineListAllowEmpty("netherTowerMobs", Collections.emptyList(), BattleTowersConfig::validateEntityName);
 
-    private static final ForgeConfigSpec.ConfigValue<Integer> BOOK_LEVEL_ENCHANT = BUILDER.pop().push("towerLootOptions")
-            .comment("The number of xp levels books and tools are enchanted with in loot, " +
-                "Ie a 20 here means that books and tools that appear in loot will contain enchants as if enchanted with 20 levels of xp  up to 41 (3 extra per tower floor)" )
-                .defineInRange("bookXPLevels", 10, 0, 40);
-    private static final ForgeConfigSpec.ConfigValue<Boolean> ENCHANT_ARMOR = BUILDER.comment("Whether or not armor in loot should be enchanted").define("enchantedArmor", true);
-    private static final ForgeConfigSpec.ConfigValue<Boolean> ENCHANT_TOOLS = BUILDER.comment("Whether or not tools/weapons in loot should be enchanted").define("enchantedTools", true);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> END_TOWER_MOBS =
+            BUILDER.defineListAllowEmpty("endTowerMobs", Collections.emptyList(), BattleTowersConfig::validateEntityName);
+
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> SKY_TOWER_MOBS =
+            BUILDER.defineListAllowEmpty("skyTowerMobs", Collections.emptyList(), BattleTowersConfig::validateEntityName);
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_CONTAINER_TYPES = BUILDER.comment("List of extra specifiable container types for use in custom tower floors").defineList("extraChestTypes", () -> List.of("White Shulker"), BattleTowersConfig::validateString);
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_CONTAINER_BLOCKS = BUILDER.comment("List of extra container blocks for placing in custom tower floors").defineList("extraChestBlocks", () -> List.of("minecraft:white_shulker_box"), BattleTowersConfig::validateBlock);
@@ -92,28 +150,38 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec SPEC = BUILDER.pop().build();;
     
     public static int firstTowerDistance;
-    public static boolean depthDropperAffectsMobs;
 
     public static int landTimeBeforeCollapse;
     public static int oceanTimeBeforeCollapse;
+    public static double coreTimeBeforeCollapse;
+    public static double netherTimeBeforeCollapse;
+    public static double endTimeBeforeCollapse;
+    public static double skyTimeBeforeCollapse;
+
     public static double landTowerCrumblePercent;
     public static double oceanTowerCrumblePercent;
+    public static double coreTowerCrumblePercent;
+    public static double netherTowerCrumblePercent;
+    public static double endTowerCrumblePercent;
+    public static double skyTowerCrumblePercent;
+
+    public static boolean oceanTowerVoidHole;
+    public static boolean minimalOceanCarving;
+    public static boolean depthDropperAffectsMobs;
 
     public static double landGolemHP;
     public static double oceanGolemHP;
-
-    public static boolean minimalOceanCarving;;
+    public static double coreGolemHP;
+    public static double netherGolemHP;
+    public static double endGolemHP;
+    public static double skyGolemHP;
 
     public static List<EntityType<?>> landTowerMobs;
     public static List<EntityType<?>> oceanTowerMobs;
     public static List<EntityType<?>> coreTowerMobs;
-
-    public static int bookLevelEnchant;
-    public static boolean enchantArmor;
-    public static boolean enchantTools;
-
-    public static List<String> extraContainerTypes;
-    public static List<String> extraContainerBlocks;
+    public static List<EntityType<?>> netherTowerMobs;
+    public static List<EntityType<?>> endTowerMobs;
+    public static List<EntityType<?>> skyTowerMobs;
 
     public static List<String> landTowerChestLootTables;
     public static List<String> oceanTowerChestLootTables;
@@ -156,16 +224,30 @@ public class BattleTowersConfig {
         
         firstTowerDistance = FIRST_TOWER_DISTANCE.get();
 
+        landTimeBeforeCollapse = LAND_TIME_BEFORE_COLLAPSE.get();
+        oceanTimeBeforeCollapse = OCEAN_TIME_BEFORE_COLLAPSE.get();
+        coreTimeBeforeCollapse = CORE_TIME_BEFORE_COLLAPSE.get();
+        netherTimeBeforeCollapse = NETHER_TIME_BEFORE_COLLAPSE.get();
+        endTimeBeforeCollapse = END_TIME_BEFORE_COLLAPSE.get();
+        skyTimeBeforeCollapse = SKY_TIME_BEFORE_COLLAPSE.get();
+
+        landTowerCrumblePercent = LAND_TOWER_CRUMBLE_PERCENT.get();
+        oceanTowerCrumblePercent = OCEAN_TOWER_CRUMBLE_PERCENT.get();
+        coreTowerCrumblePercent = CORE_TOWER_CRUMBLE_PERCENT.get();
+        netherTowerCrumblePercent = NETHER_TOWER_CRUMBLE_PERCENT.get();
+        endTowerCrumblePercent = END_TOWER_CRUMBLE_PERCENT.get();
+        skyTowerCrumblePercent = SKY_TOWER_CRUMBLE_PERCENT.get();
+
+        oceanTowerVoidHole = OCEAN_TOWER_VOID_HOLE.get();
+        minimalOceanCarving = MINIMAL_OCEAN_CARVING.get();
         depthDropperAffectsMobs = DEPTH_DROPPER_AFFECTS_MOBS.get();
 
         landGolemHP = LAND_GOLEM_HP.get();
-
-        landTimeBeforeCollapse = LAND_TIME_BEFORE_COLLAPSE.get();
-        landTowerCrumblePercent =  LAND_TOWER_CRUMBLE_PERCENT.get();
         oceanGolemHP = OCEAN_GOLEM_HP.get();
-        oceanTimeBeforeCollapse =  OCEAN_TIME_BEFORE_COLLAPSE.get();
-        oceanTowerCrumblePercent = OCEAN_TOWER_CRUMBLE_PERCENT.get();
-        minimalOceanCarving = MINIMAL_OCEAN_CARVING.get();
+        coreGolemHP = CORE_GOLEM_HP.get();
+        netherGolemHP = NETHER_GOLEM_HP.get();
+        endGolemHP = END_GOLEM_HP.get();
+        skyGolemHP = SKY_GOLEM_HP.get();
         
         landTowerMobs = LAND_TOWER_MOBS.get().stream()
                 .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
@@ -176,12 +258,15 @@ public class BattleTowersConfig {
         coreTowerMobs = CORE_TOWER_MOBS.get().stream()
                 .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
                 .collect(Collectors.toList());
-
-        bookLevelEnchant =  BOOK_LEVEL_ENCHANT.get();
-        enchantArmor = ENCHANT_ARMOR.get();
-        enchantTools = ENCHANT_TOOLS.get();
-        extraContainerTypes = EXTRA_CONTAINER_TYPES.get().stream().collect(Collectors.toUnmodifiableList());
-        extraContainerBlocks = EXTRA_CONTAINER_BLOCKS.get().stream().collect(Collectors.toUnmodifiableList());
+        netherTowerMobs = NETHER_TOWER_MOBS.get().stream()
+                .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
+                .collect(Collectors.toList());
+        endTowerMobs = END_TOWER_MOBS.get().stream()
+                .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
+                .collect(Collectors.toList());
+        skyTowerMobs = SKY_TOWER_MOBS.get().stream()
+                .map(mobName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(mobName)))
+                .collect(Collectors.toList());
 
         landTowerChestLootTables = LAND_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
         oceanTowerChestLootTables = OCEAN_TOWER_CHEST_LOOT_TABLES.get().stream().collect(Collectors.toUnmodifiableList());
