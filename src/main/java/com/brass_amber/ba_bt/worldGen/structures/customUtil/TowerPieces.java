@@ -267,6 +267,9 @@ public class TowerPieces {
             compoundTag.put(
                     "Processors", StructureProcessorType.LIST_CODEC.encodeStart(NbtOps.INSTANCE, Holder.direct(processorList)).getOrThrow(false, LOGGER::error)
             );
+            compoundTag.putString("Rot", this.placeSettings.getRotation().name());
+            compoundTag.putString("Mi", this.placeSettings.getMirror().name());
+
         }
 
         @Override
