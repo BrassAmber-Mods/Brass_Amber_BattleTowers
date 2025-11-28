@@ -24,9 +24,9 @@ public class ResonanceStoneItem extends RecordItem {
     public boolean effectOn;
     private boolean initialized;
 
-    public ResonanceStoneItem(String golemName, Supplier<SoundEvent> soundSupplier, Properties properties, int length) {
+    public ResonanceStoneItem(GolemType golemType, Supplier<SoundEvent> soundSupplier, Properties properties, int length) {
         super(4, soundSupplier, properties, length);
-        this.golemType = GolemType.getTypeForName(golemName);
+        this.golemType = golemType;
         this.effectOn = false;
         this.initialized = false;
     }
