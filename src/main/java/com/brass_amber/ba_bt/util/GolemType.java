@@ -7,6 +7,7 @@ import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
+import com.brass_amber.ba_bt.entity.hostile.AbstractDestructionEntity;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTBlocks;
@@ -28,14 +29,14 @@ import org.jetbrains.annotations.NotNull;
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
 public enum GolemType implements StringRepresentable {
-	EMPTY("empty", Component.literal("Empty")),
-	LAND("land", Component.translatable("entity.ba_bt.land_golem")),
-	OCEAN("ocean", Component.translatable("entity.ba_bt.ocean_golem")),
-	CORE("core", Component.translatable("entity.ba_bt.core_golem")),
-	NETHER("nether", Component.translatable("entity.ba_bt.nether_golem")),
-	END("end", Component.translatable("entity.ba_bt.end_golem")),
-	SKY("sky", Component.translatable("entity.ba_bt.sky_golem")),
-	CITY("city", Component.literal("~"));
+	EMPTY("EMPTY", Component.literal("Empty")),
+	LAND("LAND", Component.translatable("entity.ba_bt.land_golem")),
+	OCEAN("OCEAN", Component.translatable("entity.ba_bt.ocean_golem")),
+	CORE("CORE", Component.translatable("entity.ba_bt.core_golem")),
+	NETHER("NETHER", Component.translatable("entity.ba_bt.nether_golem")),
+	END("END", Component.translatable("entity.ba_bt.end_golem")),
+	SKY("SKY", Component.translatable("entity.ba_bt.sky_golem")),
+	CITY("CITY", Component.literal("~"));
 
 	private final String name;
 	private final Component displayName;
@@ -135,24 +136,22 @@ public enum GolemType implements StringRepresentable {
 	 * Return the correct GolemType for each Monolith Entity.
 	 */
 	public static GolemType getTypeForMonolith(BTMonolith BTMonolithEntity) {
-		EntityType<?> entityType = BTMonolithEntity.getMonolithType();
-		if (entityType != null) {
-			if (entityType.equals(BTEntityType.LAND_MONOLITH.get())) {
-				return LAND;
-			} else if (entityType.equals(BTEntityType.OCEAN_MONOLITH.get())) {
-				return OCEAN;
-			} else if (entityType.equals(BTEntityType.CORE_MONOLITH.get())) {
-				return CORE;
-			}else if (entityType.equals(BTEntityType.NETHER_MONOLITH.get())) {
-				return NETHER;
-			}  else if (entityType.equals(BTEntityType.END_MONOLITH.get())) {
-				return END;
-			} else if (entityType.equals(BTEntityType.SKY_MONOLITH.get())) {
-				return SKY;
-			}
-		}
+		EntityType<?> entityType = BTMonolithEntity.getType();
+        if (entityType.equals(BTEntityType.LAND_MONOLITH.get())) {
+            return LAND;
+        } else if (entityType.equals(BTEntityType.OCEAN_MONOLITH.get())) {
+            return OCEAN;
+        } else if (entityType.equals(BTEntityType.CORE_MONOLITH.get())) {
+            return CORE;
+        } else if (entityType.equals(BTEntityType.NETHER_MONOLITH.get())) {
+            return NETHER;
+        } else if (entityType.equals(BTEntityType.END_MONOLITH.get())) {
+            return END;
+        } else if (entityType.equals(BTEntityType.SKY_MONOLITH.get())) {
+            return SKY;
+        }
 
-		// Couldn't get EntityType
+        // Couldn't get EntityType
 		return EMPTY;
 	}
 
@@ -200,6 +199,27 @@ public enum GolemType implements StringRepresentable {
 		// Couldn't get EntityType
 		return EMPTY;
 	}
+
+	public static GolemType getTypeForDestructionEntity(AbstractDestructionEntity entity) {
+		EntityType<?> entityType = entity.getType();
+
+		if (entityType.equals(BTEntityType.LAND_DESTRUCTION.get())) {
+			return LAND;
+		} else if (entityType.equals(BTEntityType.OCEAN_DESTRUCTION.get())) {
+			return OCEAN;
+		} else if (entityType.equals(BTEntityType.CORE_DESTRUCTION.get())) {
+			return CORE;
+		} else if (entityType.equals(BTEntityType.NETHER_DESTRUCTION.get())) {
+			return NETHER;
+		} else if (entityType.equals(BTEntityType.END_DESTRUCTION.get())) {
+			return END;
+		} else if (entityType.equals(BTEntityType.SKY_DESTRUCTION.get())) {
+			return SKY;
+		}
+
+		// Couldn't get EntityType
+		return EMPTY;
+    }
 	/**
 	 * Return the correct ChestBlock Entity for each GolemType.
 	 */
@@ -240,6 +260,18 @@ public enum GolemType implements StringRepresentable {
 				|| BTBlocks.NETHER_GOLEM_CHEST.get().equals(block)
 				|| BTBlocks.END_GOLEM_CHEST.get().equals(block)
 				|| BTBlocks.SKY_GOLEM_CHEST.get().equals(block);
+	}
+
+
+	public static EntityType<?> getDestructionEntityForType(GolemType golemType) {
+		return switch (golemType) {
+            case OCEAN -> BTEntityType.OCEAN_DESTRUCTION.get();
+			case CORE -> BTEntityType.CORE_DESTRUCTION.get();
+			case NETHER -> BTEntityType.NETHER_DESTRUCTION.get();
+			case END -> BTEntityType.END_DESTRUCTION.get();
+			case SKY -> BTEntityType.SKY_DESTRUCTION.get();
+            default -> BTEntityType.LAND_DESTRUCTION.get();
+        };
 	}
 
 	/**
@@ -316,19 +348,6 @@ public enum GolemType implements StringRepresentable {
 
 	/*********************************************************** Extra ********************************************************/
 
-	public static GolemType getTypeForName(String name) {
-		return switch (name) {
-			case "land" -> LAND;
-			case "ocean" -> OCEAN;
-			case "core" -> CORE;
-			case "nether" -> NETHER;
-			case "end" -> END;
-			case "sky" -> SKY;
-			case "city" -> CITY;
-			default -> EMPTY;
-		};
-	}
-
 	public static Entity getDestructionEntity(GolemType golemType, Level level, BlockPos blockPos) {
 		Entity destruction = null;
 		switch (golemType) {
@@ -337,8 +356,8 @@ public enum GolemType implements StringRepresentable {
 				blockPos = blockPos.above(6);
 			}
 			case OCEAN -> {
-				destruction = new OceanDestructionEntity(level);
-				blockPos = blockPos.atY(level.getSeaLevel() - 88);
+				destruction = new OceanDestructionEntity(level, blockPos);
+				blockPos = blockPos.above(114);
 			}
 			default -> {
 			}
