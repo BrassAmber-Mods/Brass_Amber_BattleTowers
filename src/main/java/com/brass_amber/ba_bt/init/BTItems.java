@@ -45,13 +45,13 @@ public class BTItems {
 	public static final RegistryObject<Item> END_CHEST_SHARD = ITEMS.register("end_chest_shard", () -> new Item(new Item.Properties().stacksTo(16)));
 	public static final RegistryObject<Item> SKY_CHEST_SHARD = ITEMS.register("sky_chest_shard", () -> new Item(new Item.Properties().stacksTo(16)));
 
-	public static final RegistryObject<Item> LAND_RESONANCE_CRYSTAL = ITEMS.register("land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND.getSerializedName(), MUSIC_LAND_TOWER, new Item.Properties().stacksTo(1),3940));
-	public static final RegistryObject<Item> OCEAN_RESONANCE_CRYSTAL = ITEMS.register("ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN.getSerializedName(), MUSIC_OCEAN_TOWER,new Item.Properties().stacksTo(1), 4780));
-	public static final RegistryObject<Item> CORE_RESONANCE_CRYSTAL = ITEMS.register("core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE.getSerializedName(), MUSIC_CORE_TOWER,new Item.Properties().stacksTo(1), 4440));
-	public static final RegistryObject<Item> NETHER_RESONANCE_CRYSTAL = ITEMS.register("nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER.getSerializedName(), MUSIC_NETHER_TOWER,new Item.Properties().stacksTo(1), 3880));
-	public static final RegistryObject<Item> END_RESONANCE_CRYSTAL = ITEMS.register("end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END.getSerializedName(), MUSIC_END_TOWER,new Item.Properties().stacksTo(1), 5060));
-	public static final RegistryObject<Item> SKY_RESONANCE_CRYSTAL = ITEMS.register("sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY.getSerializedName(), MUSIC_SKY_TOWER,new Item.Properties().stacksTo(1), 3940));
-	public static final RegistryObject<Item> CITY_RESONANCE_CRYSTAL = ITEMS.register("city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY.getSerializedName(), MUSIC_CITY,new Item.Properties().stacksTo(1), 6560));
+	public static final RegistryObject<Item> LAND_RESONANCE_CRYSTAL = ITEMS.register("land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND, MUSIC_LAND_TOWER, new Item.Properties().stacksTo(1),3940));
+	public static final RegistryObject<Item> OCEAN_RESONANCE_CRYSTAL = ITEMS.register("ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN, MUSIC_OCEAN_TOWER,new Item.Properties().stacksTo(1), 4780));
+	public static final RegistryObject<Item> CORE_RESONANCE_CRYSTAL = ITEMS.register("core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE, MUSIC_CORE_TOWER,new Item.Properties().stacksTo(1), 4440));
+	public static final RegistryObject<Item> NETHER_RESONANCE_CRYSTAL = ITEMS.register("nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER, MUSIC_NETHER_TOWER,new Item.Properties().stacksTo(1), 3880));
+	public static final RegistryObject<Item> END_RESONANCE_CRYSTAL = ITEMS.register("end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END, MUSIC_END_TOWER,new Item.Properties().stacksTo(1), 5060));
+	public static final RegistryObject<Item> SKY_RESONANCE_CRYSTAL = ITEMS.register("sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY, MUSIC_SKY_TOWER,new Item.Properties().stacksTo(1), 3940));
+	public static final RegistryObject<Item> CITY_RESONANCE_CRYSTAL = ITEMS.register("city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY, MUSIC_CITY,new Item.Properties().stacksTo(1), 6560));
 
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
