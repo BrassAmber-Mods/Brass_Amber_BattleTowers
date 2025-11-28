@@ -1,20 +1,9 @@
 package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionStructure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,13 +11,12 @@ import java.util.stream.IntStream;
 
 import static com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerProcessors.*;
 
-public enum TowerGenInfo implements StringRepresentable {
-    EMPTY("", // Name
+public enum TowerGenInfo {
+    EMPTY(
             new String[]{}, // Variant Names
             List.of() // All variants (Normal is first variant)
     ),
     LAND(
-            "land_tower",
             new String[]{"normal", "overgrown", "sandy", "icy", "ruined"},
             List.of(
                     new VariantPieces(
@@ -72,7 +60,7 @@ public enum TowerGenInfo implements StringRepresentable {
                     )
             )
     ),
-    OCEAN("ocean_tower",
+    OCEAN(
             new String[]{"normal", "gilded", "island"},
             List.of(
                     new VariantPieces(
@@ -89,7 +77,7 @@ public enum TowerGenInfo implements StringRepresentable {
                     )
             )
     ),
-    CORE("core_tower",
+    CORE(
             new String[]{"normal", "city", "colossal"},
             List.of(new VariantPieces(
                     List.of(new WeightedPiece("shell", 1, List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR), Vec3i.ZERO)),
@@ -103,33 +91,29 @@ public enum TowerGenInfo implements StringRepresentable {
                             new WeightedPiece("library", 0.25f, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)
                     ),
                     List.of(new WeightedPiece("cult_floor", 1, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)),
-                    List.of(new WeightedPiece("boss_floor", 1, List.of(), Vec3i.ZERO))
+                    List.of(new WeightedPiece("boss_floor", 1, List.of(CORE_FLOOR, CORE_ROOF), Vec3i.ZERO))
             ))
     ),
-    NETHER("nether_tower",
+    NETHER(
             new String[]{"normal", "crimson", "blue", "anomaly"}, // Variant Names
             List.of()
     ),
-    END("end_tower",
+    END(
             new String[]{"normal", "disturbance", "city"}, // Variant Names
             List.of()
     ),
-    SKY("sky_tower",
+    SKY(
             new String[]{"normal", "village", "hanging_gardens"}, // Variant Names
             List.of()
     );
 
-    private final String towerName;
     private final String[] variants;
     private final Map<String, VariantPieces> variantPieces;
 
-
     TowerGenInfo(
-            String towerName,
             String[] variants,
             List<VariantPieces>variantPiecesList
     ) {
-        this.towerName = towerName;
         this.variants = variants;
         this.variantPieces = IntStream.range(0, variants.length).boxed().collect(
                 Collectors.toMap(i -> variants[i], i -> i < variantPiecesList.size() ? variantPiecesList.get(i) : EMPTY_VARIANT)
@@ -161,13 +145,13 @@ public enum TowerGenInfo implements StringRepresentable {
 
     public static TowerGenInfo getTypeForName(String name) {
         return switch (name) {
-            default -> EMPTY;
             case "land_tower" -> TowerGenInfo.LAND;
             case "ocean_tower" -> TowerGenInfo.OCEAN;
             case "core_tower" -> TowerGenInfo.CORE;
             case "nether_tower" -> TowerGenInfo.NETHER;
             case "end_tower" -> TowerGenInfo.END;
             case "sky_tower" -> TowerGenInfo.SKY;
+            default -> EMPTY;
         };
     }
 
@@ -178,12 +162,6 @@ public enum TowerGenInfo implements StringRepresentable {
             case SKY -> 12;
             default -> 11;
         };
-    }
-
-
-    @Override
-    public String getSerializedName() {
-        return this.towerName;
     }
 
     public String[] getVariants() {
