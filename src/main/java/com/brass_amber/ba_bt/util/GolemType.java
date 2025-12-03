@@ -7,7 +7,7 @@ import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
-import com.brass_amber.ba_bt.entity.hostile.AbstractDestructionEntity;
+import com.brass_amber.ba_bt.entity.AbstractDestructionEntity;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTBlocks;
@@ -29,21 +29,23 @@ import org.jetbrains.annotations.NotNull;
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
 public enum GolemType implements StringRepresentable {
-	EMPTY("EMPTY", Component.literal("Empty")),
-	LAND("LAND", Component.translatable("entity.ba_bt.land_golem")),
-	OCEAN("OCEAN", Component.translatable("entity.ba_bt.ocean_golem")),
-	CORE("CORE", Component.translatable("entity.ba_bt.core_golem")),
-	NETHER("NETHER", Component.translatable("entity.ba_bt.nether_golem")),
-	END("END", Component.translatable("entity.ba_bt.end_golem")),
-	SKY("SKY", Component.translatable("entity.ba_bt.sky_golem")),
-	CITY("CITY", Component.literal("~"));
+	EMPTY("EMPTY", Component.literal("Empty"), ""),
+	LAND("LAND", Component.translatable("entity.ba_bt.land_golem"), "#9BDAE7"),
+	OCEAN("OCEAN", Component.translatable("entity.ba_bt.ocean_golem"), "#EAE78A"),
+	CORE("CORE", Component.translatable("entity.ba_bt.core_golem"), "#F79B3A"),
+	NETHER("NETHER", Component.translatable("entity.ba_bt.nether_golem"), "#88EB63"),
+	END("END", Component.translatable("entity.ba_bt.end_golem"), "#BA49EF"),
+	SKY("SKY", Component.translatable("entity.ba_bt.sky_golem"), "#FBC1EB"),
+	CITY("CITY", Component.literal("~"), "");
 
 	private final String name;
 	private final Component displayName;
+	private final String colorCode;
 
-	GolemType(String name, Component displayName) {
+	GolemType(String name, Component displayName, String colorCode) {
 		this.name = name;
 		this.displayName = displayName;
+		this.colorCode = colorCode;
 	}
 
 	public static final GolemType[] VALUES = values();
@@ -348,25 +350,11 @@ public enum GolemType implements StringRepresentable {
 
 	/*********************************************************** Extra ********************************************************/
 
-	public static Entity getDestructionEntity(GolemType golemType, Level level, BlockPos blockPos) {
-		Entity destruction = null;
-		switch (golemType) {
-			case LAND -> {
-				destruction = new LandDestructionEntity(blockPos, level);
-				blockPos = blockPos.above(6);
-			}
-			case OCEAN -> {
-				destruction = new OceanDestructionEntity(level, blockPos);
-				blockPos = blockPos.above(114);
-			}
-			default -> {
-			}
-		}
-		if (destruction != null) {
-			destruction.setPos(blockPos.getX() + .25D, blockPos.getY(), blockPos.getZ() + .25D);
-		}
-
-		return destruction;
+	public static AbstractDestructionEntity getDestructionEntity(GolemType golemType, Level level, BlockPos pos) {
+		return switch (golemType) {
+			case OCEAN -> new OceanDestructionEntity(level, pos);
+			default -> new LandDestructionEntity(level, pos);
+		};
 	}
 
 	public static String getTowerChestPool(GolemType golemType, int index) {
@@ -444,6 +432,18 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
+	public static int getDestructionDelay(GolemType golemType) {
+		return switch (golemType) {
+			case LAND -> landTimeBeforeCollapse;
+			case OCEAN -> oceanTimeBeforeCollapse;
+			case CORE -> coreTimeBeforeCollapse;
+			case NETHER -> netherTimeBeforeCollapse;
+			case END -> endTimeBeforeCollapse;
+			case SKY -> skyTimeBeforeCollapse;
+			default -> 0;
+		};
+	}
+
 	@Override
 	public @NotNull String getSerializedName() {
 		return this.name;
@@ -453,4 +453,7 @@ public enum GolemType implements StringRepresentable {
 		return this.displayName;
 	}
 
+    public String getColorCode() {
+        return colorCode;
+    }
 }
