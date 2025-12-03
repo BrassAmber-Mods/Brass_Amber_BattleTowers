@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.entity;
 
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
-import com.brass_amber.ba_bt.util.TowerSpecs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
@@ -11,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 
@@ -26,7 +24,6 @@ public abstract class AbstractDestructionEntity extends Entity {
 
     //Other Parameters
     protected Boolean initialized = false;
-    protected TowerSpecs specs;
     protected GolemType golemType;
     protected List<BlockPos> blocksToRemove = new ArrayList<>();
     protected int crumbleStartY = 0;
@@ -93,7 +90,6 @@ public abstract class AbstractDestructionEntity extends Entity {
         this.crumbleStopY = compoundTag.getInt(this.crumbleStopName);
         this.crumbleY = compoundTag.getInt(this.crumbleYName);
         this.golemType = GolemType.valueOf(this.golemTypeName);
-        this.specs = TowerSpecs.getTowerFromGolem(this.golemType);
         this.destructionState = DestructionState.getState(compoundTag.getInt(this.destructionStateName));
         this.titleState = TitleState.values()[compoundTag.getInt(this.titleStateName)];
     }
