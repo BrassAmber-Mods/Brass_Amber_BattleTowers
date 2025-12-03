@@ -202,25 +202,25 @@
 
 	"comment9":"Overscreen titles",
 
-	"title.ba_bt.guardian_defeated_1": " Has Fallen",
+	"title.ba_bt.golem_defeated": " Has Fallen",
 
-	"title.ba_bt.land_defeated_2": "Without its energy...",
-	"title.ba_bt.land_defeated_3": "...The tower will collapse...",
+	"title.ba_bt.land_golem_fate": "Without its energy...",
+	"title.ba_bt.land_collapse_flavor": "...The tower will collapse...",
 
-	"title.ba_bt.ocean_defeated_2": "With the Idol returned to the void...",
-	"title.ba_bt.ocean_defeated_3": "...The floor starts to crumble...",
+	"title.ba_bt.ocean_golem_fate": "With the Idol returned to the void...",
+	"title.ba_bt.ocean_collapse_flavor": "...The floor starts to crumble...",
 
-	"title.ba_bt.core_defeated_2": "Without the god's vessel...",
-	"title.ba_bt.core_defeated_3": "...The walls begin to melt...",
+	"title.ba_bt.core_golem_fate": "Without the god's vessel...",
+	"title.ba_bt.core_collapse_flavor": "...The walls begin to melt...",
 
-	"title.ba_bt.nether_defeated_2": "Without the tyrants control...",
-	"title.ba_bt.nether_defeated_3": "...The tower blossoms once more...",
+	"title.ba_bt.nether_golem_fate": "Without the tyrants control...",
+	"title.ba_bt.nether_collapse_flavor": "...The tower blossoms once more...",
 
-	"title.ba_bt.end_defeated_2": "Defeated but not destroyed...",
-	"title.ba_bt.end_defeated_3": "...The floor begins to vanish...",
+	"title.ba_bt.end_golem_fate": "Defeated but not destroyed...",
+	"title.ba_bt.end_collapse_flavor": "...The floor begins to vanish...",
 
-	"title.ba_bt.sky_defeated_2": "A Goddess slain...",
-	"title.ba_bt.sky_defeated_3": "...The tower dissolves into mist...",
+	"title.ba_bt.sky_golem_fate": "A Goddess slain...",
+	"title.ba_bt.sky_collapse_flavor": "...The tower dissolves into mist...",
 
 	"comment10":"Advancements",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",

@@ -201,25 +201,25 @@
 
 	"comment9":"Overscreen titles",
 
-	"title.ba_bt.guardian_defeated_1": "Повержен",
+	"title.ba_bt.golem_defeated": "Повержен",
 
-	"title.ba_bt.land_defeated_2": "Без этой энергии...",
-	"title.ba_bt.land_defeated_3": "...Башня падёт...",
+	"title.ba_bt.land_golem_fate": "Без этой энергии...",
+	"title.ba_bt.land_collapse_flavor": "...Башня падёт...",
 
-	"title.ba_bt.ocean_defeated_2": "С возвращением идола в пустоту...",
-	"title.ba_bt.ocean_defeated_3": "...Пол начал осыпаться...",
+	"title.ba_bt.ocean_golem_fate": "С возвращением идола в пустоту...",
+	"title.ba_bt.ocean_collapse_flavor": "...Пол начал осыпаться...",
 
-	"title.ba_bt.core_defeated_2": "Без сосуда бога...",
-	"title.ba_bt.core_defeated_3": "...Стены начинают плавиться...",
+	"title.ba_bt.core_golem_fate": "Без сосуда бога...",
+	"title.ba_bt.core_collapse_flavor": "...Стены начинают плавиться...",
 
-	"title.ba_bt.nether_defeated_2": "Без контроля тирана...",
-	"title.ba_bt.nether_defeated_3": "...Башня зацветёт снова...",
+	"title.ba_bt.nether_golem_fate": "Без контроля тирана...",
+	"title.ba_bt.nether_collapse_flavor": "...Башня зацветёт снова...",
 
-	"title.ba_bt.end_defeated_2": "Повержен, но не уничтожен...",
-	"title.ba_bt.end_defeated_3": "...Пол начинает исчезать...",
+	"title.ba_bt.end_golem_fate": "Повержен, но не уничтожен...",
+	"title.ba_bt.end_collapse_flavor": "...Пол начинает исчезать...",
 
-	"title.ba_bt.sky_defeated_2": "Богиня убита...",
-	"title.ba_bt.sky_defeated_3": "...Башня расстворяется в туман...",
+	"title.ba_bt.sky_golem_fate": "Богиня убита...",
+	"title.ba_bt.sky_collapse_flavor": "...Башня расстворяется в туман...",
 
 	"comment10":"Advancements",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",

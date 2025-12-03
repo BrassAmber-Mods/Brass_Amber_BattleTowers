@@ -201,25 +201,25 @@
 
 	"comment9":"Overscreen titles",
 
-	"title.ba_bt.guardian_defeated_1": "Le Golem Est Vaincu",
+	"title.ba_bt.golem_defeated": "Le Golem Est Vaincu",
 
-	"title.ba_bt.land_defeated_2": "N'a plus son énergie...",
-	"title.ba_bt.land_defeated_3": "...La Tour va s'écrouler...",
+	"title.ba_bt.land_golem_fate": "N'a plus son énergie...",
+	"title.ba_bt.land_collapse_flavor": "...La Tour va s'écrouler...",
 
-	"title.ba_bt.ocean_defeated_2": "Rejeté dans le vide...",
-	"title.ba_bt.ocean_defeated_3": "...Le sol commence à s'effondrer...",
+	"title.ba_bt.ocean_golem_fate": "Rejeté dans le vide...",
+	"title.ba_bt.ocean_collapse_flavor": "...Le sol commence à s'effondrer...",
 
-	"title.ba_bt.core_defeated_2": "Sans le vase du dieu...",
-	"title.ba_bt.core_defeated_3": "...Les murs commencent à fondre...",
+	"title.ba_bt.core_golem_fate": "Sans le vase du dieu...",
+	"title.ba_bt.core_collapse_flavor": "...Les murs commencent à fondre...",
 
-	"title.ba_bt.nether_defeated_2": "Sans leur contrôle...",
-	"title.ba_bt.nether_defeated_3": "...La tour commence à fleurir...",
+	"title.ba_bt.nether_golem_fate": "Sans leur contrôle...",
+	"title.ba_bt.nether_collapse_flavor": "...La tour commence à fleurir...",
 
-	"title.ba_bt.end_defeated_2": "Vaincu mais pas détruit...",
-	"title.ba_bt.end_defeated_3": "...Le sol commence à disparaître...",
+	"title.ba_bt.end_golem_fate": "Vaincu mais pas détruit...",
+	"title.ba_bt.end_collapse_flavor": "...Le sol commence à disparaître...",
 
-	"title.ba_bt.sky_defeated_2": "Tué par un simple joueur...",
-	"title.ba_bt.sky_defeated_3": "...La tour s'efface et s'écroule...",
+	"title.ba_bt.sky_golem_fate": "Tué par un simple joueur...",
+	"title.ba_bt.sky_collapse_flavor": "...La tour s'efface et s'écroule...",
 
 	"comment10":"Advancements",
 	"advancements.ba_bt.battle_tower.title": "BattleTowers",
