@@ -153,10 +153,10 @@ public class BattleTowersConfig {
 
     public static int landTimeBeforeCollapse;
     public static int oceanTimeBeforeCollapse;
-    public static double coreTimeBeforeCollapse;
-    public static double netherTimeBeforeCollapse;
-    public static double endTimeBeforeCollapse;
-    public static double skyTimeBeforeCollapse;
+    public static int coreTimeBeforeCollapse;
+    public static int netherTimeBeforeCollapse;
+    public static int endTimeBeforeCollapse;
+    public static int skyTimeBeforeCollapse;
 
     public static double landTowerCrumblePercent;
     public static double oceanTowerCrumblePercent;
