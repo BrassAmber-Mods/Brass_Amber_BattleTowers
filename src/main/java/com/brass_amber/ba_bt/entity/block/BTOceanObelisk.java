@@ -264,7 +264,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                     if (
                             !this.level().isWaterAt(blockpos$mutableblockpos) && this.level().isWaterAt(blockAbove)
                                     && distanceTo2D(this, blockpos$mutableblockpos) < this.noise +5
-                                    && !avoidBlocks.contains(this.level().getBlockState(blockAbove).getBlock().defaultBlockState())
+                                    && !avoidBlocks.contains(this.level().getBlockState(blockAbove).getBlock())
                     ) {
                         float vegetation = random.nextFloat();
                         if (vegetation > .80) {
