@@ -1,0 +1,251 @@
+package com.brass_amber.ba_bt.entity;
+
+import com.brass_amber.ba_bt.sound.BTSoundEvents;
+import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerSpecs;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.sounds.MusicManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import static com.brass_amber.ba_bt.sound.BTMusic.TOWER_COLLAPSE_MUSIC;
+import static com.brass_amber.ba_bt.util.BTUtil.doNoOutputCommand;
+
+public abstract class AbstractDestructionEntity extends Entity {
+
+    //Other Parameters
+    protected Boolean initialized = false;
+    protected TowerSpecs specs;
+    protected GolemType golemType;
+    protected List<BlockPos> blocksToRemove = new ArrayList<>();
+    protected int crumbleStartY = 0;
+    protected int crumbleY = 0;
+
+    protected int currentTicks = 0;
+    protected int startTicks = 600;
+
+    // Must be initialized in subclass
+    protected int blockSearchDistance = 0;
+    protected double destructionRadius = 0;
+    protected int crumbleStopY = 0;
+    protected int crumbleDirection = 0; // -1 = top to bottom || 1 = bottom to top
+
+    protected DestructionState destructionState = DestructionState.COLLECT_BLOCK_LISTS;
+    protected TitleState titleState = TitleState.DEFEATED_TITLE;
+
+    protected String colorCode;
+    protected Component golemName;
+    protected Component golemDefeatText;
+    protected Component golemFateText;
+    protected Component collapseFlavorText;
+
+    // Data Strings
+    protected final String crumbleStartName = "CrumbleStartY";
+    protected final String crumbleStopName = "CrumbleStopY";
+    protected final String crumbleYName = "CrumbleY";
+    protected final String golemTypeName = "GolemType";
+    protected final String destructionStateName = "DestructionState";
+    protected final String titleStateName = "TitleState";
+
+    public AbstractDestructionEntity(EntityType<?> entityType, Level level) {
+        super(entityType, level);
+        this.golemType = GolemType.getTypeForDestructionEntity(this);
+        this.colorCode = golemType.getColorCode();
+        this.golemName = golemType.getDisplayName();
+        this.crumbleStartY = this.getBlockY();
+        this.golemDefeatText = Component.translatable("title.ba_bt.golem_defeated");
+        this.golemFateText = Component.translatable("title.ba_bt." + golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_fate");
+        this.collapseFlavorText = Component.translatable("title.ba_bt." + golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_collapse_flavor");
+        this.startTicks = GolemType.getDestructionDelay(this.golemType) * 20;
+        this.setInvulnerable(true);
+        this.setInvisible(true);
+    }
+
+    public AbstractDestructionEntity(EntityType<? extends AbstractDestructionEntity> entityType, Level level, BlockPos pos) {
+        this(entityType, level);
+        this.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag compoundTag) {
+        compoundTag.putInt(this.crumbleStartName, this.crumbleStartY);
+        compoundTag.putInt(this.crumbleStopName, this.crumbleStopY);
+        compoundTag.putInt(this.crumbleYName, this.crumbleY);
+        compoundTag.putString(this.golemTypeName, this.golemType.getSerializedName());
+        compoundTag.putInt(this.destructionStateName, this.destructionState.value);
+        compoundTag.putInt(this.titleStateName, this.titleState.value);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag compoundTag) {
+        this.crumbleStartY = compoundTag.getInt(this.crumbleStartName);
+        this.crumbleStopY = compoundTag.getInt(this.crumbleStopName);
+        this.crumbleY = compoundTag.getInt(this.crumbleYName);
+        this.golemType = GolemType.valueOf(this.golemTypeName);
+        this.specs = TowerSpecs.getTowerFromGolem(this.golemType);
+        this.destructionState = DestructionState.getState(compoundTag.getInt(this.destructionStateName));
+        this.titleState = TitleState.values()[compoundTag.getInt(this.titleStateName)];
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.level().isClientSide()) {
+            MusicManager music = Minecraft.getInstance().getMusicManager();
+            if (this.level().getNearestPlayer(this,64) != null) {
+                if (!music.isPlayingMusic(TOWER_COLLAPSE_MUSIC)) {
+                    music.stopPlaying();
+                    music.startPlaying(TOWER_COLLAPSE_MUSIC);
+                }
+            } else {
+                music.stopPlaying();
+            }
+            return;
+        }
+
+        if (this.destructionState != DestructionState.FINISHED && this.checkChunks()) {
+            if (this.destructionState == DestructionState.START_DELAY && this.currentTicks < this.startTicks) {
+                this.currentTicks++;
+                return;
+            }
+            switch (this.destructionState) {
+                case PLAY_TITLES -> this.playTitles();
+                case COLLECT_BLOCK_LISTS -> this.collectBlocks();
+                case DESTROY_TOWER -> {
+                    if (this.currentTicks % 240 == 0) {
+                        this.level().playSound(null, this.blockPosition().atY(this.crumbleY),
+                                BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
+                    }
+                    this.destroyTower();
+                }
+                case CLEANUP_TOWER_ZONE -> this.cleanupTowerZone();
+            }
+            this.currentTicks++;
+        }
+    }
+
+    public void playTitles() {
+        if (this.currentTicks == this.titleState.getTickDelay()  && this.titleState != TitleState.TITLES_FINISHED) {
+            Component text = switch (this.titleState) {
+                case DEFEATED_TITLE -> this.golemDefeatText;
+                case GOLEM_FATE_TITLE -> this.golemFateText;
+                case COLLAPSE_FLAVOR_TITLE -> this.collapseFlavorText;
+                default -> Component.empty();
+            };
+            doNoOutputCommand(this, "/title @a times 30 40 20");
+            doNoOutputCommand(this, "/title @a title \"\"");
+            doNoOutputCommand(this, "/title @a subtitle {\"text\":\" " + text
+                    + "\",\"color\":\"" + this.colorCode + "\"}");
+            this.currentTicks = 0;
+            this.titleState = this.titleState.getNext();
+        }
+        if (this.titleState == TitleState.TITLES_FINISHED) {
+            this.destructionState = DestructionState.COLLECT_BLOCK_LISTS;
+        }
+    }
+
+    public boolean checkChunks() {
+        ChunkPos basePos = this.chunkPosition();
+        boolean hasChunks = true;
+        for (int x = -1; x < 2; x++) {
+            for (int z = -1; z < 2; z++) {
+                hasChunks = this.level().hasChunk(basePos.x + x, basePos.z + z);
+                if (!hasChunks) {
+                    break;
+                }
+            }
+        }
+        return hasChunks;
+    }
+
+    public abstract void collectBlocks();
+
+    public abstract void destroyTower();
+
+    public abstract void cleanupTowerZone();
+
+    public enum DestructionState {
+        START_DELAY(0),
+        PLAY_TITLES(1),
+        COLLECT_BLOCK_LISTS(2),
+        DESTROY_TOWER(3),
+        CLEANUP_TOWER_ZONE(4),
+        FINISHED(5);
+
+        private final int value;
+
+        DestructionState(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public DestructionState getNext() {
+            return switch (this.value) {
+                case 1 -> COLLECT_BLOCK_LISTS;
+                case 2 -> DESTROY_TOWER;
+                case 3 -> CLEANUP_TOWER_ZONE;
+                case 4 -> FINISHED;
+                default -> PLAY_TITLES;
+            };
+        }
+
+        public static DestructionState getState(int value) {
+            return switch (value) {
+                case 1 -> PLAY_TITLES;
+                case 2 -> COLLECT_BLOCK_LISTS;
+                case 3 -> DESTROY_TOWER;
+                case 4 -> CLEANUP_TOWER_ZONE;
+                case 5 -> FINISHED;
+                default -> START_DELAY;
+            };
+        }
+    }
+
+    public enum TitleState {
+        DEFEATED_TITLE(0, 20),
+        GOLEM_FATE_TITLE(1, 380),
+        COLLAPSE_FLAVOR_TITLE(2, 100),
+        TITLES_FINISHED(3, 100);
+
+        private final int value;
+        private final int tickDelay;
+
+        TitleState(int value, int tickDelay) {
+            this.value = value;
+            this.tickDelay = tickDelay;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public int getTickDelay() {
+            return tickDelay;
+        }
+
+        public TitleState getNext() {
+            return switch (this.value) {
+                case 1 -> COLLAPSE_FLAVOR_TITLE;
+                case 2 -> TITLES_FINISHED;
+                default -> GOLEM_FATE_TITLE;
+            };
+        }
+    }
+
+
+}
