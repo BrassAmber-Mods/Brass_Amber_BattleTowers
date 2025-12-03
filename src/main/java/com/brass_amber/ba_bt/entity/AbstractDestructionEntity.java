@@ -144,6 +144,8 @@ public abstract class AbstractDestructionEntity extends Entity {
             doNoOutputCommand(this, "/title @a title \"\"");
             doNoOutputCommand(this, "/title @a subtitle {\"text\":\" " + text
                     + "\",\"color\":\"" + this.colorCode + "\"}");
+
+            // Old color codes for fate & flavor titles: #aaaaaa & #aa0000
             this.currentTicks = 0;
             this.titleState = this.titleState.getNext();
         }
