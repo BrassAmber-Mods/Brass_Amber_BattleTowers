@@ -1,11 +1,14 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -14,19 +17,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 import static com.brass_amber.ba_bt.sound.BTMusic.*;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
 import static java.lang.Math.abs;
 
 public class BTCoreObelisk extends BTAbstractObelisk {
 
-    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.CORE));
+    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.CORE.ordinal());
 
     private int noise;
     private int westWall;
@@ -77,7 +80,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
 
         this.noise = 60;
 
-        this.bottom = this.getBlockY() - 2;
+        this.bottom = this.getBlockY() - 1;
         this.top = this.getBlockY() - 12 + (noise * 2);
         this.towerTop = this.getBlockY() + 97;
 
@@ -145,7 +148,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
 
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         while (this.currentCarveLayer < this.top) {
-            BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
+            // BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
             int topRange = this.currentCarveLayer + this.floorDistance;
             if (this.top - this.currentCarveLayer <= abs(this.floorDistance) + 1) {
                 topRange = this.top;
@@ -209,6 +212,20 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                 }
             }
         }
+
+        Holder.Reference<ConfiguredFeature<?, ?>> delta = this.level().registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).getOrThrow(NetherFeatures.DELTA);
+        ServerLevel serverLevel = (ServerLevel) this.level();
+        List<BlockPos> basaltPositions = List.of(
+                this.blockPosition().offset(20, 0, 0),
+                this.blockPosition().offset(-20, 0, 0),
+                this.blockPosition().offset(0, 0, 20),
+                this.blockPosition().offset(0, 0, -20)
+        );
+
+        for (BlockPos blockPos : basaltPositions) {
+            delta.value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), serverLevel.getRandom(), blockPos);
+        }
+
         this.generationState = GenerationState.FINISHED;
     }
 }
