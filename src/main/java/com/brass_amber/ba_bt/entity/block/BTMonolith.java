@@ -233,21 +233,7 @@ public class BTMonolith extends Entity {
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
-
-			if (!this.fromItem) {
-				// Moved to a function so that it can be extended and or tested without needing the spawn golem code
-				this.createDestroyTowerEntity(serverworld);
-			}
-
 		}
-	}
-
-	protected void createDestroyTowerEntity(ServerLevel serverWorld) {
-
-		Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level(), this.blockPosition());
-		destroyTowerEntity.setInvulnerable(true);
-		destroyTowerEntity.invulnerableTime = 999999999;
-		serverWorld.addFreshEntity(destroyTowerEntity);
 	}
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
