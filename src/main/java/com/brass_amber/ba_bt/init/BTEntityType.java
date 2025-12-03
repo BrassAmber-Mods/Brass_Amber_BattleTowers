@@ -68,6 +68,22 @@ public class BTEntityType {
 			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("ocean_destruction"));
 
+	public static final RegistryObject<EntityType<LandDestructionEntity>> CORE_DESTRUCTION = ENTITY_TYPES.register("core_destruction",
+			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("core_destruction"));
+
+	public static final RegistryObject<EntityType<OceanDestructionEntity>> NETHER_DESTRUCTION = ENTITY_TYPES.register("nether_destruction",
+			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("nether_destruction"));
+
+	public static final RegistryObject<EntityType<OceanDestructionEntity>> END_DESTRUCTION = ENTITY_TYPES.register("end_destruction",
+			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("end_destruction"));
+
+	public static final RegistryObject<EntityType<OceanDestructionEntity>> SKY_DESTRUCTION = ENTITY_TYPES.register("sky_destruction",
+			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
+					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("sky_destruction"));
+
 	public static final RegistryObject<EntityType<ExplosionPhysics>> PHYSICS_EXPLOSION = ENTITY_TYPES.register("explosion_physics",
 			() -> EntityType.Builder.<ExplosionPhysics>of(ExplosionPhysics::new, MobCategory.MISC)
 					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave().noSummon().build("explosion_physics"));
