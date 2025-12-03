@@ -52,7 +52,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
 import static com.brass_amber.ba_bt.util.BTStatics.*;
 import static com.brass_amber.ba_bt.util.BTUtil.*;
 
@@ -91,7 +90,7 @@ public class BTAbstractObelisk extends Entity {
     protected boolean musicPlaying;
     protected boolean canCheck;
     protected boolean golemSpawned = false;
-    protected GenerationState generationState = GenerationState.REMOVE_MOTION_BLOCKS ;
+    protected GenerationState generationState = GenerationState.REMOVE_MOTION_BLOCKS;
     protected List<BlockPos> toRemove;
 
     protected int checkLayer;
@@ -368,8 +367,8 @@ public class BTAbstractObelisk extends Entity {
             return;
         }
 
-        if (generationState != GenerationState.FINISHED) {
-            switch (generationState) {
+        if (this.generationState != GenerationState.FINISHED) {
+            switch (this.generationState) {
                 case REMOVE_MOTION_BLOCKS -> this.removeMotionActiveBlocks();
                 case GATHER_AREA_BLOCKS -> this.gatherAreaBlocks();
                 case REMOVE_AREA_BLOCKS -> this.removeAreaBlocks();
@@ -468,6 +467,13 @@ public class BTAbstractObelisk extends Entity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+
+                try {
+                    Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level(), this.blockPosition());
+                    this.level().addFreshEntity(destroyTowerEntity);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -669,7 +675,7 @@ public class BTAbstractObelisk extends Entity {
         if (!this.level().isClientSide()) {
             // BrassAmberBattleTowers.LOGGER.debug("Reading obelisk data");
             // BrassAmberBattleTowers.LOGGER.debug("Reading obelisk data " + tag);
-            this.golemType = GolemType.getTypeForName(tag.getString(towerName));
+            this.golemType = GolemType.valueOf(tag.getString(towerName));
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
             this.crystalSpawned = tag.getBoolean(crystalSpawnedName);
             this.generationState = GenerationState.getState(tag.getInt(generationStateName));
