@@ -89,7 +89,8 @@ public interface TowerStructure {
                             break;
                         }
                         if (block.is(Blocks.SAND) || block.is(Blocks.SANDSTONE)) {
-                            worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.SANDSTONE.defaultBlockState(), 2);
+                            worldGenLevel.setBlock(blockpos$mutableblockpos, Blocks.SAND.defaultBlockState(), 2);
+                            break;
                         }
                         else {
                             worldGenLevel.setBlock(blockpos$mutableblockpos, baseBlock, 2);
