@@ -31,7 +31,7 @@ public class GuardianEyeItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(Component.translatable("tooltip.ba_bt." + this.golemType.getSerializedName() + "_eye").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("tooltip.ba_bt." + this.golemType.getLowercaseName() + "_eye").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
