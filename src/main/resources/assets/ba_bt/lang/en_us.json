@@ -202,23 +202,27 @@
 
 	"comment9":"Overscreen titles",
 
-	"title.ba_bt.golem_defeated": " Has Fallen",
-
+	"title.ba_bt.land_golem_defeated": "The Entombed Watcher has fallen",
 	"title.ba_bt.land_golem_fate": "Without its energy...",
 	"title.ba_bt.land_collapse_flavor": "...The tower will collapse...",
 
+	"title.ba_bt.ocean_golem_defeated": "The Idol of the Drowned has fallen",
 	"title.ba_bt.ocean_golem_fate": "With the Idol returned to the void...",
 	"title.ba_bt.ocean_collapse_flavor": "...The floor starts to crumble...",
 
+	"title.ba_bt.core_golem_defeated": "The God of the Core has fallen",
 	"title.ba_bt.core_golem_fate": "Without the god's vessel...",
 	"title.ba_bt.core_collapse_flavor": "...The walls begin to melt...",
 
+	"title.ba_bt.nether_golem_defeated": "The Blaze King Tyrant has fallen",
 	"title.ba_bt.nether_golem_fate": "Without the tyrants control...",
 	"title.ba_bt.nether_collapse_flavor": "...The tower blossoms once more...",
 
+	"title.ba_bt.end_golem_defeated": "The Warped Guardian has fallen",
 	"title.ba_bt.end_golem_fate": "Defeated but not destroyed...",
 	"title.ba_bt.end_collapse_flavor": "...The floor begins to vanish...",
 
+	"title.ba_bt.sky_golem_defeated": "The Sky Goddess has fallen",
 	"title.ba_bt.sky_golem_fate": "A Goddess slain...",
 	"title.ba_bt.sky_collapse_flavor": "...The tower dissolves into mist...",
 
