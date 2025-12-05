@@ -90,6 +90,7 @@ public class BTAbstractObelisk extends Entity {
     protected boolean musicPlaying;
     protected boolean canCheck;
     protected boolean golemSpawned = false;
+    protected boolean destructionSpawned = false;
     protected GenerationState generationState = GenerationState.REMOVE_MOTION_BLOCKS;
     protected List<BlockPos> toRemove;
 
@@ -156,7 +157,7 @@ public class BTAbstractObelisk extends Entity {
     }
 
     public void serverInitialize() {
-        int golemNum = GolemType.getNumForType(this.golemType);
+        int golemNum = this.golemType.ordinal();
         this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
         this.spawnerAmounts = towerSpawnerAmounts.get(golemNum);
         if (!this.chestsFound) {
@@ -469,13 +470,17 @@ public class BTAbstractObelisk extends Entity {
                     e.printStackTrace();
                 }
 
-                try {
-                    Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level(), this.blockPosition());
-                    this.level().addFreshEntity(destroyTowerEntity);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+
             }
+        }
+        if (!this.canCheck && this.chestsFound && this.initialized && this.tickCount > 40 && !this.destructionSpawned) {
+            try {
+                Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level(), this.blockPosition());
+                this.level().addFreshEntity(destroyTowerEntity);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            this.destructionSpawned = true;
         }
     }
 
@@ -679,6 +684,7 @@ public class BTAbstractObelisk extends Entity {
             this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
             this.crystalSpawned = tag.getBoolean(crystalSpawnedName);
             this.generationState = GenerationState.getState(tag.getInt(generationStateName));
+            this.destructionSpawned = tag.getBoolean("destructionSpawned");
         }
     }
 
@@ -692,6 +698,7 @@ public class BTAbstractObelisk extends Entity {
             tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
             tag.putBoolean(crystalSpawnedName, this.crystalSpawned);
             tag.putInt(generationStateName, this.generationState.getValue());
+            tag.putBoolean("destructionSpawned", this.destructionSpawned);
         }
     }
     /*************************************** Characteristics & Properties *******************************************/
