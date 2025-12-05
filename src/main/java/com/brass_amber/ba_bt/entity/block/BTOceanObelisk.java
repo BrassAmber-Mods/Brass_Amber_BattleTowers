@@ -35,7 +35,7 @@ import static java.lang.Math.abs;
 
 public class BTOceanObelisk extends BTAbstractObelisk {
 
-    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.getNumForType(GolemType.OCEAN));
+    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.OCEAN.ordinal());
     private final List<BlockState> corals = List.of(Blocks.BRAIN_CORAL.defaultBlockState(),
             Blocks.BUBBLE_CORAL.defaultBlockState(), Blocks.FIRE_CORAL.defaultBlockState(),
             Blocks.HORN_CORAL.defaultBlockState(), Blocks.TUBE_CORAL.defaultBlockState());
