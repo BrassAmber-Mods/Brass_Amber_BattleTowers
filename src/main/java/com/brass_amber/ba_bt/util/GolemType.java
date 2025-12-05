@@ -26,17 +26,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
 
 public enum GolemType implements StringRepresentable {
-	EMPTY("EMPTY", Component.literal("Empty"), ""),
 	LAND("LAND", Component.translatable("entity.ba_bt.land_golem"), "#9BDAE7"),
 	OCEAN("OCEAN", Component.translatable("entity.ba_bt.ocean_golem"), "#EAE78A"),
 	CORE("CORE", Component.translatable("entity.ba_bt.core_golem"), "#F79B3A"),
 	NETHER("NETHER", Component.translatable("entity.ba_bt.nether_golem"), "#88EB63"),
 	END("END", Component.translatable("entity.ba_bt.end_golem"), "#BA49EF"),
 	SKY("SKY", Component.translatable("entity.ba_bt.sky_golem"), "#FBC1EB"),
-	CITY("CITY", Component.literal("~"), "");
+	CITY("CITY", Component.literal("~"), ""),
+	EMPTY("EMPTY",Component.literal("Empty"), "");
 
 	private final String name;
 	private final Component displayName;
@@ -447,6 +449,10 @@ public enum GolemType implements StringRepresentable {
 	@Override
 	public @NotNull String getSerializedName() {
 		return this.name;
+	}
+
+	public String getLowercaseName() {
+		return this.getSerializedName().toLowerCase(Locale.ROOT);
 	}
 
 	public Component getDisplayName() {
