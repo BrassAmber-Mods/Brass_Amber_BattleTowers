@@ -27,59 +27,59 @@ public class BattleTowersConfig {
 
     private static final ForgeConfigSpec.ConfigValue<Integer> LAND_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Land Tower collapses")
-                    .defineInRange("landCollapseTimer", 30, 30, 60);
+                    .defineInRange("landCollapseTimer", 30, 5, 60);
 
     private static final ForgeConfigSpec.ConfigValue<Integer> OCEAN_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Ocean Tower crumbles")
-                    .defineInRange("oceanCollapseTimer", 45, 30, 60);
+                    .defineInRange("oceanCollapseTimer", 45, 5, 60);
 
     private static final ForgeConfigSpec.ConfigValue<Integer> CORE_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
-                    .defineInRange("coreCollapseTimer", 45, 30, 60);
+                    .defineInRange("coreCollapseTimer", 45, 5, 60);
 
     private static final ForgeConfigSpec.ConfigValue<Integer> NETHER_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
-                    .defineInRange("netherCollapseTimer", 45, 30, 60);
+                    .defineInRange("netherCollapseTimer", 45, 5, 60);
 
     private static final ForgeConfigSpec.ConfigValue<Integer> END_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
-                    .defineInRange("endCollapseTimer", 45, 30, 60);
+                    .defineInRange("endCollapseTimer", 45, 5, 60);
 
     private static final ForgeConfigSpec.ConfigValue<Integer> SKY_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Core Tower crumbles")
-                    .defineInRange("skyCollapseTimer", 45, 30, 60);
+                    .defineInRange("skyCollapseTimer", 45, 5, 60);
 
 
     private static final ForgeConfigSpec.ConfigValue<Double> LAND_TOWER_CRUMBLE_PERCENT =
-                BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 85% of tower.")
-                        .defineInRange("landTowerDestruction", .85D, 0,1);
+                BUILDER.comment("How much of the Land tower remains after defeating the Golem. Default: 15% of tower.")
+                        .defineInRange("landTowerDestruction", .15D, 0,1);
 
     private static final ForgeConfigSpec.ConfigValue<Double> OCEAN_TOWER_CRUMBLE_PERCENT =
-                BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
-                        .defineInRange("oceanTowerDestruction", .95D, 0,1D);
+                BUILDER.comment("How much of the Ocean tower remains after defeating the Golem. Default: 5% of tower.")
+                        .defineInRange("oceanTowerDestruction", .05D, 0,1D);
 
     private static final ForgeConfigSpec.ConfigValue<Double> CORE_TOWER_CRUMBLE_PERCENT =
-            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
-                    .defineInRange("coreTowerDestruction", 1D, 0, 1D);
+            BUILDER.comment("How much of the Core tower remains after defeating the Golem. Default: 0% of tower.")
+                    .defineInRange("coreTowerDestruction", 0D, 0, 1D);
 
     private static final ForgeConfigSpec.ConfigValue<Double> NETHER_TOWER_CRUMBLE_PERCENT =
-            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
-                    .defineInRange("netherTowerDestruction", 1D, 0, 1D);
+            BUILDER.comment("How much of the Nether tower remains after defeating the Golem. Default: 0% of tower.")
+                    .defineInRange("netherTowerDestruction", 0D, 0, 1D);
 
     private static final ForgeConfigSpec.ConfigValue<Double> END_TOWER_CRUMBLE_PERCENT =
-            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
-                    .defineInRange("endTowerDestruction", 1D, 0, 1D);
+            BUILDER.comment("How much of the End tower remains after defeating the Golem. Default: 0% of tower.")
+                    .defineInRange("endTowerDestruction", 0D, 0, 1D);
 
     private static final ForgeConfigSpec.ConfigValue<Double> SKY_TOWER_CRUMBLE_PERCENT =
-            BUILDER.comment("How much of the tower is destroyed after defeating the Golem. Default: 100% of tower.")
-                    .defineInRange("skyTowerDestruction", 1D, 0, 1D);
+            BUILDER.comment("How much of the Sky tower remains after defeating the Golem. Default: 0% of tower.")
+                    .defineInRange("skyTowerDestruction", 0D, 0, 1D);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> MINIMAL_OCEAN_CARVING =
             BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
                     .define("smallOceanTrench", false);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> OCEAN_TOWER_VOID_HOLE =
-            BUILDER.comment("Whether the ocean tower destruction opens a hole into the void. Default: true.")
+            BUILDER.comment("Whether the ocean tower destruction leaves a hole into the void. Default: true.")
                     .define("oceanTowerVoidHole", true);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> DEPTH_DROPPER_AFFECTS_MOBS =
