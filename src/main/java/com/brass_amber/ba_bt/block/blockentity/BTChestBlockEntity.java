@@ -58,9 +58,9 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	@Override
 	protected Component getDefaultName() {
 		if (this.golemChest) {
-			return Component.translatable("container.ba_bt." + this.golemType.getSerializedName() + "_golem_chest");
+			return Component.translatable("container.ba_bt." + this.golemType.getLowercaseName() + "_golem_chest");
 		}
-		return Component.translatable("container.ba_bt." + this.golemType.getSerializedName()+ "_chest");
+		return Component.translatable("container.ba_bt." + this.golemType.getLowercaseName() + "_chest");
 	}
 
 	@Override
