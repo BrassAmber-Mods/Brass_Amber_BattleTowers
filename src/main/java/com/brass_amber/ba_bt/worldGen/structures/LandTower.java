@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
@@ -84,7 +85,7 @@ public class LandTower extends Structure implements TowerStructure {
     protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext generationContext) {
         ChunkPos chunkPos = generationContext.chunkPos();
 
-        LOGGER.debug("Attempting Land Tower Spawn at {} {}", chunkPos.x, chunkPos.z);
+        // LOGGER.debug("Attempting Land Tower Spawn at {} {}", chunkPos.x, chunkPos.z);
 
         Pair<Boolean, Integer> canSpawn = isSpawnableChunk(generationContext);
 
@@ -105,33 +106,41 @@ public class LandTower extends Structure implements TowerStructure {
         ChunkPos chunkPos = generationContext.chunkPos();
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
 
-        LOGGER.debug("Checking Land Spawn at: {}", chunkPos);
+        // LOGGER.debug("Checking Land Spawn at: {}", chunkPos);
 
         int newLandHeight;
         int lowestY = 215;
         int highestY = 0;
-        int minX = chunkPos.getMinBlockX();
-        int minZ= chunkPos.getMinBlockZ();;
+        int minX;
+        int minZ;
         int newX;
         int newZ;
+        ChunkPos checkPos;
 
-        for (int x = 0; x < 6; x++) {
-            for (int z = 0; z < 6; z++) {
+        for (int cx = -1; cx < 2; cx++) {
+            for (int cz = -1; cz < 2; cz++) {
+                checkPos = new ChunkPos(chunkPos.x + cx, chunkPos.z + cz);
+                minX = checkPos.getMinBlockX();
+                minZ = checkPos.getMinBlockZ();
+                for (int x = 0; x < 6; x++) {
+                    for (int z = 0; z < 6; z++) {
 
-                newX = minX + (x * 3);
-                newZ = minZ + (z * 3);
-                newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState());
+                        newX = minX + (x * 3);
+                        newZ = minZ + (z * 3);
+                        newLandHeight = chunkGen.getFirstOccupiedHeight(newX, newZ, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState());
 
-                lowestY = Math.min(newLandHeight, lowestY);
-                highestY = Math.max(newLandHeight, highestY);
+                        lowestY = Math.min(newLandHeight, lowestY);
+                        highestY = Math.max(newLandHeight, highestY);
 
+                    }
+                }
             }
         }
 
         // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
-        boolean isFlat = highestY - lowestY <= 12;
+        boolean isFlat = highestY - lowestY <= 15;
 
-        int usableHeight = lowestY + ((highestY - lowestY) / 2);
+        int usableHeight = lowestY + ((highestY - lowestY) / 3);
 
         LOGGER.debug("flat?: {} usable height: {}", isFlat, usableHeight);
 
@@ -150,7 +159,7 @@ public class LandTower extends Structure implements TowerStructure {
         Pair<BlockPos, Holder<Biome>> waterBiomeNearby = chunkGen.getBiomeSource().findBiomeHorizontal(
                 middleBlock.getX(), chunkGen.getSeaLevel(), middleBlock.getZ(), 24, predicate, generationContext.random(), generationContext.randomState().sampler()
         );
-        LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
+        // LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
 
 
         // Get a random usable position from the list, otherwise return false
@@ -184,12 +193,12 @@ public class LandTower extends Structure implements TowerStructure {
 
         HolderSet<Biome> snowyHolderset = context.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.LAND_TOWER_SNOWY_BIOMES).orElseThrow();
         Predicate<Holder<Biome>> snowyPredicate = snowyHolderset::contains;
-        Pair<BlockPos, Holder<Biome>> snowyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 48, snowyPredicate, context.random(), context.randomState().sampler());
+        Pair<BlockPos, Holder<Biome>> snowyBiomeNearby = context.chunkGenerator().getBiomeSource().findBiomeHorizontal(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 24, snowyPredicate, context.random(), context.randomState().sampler());
 
         if (overgrownBiomeNearby != null) {
             // Overgrown
             this.towerType = 1;
-        } else if (sandyBiomeNearby != null) {
+        } else if (sandyBiomeNearby != null && !sandyBiomeNearby.getSecond().is(BiomeTags.IS_BEACH)) {
             // Desert
             this.towerType = 2;
         } else if (snowyBiomeNearby != null) {
