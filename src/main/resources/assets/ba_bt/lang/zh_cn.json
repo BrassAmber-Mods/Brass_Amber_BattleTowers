@@ -191,6 +191,7 @@
 	"tooltip.ba_bt.end_eye": "她会从维度裂痕中降临……",
 	"tooltip.ba_bt.sky_eye": "我让您失望了，瓦尤斯大人……",
 
+	"comment8b":"Item Tooltips - Music Disc",
 	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
 	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
 	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
@@ -201,23 +202,27 @@
 
 	"comment9":"全屏标题 (Overscreen titles)",
 
-	"title.ba_bt.golem_defeated": " 战败了",
-
+	"title.ba_bt.land_golem_defeated": "The Entombed Watcher has fallen",
 	"title.ba_bt.land_golem_fate": "如果失去其能量……",
 	"title.ba_bt.land_collapse_flavor": "……高塔将会崩塌……",
 
+	"title.ba_bt.ocean_golem_defeated": "The Idol of the Drowned has fallen",
 	"title.ba_bt.ocean_golem_fate": "由于恶兽被逐回了虚空…",
 	"title.ba_bt.ocean_collapse_flavor": "…地面开始碎裂…",
 
+	"title.ba_bt.core_golem_defeated": "The God of the Core has fallen",
 	"title.ba_bt.core_golem_fate": "由于失去了神之容器…",
 	"title.ba_bt.core_collapse_flavor": "…墙面开始溶解…",
 
+	"title.ba_bt.nether_golem_defeated": "The Blaze King Tyrant has fallen",
 	"title.ba_bt.nether_golem_fate": "由于失去了他们的掌控…",
 	"title.ba_bt.nether_collapse_flavor": "…高塔将会崩毁…",
 
+	"title.ba_bt.end_golem_defeated": "The Warped Guardian has fallen",
 	"title.ba_bt.end_golem_fate": "即使战败，吾等也无法被摧毁…",
 	"title.ba_bt.end_collapse_flavor": "…地面开始消逝…",
 
+	"title.ba_bt.sky_golem_defeated": "The Sky Goddess has fallen",
 	"title.ba_bt.sky_golem_fate": "居然被区区一位玩家击败…",
 	"title.ba_bt.sky_collapse_flavor": "…高塔开始崩塌并逐渐消失…",
 

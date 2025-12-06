@@ -191,6 +191,7 @@
 	"tooltip.ba_bt.end_eye": "Elle s'approche, à travers la faille...",
 	"tooltip.ba_bt.sky_eye": "J'ai échoué, Sr. Vaayus... ",
 
+	"comment8b": "Item Tooltips - Music Disc",
 	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt : Protection forcée",
 	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt : Aération du vide",
 	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt : Tribulation en fusion",
@@ -201,23 +202,27 @@
 
 	"comment9":"Overscreen titles",
 
-	"title.ba_bt.golem_defeated": "Le Golem Est Vaincu",
-
+	"title.ba_bt.land_golem_defeated": "The Entombed Watcher has fallen",
 	"title.ba_bt.land_golem_fate": "N'a plus son énergie...",
 	"title.ba_bt.land_collapse_flavor": "...La Tour va s'écrouler...",
 
+	"title.ba_bt.ocean_golem_defeated": "The Idol of the Drowned has fallen",
 	"title.ba_bt.ocean_golem_fate": "Rejeté dans le vide...",
 	"title.ba_bt.ocean_collapse_flavor": "...Le sol commence à s'effondrer...",
 
+	"title.ba_bt.core_golem_defeated": "The God of the Core has fallen",
 	"title.ba_bt.core_golem_fate": "Sans le vase du dieu...",
 	"title.ba_bt.core_collapse_flavor": "...Les murs commencent à fondre...",
 
+	"title.ba_bt.nether_golem_defeated": "The Blaze King Tyrant has fallen",
 	"title.ba_bt.nether_golem_fate": "Sans leur contrôle...",
 	"title.ba_bt.nether_collapse_flavor": "...La tour commence à fleurir...",
 
+	"title.ba_bt.end_golem_defeated": "The Warped Guardian has fallen",
 	"title.ba_bt.end_golem_fate": "Vaincu mais pas détruit...",
 	"title.ba_bt.end_collapse_flavor": "...Le sol commence à disparaître...",
 
+	"title.ba_bt.sky_golem_defeated": "The Sky Goddess has fallen",
 	"title.ba_bt.sky_golem_fate": "Tué par un simple joueur...",
 	"title.ba_bt.sky_collapse_flavor": "...La tour s'efface et s'écroule...",
 

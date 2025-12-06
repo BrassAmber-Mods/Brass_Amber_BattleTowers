@@ -99,7 +99,7 @@
 	"container.ba_bt.land_golem_chest_double": "Cofre de Bahryn'muul grande",
 	"container.ba_bt.land_chest": "Cofre terrestre",
 	"container.ba_bt.land_chest_double": "Cofre terrestre grande",
-	
+
 	"container.ba_bt.ocean_golem_chest": "Cofre de Moraizu'un",
 	"container.ba_bt.ocean_golem_chest_double": "Cofre de Moraizu'un grande",
 	"container.ba_bt.ocean_chest": "Cofre oceánico",
@@ -191,6 +191,8 @@
 	"tooltip.ba_bt.end_eye": "Se acerca a través de la grieta...",
 	"tooltip.ba_bt.sky_eye": "Te he fallado, Sr. Vaayus... ",
 
+	"comment8b": "Item Tooltips - Music Disc",
+
 	"item.ba_bt.land_resonance_stone.desc": "Rotch Gwylt: Forced Protection",
 	"item.ba_bt.ocean_resonance_stone.desc": "Rotch Gwylt: Void Aeration",
 	"item.ba_bt.core_resonance_stone.desc": "Rotch Gwylt: Molten Tribulation",
@@ -201,23 +203,27 @@
 
 	"comment9":"Overscreen titles",
 
-	"title.ba_bt.golem_defeated": "Ha caído",
-
+	"title.ba_bt.land_golem_defeated": "The Entombed Watcher has fallen",
 	"title.ba_bt.land_golem_fate": "Sin su energía...",
 	"title.ba_bt.land_collapse_flavor": "...La torre se derrumbará...",
 
+	"title.ba_bt.ocean_golem_defeated": "The Idol of the Drowned has fallen",
 	"title.ba_bt.ocean_golem_fate": "Desterrado de nuevo al vacío...",
 	"title.ba_bt.ocean_collapse_flavor": "...El suelo empieza a temblar...",
 
+	"title.ba_bt.core_golem_defeated": "The God of the Core has fallen",
 	"title.ba_bt.core_golem_fate": "Sin el recipiente del Dios...",
 	"title.ba_bt.core_collapse_flavor": "...Las paredes comienzan a derretirse...",
 
+	"title.ba_bt.nether_golem_defeated": "The Blaze King Tyrant has fallen",
 	"title.ba_bt.nether_golem_fate": "Sin el control del tirano...",
 	"title.ba_bt.nether_collapse_flavor": "...La torre comienza a florecer una vez más...",
 
+	"title.ba_bt.end_golem_defeated": "The Warped Guardian has fallen",
 	"title.ba_bt.end_golem_fate": "Derrotado pero no destruído...",
 	"title.ba_bt.end_collapse_flavor": "...El suelo comienza a desvanecerse...",
 
+	"title.ba_bt.sky_golem_defeated": "The Sky Goddess has fallen",
 	"title.ba_bt.sky_golem_fate": "Derrotado por un Dios...",
 	"title.ba_bt.sky_collapse_flavor": "...La torre se desmorona y se desvanece...",
 
