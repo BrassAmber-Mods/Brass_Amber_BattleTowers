@@ -1,18 +1,16 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTStructures;
+import com.brass_amber.ba_bt.util.BTTags;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -21,8 +19,6 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class OceanTower extends Structure implements TowerStructure {
@@ -91,45 +87,8 @@ public class OceanTower extends Structure implements TowerStructure {
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
 
-        // Test/Check 4 by 4 square of chunks for nearby land
-        List<ChunkPos> testable = new ArrayList<>(
-                List.of(
-                        new ChunkPos(chunkPos.x + 4, chunkPos.z + 2),
-                        new ChunkPos(chunkPos.x + 3, chunkPos.z + 3),
-                        new ChunkPos(chunkPos.x + 2, chunkPos.z + 4),
-                        new ChunkPos(chunkPos.x - 2, chunkPos.z + 4),
-                        new ChunkPos(chunkPos.x - 3, chunkPos.z + 3),
-                        new ChunkPos(chunkPos.x - 4, chunkPos.z + 2),
-                        new ChunkPos(chunkPos.x - 4, chunkPos.z - 2),
-                        new ChunkPos(chunkPos.x - 3, chunkPos.z - 3),
-                        new ChunkPos(chunkPos.x - 2, chunkPos.z - 4),
-                        new ChunkPos(chunkPos.x + 2, chunkPos.z - 4),
-                        new ChunkPos(chunkPos.x + 3, chunkPos.z - 3),
-                        new ChunkPos(chunkPos.x + 4, chunkPos.z - 2),
-
-                        new ChunkPos(chunkPos.x + 3, chunkPos.z + 1),
-                        new ChunkPos(chunkPos.x + 2, chunkPos.z + 2),
-                        new ChunkPos(chunkPos.x + 1, chunkPos.z + 3),
-                        new ChunkPos(chunkPos.x - 1, chunkPos.z + 3),
-                        new ChunkPos(chunkPos.x - 2, chunkPos.z + 2),
-                        new ChunkPos(chunkPos.x - 3, chunkPos.z + 1),
-                        new ChunkPos(chunkPos.x - 3, chunkPos.z - 1),
-                        new ChunkPos(chunkPos.x - 2, chunkPos.z - 2),
-                        new ChunkPos(chunkPos.x - 1, chunkPos.z - 3),
-                        new ChunkPos(chunkPos.x + 1, chunkPos.z - 3),
-                        new ChunkPos(chunkPos.x + 2, chunkPos.z - 2),
-                        new ChunkPos(chunkPos.x + 3, chunkPos.z - 1)
-                )
-        );
-
-        // BABTMain.LOGGER.debug("Rquesting chunks to test: " + testables.toString());
-
-        for (ChunkPos pos : testable) {
-            Holder<Biome> biome = generationContext.biomeSource().getNoiseBiome(
-                    QuartPos.fromBlock(pos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(pos.getMiddleBlockZ()), generationContext.randomState().sampler()
-            );
-
-            if (!biome.is(BiomeTags.REQUIRED_OCEAN_MONUMENT_SURROUNDING)) {
+        for (Holder<Biome> holder : generationContext.biomeSource().getBiomesWithin(chunkPos.getMiddleBlockX(), seaLevel, chunkPos.getMiddleBlockZ(), 16 * 5, generationContext.randomState().sampler())) {
+            if (!holder.is(BTTags.Biomes.OCEAN_TOWER_BIOMES)) {
                 return Pair.of(false, 0);
             }
         }
@@ -138,15 +97,16 @@ public class OceanTower extends Structure implements TowerStructure {
                 QuartPos.fromBlock(chunkPos.getMiddleBlockX()), QuartPos.fromBlock(seaLevel), QuartPos.fromBlock(chunkPos.getMiddleBlockZ()), generationContext.randomState().sampler()
         );
 
-        if (isValidBiome(generationContext, chunkPos.getMiddleBlockPosition(seaLevel), biome)) {
+        if (generationContext.validBiome().test(biome)) {
             // BrassAmberBattleTowers.LOGGER.debug("Bad Biome for Ocean: " + biome.unwrapKey() + " " + pos);
+            checkVariant(generationContext, chunkPos.getMiddleBlockPosition(seaLevel));
             return Pair.of(true, seaLevel);
         }
 
         return Pair.of(false, 0);
     }
 
-    public boolean isValidBiome(Structure.GenerationContext context, BlockPos blockpos, Holder<Biome> biomeHolder) {
+    public void checkVariant(GenerationContext context, BlockPos blockpos) {
         // BABattleTowers.LOGGER.debug("Is Valid Ocean Tower Biome");
         WorldgenRandom worldgenRandom = context.random();
         worldgenRandom.setSeed(context.seed());
@@ -156,8 +116,6 @@ public class OceanTower extends Structure implements TowerStructure {
             // Gilded or Island
             this.towerType = randomSource.nextFloat() > .6 ? 2 : 1;
         }
-
-        return context.validBiome().test(biomeHolder);
     }
 
     @Override
