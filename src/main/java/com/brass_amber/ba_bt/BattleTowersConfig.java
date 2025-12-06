@@ -133,9 +133,6 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> SKY_TOWER_MOBS =
             BUILDER.defineListAllowEmpty("skyTowerMobs", Collections.emptyList(), BattleTowersConfig::validateEntityName);
 
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_CONTAINER_TYPES = BUILDER.comment("List of extra specifiable container types for use in custom tower floors").defineList("extraChestTypes", () -> List.of("White Shulker"), BattleTowersConfig::validateString);
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_CONTAINER_BLOCKS = BUILDER.comment("List of extra container blocks for placing in custom tower floors").defineList("extraChestBlocks", () -> List.of("minecraft:white_shulker_box"), BattleTowersConfig::validateBlock);
-
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_CHEST_LOOT_TABLES = BUILDER.pop().pop().push("towerChestLootTableReplacements")
             .comment("Adding a resource location of a custom loot-table to one of these lists replaces the loot generated ")
             .comment("    using the Tower Extendable Loot Pools above  for floor/golem chests with loot from the supplied loot-table.")
@@ -147,7 +144,7 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> END_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("endTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> SKY_TOWER_CHEST_LOOT_TABLES = BUILDER.defineList("skyTowerChestLootTables", List.of("", "", "", "", "", "", "", "", ""), BattleTowersConfig::validateString);
     
-    public static final ForgeConfigSpec SPEC = BUILDER.pop().build();;
+    public static final ForgeConfigSpec SPEC = BUILDER.pop().build();
     
     public static int firstTowerDistance;
 
