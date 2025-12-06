@@ -1,14 +1,11 @@
 package com.brass_amber.ba_bt.entity;
 
-import java.util.*;
-
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.init.BTEntityType;
-import com.brass_amber.ba_bt.util.BTUtil;
+import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Mth;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 
 import net.minecraft.world.level.Level;
@@ -20,16 +17,21 @@ import static com.brass_amber.ba_bt.util.BTUtil.*;
 
 public class LandDestructionEntity extends AbstractDestructionEntity {
 
+    public int destroySpeed;
+
     public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
         super(type, level);
-    }
-
-    public LandDestructionEntity(Level level, BlockPos obeliskPos) {
-        super(BTEntityType.LAND_DESTRUCTION.get(), level, obeliskPos.above(98));
-        this.crumbleStopY = this.crumbleStartY - Mth.floor(101 * BattleTowersConfig.landTowerCrumblePercent);
         this.blockSearchDistance = 16;
         this.destructionRadius = 15.5;
         this.crumbleDirection = -1;
+        this.destroySpeed = 0;
+    }
+
+    public LandDestructionEntity(Level level, BlockPos obeliskPos) {
+        this(BTEntityType.LAND_DESTRUCTION.get(), level);
+        this.setPos(obeliskPos, 98);
+        LOGGER.debug("Destruction {} spawned at: {}", this.golemType.getSerializedName(), this.blockPosition());
+        LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
     }
 
     @Override
@@ -37,14 +39,18 @@ public class LandDestructionEntity extends AbstractDestructionEntity {
 
     @Override
     public void collectBlocks() {
+        BABattleTowers.LOGGER.debug("In Collect Sequence");
         BlockPos checkPos;
-        for (; this.crumbleY != this.crumbleStopY; this.crumbleY+=this.crumbleDirection) {
+        for (int y = this.crumbleStartY; y != this.crumbleStopY; y+=this.crumbleDirection) {
+            BABattleTowers.LOGGER.debug("Crumble Y {}", y);
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
-                for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; x++) {
-                    checkPos = this.blockPosition().offset(x, 0, z).atY(this.crumbleY);
-                    if (this.level().isFluidAtPosition(checkPos, fluidState -> !fluidState.isEmpty())) {
-                        this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 4);
-                    } else if (distanceTo2D(this, checkPos) < this.destructionRadius) {
+                for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
+                    checkPos = this.blockPosition().offset(x, 0, z).atY(y);
+                    BlockState state = this.level().getBlockState(checkPos);
+                    // BABattleTowers.LOGGER.debug("CheckPos {}", checkPos);
+                    if (!state.getFluidState().isEmpty()) {
+                        this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
+                    } else if (distanceTo2D(this, checkPos) < this.destructionRadius && !state.isAir()) {
                         this.blocksToRemove.add(checkPos);
                     }
                 }
@@ -55,48 +61,51 @@ public class LandDestructionEntity extends AbstractDestructionEntity {
 
     @Override
     public void destroyTower() {
-
+        // BABattleTowers.LOGGER.debug("In Destroy Sequence: {}", this.blocksToRemove.size());
+        if (this.currentTicks % 240 == 0) {
+            this.level().playSound(null, this.blocksToRemove.get(this.random.nextInt(Math.min(this.blocksToRemove.size(), 64))),
+                    BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
+            this.destroySpeed++;
+        }
         if (this.blocksToRemove.isEmpty()) {
             this.destructionState = this.destructionState.getNext();
         } else {
-            for (int i = 0; i < 4; i++) {
+            if (this.random.nextDouble() <= 0.125) {
+                // Fancy physics stuff
+                BlockPos removeBlockPos = this.blocksToRemove.get(0);
+                ExplosionPhysics explosion = new ExplosionPhysics(BTEntityType.PHYSICS_EXPLOSION.get(), this.level());
+                explosion.setPos(removeBlockPos.getX(), removeBlockPos.getY(), removeBlockPos.getZ());
+                this.level().addFreshEntity(explosion);
+            }
+            for (int i = 0; i < Math.min(this.blocksToRemove.size(), 18 + this.destroySpeed); i++) {
                 BlockPos removeBlockPos = this.blocksToRemove.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 256)));
-                BlockState removeState = this.level().getBlockState(removeBlockPos);
                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
-                if (this.random.nextDouble() <= 0.1 && !removeState.isAir()) {
-                    // Fancy physics stuff
-                    ExplosionPhysics explosion = new ExplosionPhysics(BTEntityType.PHYSICS_EXPLOSION.get(), this.level());
-                    explosion.setPos(removeBlockPos.getX(), removeBlockPos.getY(), removeBlockPos.getZ());
-                    this.level().addFreshEntity(explosion);
 
-                } else {
-                    this.level().destroyBlock(removeBlockPos, false);
-                }
+                this.level().destroyBlock(removeBlockPos, false);
             }
         }
     }
 
     @Override
     public void cleanupTowerZone() {
-            BABattleTowers.LOGGER.debug("In Ending Sequence");
-            List<BlockPos> shouldBeEmptySpace = new ArrayList<>();
-            int yForClear = this.crumbleStartY + 16;
-            for (int y = yForClear; y > this.crumbleStopY + 3; y--) {
-                for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
-                    for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; x++) {
-                        BlockPos checkPos = new BlockPos(x, y, z);
-                        if ((
-                                (!this.level().getBlockState(checkPos).isAir() || this.level().isFluidAtPosition(checkPos, fluidState -> !fluidState.isEmpty()))
-                                && BTUtil.distanceTo2D(this, checkPos) < this.destructionRadius)
-                        ) {
+        BABattleTowers.LOGGER.debug("In Cleanup Sequence");
+        BlockPos checkPos;
+        for (int y = this.crumbleStartY + 16; y != this.crumbleStopY - this.crumbleDirection; y += this.crumbleDirection) {
+            for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
+                for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
+                    checkPos = this.blockPosition().offset(x, 0, z).atY(y);
+                    BlockState state = this.level().getBlockState(checkPos);
+                    // BABattleTowers.LOGGER.debug("CheckPos {}", checkPos);
+
+                    if (distanceTo2D(this, checkPos) < this.destructionRadius) {
+                        if (!state.getFluidState().isEmpty() || !state.isAir()) {
                             this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
-                            // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, blockToAdd);
                         }
                     }
                 }
-                //BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, this.blocksToRemove.size());
             }
-            this.destructionState = this.destructionState.getNext();
+        }
+        this.destructionState = this.destructionState.getNext();
     }
 
     /**************************************************** DATA ****************************************************/
