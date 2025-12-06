@@ -101,6 +101,7 @@ public interface TowerStructure {
         }
     }
 
+    void checkVariant(Structure.GenerationContext context, BlockPos blockpos);
 
     Pair<Boolean, Integer> isSpawnableChunk(Structure.GenerationContext generationContext);
 
