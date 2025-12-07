@@ -159,7 +159,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 }
                 else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){
                     player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
-                    player.removeEffect(MobEffects.NIGHT_VISION);
                 }
             }
 
@@ -169,6 +168,15 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 }
             }
 
+        } else if (this.hasPlayer && this.golemDead) {
+            List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null, this.entityCheckAABB);
+            for (Player player : players
+            ) {
+                boolean acceptableY = player.getBlockY() < this.getBlockY() - 1;
+                if (acceptableY && player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())) {
+                    player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
+                }
+            }
         }
     }
 
