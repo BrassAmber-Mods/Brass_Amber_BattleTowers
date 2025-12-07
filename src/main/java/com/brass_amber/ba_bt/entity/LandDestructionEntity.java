@@ -65,12 +65,12 @@ public class LandDestructionEntity extends AbstractDestructionEntity {
         if (this.currentTicks % 240 == 0) {
             this.level().playSound(null, this.blocksToRemove.get(this.random.nextInt(Math.min(this.blocksToRemove.size(), 64))),
                     BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
-            this.destroySpeed++;
+            this.destroySpeed+= 4;
         }
         if (this.blocksToRemove.isEmpty()) {
             this.destructionState = this.destructionState.getNext();
         } else {
-            if (this.random.nextDouble() <= 0.125) {
+            if (this.random.nextDouble() <= 0.24) {
                 // Fancy physics stuff
                 BlockPos removeBlockPos = this.blocksToRemove.get(0);
                 ExplosionPhysics explosion = new ExplosionPhysics(BTEntityType.PHYSICS_EXPLOSION.get(), this.level());
@@ -90,7 +90,7 @@ public class LandDestructionEntity extends AbstractDestructionEntity {
     public void cleanupTowerZone() {
         BABattleTowers.LOGGER.debug("In Cleanup Sequence");
         BlockPos checkPos;
-        for (int y = this.crumbleStartY + 16; y != this.crumbleStopY - this.crumbleDirection; y += this.crumbleDirection) {
+        for (int y = this.crumbleStartY + 16; y != this.crumbleStopY + 5; y += this.crumbleDirection) {
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                 for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);
