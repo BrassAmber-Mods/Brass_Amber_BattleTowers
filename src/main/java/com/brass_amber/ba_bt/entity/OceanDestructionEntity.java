@@ -27,9 +27,8 @@ import java.util.*;
 import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 
 public class OceanDestructionEntity extends AbstractDestructionEntity {
-
-    private ArrayList<FallingBlockEntity> fallingBlocks;
-    private ArrayList<BlockState> belowTowerBlocks;
+    private final ArrayList<FallingBlockEntity> fallingBlocks;
+    private final ArrayList<BlockState> belowTowerBlocks;
     public int destroySpeed;
     private boolean waterbelowTower;
 
@@ -226,7 +225,7 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
         CompoundTag blocksTag = new CompoundTag();
         blocksTag.putInt("size", this.belowTowerBlocks.size());
         for (int i=0; i < this.belowTowerBlocks.size(); i++) {
-            BlockState state = this.belowTowerBlocks.get(i);;
+            BlockState state = this.belowTowerBlocks.get(i);
             blocksTag.put(String.valueOf(i), NbtUtils.writeBlockState(state));
         }
         compoundTag.put("blocksTag", blocksTag);
