@@ -76,7 +76,7 @@ public abstract class AbstractDestructionEntity extends Entity {
     public void setPos(BlockPos obeliskPos, int destroyOffset) {
         super.setPos(obeliskPos.getX(), obeliskPos.getY() + destroyOffset, obeliskPos.getZ());
         this.crumbleStartY = this.getBlockY();
-        this.crumbleStopY = obeliskPos.getY() + Mth.floor(destroyOffset * BattleTowersConfig.landTowerCrumblePercent);
+        this.crumbleStopY = obeliskPos.getY() + Mth.floor(destroyOffset * GolemType.getDestructionPercent(this.golemType));
     }
 
     @Override
@@ -116,13 +116,15 @@ public abstract class AbstractDestructionEntity extends Entity {
 
         if (this.destructionState != DestructionState.FINISHED) {
             this.currentTicks++;
-            if (this.destructionState == DestructionState.START_DELAY && this.currentTicks == this.startTicks) {
-                this.currentTicks = 0;
-                this.destructionState = DestructionState.PLAY_TITLES;
-                this.titleRadius = floor(this.destructionRadius * 4);
-                return;
-            }
+
             switch (this.destructionState) {
+                case START_DELAY -> {
+                    if (this.currentTicks == this.startTicks) {
+                        this.currentTicks = 0;
+                        this.titleRadius = floor(this.destructionRadius * 4);
+                        this.destructionState = this.destructionState.getNext();
+                    }
+                }
                 case PLAY_TITLES -> this.playTitles();
                 case COLLECT_BLOCK_LISTS -> this.collectBlocks();
                 case DESTROY_TOWER -> this.destroyTower();
@@ -135,8 +137,8 @@ public abstract class AbstractDestructionEntity extends Entity {
     }
 
     public void playTitles() {
-        BABattleTowers.LOGGER.debug("In Title Sequence");
         if (this.currentTicks == this.titleState.getTickDelay()) {
+            BABattleTowers.LOGGER.debug("Playing Title {}", this.titleState.ordinal());
             if (this.titleState != TitleState.TITLES_FINISHED) {
                 Component text = switch (this.titleState) {
                     case DEFEATED_TITLE -> this.golemDefeatText;
@@ -145,10 +147,10 @@ public abstract class AbstractDestructionEntity extends Entity {
                     default -> Component.empty();
                 };
                 doNoOutputPostionedCommand(this, "/title @a[distance=0.." + this.titleRadius + "] times 30 40 20", this.position());
-                doNoOutputCommand(this, "/title @a[distance=0.." + this.titleRadius + "] subtitle {\"text\":\"" + text.getString()
-                        + "\",\"color\":\"" + this.colorCode + "\"}"
+                doNoOutputPostionedCommand(this, "/title @a[distance=0.." + this.titleRadius + "] subtitle {\"text\":\"" + text.getString()
+                        + "\",\"color\":\"" + this.colorCode + "\"}", this.position()
                 );
-                doNoOutputCommand(this, "/title @a[distance=0.." + this.titleRadius + "] title \"\""
+                doNoOutputPostionedCommand(this, "/title @a[distance=0.." + this.titleRadius + "] title \"\"", this.position()
                 );
                 this.level().playSound(null, this.blockPosition().below(6),
                         BTSoundEvents.TOWER_BREAK_START.get(), SoundSource.AMBIENT, 4.0F, 1F);
@@ -157,7 +159,7 @@ public abstract class AbstractDestructionEntity extends Entity {
                 this.currentTicks = 0;
                 this.titleState = this.titleState.getNext();
             } else {
-                this.destructionState = DestructionState.COLLECT_BLOCK_LISTS;
+                this.destructionState = this.destructionState.getNext();
             }
         }
     }
