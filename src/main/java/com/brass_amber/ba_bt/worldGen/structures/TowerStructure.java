@@ -6,13 +6,19 @@ import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.SaveTowers;
 import com.brass_amber.ba_bt.worldGen.structures.customUtil.TowerPieces;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
@@ -25,6 +31,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.brass_amber.ba_bt.BABattleTowers.SAVE_TOWERS;
 import static com.brass_amber.ba_bt.util.BTUtil.chunkDistanceTo;
@@ -99,6 +106,19 @@ public interface TowerStructure {
                 }
             }
         }
+    }
+
+    default Set<Holder<Biome>> getHorizontalBiomesWithin(BlockPos startPos, int blockRange, BiomeSource source, Climate.Sampler sampler) {
+        int checkDistance = blockRange / 4;
+        Set<Holder<Biome>> set = Sets.newHashSet();
+
+        for (int x = startPos.getX() - blockRange; x < startPos.getX() + blockRange; x += checkDistance) {
+            for (int z = startPos.getZ(); z < startPos.getX() + blockRange; z += checkDistance) {
+                set.add(source.getNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(startPos.getY()), QuartPos.fromBlock(z), sampler));
+            }
+        }
+
+        return set;
     }
 
     void checkVariant(Structure.GenerationContext context, BlockPos blockpos);
