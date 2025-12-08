@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
+import static com.brass_amber.ba_bt.BattleTowersConfig.coreTowerCrumblePercent;
 
 public enum GolemType implements StringRepresentable {
 	LAND("LAND", Component.translatable("entity.ba_bt.land_golem"), "#9BDAE7"),
@@ -442,6 +443,18 @@ public enum GolemType implements StringRepresentable {
 			case NETHER -> netherTimeBeforeCollapse;
 			case END -> endTimeBeforeCollapse;
 			case SKY -> skyTimeBeforeCollapse;
+			default -> 0;
+		};
+	}
+
+	public static double getDestructionPercent(GolemType golemType) {
+		return switch (golemType) {
+			case LAND -> landTowerCrumblePercent;
+			case OCEAN -> oceanTowerCrumblePercent;
+			case CORE -> coreTowerCrumblePercent;
+			case NETHER -> netherTowerCrumblePercent;
+			case END -> endTowerCrumblePercent;
+			case SKY -> skyTowerCrumblePercent;
 			default -> 0;
 		};
 	}
