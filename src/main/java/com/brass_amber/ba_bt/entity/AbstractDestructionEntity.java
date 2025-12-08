@@ -1,7 +1,6 @@
 package com.brass_amber.ba_bt.entity;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
 import com.mojang.logging.LogUtils;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.brass_amber.ba_bt.sound.BTMusic.TOWER_COLLAPSE_MUSIC;
-import static com.brass_amber.ba_bt.util.BTUtil.doNoOutputCommand;
 import static com.brass_amber.ba_bt.util.BTUtil.doNoOutputPostionedCommand;
 import static net.minecraft.util.Mth.floor;
 
