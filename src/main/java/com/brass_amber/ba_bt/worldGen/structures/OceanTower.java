@@ -2,6 +2,7 @@ package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.BTTags;
+import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,6 +12,8 @@ import net.minecraft.core.QuartPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -20,6 +23,9 @@ import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.Set;
+
+import static com.brass_amber.ba_bt.BABattleTowers.LOGGER;
 
 public class OceanTower extends Structure implements TowerStructure {
 
@@ -87,8 +93,9 @@ public class OceanTower extends Structure implements TowerStructure {
         ChunkGenerator chunkGen = generationContext.chunkGenerator();
         int seaLevel = chunkGen.getSeaLevel();
 
-        for (Holder<Biome> holder : generationContext.biomeSource().getBiomesWithin(chunkPos.getMiddleBlockX(), seaLevel, chunkPos.getMiddleBlockZ(), 16 * 5, generationContext.randomState().sampler())) {
+        for (Holder<Biome> holder : this.getHorizontalBiomesWithin(chunkPos.getMiddleBlockPosition(seaLevel), 16 * 5, generationContext.biomeSource(), generationContext.randomState().sampler())) {
             if (!holder.is(BTTags.Biomes.OCEAN_TOWER_BIOMES)) {
+                LOGGER.debug("Bad Biome for Ocean: {}", holder.unwrapKey());
                 return Pair.of(false, 0);
             }
         }
