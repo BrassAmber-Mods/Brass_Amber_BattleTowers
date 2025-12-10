@@ -209,21 +209,22 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                     if (this.level().getBlockState(blockpos$mutableblockpos).is(Blocks.RED_STAINED_GLASS)) {
                         this.level().setBlock(blockpos$mutableblockpos, Blocks.LAVA.defaultBlockState(), 2);
                     }
+
+                    if (y <= this.bottom +14) {
+                        BlockState state = this.level().getBlockState(blockpos$mutableblockpos);
+                        BlockState aboveState = this.level().getBlockState(blockAbove);
+                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 12), blockpos$mutableblockpos);
+                        if (distance3d < this.wallDistance + 1 && state.is(Blocks.OBSIDIAN) && aboveState.isAir()) {
+                            float delta = random.nextFloat();
+                            if (delta > 0.13f) {
+                                this.level().setBlock(blockAbove, Blocks.BASALT.defaultBlockState(), 2);
+                            } else {
+                                this.level().setBlock(blockAbove, Blocks.LAVA.defaultBlockState(), 2);
+                            }
+                        }
+                    }
                 }
             }
-        }
-
-        Holder.Reference<ConfiguredFeature<?, ?>> delta = this.level().registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).getOrThrow(NetherFeatures.DELTA);
-        ServerLevel serverLevel = (ServerLevel) this.level();
-        List<BlockPos> basaltPositions = List.of(
-                this.blockPosition().offset(20, 0, 0),
-                this.blockPosition().offset(-20, 0, 0),
-                this.blockPosition().offset(0, 0, 20),
-                this.blockPosition().offset(0, 0, -20)
-        );
-
-        for (BlockPos blockPos : basaltPositions) {
-            delta.value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), serverLevel.getRandom(), blockPos);
         }
 
         this.generationState = GenerationState.FINISHED;
