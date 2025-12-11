@@ -51,8 +51,8 @@ public class BattleTowersConfig {
 
 
     private static final ForgeConfigSpec.ConfigValue<Double> LAND_TOWER_CRUMBLE_PERCENT =
-                BUILDER.comment("How much of the Land tower remains after defeating the Golem. Default: 9% of tower.")
-                        .defineInRange("landTowerDestruction", .09D, 0,1);
+                BUILDER.comment("How much of the Land tower remains after defeating the Golem. Default: 7% of tower.")
+                        .defineInRange("landTowerDestruction", .07D, 0,1);
 
     private static final ForgeConfigSpec.ConfigValue<Double> OCEAN_TOWER_CRUMBLE_PERCENT =
                 BUILDER.comment("How much of the Ocean tower remains after defeating the Golem. Default: 5% of tower.")
