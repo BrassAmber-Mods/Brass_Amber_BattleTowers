@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -146,6 +147,12 @@ public class BTBlocks {
 
 	public static final RegistryObject<Block> ACTIVE_CORRITE_SLAB = registerBlock("active_corrite_slab",
 			() -> new ActiveCorriteSlab(BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
+
+	public static final RegistryObject<Block> CORE_MATTER = registerBlock("corematter",
+			() -> new CoreMatterBlock(
+					BlockBehaviour.Properties.of().mapColor(MapColor.FIRE).forceSolidOn().noCollission().strength(4.0F)
+							.pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 12)
+							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 1);
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return false;
