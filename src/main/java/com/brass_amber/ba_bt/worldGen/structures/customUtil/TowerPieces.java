@@ -137,9 +137,6 @@ public class TowerPieces {
                                 flippedDirection, piece.structureProcessors(), false
                         )
                 );
-                case CORE -> {
-
-                }
                 default -> towerPieces.add(
                         new TowerPiece(
                                 templateManager, variantName + "rooms/" + piece.name(),
@@ -153,7 +150,7 @@ public class TowerPieces {
 
         // LOGGER.debug("{} placed start floor", towerName);
         // Add random internal rooms (skipping entry floor)
-        for (int i = 1; i < (towerGenInfo == CORE ? 1 : 7); i++) {
+        for (int i = 1; i < 7; i++) {
             failSafe = 0;
             // Get random room
             do {
