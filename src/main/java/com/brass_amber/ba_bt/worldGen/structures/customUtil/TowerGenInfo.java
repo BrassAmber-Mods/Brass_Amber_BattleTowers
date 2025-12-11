@@ -82,16 +82,15 @@ public enum TowerGenInfo {
             List.of(new VariantPieces(
                     List.of(new WeightedPiece("shell", 1, List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR), Vec3i.ZERO)),
                     List.of(new WeightedPiece("base", 1, List.of(LAND_WALL), Vec3i.ZERO)),
-                    List.of(new WeightedPiece("main_hall", 1, List.of(LAND_NORMAL_FLOOR), Vec3i.ZERO)),
+                    List.of(new WeightedPiece("blacksmith", 1, List.of(CORE_FLOOR, CORE_ROOF, CORE_ORE), Vec3i.ZERO)),
                     List.of(
-                            new WeightedPiece("barracks_abandoned", 0.05f, List.of(), Vec3i.ZERO),
                             new WeightedPiece("barracks_open", 0.18f, List.of(), Vec3i.ZERO),
-                            new WeightedPiece("barracks", 0.18f, List.of(), Vec3i.ZERO),
-                            new WeightedPiece("kitchen", 0.34f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("barracks", 0.17f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("kitchen", 0.40f, List.of(), Vec3i.ZERO),
                             new WeightedPiece("library", 0.25f, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)
                     ),
                     List.of(new WeightedPiece("cult_floor", 1, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)),
-                    List.of(new WeightedPiece("boss_floor", 1, List.of(CORE_FLOOR, CORE_ROOF), Vec3i.ZERO))
+                    List.of(new WeightedPiece("boss_floor", 1, List.of(CORE_FLOOR, CORE_ROOF), new Vec3i(-1, 0, -1)))
             ))
     ),
     NETHER(
