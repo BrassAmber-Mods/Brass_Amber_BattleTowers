@@ -65,7 +65,10 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
                 BTBlocks.CORRITE_BLOCK.get(),
                 BTBlocks.CORRITE_SLAB.get(),
                 BTBlocks.CORRITE_STAIR.get(),
-                BTBlocks.CORRITE_WALL.get(),
+                BTBlocks.CORRITE_WALL.get()
+        );
+
+        this.tag(BT_ACTIVE_CORRITE_BLOCKS).add(
                 BTBlocks.ACTIVE_CORRITE_BLOCK.get(),
                 BTBlocks.ACTIVE_CORRITE_SLAB.get(),
                 BTBlocks.ACTIVE_CORRITE_STAIR.get()
@@ -74,7 +77,9 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(BT_CHESTS)
                 .addTag(BT_SPAWNERS)
-                .addTag(BT_CORRITE_BLOCKS);
+                .addTag(BT_CORRITE_BLOCKS)
+                .addTag(BT_ACTIVE_CORRITE_BLOCKS)
+                .add(BTBlocks.CORE_MATTER.get());
 
         this.tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(BT_CHESTS)
@@ -92,7 +97,7 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
 
         this.tag(IS_MAGMA_BLOCK)
                 .add(Blocks.MAGMA_BLOCK)
-                .addTag(BT_CORRITE_BLOCKS);
+                .addTag(BT_ACTIVE_CORRITE_BLOCKS);
     }
 
     @Override
