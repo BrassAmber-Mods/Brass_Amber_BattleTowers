@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
+import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.ai.target.TargetTaskGolem;
 import com.brass_amber.ba_bt.init.BTItems;
@@ -43,6 +44,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
@@ -372,6 +374,13 @@ public abstract class BTAbstractGolem extends Monster {
 	public void die(@NotNull DamageSource source) {
 		if (this.level().isClientSide()) {
 			music.stopPlaying();
+
+		} else {
+			try {
+				BTAbstractObelisk obelisk = this.level().getEntitiesOfClass(BTAbstractObelisk.class, new AABB(this.getSpawnPos()).inflate(15, 115, 15)).get(0);
+				obelisk.golemDead = true;
+			} catch (Exception ignored) {
+			}
 		}
 		BABattleTowers.LOGGER.debug("Golem Died from: {}", source);
 		super.die(source);
