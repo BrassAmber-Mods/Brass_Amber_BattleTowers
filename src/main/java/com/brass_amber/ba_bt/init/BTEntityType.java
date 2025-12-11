@@ -6,6 +6,7 @@ import com.brass_amber.ba_bt.entity.ExplosionPhysics;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
 import com.brass_amber.ba_bt.entity.block.*;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
+import com.brass_amber.ba_bt.entity.hostile.FragmentOfObthuuryn;
 import com.brass_amber.ba_bt.entity.hostile.SkyMinion;
 import com.brass_amber.ba_bt.entity.hostile.golem.*;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTLandGolem;
@@ -57,7 +58,7 @@ public class BTEntityType {
 	//*********************** TOWER MOBS *********************\\
 	public static final RegistryObject<EntityType<SkyMinion>> SKY_MINION = ENTITY_TYPES.register("sky_minion", () -> EntityType.Builder.of(SkyMinion::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 1.9F).clientTrackingRange(8).build("sky_minion"));
 	public static final RegistryObject<EntityType<BTCultist>> BT_CULTIST = ENTITY_TYPES.register("bt_cultist", () -> EntityType.Builder.of(BTCultist::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8).build("bt_cultist"));
-
+	public static final RegistryObject<EntityType<FragmentOfObthuuryn>> FRAGMENT_OF_OBTHUURYN = ENTITY_TYPES.register("fragment_of_obthuuryn", () -> EntityType.Builder.of(FragmentOfObthuuryn::new, MobCategory.MONSTER).fireImmune().canSpawnFarFromPlayer().sized(1.0F, 1.0F).clientTrackingRange(10).build("fragment_of_obthuuryn"));
 
 	//*********************** MISC ENTITIES *********************\\
 	public static final RegistryObject<EntityType<LandDestructionEntity>> LAND_DESTRUCTION = ENTITY_TYPES.register("land_destruction",

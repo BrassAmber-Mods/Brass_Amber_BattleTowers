@@ -35,6 +35,7 @@ public class BTEntitiesLootTables extends EntityLootSubProvider {
         this.add(BTEntityType.SKY_GOLEM.get(), getGolemLootTable(GolemType.SKY));
         this.add(BTEntityType.SKY_MINION.get(), LootTable.lootTable());
         this.add(BTEntityType.BT_CULTIST.get(), LootTable.lootTable());
+        this.add(BTEntityType.FRAGMENT_OF_OBTHUURYN.get(), LootTable.lootTable());
         
     }
 
