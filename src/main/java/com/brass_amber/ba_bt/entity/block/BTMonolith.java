@@ -127,6 +127,7 @@ public class BTMonolith extends Entity {
 			if (this.nextStageCounter >= (seconds * 20)) {
 				//	Spawn Golem and remove this entity
 				this.spawnGolem();
+				this.updateObelisk();
 				this.remove(RemovalReason.DISCARDED);
 			}
 			this.nextStageCounter++;
@@ -149,6 +150,17 @@ public class BTMonolith extends Entity {
 			this.resetMinSoundInterval();
 			this.playAmbientSound();
 			// BrassAmberBattleTowers.LOGGER.debug("Spawned Obelisk? : " + this.spawnedObelisk);
+		}
+	}
+
+	public void updateObelisk() {
+		if (this.level().isClientSide()) {
+			return;
+		}
+		try {
+			BTAbstractObelisk obelisk = this.level().getEntitiesOfClass(BTAbstractObelisk.class, this.getBoundingBox().inflate(15, 115, 15)).get(0);
+			obelisk.setGolemSpawned(true);
+		} catch (Exception ignored) {
 		}
 	}
 
