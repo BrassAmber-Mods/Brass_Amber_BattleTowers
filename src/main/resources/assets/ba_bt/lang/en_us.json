@@ -90,6 +90,7 @@
 	"block.ba_bt.active_corrite_block": "Active Corrite Block",
 	"block.ba_bt.active_corrite_slab": "Active Corrite Slab",
 	"block.ba_bt.active_corrite_stair": "Active Corrite Stair",
+	"block.ba_bt.corematter": "Core Matter",
 
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
