@@ -134,37 +134,14 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             return;
         }
 
-
-        try {
-            List<?> list2 = this.level().getEntitiesOfClass(BTAbstractGolem.class, this.entityCheckAABB);
-            this.golemDead = list2.isEmpty() && this.golemSpawned;
-        } catch (Exception f) {
-
-            BABattleTowers.LOGGER.error("Exception finding Golem: " + f);
-        }
-
-        if (this.tickCount % 100 == 0 && this.hasPlayer && !this.golemDead) {
-            List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null,  this.entityCheckAABB);
-
-            for (Player player : players
-            ) {
-                boolean acceptableY = player.getBlockY() < this.getBlockY() - 1 && player.getBlockY() > this.bottom;
-                boolean not_survival = player.isCreative() || player.isSpectator();
-                if (player.isInWater() && acceptableY && !not_survival) {
-                    // BrassAmberBattleTowers.LOGGER.debug("Set effects");
+        if (this.tickCount % 100 == 0 && !this.golemDead) {
+            for (Entity entity: level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater() && distanceTo2D(this, entity) < this.towerRange)) {
+                if (entity instanceof Player player && !player.isCreative() && !player.isSpectator()) {
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1,true, true), player);
-                    // player.forceAddEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 360, 0,true, true), player);
-
-                }
-                else if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())){
-                    player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
-                }
-            }
-
-            for (Entity entity: level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater())) {
-                if (distanceTo2D(this, entity) < towerRange && entity instanceof LivingEntity && depthDropperAffectsMobs) {
-                    ((LivingEntity) entity).forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 15, 1,true, true), entity);
+                    player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1, true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 30, 1, true, true), player);
+                } else if (entity instanceof LivingEntity living && depthDropperAffectsMobs) {
+                    living.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 15, 1,true, true), living);
                 }
             }
 
