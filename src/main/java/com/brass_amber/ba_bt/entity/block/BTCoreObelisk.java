@@ -80,9 +80,11 @@ public class BTCoreObelisk extends BTAbstractObelisk {
 
         this.noise = 60;
 
-        this.bottom = this.getBlockY() - 1;
-        this.top = this.getBlockY() - 12 + (noise * 2);
-        this.towerTop = this.getBlockY() + 97;
+        this.bottom = this.getBlockY() - 2;
+        this.towerTop = this.getBlockY() + 100;
+        this.top = this.towerTop + 8;
+
+        this.noise = this.top - this.bottom / 2;
 
         this.currentFloorY = this.bottom;
         this.currentCarveLayer = this.bottom;
@@ -160,12 +162,12 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                     for (int z = this.northWall; z <= this.southWall; z++) {
                         blockpos$mutableblockpos.set(x, y, z);
                         BlockState state = this.level().getBlockState(blockpos$mutableblockpos);
-                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 12), blockpos$mutableblockpos);
+                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().atY(this.bottom + this.noise), blockpos$mutableblockpos);
                         double distance2d = BTUtil.distanceTo2D(this, blockpos$mutableblockpos);
-                        if (distance3d < this.wallDistance ) {
-                            if ((distance2d > 15.5 || y >= this.towerTop) && !state.isAir()) {
+                        if (distance3d < this.wallDistance) {
+                            if (y >= this.towerTop && !state.isAir()) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
-                            } else if (distance2d > 12.5 && !avoidBlocks.contains(state.getBlock())) {
+                            } else if (distance2d > 15.5 && !avoidBlocks.contains(state.getBlock())) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
                             }
                         } else if (distance3d < this.wallDistance + 1) {
@@ -210,10 +212,10 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         this.level().setBlock(blockpos$mutableblockpos, Blocks.LAVA.defaultBlockState(), 2);
                     }
 
-                    if (y <= this.bottom +14) {
+                    if (y <= this.bottom + 7) {
                         BlockState state = this.level().getBlockState(blockpos$mutableblockpos);
                         BlockState aboveState = this.level().getBlockState(blockAbove);
-                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 12), blockpos$mutableblockpos);
+                        double distance3d = BTUtil.distanceTo3D(this.blockPosition().atY(this.bottom + this.noise), blockpos$mutableblockpos);
                         if (distance3d < this.wallDistance + 1 && state.is(Blocks.OBSIDIAN) && aboveState.isAir()) {
                             float delta = random.nextFloat();
                             if (delta > 0.13f) {
