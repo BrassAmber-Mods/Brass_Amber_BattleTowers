@@ -37,6 +37,7 @@ public class TowerProcessors {
     static final StructureProcessor CORE_FLOOR;
     static final StructureProcessor CORE_STAIRS;
     static final StructureProcessor CORE_ROOF;
+    static final StructureProcessor CORE_ORE;
 
     static {
 
@@ -364,6 +365,45 @@ public class TowerProcessors {
                         BTBlocks.CORRITE_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.BOTTOM)
                 )
 
+        ));
+
+
+        CORE_ORE = new RuleProcessor(ImmutableList.of(
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.CALCITE, 0.04F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE_DIAMOND_ORE.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.CALCITE, 0.17F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE_EMERALD_ORE.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.CALCITE, 0.21F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE_GOLD_ORE.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.CALCITE, 0.3F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE_COPPER_ORE.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.CALCITE, 0.6F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE_IRON_ORE.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new RandomBlockMatchTest(Blocks.CALCITE, 0.8F),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE_COAL_ORE.defaultBlockState()
+                ),
+                new ProcessorRule(
+                        new BlockMatchTest(Blocks.CALCITE),
+                        AlwaysTrueTest.INSTANCE,
+                        Blocks.DEEPSLATE.defaultBlockState()
+                )
         ));
     }
 }
