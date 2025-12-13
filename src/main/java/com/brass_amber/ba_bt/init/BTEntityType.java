@@ -104,6 +104,7 @@ public class BTEntityType {
 
 		registerSpawnPlacement(event, SKY_MINION.get(), Mob::checkMobSpawnRules);
 		registerSpawnPlacement(event, BT_CULTIST.get(), Mob::checkMobSpawnRules);
+		registerSpawnPlacement(event, FRAGMENT_OF_OBTHUURYN.get(), Mob::checkMobSpawnRules);
 	}
 
 	/**
@@ -120,6 +121,7 @@ public class BTEntityType {
 
 		event.put(SKY_MINION.get(), SkyMinion.createAttributes().build());
 		event.put(BT_CULTIST.get(), BTCultist.createAttributes().build());
+		event.put(FRAGMENT_OF_OBTHUURYN.get(), FragmentOfObthuuryn.createAttributes().build());
 	}
 	/**
 	 * Helper method for registering Entity Spawning
