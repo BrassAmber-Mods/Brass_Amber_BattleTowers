@@ -143,6 +143,8 @@ public class BABattleTowers {
             event.accept(BTBlocks.CORRITE_SLAB);
             event.accept(BTBlocks.CORRITE_STAIR);
             event.accept(BTBlocks.CORRITE_WALL);
+            event.accept(BTBlocks.CORRITE_CHISELED_BOOKSHELF);
+            event.accept(BTBlocks.CORRITE_LADDER);
 
             event.accept(BTBlocks.ACTIVE_CORRITE_BLOCK);
             event.accept(BTBlocks.ACTIVE_CORRITE_SLAB);

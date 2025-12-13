@@ -65,7 +65,9 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
                 BTBlocks.CORRITE_BLOCK.get(),
                 BTBlocks.CORRITE_SLAB.get(),
                 BTBlocks.CORRITE_STAIR.get(),
-                BTBlocks.CORRITE_WALL.get()
+                BTBlocks.CORRITE_WALL.get(),
+                BTBlocks.CORRITE_CHISELED_BOOKSHELF.get(),
+                BTBlocks.CORRITE_LADDER.get()
         );
 
         this.tag(BT_ACTIVE_CORRITE_BLOCKS).add(

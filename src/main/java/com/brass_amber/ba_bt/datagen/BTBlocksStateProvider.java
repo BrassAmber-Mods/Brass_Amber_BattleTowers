@@ -2,21 +2,35 @@ package com.brass_amber.ba_bt.datagen;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.models.BlockModelGenerators;
+import net.minecraft.data.models.blockstates.Condition;
+import net.minecraft.data.models.blockstates.MultiPartGenerator;
+import net.minecraft.data.models.blockstates.Variant;
+import net.minecraft.data.models.blockstates.VariantProperties;
+import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.brass_amber.ba_bt.BABattleTowers.locate;
 
 public class BTBlocksStateProvider extends BlockStateProvider {
     public BTBlocksStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, BABattleTowers.MOD_ID, exFileHelper);
+    }
+
+    private static final Map<BTBookSlotModelCacheKey, ResourceLocation> CHISELED_BOOKSHELF_SLOT_MODEL_CACHE = new HashMap<>();
+
+    static record BTBookSlotModelCacheKey(ModelTemplate template, String modelSuffix) {
     }
 
     @Override
@@ -49,6 +63,8 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         slabBlock(BTBlocks.CORRITE_SLAB);
         stairBlock(BTBlocks.CORRITE_STAIR);
         wallBlock(BTBlocks.CORRITE_WALL);
+        // Bookshelf done in actual files
+
 
 
         simpleBTBlock(BTBlocks.ACTIVE_CORRITE_BLOCK);

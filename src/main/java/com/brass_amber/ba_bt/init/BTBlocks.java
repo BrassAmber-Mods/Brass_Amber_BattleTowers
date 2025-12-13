@@ -135,6 +135,12 @@ public class BTBlocks {
 	public static final RegistryObject<Block> CORRITE_WALL = registerBlock("corrite_wall",
 			() -> new WallBlock(BlockBehaviour.Properties.copy(CORRITE_BLOCK.get())), 64);
 
+	public static final RegistryObject<Block> CORRITE_CHISELED_BOOKSHELF = registerBlock("corrite_chiseled_bookshelf",
+			() -> new ChiseledBookShelfBlock(BlockBehaviour.Properties.copy(CORRITE_BLOCK.get()).mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).sound(SoundType.CHISELED_BOOKSHELF)), 64);
+
+	public static final RegistryObject<Block> CORRITE_LADDER = registerBlock("corrite_ladder",
+			() -> new LadderBlock(BlockBehaviour.Properties.copy(CORRITE_BLOCK.get()).forceSolidOff().strength(0.4F).sound(SoundType.LADDER).noOcclusion().pushReaction(PushReaction.DESTROY)), 64);
+
 	public static final RegistryObject<Block> ACTIVE_CORRITE_BLOCK = registerBlock("active_corrite_block",
 			() -> new ActiveCorriteBlock(
 					Block.Properties.of().mapColor(MapColor.NETHER).strength(5F, 1200.0F).sound(SoundType.DEEPSLATE).instrument(NoteBlockInstrument.BASEDRUM)
@@ -153,6 +159,10 @@ public class BTBlocks {
 					BlockBehaviour.Properties.of().mapColor(MapColor.FIRE).forceSolidOn().noCollission().strength(4.0F)
 							.pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 12)
 							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 1);
+
+
+
+
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return false;
