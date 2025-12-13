@@ -2,6 +2,8 @@
   "values": [
     "#ba_bt:bt_chests",
     "#ba_bt:bt_spawners",
-    "#ba_bt:corrite_blocks"
+    "#ba_bt:corrite_blocks",
+    "#ba_bt:active_corrite_blocks",
+    "ba_bt:core_matter"
   ]
 }

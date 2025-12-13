@@ -3,9 +3,6 @@
     "ba_bt:corrite_block",
     "ba_bt:corrite_slab",
     "ba_bt:corrite_stair",
-    "ba_bt:corrite_wall",
-    "ba_bt:active_corrite_block",
-    "ba_bt:active_corrite_slab",
-    "ba_bt:active_corrite_stair"
+    "ba_bt:corrite_wall"
   ]
 }
