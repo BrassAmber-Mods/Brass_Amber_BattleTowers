@@ -1,9 +1,9 @@
 {
-    "parent": "block/block",
+    "parent": "minecraft:block/block",
     "textures": {
-        "top": "block/corrite_chiseled_bookshelf_top",
-        "side": "block/corrite_chiseled_bookshelf_side",
-        "front": "block/corrite_chiseled_bookshelf_empty",
+        "top": "ba_bt:block/corrite_chiseled_bookshelf_top",
+        "side": "ba_bt:block/corrite_chiseled_bookshelf_side",
+        "front": "ba_bt:block/corrite_chiseled_bookshelf_empty",
         "particle": "#top"
     },
     "elements": [

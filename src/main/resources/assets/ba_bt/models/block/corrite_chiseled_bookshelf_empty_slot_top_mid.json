@@ -1,5 +1,5 @@
 {
-  "parent": "ba_bt:block/template_chiseled_bookshelf_slot_top_mid",
+  "parent": "minecraft:block/template_chiseled_bookshelf_slot_top_mid",
   "textures": {
     "texture": "ba_bt:block/corrite_chiseled_bookshelf_empty"
   }

@@ -1,8 +1,8 @@
 {
-    "ambientocclusion": false,
     "textures": {
-        "particle": "block/corrite_ladder",
-        "texture": "block/corrite_ladder"
+        "particle": "ba_bt:block/corrite_ladder",
+        "texture": "ba_bt:block/corrite_ladder"
+
     },
     "elements": [
         {   "from": [ 0, 0, 15.2 ],
@@ -13,5 +13,6 @@
                 "south": { "uv": [ 16, 0, 0, 16 ], "texture": "#texture" }
             }
         }
-    ]
+    ],
+    "render_type": "cutout"
 }

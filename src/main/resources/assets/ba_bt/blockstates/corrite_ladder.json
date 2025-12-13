@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "minecraft:block/corrite_ladder",
+      "model": "ba_bt:block/corrite_ladder",
       "y": 90
     },
     "facing=north": {
-      "model": "minecraft:block/corrite_ladder"
+      "model": "ba_bt:block/corrite_ladder"
     },
     "facing=south": {
-      "model": "minecraft:block/corrite_ladder",
+      "model": "ba_bt:block/corrite_ladder",
       "y": 180
     },
     "facing=west": {
-      "model": "minecraft:block/corrite_ladder",
+      "model": "ba_bt:block/corrite_ladder",
       "y": 270
     }
   }
