@@ -167,10 +167,10 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         if (distance3d < this.wallDistance) {
                             if (y >= this.towerTop && !state.isAir()) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
-                            } else if (distance2d > 15.5 && !avoidBlocks.contains(state.getBlock())) {
+                            } else if (distance2d > 14.5 && !avoidBlocks.contains(state.getBlock())) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
                             }
-                        } else if (distance3d < this.wallDistance + 1) {
+                        } else if (distance3d < this.wallDistance + 1 && (distance2d > 14.5 || y > this.bottom + 5)) {
                             this.level().setBlock(blockpos$mutableblockpos, Blocks.OBSIDIAN.defaultBlockState(), 2);
                         }
                         //     BABattleTowers.LOGGER.debug("Position Refused: {} {} {}", distance3d, distance2d, y > this.towerTop);

@@ -3,6 +3,8 @@
     "ba_bt:corrite_block",
     "ba_bt:corrite_slab",
     "ba_bt:corrite_stair",
-    "ba_bt:corrite_wall"
+    "ba_bt:corrite_wall",
+    "ba_bt:corrite_chiseled_bookshelf",
+    "ba_bt:corrite_ladder"
   ]
 }
