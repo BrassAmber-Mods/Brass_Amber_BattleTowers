@@ -130,7 +130,7 @@ public class TowerPieces {
             piece = pieceResult.getFirst();
             variantName = baseName + pieceResult.getSecond() + "/";
             switch (towerGenInfo) {
-                case OCEAN -> towerPieces.add(
+                case OCEAN, CORE -> towerPieces.add(
                         new TowerPiece(
                                 templateManager, variantName + "rooms/" + piece.name(),
                                 blockPos.offset(piece.offset()), 
@@ -160,8 +160,11 @@ public class TowerPieces {
                     roomName = piece.name();
                     break;
                 }
-
-                pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.MIDDLE_FLOOR, variant, randomSource);
+                if (i == 1 && towerGenInfo == CORE) {
+                    pieceResult = towerGenInfo.getSpecificVariantPiece(PieceListType.MIDDLE_FLOOR, "normal", 0); // BlackSmith
+                } else {
+                    pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.MIDDLE_FLOOR, variant, randomSource);
+                }
                 piece = pieceResult.getFirst();
                 variantName = baseName + pieceResult.getSecond() + "/";
                 roomName = piece.name();
