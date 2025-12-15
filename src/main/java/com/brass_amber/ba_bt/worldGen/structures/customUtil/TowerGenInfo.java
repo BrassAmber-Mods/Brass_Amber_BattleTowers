@@ -82,15 +82,15 @@ public enum TowerGenInfo {
             new String[]{"normal", "city", "colossal"},
             List.of(new VariantPieces(
                     List.of(new WeightedPiece("shell", 1, List.of(CORE_WALL, CORE_STAIRS, CORE_FLOOR), Vec3i.ZERO)),
-                    List.of(new WeightedPiece("base", 1, List.of(LAND_WALL), Vec3i.ZERO)),
+                    List.of(new WeightedPiece("base", 1, List.of(), Vec3i.ZERO)),
                     List.of(new WeightedPiece("core_hall", 1, List.of(CORE_FLOOR), Vec3i.ZERO)),
                     List.of(
-                            new WeightedPiece("blacksmith", 0.21f, List.of(CORE_FLOOR, CORE_ORE), Vec3i.ZERO),
-                            new WeightedPiece("orb_hall", 0.14f, List.of(), Vec3i.ZERO),
+                            new WeightedPiece("blacksmith", 0.10f, List.of(CORE_FLOOR, CORE_ORE), Vec3i.ZERO),
+                            new WeightedPiece("orb_hall", 0.25f, List.of(), Vec3i.ZERO),
                             new WeightedPiece("worship", 0.40f, List.of(), Vec3i.ZERO),
                             new WeightedPiece("chunky_veins", 0.25f, List.of(), Vec3i.ZERO)
                     ),
-                    List.of(new WeightedPiece("core_hall", 1, List.of(CORE_FLOOR), Vec3i.ZERO)),
+                    List.of(new WeightedPiece("core_library", 1, List.of(), Vec3i.ZERO)),
                     List.of(new WeightedPiece("boss_floor", 1, List.of(CORE_FLOOR, CORE_ROOF), new Vec3i(-1, 0, -1)))
             ))
     ),
@@ -136,6 +136,7 @@ public enum TowerGenInfo {
                 return Pair.of(piece, "normal");
             }
         }
+
         return null;
     }
 

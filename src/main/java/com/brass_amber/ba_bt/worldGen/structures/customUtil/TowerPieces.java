@@ -192,20 +192,17 @@ public class TowerPieces {
 
         }
 
-        if (towerGenInfo != CORE) {
-            pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.FINAL_FLOOR, variant, randomSource);
-            if (pieceResult != null) {
-                piece = pieceResult.getFirst();
-                variantName = baseName + pieceResult.getSecond() + "/";
-                towerPieces.add(
-                        new TowerPiece(
-                                templateManager, variantName + "rooms/" + piece.name(),
-                                blockPos.offset(0, floorHeight * 7, 0).offset(piece.offset()),
-                                baseDirection, piece.structureProcessors(), false
-                        )
-                );
-            }
-
+        pieceResult = towerGenInfo.getRandomVariantPieceFrom(PieceListType.FINAL_FLOOR, variant, randomSource);
+        if (pieceResult != null) {
+            piece = pieceResult.getFirst();
+            variantName = baseName + pieceResult.getSecond() + "/";
+            towerPieces.add(
+                    new TowerPiece(
+                            templateManager, variantName + "rooms/" + piece.name(),
+                            blockPos.offset(0, floorHeight * 7, 0).offset(piece.offset()),
+                            baseDirection, piece.structureProcessors(), false
+                    )
+            );
         }
 
         LOGGER.debug("{} added floors to piece list", towerName);
