@@ -80,11 +80,11 @@ public class BTCoreObelisk extends BTAbstractObelisk {
 
         this.noise = 60;
 
-        this.bottom = this.getBlockY() - 2;
-        this.towerTop = this.getBlockY() + 100;
+        this.bottom = this.getBlockY() - 5;
+        this.towerTop = this.getBlockY() + 96;
         this.top = this.towerTop + 8;
 
-        this.noise = this.top - this.bottom / 2;
+        this.noise = (this.top - this.bottom) / 2;
 
         this.currentFloorY = this.bottom;
         this.currentCarveLayer = this.bottom;
@@ -167,7 +167,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         if (distance3d < this.wallDistance) {
                             if (y >= this.towerTop && !state.isAir()) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
-                            } else if (distance2d > 14.5 && !avoidBlocks.contains(state.getBlock())) {
+                            } else if (distance2d > 13 && !avoidBlocks.contains(state.getBlock())) {
                                 this.toRemove.add(blockpos$mutableblockpos.immutable());
                             }
                         } else if (distance3d < this.wallDistance + 1 && (distance2d > 14.5 || y > this.bottom + 5)) {
