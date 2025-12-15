@@ -660,11 +660,11 @@ public class BTAbstractObelisk extends Entity {
     /**
      * Called when a user uses the creative pick block button on this entity.
      * @return An ItemStack to add to the player's inventory, empty ItemStack if nothing should be added.
-     * (Empty ItemStack is an ItemStack of '(Item) null')
      */
     @Override
     public ItemStack getPickedResult(HitResult target) {
-        return new ItemStack((Item) null);
+        BABattleTowers.LOGGER.info("Obelisk Entity has no item, and cannot be picked as it should only ever be created by a Monolith entity");
+        return ItemStack.EMPTY;
     }
 
 
