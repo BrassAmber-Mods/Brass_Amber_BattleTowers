@@ -259,7 +259,7 @@ public class BTMonolith extends Entity {
 			case CORE -> {
 				// BABTMain.LOGGER.debug("Ocean Obelisk");
 				obelisk = new BTCoreObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() - 89, this.getZ());
+				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
 			}
             default -> {
 				obelisk = new BTLandObelisk(this.level());
