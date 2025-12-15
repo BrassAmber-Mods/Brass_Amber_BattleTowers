@@ -59,12 +59,15 @@ public class BTStatics {
                         BTBlocks.OCEAN_SPAWNER.get(), BTBlocks.OCEAN_CHEST.get(), BTBlocks.OCEAN_GOLEM_CHEST.get(),
                         BTBlocks.SPAWNER_MARKER.get(), Blocks.LAPIS_BLOCK, Blocks.PRISMARINE_SLAB
                 ),
+                // Core
                 List.of(
                         Blocks.DEEPSLATE_BRICKS, Blocks.DEEPSLATE_BRICK_SLAB, Blocks.DEEPSLATE_BRICK_STAIRS, Blocks.DEEPSLATE_BRICK_WALL, Blocks.DEEPSLATE_TILES, Blocks.DEEPSLATE_TILE_WALL,
-                        Blocks.CHISELED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE,  Blocks.BLACKSTONE_STAIRS, Blocks.DIAMOND_BLOCK, Blocks.CHISELED_NETHER_BRICKS,
-                        Blocks.OBSIDIAN, Blocks.CRYING_OBSIDIAN, Blocks.RED_STAINED_GLASS, Blocks.REINFORCED_DEEPSLATE, Blocks.LAVA, Blocks.SAND,
+                        Blocks.CHISELED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE, Blocks.DIAMOND_BLOCK, Blocks.CHISELED_NETHER_BRICKS,
+                        Blocks.OBSIDIAN, Blocks.CRYING_OBSIDIAN, Blocks.RED_STAINED_GLASS, Blocks.LAVA, Blocks.SAND,
+                        Blocks.CHISELED_RED_SANDSTONE, Blocks.CUT_RED_SANDSTONE, Blocks.BASALT,
                         BTBlocks.CORRITE_BLOCK.get(), BTBlocks.CORRITE_SLAB.get(), BTBlocks.CORRITE_STAIR.get(), BTBlocks.CORRITE_WALL.get(),
                         BTBlocks.ACTIVE_CORRITE_BLOCK.get(), BTBlocks.ACTIVE_CORRITE_SLAB.get(), BTBlocks.ACTIVE_CORRITE_STAIR.get(),
+                        BTBlocks.CORRITE_CHISELED_BOOKSHELF.get(), BTBlocks.CORRITE_LADDER.get(), BTBlocks.CORE_MATTER.get(),
                         BTBlocks.CORE_SPAWNER.get(), BTBlocks.CORE_CHEST.get(), BTBlocks.CORE_GOLEM_CHEST.get(),
                         BTBlocks.SPAWNER_MARKER.get()
                 )
