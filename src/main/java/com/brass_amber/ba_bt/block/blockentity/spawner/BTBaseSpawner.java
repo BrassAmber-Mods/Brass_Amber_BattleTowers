@@ -116,7 +116,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
 
     @Override
     public CompoundTag save(CompoundTag compoundTag) {
-        compoundTag.put("TowerCenter", NbtUtils.writeBlockPos(towerCenter));
+        compoundTag.put("TowerCenter", NbtUtils.writeBlockPos(this.towerCenter));
         compoundTag.putInt("TowerRadius", this.towerRadius);
         return super.save(compoundTag);
     }
