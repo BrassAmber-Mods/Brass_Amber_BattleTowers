@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.worldGen.structures;
 
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.BTTags;
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,8 +11,6 @@ import net.minecraft.core.QuartPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeSource;
-import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -23,7 +20,6 @@ import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static com.brass_amber.ba_bt.BABattleTowers.LOGGER;
 
