@@ -139,7 +139,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
                 if (entity instanceof Player player && !player.isCreative() && !player.isSpectator()) {
                     player.forceAddEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 100, 0, true, true), player);
                     player.forceAddEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1, true, true), player);
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 30, 1, true, true), player);
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 105, 1, true, true), player);
                 } else if (entity instanceof LivingEntity living && depthDropperAffectsMobs) {
                     living.forceAddEffect(new MobEffectInstance(BTExtras.DEPTH_DROPPER_EFFECT.get(), 15, 1,true, true), living);
                 }
