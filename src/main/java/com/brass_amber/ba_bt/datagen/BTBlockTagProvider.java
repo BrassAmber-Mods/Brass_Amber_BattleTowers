@@ -6,8 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ChiseledBookShelfBlock;
-import net.minecraft.world.level.block.LadderBlock;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +43,7 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
         this.tag(CHESTS).addTag(BT_CHESTS);
 
         this.tag(WALLS).add(BTBlocks.CORRITE_WALL.get());
-        this.tag(CLIMBABLE).add(BTBlocks.CORRITE_LADDER.get());
+        this.tag(CLIMBABLE).add(BTBlocks.CORRITE_LADDER.get()).add(BTBlocks.CORE_MATTER.get());
 
         this.tag(BT_SPAWNERS).add(
                 BTBlocks.LAND_SPAWNER.get(),
