@@ -30,7 +30,7 @@ public class CoreMatterBlock extends Block implements BucketPickup {
     }
 
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
-        entity.makeStuckInBlock(blockState, new Vec3(0.75D, FALL_SPEED * 2, 0.75D));
+        entity.makeStuckInBlock(blockState, new Vec3(1D, FALL_SPEED * 2, 1D));
         entity.hurt(level.damageSources().lava(), LAVA_DAMAGE);
     }
 
