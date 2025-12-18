@@ -1,5 +1,7 @@
 {
   "values": [
-    "ba_bt:corrite_wall"
+    "ba_bt:corrite_wall",
+    "ba_bt:active_corrite_wall",
+    "ba_bt:core_matter_wall"
   ]
 }

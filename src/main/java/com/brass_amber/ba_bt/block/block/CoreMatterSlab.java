@@ -9,23 +9,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BucketPickup;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-import static com.brass_amber.ba_bt.block.block.ActiveCorriteBlock.FALL_SPEED;
-import static com.brass_amber.ba_bt.block.block.ActiveCorriteBlock.LAVA_DAMAGE;
+import static com.brass_amber.ba_bt.block.block.ActiveCorriteBlock.*;
+import static com.brass_amber.ba_bt.block.block.CoreMatterBlock.MAX_PICKUP;
+import static com.brass_amber.ba_bt.block.block.CoreMatterBlock.PICKUP_LEVEL;
 
-public class CoreMatterBlock extends Block implements BucketPickup {
-    public static final int MAX_PICKUP = 12;
-    public static final IntegerProperty PICKUP_LEVEL = IntegerProperty.create("pickup_level", 1, 12);
+public class CoreMatterSlab extends SlabBlock {
 
-    public CoreMatterBlock(Properties properties) {
+    public CoreMatterSlab(Properties properties) {
         super(properties);
+
         this.registerDefaultState(this.stateDefinition.any().setValue(PICKUP_LEVEL, MAX_PICKUP));
     }
 
@@ -46,8 +45,7 @@ public class CoreMatterBlock extends Block implements BucketPickup {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
+        super.createBlockStateDefinition(blockStateBuilder);
         blockStateBuilder.add(PICKUP_LEVEL);
     }
-
-
 }

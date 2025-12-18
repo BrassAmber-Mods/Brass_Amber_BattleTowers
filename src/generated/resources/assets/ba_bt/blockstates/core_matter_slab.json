@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "ba_bt:block/core_matter_slab"
+    },
+    "type=double": {
+      "model": "ba_bt:block/core_matter_block"
+    },
+    "type=top": {
+      "model": "ba_bt:block/core_matter_slab_top"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ba_bt:block/core_matter_block"
+    }
+  }
+}

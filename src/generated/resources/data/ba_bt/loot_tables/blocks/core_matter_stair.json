@@ -21,11 +21,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ba_bt:core_matter"
+          "name": "ba_bt:core_matter_stair"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ba_bt:blocks/core_matter"
+  "random_sequence": "ba_bt:blocks/core_matter_stair"
 }

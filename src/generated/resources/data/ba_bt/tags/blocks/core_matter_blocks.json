@@ -1,0 +1,8 @@
+{
+  "values": [
+    "ba_bt:core_matter_block",
+    "ba_bt:core_matter_slab",
+    "ba_bt:core_matter_stair",
+    "ba_bt:core_matter_wall"
+  ]
+}

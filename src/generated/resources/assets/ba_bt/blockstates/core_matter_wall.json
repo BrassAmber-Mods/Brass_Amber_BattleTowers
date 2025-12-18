@@ -1,0 +1,90 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall"
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_inner",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "east": "low"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_outer",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "east": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_inner",
+        "uvlock": true
+      },
+      "when": {
+        "north": "low"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_outer",
+        "uvlock": true
+      },
+      "when": {
+        "north": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_inner",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "south": "low"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_outer",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "south": "tall"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_inner",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "west": "low"
+      }
+    },
+    {
+      "apply": {
+        "model": "ba_bt:block/core_matter_wall_outer",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "west": "tall"
+      }
+    }
+  ]
+}

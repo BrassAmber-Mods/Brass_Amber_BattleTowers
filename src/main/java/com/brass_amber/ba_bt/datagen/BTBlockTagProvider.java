@@ -42,8 +42,14 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
 
         this.tag(CHESTS).addTag(BT_CHESTS);
 
-        this.tag(WALLS).add(BTBlocks.CORRITE_WALL.get());
-        this.tag(CLIMBABLE).add(BTBlocks.CORRITE_LADDER.get()).add(BTBlocks.CORE_MATTER.get());
+        this.tag(WALLS).add(
+                BTBlocks.CORRITE_WALL.get(),
+                BTBlocks.ACTIVE_CORRITE_WALL.get(),
+                BTBlocks.CORE_MATTER_WALL.get()
+        );
+        this.tag(CLIMBABLE)
+                .add(BTBlocks.CORRITE_LADDER.get())
+                .addTag(BT_CORE_MATTER_BLOCKS);
 
         this.tag(BT_SPAWNERS).add(
                 BTBlocks.LAND_SPAWNER.get(),
@@ -75,7 +81,15 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
         this.tag(BT_ACTIVE_CORRITE_BLOCKS).add(
                 BTBlocks.ACTIVE_CORRITE_BLOCK.get(),
                 BTBlocks.ACTIVE_CORRITE_SLAB.get(),
-                BTBlocks.ACTIVE_CORRITE_STAIR.get()
+                BTBlocks.ACTIVE_CORRITE_STAIR.get(),
+                BTBlocks.ACTIVE_CORRITE_WALL.get()
+        );
+
+        this.tag(BT_CORE_MATTER_BLOCKS).add(
+                BTBlocks.CORE_MATTER.get(),
+                BTBlocks.CORE_MATTER_SLAB.get(),
+                BTBlocks.CORE_MATTER_STAIR.get(),
+                BTBlocks.CORE_MATTER_WALL.get()
         );
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -83,7 +97,7 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
                 .addTag(BT_SPAWNERS)
                 .addTag(BT_CORRITE_BLOCKS)
                 .addTag(BT_ACTIVE_CORRITE_BLOCKS)
-                .add(BTBlocks.CORE_MATTER.get());
+                .addTag(BT_CORE_MATTER_BLOCKS);
 
         this.tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(BT_CHESTS)

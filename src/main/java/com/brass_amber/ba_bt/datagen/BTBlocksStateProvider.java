@@ -63,15 +63,17 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         slabBlock(BTBlocks.CORRITE_SLAB);
         stairBlock(BTBlocks.CORRITE_STAIR);
         wallBlock(BTBlocks.CORRITE_WALL);
-        // Bookshelf done in actual files
-
-
+        // Bookshelf & Ladder done in actual files
 
         simpleBTBlock(BTBlocks.ACTIVE_CORRITE_BLOCK);
         slabBlock(BTBlocks.ACTIVE_CORRITE_SLAB);
         stairBlock(BTBlocks.ACTIVE_CORRITE_STAIR);
+        wallBlock(BTBlocks.ACTIVE_CORRITE_WALL);
 
         simpleBTBlock(BTBlocks.CORE_MATTER);
+        slabBlock(BTBlocks.CORE_MATTER_SLAB);
+        stairBlock(BTBlocks.CORE_MATTER_STAIR);
+        wallBlock(BTBlocks.CORE_MATTER_WALL);
     }
 
     public void simpleBTBlock(RegistryObject<Block> block) {

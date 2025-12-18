@@ -154,14 +154,26 @@ public class BTBlocks {
 	public static final RegistryObject<Block> ACTIVE_CORRITE_SLAB = registerBlock("active_corrite_slab",
 			() -> new ActiveCorriteSlab(BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
 
-	public static final RegistryObject<Block> CORE_MATTER = registerBlock("core_matter",
+	public static final RegistryObject<Block> ACTIVE_CORRITE_WALL = registerBlock("active_corrite_wall",
+			() -> new ActiveCorriteWall(BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
+
+	public static final RegistryObject<Block> CORE_MATTER = registerBlock("core_matter_block",
 			() -> new CoreMatterBlock(
 					BlockBehaviour.Properties.of().mapColor(MapColor.FIRE).forceSolidOn().noCollission().strength(4.0F)
 							.pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 12)
-							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 1);
+							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
+	public static final RegistryObject<Block> CORE_MATTER_STAIR = registerBlock("core_matter_stair",
+			() -> new CoreMatterStair(CORE_MATTER.get().defaultBlockState(), BlockBehaviour.Properties.copy(CORE_MATTER.get())), 64);
 
+	public static final RegistryObject<Block> CORE_MATTER_SLAB = registerBlock("core_matter_slab",
+			() -> new CoreMatterSlab(
+					BlockBehaviour.Properties.of().mapColor(MapColor.FIRE).forceSolidOn().noCollission().strength(4.0F)
+							.pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 12)
+							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
+	public static final RegistryObject<Block> CORE_MATTER_WALL = registerBlock("core_matter_wall",
+			() -> new CoreMatterWall(BlockBehaviour.Properties.copy(CORE_MATTER.get())), 64);
 
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {

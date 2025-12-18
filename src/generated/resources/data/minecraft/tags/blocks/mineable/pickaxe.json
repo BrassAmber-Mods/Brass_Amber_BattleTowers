@@ -4,6 +4,6 @@
     "#ba_bt:bt_spawners",
     "#ba_bt:corrite_blocks",
     "#ba_bt:active_corrite_blocks",
-    "ba_bt:core_matter"
+    "#ba_bt:core_matter_blocks"
   ]
 }

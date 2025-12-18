@@ -19,6 +19,7 @@ public class BTTags {
         public static TagKey<Block> BT_SPAWNERS = createBT("bt_spawners");
         public static TagKey<Block> BT_CORRITE_BLOCKS = createBT("corrite_blocks");
         public static TagKey<Block> BT_ACTIVE_CORRITE_BLOCKS = createBT("active_corrite_blocks");
+        public static TagKey<Block> BT_CORE_MATTER_BLOCKS = createBT("core_matter_blocks");
         public static TagKey<Block> IS_MAGMA_BLOCK = createBT("is_magma_block");
 
         private static TagKey<Block> createBT(String name) {

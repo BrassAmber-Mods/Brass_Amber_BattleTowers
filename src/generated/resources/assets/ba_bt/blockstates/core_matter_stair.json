@@ -1,0 +1,2464 @@
+{
+  "variants": {
+    "facing=east,half=bottom,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=bottom,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=east,half=bottom,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=east,half=bottom,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=east,half=bottom,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair"
+    },
+    "facing=east,half=top,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=east,half=top,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=east,half=top,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=bottom,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=north,half=bottom,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=bottom,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=north,half=top,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180
+    },
+    "facing=north,half=top,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=south,half=bottom,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner"
+    },
+    "facing=south,half=bottom,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer"
+    },
+    "facing=south,half=bottom,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=bottom,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,half=top,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=south,half=top,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=west,half=bottom,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=bottom,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=1,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=1,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=1,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=1,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=1,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=10,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=10,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=10,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=10,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=10,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=11,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=11,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=11,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=11,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=11,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=12,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=12,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=12,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=12,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=12,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=2,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=2,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=2,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=2,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=2,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=3,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=3,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=3,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=3,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=3,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=4,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=4,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=4,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=4,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=4,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=5,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=5,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=5,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=5,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=5,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=6,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=6,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=6,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=6,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=6,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=7,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=7,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=7,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=7,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=7,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=8,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=8,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=8,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=8,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=8,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=9,shape=inner_left": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=9,shape=inner_right": {
+      "model": "ba_bt:block/core_matter_stair_inner",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=9,shape=outer_left": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    },
+    "facing=west,half=top,pickup_level=9,shape=outer_right": {
+      "model": "ba_bt:block/core_matter_stair_outer",
+      "uvlock": true,
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,half=top,pickup_level=9,shape=straight": {
+      "model": "ba_bt:block/core_matter_stair",
+      "uvlock": true,
+      "x": 180,
+      "y": 180
+    }
+  }
+}
