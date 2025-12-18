@@ -84,16 +84,22 @@
 	"block.ba_bt.bt_end_spawner": "末影刷怪笼",
 	"block.ba_bt.bt_sky_spawner": "天域刷怪笼",
 
-	"block.ba_bt.corrite_block": "Corrite Block",
+	"block.ba_bt.corrite_block": "Corrite",
 	"block.ba_bt.corrite_slab": "Corrite Slab",
 	"block.ba_bt.corrite_stair": "Corrite Stair",
 	"block.ba_bt.corrite_wall": "Corrite Wall",
 	"block.ba_bt.corrite_chiseled_bookshelf": "Corrite Chiseled Bookshelf",
 	"block.ba_bt.corrite_ladder": "Corrite Ladder",
-	"block.ba_bt.active_corrite_block": "Active Corrite Block",
+
+	"block.ba_bt.active_corrite_block": "Active Corrite",
 	"block.ba_bt.active_corrite_slab": "Active Corrite Slab",
 	"block.ba_bt.active_corrite_stair": "Active Corrite Stair",
-	"block.ba_bt.core_matter": "Core Matter",
+	"block.ba_bt.active_corrite_wall": "Active Corrite Wall",
+
+	"block.ba_bt.core_matter_block": "Core Matter",
+	"block.ba_bt.core_matter_slab": "Core Matter Slab",
+	"block.ba_bt.core_matter_stair": "Core Matter Stair",
+	"block.ba_bt.core_matter_wall": "Core Matter Wall",
 
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
