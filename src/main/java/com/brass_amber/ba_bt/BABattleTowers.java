@@ -149,7 +149,12 @@ public class BABattleTowers {
             event.accept(BTBlocks.ACTIVE_CORRITE_BLOCK);
             event.accept(BTBlocks.ACTIVE_CORRITE_SLAB);
             event.accept(BTBlocks.ACTIVE_CORRITE_STAIR);
+            event.accept(BTBlocks.ACTIVE_CORRITE_WALL);
+
             event.accept(BTBlocks.CORE_MATTER);
+            event.accept(BTBlocks.CORE_MATTER_SLAB);
+            event.accept(BTBlocks.CORE_MATTER_STAIR);
+            event.accept(BTBlocks.CORE_MATTER_WALL);
 
             event.accept(BTItems.LAND_RESONANCE_CRYSTAL);
             event.accept(BTItems.OCEAN_RESONANCE_CRYSTAL);

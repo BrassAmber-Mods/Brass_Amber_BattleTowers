@@ -155,7 +155,8 @@ public class BTBlocks {
 			() -> new ActiveCorriteSlab(BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
 
 	public static final RegistryObject<Block> ACTIVE_CORRITE_WALL = registerBlock("active_corrite_wall",
-			() -> new ActiveCorriteWall(BlockBehaviour.Properties.copy(ACTIVE_CORRITE_BLOCK.get())), 64);
+			() -> new ActiveCorriteWall(Block.Properties.of().mapColor(MapColor.NETHER).strength(5F, 1200.0F).sound(SoundType.DEEPSLATE).instrument(NoteBlockInstrument.BASEDRUM)
+					.requiresCorrectToolForDrops().forceSolidOn()), 64);
 
 	public static final RegistryObject<Block> CORE_MATTER = registerBlock("core_matter_block",
 			() -> new CoreMatterBlock(
@@ -173,7 +174,9 @@ public class BTBlocks {
 							.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
 	public static final RegistryObject<Block> CORE_MATTER_WALL = registerBlock("core_matter_wall",
-			() -> new CoreMatterWall(BlockBehaviour.Properties.copy(CORE_MATTER.get())), 64);
+			() -> new CoreMatterWall(BlockBehaviour.Properties.of().mapColor(MapColor.FIRE).forceSolidOn().noCollission().strength(4.0F)
+					.pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 12)
+					.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {

@@ -15,10 +15,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BubbleColumnBlock;
-import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -62,8 +59,16 @@ public class ActiveCorriteWall extends WallBlock {
         }
     }
 
-    public VoxelShape getCollisionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext p_56071_) {
-        return blockState.getValue(CORRITE) != 0 ? Shapes.empty() : blockState.getShape(blockGetter, blockPos);
+    public VoxelShape getCollisionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+        return blockState.getValue(CORRITE) != 0 ? Shapes.empty() : super.getCollisionShape(blockState, blockGetter, blockPos, collisionContext);
+    }
+
+    public VoxelShape getInteractionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+        return blockState.getValue(CORRITE) != 0 ? Shapes.empty() : super.getInteractionShape(blockState, blockGetter, blockPos);
+    }
+
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+        return blockState.getValue(CORRITE) != 0 ? Shapes.empty() : super.getShape(blockState, blockGetter, blockPos, collisionContext);
     }
 
     @Override
@@ -98,15 +103,13 @@ public class ActiveCorriteWall extends WallBlock {
         spawnParticles(level, blockPos);
         BABattleTowers.LOGGER.debug("Corrite Interaction {}", blockState.getValue(CORRITE));
         if (blockState.getValue(CORRITE) == 0) {
-            level.setBlock(blockPos, blockState.setValue(CORRITE, 10), 3);
+            level.setBlock(blockPos, blockState.trySetValue(CORRITE, 10), 10);
         }
     }
-
 
     private static void spawnParticles(Level level, BlockPos blockPos) {
         double d0 = 0.5625D;
         RandomSource randomsource = level.random;
-
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = blockPos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
@@ -122,5 +125,10 @@ public class ActiveCorriteWall extends WallBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
         super.createBlockStateDefinition(blockStateBuilder);
         blockStateBuilder.add(CORRITE);
+    }
+
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
     }
 }
