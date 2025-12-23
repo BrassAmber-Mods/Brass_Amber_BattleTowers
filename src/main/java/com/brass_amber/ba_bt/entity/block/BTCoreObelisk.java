@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.init.BTBlocks;
+import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
@@ -9,7 +10,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -23,8 +30,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.brass_amber.ba_bt.BattleTowersConfig.depthDropperAffectsMobs;
 import static com.brass_amber.ba_bt.sound.BTMusic.*;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
+import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 import static java.lang.Math.abs;
 
 public class BTCoreObelisk extends BTAbstractObelisk {
@@ -116,6 +125,26 @@ public class BTCoreObelisk extends BTAbstractObelisk {
     @Override
     public void tick() {
         super.tick();
+
+        if (this.tickCount % 100 == 0 && !this.golemDead) {
+            for (Entity entity : level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater() && distanceTo2D(this, entity) < this.towerRange)) {
+                if (entity instanceof Player player && !player.isCreative() && !player.isSpectator()) {
+                    player.forceAddEffect(new MobEffectInstance(BTExtras.CORE_TEMPERATURE_EFFECT.get(), 105, 1, true, true), player);
+                } else if (entity instanceof LivingEntity living) {
+                    living.forceAddEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 100, 5, true, true), living);
+                }
+            }
+
+        } else if (this.hasPlayer && this.golemDead) {
+            List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null, this.entityCheckAABB);
+            for (Player player : players
+            ) {
+                boolean acceptableY = player.getBlockY() < this.getBlockY() - 1;
+                if (acceptableY && player.hasEffect(BTExtras.CORE_TEMPERATURE_EFFECT.get())) {
+                    player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
+                }
+            }
+        }
     }
 
 
