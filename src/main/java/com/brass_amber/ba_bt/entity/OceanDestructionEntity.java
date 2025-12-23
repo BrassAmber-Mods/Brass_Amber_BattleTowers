@@ -29,7 +29,6 @@ import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 public class OceanDestructionEntity extends AbstractDestructionEntity {
     private final ArrayList<FallingBlockEntity> fallingBlocks;
     private final ArrayList<BlockState> belowTowerBlocks;
-    public int destroySpeed;
     private boolean waterbelowTower;
 
     public String waterBelowTowerName = "waterBelowTower";

@@ -17,8 +17,6 @@ import static com.brass_amber.ba_bt.util.BTUtil.*;
 
 public class LandDestructionEntity extends AbstractDestructionEntity {
 
-    public int destroySpeed;
-
     public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
         super(type, level);
         this.blockSearchDistance = 16;

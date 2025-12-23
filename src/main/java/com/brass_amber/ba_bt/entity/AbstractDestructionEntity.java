@@ -41,6 +41,7 @@ public abstract class AbstractDestructionEntity extends Entity {
     protected double destructionRadius;
     protected int titleRadius;
     protected int crumbleDirection; // -1 = top to bottom || 1 = bottom to top
+    protected int destroySpeed;
 
     protected DestructionState destructionState = DestructionState.START_DELAY;
     protected TitleState titleState = TitleState.DEFEATED_TITLE;
