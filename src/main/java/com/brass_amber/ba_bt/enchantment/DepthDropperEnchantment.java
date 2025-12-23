@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.enchantment;
 
-import com.brass_amber.ba_bt.init.BTItems;
+import com.brass_amber.ba_bt.util.BTTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -40,7 +40,7 @@ public class DepthDropperEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(ItemStack itemStack) {
-        return itemStack.is(BTItems.LAND_RESONANCE_CRYSTAL.get());
+        return itemStack.is(BTTags.Items.DEPTH_DROPPER_CAN_ENCHANT) ;
     }
 
 }
