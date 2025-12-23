@@ -17,7 +17,7 @@ import static com.brass_amber.ba_bt.util.BTUtil.getItemsWith;
 
 public class CoreTemperatureEnchantment extends Enchantment {
 
-    protected CoreTemperatureEnchantment(Rarity rarity, EquipmentSlot... equipmentSlots) {
+    public CoreTemperatureEnchantment(Rarity rarity, EquipmentSlot... equipmentSlots) {
         super(rarity, EnchantmentCategory.BREAKABLE, equipmentSlots);
     }
 

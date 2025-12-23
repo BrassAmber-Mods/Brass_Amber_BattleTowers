@@ -1,7 +1,9 @@
 package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.effect.CoreTemperatureEffect;
 import com.brass_amber.ba_bt.effect.DepthDropperEffect;
+import com.brass_amber.ba_bt.enchantment.CoreTemperatureEnchantment;
 import com.brass_amber.ba_bt.enchantment.DepthDropperEnchantment;
 
 import net.minecraft.core.registries.Registries;
@@ -24,6 +26,13 @@ public class BTExtras {
 
     public static final RegistryObject<MobEffect> DEPTH_DROPPER_EFFECT = EFFECTS.register("depth_dropper_effect",
             () -> new DepthDropperEffect(MobEffectCategory.NEUTRAL, 13565951)
+    );
+
+    public static final RegistryObject<Enchantment> CORE_TEMPERATURE = ENCHANTMENTS.register("core_temperature",
+            () -> new CoreTemperatureEnchantment(Enchantment.Rarity.RARE, EquipmentSlot.values())
+    );
+    public static final RegistryObject<MobEffect> CORE_TEMPERATURE_EFFECT = EFFECTS.register("core_temperature_effect",
+            () -> new CoreTemperatureEffect(MobEffectCategory.HARMFUL, 10027008)
     );
 
     public static void register(IEventBus eventBus) {

@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 public class CoreTemperatureEffect extends MobEffect {
-    protected CoreTemperatureEffect(MobEffectCategory p_19451_, int p_19452_) {
+    public CoreTemperatureEffect(MobEffectCategory p_19451_, int p_19452_) {
         super(p_19451_, p_19452_);
     }
 
