@@ -3,6 +3,7 @@ package com.brass_amber.ba_bt.util;
 import javax.annotation.Nullable;
 
 import com.brass_amber.ba_bt.block.blockentity.*;
+import com.brass_amber.ba_bt.entity.CoreDestructionEntity;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
@@ -356,6 +357,7 @@ public enum GolemType implements StringRepresentable {
 	public static AbstractDestructionEntity getDestructionEntity(GolemType golemType, Level level, BlockPos pos) {
 		return switch (golemType) {
 			case OCEAN -> new OceanDestructionEntity(level, pos);
+			case CORE -> new CoreDestructionEntity(level, pos);
 			default -> new LandDestructionEntity(level, pos);
 		};
 	}
