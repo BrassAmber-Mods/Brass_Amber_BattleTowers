@@ -90,7 +90,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
         this.noise = 60;
 
         this.bottom = this.getBlockY() - 5;
-        this.towerTop = this.getBlockY() + 96;
+        this.towerTop = this.getBlockY() + 98;
         this.top = this.towerTop + 8;
 
         this.noise = (this.top - this.bottom) / 2;
