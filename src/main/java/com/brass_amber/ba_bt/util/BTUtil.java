@@ -1,8 +1,8 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.item.ItemPool;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -13,11 +13,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 import static com.brass_amber.ba_bt.util.BTStatics.*;
@@ -160,30 +163,6 @@ public class BTUtil {
         double dXZ = distanceTo2D(origin, end);
         double dY = origin.getY() - end.getY();
         return Math.sqrt(Math.abs(dXZ * dXZ + dY * dY));
-    }
-
-    public static void removeBodyOfWater(BlockPos start, Level level) {
-        Set<BlockPos> waterPositions = new HashSet<>();
-        int recursion = 0;
-        removeBodyOWater(waterPositions, start, recursion, level);
-
-        waterPositions.forEach((pos) -> level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0));
-    }
-
-    public static void removeBodyOWater(Set<BlockPos> storage, BlockPos position, int recursion, Level level) {
-        if(!level.isWaterAt(position) || recursion == 250) {
-            return;
-        }
-        if(!storage.contains(position)) {
-            storage.add(position);
-        } else {
-            return;
-        }
-        removeBodyOWater(storage, position.north(), recursion + 1, level);
-        removeBodyOWater(storage, position.east(), recursion + 1, level);
-        removeBodyOWater(storage, position.south(), recursion + 1, level);
-        removeBodyOWater(storage, position.west(), recursion + 1, level);
-        removeBodyOWater(storage, position.below(), recursion + 1, level);
     }
 
     public static List<ItemPool> getPools(ArrayList<String> poolStrings) {
@@ -366,6 +345,38 @@ public class BTUtil {
 
     public static ItemStack getRandomDye(RandomSource randomSource) {
         return new ItemStack(dyes.get(randomSource.nextInt(dyes.size())));
+    }
+
+    @Nullable
+    public static List<Map.Entry<EquipmentSlot, ItemStack>> getItemsWith(Enchantment enchantment, LivingEntity livingEntity) {
+        Map<EquipmentSlot, ItemStack> map = enchantment.getSlotItems(livingEntity);
+        if (map.isEmpty()) {
+            return null;
+        } else {
+            List<Map.Entry<EquipmentSlot, ItemStack>> list = Lists.newArrayList();
+
+            for (Map.Entry<EquipmentSlot, ItemStack> entry : map.entrySet()) {
+                ItemStack itemstack = entry.getValue();
+                if (!itemstack.isEmpty() && EnchantmentHelper.getTagEnchantmentLevel(enchantment, itemstack) > 0) {
+                    list.add(entry);
+                }
+            }
+
+            return list.isEmpty() ? null : list;
+        }
+    }
+
+    public static Map<EquipmentSlot, ItemStack> getEquipment(LivingEntity livingEntity) {
+        Map<EquipmentSlot, ItemStack> map = Maps.newEnumMap(EquipmentSlot.class);
+
+        for (EquipmentSlot equipmentslot : EquipmentSlot.values()) {
+            ItemStack itemstack = livingEntity.getItemBySlot(equipmentslot);
+            if (!itemstack.isEmpty()) {
+                map.put(equipmentslot, itemstack);
+            }
+        }
+
+        return map;
     }
 
     public static void doCommand(Entity self, String command) {
