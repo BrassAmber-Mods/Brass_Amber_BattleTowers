@@ -2,11 +2,13 @@ package com.brass_amber.ba_bt.datagen;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTItems;
+import com.brass_amber.ba_bt.util.BTTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +23,8 @@ public class BTItemtagGenerator extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         this.tag(ItemTags.MUSIC_DISCS)
-                .add(BTItems.LAND_RESONANCE_CRYSTAL.get(),
+                .add(
+                        BTItems.LAND_RESONANCE_CRYSTAL.get(),
                         BTItems.OCEAN_RESONANCE_CRYSTAL.get(),
                         BTItems.CORE_RESONANCE_CRYSTAL.get(),
                         BTItems.NETHER_RESONANCE_CRYSTAL.get(),
@@ -29,6 +32,15 @@ public class BTItemtagGenerator extends ItemTagsProvider {
                         BTItems.SKY_RESONANCE_CRYSTAL.get(),
                         BTItems.CITY_RESONANCE_CRYSTAL.get()
                 );
+
+        this.tag(BTTags.Items.DEPTH_DROPPER_CAN_ENCHANT)
+                .add(BTItems.OCEAN_RESONANCE_CRYSTAL.get())
+                .addTag(Tags.Items.ARMORS_BOOTS);
+
+        this.tag(BTTags.Items.CORE_TEMPERATURE_CAN_ENCHANT)
+                .add(BTItems.CORE_RESONANCE_CRYSTAL.get())
+                .addTag(Tags.Items.ARMORS);
+
     }
 
     @Override

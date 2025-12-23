@@ -3,6 +3,7 @@ package com.brass_amber.ba_bt.util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -24,6 +25,16 @@ public class BTTags {
 
         private static TagKey<Block> createBT(String name) {
             return TagKey.create(Registries.BLOCK, locate(name));
+        }
+    }
+
+    public static class Items {
+
+        public static TagKey<Item> DEPTH_DROPPER_CAN_ENCHANT = createBT("depth_dropper_can_enchant");
+        public static TagKey<Item> CORE_TEMPERATURE_CAN_ENCHANT = createBT("core_temperature_can_enchant");
+
+        private static TagKey<Item> createBT(String name) {
+            return TagKey.create(Registries.ITEM, locate(name));
         }
     }
 
