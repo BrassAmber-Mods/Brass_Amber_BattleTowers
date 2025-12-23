@@ -13,8 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static com.brass_amber.ba_bt.util.BTTags.Blocks.*;
-import static net.minecraft.tags.BlockTags.CLIMBABLE;
-import static net.minecraft.tags.BlockTags.WALLS;
+import static net.minecraft.tags.BlockTags.*;
 import static net.minecraftforge.common.Tags.Blocks.CHESTS;
 
 public class BTBlockTagProvider extends BlockTagsProvider  {
@@ -41,6 +40,18 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
         );
 
         this.tag(CHESTS).addTag(BT_CHESTS);
+
+        this.tag(SLABS).add(
+                BTBlocks.CORRITE_SLAB.get(),
+                BTBlocks.ACTIVE_CORRITE_SLAB.get(),
+                BTBlocks.CORE_MATTER_SLAB.get()
+        );
+
+        this.tag(STAIRS).add(
+                BTBlocks.CORRITE_STAIR.get(),
+                BTBlocks.ACTIVE_CORRITE_STAIR.get(),
+                BTBlocks.CORE_MATTER_STAIR.get()
+        );
 
         this.tag(WALLS).add(
                 BTBlocks.CORRITE_WALL.get(),
