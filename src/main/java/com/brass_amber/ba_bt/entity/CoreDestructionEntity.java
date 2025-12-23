@@ -5,6 +5,7 @@ import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
@@ -63,7 +64,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
 
     @Override
     public void destroyTower() {
-// BABattleTowers.LOGGER.debug("In Destroy Sequence: {}", this.blocksToRemove.size());
+        // BABattleTowers.LOGGER.debug("In Destroy Sequence: {}", this.blocksToRemove.size());
         if (this.currentTicks % 240 == 0) {
             this.level().playSound(null, this.blocksToRemove.get(this.random.nextInt(Math.min(this.blocksToRemove.size(), 64))),
                     BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
@@ -72,11 +73,11 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         if (this.blocksToRemove.isEmpty()) {
             this.destructionState = this.destructionState.getNext();
         } else {
-
-            for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 12 + this.destroySpeed); i++) {
-                BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 16)));
-                // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
-                this.level().destroyBlock(removeBlockPos, false);
+            if (!this.coreMatterBlocks.isEmpty()) {
+                for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 12 + this.destroySpeed); i++) {
+                    BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 16)));
+                    this.level().destroyBlock(removeBlockPos, false);
+                }
             }
 
             for (int i = 0; i < Math.min(this.blocksToRemove.size(), 18 + this.destroySpeed); i++) {
@@ -85,8 +86,6 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
                 setCoreMatterBlock(removeBlockPos);
                 this.coreMatterBlocks.add(removeBlockPos);
             }
-
-
         }
     }
 
@@ -136,5 +135,15 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         this.destructionState = this.destructionState.getNext();
     }
 
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+    }
 
 }
