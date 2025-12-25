@@ -65,6 +65,10 @@ public class ClientEvents {
 
 		event.registerEntityRenderer(BTEntityType.LAND_DESTRUCTION.get(), NoRenderEntity::new);
 		event.registerEntityRenderer(BTEntityType.OCEAN_DESTRUCTION.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityType.CORE_DESTRUCTION.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityType.NETHER_DESTRUCTION.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityType.END_DESTRUCTION.get(), NoRenderEntity::new);
+		event.registerEntityRenderer(BTEntityType.SKY_DESTRUCTION.get(), NoRenderEntity::new);
 		event.registerEntityRenderer(BTEntityType.PHYSICS_EXPLOSION.get(), NoRenderEntity::new);
 
 		// BLOCK ENTITIES
