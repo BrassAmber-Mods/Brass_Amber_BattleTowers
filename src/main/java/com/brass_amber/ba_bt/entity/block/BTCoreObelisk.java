@@ -5,11 +5,8 @@ import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.features.NetherFeatures;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -24,13 +21,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.depthDropperAffectsMobs;
 import static com.brass_amber.ba_bt.sound.BTMusic.*;
 import static com.brass_amber.ba_bt.util.BTStatics.towerBlocks;
 import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
@@ -126,22 +121,24 @@ public class BTCoreObelisk extends BTAbstractObelisk {
     public void tick() {
         super.tick();
 
-        if (this.tickCount % 100 == 0 && !this.golemDead) {
-            for (Entity entity : level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && entity.isInWater() && distanceTo2D(this, entity) < this.towerRange)) {
-                if (entity instanceof Player player && !player.isCreative() && !player.isSpectator()) {
-                    player.forceAddEffect(new MobEffectInstance(BTExtras.CORE_TEMPERATURE_EFFECT.get(), 105, 1, true, true), player);
-                } else if (entity instanceof LivingEntity living) {
-                    living.forceAddEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 100, 5, true, true), living);
+        if (this.tickCount % 20 == 0 && !this.golemDead) {
+            for (Entity entity : level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && distanceTo2D(this, entity) < this.towerRange)) {
+                if (entity instanceof Player player) { // Double if to enforce player vs mob differences
+                    if (!player.isCreative() && !player.isSpectator() && !player.hasEffect(BTExtras.CORE_TEMPERATURE_EFFECT.get())) {
+                        player.forceAddEffect(new MobEffectInstance(BTExtras.CORE_TEMPERATURE_EFFECT.get(), 105, 1, true, true), player);
+                    }
+                } else if (entity instanceof LivingEntity living && !living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+                    living.forceAddEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, true, true), living);
                 }
             }
+
 
         } else if (this.hasPlayer && this.golemDead) {
             List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null, this.entityCheckAABB);
             for (Player player : players
             ) {
-                boolean acceptableY = player.getBlockY() < this.getBlockY() - 1;
-                if (acceptableY && player.hasEffect(BTExtras.CORE_TEMPERATURE_EFFECT.get())) {
-                    player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
+                if (player.hasEffect(BTExtras.CORE_TEMPERATURE_EFFECT.get())) {
+                    player.removeEffect(BTExtras.CORE_TEMPERATURE_EFFECT.get());
                 }
             }
         }
@@ -164,6 +161,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                             try {
                                 this.level().setBlock(blockpos$mutableblockpos, state.setValue(BlockStateProperties.WATERLOGGED, false), 2);
                             } catch (Exception e) {
+                                this.level().setBlock(blockpos$mutableblockpos, Blocks.DEEPSLATE.defaultBlockState(), 2);
                                 this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
                             }
                         }
@@ -241,13 +239,19 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         this.level().setBlock(blockpos$mutableblockpos, Blocks.LAVA.defaultBlockState(), 2);
                     }
 
-                    if (y <= this.bottom + 7) {
+                    // cleanup any leftover water
+                    if (this.level().isFluidAtPosition(blockpos$mutableblockpos, fluidState -> fluidState.is(FluidTags.WATER))) {
+                        this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
+                    }
+
+                    // add basalt delta type formation around base
+                    if (y <= this.bottom + 12) {
                         BlockState state = this.level().getBlockState(blockpos$mutableblockpos);
                         BlockState aboveState = this.level().getBlockState(blockAbove);
                         double distance3d = BTUtil.distanceTo3D(this.blockPosition().atY(this.bottom + this.noise), blockpos$mutableblockpos);
                         if (distance3d < this.wallDistance + 1 && state.is(Blocks.OBSIDIAN) && aboveState.isAir()) {
                             float delta = random.nextFloat();
-                            if (delta > 0.13f) {
+                            if (delta > 0.08f) {
                                 this.level().setBlock(blockAbove, Blocks.BASALT.defaultBlockState(), 2);
                             } else {
                                 this.level().setBlock(blockAbove, Blocks.LAVA.defaultBlockState(), 2);
