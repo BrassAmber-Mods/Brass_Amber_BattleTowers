@@ -31,7 +31,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
     }
 
     public CoreDestructionEntity(Level level, BlockPos obeliskPos) {
-        this(BTEntityType.LAND_DESTRUCTION.get(), level);
+        this(BTEntityType.CORE_DESTRUCTION.get(), level);
         this.setPos(obeliskPos, 98);
         LOGGER.debug("Destruction {} spawned at: {}", this.golemType.getSerializedName(), this.blockPosition());
         LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
@@ -96,9 +96,11 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         if (state.is(BlockTags.SLABS)) {
             setState = BTBlocks.CORE_MATTER_SLAB.get().defaultBlockState();
             setState = setState.trySetValue(BlockStateProperties.SLAB_TYPE, state.getValue(BlockStateProperties.SLAB_TYPE));
+            setState = setState.trySetValue(BlockStateProperties.WATERLOGGED, false);
         } else if (state.is(BlockTags.STAIRS)) {
             setState = BTBlocks.CORE_MATTER_STAIR.get().defaultBlockState();
             setState = setState.trySetValue(BlockStateProperties.STAIRS_SHAPE, state.getValue(BlockStateProperties.STAIRS_SHAPE));
+            setState = setState.trySetValue(BlockStateProperties.WATERLOGGED, false);
         } else if (state.is(BlockTags.WALLS)) {
             setState = BTBlocks.CORE_MATTER_WALL.get().defaultBlockState();
             setState = setState.trySetValue(BlockStateProperties.UP, state.getValue(BlockStateProperties.UP));
@@ -106,6 +108,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
             setState = setState.trySetValue(BlockStateProperties.NORTH_WALL, state.getValue(BlockStateProperties.NORTH_WALL));
             setState = setState.trySetValue(BlockStateProperties.SOUTH_WALL, state.getValue(BlockStateProperties.SOUTH_WALL));
             setState = setState.trySetValue(BlockStateProperties.WEST_WALL, state.getValue(BlockStateProperties.WEST_WALL));
+            setState = setState.trySetValue(BlockStateProperties.WATERLOGGED, false);
         } else {
             setState = BTBlocks.CORE_MATTER.get().defaultBlockState();
         }
