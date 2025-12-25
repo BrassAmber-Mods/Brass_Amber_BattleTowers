@@ -62,11 +62,11 @@ public abstract class AbstractDestructionEntity extends Entity {
     public AbstractDestructionEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.golemType = GolemType.getTypeForDestructionEntity(this);
-        this.colorCode = golemType.getColorCode();
-        this.golemName = golemType.getDisplayName();
-        this.golemDefeatText = Component.translatable("title.ba_bt." + golemType.getSerializedName().toLowerCase(Locale.ROOT) +"_golem_defeated");
-        this.golemFateText = Component.translatable("title.ba_bt." + golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_fate");
-        this.collapseFlavorText = Component.translatable("title.ba_bt." + golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_collapse_flavor");
+        this.colorCode = this.golemType.getColorCode();
+        this.golemName = this.golemType.getDisplayName();
+        this.golemDefeatText = Component.translatable("title.ba_bt." + this.golemType.getSerializedName().toLowerCase(Locale.ROOT) +"_golem_defeated");
+        this.golemFateText = Component.translatable("title.ba_bt." + this.golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_fate");
+        this.collapseFlavorText = Component.translatable("title.ba_bt." + this.golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_collapse_flavor");
         this.startTicks = GolemType.getDestructionDelay(this.golemType) * 20;
         this.setInvulnerable(true);
         this.setInvisible(true);
