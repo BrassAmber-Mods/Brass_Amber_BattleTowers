@@ -109,14 +109,14 @@ public class CoreTower extends Structure implements TowerStructure{
         holderset = generationContext.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.CORE_TOWER_MOUNTAIN_BIOMES).orElseThrow();
         predicate = holderset::contains;
         Pair<BlockPos, Holder<Biome>> mountainBiomeNearby = generationContext.chunkGenerator().getBiomeSource().findBiomeHorizontal(
-                blockpos.getX(), generationContext.chunkGenerator().getSeaLevel() + 20, blockpos.getZ(), 400,
+                blockpos.getX(), generationContext.chunkGenerator().getSeaLevel() + 20, blockpos.getZ(), 198,
                 predicate, generationContext.random(), generationContext.randomState().sampler()
         );
 
         holderset = generationContext.registryAccess().registryOrThrow(Registries.BIOME).getTag(BiomeTags.HAS_ANCIENT_CITY).orElseThrow();
         predicate = holderset::contains;
         Pair<BlockPos, Holder<Biome>> sculkBiomeNearby = generationContext.chunkGenerator().getBiomeSource().findBiomeHorizontal(
-                blockpos.getX(), -60, blockpos.getZ(), 64,
+                blockpos.getX(), -60, blockpos.getZ(), 48,
                 predicate, generationContext.random(), generationContext.randomState().sampler()
         );
 
