@@ -75,13 +75,13 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         } else {
             if (!this.coreMatterBlocks.isEmpty()) {
                 for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 12 + this.destroySpeed); i++) {
-                    BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 16)));
+                    BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 32)));
                     this.level().destroyBlock(removeBlockPos, false);
                 }
             }
 
-            for (int i = 0; i < Math.min(this.blocksToRemove.size(), 18 + this.destroySpeed); i++) {
-                BlockPos removeBlockPos = this.blocksToRemove.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 32)));
+            for (int i = 0; i < Math.min(this.blocksToRemove.size(), 16 + this.destroySpeed); i++) {
+                BlockPos removeBlockPos = this.blocksToRemove.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 48)));
                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                 setCoreMatterBlock(removeBlockPos);
                 this.coreMatterBlocks.add(removeBlockPos);
