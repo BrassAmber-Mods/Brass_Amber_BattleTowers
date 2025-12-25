@@ -29,6 +29,7 @@ public class BTItemPools {
     public static final ResourceKey<ItemPool> TREE_PLANT = registerItemPoolKey("tree_plant");
     public static final ResourceKey<ItemPool> OCEAN_TOWER_BLOCKS = registerItemPoolKey("ocean_tower_blocks");
     public static final ResourceKey<ItemPool> CORE_TOWER_BLOCKS = registerItemPoolKey("core_tower_blocks");
+    public static final ResourceKey<ItemPool> DEEP_ROCK = registerItemPoolKey("deep_rock");
 
 
     public static void bootstrap(BootstapContext<ItemPool> itemPoolContext) {
