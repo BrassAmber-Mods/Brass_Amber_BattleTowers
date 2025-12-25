@@ -89,10 +89,10 @@ public class BTStatics {
         towerChestUnlocking = List.of(
                 Arrays.asList(6, 14, 21),
                 Arrays.asList(9, 23),
-                Arrays.asList(10, 25),
-                Arrays.asList(11, 27),
-                Arrays.asList(12, 29),
-                Arrays.asList(13, 31)
+                Arrays.asList(12, 25),
+                Arrays.asList(13, 27),
+                Arrays.asList(14, 29),
+                Arrays.asList(15, 31)
         );
 
         // List of spawner data per 2 floors per tower
