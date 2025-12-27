@@ -68,19 +68,23 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         if (this.currentTicks % 240 == 0) {
             this.level().playSound(null, this.blocksToRemove.get(this.random.nextInt(Math.min(this.blocksToRemove.size(), 64))),
                     BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
+        }
+
+        if (this.currentTicks % 120 == 0) {
             this.destroySpeed += 4;
         }
+
         if (this.blocksToRemove.isEmpty()) {
             this.destructionState = this.destructionState.getNext();
         } else {
             if (!this.coreMatterBlocks.isEmpty()) {
-                for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 12 + this.destroySpeed); i++) {
+                for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 8 + this.destroySpeed); i++) {
                     BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 32)));
                     this.level().destroyBlock(removeBlockPos, false);
                 }
             }
 
-            for (int i = 0; i < Math.min(this.blocksToRemove.size(), 16 + this.destroySpeed); i++) {
+            for (int i = 0; i < Math.min(this.blocksToRemove.size(), 12 + this.destroySpeed); i++) {
                 BlockPos removeBlockPos = this.blocksToRemove.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 48)));
                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                 setCoreMatterBlock(removeBlockPos);
