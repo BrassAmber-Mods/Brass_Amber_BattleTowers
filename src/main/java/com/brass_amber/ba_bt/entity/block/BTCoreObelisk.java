@@ -2,6 +2,7 @@ package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
+import com.brass_amber.ba_bt.util.BTTags;
 import com.brass_amber.ba_bt.util.BTUtil;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
@@ -155,9 +156,12 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                     double distance3d = BTUtil.distanceTo3D(this.blockPosition().above(this.noise - 5), blockpos$mutableblockpos);
                     state = this.level().getBlockState(blockpos$mutableblockpos);
                     if (distance3d < this.wallDistance) {
+                        if (state.is(BTTags.Blocks.BT_CORE_UNDERGROUND_CLEANUP)) {
+                            this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
+                        }
                         if (state.is(Blocks.GRAVEL)) {
                             this.level().setBlock(blockpos$mutableblockpos, Blocks.AIR.defaultBlockState(), 2);
-                        } else if (state.getFluidState().getAmount() > 0) {
+                        } else if (!state.getFluidState().isEmpty()) {
                             try {
                                 this.level().setBlock(blockpos$mutableblockpos, state.setValue(BlockStateProperties.WATERLOGGED, false), 2);
                             } catch (Exception e) {
@@ -251,10 +255,8 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                         double distance3d = BTUtil.distanceTo3D(this.blockPosition().atY(this.bottom + this.noise), blockpos$mutableblockpos);
                         if (distance3d < this.wallDistance + 1 && state.is(Blocks.OBSIDIAN) && aboveState.isAir()) {
                             float delta = random.nextFloat();
-                            if (delta > 0.08f) {
-                                this.level().setBlock(blockAbove, Blocks.BASALT.defaultBlockState(), 2);
-                            } else {
-                                this.level().setBlock(blockAbove, Blocks.LAVA.defaultBlockState(), 2);
+                            if (delta < 0.09f) {
+                                this.level().setBlock(blockpos$mutableblockpos, BTBlocks.CORE_MATTER.get().defaultBlockState(), 2);
                             }
                         }
                     }
