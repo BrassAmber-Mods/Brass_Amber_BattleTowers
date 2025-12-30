@@ -153,7 +153,7 @@ public class LandTower extends Structure implements TowerStructure {
 
         BlockPos middleBlock = chunkPos.getMiddleBlockPosition(middleHieght);
 
-        HolderSet<Biome> holderset = generationContext.registryAccess().registryOrThrow(Registries.BIOME).getTag(Tags.Biomes.IS_WATER).orElseThrow();
+        HolderSet<Biome> holderset = generationContext.registryAccess().registryOrThrow(Registries.BIOME).getTag(BTTags.Biomes.AVOID_OCEAN_BEACH).orElseThrow();
         // LOGGER.debug("Ocean Holderset = {}", holderset);
         Predicate<Holder<Biome>> predicate = holderset::contains;
         Pair<BlockPos, Holder<Biome>> waterBiomeNearby = chunkGen.getBiomeSource().findBiomeHorizontal(

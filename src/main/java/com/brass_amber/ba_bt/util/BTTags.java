@@ -22,6 +22,7 @@ public class BTTags {
         public static TagKey<Block> BT_ACTIVE_CORRITE_BLOCKS = createBT("active_corrite_blocks");
         public static TagKey<Block> BT_CORE_MATTER_BLOCKS = createBT("core_matter_blocks");
         public static TagKey<Block> IS_MAGMA_BLOCK = createBT("is_magma_block");
+        public static TagKey<Block> BT_CORE_UNDERGROUND_CLEANUP = createBT("is_magma_block");
 
         private static TagKey<Block> createBT(String name) {
             return TagKey.create(Registries.BLOCK, locate(name));
@@ -60,6 +61,7 @@ public class BTTags {
 
     public static class Biomes {
         public static final TagKey<Biome> LAND_TOWER_BIOMES = createTag("has_structure/land_tower_biomes");
+        public static final TagKey<Biome> AVOID_OCEAN_BEACH = createTag("avoid_ocean_beach");
         public static final TagKey<Biome> LAND_TOWER_OVERGROWN_BIOMES = createTag("land_tower_overgrown_biomes");
         public static final TagKey<Biome> LAND_TOWER_SANDY_BIOMES = createTag("land_tower_sandy_biomes");
         public static final TagKey<Biome> LAND_TOWER_SNOWY_BIOMES = createTag("land_tower_snowy_biomes");

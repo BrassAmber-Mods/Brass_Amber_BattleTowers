@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
+
 public class BTBiomeTagProvider extends BiomeTagsProvider {
 
     public BTBiomeTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
@@ -23,6 +24,10 @@ public class BTBiomeTagProvider extends BiomeTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         this.tag(BTTags.Biomes.LAND_TOWER_BIOMES)
                 .addTag(BiomeTags.IS_OVERWORLD);
+
+        this.tag(BTTags.Biomes.AVOID_OCEAN_BEACH)
+                .addTag(Tags.Biomes.IS_WATER)
+                .addTag(BiomeTags.IS_BEACH);
 
         this.tag(BTTags.Biomes.LAND_TOWER_OVERGROWN_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)
