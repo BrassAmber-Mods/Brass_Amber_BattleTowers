@@ -21,6 +21,7 @@ import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 
 public class CoreDestructionEntity extends AbstractDestructionEntity {
     public List<BlockPos> coreMatterBlocks = new ArrayList<>();
+    public boolean coreMatterConversion = false;
 
     public CoreDestructionEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -75,15 +76,14 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         }
 
         if (this.blocksToRemove.isEmpty()) {
-            this.destructionState = this.destructionState.getNext();
-        } else {
-            if (!this.coreMatterBlocks.isEmpty()) {
-                for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 8 + this.destroySpeed); i++) {
-                    BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 32)));
-                    this.level().destroyBlock(removeBlockPos, false);
-                }
+            for (int i = 0; i < Math.min(this.coreMatterBlocks.size(), 8 + this.destroySpeed); i++) {
+                BlockPos removeBlockPos = this.coreMatterBlocks.remove(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 32)));
+                this.level().destroyBlock(removeBlockPos, false);
             }
-
+            if (this.coreMatterBlocks.isEmpty()) {
+                this.destructionState = this.destructionState.getNext();
+            }
+        } else {
             for (int i = 0; i < Math.min(this.blocksToRemove.size(), 12 + this.destroySpeed); i++) {
                 BlockPos removeBlockPos = this.blocksToRemove.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 48)));
                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
@@ -91,6 +91,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
                 this.coreMatterBlocks.add(removeBlockPos);
             }
         }
+
     }
 
     public void setCoreMatterBlock(BlockPos pos) {
