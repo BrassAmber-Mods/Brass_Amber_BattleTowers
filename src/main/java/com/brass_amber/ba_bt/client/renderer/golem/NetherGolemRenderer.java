@@ -10,11 +10,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class NetherBTGolemRenderer extends AbstractBTGolemRenderer<BTAbstractGolem, LandGolemModel> {
+public class NetherGolemRenderer extends AbstractGolemRenderer<BTAbstractGolem, LandGolemModel> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/nether_golem/nether_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 
-	public NetherBTGolemRenderer(EntityRendererProvider.Context context) {
+	public NetherGolemRenderer(EntityRendererProvider.Context context) {
 		super(context, new LandGolemModel(context.bakeLayer(LAYER), LAYER), "nether_golem");
 		this.setGolemTextures("nether_golem_dormant", "nether_golem", "nether_golem");
 	}

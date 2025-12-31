@@ -10,11 +10,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class OceanBTGolemRenderer extends AbstractBTGolemRenderer<BTAbstractGolem, OceanGolemModel> {
+public class OceanGolemRenderer extends AbstractGolemRenderer<BTAbstractGolem, OceanGolemModel> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/ocean_golem/ocean_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 
-	public OceanBTGolemRenderer(EntityRendererProvider.Context context) {
+	public OceanGolemRenderer(EntityRendererProvider.Context context) {
 		super(context, new OceanGolemModel(context.bakeLayer(LAYER), LAYER),"ocean_golem");
 		this.setGolemTextures("ocean_golem_dormant", "ocean_golem", "ocean_golem");
 	}

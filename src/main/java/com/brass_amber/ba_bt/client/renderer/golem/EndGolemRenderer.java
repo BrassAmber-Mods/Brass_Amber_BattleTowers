@@ -10,12 +10,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class CoreBTGolemRenderer extends AbstractBTGolemRenderer<BTAbstractGolem, LandGolemModel> {
-	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/core_golem/core_golem_dormant");
+public class EndGolemRenderer extends AbstractGolemRenderer<BTAbstractGolem, LandGolemModel> {
+	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/end_golem/end_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 
-	public CoreBTGolemRenderer(EntityRendererProvider.Context context) {
-		super(context, new LandGolemModel(context.bakeLayer(LAYER), LAYER), "core_golem");
-		this.setGolemTextures("core_golem_dormant", "core_golem", "core_golem_cracked");
+	public EndGolemRenderer(EntityRendererProvider.Context context) {
+		super(context, new LandGolemModel(context.bakeLayer(LAYER), LAYER), "end_golem");
+		this.setGolemTextures("end_golem_dormant", "end_golem", "end_golem_apparition");
 	}
 }

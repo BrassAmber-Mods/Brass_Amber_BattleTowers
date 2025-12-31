@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer.golem;
 
+import com.brass_amber.ba_bt.client.model.hostile.CoreGolemModel;
 import com.brass_amber.ba_bt.client.model.hostile.LandGolemModel;
 import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
 
@@ -10,12 +11,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LandBTGolemRenderer extends AbstractBTGolemRenderer<BTAbstractGolem, LandGolemModel> {
-	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/land_golem/land_golem_dormant");
+public class CoreGolemRenderer extends AbstractGolemRenderer<BTAbstractGolem, CoreGolemModel> {
+	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/core_golem/core_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 
-	public LandBTGolemRenderer(EntityRendererProvider.Context context) {
-		super(context, new LandGolemModel(context.bakeLayer(LAYER), LAYER), "land_golem");
-		this.setGolemTextures("land_golem_dormant", "land_golem", "land_golem_enraged");
+	public CoreGolemRenderer(EntityRendererProvider.Context context) {
+		super(context, new CoreGolemModel(context.bakeLayer(LAYER), LAYER), "core_golem");
+		this.setGolemTextures("core_golem_dormant", "core_golem", "core_golem_cracked");
 	}
 }
