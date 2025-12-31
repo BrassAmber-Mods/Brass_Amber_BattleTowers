@@ -15,13 +15,12 @@ import com.brass_amber.ba_bt.client.renderer.monolith.EndBTMonolithRenderer;
 import com.brass_amber.ba_bt.client.renderer.monolith.NetherBTMonolithRenderer;
 import com.brass_amber.ba_bt.client.renderer.monolith.OceanBTMonolithRenderer;
 import com.brass_amber.ba_bt.client.renderer.monolith.SkyBTMonolithRenderer;
-import com.brass_amber.ba_bt.client.renderer.golem.CoreBTGolemRenderer;
-import com.brass_amber.ba_bt.client.renderer.golem.EndBTGolemRenderer;
-import com.brass_amber.ba_bt.client.renderer.golem.LandBTGolemRenderer;
-import com.brass_amber.ba_bt.client.renderer.golem.NetherBTGolemRenderer;
-import com.brass_amber.ba_bt.client.renderer.golem.OceanBTGolemRenderer;
-import com.brass_amber.ba_bt.client.renderer.golem.SkyBTGolemRenderer;
-import net.minecraft.client.renderer.entity.ShulkerRenderer;
+import com.brass_amber.ba_bt.client.renderer.golem.CoreGolemRenderer;
+import com.brass_amber.ba_bt.client.renderer.golem.EndGolemRenderer;
+import com.brass_amber.ba_bt.client.renderer.golem.LandGolemRenderer;
+import com.brass_amber.ba_bt.client.renderer.golem.NetherGolemRenderer;
+import com.brass_amber.ba_bt.client.renderer.golem.OceanGolemRenderer;
+import com.brass_amber.ba_bt.client.renderer.golem.SkyGolemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -38,12 +37,12 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		// ENTITIES
-		event.registerEntityRenderer(BTEntityType.LAND_GOLEM.get(), LandBTGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityType.OCEAN_GOLEM.get(), OceanBTGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityType.NETHER_GOLEM.get(), NetherBTGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityType.CORE_GOLEM.get(), CoreBTGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityType.END_GOLEM.get(), EndBTGolemRenderer::new);
-		event.registerEntityRenderer(BTEntityType.SKY_GOLEM.get(), SkyBTGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityType.LAND_GOLEM.get(), LandGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityType.OCEAN_GOLEM.get(), OceanGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityType.NETHER_GOLEM.get(), NetherGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityType.CORE_GOLEM.get(), CoreGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityType.END_GOLEM.get(), EndGolemRenderer::new);
+		event.registerEntityRenderer(BTEntityType.SKY_GOLEM.get(), SkyGolemRenderer::new);
 
 		event.registerEntityRenderer(BTEntityType.SKY_MINION.get(), SkyMinionRenderer::new);
 		event.registerEntityRenderer(BTEntityType.BT_CULTIST.get(), BTCultistRenderer::new);
@@ -116,12 +115,12 @@ public class ClientEvents {
 		event.registerLayerDefinition(BTCultistRenderer.TEXTURE, BTCultistModel::createBodyLayer);
 		event.registerLayerDefinition(FragmentOfObthuurynRenderer.TEXTURE, FragmentOfObthuurynModel::createBodyLayer);
 
-		event.registerLayerDefinition(LandBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
-		event.registerLayerDefinition(CoreBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
-		event.registerLayerDefinition(NetherBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
-		event.registerLayerDefinition(EndBTGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
-		event.registerLayerDefinition(SkyBTGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
-		event.registerLayerDefinition(OceanBTGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
+		event.registerLayerDefinition(LandGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(CoreGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(NetherGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(EndGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
+		event.registerLayerDefinition(SkyGolemRenderer.LAYER, SkyGolemModel::createBodyLayer);
+		event.registerLayerDefinition(OceanGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
 	}
 
 }
