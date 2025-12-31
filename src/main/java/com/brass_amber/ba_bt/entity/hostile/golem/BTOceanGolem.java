@@ -38,12 +38,12 @@ public class BTOceanGolem extends BTAbstractGolem {
 		this.setBossBarName();
 		this.BOSS_MUSIC = OCEAN_GOLEM_FIGHT_MUSIC;
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.moveControl = new SmoothSwimmingMoveControl(this, 90, 90, .08f, .5f, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 90);
 		this.xpReward = 910;
 		this.drowned = 0;
 		this.golemType = GolemType.OCEAN;
+		this.allowedTowerRange = 64;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
@@ -67,7 +67,6 @@ public class BTOceanGolem extends BTAbstractGolem {
 
 	@Override
 	protected void addBehaviorGoals() {
-		super.addBehaviorGoals();
 	}
 
 	protected float getWaterSlowDown() {
