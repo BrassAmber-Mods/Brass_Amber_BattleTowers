@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
-import com.brass_amber.ba_bt.entity.ai.goal.GolemFireballAttackGoal;
+import com.brass_amber.ba_bt.entity.ai.goal.LandGolemFireballAttackGoal;
 import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
@@ -80,7 +80,7 @@ public class BTLandGolem extends BTAbstractGolem {
 			}
 		});
 		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));
-		this.goalSelector.addGoal(6, new GolemFireballAttackGoal(this));
+		this.goalSelector.addGoal(6, new LandGolemFireballAttackGoal(this));
 	}
 
 	public void setCharging(boolean setCharging) {

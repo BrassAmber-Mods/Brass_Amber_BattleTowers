@@ -2,10 +2,13 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import java.util.EnumSet;
 
-import com.brass_amber.ba_bt.entity.ai.goal.skygolem.SkyGolemFireballAttackGoal;
+import com.brass_amber.ba_bt.entity.ai.goal.SkyGolemFireballAttackGoal;
 
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
@@ -27,6 +30,7 @@ import net.minecraft.world.phys.Vec3;
 import static com.brass_amber.ba_bt.sound.BTMusic.SKY_GOLEM_FIGHT_MUSIC;
 
 public class BTSkyGolem extends BTAbstractGolem {
+	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTSkyGolem.class, EntityDataSerializers.BOOLEAN);
 
 	public BTSkyGolem(EntityType<? extends BTSkyGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
@@ -204,5 +208,15 @@ public class BTSkyGolem extends BTAbstractGolem {
 
 			}
 		}
+	}
+
+	public void setCharging(boolean setCharging) {
+		this.entityData.set(DATA_IS_CHARGING, setCharging);
+	}
+
+	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_IS_CHARGING, false);
 	}
 }
