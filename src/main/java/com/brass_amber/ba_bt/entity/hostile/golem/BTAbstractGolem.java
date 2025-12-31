@@ -34,7 +34,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
@@ -68,17 +67,17 @@ import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
  * TODO Can see invisible players
  * TODO Fix pathfinding to last known target location after golem reset. (Rare bug)
  */
-public abstract class BTAbstractGolem extends Monster {
+public abstract class BTAbstractGolem extends PathfinderMob implements Enemy {
 	protected static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BLOCK_POS);
 	protected static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.FLOAT);
 	protected static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BYTE);
-	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BOOLEAN);
-	public static final MobType BATTLE_GOLEM = MobType.UNDEFINED;
+
 	public static final byte DORMANT = 0, AWAKE = 1, SPECIAL = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
 	private final ServerBossEvent bossBar;
 	protected int explosionPower = 1;
 	protected Component GolemName;
+	protected int allowedTowerRange = 32;
 	public GolemType golemType;
 
 	// Data Strings
@@ -89,7 +88,7 @@ public abstract class BTAbstractGolem extends Monster {
 	public Music BOSS_MUSIC;
 	protected MusicManager music;
 
-	protected BTAbstractGolem(EntityType<? extends Monster> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
+	protected BTAbstractGolem(EntityType<? extends PathfinderMob> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
 		this.bossBar = new ServerBossEvent(Component.literal(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
@@ -105,7 +104,7 @@ public abstract class BTAbstractGolem extends Monster {
 	 * @return Maximum horizontal distance from the tower.
 	 */
 	public int getAllowedTowerRange() {
-		return 32;
+		return this.allowedTowerRange;
 	}
 	
 	/**
@@ -130,7 +129,7 @@ public abstract class BTAbstractGolem extends Monster {
 		this.entityData.define(SPAWN_POS, BlockPos.ZERO);
 		this.entityData.define(SPAWN_DIRECTION, 0.0f);
 		this.entityData.define(GOLEM_STATE, (byte) 0);
-		this.entityData.define(DATA_IS_CHARGING, false);
+
 	}
 
 	@Override
@@ -334,9 +333,7 @@ public abstract class BTAbstractGolem extends Monster {
 		}
 	}
 	
-	public void setCharging(boolean setCharging) {
-		this.entityData.set(DATA_IS_CHARGING, setCharging);
-	}
+
 
 	public int getExplosionPower() {
 		return this.explosionPower;
@@ -398,13 +395,13 @@ public abstract class BTAbstractGolem extends Monster {
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12.0F) {
 			@Override
 			public boolean canUse() {
-//				BrassAmberBattleTowers.LOGGER.debug("Look");
+			//	BrassAmberBattleTowers.LOGGER.debug("Look");
 				return !BTAbstractGolem.this.isDormant() && super.canUse();
 			}
 
 			@Override
 			public boolean canContinueToUse() {
-//				BrassAmberBattleTowers.LOGGER.debug("Look canContinueToUse()");
+			//	BrassAmberBattleTowers.LOGGER.debug("Look canContinueToUse()");
 				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
@@ -414,20 +411,7 @@ public abstract class BTAbstractGolem extends Monster {
 		this.addBehaviorGoals();
 	}
 
-	protected void addBehaviorGoals() {
-		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true) {
-			@Override
-			public boolean canUse() {
-				return !BTAbstractGolem.this.isDormant() && super.canUse();
-			}
-
-			@Override
-			public boolean canContinueToUse() {
-//				BrassAmberBattleTowers.LOGGER.debug("Melee canContinueToUse():" +getTarget());
-				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
-			}
-		});
-	}
+	protected abstract void addBehaviorGoals();
 
 
 	/*********************************************************** Spawning ********************************************************/
@@ -446,11 +430,6 @@ public abstract class BTAbstractGolem extends Monster {
 
 	/*********************************************************** Properties @return********************************************************/
 
-
-	@Override
-	public @NotNull MobType getMobType() {
-		return BATTLE_GOLEM;
-	}
 
 	@Override
 	protected float getWaterSlowDown() {
