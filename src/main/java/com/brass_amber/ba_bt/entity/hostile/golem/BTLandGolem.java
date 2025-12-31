@@ -6,12 +6,16 @@ import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -23,7 +27,7 @@ import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
 
 public class BTLandGolem extends BTAbstractGolem {
 
-	private boolean leap;
+	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTLandGolem.class, EntityDataSerializers.BOOLEAN);
 
 	public BTLandGolem(EntityType<? extends BTLandGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.BLUE);
@@ -33,7 +37,6 @@ public class BTLandGolem extends BTAbstractGolem {
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 315;
 		this.golemType = GolemType.LAND;
-		this.leap = false;
 
 		this.BOSS_MUSIC = LAND_GOLEM_FIGHT_MUSIC;
 
@@ -63,25 +66,30 @@ public class BTLandGolem extends BTAbstractGolem {
 	}
 
 	@Override
-	protected float getJumpPower() {
-		if (this.leap) {
-			return 8F;
-		}
-		return .45F * this.getBlockJumpFactor();
-	}
-
-	public void bigLeap() {
-		this.leap = true;
-		this.jumpFromGround();
-		this.leap = false;
-	}
-
-	@Override
 	protected void addBehaviorGoals() {
-		super.addBehaviorGoals();
+		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true) {
+			@Override
+			public boolean canUse() {
+				return !BTLandGolem.this.isDormant() && super.canUse();
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+//				BrassAmberBattleTowers.LOGGER.debug("Melee canContinueToUse():" +getTarget());
+				return !BTLandGolem.this.isDormant() && super.canContinueToUse();
+			}
+		});
 		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));
 		this.goalSelector.addGoal(6, new GolemFireballAttackGoal(this));
 	}
 
+	public void setCharging(boolean setCharging) {
+		this.entityData.set(DATA_IS_CHARGING, setCharging);
+	}
 
+	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_IS_CHARGING, false);
+	}
 }
