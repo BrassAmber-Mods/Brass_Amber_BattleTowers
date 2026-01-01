@@ -27,7 +27,7 @@ public class BTEvents {
         BABattleTowers.LOGGER.debug("In Respawn code-");
         Player player = event.getEntity();
 
-        if (player.level().isClientSide() || !event.isEndConquered()) {
+        if (player.level().isClientSide() && !event.isEndConquered()) {
             Minecraft mc = Minecraft.getInstance();
             MusicManager musicManager = mc.getMusicManager();
             if (musicManager.isPlayingMusic(LAND_TOWER_MUSIC) || musicManager.isPlayingMusic(LAND_GOLEM_FIGHT_MUSIC)) {
