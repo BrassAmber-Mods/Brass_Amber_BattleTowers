@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 
 import static com.brass_amber.ba_bt.sound.BTMusic.NETHER_GOLEM_FIGHT_MUSIC;
 
-public class BTNetherGolem extends BTAbstractGolem {
+public class NetherGolem extends AbstractGolem {
 
-	public BTNetherGolem(EntityType<? extends BTNetherGolem> type, Level levelIn) {
+	public NetherGolem(EntityType<? extends NetherGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.RED);
 		this.setGolemName(GolemType.NETHER.getDisplayName());
 		this.setBossBarName();
@@ -22,6 +22,6 @@ public class BTNetherGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 550D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 18.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 550D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 18.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 }

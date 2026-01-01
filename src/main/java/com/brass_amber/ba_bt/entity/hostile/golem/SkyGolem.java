@@ -29,12 +29,12 @@ import net.minecraft.world.phys.Vec3;
 
 import static com.brass_amber.ba_bt.sound.BTMusic.SKY_GOLEM_FIGHT_MUSIC;
 
-public class BTSkyGolem extends BTAbstractGolem {
-	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTSkyGolem.class, EntityDataSerializers.BOOLEAN);
+public class SkyGolem extends AbstractGolem {
+	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(SkyGolem.class, EntityDataSerializers.BOOLEAN);
 
-	public BTSkyGolem(EntityType<? extends BTSkyGolem> type, Level levelIn) {
+	public SkyGolem(EntityType<? extends SkyGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
-		this.moveControl = new BTSkyGolem.MoveHelperController(this);
+		this.moveControl = new SkyGolem.MoveHelperController(this);
 		this.setGolemName(GolemType.SKY.getDisplayName());
 		this.setBossBarName();
 		this.BOSS_MUSIC = SKY_GOLEM_FIGHT_MUSIC;
@@ -44,7 +44,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 650D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 650D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	@Override
@@ -52,13 +52,13 @@ public class BTSkyGolem extends BTAbstractGolem {
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true) {
 			@Override
 			public boolean canUse() {
-				return !BTSkyGolem.this.isDormant() && super.canUse();
+				return !SkyGolem.this.isDormant() && super.canUse();
 			}
 
 			@Override
 			public boolean canContinueToUse() {
 //				BrassAmberBattleTowers.LOGGER.debug("Melee canContinueToUse():" +getTarget());
-				return !BTSkyGolem.this.isDormant() && super.canContinueToUse();
+				return !SkyGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
 
@@ -80,7 +80,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
-		if (source.getEntity() instanceof BTSkyGolem) {
+		if (source.getEntity() instanceof SkyGolem) {
 			// Can't hurt herself.
 			return false;
 		}
@@ -94,8 +94,8 @@ public class BTSkyGolem extends BTAbstractGolem {
 	 */
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(1, new BTSkyGolem.ChargeAttackGoal());
-		this.goalSelector.addGoal(2, new BTSkyGolem.MoveRandomGoal());
+		this.goalSelector.addGoal(1, new SkyGolem.ChargeAttackGoal());
+		this.goalSelector.addGoal(2, new SkyGolem.MoveRandomGoal());
 		this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false /*mustSee*/, false /*mustReach*/));
@@ -107,23 +107,23 @@ public class BTSkyGolem extends BTAbstractGolem {
 		}
 
 		public boolean canUse() {
-			if (BTSkyGolem.this.getTarget() != null && !BTSkyGolem.this.getMoveControl().hasWanted() && BTSkyGolem.this.random.nextInt(7) == 0) {
-				return BTSkyGolem.this.distanceToSqr(BTSkyGolem.this.getTarget()) > 4.0D;
+			if (SkyGolem.this.getTarget() != null && !SkyGolem.this.getMoveControl().hasWanted() && SkyGolem.this.random.nextInt(7) == 0) {
+				return SkyGolem.this.distanceToSqr(SkyGolem.this.getTarget()) > 4.0D;
 			} else {
 				return false;
 			}
 		}
 
 		public boolean canContinueToUse() {
-			return BTSkyGolem.this.getMoveControl().hasWanted() && /*SkyGolemEntity.this.isCharging() &&*/ BTSkyGolem.this.getTarget() != null && BTSkyGolem.this.getTarget().isAlive();
+			return SkyGolem.this.getMoveControl().hasWanted() && /*SkyGolemEntity.this.isCharging() &&*/ SkyGolem.this.getTarget() != null && SkyGolem.this.getTarget().isAlive();
 		}
 
 		public void start() {
-			LivingEntity livingentity = BTSkyGolem.this.getTarget();
+			LivingEntity livingentity = SkyGolem.this.getTarget();
 			Vec3 Vec3 = livingentity.getEyePosition(1.0F);
-			BTSkyGolem.this.moveControl.setWantedPosition(Vec3.x, Vec3.y, Vec3.z, 1.0D);
+			SkyGolem.this.moveControl.setWantedPosition(Vec3.x, Vec3.y, Vec3.z, 1.0D);
 			// SkyGolemEntity.this.setIsCharging(true);
-			BTSkyGolem.this.playSound(SoundEvents.VEX_CHARGE, 1.0F, 1.0F);
+			SkyGolem.this.playSound(SoundEvents.VEX_CHARGE, 1.0F, 1.0F);
 		}
 
 		public void stop() {
@@ -131,15 +131,15 @@ public class BTSkyGolem extends BTAbstractGolem {
 		}
 
 		public void tick() {
-			LivingEntity livingentity = BTSkyGolem.this.getTarget();
-			if (BTSkyGolem.this.getBoundingBox().intersects(livingentity.getBoundingBox())) {
-				BTSkyGolem.this.doHurtTarget(livingentity);
+			LivingEntity livingentity = SkyGolem.this.getTarget();
+			if (SkyGolem.this.getBoundingBox().intersects(livingentity.getBoundingBox())) {
+				SkyGolem.this.doHurtTarget(livingentity);
 				// SkyGolemEntity.this.setIsCharging(false);
 			} else {
-				double d0 = BTSkyGolem.this.distanceToSqr(livingentity);
+				double d0 = SkyGolem.this.distanceToSqr(livingentity);
 				if (d0 < 9.0D) {
 					Vec3 Vec3 = livingentity.getEyePosition(1.0F);
-					BTSkyGolem.this.moveControl.setWantedPosition(Vec3.x, Vec3.y, Vec3.z, 1.0D);
+					SkyGolem.this.moveControl.setWantedPosition(Vec3.x, Vec3.y, Vec3.z, 1.0D);
 				}
 			}
 
@@ -152,7 +152,7 @@ public class BTSkyGolem extends BTAbstractGolem {
 		}
 
 		public boolean canUse() {
-			return !BTSkyGolem.this.getMoveControl().hasWanted() && BTSkyGolem.this.random.nextInt(7) == 0;
+			return !SkyGolem.this.getMoveControl().hasWanted() && SkyGolem.this.random.nextInt(7) == 0;
 		}
 
 		public boolean canContinueToUse() {
@@ -160,17 +160,17 @@ public class BTSkyGolem extends BTAbstractGolem {
 		}
 
 		public void tick() {
-			BlockPos blockpos = BTSkyGolem.this.getSpawnPos();
+			BlockPos blockpos = SkyGolem.this.getSpawnPos();
 			if (blockpos == null) {
-				blockpos = BTSkyGolem.this.blockPosition();
+				blockpos = SkyGolem.this.blockPosition();
 			}
 
 			for (int i = 0; i < 3; ++i) {
-				BlockPos blockpos1 = blockpos.offset(BTSkyGolem.this.random.nextInt(15) - 7, BTSkyGolem.this.random.nextInt(11) - 5, BTSkyGolem.this.random.nextInt(15) - 7);
-				if (BTSkyGolem.this.level().isEmptyBlock(blockpos1)) {
-					BTSkyGolem.this.moveControl.setWantedPosition((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.5D, (double) blockpos1.getZ() + 0.5D, 0.25D);
-					if (BTSkyGolem.this.getTarget() == null) {
-						BTSkyGolem.this.getLookControl().setLookAt((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.5D, (double) blockpos1.getZ() + 0.5D, 180.0F, 20.0F);
+				BlockPos blockpos1 = blockpos.offset(SkyGolem.this.random.nextInt(15) - 7, SkyGolem.this.random.nextInt(11) - 5, SkyGolem.this.random.nextInt(15) - 7);
+				if (SkyGolem.this.level().isEmptyBlock(blockpos1)) {
+					SkyGolem.this.moveControl.setWantedPosition((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.5D, (double) blockpos1.getZ() + 0.5D, 0.25D);
+					if (SkyGolem.this.getTarget() == null) {
+						SkyGolem.this.getLookControl().setLookAt((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.5D, (double) blockpos1.getZ() + 0.5D, 180.0F, 20.0F);
 					}
 					break;
 				}
@@ -181,28 +181,28 @@ public class BTSkyGolem extends BTAbstractGolem {
 	/*********************************************************** MoveHelperController ********************************************************/
 
 	class MoveHelperController extends MoveControl {
-		public MoveHelperController(BTSkyGolem skyGolem) {
+		public MoveHelperController(SkyGolem skyGolem) {
 			super(skyGolem);
 		}
 
 		public void tick() {
 			if (this.operation == Operation.MOVE_TO) {
-				Vec3 Vec3 = new Vec3(this.wantedX - BTSkyGolem.this.getX(), this.wantedY - BTSkyGolem.this.getY(), this.wantedZ - BTSkyGolem.this.getZ());
+				Vec3 Vec3 = new Vec3(this.wantedX - SkyGolem.this.getX(), this.wantedY - SkyGolem.this.getY(), this.wantedZ - SkyGolem.this.getZ());
 				double d0 = Vec3.length();
-				if (d0 < BTSkyGolem.this.getBoundingBox().getSize()) {
+				if (d0 < SkyGolem.this.getBoundingBox().getSize()) {
 					this.operation = Operation.WAIT;
-					BTSkyGolem.this.setDeltaMovement(BTSkyGolem.this.getDeltaMovement().scale(0.5D));
+					SkyGolem.this.setDeltaMovement(SkyGolem.this.getDeltaMovement().scale(0.5D));
 				} else {
-					BTSkyGolem.this.setDeltaMovement(BTSkyGolem.this.getDeltaMovement().add(Vec3.scale(this.speedModifier * 0.05D / d0)));
-					if (BTSkyGolem.this.getTarget() == null) {
-						Vec3 Vec31 = BTSkyGolem.this.getDeltaMovement();
-						BTSkyGolem.this.setYRot(-((float) Mth.atan2(Vec31.x, Vec31.z)) * (180F / (float) Math.PI));
-						BTSkyGolem.this.yBodyRot = BTSkyGolem.this.getYRot();
+					SkyGolem.this.setDeltaMovement(SkyGolem.this.getDeltaMovement().add(Vec3.scale(this.speedModifier * 0.05D / d0)));
+					if (SkyGolem.this.getTarget() == null) {
+						Vec3 Vec31 = SkyGolem.this.getDeltaMovement();
+						SkyGolem.this.setYRot(-((float) Mth.atan2(Vec31.x, Vec31.z)) * (180F / (float) Math.PI));
+						SkyGolem.this.yBodyRot = SkyGolem.this.getYRot();
 					} else {
-						double d2 = BTSkyGolem.this.getTarget().getX() - BTSkyGolem.this.getX();
-						double d1 = BTSkyGolem.this.getTarget().getZ() - BTSkyGolem.this.getZ();
-						BTSkyGolem.this.setYRot(-((float) Mth.atan2(d2, d1)) * (180F / (float) Math.PI));
-						BTSkyGolem.this.yBodyRot = BTSkyGolem.this.getYRot();
+						double d2 = SkyGolem.this.getTarget().getX() - SkyGolem.this.getX();
+						double d1 = SkyGolem.this.getTarget().getZ() - SkyGolem.this.getZ();
+						SkyGolem.this.setYRot(-((float) Mth.atan2(d2, d1)) * (180F / (float) Math.PI));
+						SkyGolem.this.yBodyRot = SkyGolem.this.getYRot();
 					}
 				}
 

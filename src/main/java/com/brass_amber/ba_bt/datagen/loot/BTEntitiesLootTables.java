@@ -1,16 +1,10 @@
 package com.brass_amber.ba_bt.datagen.loot;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
-import com.brass_amber.ba_bt.entity.hostile.golem.BTLandGolem;
-import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.util.GolemType;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;

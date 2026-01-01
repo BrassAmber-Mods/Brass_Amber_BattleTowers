@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.model.hostile;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  *
  */
 @OnlyIn(Dist.CLIENT)
-public class OceanGolemModel extends EntityModel<BTAbstractGolem> {
+public class OceanGolemModel extends EntityModel<AbstractGolem> {
 	// TODO
 	private final ModelPart bone;
 	public static ModelLayerLocation LAYER;
@@ -49,7 +49,7 @@ public class OceanGolemModel extends EntityModel<BTAbstractGolem> {
 	}
 
 	@Override
-	public void setupAnim(BTAbstractGolem entityAbstract, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(AbstractGolem entityAbstract, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

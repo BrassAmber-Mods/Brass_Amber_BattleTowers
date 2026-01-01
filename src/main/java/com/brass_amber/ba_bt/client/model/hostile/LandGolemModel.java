@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.model.hostile;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 import com.google.common.collect.ImmutableList;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -25,7 +25,7 @@ import net.minecraft.client.renderer.blockentity.ChestRenderer;
  *
  */
 @OnlyIn(Dist.CLIENT)
-public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
+public class LandGolemModel extends HumanoidModel<AbstractGolem> {
 	/**
 	 * Look at {@link ChestRenderer} for example of doing multiple types of textures for an entity
 	 * Essentially create three separate sets of model parts (Dormant, Awake, Enraged) and register all of them with
@@ -97,7 +97,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 	/*********************************************************** Animations ********************************************************/
 
 	@Override
-	public void setupAnim(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(AbstractGolem entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		boolean isFalling = entity.getFallFlyingTicks() > 4;
 		boolean isSwimming = entity.isVisuallySwimming();
 
@@ -179,7 +179,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 		// Swim animation
 	}
 
-	protected void setupAttackAnimation(BTAbstractGolem entity, float ageInTicks) {
+	protected void setupAttackAnimation(AbstractGolem entity, float ageInTicks) {
 		if (!(this.attackTime <= 0.0F)) {
 			HumanoidArm humanoidarm = this.getAttackArm(entity);
 			ModelPart arm = this.getArm(humanoidarm);
@@ -211,7 +211,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 	/*********************************************************** Render ********************************************************/
 
 	@Override
-	public void prepareMobModel(BTAbstractGolem entity, float limbSwing, float limbSwingAmount, float partialTick) {
+	public void prepareMobModel(AbstractGolem entity, float limbSwing, float limbSwingAmount, float partialTick) {
 		this.swimAmount = entity.getSwimAmount(partialTick);
 		super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 	}
@@ -272,14 +272,14 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 		return currentRotation + rotateAmount * f;
 	}
 
-	protected HumanoidArm getAttackArm(BTAbstractGolem entity) {
+	protected HumanoidArm getAttackArm(AbstractGolem entity) {
 		HumanoidArm handside = entity.getMainArm();
 		return entity.swingingArm == InteractionHand.MAIN_HAND ? handside : handside.getOpposite();
 	}
 
 	
 
-	public void poseRightArm(BTAbstractGolem entity) {
+	public void poseRightArm(AbstractGolem entity) {
 		switch (this.rightArmPose) {
 		case EMPTY:
 			this.leftArm.yRot = 0.0F;
@@ -311,7 +311,7 @@ public class LandGolemModel extends HumanoidModel<BTAbstractGolem> {
 
 	}
 
-	private void poseLeftArm(BTAbstractGolem entity) {
+	private void poseLeftArm(AbstractGolem entity) {
 		switch (this.leftArmPose) {
 		case EMPTY:
 			this.rightArm.yRot = 0.0F;

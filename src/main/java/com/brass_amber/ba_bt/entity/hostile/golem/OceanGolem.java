@@ -27,11 +27,11 @@ import java.util.List;
 
 import static com.brass_amber.ba_bt.sound.BTMusic.OCEAN_GOLEM_FIGHT_MUSIC;
 
-public class BTOceanGolem extends BTAbstractGolem {
+public class OceanGolem extends AbstractGolem {
 
 	private int drowned;
 
-	public BTOceanGolem(EntityType<? extends BTOceanGolem> type, Level levelIn) {
+	public OceanGolem(EntityType<? extends OceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		this.setGolemName(GolemType.OCEAN.getDisplayName());
@@ -47,7 +47,7 @@ public class BTOceanGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 12.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 12.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {

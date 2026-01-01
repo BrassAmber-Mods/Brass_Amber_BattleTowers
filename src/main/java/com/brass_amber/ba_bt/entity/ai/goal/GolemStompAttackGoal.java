@@ -2,19 +2,18 @@ package com.brass_amber.ba_bt.entity.ai.goal;
 
 import java.util.EnumSet;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class GolemStompAttackGoal extends Goal {
 
-	protected final BTAbstractGolem golem;
+	protected final AbstractGolem golem;
 	protected final float explosionStrength;
 	protected final double minVertDistance;
 	
@@ -24,7 +23,7 @@ public class GolemStompAttackGoal extends Goal {
 	
 	protected int warmup = WARMUP_TICKS;
 	
-	public GolemStompAttackGoal(BTAbstractGolem golem, final float explosionStrength, final double minVertDistToTarget) {
+	public GolemStompAttackGoal(AbstractGolem golem, final float explosionStrength, final double minVertDistToTarget) {
 		super();
 		
 		this.golem = golem;

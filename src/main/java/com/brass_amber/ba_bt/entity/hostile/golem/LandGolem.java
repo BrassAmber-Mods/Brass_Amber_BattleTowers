@@ -25,11 +25,11 @@ import javax.annotation.Nullable;
 import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
 
-public class BTLandGolem extends BTAbstractGolem {
+public class LandGolem extends AbstractGolem {
 
-	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(BTLandGolem.class, EntityDataSerializers.BOOLEAN);
+	protected static final EntityDataAccessor<Boolean> DATA_IS_CHARGING = SynchedEntityData.defineId(LandGolem.class, EntityDataSerializers.BOOLEAN);
 
-	public BTLandGolem(EntityType<? extends BTLandGolem> type, Level levelIn) {
+	public LandGolem(EntityType<? extends LandGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.BLUE);
 		this.setGolemName(GolemType.LAND.getDisplayName());
 		this.setBossBarName();
@@ -51,7 +51,7 @@ public class BTLandGolem extends BTAbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return BTAbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 200).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 200).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
@@ -70,13 +70,13 @@ public class BTLandGolem extends BTAbstractGolem {
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true) {
 			@Override
 			public boolean canUse() {
-				return !BTLandGolem.this.isDormant() && super.canUse();
+				return !LandGolem.this.isDormant() && super.canUse();
 			}
 
 			@Override
 			public boolean canContinueToUse() {
 //				BrassAmberBattleTowers.LOGGER.debug("Melee canContinueToUse():" +getTarget());
-				return !BTLandGolem.this.isDormant() && super.canContinueToUse();
+				return !LandGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
 		this.goalSelector.addGoal(1, new GolemStompAttackGoal(this, 4.0F, 6));

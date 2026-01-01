@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity.ai.goal.oceangolem;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTOceanGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.OceanGolem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -13,7 +13,7 @@ import static com.brass_amber.ba_bt.util.BTUtil.distanceTo3D;
 import static java.lang.Math.abs;
 
 public class DashAttackGoal extends Goal {
-    private final BTOceanGolem mob;
+    private final OceanGolem mob;
     @Nullable
     private LivingEntity target;
     private BlockPos wantedPos;
@@ -25,7 +25,7 @@ public class DashAttackGoal extends Goal {
     private int warmup = WARMUP_TICKS;
 
 
-    public DashAttackGoal(BTOceanGolem golem, int range) {
+    public DashAttackGoal(OceanGolem golem, int range) {
         this.mob = golem;
         this.speedModifier = .7D;
         this.range = range;

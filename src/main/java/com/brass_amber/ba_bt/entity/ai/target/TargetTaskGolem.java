@@ -1,13 +1,13 @@
 package com.brass_amber.ba_bt.entity.ai.target;
 
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 
-public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackableTargetGoal<Player> {
+public class TargetTaskGolem<M extends AbstractGolem> extends NearestAttackableTargetGoal<Player> {
 	
 	public TargetTaskGolem(M mobEntity) {
 		//It does not need to be able to see the target!
@@ -29,7 +29,7 @@ public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackabl
 	@Override
 	public boolean canUse() {
 //		BrassAmberBattleTowers.LOGGER.debug("Target.canUse()");
-		if(((BTAbstractGolem)this.mob).isDormant()) {
+		if(((AbstractGolem)this.mob).isDormant()) {
 			return false;
 		}
 		return super.canUse();
@@ -45,7 +45,7 @@ public class TargetTaskGolem<M extends BTAbstractGolem> extends NearestAttackabl
 	public boolean canContinueToUse() {
 //		BrassAmberBattleTowers.LOGGER.debug("Target.canContinueToUse()");
 
-		return !((BTAbstractGolem) this.mob).isDormant() && super.canContinueToUse();
+		return !((AbstractGolem) this.mob).isDormant() && super.canContinueToUse();
 	}
 	
 	/**

@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTEntityType;
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.GolemType;
 
@@ -229,13 +229,13 @@ public class BTMonolith extends Entity {
 			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
 			// Create a new GolemEntity.
 			Entity entity = golemEntityType.create(this.level());
-			if (entity instanceof BTAbstractGolem newGolemEntity) {
+			if (entity instanceof AbstractGolem newGolemEntity) {
 				// Set the position for the new Golem to the current position of the Monolith.
 				newGolemEntity.setPos(this.getX(), this.getY(), this.getZ());
 				// Set the Golem to be invulnerable for x amount of ticks.
 				newGolemEntity.invulnerableTime = 60;
 				// Set the Golem to spawn Dormant.
-				newGolemEntity.setGolemState(BTAbstractGolem.DORMANT);
+				newGolemEntity.setGolemState(AbstractGolem.DORMANT);
 				// Spawn the Golem facing the same direction as the Monolith.
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 

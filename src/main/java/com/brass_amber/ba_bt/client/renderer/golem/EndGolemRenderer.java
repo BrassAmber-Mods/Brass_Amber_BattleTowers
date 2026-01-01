@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.client.renderer.golem;
 
 import com.brass_amber.ba_bt.client.model.hostile.LandGolemModel;
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class EndGolemRenderer extends AbstractGolemRenderer<BTAbstractGolem, LandGolemModel> {
+public class EndGolemRenderer extends AbstractGolemRenderer<AbstractGolem, LandGolemModel> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/end_golem/end_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");
 

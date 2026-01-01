@@ -67,10 +67,10 @@ import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
  * TODO Can see invisible players
  * TODO Fix pathfinding to last known target location after golem reset. (Rare bug)
  */
-public abstract class BTAbstractGolem extends PathfinderMob implements Enemy {
-	protected static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BLOCK_POS);
-	protected static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.FLOAT);
-	protected static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(BTAbstractGolem.class, EntityDataSerializers.BYTE);
+public abstract class AbstractGolem extends PathfinderMob implements Enemy {
+	protected static final EntityDataAccessor<BlockPos> SPAWN_POS = SynchedEntityData.defineId(AbstractGolem.class, EntityDataSerializers.BLOCK_POS);
+	protected static final EntityDataAccessor<Float> SPAWN_DIRECTION = SynchedEntityData.defineId(AbstractGolem.class, EntityDataSerializers.FLOAT);
+	protected static final EntityDataAccessor<Byte> GOLEM_STATE = SynchedEntityData.defineId(AbstractGolem.class, EntityDataSerializers.BYTE);
 
 	public static final byte DORMANT = 0, AWAKE = 1, SPECIAL = 2;
 	public static final float SCALE = 0.9F; // Old scale: 1.8
@@ -88,7 +88,7 @@ public abstract class BTAbstractGolem extends PathfinderMob implements Enemy {
 	public Music BOSS_MUSIC;
 	protected MusicManager music;
 
-	protected BTAbstractGolem(EntityType<? extends PathfinderMob> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
+	protected AbstractGolem(EntityType<? extends PathfinderMob> type, Level levelIn, BossEvent.BossBarColor bossBarColor) {
 		super(type, levelIn);
 		// Initializes the bossBar with the correct color.
 		this.bossBar = new ServerBossEvent(Component.literal(""), bossBarColor, BossEvent.BossBarOverlay.PROGRESS);
@@ -396,13 +396,13 @@ public abstract class BTAbstractGolem extends PathfinderMob implements Enemy {
 			@Override
 			public boolean canUse() {
 			//	BrassAmberBattleTowers.LOGGER.debug("Look");
-				return !BTAbstractGolem.this.isDormant() && super.canUse();
+				return !AbstractGolem.this.isDormant() && super.canUse();
 			}
 
 			@Override
 			public boolean canContinueToUse() {
 			//	BrassAmberBattleTowers.LOGGER.debug("Look canContinueToUse()");
-				return !BTAbstractGolem.this.isDormant() && super.canContinueToUse();
+				return !AbstractGolem.this.isDormant() && super.canContinueToUse();
 			}
 		});
 		// Ignore damage from non-player entities

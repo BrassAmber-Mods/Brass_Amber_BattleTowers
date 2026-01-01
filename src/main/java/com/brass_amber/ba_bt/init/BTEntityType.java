@@ -10,7 +10,7 @@ import com.brass_amber.ba_bt.entity.hostile.BTCultist;
 import com.brass_amber.ba_bt.entity.hostile.FragmentOfObthuuryn;
 import com.brass_amber.ba_bt.entity.hostile.SkyMinion;
 import com.brass_amber.ba_bt.entity.hostile.golem.*;
-import com.brass_amber.ba_bt.entity.hostile.golem.BTLandGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.LandGolem;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.*;
@@ -33,12 +33,12 @@ public class BTEntityType {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, BABattleTowers.MOD_ID);
 
 	//*********************** GOLEMS *********************\\
-	public static final RegistryObject<EntityType<BTLandGolem>> LAND_GOLEM = ENTITY_TYPES.register("land_golem", () -> EntityType.Builder.of(BTLandGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("land_golem"));
-	public static final RegistryObject<EntityType<BTOceanGolem>> OCEAN_GOLEM = ENTITY_TYPES.register("ocean_golem", () -> EntityType.Builder.of(BTOceanGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("ocean_golem"));
-	public static final RegistryObject<EntityType<BTCoreGolem>> CORE_GOLEM = ENTITY_TYPES.register("core_golem", () -> EntityType.Builder.of(BTCoreGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("core_golem"));
-	public static final RegistryObject<EntityType<BTNetherGolem>> NETHER_GOLEM = ENTITY_TYPES.register("nether_golem", () -> EntityType.Builder.of(BTNetherGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("nether_golem"));
-	public static final RegistryObject<EntityType<BTEndGolem>> END_GOLEM = ENTITY_TYPES.register("end_golem", () -> EntityType.Builder.of(BTEndGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("end_golem"));
-	public static final RegistryObject<EntityType<BTSkyGolem>> SKY_GOLEM = ENTITY_TYPES.register("sky_golem", () -> EntityType.Builder.of(BTSkyGolem::new, MobCategory.MONSTER).sized(BTAbstractGolem.SCALE * 2 * 0.6F, BTAbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("sky_golem"));
+	public static final RegistryObject<EntityType<LandGolem>> LAND_GOLEM = ENTITY_TYPES.register("land_golem", () -> EntityType.Builder.of(LandGolem::new, MobCategory.MONSTER).sized(AbstractGolem.SCALE * 2 * 0.6F, AbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("land_golem"));
+	public static final RegistryObject<EntityType<OceanGolem>> OCEAN_GOLEM = ENTITY_TYPES.register("ocean_golem", () -> EntityType.Builder.of(OceanGolem::new, MobCategory.MONSTER).sized(AbstractGolem.SCALE * 2 * 0.6F, AbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("ocean_golem"));
+	public static final RegistryObject<EntityType<CoreGolem>> CORE_GOLEM = ENTITY_TYPES.register("core_golem", () -> EntityType.Builder.of(CoreGolem::new, MobCategory.MONSTER).sized(AbstractGolem.SCALE * 2 * 0.6F, AbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("core_golem"));
+	public static final RegistryObject<EntityType<NetherGolem>> NETHER_GOLEM = ENTITY_TYPES.register("nether_golem", () -> EntityType.Builder.of(NetherGolem::new, MobCategory.MONSTER).sized(AbstractGolem.SCALE * 2 * 0.6F, AbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("nether_golem"));
+	public static final RegistryObject<EntityType<EndGolem>> END_GOLEM = ENTITY_TYPES.register("end_golem", () -> EntityType.Builder.of(EndGolem::new, MobCategory.MONSTER).sized(AbstractGolem.SCALE * 2 * 0.6F, AbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("end_golem"));
+	public static final RegistryObject<EntityType<SkyGolem>> SKY_GOLEM = ENTITY_TYPES.register("sky_golem", () -> EntityType.Builder.of(SkyGolem::new, MobCategory.MONSTER).sized(AbstractGolem.SCALE * 2 * 0.6F, AbstractGolem.SCALE * 2 * 2).setTrackingRange(10).fireImmune().build("sky_golem"));
 
 	//*********************** MONOLITHS *********************\\
 	public static final RegistryObject<EntityType<BTMonolith>> LAND_MONOLITH = ENTITY_TYPES.register("land_monolith", () -> EntityType.Builder.<BTMonolith>of(BTMonolith::new, MobCategory.MISC).sized(1.0F, 2.0F).setTrackingRange(16).updateInterval(Integer.MAX_VALUE).fireImmune().immuneTo(Blocks.TNT).build("land_monolith"));
@@ -113,12 +113,12 @@ public class BTEntityType {
 	 */
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		event.put(LAND_GOLEM.get(), BTLandGolem.createBattleGolemAttributes().build());
-		event.put(OCEAN_GOLEM.get(), BTOceanGolem.createBattleGolemAttributes().build());
-		event.put(NETHER_GOLEM.get(), BTNetherGolem.createBattleGolemAttributes().build());
-		event.put(CORE_GOLEM.get(), BTCoreGolem.createBattleGolemAttributes().build());
-		event.put(END_GOLEM.get(), BTEndGolem.createBattleGolemAttributes().build());
-		event.put(SKY_GOLEM.get(), BTSkyGolem.createBattleGolemAttributes().build());
+		event.put(LAND_GOLEM.get(), LandGolem.createBattleGolemAttributes().build());
+		event.put(OCEAN_GOLEM.get(), OceanGolem.createBattleGolemAttributes().build());
+		event.put(NETHER_GOLEM.get(), NetherGolem.createBattleGolemAttributes().build());
+		event.put(CORE_GOLEM.get(), CoreGolem.createBattleGolemAttributes().build());
+		event.put(END_GOLEM.get(), EndGolem.createBattleGolemAttributes().build());
+		event.put(SKY_GOLEM.get(), SkyGolem.createBattleGolemAttributes().build());
 
 		event.put(SKY_MINION.get(), SkyMinion.createAttributes().build());
 		event.put(BT_CULTIST.get(), BTCultist.createAttributes().build());

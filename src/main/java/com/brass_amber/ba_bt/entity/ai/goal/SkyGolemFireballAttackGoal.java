@@ -1,12 +1,10 @@
 package com.brass_amber.ba_bt.entity.ai.goal;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.BTLandGolem;
-import com.brass_amber.ba_bt.entity.hostile.golem.BTSkyGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.SkyGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.DragonFireball;
-import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -17,10 +15,10 @@ import net.minecraft.world.phys.Vec3;
  * TODO Doesn't seem to work together with {@link net.minecraft.world.entity.ai.goal.MeleeAttackGoal}
  */
 public class SkyGolemFireballAttackGoal extends Goal {
-	protected final BTSkyGolem golem;
+	protected final SkyGolem golem;
 	public int chargeTime;
 
-	public SkyGolemFireballAttackGoal(BTSkyGolem golem) {
+	public SkyGolemFireballAttackGoal(SkyGolem golem) {
 		this.golem = golem;
 	}
 

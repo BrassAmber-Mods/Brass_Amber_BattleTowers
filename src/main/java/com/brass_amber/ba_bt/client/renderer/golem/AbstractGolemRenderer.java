@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.client.renderer.golem;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.entity.hostile.golem.BTAbstractGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
@@ -12,14 +12,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class AbstractBTGolemRenderer<E extends BTAbstractGolem, M extends EntityModel<E>> extends MobRenderer<E, M> {
-	private static final float SCALE = BTAbstractGolem.SCALE;
+public abstract class AbstractGolemRenderer<E extends AbstractGolem, M extends EntityModel<E>> extends MobRenderer<E, M> {
+	private static final float SCALE = AbstractGolem.SCALE;
 	protected ResourceLocation golemTexturesDormant;
 	protected ResourceLocation golemTexturesAwaken;
 	protected ResourceLocation golemTexturesEnraged;
 	private String golemType;
 
-	public AbstractBTGolemRenderer(EntityRendererProvider.Context context, M model, String golemType) {
+	public AbstractGolemRenderer(EntityRendererProvider.Context context, M model, String golemType) {
 		super(context, model, 0.5F * SCALE);
 		this.golemType = golemType;
 	}
@@ -30,7 +30,7 @@ public abstract class AbstractBTGolemRenderer<E extends BTAbstractGolem, M exten
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(BTAbstractGolem entity) {
+	public ResourceLocation getTextureLocation(AbstractGolem entity) {
 		return entity.isEnraged() ? golemTexturesEnraged : entity.isAwake() ? golemTexturesAwaken : golemTexturesDormant;
 	}
 
