@@ -38,6 +38,7 @@ public class CoreGolem extends AbstractGolem {
 	public int meleeAnimationTimeout = 0;
 	public int fireballAnimationTimeout = 0;
 	public int unleashedAnimationTimeout = 0;
+	public boolean resetAi = true;
 
 	public CoreGolem(EntityType<? extends CoreGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.PURPLE);
@@ -60,8 +61,8 @@ public class CoreGolem extends AbstractGolem {
 
 	@Override
 	protected void addBehaviorGoals() {
-		this.goalSelector.addGoal(5, new CoreMeleeGoal(this));
-		this.goalSelector.addGoal(6, new CoreGolemFireballAttackGoal(this));
+		this.goalSelector.addGoal(3, new CoreMeleeGoal(this));
+		this.goalSelector.addGoal(5, new CoreGolemFireballAttackGoal(this));
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
@@ -92,15 +93,8 @@ public class CoreGolem extends AbstractGolem {
 			--this.fireballAnimationTimeout;
 		}
 
-		if (this.unleashedAnimationTimeout == 0) {
-			this.setUnleashedAnimation(false);
-		} else if (this.unleashedAnimationTimeout > 0) {
-			this.unleashedAnimationTimeout--;
-		}
-
 		if (!this.isUnleashedAnimation()) {
 			this.unleashedAnimationAnimationState.stop();
-			this.setNoAi(false);
 		}
 
 	}
@@ -120,17 +114,31 @@ public class CoreGolem extends AbstractGolem {
 
 		if (this.level().isClientSide()) {
 			this.setupAnimimationStates();
+		}
 
-			if (this.isUnleashedBasedOnHP() && !this.isUnleashed() && this.isEnraged()) {
-				BABattleTowers.LOGGER.debug("wtf");
-				this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL.get(), 0.3f); // LOUD AF (Still? I adjusted the volume)
-				this.setUnleashed(true);
-				this.setUnleashedAnimation(true);
-				this.getNavigation().stop();
-				this.setNoAi(true);
+		if (this.unleashedAnimationTimeout == 0) {
+			this.setUnleashedAnimation(false);
+		} else if (this.unleashedAnimationTimeout > 0) {
+			this.unleashedAnimationTimeout--;
+		}
+
+		if (this.isUnleashedBasedOnHP() && !this.isUnleashed() && this.isEnraged()) {
+			BABattleTowers.LOGGER.debug("wtf");
+			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL.get(), 0.3f); // LOUD AF (Still? I adjusted the volume)
+			this.setUnleashed(true);
+			this.setUnleashedAnimation(true);
+
+			this.goalSelector.setNewGoalRate(0);
+			this.unleashedAnimationTimeout = UNLEASHED_DURATION_TICKS;
+			if (this.level().isClientSide()) {
 				this.unleashedAnimationAnimationState.start(this.tickCount);
-				this.unleashedAnimationTimeout = UNLEASHED_DURATION_TICKS;
 			}
+		}
+		BABattleTowers.LOGGER.debug(" {} {} {}", this.isUnleashed(), !this.isUnleashedAnimation(), this.resetAi);
+		if (this.isUnleashed() && !this.isUnleashedAnimation() && this.resetAi) {
+			BABattleTowers.LOGGER.debug("fix ai");
+			this.resetAi = false;
+			this.goalSelector.setNewGoalRate(3);
 		}
 	}
 
