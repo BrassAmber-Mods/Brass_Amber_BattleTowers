@@ -140,6 +140,27 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
                 }
             }
         }
+
+        for (int y = this.getBlockY() - 98; y != this.getBlockY() - 115; y += this.crumbleDirection) {
+            for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
+                for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
+                    checkPos = this.blockPosition().offset(x, 0, z).atY(y);
+                    BlockState state = this.level().getBlockState(checkPos);
+                    // BABattleTowers.LOGGER.debug("CheckPos {}", checkPos);
+                    double distanceto = distanceTo2D(this, checkPos);
+
+                    if (y == this.getBlockY() - 99 && distanceto < this.destructionRadius && distanceto > 4) {
+                        if (!state.getFluidState().isEmpty() || !state.isAir()) {
+                            this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
+                        }
+                    } else if (distanceto < this.destructionRadius) {
+                        if (!state.getFluidState().isEmpty() || !state.isAir()) {
+                            this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
+                        }
+                    }
+                }
+            }
+        }
         this.destructionState = this.destructionState.getNext();
     }
 

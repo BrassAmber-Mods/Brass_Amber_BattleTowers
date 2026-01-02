@@ -122,6 +122,19 @@ public class BTCoreObelisk extends BTAbstractObelisk {
     public void tick() {
         super.tick();
 
+        if (this.level().isClientSide()) {
+            return;
+        }
+        if (this.tickCount % 20 == 0) {
+            for (Entity entity : level().getEntities(this, this.entityCheckAABB.setMinY(this.blockPosition().getY() - 90), entity -> entity.isAlive() && distanceTo2D(this, entity) < this.towerRange)) {
+                if (entity instanceof Player player) { // Double if to enforce player vs mob differences
+                    if (!player.isCreative() && !player.isSpectator() && player.getY() < this.level().getMinBuildHeight()) {
+                        player.teleportTo(this.getX() + this.random.nextInt(-2,2), this.getY() + 1, this.getZ() + this.random.nextInt(-2, 2));
+                    }
+                }
+            }
+        }
+
         if (this.tickCount % 20 == 0 && !this.golemDead) {
             for (Entity entity : level().getEntities(this, this.entityCheckAABB, entity -> entity.isAlive() && distanceTo2D(this, entity) < this.towerRange)) {
                 if (entity instanceof Player player) { // Double if to enforce player vs mob differences
