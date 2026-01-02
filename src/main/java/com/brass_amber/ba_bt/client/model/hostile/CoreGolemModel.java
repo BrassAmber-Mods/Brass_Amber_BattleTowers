@@ -91,30 +91,18 @@ public class CoreGolemModel extends HierarchicalModel<CoreGolem> {
 
 	@Override
 	public void setupAnim(CoreGolem entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (entity.isUnleashed()) {
-			this.applyStatic(CoreGolemModelAnimations.unleashed_pose);
-			this.root().getAllParts().forEach(modelPart -> modelPart.setInitialPose(modelPart.storePose()));
-		}
-
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
 
-		if (!entity.isUnleashed()) {
-			this.rightarm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
-			this.leftarm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
-		}
-
+		this.rightarm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
+		this.leftarm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
 		this.rightleg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		this.leftleg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 
-		if (entity.isUnleashed()) {
-			this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.unleashed_melee_left : CoreGolemModelAnimations.unleashed_melee_right, ageInTicks, 1f);
-			this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.unleashed_fireball, ageInTicks, 1f);
-		} else {
-			this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.melee_left : CoreGolemModelAnimations.melee_right, ageInTicks, 1f);
-			this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.fireball, ageInTicks, 1f);
-			this.animate(entity.unleashedAnimationAnimationState, CoreGolemModelAnimations.unleashed, ageInTicks, 1f);
-		}
+		this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.melee_left : CoreGolemModelAnimations.melee_right, ageInTicks, 1f);
+		this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.fireball, ageInTicks, 1f);
+		this.animate(entity.unleashedAnimationAnimationState, CoreGolemModelAnimations.unleashed, ageInTicks, 1f);
+
 
 	}
 

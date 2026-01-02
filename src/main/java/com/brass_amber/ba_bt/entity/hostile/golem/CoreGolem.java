@@ -69,15 +69,6 @@ public class CoreGolem extends AbstractGolem {
 	}
 
 	private void setupAnimimationStates() {
-		if (this.isUnleashedBasedOnHP() && !this.isUnleashed() && this.isAwake()) {
-			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL.get(), 0.3f); // LOUD AF (Still? I adjusted the volume)
-			this.setUnleashed(true);
-			this.setUnleashedAnimation(true);
-			this.getNavigation().stop();
-			this.setNoAi(true);
-			this.unleashedAnimationAnimationState.start(this.tickCount);
-			this.unleashedAnimationTimeout = UNLEASHED_DURATION_TICKS;
-		}
 
 		if (this.isMelee() && this.meleeAnimationTimeout <= 0) {
 			this.meleeAnimationTimeout = MELEE_DURATION_TICKS; // Length in ticks of your animation
@@ -109,6 +100,7 @@ public class CoreGolem extends AbstractGolem {
 
 		if (!this.isUnleashedAnimation()) {
 			this.unleashedAnimationAnimationState.stop();
+			this.setNoAi(false);
 		}
 
 	}
@@ -128,7 +120,17 @@ public class CoreGolem extends AbstractGolem {
 
 		if (this.level().isClientSide()) {
 			this.setupAnimimationStates();
-			BABattleTowers.LOGGER.debug("Melee {} {}, Fireball {} {}", this.isMelee(), this.meleeAnimationTimeout, this.isFireball(), this.fireballAnimationTimeout);
+
+			if (this.isUnleashedBasedOnHP() && !this.isUnleashed() && this.isEnraged()) {
+				BABattleTowers.LOGGER.debug("wtf");
+				this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL.get(), 0.3f); // LOUD AF (Still? I adjusted the volume)
+				this.setUnleashed(true);
+				this.setUnleashedAnimation(true);
+				this.getNavigation().stop();
+				this.setNoAi(true);
+				this.unleashedAnimationAnimationState.start(this.tickCount);
+				this.unleashedAnimationTimeout = UNLEASHED_DURATION_TICKS;
+			}
 		}
 	}
 
