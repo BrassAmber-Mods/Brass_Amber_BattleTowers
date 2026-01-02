@@ -33,6 +33,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.*;
@@ -51,14 +52,12 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 
+import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 
 
 /**
  * @author Xrated_junior, DerToaster
- * @TODO
- * FIXME Can still be pushed by players. (Doesn't really matter in Survival, because he will become awake. However you can still bump him off an edge while fighting)
- * 
  * DONE Break blocks in his way like enderdragen, also explode blocks players hide behind.
  * TODO If players splash the Golem with potions before the fight they I want to clear all effects.
  * 
@@ -175,30 +174,7 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 		}
 
 		if (this.level().isClientSide()) {
-			ClientLevel client = (ClientLevel)this.level();
-
-			if (this.music == null) {
-				this.music = Minecraft.getInstance().getMusicManager();
-			}
-
-			if (client.players().isEmpty()) {
-				return;
-			}
-			boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 30D);
-
-			if (this.isDormant()) {
-				if (this.music.isPlayingMusic(this.BOSS_MUSIC)) {
-					this.music.stopPlaying();
-				}
-			} else {
-				if (!this.music.isPlayingMusic(this.BOSS_MUSIC) && this.isAwake()) {
-					this.music.stopPlaying();
-					this.music.startPlaying(this.BOSS_MUSIC);
-				}
-				if (!hasClientPlayer) {
-					this.music.stopPlaying();
-				}
-			}
+			this.clientTick();
 			return;
 		}
 
@@ -240,6 +216,33 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 
 		// Heal the Golem if its dormant and not at max health.
 		this.healGolemTick();
+	}
+
+	public void clientTick() {
+		ClientLevel client = (ClientLevel) this.level();
+
+		if (this.music == null) {
+			this.music = Minecraft.getInstance().getMusicManager();
+		}
+
+		if (client.players().isEmpty()) {
+			return;
+		}
+		boolean hasClientPlayer = client.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 30D);
+
+		if (this.isDormant()) {
+			if (this.music.isPlayingMusic(this.BOSS_MUSIC)) {
+				this.music.stopPlaying();
+			}
+		} else {
+			if (!this.music.isPlayingMusic(this.BOSS_MUSIC) && this.isAwake()) {
+				this.music.stopPlaying();
+				this.music.startPlaying(this.BOSS_MUSIC);
+			}
+			if (!hasClientPlayer) {
+				this.music.stopPlaying();
+			}
+		}
 	}
 	
 	/**
@@ -407,7 +410,7 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 		});
 		// Ignore damage from non-player entities
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(4, new TargetTaskGolem<>(this));
+		this.targetSelector.addGoal(2, new TargetTaskGolem<>(this));
 		this.addBehaviorGoals();
 	}
 
@@ -419,9 +422,9 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-		// TODO Delete, Testing
 		// BrassAmberBattleTowers.LOGGER.debug("SPAWN GOLEM");
-
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(GolemType.getMaxHealthFor(this.golemType));
+		this.setHealth(this.getMaxHealth());
 		// Set spawn position and direction centered on the spawning Block.
 		this.setSpawnPos(this.blockPosition());
 		this.setSpawnDirection(this.getYRot());

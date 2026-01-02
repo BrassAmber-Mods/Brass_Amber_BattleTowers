@@ -24,4 +24,9 @@ public class EndGolem extends AbstractGolem {
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
 		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 600D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
+
+	@Override
+	protected void addBehaviorGoals() {
+
+	}
 }

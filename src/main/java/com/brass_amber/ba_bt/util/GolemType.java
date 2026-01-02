@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 import static com.brass_amber.ba_bt.BattleTowersConfig.*;
-import static com.brass_amber.ba_bt.BattleTowersConfig.coreTowerCrumblePercent;
 
 public enum GolemType implements StringRepresentable {
 	LAND("LAND", Component.translatable("entity.ba_bt.land_golem"), "#9BDAE7"),
@@ -461,7 +460,18 @@ public enum GolemType implements StringRepresentable {
 		};
 	}
 
-	@Override
+	public static double getMaxHealthFor(GolemType golemType) {
+		return switch (golemType) {
+            case OCEAN -> oceanGolemHP;
+			case CORE -> coreGolemHP;
+			case NETHER -> netherGolemHP;
+			case END -> endGolemHP;
+			case SKY -> skyGolemHP;
+			default -> landGolemHP;
+		};
+	}
+
+    @Override
 	public @NotNull String getSerializedName() {
 		return this.name;
 	}

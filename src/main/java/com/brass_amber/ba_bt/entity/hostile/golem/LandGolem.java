@@ -54,17 +54,6 @@ public class LandGolem extends AbstractGolem {
 		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 200).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
-		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-		// TODO Delete, Testing
-		// BrassAmberBattleTowers.LOGGER.debug("SPAWN GOLEM");
-
-		// Set spawn position and direction centered on the spawning Block.
-		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(landGolemHP);
-		this.setHealth(this.getMaxHealth());
-		return spawnDataIn;
-	}
-
 	@Override
 	protected void addBehaviorGoals() {
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true) {
