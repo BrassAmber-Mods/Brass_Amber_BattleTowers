@@ -7,7 +7,9 @@ package com.brass_amber.ba_bt.client.model.hostile;
 import com.brass_amber.ba_bt.entity.hostile.golem.CoreGolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -89,21 +91,39 @@ public class CoreGolemModel extends HierarchicalModel<CoreGolem> {
 
 	@Override
 	public void setupAnim(CoreGolem entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if (entity.isUnleashed()) {
+			this.applyStatic(CoreGolemModelAnimations.unleashed_pose);
+			this.root().getAllParts().forEach(modelPart -> modelPart.setInitialPose(modelPart.storePose()));
+		}
+
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
 
-		this.animateWalk(entity.isUnleashed() ? CoreGolemModelAnimations.unleashed_walk :CoreGolemModelAnimations.walk, limbSwing, limbSwingAmount, 2f, 2.5f);
-		this.animate(entity.meleeAnimationState, entity.isUnleashed() ? CoreGolemModelAnimations.unleashed_melee : CoreGolemModelAnimations.melee, ageInTicks, 1f);
-		this.animate(entity.fireballAnimationState, entity.isUnleashed() ? CoreGolemModelAnimations.unleashed_fireball : CoreGolemModelAnimations.fireball, ageInTicks, 1f);
-		this.animate(entity.unleashedAnimationState, CoreGolemModelAnimations.unleashed, ageInTicks, 1f);
+		if (!entity.isUnleashed()) {
+			this.rightarm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
+			this.leftarm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
+		}
+
+		this.rightleg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.leftleg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+
+		if (entity.isUnleashed()) {
+			this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.unleashed_melee_left : CoreGolemModelAnimations.unleashed_melee_right, ageInTicks, 1f);
+			this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.unleashed_fireball, ageInTicks, 1f);
+		} else {
+			this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.melee_left : CoreGolemModelAnimations.melee_right, ageInTicks, 1f);
+			this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.fireball, ageInTicks, 1f);
+			this.animate(entity.unleashedAnimationAnimationState, CoreGolemModelAnimations.unleashed, ageInTicks, 1f);
+		}
+
 	}
 
 	private void applyHeadRotation(CoreGolem entity, float netHeadYaw, float headPitch, float agInTicks) {
 		netHeadYaw = Mth.clamp(netHeadYaw, -30.0F, 30.0F);
 		headPitch = Mth.clamp(headPitch, -25.0F, 45.0F);
 
-		this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
-		this.head.xRot = headPitch * ((float) Math.PI / 180F);
+		this.head.yRot = netHeadYaw * Mth.DEG_TO_RAD;
+		this.head.xRot = headPitch * Mth.DEG_TO_RAD;
 	}
 
 	@Override
