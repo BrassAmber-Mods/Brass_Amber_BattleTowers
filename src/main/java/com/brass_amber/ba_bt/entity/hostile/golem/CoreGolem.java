@@ -30,6 +30,7 @@ public class CoreGolem extends AbstractGolem {
 	public final AnimationState meleeAnimationState = new AnimationState();
 	public final AnimationState fireballAnimationState = new AnimationState();
 	public final AnimationState unleashedAnimationAnimationState = new AnimationState();
+	public final AnimationState unleashedPoseAnimationState = new AnimationState();
 
 	public static final int MELEE_DURATION_TICKS = 40;
 	public static final int FIREBALL_DURATION_TICKS = 60;
@@ -97,6 +98,8 @@ public class CoreGolem extends AbstractGolem {
 			this.unleashedAnimationAnimationState.stop();
 		}
 
+		this.unleashedPoseAnimationState.animateWhen(this.isUnleashed() && !this.inAnimation(2), this.tickCount);
+
 	}
 
 	@Override
@@ -112,16 +115,6 @@ public class CoreGolem extends AbstractGolem {
 	public void tick() {
 		super.tick();
 
-		if (this.level().isClientSide()) {
-			this.setupAnimimationStates();
-		}
-
-		if (this.unleashedAnimationTimeout == 0) {
-			this.setUnleashedAnimation(false);
-		} else if (this.unleashedAnimationTimeout > 0) {
-			this.unleashedAnimationTimeout--;
-		}
-
 		if (this.isUnleashedBasedOnHP() && !this.isUnleashed() && this.isEnraged()) {
 			BABattleTowers.LOGGER.debug("wtf");
 			this.playSoundEvent(BTSoundEvents.ENTITY_GOLEM_SPECIAL.get(), 0.3f); // LOUD AF (Still? I adjusted the volume)
@@ -134,11 +127,22 @@ public class CoreGolem extends AbstractGolem {
 				this.unleashedAnimationAnimationState.start(this.tickCount);
 			}
 		}
-		BABattleTowers.LOGGER.debug(" {} {} {}", this.isUnleashed(), !this.isUnleashedAnimation(), this.resetAi);
+
+		BABattleTowers.LOGGER.debug(" {} {} {}", this.isUnleashed(), !this.isUnleashedAnimation(), this.inAnimation(0));
 		if (this.isUnleashed() && !this.isUnleashedAnimation() && this.resetAi) {
 			BABattleTowers.LOGGER.debug("fix ai");
 			this.resetAi = false;
 			this.goalSelector.setNewGoalRate(3);
+		}
+
+		if (this.level().isClientSide()) {
+			this.setupAnimimationStates();
+		}
+
+		if (this.unleashedAnimationTimeout == 0) {
+			this.setUnleashedAnimation(false);
+		} else if (this.unleashedAnimationTimeout > 0) {
+			this.unleashedAnimationTimeout--;
 		}
 	}
 

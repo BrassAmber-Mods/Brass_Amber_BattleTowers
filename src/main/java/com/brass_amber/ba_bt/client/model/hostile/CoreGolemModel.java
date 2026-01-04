@@ -94,16 +94,19 @@ public class CoreGolemModel extends HierarchicalModel<CoreGolem> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
 
-		this.rightarm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
-		this.leftarm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
 		this.rightleg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		this.leftleg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-
-		this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.melee_left : CoreGolemModelAnimations.melee_right, ageInTicks, 1f);
-		this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.fireball, ageInTicks, 1f);
+		this.animate(entity.unleashedPoseAnimationState, CoreGolemModelAnimations.unleashed_pose, ageInTicks, 1f);
 		this.animate(entity.unleashedAnimationAnimationState, CoreGolemModelAnimations.unleashed, ageInTicks, 1f);
 
-
+		if (!entity.isUnleashed()) {
+			this.rightarm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
+			this.leftarm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
+			this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.fireball, ageInTicks, 1f);
+		} else {
+			this.animate(entity.fireballAnimationState, CoreGolemModelAnimations.unleashed_fireball, ageInTicks, 1f);
+		}
+		this.animate(entity.meleeAnimationState, entity.isLeftHanded() ? CoreGolemModelAnimations.melee_left : CoreGolemModelAnimations.melee_right, ageInTicks, 1f);
 	}
 
 	private void applyHeadRotation(CoreGolem entity, float netHeadYaw, float headPitch, float agInTicks) {
