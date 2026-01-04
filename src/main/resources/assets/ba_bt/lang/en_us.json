@@ -181,9 +181,11 @@
 
 	"comment6":"Effects",
 	"effect.ba_bt.depth_dropper_effect": "Depth Dropper",
+	"effect.ba_bt.core_temperature_effect": "Core Temperature",
 
 	"comment7":"Enchantments",
 	"enchantment.ba_bt.depth_dropper": "Depth Dropper",
+	"enchantment.ba_bt.core_temperature": "Core Temperature",
 
 	"comment8":"Item Tooltips",
 	"tooltip.ba_bt.hold_shift": "Hold §eSHIFT§r for more information.",

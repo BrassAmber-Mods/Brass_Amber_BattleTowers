@@ -181,9 +181,11 @@
 
 	"comment6":"Effetti (Effects)",
 	"effect.ba_bt.depth_dropper_effect": "Ancoraggio delle profondita'",
+	"effect.ba_bt.core_temperature_effect": "Core Temperature",
 
 	"comment7":"Incantamenti (Enchantments)",
 	"enchantment.ba_bt.depth_dropper": "Ancoraggio delle profondita'",
+	"enchantment.ba_bt.core_temperature": "Core Temperature",
 
 	"comment8":"Sottotitoli degli oggetti (Item Tooltips)",
 	"tooltip.ba_bt.hold_shift": "Tieni premuto §eMaiusc§r per maggiori informazioni.",
