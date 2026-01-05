@@ -102,7 +102,7 @@ public abstract class AbstractDestructionEntity extends Entity {
 
         if (this.level().isClientSide()) {
             MusicManager music = Minecraft.getInstance().getMusicManager();
-            if (this.level().getNearestPlayer(this,64) != null) {
+            if (this.level().getNearestPlayer(this,128) != null) {
                 if (!music.isPlayingMusic(TOWER_COLLAPSE_MUSIC)) {
                     music.stopPlaying();
                     music.startPlaying(TOWER_COLLAPSE_MUSIC);
