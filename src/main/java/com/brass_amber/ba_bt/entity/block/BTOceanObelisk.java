@@ -163,7 +163,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
         Block block;
 
         while (this.currentCarveLayer > this.bottom) {
-            BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
+            // BABattleTowers.LOGGER.debug("Round of carving: {}", this.currentCarveLayer);
             int bottomRange = this.currentCarveLayer + this.floorDistance;
             if (this.currentCarveLayer - this.bottom < abs(this.floorDistance) + 1) {
                 bottomRange = this.bottom;
@@ -226,7 +226,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     @Override
     public void removeAreaBlocks() {
         int removeSize = this.toRemove.size();
-        BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
+        // BABattleTowers.LOGGER.debug("Removing blocks: {}", removeSize);
         if (removeSize > 0) {
             for (int i = 0; i < Math.min(removeSize, 2048); i++) {
                 this.level().setBlock(this.toRemove.remove(0), Blocks.WATER.defaultBlockState(), 2);

@@ -46,7 +46,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         BABattleTowers.LOGGER.debug("In Collect Sequence");
         BlockPos checkPos;
         for (int y = this.crumbleStartY; y != this.crumbleStopY; y += this.crumbleDirection) {
-            BABattleTowers.LOGGER.debug("Crumble Y {}", y);
+            // BABattleTowers.LOGGER.debug("Crumble Y {}", y);
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                 for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);
@@ -66,10 +66,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
     @Override
     public void destroyTower() {
         // BABattleTowers.LOGGER.debug("In Destroy Sequence: {}", this.blocksToRemove.size());
-        if (this.currentTicks % 240 == 0) {
-            this.level().playSound(null, this.blocksToRemove.get(this.random.nextInt(Math.min(this.blocksToRemove.size(), 64))),
-                    BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
-        }
+
 
         if (this.currentTicks % 120 == 0) {
             this.destroySpeed += 4;
@@ -83,7 +80,15 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
             if (this.coreMatterBlocks.isEmpty()) {
                 this.destructionState = this.destructionState.getNext();
             }
+            if (this.currentTicks % 240 == 0) {
+                this.level().playSound(null, this.coreMatterBlocks.get(this.random.nextInt(Math.min(this.coreMatterBlocks.size(), 64))),
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
+            }
         } else {
+            if (this.currentTicks % 240 == 0) {
+                this.level().playSound(null, this.blocksToRemove.get(this.random.nextInt(Math.min(this.blocksToRemove.size(), 64))),
+                        BTSoundEvents.TOWER_BREAK_CRUMBLE.get(), SoundSource.AMBIENT, 4F, 1F);
+            }
             for (int i = 0; i < Math.min(this.blocksToRemove.size(), 12 + this.destroySpeed); i++) {
                 BlockPos removeBlockPos = this.blocksToRemove.remove(this.random.nextInt(Math.min(this.blocksToRemove.size(), 48)));
                 // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");

@@ -60,7 +60,7 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
 
         if (!BattleTowersConfig.oceanTowerVoidHole) {
             for (int y = this.crumbleStartY; y != this.level().getMinBuildHeight() - 1; y--) {
-                BABattleTowers.LOGGER.debug("Below Tower Y {}", y);
+                // BABattleTowers.LOGGER.debug("Below Tower Y {}", y);
                 for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                     for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                         checkPos = this.blockPosition().offset(x, 0, z).atY(y);
@@ -75,7 +75,7 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
         }
 
         for (int y = this.crumbleStartY; y != this.crumbleStopY; y += this.crumbleDirection) {
-            BABattleTowers.LOGGER.debug("Collect Y {}, CD: {}", y, this.crumbleDirection);
+            // BABattleTowers.LOGGER.debug("Collect Y {}, CD: {}", y, this.crumbleDirection);
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                 for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);
@@ -195,7 +195,7 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
         }
 
         for (int y = this.crumbleStartY; y != this.crumbleStopY; y += this.crumbleDirection) {
-            BABattleTowers.LOGGER.debug("Fix Y {}", y);
+            // BABattleTowers.LOGGER.debug("Fix Y {}", y);
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                 for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);

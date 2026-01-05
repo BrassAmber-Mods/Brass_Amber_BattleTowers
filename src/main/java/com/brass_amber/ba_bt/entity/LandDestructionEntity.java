@@ -40,7 +40,7 @@ public class LandDestructionEntity extends AbstractDestructionEntity {
         BABattleTowers.LOGGER.debug("In Collect Sequence");
         BlockPos checkPos;
         for (int y = this.crumbleStartY; y != this.crumbleStopY; y+=this.crumbleDirection) {
-            BABattleTowers.LOGGER.debug("Crumble Y {}", y);
+            // BABattleTowers.LOGGER.debug("Crumble Y {}", y);
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                 for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);

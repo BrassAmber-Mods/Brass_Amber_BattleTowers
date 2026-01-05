@@ -128,7 +128,7 @@ public class CoreGolem extends AbstractGolem {
 			}
 		}
 
-		BABattleTowers.LOGGER.debug(" {} {} {}", this.isUnleashed(), !this.isUnleashedAnimation(), this.inAnimation(0));
+		// BABattleTowers.LOGGER.debug(" {} {} {}", this.isUnleashed(), !this.isUnleashedAnimation(), this.inAnimation(0));
 		if (this.isUnleashed() && !this.isUnleashedAnimation() && this.resetAi) {
 			BABattleTowers.LOGGER.debug("fix ai");
 			this.resetAi = false;
