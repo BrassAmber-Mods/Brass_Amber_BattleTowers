@@ -3,6 +3,10 @@
     "minecraft:pointed_dripstone",
     "minecraft:big_dripleaf",
     "minecraft:cave_vines",
-    "minecraft:cave_vines_plant"
+    "minecraft:cave_vines_plant",
+    "minecraft:rail",
+    "minecraft:powered_rail",
+    "minecraft:detector_rail",
+    "minecraft:activator_rail"
   ]
 }

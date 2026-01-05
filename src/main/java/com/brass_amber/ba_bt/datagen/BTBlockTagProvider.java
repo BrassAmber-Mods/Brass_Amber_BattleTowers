@@ -132,7 +132,11 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
                 Blocks.POINTED_DRIPSTONE,
                 Blocks.BIG_DRIPLEAF,
                 Blocks.CAVE_VINES,
-                Blocks.CAVE_VINES_PLANT
+                Blocks.CAVE_VINES_PLANT,
+                Blocks.RAIL,
+                Blocks.POWERED_RAIL,
+                Blocks.DETECTOR_RAIL,
+                Blocks.ACTIVATOR_RAIL
         );
     }
 
