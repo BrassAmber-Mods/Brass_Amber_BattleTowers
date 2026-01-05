@@ -13,7 +13,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -129,7 +131,16 @@ public class BTCoreObelisk extends BTAbstractObelisk {
             for (Entity entity : level().getEntities(this, this.entityCheckAABB.setMinY(this.blockPosition().getY() - 90), entity -> entity.isAlive() && distanceTo2D(this, entity) < this.towerRange)) {
                 if (entity instanceof Player player) { // Double if to enforce player vs mob differences
                     if (!player.isCreative() && !player.isSpectator() && player.getY() < this.level().getMinBuildHeight()) {
-                        player.teleportTo(this.getX() + this.random.nextInt(-2,2), this.getY() + 1, this.getZ() + this.random.nextInt(-2, 2));
+                        entity.teleportTo(this.getX() + this.random.nextInt(-2,2), this.getY() + 1, this.getZ() + this.random.nextInt(-2, 2));
+                        entity.resetFallDistance();
+                    }
+                } else if (entity instanceof Animal || entity instanceof NeutralMob) {
+                    if (entity.getY() < this.level().getMinBuildHeight()) {
+                        List<BlockPos> pos = BlockPos.betweenClosedStream(this.blockPosition().offset(-22, 0, -22), this.blockPosition().offset(22, 0, 22)).filter(blockPos -> distanceTo2D(this, blockPos) > this.enemySpawnRange + 1).map(BlockPos::immutable).toList();
+                        BlockPos teleportPos = pos.get(this.random.nextInt(pos.size()));
+                        entity.teleportTo(teleportPos.getX(), teleportPos.getY() + 9, teleportPos.getZ());
+                        entity.resetFallDistance();
+                        entity.invulnerableTime = 40;
                     }
                 }
             }
