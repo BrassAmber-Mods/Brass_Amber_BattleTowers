@@ -17,12 +17,12 @@ public class BTItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, BABattleTowers.MOD_ID);
 
 	public static final RegistryObject<Item> TAB_ICON = ITEMS.register("tab_icon",() -> new Item(new Item.Properties().stacksTo(16)));
-	public static final RegistryObject<Item> LAND_MONOLITH_KEY = ITEMS.register("land_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-	public static final RegistryObject<Item> OCEAN_MONOLITH_KEY = ITEMS.register("ocean_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-	public static final RegistryObject<Item> CORE_MONOLITH_KEY = ITEMS.register("core_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-	public static final RegistryObject<Item> NETHER_MONOLITH_KEY = ITEMS.register("nether_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-	public static final RegistryObject<Item> END_MONOLITH_KEY = ITEMS.register("end_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-	public static final RegistryObject<Item> SKY_MONOLITH_KEY = ITEMS.register("sky_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
+	public static final RegistryObject<Item> LAND_MONOLITH_KEY = ITEMS.register("land_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
+	public static final RegistryObject<Item> OCEAN_MONOLITH_KEY = ITEMS.register("ocean_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
+	public static final RegistryObject<Item> CORE_MONOLITH_KEY = ITEMS.register("core_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
+	public static final RegistryObject<Item> NETHER_MONOLITH_KEY = ITEMS.register("nether_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
+	public static final RegistryObject<Item> END_MONOLITH_KEY = ITEMS.register("end_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
+	public static final RegistryObject<Item> SKY_MONOLITH_KEY = ITEMS.register("sky_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
 
 	public static final RegistryObject<Item> LAND_GUARDIAN_EYE = ITEMS.register("guardian_eye_land", () -> new GuardianEyeItem(GolemType.LAND, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
 	public static final RegistryObject<Item> OCEAN_GUARDIAN_EYE = ITEMS.register("guardian_eye_ocean", () -> new GuardianEyeItem(GolemType.OCEAN, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
@@ -45,13 +45,13 @@ public class BTItems {
 	public static final RegistryObject<Item> END_CHEST_SHARD = ITEMS.register("end_chest_shard", () -> new Item(new Item.Properties().stacksTo(16)));
 	public static final RegistryObject<Item> SKY_CHEST_SHARD = ITEMS.register("sky_chest_shard", () -> new Item(new Item.Properties().stacksTo(16)));
 
-	public static final RegistryObject<Item> LAND_RESONANCE_CRYSTAL = ITEMS.register("land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND, MUSIC_LAND_TOWER, new Item.Properties().stacksTo(1),3940));
-	public static final RegistryObject<Item> OCEAN_RESONANCE_CRYSTAL = ITEMS.register("ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN, MUSIC_OCEAN_TOWER,new Item.Properties().stacksTo(1), 4780));
-	public static final RegistryObject<Item> CORE_RESONANCE_CRYSTAL = ITEMS.register("core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE, MUSIC_CORE_TOWER,new Item.Properties().stacksTo(1), 4440));
-	public static final RegistryObject<Item> NETHER_RESONANCE_CRYSTAL = ITEMS.register("nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER, MUSIC_NETHER_TOWER,new Item.Properties().stacksTo(1), 3880));
-	public static final RegistryObject<Item> END_RESONANCE_CRYSTAL = ITEMS.register("end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END, MUSIC_END_TOWER,new Item.Properties().stacksTo(1), 5060));
-	public static final RegistryObject<Item> SKY_RESONANCE_CRYSTAL = ITEMS.register("sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY, MUSIC_SKY_TOWER,new Item.Properties().stacksTo(1), 3940));
-	public static final RegistryObject<Item> CITY_RESONANCE_CRYSTAL = ITEMS.register("city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY, MUSIC_CITY,new Item.Properties().stacksTo(1), 6560));
+	public static final RegistryObject<Item> LAND_RESONANCE_CRYSTAL = ITEMS.register("land_resonance_stone", () -> new ResonanceStoneItem(GolemType.LAND, MUSIC_LAND_TOWER, new Item.Properties().stacksTo(1).fireResistant(),3940));
+	public static final RegistryObject<Item> OCEAN_RESONANCE_CRYSTAL = ITEMS.register("ocean_resonance_stone", () -> new ResonanceStoneItem(GolemType.OCEAN, MUSIC_OCEAN_TOWER,new Item.Properties().stacksTo(1).fireResistant(), 4780));
+	public static final RegistryObject<Item> CORE_RESONANCE_CRYSTAL = ITEMS.register("core_resonance_stone", () -> new ResonanceStoneItem(GolemType.CORE, MUSIC_CORE_TOWER,new Item.Properties().stacksTo(1).fireResistant(), 4440));
+	public static final RegistryObject<Item> NETHER_RESONANCE_CRYSTAL = ITEMS.register("nether_resonance_stone", () -> new ResonanceStoneItem(GolemType.NETHER, MUSIC_NETHER_TOWER,new Item.Properties().stacksTo(1).fireResistant(), 3880));
+	public static final RegistryObject<Item> END_RESONANCE_CRYSTAL = ITEMS.register("end_resonance_stone", () -> new ResonanceStoneItem(GolemType.END, MUSIC_END_TOWER,new Item.Properties().stacksTo(1).fireResistant(), 5060));
+	public static final RegistryObject<Item> SKY_RESONANCE_CRYSTAL = ITEMS.register("sky_resonance_stone", () -> new ResonanceStoneItem(GolemType.SKY, MUSIC_SKY_TOWER,new Item.Properties().stacksTo(1).fireResistant(), 3940));
+	public static final RegistryObject<Item> CITY_RESONANCE_CRYSTAL = ITEMS.register("city_resonance_stone", () -> new ResonanceStoneItem(GolemType.CITY, MUSIC_CITY,new Item.Properties().stacksTo(1).fireResistant(), 6560));
 
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
