@@ -31,7 +31,7 @@ public class ActiveCorriteBlock extends MagmaBlock {
     public static final IntegerProperty CORRITE = IntegerProperty.create("corrite", 0, 11);
     public static final float FOOT_DAMAGE = 3.0f;
     public static final float LAVA_DAMAGE = 6.0f;
-    public static final double FALL_SPEED = 0.40D;
+    public static final double FALL_SPEED = 0.60D;
 
     /**
      * Class uses methods copied from net.minecraft.world.level.block.RedStoneOreBlock
