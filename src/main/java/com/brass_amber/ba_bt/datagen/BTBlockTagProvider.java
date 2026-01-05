@@ -127,6 +127,13 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
         this.tag(IS_MAGMA_BLOCK)
                 .add(Blocks.MAGMA_BLOCK)
                 .addTag(BT_ACTIVE_CORRITE_BLOCKS);
+
+        this.tag(BT_CORE_UNDERGROUND_CLEANUP).add(
+                Blocks.POINTED_DRIPSTONE,
+                Blocks.BIG_DRIPLEAF,
+                Blocks.CAVE_VINES,
+                Blocks.CAVE_VINES_PLANT
+        );
     }
 
     @Override
