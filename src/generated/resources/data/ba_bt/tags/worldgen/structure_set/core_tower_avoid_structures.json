@@ -1,6 +1,7 @@
 {
   "values": [
     "minecraft:strongholds",
-    "minecraft:ancient_cities"
+    "minecraft:ancient_cities",
+    "minecraft:mineshafts"
   ]
 }

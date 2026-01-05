@@ -40,6 +40,7 @@ public class BTStructureSetTagProvider extends TagsProvider<StructureSet> {
 
       this.tag(BTTags.StructureSets.CORE_TOWER_AVOID_STRUCTURES)
               .add(BuiltinStructureSets.STRONGHOLDS)
-              .add(BuiltinStructureSets.ANCIENT_CITIES);
+              .add(BuiltinStructureSets.ANCIENT_CITIES)
+              .add(BuiltinStructureSets.MINESHAFTS);
    }
 }
