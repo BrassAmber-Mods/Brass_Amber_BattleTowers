@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ba_bt:guardian_eye_land"
+          "name": "ba_bt:land_golem_eye"
         }
       ],
       "rolls": 1.0

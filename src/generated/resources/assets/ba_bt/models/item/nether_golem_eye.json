@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ba_bt:item/guardian_eye/guardian_eye_ocean"
+    "layer0": "ba_bt:item/golem_eye/nether_golem_eye"
   }
 }

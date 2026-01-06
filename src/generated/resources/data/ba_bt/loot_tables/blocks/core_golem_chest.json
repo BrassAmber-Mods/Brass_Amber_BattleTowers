@@ -49,7 +49,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ba_bt:guardian_eye_core"
+          "name": "ba_bt:core_golem_eye"
         }
       ],
       "rolls": {

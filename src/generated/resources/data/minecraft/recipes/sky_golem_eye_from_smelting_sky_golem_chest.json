@@ -5,7 +5,7 @@
   "experience": 0.2,
   "group": "bt_Chest",
   "ingredient": {
-    "item": "ba_bt:end_golem_chest"
+    "item": "ba_bt:sky_golem_chest"
   },
-  "result": "ba_bt:guardian_eye_end"
+  "result": "ba_bt:sky_golem_eye"
 }

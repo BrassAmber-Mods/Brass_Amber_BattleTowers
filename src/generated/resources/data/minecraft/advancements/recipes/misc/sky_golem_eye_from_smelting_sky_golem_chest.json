@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_core_golem_chest": {
+    "has_sky_golem_chest": {
       "conditions": {
         "items": [
           {
             "items": [
-              "ba_bt:core_golem_chest"
+              "ba_bt:sky_golem_chest"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:guardian_eye_core_from_smelting_core_golem_chest"
+        "recipe": "minecraft:sky_golem_eye_from_smelting_sky_golem_chest"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_core_golem_chest",
+      "has_sky_golem_chest",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:guardian_eye_core_from_smelting_core_golem_chest"
+      "minecraft:sky_golem_eye_from_smelting_sky_golem_chest"
     ]
   },
   "sends_telemetry_event": false

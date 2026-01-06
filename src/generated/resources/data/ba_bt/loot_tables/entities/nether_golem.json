@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ba_bt:guardian_eye_nether"
+          "name": "ba_bt:nether_golem_eye"
         }
       ],
       "rolls": 1.0

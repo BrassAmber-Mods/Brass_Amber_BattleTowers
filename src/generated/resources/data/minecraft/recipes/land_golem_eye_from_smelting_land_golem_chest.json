@@ -5,7 +5,7 @@
   "experience": 0.2,
   "group": "bt_Chest",
   "ingredient": {
-    "item": "ba_bt:ocean_golem_chest"
+    "item": "ba_bt:land_golem_chest"
   },
-  "result": "ba_bt:guardian_eye_ocean"
+  "result": "ba_bt:land_golem_eye"
 }

@@ -29,12 +29,12 @@ public class BTModelProvider extends ItemModelProvider {
         simpleExtraFolderItem(BTItems.END_MONOLITH_KEY, "monolith_key");
         simpleExtraFolderItem(BTItems.SKY_MONOLITH_KEY, "monolith_key");
 
-        simpleExtraFolderItem(BTItems.LAND_GOLEM_EYE, "guardian_eye");
-        simpleExtraFolderItem(BTItems.OCEAN_GOLEM_EYE, "guardian_eye");
-        simpleExtraFolderItem(BTItems.CORE_GOLEM_EYE, "guardian_eye");
-        simpleExtraFolderItem(BTItems.NETHER_GOLEM_EYE, "guardian_eye");
-        simpleExtraFolderItem(BTItems.END_GOLEM_EYE, "guardian_eye");
-        simpleExtraFolderItem(BTItems.SKY_GOLEM_EYE, "guardian_eye");
+        simpleExtraFolderItem(BTItems.LAND_GOLEM_EYE, "golem_eye");
+        simpleExtraFolderItem(BTItems.OCEAN_GOLEM_EYE, "golem_eye");
+        simpleExtraFolderItem(BTItems.CORE_GOLEM_EYE, "golem_eye");
+        simpleExtraFolderItem(BTItems.NETHER_GOLEM_EYE, "golem_eye");
+        simpleExtraFolderItem(BTItems.END_GOLEM_EYE, "golem_eye");
+        simpleExtraFolderItem(BTItems.SKY_GOLEM_EYE, "golem_eye");
 
         monolithItem(BTItems.LAND_MONOLITH);
         monolithItem(BTItems.OCEAN_MONOLITH);

@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:guardian_eye_end_from_smelting_end_golem_chest"
+        "recipe": "minecraft:end_golem_eye_from_smelting_end_golem_chest"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:guardian_eye_end_from_smelting_end_golem_chest"
+      "minecraft:end_golem_eye_from_smelting_end_golem_chest"
     ]
   },
   "sends_telemetry_event": false
