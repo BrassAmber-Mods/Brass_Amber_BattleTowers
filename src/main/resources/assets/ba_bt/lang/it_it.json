@@ -96,15 +96,15 @@
 	"block.ba_bt.corrite_chiseled_bookshelf": "Libreria di corrite cesellata",
 	"block.ba_bt.corrite_ladder": "Scala a pioli di corrite",
 
-	"block.ba_bt.active_corrite_block": "Active Corrite",
-	"block.ba_bt.active_corrite_slab": "Active Corrite Slab",
-	"block.ba_bt.active_corrite_stair": "Active Corrite Stair",
-	"block.ba_bt.active_corrite_wall": "Active Corrite Wall",
+	"block.ba_bt.active_corrite_block": "Corrite attiva",
+	"block.ba_bt.active_corrite_slab": "Lastra di corrite attiva",
+	"block.ba_bt.active_corrite_stair": "Scalini di corrite attivi",
+	"block.ba_bt.active_corrite_wall": "Muretto di corrite attivo",
 
-	"block.ba_bt.core_matter_block": "Core Matter",
-	"block.ba_bt.core_matter_slab": "Core Matter Slab",
-	"block.ba_bt.core_matter_stair": "Core Matter Stair",
-	"block.ba_bt.core_matter_wall": "Core Matter Wall",
+	"block.ba_bt.core_matter_block": "Blocco di materia del nucleo",
+	"block.ba_bt.core_matter_slab": "Lastra di blocco di materia del nucleo",
+	"block.ba_bt.core_matter_stair": "Scalini di materia del nucleo",
+	"block.ba_bt.core_matter_wall": "Muretto di materia del nucleo",
 
 	"block.ba_bt.spawner_marker" : "Segnaposto per generatori",
 	"block.ba_bt.data_marker" : "Segnaposto per contenitori",
@@ -181,11 +181,11 @@
 
 	"comment6":"Effetti (Effects)",
 	"effect.ba_bt.depth_dropper_effect": "Ancoraggio delle profondita'",
-	"effect.ba_bt.core_temperature_effect": "Temperatura del nucleo",
+	"effect.ba_bt.core_temperature_effect": "Temperatura elevatissima",
 
 	"comment7":"Incantamenti (Enchantments)",
 	"enchantment.ba_bt.depth_dropper": "Ancoraggio delle profondita'",
-	"enchantment.ba_bt.core_temperature": "Temperatura del nucleo",
+	"enchantment.ba_bt.core_temperature": "Temperatura elevatissma",
 
 	"comment8":"Sottotitoli degli oggetti (Item Tooltips)",
 	"tooltip.ba_bt.hold_shift": "Tieni premuto §eMaiusc§r per maggiori informazioni.",
