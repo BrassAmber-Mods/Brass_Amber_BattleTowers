@@ -28,12 +28,12 @@
 	"entity.ba_bt.end_obelisk": "Obelisco remoto",
 	"entity.ba_bt.sky_obelisk": "Obelisco etereo",
 
-	"entity.ba_bt.land_destruction": "Land Destruction",
-	"entity.ba_bt.ocean_destruction": "Ocean Destruction",
-	"entity.ba_bt.core_destruction": "Core Destruction",
-	"entity.ba_bt.nether_destruction": "Nether Destruction",
-	"entity.ba_bt.end_destruction": "End Destruction",
-	"entity.ba_bt.sky_destruction": "Sky Destruction",
+	"entity.ba_bt.land_destruction": "Land Destruction (Distruzione landa)",
+	"entity.ba_bt.ocean_destruction": "Ocean Destruction(Distruzione oceano)",
+	"entity.ba_bt.core_destruction": "Core Destruction (Distruzione nucleo)",
+	"entity.ba_bt.nether_destruction": "Nether Destruction (Distruzione nether)",
+	"entity.ba_bt.end_destruction": "End Destruction (Distruzione end)",
+	"entity.ba_bt.sky_destruction": "Sky Destruction (Distruzione cielo)",
 
 	"comment2":"Suoni del Golem (Golem Sounds)",
 	"ba_bt.subtitle.golem.hurt": "Golem ferito",
@@ -59,7 +59,7 @@
 	"ba_bt.subtitle.tower.ambient.music.ocean": "Musica ambientale della torre oceanica",
 	"ba_bt.subtitle.tower.ambient.music.core": "Musica ambientale della torre primordiale",
 	"ba_bt.subtitle.tower.ambient.music.nether": "Musica ambientale della torre infernale",
-	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre remota",
+	"ba_bt.subtitle.tower.ambient.music.end": "Musica ambientale della torre dell'End",
 	"ba_bt.subtitle.tower.ambient.music.sky": "Musica ambientale della torre celeste",
 	"ba_bt.subtitle.tower.ambient.music.city": "Musica ambientale della citta' ancestrale",
 
@@ -77,7 +77,7 @@
 	"block.ba_bt.nether_chest": "Baule infernale",
 
 	"block.ba_bt.end_golem_chest": "Forziere di Shul'losniir",
-	"block.ba_bt.end_chest": "Baule della fine remota",
+	"block.ba_bt.end_chest": "Baule dell'End",
 
 	"block.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
 	"block.ba_bt.sky_chest": "Baule celeste",
@@ -86,15 +86,15 @@
 	"block.ba_bt.bt_ocean_spawner" : "Generatore oceanico",
 	"block.ba_bt.bt_core_spawner" : "Generatore primordiale",
 	"block.ba_bt.bt_nether_spawner" : "Generatore infernale",
-	"block.ba_bt.bt_end_spawner" : "Generatore della fine remota",
+	"block.ba_bt.bt_end_spawner" : "Generatore dell'End",
 	"block.ba_bt.bt_sky_spawner" : "Generatore celeste",
 
 	"block.ba_bt.corrite_block": "Corrite",
-	"block.ba_bt.corrite_slab": "Corrite Slab",
-	"block.ba_bt.corrite_stair": "Corrite Stair",
-	"block.ba_bt.corrite_wall": "Corrite Wall",
-	"block.ba_bt.corrite_chiseled_bookshelf": "Corrite Chiseled Bookshelf",
-	"block.ba_bt.corrite_ladder": "Corrite Ladder",
+	"block.ba_bt.corrite_slab": "Lastra di corrite",
+	"block.ba_bt.corrite_stair": "Scalini di corrite",
+	"block.ba_bt.corrite_wall": "Muretto di corrite",
+	"block.ba_bt.corrite_chiseled_bookshelf": "Libreria di corrite cesellata",
+	"block.ba_bt.corrite_ladder": "Scala a pioli di corrite",
 
 	"block.ba_bt.active_corrite_block": "Active Corrite",
 	"block.ba_bt.active_corrite_slab": "Active Corrite Slab",
@@ -132,8 +132,8 @@
 
 	"container.ba_bt.end_golem_chest": "Forziere di Shul'losniir",
 	"container.ba_bt.end_golem_chest_double": "Doppio forziere di Shul'losniir",
-	"container.ba_bt.end_chest": "Baule della fine remota",
-	"container.ba_bt.end_chest_double": "Doppio baule della fine remota",
+	"container.ba_bt.end_chest": "Baule dell'End",
+	"container.ba_bt.end_chest_double": "Doppio baule dell'End",
 
 	"container.ba_bt.sky_golem_chest": "Forziere di Veyhz'kriin",
 	"container.ba_bt.sky_golem_chest_double": "Doppio forziere di Veyhz'kriin",
@@ -147,7 +147,7 @@
 	"item.ba_bt.ocean_monolith_key": "Chiave del monolite oceanico",
 	"item.ba_bt.core_monolith_key": "Chiave del monolite primordiale",
 	"item.ba_bt.nether_monolith_key": "Chiave del monolite infernale",
-	"item.ba_bt.end_monolith_key": "Chiave del monolite remoto",
+	"item.ba_bt.end_monolith_key": "Chiave del monolite dell'End",
 	"item.ba_bt.sky_monolith_key": "Chiave del monolite etereo",
 
 	"item.ba_bt.guardian_eye_land": "Occhio di Bahryn'muul",
@@ -161,31 +161,31 @@
 	"item.ba_bt.ocean_monolith": "Monolite oceanico",
 	"item.ba_bt.core_monolith": "Monolite primordiale",
 	"item.ba_bt.nether_monolith": "Monolite infernale",
-	"item.ba_bt.end_monolith": "Monolite remoto",
+	"item.ba_bt.end_monolith": "Monolite dell'End",
 	"item.ba_bt.sky_monolith": "Monolite etereo",
 
 	"item.ba_bt.land_chest_shard": "Frammento del baule terrestre",
 	"item.ba_bt.ocean_chest_shard": "Frammento del baule dell'oceano",
 	"item.ba_bt.core_chest_shard": "Frammento del baule primordiale",
 	"item.ba_bt.nether_chest_shard": "Frammento del baule infernale",
-	"item.ba_bt.end_chest_shard": "Frammento del baule della fine remota",
+	"item.ba_bt.end_chest_shard": "Frammento del baule dell'End",
 	"item.ba_bt.sky_chest_shard": "Frammento del baule celeste",
 
 	"item.ba_bt.land_resonance_stone": "Pietra risonante terrestre",
 	"item.ba_bt.ocean_resonance_stone": "Pietra risonante oceanica",
 	"item.ba_bt.core_resonance_stone": "Pietra risonante primordiale",
 	"item.ba_bt.nether_resonance_stone": "Pietra risonante infernale",
-	"item.ba_bt.end_resonance_stone": "Pietra risonante remota",
+	"item.ba_bt.end_resonance_stone": "Pietra risonante dell'End",
 	"item.ba_bt.sky_resonance_stone": "Pietra risonante celestiale",
 	"item.ba_bt.city_resonance_stone": "Pietra risonante cittadina",
 
 	"comment6":"Effetti (Effects)",
 	"effect.ba_bt.depth_dropper_effect": "Ancoraggio delle profondita'",
-	"effect.ba_bt.core_temperature_effect": "Core Temperature",
+	"effect.ba_bt.core_temperature_effect": "Temperatura del nucleo",
 
 	"comment7":"Incantamenti (Enchantments)",
 	"enchantment.ba_bt.depth_dropper": "Ancoraggio delle profondita'",
-	"enchantment.ba_bt.core_temperature": "Core Temperature",
+	"enchantment.ba_bt.core_temperature": "Temperatura del nucleo",
 
 	"comment8":"Sottotitoli degli oggetti (Item Tooltips)",
 	"tooltip.ba_bt.hold_shift": "Tieni premuto §eMaiusc§r per maggiori informazioni.",
@@ -256,6 +256,6 @@
 	"advancements.ba_bt.ocean_tower_found.description": "-Precipita nella fossa abissale",
 	"advancements.ba_bt.find_ocean_key.title": "Cosa nascondono...",
 	"advancements.ba_bt.find_ocean_key.description": "-Trova una chiave del monolite oceanico",
-	"advancements.ba_bt.kill_ocean_golem.title": "Il nucleo comincia a tremare...",
+	"advancements.ba_bt.kill_ocean_golem.title": "Il nucleo diventa irrequieto...",
 	"advancements.ba_bt.kill_ocean_golem.description": "-Sconfiggi Moraizu'un, Idolo degli affogati"
 }
