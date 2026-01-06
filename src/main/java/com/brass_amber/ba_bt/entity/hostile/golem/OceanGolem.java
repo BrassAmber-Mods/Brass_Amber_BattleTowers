@@ -15,6 +15,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.Level;
@@ -56,6 +58,18 @@ public class OceanGolem extends AbstractGolem {
 
 	@Override
 	protected void addBehaviorGoals() {
+		this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
+		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2D, true) {
+			@Override
+			public boolean canUse() {
+				return !OceanGolem.this.isDormant() && super.canUse();
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+				return !OceanGolem.this.isDormant() && super.canContinueToUse();
+			}
+		});
 	}
 
 	protected float getWaterSlowDown() {
