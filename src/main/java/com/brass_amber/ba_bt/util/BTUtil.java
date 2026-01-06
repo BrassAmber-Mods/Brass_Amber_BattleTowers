@@ -143,26 +143,26 @@ public class BTUtil {
 
     public static double distanceTo3D(Entity self, double targetX, double targetY, double targetZ) {
         double dXZ = distanceTo2D(self, targetX, targetZ);
-        double dY = self.getY() - targetY;
-        return Math.sqrt(Math.abs(dXZ * dXZ + dY * dY));
+        double dY = Math.abs(self.getY() - targetY);
+        return Math.sqrt(dXZ * dXZ + dY * dY);
     }
 
     public static double distanceTo3D(Entity self, Entity entity) {
         double dXZ = distanceTo2D(self, entity);
-        double dY = self.getY() - entity.getY();
-        return Math.sqrt(Math.abs(dXZ * dXZ + dY * dY));
+        double dY = Math.abs(self.getY() - entity.getY());
+        return Math.sqrt(dXZ * dXZ + dY * dY);
     }
 
     public static double distanceTo3D(Entity self, BlockPos end) {
         double dXZ = distanceTo2D(self, end);
-        double dY = self.getY() - end.getY();
-        return Math.sqrt(Math.abs(dXZ * dXZ + dY * dY));
+        double dY = Math.abs(self.getY() - end.getY());
+        return Math.sqrt(dXZ * dXZ + dY * dY);
     }
 
     public static double distanceTo3D(BlockPos origin, BlockPos end) {
         double dXZ = distanceTo2D(origin, end);
-        double dY = origin.getY() - end.getY();
-        return Math.sqrt(Math.abs(dXZ * dXZ + dY * dY));
+        double dY = Math.abs(origin.getY() - end.getY());
+        return Math.sqrt(dXZ * dXZ + dY * dY);
     }
 
     public static List<ItemPool> getPools(ArrayList<String> poolStrings) {
