@@ -134,6 +134,33 @@ public class CoreGolemFireballAttackGoal extends Goal {
 		fireballentity.setPos(this.golem.getX() + vec3.x * lateralSpawnPositionOffset, this.golem.getY(0.5D) + verticalSpawnPositionOffset, fireballentity.getZ() + vec3.z * lateralSpawnPositionOffset);
 		// Add fireball to the world
 		level.addFreshEntity(fireballentity);
+
+		if (this.golem.isUnleashed()) {
+
+			// Play shooting sound
+			if (!this.golem.isSilent()) {
+				level.levelEvent(null, 1016, this.golem.blockPosition(), 0);
+			}
+
+			// Create fireball
+			Projectile fireballentity2 = this.createFireBall(level, xPower, yPower, zPower);
+			// Set fireball initial position
+			fireballentity2.setPos(this.golem.getX() + vec3.x * lateralSpawnPositionOffset + 1D, this.golem.getY(0.45D) + verticalSpawnPositionOffset, fireballentity.getZ() + vec3.z * lateralSpawnPositionOffset);
+			// Add fireball to the world
+			level.addFreshEntity(fireballentity2);
+
+			// Play shooting sound
+			if (!this.golem.isSilent()) {
+				level.levelEvent(null, 1016, this.golem.blockPosition(), 0);
+			}
+
+			// Create fireball
+			Projectile fireballentity3 = this.createFireBall(level, xPower, yPower, zPower);
+			// Set fireball initial position
+			fireballentity3.setPos(this.golem.getX() + vec3.x * lateralSpawnPositionOffset - 1D, this.golem.getY(0.45D) + verticalSpawnPositionOffset, fireballentity.getZ() + vec3.z * lateralSpawnPositionOffset);
+			// Add fireball to the world
+			level.addFreshEntity(fireballentity3);
+		}
 	}
 
 	private boolean isTimeToStartFireballAnimation() {
