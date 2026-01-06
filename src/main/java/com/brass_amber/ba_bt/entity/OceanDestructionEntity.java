@@ -120,9 +120,10 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
         } else {
             int countBad = 0;
             for (int i = 0; i < Math.min(this.blocksToRemove.size(), 24); i++) {
-                int removeInt = this.random.nextInt(Math.min(this.blocksToRemove.size(), 64));
+                int removeInt = this.random.nextInt(Math.min(this.blocksToRemove.size(), 24));
                 BlockPos removeBlockPos = this.blocksToRemove.get(removeInt);
-                if (this.level().isWaterAt(removeBlockPos.below())) {
+                Optional<Boolean> prop = this.level().getBlockState(removeBlockPos.below()).getOptionalValue(BlockStateProperties.WATERLOGGED);
+                if (this.level().isWaterAt(removeBlockPos.below()) && prop.isEmpty()) {
                     // BrassAmberBattleTowers.LOGGER.log(Level.DEBUG, "Removing row");
                     removeBlockPos = this.blocksToRemove.remove(removeInt);
                     final Vec3 velocity = new Vec3(0D, 0.5D, 0D);
