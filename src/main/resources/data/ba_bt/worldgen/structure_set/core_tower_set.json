@@ -2,7 +2,7 @@
   "placement": {
     "type": "ba_bt:tower_structure_placement",
     "salt": 123111514,
-    "separation": 28,
+    "separation": 24,
     "spacing": 36,
     "locate_offset": [
       8,
