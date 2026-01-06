@@ -60,7 +60,7 @@ public class BattleTowersConfig {
 
     private static final ForgeConfigSpec.ConfigValue<Double> CORE_TOWER_CRUMBLE_PERCENT =
             BUILDER.comment("How much of the Core tower remains after defeating the Golem. Default: 0% of tower.")
-                    .defineInRange("coreTowerDestruction", 0.01D, 0, 1D);
+                    .defineInRange("coreTowerDestruction", 0.00D, 0, 1D);
 
     private static final ForgeConfigSpec.ConfigValue<Double> NETHER_TOWER_CRUMBLE_PERCENT =
             BUILDER.comment("How much of the Nether tower remains after defeating the Golem. Default: 0% of tower.")
