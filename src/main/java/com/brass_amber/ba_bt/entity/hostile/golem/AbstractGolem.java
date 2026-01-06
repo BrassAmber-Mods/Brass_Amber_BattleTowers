@@ -377,9 +377,10 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 
 		} else {
 			try {
-				BTAbstractObelisk obelisk = this.level().getEntitiesOfClass(BTAbstractObelisk.class, new AABB(this.getSpawnPos()).inflate(15, 115, 15)).get(0);
+				BTAbstractObelisk obelisk = this.level().getEntitiesOfClass(BTAbstractObelisk.class, new AABB(this.getSpawnPos()).inflate(60, 115, 60)).get(0);
 				obelisk.golemDead = true;
-			} catch (Exception ignored) {
+			} catch (Exception exception) {
+				BABattleTowers.LOGGER.debug("Couldn't set golemDead: {}", exception);
 			}
 		}
 		BABattleTowers.LOGGER.debug("Golem Died from: {}", source);
@@ -762,5 +763,8 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 		return this.getHealth() / this.getMaxHealth() < 0.33F;
 	}
 
+	public boolean canBeLeashed(Player pPlayer) {
+		return false;
+	}
 
 }
