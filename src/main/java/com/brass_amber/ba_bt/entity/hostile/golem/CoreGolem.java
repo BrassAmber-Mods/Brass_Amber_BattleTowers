@@ -133,6 +133,7 @@ public class CoreGolem extends AbstractGolem {
 			BABattleTowers.LOGGER.debug("fix ai");
 			this.resetAi = false;
 			this.goalSelector.setNewGoalRate(3);
+			this.heal(this.getMaxHealth() / 4);
 		}
 
 		if (this.level().isClientSide()) {
