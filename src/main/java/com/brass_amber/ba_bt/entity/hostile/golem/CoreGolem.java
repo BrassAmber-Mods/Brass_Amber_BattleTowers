@@ -133,7 +133,6 @@ public class CoreGolem extends AbstractGolem {
 			BABattleTowers.LOGGER.debug("fix ai");
 			this.resetAi = false;
 			this.goalSelector.setNewGoalRate(3);
-			this.heal(this.getMaxHealth() / 4);
 		}
 
 		if (this.level().isClientSide()) {
@@ -148,11 +147,11 @@ public class CoreGolem extends AbstractGolem {
 	}
 
 	public boolean isEnragedBasedOnHP() {
-		return this.getHealth() / this.getMaxHealth() < 0.66F;
+		return this.getHealth() / this.getMaxHealth() < 0.75F;
 	}
 
 	public boolean isUnleashedBasedOnHP() {
-		return this.getHealth() / this.getMaxHealth() < 0.33F;
+		return this.getHealth() / this.getMaxHealth() < 0.5F;
 	}
 
 	public boolean isMelee() {
