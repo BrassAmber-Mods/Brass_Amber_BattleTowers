@@ -50,7 +50,6 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     private double wallDistance;
     private int nextStep;
     private int distanceChange;
-    private boolean golemDead = false;
 
 
     public BTOceanObelisk(EntityType<?> entityType, Level level) {
@@ -148,8 +147,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
             List<Player> players = this.level().getNearbyPlayers(TargetingConditions.forNonCombat().range(this.towerRange), null, this.entityCheckAABB);
             for (Player player : players
             ) {
-                boolean acceptableY = player.getBlockY() < this.getBlockY() - 1;
-                if (acceptableY && player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())) {
+                if (player.hasEffect(BTExtras.DEPTH_DROPPER_EFFECT.get())) {
                     player.removeEffect(BTExtras.DEPTH_DROPPER_EFFECT.get());
                 }
             }
