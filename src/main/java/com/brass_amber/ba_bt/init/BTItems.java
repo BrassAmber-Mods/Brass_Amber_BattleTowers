@@ -24,12 +24,12 @@ public class BTItems {
 	public static final RegistryObject<Item> END_MONOLITH_KEY = ITEMS.register("end_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
 	public static final RegistryObject<Item> SKY_MONOLITH_KEY = ITEMS.register("sky_monolith_key", () -> new MonolithKeyItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE).fireResistant()));
 
-	public static final RegistryObject<Item> LAND_GUARDIAN_EYE = ITEMS.register("guardian_eye_land", () -> new GuardianEyeItem(GolemType.LAND, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
-	public static final RegistryObject<Item> OCEAN_GUARDIAN_EYE = ITEMS.register("guardian_eye_ocean", () -> new GuardianEyeItem(GolemType.OCEAN, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
-	public static final RegistryObject<Item> CORE_GUARDIAN_EYE = ITEMS.register("guardian_eye_core", () -> new GuardianEyeItem(GolemType.CORE, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
-	public static final RegistryObject<Item> NETHER_GUARDIAN_EYE = ITEMS.register("guardian_eye_nether", () -> new GuardianEyeItem(GolemType.NETHER, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
-	public static final RegistryObject<Item> END_GUARDIAN_EYE = ITEMS.register("guardian_eye_end", () -> new GuardianEyeItem(GolemType.END, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
-	public static final RegistryObject<Item> SKY_GUARDIAN_EYE = ITEMS.register("guardian_eye_sky", () -> new GuardianEyeItem(GolemType.SKY, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
+	public static final RegistryObject<Item> LAND_GOLEM_EYE = ITEMS.register("land_golem_eye", () -> new GuardianEyeItem(GolemType.LAND, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
+	public static final RegistryObject<Item> OCEAN_GOLEM_EYE = ITEMS.register("ocean_golem_eye", () -> new GuardianEyeItem(GolemType.OCEAN, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
+	public static final RegistryObject<Item> CORE_GOLEM_EYE = ITEMS.register("core_golem_eye", () -> new GuardianEyeItem(GolemType.CORE, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
+	public static final RegistryObject<Item> NETHER_GOLEM_EYE = ITEMS.register("nether_golem_eye", () -> new GuardianEyeItem(GolemType.NETHER, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
+	public static final RegistryObject<Item> END_GOLEM_EYE = ITEMS.register("end_golem_eye", () -> new GuardianEyeItem(GolemType.END, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
+	public static final RegistryObject<Item> SKY_GOLEM_EYE = ITEMS.register("sky_golem_eye", () -> new GuardianEyeItem(GolemType.SKY, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
 
 	public static final RegistryObject<Item> LAND_MONOLITH = ITEMS.register("land_monolith", () -> new MonolithItem(GolemType.LAND, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
 	public static final RegistryObject<Item> OCEAN_MONOLITH = ITEMS.register("ocean_monolith", () -> new MonolithItem(GolemType.OCEAN, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));

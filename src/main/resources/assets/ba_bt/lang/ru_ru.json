@@ -150,12 +150,12 @@
 	"item.ba_bt.end_monolith_key": "Ключ от монолита Края",
 	"item.ba_bt.sky_monolith_key": "Ключ от монолита небес",
 
-	"item.ba_bt.guardian_eye_land": "Глаз Байрин'муула",
-	"item.ba_bt.guardian_eye_ocean": "Глаз Морайзу'уна",
-	"item.ba_bt.guardian_eye_core": "Глаз Обтху'рина",
-	"item.ba_bt.guardian_eye_nether": "Глаз Инфуур'ниира",
-	"item.ba_bt.guardian_eye_end": "Глаз Шул'лосниира",
-	"item.ba_bt.guardian_eye_sky": "Глаз Вейз'криин",
+	"item.ba_bt.land_golem_eye": "Глаз Байрин'муула",
+	"item.ba_bt.ocean_golem_eye": "Глаз Морайзу'уна",
+	"item.ba_bt.core_golem_eye": "Глаз Обтху'рина",
+	"item.ba_bt.nether_golem_eye": "Глаз Инфуур'ниира",
+	"item.ba_bt.end_golem_eye": "Глаз Шул'лосниира",
+	"item.ba_bt.sky_golem_eye": "Глаз Вейз'криин",
 
 	"item.ba_bt.land_monolith": "Монолит земли",
 	"item.ba_bt.ocean_monolith": "Монолит океана",

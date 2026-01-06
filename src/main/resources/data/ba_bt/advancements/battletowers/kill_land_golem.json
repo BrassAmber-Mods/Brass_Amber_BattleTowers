@@ -2,7 +2,7 @@
   "parent": "ba_bt:battletowers/find_land_key",
   "display": {
     "icon": {
-      "item": "ba_bt:guardian_eye_land"
+      "item": "ba_bt:land_golem_eye"
     },
     "title": {
       "translate": "advancements.ba_bt.kill_land_golem.title",

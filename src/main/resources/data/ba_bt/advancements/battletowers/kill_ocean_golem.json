@@ -2,7 +2,7 @@
   "parent": "ba_bt:battletowers/find_ocean_key",
   "display": {
     "icon": {
-      "item": "ba_bt:guardian_eye_ocean"
+      "item": "ba_bt:ocean_golem_eye"
     },
     "title": {
       "translate": "advancements.ba_bt.kill_ocean_golem.title",

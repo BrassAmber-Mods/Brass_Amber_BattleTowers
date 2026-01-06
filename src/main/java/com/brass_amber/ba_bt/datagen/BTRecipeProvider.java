@@ -24,29 +24,29 @@ public class BTRecipeProvider extends RecipeProvider implements IConditionBuilde
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> recipeOutput) {
 
         towerChestRecipeBuilder(recipeOutput, BTBlocks.LAND_CHEST.get(), BTItems.LAND_CHEST_SHARD.get());
-        golemChestRecipeBuilder(recipeOutput, BTBlocks.LAND_GOLEM_CHEST.get(), BTItems.LAND_CHEST_SHARD.get(), BTItems.LAND_GUARDIAN_EYE.get());
+        golemChestRecipeBuilder(recipeOutput, BTBlocks.LAND_GOLEM_CHEST.get(), BTItems.LAND_CHEST_SHARD.get(), BTItems.LAND_GOLEM_EYE.get());
 
         towerChestRecipeBuilder(recipeOutput, BTBlocks.OCEAN_CHEST.get(), BTItems.OCEAN_CHEST_SHARD.get());
-        golemChestRecipeBuilder(recipeOutput, BTBlocks.OCEAN_GOLEM_CHEST.get(), BTItems.OCEAN_CHEST_SHARD.get(), BTItems.OCEAN_GUARDIAN_EYE.get());
+        golemChestRecipeBuilder(recipeOutput, BTBlocks.OCEAN_GOLEM_CHEST.get(), BTItems.OCEAN_CHEST_SHARD.get(), BTItems.OCEAN_GOLEM_EYE.get());
 
         towerChestRecipeBuilder(recipeOutput, BTBlocks.CORE_CHEST.get(), BTItems.CORE_CHEST_SHARD.get());
-        golemChestRecipeBuilder(recipeOutput, BTBlocks.CORE_GOLEM_CHEST.get(), BTItems.CORE_CHEST_SHARD.get(), BTItems.CORE_GUARDIAN_EYE.get());
+        golemChestRecipeBuilder(recipeOutput, BTBlocks.CORE_GOLEM_CHEST.get(), BTItems.CORE_CHEST_SHARD.get(), BTItems.CORE_GOLEM_EYE.get());
 
         towerChestRecipeBuilder(recipeOutput, BTBlocks.NETHER_CHEST.get(), BTItems.NETHER_CHEST_SHARD.get());
-        golemChestRecipeBuilder(recipeOutput, BTBlocks.NETHER_GOLEM_CHEST.get(), BTItems.NETHER_CHEST_SHARD.get(), BTItems.NETHER_GUARDIAN_EYE.get());
+        golemChestRecipeBuilder(recipeOutput, BTBlocks.NETHER_GOLEM_CHEST.get(), BTItems.NETHER_CHEST_SHARD.get(), BTItems.NETHER_GOLEM_EYE.get());
 
         towerChestRecipeBuilder(recipeOutput, BTBlocks.END_CHEST.get(), BTItems.END_CHEST_SHARD.get());
-        golemChestRecipeBuilder(recipeOutput, BTBlocks.END_GOLEM_CHEST.get(), BTItems.END_CHEST_SHARD.get(), BTItems.END_GUARDIAN_EYE.get());
+        golemChestRecipeBuilder(recipeOutput, BTBlocks.END_GOLEM_CHEST.get(), BTItems.END_CHEST_SHARD.get(), BTItems.END_GOLEM_EYE.get());
 
         towerChestRecipeBuilder(recipeOutput, BTBlocks.SKY_CHEST.get(), BTItems.SKY_CHEST_SHARD.get());
-        golemChestRecipeBuilder(recipeOutput, BTBlocks.SKY_GOLEM_CHEST.get(), BTItems.SKY_CHEST_SHARD.get(), BTItems.SKY_GUARDIAN_EYE.get());
+        golemChestRecipeBuilder(recipeOutput, BTBlocks.SKY_GOLEM_CHEST.get(), BTItems.SKY_CHEST_SHARD.get(), BTItems.SKY_GOLEM_EYE.get());
 
-        oreSmelting(recipeOutput, List.of(BTBlocks.LAND_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.LAND_GUARDIAN_EYE.get(), 0.20f, 250, "bt_Chest");
-        oreSmelting(recipeOutput, List.of(BTBlocks.OCEAN_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.OCEAN_GUARDIAN_EYE.get(), 0.20f, 250, "bt_Chest");
-        oreSmelting(recipeOutput, List.of(BTBlocks.CORE_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.CORE_GUARDIAN_EYE.get(), 0.20f, 250, "bt_Chest");
-        oreSmelting(recipeOutput, List.of(BTBlocks.NETHER_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.NETHER_GUARDIAN_EYE.get(), 0.20f, 250, "bt_Chest");
-        oreSmelting(recipeOutput, List.of(BTBlocks.END_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.END_GUARDIAN_EYE.get(), 0.20f, 250, "bt_Chest");
-        oreSmelting(recipeOutput, List.of(BTBlocks.SKY_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.SKY_GUARDIAN_EYE.get(), 0.20f, 250, "bt_Chest");
+        oreSmelting(recipeOutput, List.of(BTBlocks.LAND_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.LAND_GOLEM_EYE.get(), 0.20f, 250, "bt_Chest");
+        oreSmelting(recipeOutput, List.of(BTBlocks.OCEAN_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.OCEAN_GOLEM_EYE.get(), 0.20f, 250, "bt_Chest");
+        oreSmelting(recipeOutput, List.of(BTBlocks.CORE_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.CORE_GOLEM_EYE.get(), 0.20f, 250, "bt_Chest");
+        oreSmelting(recipeOutput, List.of(BTBlocks.NETHER_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.NETHER_GOLEM_EYE.get(), 0.20f, 250, "bt_Chest");
+        oreSmelting(recipeOutput, List.of(BTBlocks.END_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.END_GOLEM_EYE.get(), 0.20f, 250, "bt_Chest");
+        oreSmelting(recipeOutput, List.of(BTBlocks.SKY_GOLEM_CHEST.get()), RecipeCategory.MISC, BTItems.SKY_GOLEM_EYE.get(), 0.20f, 250, "bt_Chest");
 
     }
     

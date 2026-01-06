@@ -105,12 +105,12 @@ public class BABattleTowers {
             event.accept(BTItems.END_MONOLITH_KEY);
             event.accept(BTItems.SKY_MONOLITH_KEY);
 
-            event.accept(BTItems.LAND_GUARDIAN_EYE);
-            event.accept(BTItems.OCEAN_GUARDIAN_EYE);
-            event.accept(BTItems.CORE_GUARDIAN_EYE);
-            event.accept(BTItems.NETHER_GUARDIAN_EYE);
-            event.accept(BTItems.END_GUARDIAN_EYE);
-            event.accept(BTItems.SKY_GUARDIAN_EYE);
+            event.accept(BTItems.LAND_GOLEM_EYE);
+            event.accept(BTItems.OCEAN_GOLEM_EYE);
+            event.accept(BTItems.CORE_GOLEM_EYE);
+            event.accept(BTItems.NETHER_GOLEM_EYE);
+            event.accept(BTItems.END_GOLEM_EYE);
+            event.accept(BTItems.SKY_GOLEM_EYE);
 
             event.accept(BTItems.LAND_MONOLITH);
             event.accept(BTItems.OCEAN_MONOLITH);

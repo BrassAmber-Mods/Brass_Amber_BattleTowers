@@ -312,12 +312,12 @@ public enum GolemType implements StringRepresentable {
 	public static Item getEyeFor(GolemType golemType) {
 		return switch (golemType) {
 			case EMPTY, CITY -> null;
-			case LAND -> BTItems.LAND_GUARDIAN_EYE.get();
-			case OCEAN -> BTItems.OCEAN_GUARDIAN_EYE.get();
-			case CORE -> BTItems.CORE_GUARDIAN_EYE.get();
-			case NETHER -> BTItems.NETHER_GUARDIAN_EYE.get();
-			case END -> BTItems.END_GUARDIAN_EYE.get();
-			case SKY -> BTItems.SKY_GUARDIAN_EYE.get();
+			case LAND -> BTItems.LAND_GOLEM_EYE.get();
+			case OCEAN -> BTItems.OCEAN_GOLEM_EYE.get();
+			case CORE -> BTItems.CORE_GOLEM_EYE.get();
+			case NETHER -> BTItems.NETHER_GOLEM_EYE.get();
+			case END -> BTItems.END_GOLEM_EYE.get();
+			case SKY -> BTItems.SKY_GOLEM_EYE.get();
 		};
 	}
 

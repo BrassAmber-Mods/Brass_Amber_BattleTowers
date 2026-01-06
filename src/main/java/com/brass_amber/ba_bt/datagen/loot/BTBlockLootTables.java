@@ -2,18 +2,12 @@ package com.brass_amber.ba_bt.datagen.loot;
 
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTItems;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.world.flag.FeatureFlag;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -34,7 +28,7 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
                 BTBlocks.LAND_GOLEM_CHEST.get(),
-                BTItems.LAND_GUARDIAN_EYE.get(),
+                BTItems.LAND_GOLEM_EYE.get(),
                 0, 1
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
@@ -44,7 +38,7 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
                 BTBlocks.OCEAN_GOLEM_CHEST.get(),
-                BTItems.OCEAN_GUARDIAN_EYE.get(),
+                BTItems.OCEAN_GOLEM_EYE.get(),
                 0, 1
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
@@ -54,7 +48,7 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
                 BTBlocks.CORE_GOLEM_CHEST.get(),
-                BTItems.CORE_GUARDIAN_EYE.get(),
+                BTItems.CORE_GOLEM_EYE.get(),
                 0, 1
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
@@ -64,7 +58,7 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
                 BTBlocks.NETHER_GOLEM_CHEST.get(),
-                BTItems.NETHER_GUARDIAN_EYE.get(),
+                BTItems.NETHER_GOLEM_EYE.get(),
                 0, 1
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
@@ -74,7 +68,7 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
                 BTBlocks.END_GOLEM_CHEST.get(),
-                BTItems.END_GUARDIAN_EYE.get(),
+                BTItems.END_GOLEM_EYE.get(),
                 0, 1
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
@@ -84,7 +78,7 @@ public class BTBlockLootTables extends BlockLootSubProvider {
         );
         this.dropWhenSilkTouchAndDropOtherAmount(
                 BTBlocks.SKY_GOLEM_CHEST.get(),
-                BTItems.SKY_GUARDIAN_EYE.get(),
+                BTItems.SKY_GOLEM_EYE.get(),
                 0, 1
         );
         this.dropSelf(BTBlocks.CORRITE_BLOCK.get());

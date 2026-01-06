@@ -150,12 +150,12 @@
 	"item.ba_bt.end_monolith_key": "Llave del monolito del End",
 	"item.ba_bt.sky_monolith_key": "Llave del monolito del cielo",
 
-	"item.ba_bt.guardian_eye_land": "Ojo de Bahryn'muul",
-	"item.ba_bt.guardian_eye_ocean": "Ojo de Moraizu'un",
-	"item.ba_bt.guardian_eye_core": "Ojo de Obthu'uryn",
-	"item.ba_bt.guardian_eye_nether": "Ojo de Vuur'tyrahn",
-	"item.ba_bt.guardian_eye_end": "Ojo de Shul'losniir",
-	"item.ba_bt.guardian_eye_sky": "Ojo de Veyhz'kriin",
+	"item.ba_bt.land_golem_eye": "Ojo de Bahryn'muul",
+	"item.ba_bt.ocean_golem_eye": "Ojo de Moraizu'un",
+	"item.ba_bt.core_golem_eye": "Ojo de Obthu'uryn",
+	"item.ba_bt.nether_golem_eye": "Ojo de Vuur'tyrahn",
+	"item.ba_bt.end_golem_eye": "Ojo de Shul'losniir",
+	"item.ba_bt.sky_golem_eye": "Ojo de Veyhz'kriin",
 
 	"item.ba_bt.land_monolith": "Monolito terrestre",
 	"item.ba_bt.ocean_monolith": "Monolito oceánico",

@@ -4,7 +4,6 @@ import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,17 +42,17 @@ public class DataMarkerBlock extends BaseEntityBlock {
         BlockEntity entity = level.getBlockEntity(hitResult.getBlockPos());
 
         if (entity instanceof DataMarkerBlockEntity dataMarkerBlockEntity) {
-            if (itemstack.getItem() == BTItems.LAND_GUARDIAN_EYE.get()) {
+            if (itemstack.getItem() == BTItems.LAND_GOLEM_EYE.get()) {
                 dataMarkerBlockEntity.setRarity(-1);
-            } else if (itemstack.getItem() == BTItems.OCEAN_GUARDIAN_EYE.get()) {
+            } else if (itemstack.getItem() == BTItems.OCEAN_GOLEM_EYE.get()) {
                 dataMarkerBlockEntity.setRarity(0);
-            } else if (itemstack.getItem() == BTItems.CORE_GUARDIAN_EYE.get()) {
+            } else if (itemstack.getItem() == BTItems.CORE_GOLEM_EYE.get()) {
                 dataMarkerBlockEntity.setRarity(1);
-            } else if (itemstack.getItem() == BTItems.NETHER_GUARDIAN_EYE.get()) {
+            } else if (itemstack.getItem() == BTItems.NETHER_GOLEM_EYE.get()) {
                 dataMarkerBlockEntity.setRarity(2);
-            } else if (itemstack.getItem() == BTItems.END_GUARDIAN_EYE.get()) {
+            } else if (itemstack.getItem() == BTItems.END_GOLEM_EYE.get()) {
                 dataMarkerBlockEntity.setRarity(3);
-            } else if (itemstack.getItem() == BTItems.SKY_GUARDIAN_EYE.get()) {
+            } else if (itemstack.getItem() == BTItems.SKY_GOLEM_EYE.get()) {
                 dataMarkerBlockEntity.setRarity(4);
             }
 

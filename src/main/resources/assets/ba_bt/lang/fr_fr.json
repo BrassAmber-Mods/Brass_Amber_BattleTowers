@@ -150,12 +150,12 @@
 	"item.ba_bt.end_monolith_key": "Clé du Monolithe de l'End",
 	"item.ba_bt.sky_monolith_key": "Clé du Monolithe Angélique",
 
-	"item.ba_bt.guardian_eye_land": "Oeil de Golem Terrestre",
-	"item.ba_bt.guardian_eye_core": "Oeil de Golem Volcanique",
-	"item.ba_bt.guardian_eye_nether": "Oeil de Golem du Nether",
-	"item.ba_bt.guardian_eye_end": "Oeil de Golem de l'End",
-	"item.ba_bt.guardian_eye_sky": "Oeil de Golem Angélique",
-	"item.ba_bt.guardian_eye_ocean": "Oeil de Golem Océanique",
+	"item.ba_bt.land_golem_eye": "Oeil de Golem Terrestre",
+	"item.ba_bt.core_golem_eye": "Oeil de Golem Volcanique",
+	"item.ba_bt.nether_golem_eye": "Oeil de Golem du Nether",
+	"item.ba_bt.end_golem_eye": "Oeil de Golem de l'End",
+	"item.ba_bt.sky_golem_eye": "Oeil de Golem Angélique",
+	"item.ba_bt.ocean_golem_eye": "Oeil de Golem Océanique",
 
 	"item.ba_bt.land_monolith": "Monolithe Terrestre",
 	"item.ba_bt.ocean_monolith": "Monolithe Océanique",

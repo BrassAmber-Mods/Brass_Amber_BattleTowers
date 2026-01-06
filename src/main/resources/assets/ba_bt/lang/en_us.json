@@ -150,12 +150,12 @@
 	"item.ba_bt.end_monolith_key": "End Monolith Key",
 	"item.ba_bt.sky_monolith_key": "Sky Monolith Key",
 
-	"item.ba_bt.guardian_eye_land": "Eye of Bahryn'muul",
-	"item.ba_bt.guardian_eye_ocean": "Eye of Moraizu'un",
-	"item.ba_bt.guardian_eye_core": "Eye of Obthu'uryn",
-	"item.ba_bt.guardian_eye_nether": "Eye of Infuur'niir",
-	"item.ba_bt.guardian_eye_end": "Eye of Shul'losniir",
-	"item.ba_bt.guardian_eye_sky": "Eye of Veyhz'kriin",
+	"item.ba_bt.land_golem_eye": "Eye of Bahryn'muul",
+	"item.ba_bt.ocean_golem_eye": "Eye of Moraizu'un",
+	"item.ba_bt.core_golem_eye": "Eye of Obthu'uryn",
+	"item.ba_bt.nether_golem_eye": "Eye of Infuur'niir",
+	"item.ba_bt.end_golem_eye": "Eye of Shul'losniir",
+	"item.ba_bt.sky_golem_eye": "Eye of Veyhz'kriin",
 
 	"item.ba_bt.land_monolith": "Land Monolith",
 	"item.ba_bt.ocean_monolith": "Ocean Monolith",

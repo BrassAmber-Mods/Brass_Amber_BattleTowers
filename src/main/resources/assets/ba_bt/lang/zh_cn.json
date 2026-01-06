@@ -150,12 +150,12 @@
 	"item.ba_bt.end_monolith_key": "末影石碑之键",
 	"item.ba_bt.sky_monolith_key": "天域石碑之键",
 
-	"item.ba_bt.guardian_eye_land": "大地守卫之眼",
-	"item.ba_bt.guardian_eye_ocean": "海洋守卫之眼",
-	"item.ba_bt.guardian_eye_core": "炉心守卫之眼",
-	"item.ba_bt.guardian_eye_nether": "下界守卫之眼",
-	"item.ba_bt.guardian_eye_end": "末影守卫之眼",
-	"item.ba_bt.guardian_eye_sky": "天域守卫之眼",
+	"item.ba_bt.land_golem_eye": "大地守卫之眼",
+	"item.ba_bt.ocean_golem_eye": "海洋守卫之眼",
+	"item.ba_bt.core_golem_eye": "炉心守卫之眼",
+	"item.ba_bt.nether_golem_eye": "下界守卫之眼",
+	"item.ba_bt.end_golem_eye": "末影守卫之眼",
+	"item.ba_bt.sky_golem_eye": "天域守卫之眼",
 
 	"item.ba_bt.land_monolith": "大地石碑",
 	"item.ba_bt.ocean_monolith": "海洋石碑",
