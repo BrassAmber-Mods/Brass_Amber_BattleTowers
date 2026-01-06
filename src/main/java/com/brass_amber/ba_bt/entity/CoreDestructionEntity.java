@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
+import static com.brass_amber.ba_bt.util.BTUtil.distanceTo3D;
 
 public class CoreDestructionEntity extends AbstractDestructionEntity {
     public List<BlockPos> coreMatterBlocks = new ArrayList<>();
@@ -36,6 +37,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         this.setPos(obeliskPos, 98);
         LOGGER.debug("Destruction {} spawned at: {}", this.golemType.getSerializedName(), this.blockPosition());
         LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
+        this.crumbleStopY -=1;
     }
 
     @Override
@@ -130,7 +132,7 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
     public void cleanupTowerZone() {
         BABattleTowers.LOGGER.debug("In Cleanup Sequence");
         BlockPos checkPos;
-        for (int y = this.crumbleStartY + 4; y != this.crumbleStopY + 5; y += this.crumbleDirection) {
+        for (int y = this.crumbleStartY + 4; y != this.crumbleStopY; y += this.crumbleDirection) {
             for (int x = -this.blockSearchDistance; x < this.blockSearchDistance; x++) {
                 for (int z = -this.blockSearchDistance; z < this.blockSearchDistance; z++) {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);
@@ -152,19 +154,22 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
                     checkPos = this.blockPosition().offset(x, 0, z).atY(y);
                     BlockState state = this.level().getBlockState(checkPos);
                     // BABattleTowers.LOGGER.debug("CheckPos {}", checkPos);
-                    double distanceto = distanceTo2D(this, checkPos);
+                    double distanceTo2D = distanceTo2D(this, checkPos);
+                    double distanceTo3D = distanceTo3D(this.blockPosition().atY(this.crumbleStopY), checkPos);
 
-                    if (y == this.crumbleStopY - 1) {
-                        if (distanceto < this.destructionRadius && distanceto > 4) {
-                            if (!state.getFluidState().isEmpty() || !state.isAir()) {
-                                this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
-                            }
-                        }
-                    } else if (distanceto < this.destructionRadius) {
-                        if (!state.getFluidState().isEmpty() || !state.isAir()) {
+                    if (distanceTo2D < this.destructionRadius) {
+                        BABattleTowers.LOGGER.debug("CheckPos {}, distance2d {}, distance3d {}", checkPos, distanceTo2D, distanceTo3D);
+                        if (distanceTo3D < 3.5D) {
+                            this.level().setBlock(checkPos, BTBlocks.CORRITE_BLOCK.get().defaultBlockState(), 3);
+                        } else if (distanceTo3D < 4.5D) {
+                            this.level().setBlock(checkPos, BTBlocks.ACTIVE_CORRITE_BLOCK.get().defaultBlockState(), 3);
+                        } else if (distanceTo3D < 5.5D) {
+                            this.level().setBlock(checkPos, BTBlocks.CORE_MATTER.get().defaultBlockState(), 3);
+                        } else if (!state.getFluidState().isEmpty() || !state.isAir()) {
                             this.level().setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
                         }
                     }
+
                 }
             }
         }
