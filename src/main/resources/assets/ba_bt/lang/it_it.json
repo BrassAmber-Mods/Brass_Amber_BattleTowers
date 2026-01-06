@@ -204,7 +204,7 @@
 	"tooltip.ba_bt.land_eye": "Vaayus, la torre e' stata compromessa...",
 	"tooltip.ba_bt.ocean_eye": "Loda il vuoto... Lodami...",
 	"tooltip.ba_bt.core_eye": "Niente puo' piu' fermarli adesso..",
-	"tooltip.ba_bt.nether_eye": "Ti faro' MARCIRE nelle mie PRIGIONI per questo!...",
+	"tooltip.ba_bt.nether_eye": "Ti farò MARCIRE nelle mie PRIGIONI per questo!...",
 	"tooltip.ba_bt.end_eye": "Lei si avvicina, attraverso la fessura...",
 	"tooltip.ba_bt.sky_eye": "Ti ho deluso, illustre Vaayus... ",
 	
@@ -221,13 +221,13 @@
 
 	"title.ba_bt.land_golem_defeated": "L'antico osservatore è stato sconfitto",
 	"title.ba_bt.land_golem_fate": "Senza la sua energia...",
-	"title.ba_bt.land_collapse_flavor": "...la torre esplodera'!",
+	"title.ba_bt.land_collapse_flavor": "...la torre esploderà!",
 
 	"title.ba_bt.ocean_golem_defeated": "L'idolo degli affogati è stato sconfitto",
 	"title.ba_bt.ocean_golem_fate": "Esiliato nuovamente nel vuoto...",
 	"title.ba_bt.ocean_collapse_flavor": "...il pavimento comincia a crollare!",
 
-	"title.ba_bt.core_golem_defeated": "La divinità del nucleo è stato sconfitto",
+	"title.ba_bt.core_golem_defeated": "La divinità del nucleo è stata sconfitta",
 	"title.ba_bt.core_golem_fate": "Senza il ricettacolo del dio...",
 	"title.ba_bt.core_collapse_flavor": "...le mura cominciano a sciogliersi",
 
