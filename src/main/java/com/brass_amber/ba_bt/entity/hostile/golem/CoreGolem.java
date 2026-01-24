@@ -4,7 +4,7 @@ import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.ai.goal.CoreGolemFireballAttackGoal;
 import com.brass_amber.ba_bt.entity.ai.goal.CoreMeleeGoal;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,9 +13,6 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.animal.camel.Camel;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
@@ -43,12 +40,12 @@ public class CoreGolem extends AbstractGolem {
 
 	public CoreGolem(EntityType<? extends CoreGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.PURPLE);
-		this.setGolemName(GolemType.CORE.getDisplayName());
+		this.setGolemName(TowerType.CORE.getDisplayName());
 		this.setBossBarName();
 		this.BOSS_MUSIC = CORE_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 2045;
-		this.golemType = GolemType.CORE;
+		this.towerType = TowerType.CORE;
 
 		// Reference for disregarding lava taken from ZombiefiedPiglin
 		this.setPathfindingMalus(BlockPathTypes.LAVA, 0.0F);

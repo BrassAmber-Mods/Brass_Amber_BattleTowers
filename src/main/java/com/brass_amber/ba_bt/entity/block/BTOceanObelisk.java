@@ -1,10 +1,9 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTUtil;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -34,7 +33,7 @@ import static java.lang.Math.abs;
 
 public class BTOceanObelisk extends BTAbstractObelisk {
 
-    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.OCEAN.ordinal());
+    private final List<Block> avoidBlocks = towerBlocks.get(TowerType.OCEAN.ordinal());
     private final List<BlockState> corals = List.of(Blocks.BRAIN_CORAL.defaultBlockState(),
             Blocks.BUBBLE_CORAL.defaultBlockState(), Blocks.FIRE_CORAL.defaultBlockState(),
             Blocks.HORN_CORAL.defaultBlockState(), Blocks.TUBE_CORAL.defaultBlockState());
@@ -57,7 +56,7 @@ public class BTOceanObelisk extends BTAbstractObelisk {
     }
 
     public BTOceanObelisk(Level level) {
-        super(GolemType.OCEAN, level);
+        super(TowerType.OCEAN, level);
     }
 
 

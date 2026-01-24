@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.client.renderer.chest;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
@@ -13,16 +13,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BTChestRenderer extends ChestRenderer<BTChestBlockEntity> {
-	public static Material[] single = new Material[GolemType.VALUES.length];
-	public static Material[] left = new Material[GolemType.VALUES.length];
-	public static Material[] right = new Material[GolemType.VALUES.length];
+	public static Material[] single = new Material[TowerType.VALUES.length];
+	public static Material[] left = new Material[TowerType.VALUES.length];
+	public static Material[] right = new Material[TowerType.VALUES.length];
 
-	public static Material[] singleGolem = new Material[GolemType.VALUES.length];
-	public static Material[] leftGolem = new Material[GolemType.VALUES.length];
-	public static Material[] rightGolem = new Material[GolemType.VALUES.length];
+	public static Material[] singleGolem = new Material[TowerType.VALUES.length];
+	public static Material[] leftGolem = new Material[TowerType.VALUES.length];
+	public static Material[] rightGolem = new Material[TowerType.VALUES.length];
 
 	static {
-		for (GolemType type: GolemType.VALUES) {
+		for (TowerType type: TowerType.VALUES) {
 			single[type.ordinal()] = getChestMaterial(type.name().toLowerCase(), "", false);
 			left[type.ordinal()] = getChestMaterial(type.name().toLowerCase(), "_left", false);
 			right[type.ordinal()] = getChestMaterial(type.name().toLowerCase(), "_right", false);

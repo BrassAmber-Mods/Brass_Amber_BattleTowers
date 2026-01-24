@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ public class BTLandObelisk extends BTAbstractObelisk {
     }
 
     public BTLandObelisk(Level level) {
-        super(GolemType.LAND, level);
+        super(TowerType.LAND, level);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.item.item;
 
 import com.brass_amber.ba_bt.init.BTExtras;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,13 +20,13 @@ public class ResonanceStoneItem extends RecordItem {
 
     public Enchantment enchantment;
     public MobEffect effect;
-    private final GolemType golemType;
+    private final TowerType towerType;
     public boolean effectOn;
     private boolean initialized;
 
-    public ResonanceStoneItem(GolemType golemType, Supplier<SoundEvent> soundSupplier, Properties properties, int length) {
+    public ResonanceStoneItem(TowerType towerType, Supplier<SoundEvent> soundSupplier, Properties properties, int length) {
         super(4, soundSupplier, properties, length);
-        this.golemType = golemType;
+        this.towerType = towerType;
         this.effectOn = false;
         this.initialized = false;
     }
@@ -47,7 +47,7 @@ public class ResonanceStoneItem extends RecordItem {
         super.inventoryTick(itemStack, level, entity, i, b);
         if (!this.initialized) {
             //noinspection SwitchStatementWithTooFewBranches
-            switch (this.golemType) {
+            switch (this.towerType) {
                 case OCEAN -> {
                     this.enchantment = BTExtras.DEPTH_DROPPER.get();
                     this.effect = BTExtras.DEPTH_DROPPER_EFFECT.get();

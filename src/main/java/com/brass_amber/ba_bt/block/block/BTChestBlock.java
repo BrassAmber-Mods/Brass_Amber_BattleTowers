@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
 
 import com.brass_amber.ba_bt.inventory.BTChestMenu;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;
@@ -59,10 +59,10 @@ public class BTChestBlock extends ChestBlock {
         }
     };
 
-	protected final GolemType type;
+	protected final TowerType type;
 	protected boolean golemChest;
 
-	public BTChestBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties, GolemType type) {
+	public BTChestBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties, TowerType type) {
 		super(properties, chestSupplier);
 		this.type = type;
 		this.golemChest = true;
@@ -104,7 +104,7 @@ public class BTChestBlock extends ChestBlock {
 		}
 	}
 
-	public GolemType getType() {
+	public TowerType getType() {
 		return type;
 	}
 

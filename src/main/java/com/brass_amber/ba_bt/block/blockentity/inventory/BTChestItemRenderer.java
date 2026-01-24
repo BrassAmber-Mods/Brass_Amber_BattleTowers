@@ -2,13 +2,11 @@ package com.brass_amber.ba_bt.block.blockentity.inventory;
 
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,20 +16,18 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.function.Supplier;
-
 @OnlyIn(Dist.CLIENT)
 public class BTChestItemRenderer<T extends BlockEntity> extends BlockEntityWithoutLevelRenderer {
 
     public static BTChestItemRenderer INSTANCE = new BTChestItemRenderer();
 
-    private BTChestBlockEntity[] tiles = new BTChestBlockEntity[GolemType.VALUES.length];
-    private BTChestBlockEntity[] tilesGolem = new BTChestBlockEntity[GolemType.VALUES.length];
+    private BTChestBlockEntity[] tiles = new BTChestBlockEntity[TowerType.VALUES.length];
+    private BTChestBlockEntity[] tilesGolem = new BTChestBlockEntity[TowerType.VALUES.length];
 
     {
-        for (GolemType type : GolemType.VALUES) {
-            tiles[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, false).defaultBlockState(), type);
-            tilesGolem[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, GolemType.getChestBlockForType(type, true).defaultBlockState(), type);
+        for (TowerType type : TowerType.VALUES) {
+            tiles[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, TowerType.getChestBlockForType(type, false).defaultBlockState(), type);
+            tilesGolem[type.ordinal()] = new BTChestBlockEntity(BlockPos.ZERO, TowerType.getChestBlockForType(type, true).defaultBlockState(), type);
         }
     }
 

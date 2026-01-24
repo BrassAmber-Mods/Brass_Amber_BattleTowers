@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -32,14 +32,14 @@ public class OceanGolem extends AbstractGolem {
 	public OceanGolem(EntityType<? extends OceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-		this.setGolemName(GolemType.OCEAN.getDisplayName());
+		this.setGolemName(TowerType.OCEAN.getDisplayName());
 		this.setBossBarName();
 		this.BOSS_MUSIC = OCEAN_GOLEM_FIGHT_MUSIC;
 		this.moveControl = new SmoothSwimmingMoveControl(this, 90, 90, .08f, .5f, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 90);
 		this.xpReward = 910;
 		this.drowned = 0;
-		this.golemType = GolemType.OCEAN;
+		this.towerType = TowerType.OCEAN;
 		this.allowedTowerRange = 64;
 	}
 

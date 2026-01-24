@@ -45,7 +45,7 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
     public OceanDestructionEntity(Level level, BlockPos obeliskPos) {
         this(BTEntityType.OCEAN_DESTRUCTION.get(), level);
         this.setPos(obeliskPos, -110);
-        LOGGER.debug("Destruction {} spawned at: {}", this.golemType.getSerializedName(), this.blockPosition());
+        LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
         LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
     }
 

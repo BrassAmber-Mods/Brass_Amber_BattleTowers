@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.entity;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
@@ -28,7 +28,7 @@ public abstract class AbstractDestructionEntity extends Entity {
     static final Logger LOGGER = LogUtils.getLogger();
 
     //Other Parameters
-    protected GolemType golemType;
+    protected TowerType towerType;
     protected List<BlockPos> blocksToRemove = new ArrayList<>();
 
     protected int currentTicks = 0;
@@ -61,13 +61,13 @@ public abstract class AbstractDestructionEntity extends Entity {
 
     public AbstractDestructionEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.golemType = GolemType.getTypeForDestructionEntity(this);
-        this.colorCode = this.golemType.getColorCode();
-        this.golemName = this.golemType.getDisplayName();
-        this.golemDefeatText = Component.translatable("title.ba_bt." + this.golemType.getSerializedName().toLowerCase(Locale.ROOT) +"_golem_defeated");
-        this.golemFateText = Component.translatable("title.ba_bt." + this.golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_fate");
-        this.collapseFlavorText = Component.translatable("title.ba_bt." + this.golemType.getSerializedName().toLowerCase(Locale.ROOT) + "_collapse_flavor");
-        this.startTicks = GolemType.getDestructionDelay(this.golemType) * 20;
+        this.towerType = TowerType.getTypeForDestructionEntity(this);
+        this.colorCode = this.towerType.getColorCode();
+        this.golemName = this.towerType.getDisplayName();
+        this.golemDefeatText = Component.translatable("title.ba_bt." + this.towerType.getSerializedName().toLowerCase(Locale.ROOT) +"_golem_defeated");
+        this.golemFateText = Component.translatable("title.ba_bt." + this.towerType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_fate");
+        this.collapseFlavorText = Component.translatable("title.ba_bt." + this.towerType.getSerializedName().toLowerCase(Locale.ROOT) + "_collapse_flavor");
+        this.startTicks = TowerType.getDestructionDelay(this.towerType) * 20;
         this.setInvulnerable(true);
         this.setInvisible(true);
     }
@@ -75,14 +75,14 @@ public abstract class AbstractDestructionEntity extends Entity {
     public void setPos(BlockPos obeliskPos, int destroyOffset) {
         super.setPos(obeliskPos.getX(), obeliskPos.getY() + destroyOffset, obeliskPos.getZ());
         this.crumbleStartY = this.getBlockY();
-        this.crumbleStopY = obeliskPos.getY() + Mth.floor(destroyOffset * GolemType.getDestructionPercent(this.golemType));
+        this.crumbleStopY = obeliskPos.getY() + Mth.floor(destroyOffset * TowerType.getDestructionPercent(this.towerType));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compoundTag) {
         compoundTag.putInt(this.crumbleStartName, this.crumbleStartY);
         compoundTag.putInt(this.crumbleStopName, this.crumbleStopY);
-        compoundTag.putString(this.golemTypeName, this.golemType.getSerializedName());
+        compoundTag.putString(this.golemTypeName, this.towerType.getSerializedName());
         compoundTag.putInt(this.destructionStateName, this.destructionState.value);
         compoundTag.putInt(this.titleStateName, this.titleState.value);
     }
@@ -91,7 +91,7 @@ public abstract class AbstractDestructionEntity extends Entity {
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
         this.crumbleStartY = compoundTag.getInt(this.crumbleStartName);
         this.crumbleStopY = compoundTag.getInt(this.crumbleStopName);
-        this.golemType = GolemType.valueOf(compoundTag.getString(this.golemTypeName));
+        this.towerType = TowerType.valueOf(compoundTag.getString(this.golemTypeName));
         this.destructionState = DestructionState.getState(compoundTag.getInt(this.destructionStateName));
         this.titleState = TitleState.values()[compoundTag.getInt(this.titleStateName)];
     }

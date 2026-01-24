@@ -9,7 +9,7 @@ import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
 import com.brass_amber.ba_bt.util.BTUtil;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
@@ -104,6 +104,7 @@ public class BTAbstractObelisk extends Entity {
     protected Block spawnerBlock;
     protected Block spawnerFillBlock;
     protected Block spawnerMarker;
+    protected List<Block> checkBlocks;
     protected List<List<Integer>> perFloorData;
     protected List<Integer> floorData;
     protected BTChestBlockEntity golemChest;
@@ -112,7 +113,7 @@ public class BTAbstractObelisk extends Entity {
     protected ItemStack[] golemLoot;
     protected AABB entityCheckAABB;
     protected MusicManager music;
-    protected GolemType golemType;
+    protected TowerType towerType;
 
     public boolean hasPlayer;
     public EntityType<?> lastSpawnerType;
@@ -139,9 +140,9 @@ public class BTAbstractObelisk extends Entity {
 
     }
 
-    public BTAbstractObelisk(GolemType golemType, Level level) {
-        this(GolemType.getObeliskFor(golemType), level);
-        this.golemType = golemType;
+    public BTAbstractObelisk(TowerType towerType, Level level) {
+        this(TowerType.getObeliskFor(towerType), level);
+        this.towerType = towerType;
         this.chestsFound = false;
     }
 
@@ -155,11 +156,11 @@ public class BTAbstractObelisk extends Entity {
     public void clientInitialize() {
         this.music = Minecraft.getInstance().getMusicManager();
         this.clientInitialized = true;
-        this.golemType = GolemType.getTypeForObelisk(this);
+        this.towerType = TowerType.getTypeForObelisk(this);
     }
 
     public void serverInitialize() {
-        int golemNum = this.golemType.ordinal();
+        int golemNum = this.towerType.ordinal();
         this.keySpawnerAmounts = towerChestUnlocking.get(golemNum);
         this.spawnerAmounts = towerSpawnerAmounts.get(golemNum);
         if (!this.chestsFound) {
@@ -170,7 +171,7 @@ public class BTAbstractObelisk extends Entity {
 
         }
 
-        this.specialEnemy = GolemType.getSpecialEnemyClass(this.golemType);
+        this.specialEnemy = TowerType.getSpecialEnemyClass(this.towerType);
         this.towerMobs = BTStatics.towerMobs.get(golemNum);
         this.perFloorData = towerSpawnerData.get(golemNum);
         this.floorData = this.perFloorData.get(0);
@@ -191,10 +192,6 @@ public class BTAbstractObelisk extends Entity {
 
         // BrassAmberBattleTowers.LOGGER.debug("Floor y: " + this.currentFloorY + " Next y: " + nextFloorY);
 
-        // Get corners of tower area.
-        BlockPos corner = center.offset(-15, 0, -15);
-        BlockPos oppositeCorner = center.offset(15, 0, 15);
-        BlockPos toCheck;
         int spawnersSet = 0;
 
         // Certain tower have obelisks at the 'top' instead of the bottom -ie ocean, and we need to make sure we use the
@@ -202,21 +199,21 @@ public class BTAbstractObelisk extends Entity {
         int bottomOfFloor = Math.min(this.currentFloorY, nextFloorY);
         int topOfFloor = Math.max(this.currentFloorY, nextFloorY);
 
+        // Get corners of tower area.
+        BlockPos corner = center.offset(-15, bottomOfFloor, -15);
+        BlockPos oppositeCorner = center.offset(15, topOfFloor, 15);
+
         // Check all blocks, not needed for land technically (could just check inside tower) but will be useful for
         // Nether/End Towers
-        for (int x = corner.getX(); x < oppositeCorner.getX(); x++) {
-            for (int z = corner.getZ(); z < oppositeCorner.getZ(); z++) {
-                for (int y = bottomOfFloor; y <= topOfFloor; y++) {
-                    toCheck = new BlockPos(x, y, z);
-                    // This is here to avoid unnecessary variable passing to checkPos()
-                    if (level.getBlockState(toCheck).getBlock() == this.spawnerMarker) {
-                        // BrassAmberBattleTowers.LOGGER.debug(toCheck + " " + this.level().getBlockState(toCheck));
-                        spawnersSet = this.setSpawnerBlock(toCheck, this.checkLayer, level, spawnersSet);
-                    }
-                    this.checkPos(toCheck, level);
-                    this.extraCheck(toCheck, level);
-                }
+
+        for (BlockPos toCheck : BlockPos.betweenClosed(corner, oppositeCorner)) {
+            // This is here to avoid unnecessary variable passing to checkPos()
+            if (level.getBlockState(toCheck).getBlock() == this.spawnerMarker) {
+                // BrassAmberBattleTowers.LOGGER.debug(toCheck + " " + this.level().getBlockState(toCheck));
+                spawnersSet = this.setSpawnerBlock(toCheck.immutable(), this.checkLayer, level, spawnersSet);
             }
+            this.checkPos(toCheck.immutable(), level);
+            this.extraCheck(toCheck.immutable(), level);
         }
 
         // In case a chest has previously been removed (tower partially completed) fill empty spot with null value
@@ -379,7 +376,7 @@ public class BTAbstractObelisk extends Entity {
         }
 
         if (!this.displayCrystal && !this.crystalSpawned) {
-            this.spawnAtLocation(GolemType.getResonanceCrystalForType(this.golemType), 1);
+            this.spawnAtLocation(TowerType.getResonanceCrystalForType(this.towerType), 1);
             this.crystalSpawned = true;
         }
 
@@ -402,7 +399,7 @@ public class BTAbstractObelisk extends Entity {
 
                     ServerLevel serverWorld = (ServerLevel) this.level();
 
-                    switch (this.golemType) {
+                    switch (this.towerType) {
                         case LAND, CORE -> this.spawnSpecialEnemy(serverWorld, new BlockPos(x, y, z),
                                 0D, 11.5D, true);
                         case OCEAN -> this.spawnSpecialEnemy(serverWorld, new BlockPos(x, y, z),
@@ -436,7 +433,7 @@ public class BTAbstractObelisk extends Entity {
 
                     LootParams lootparams =  (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.golemChest.getBlockPos())).create(LootContextParamSets.CHEST);
                     LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
-                    String lootPath = GolemType.getTowerChestPool(this.golemType, 8);
+                    String lootPath = TowerType.getTowerChestPool(this.towerType, 8);
                     if (!lootPath.isEmpty()) {
                         btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), this.golemChest, lootcontext, lootparams);
                     }
@@ -455,7 +452,7 @@ public class BTAbstractObelisk extends Entity {
         }
         if (this.golemDead && this.initialized && !this.destructionSpawned) {
             try {
-                Entity destroyTowerEntity = GolemType.getDestructionEntity(this.golemType, this.level(), this.blockPosition());
+                Entity destroyTowerEntity = TowerType.getDestructionEntity(this.towerType, this.level(), this.blockPosition());
                 this.level().addFreshEntity(destroyTowerEntity);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -523,7 +520,7 @@ public class BTAbstractObelisk extends Entity {
                                      double upperRadiusBound, boolean checkOnGround) {
         // BrassAmberBattleTowers.LOGGER.debug("Trying to spawn cultist at: " + spawn);
         double distance = BTUtil.distanceTo2D(this, spawn.getX(), spawn.getZ());
-        boolean canSpawn = SpawnPlacements.checkSpawnRules(GolemType.getSpecialEnemyType(this.golemType), serverWorld, MobSpawnType.STRUCTURE, spawn, this.random);
+        boolean canSpawn = SpawnPlacements.checkSpawnRules(TowerType.getSpecialEnemyType(this.towerType), serverWorld, MobSpawnType.STRUCTURE, spawn, this.random);
         boolean acceptableDistance = lowerRadiusBound < distance && distance < upperRadiusBound;
         boolean onGround;
         boolean specialEnemyCap;
@@ -537,7 +534,7 @@ public class BTAbstractObelisk extends Entity {
         }
 
         if (!specialEnemyCap && canSpawn && acceptableDistance && onGround && serverWorld.getBlockState(spawn.above()).isAir()) {
-            Entity entity = GolemType.getSpecialEnemy(this.golemType, serverWorld);
+            Entity entity = TowerType.getSpecialEnemy(this.towerType, serverWorld);
             if (entity instanceof Mob mob) {
                 mob.setPos(spawn.getX() + .5, spawn.getY(), spawn.getZ() + .5);
                 net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
@@ -571,7 +568,7 @@ public class BTAbstractObelisk extends Entity {
                             LootParams lootparams = (new LootParams.Builder((ServerLevel) this.level())).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(chestPos)).create(LootContextParamSets.CHEST);
                             LootContext lootcontext = (new LootContext.Builder(lootparams)).create(null);
                             assert chest != null : "BTObelisk: Not a BTChest";
-                            String lootPath = GolemType.getTowerChestPool(this.golemType, i);
+                            String lootPath = TowerType.getTowerChestPool(this.towerType, i);
                             int rarity = i < 2 ? 0 : i / 2;
                             if (!lootPath.isEmpty()) {
                                 btFill(this.getServer().getLootData().getLootTable(new ResourceLocation(lootPath)), chest, lootcontext, lootparams);
@@ -600,9 +597,9 @@ public class BTAbstractObelisk extends Entity {
                         if (this.keySpawnerAmounts.contains(this.getSpawnersDestroyed()) && !justSpawnedKey) {
                             if (this.CHESTS.get(i) != null && level.getBlockEntity(this.CHESTS.get(i)) instanceof BTChestBlockEntity chest) {
                                 // chest.setLootTable(BrassAmberBattleTowers.locate("chests/" + GolemType.getNameForNum(this.getTower())+ "_tower/" + (i+1) + "key"), this.random.nextLong());
-                                chest.setItem(13, GolemType.getKeyFor(this.golemType).getDefaultInstance());
+                                chest.setItem(13, TowerType.getKeyFor(this.towerType).getDefaultInstance());
                             } else if (this.CHESTS.get(i) == null) {
-                                doNoOutputPostionedCommand(this, "/give @p ba_bt:" + GolemType.getKeyFor(this.golemType).getDescriptionId(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
+                                doNoOutputPostionedCommand(this, "/give @p ba_bt:" + TowerType.getKeyFor(this.towerType).getDescriptionId(), new Vec3(this.blockPosition().getX(), this.blockPosition().getY() + (11 * i), this.blockPosition().getZ()));
                             }
                             this.justSpawnedKey = true;
                         }
@@ -633,7 +630,7 @@ public class BTAbstractObelisk extends Entity {
     protected void readAdditionalSaveData(CompoundTag tag) {
         // BrassAmberBattleTowers.LOGGER.debug("Reading obelisk data");
         // BrassAmberBattleTowers.LOGGER.debug("Reading obelisk data " + tag);
-        this.golemType = GolemType.valueOf(tag.getString(towerName));
+        this.towerType = TowerType.valueOf(tag.getString(towerName));
         this.setSpawnersDestroyed(tag.getInt(spawnersDestroyedName));
         this.crystalSpawned = tag.getBoolean(crystalSpawnedName);
         this.generationState = GenerationState.getState(tag.getInt(generationStateName));
@@ -645,7 +642,7 @@ public class BTAbstractObelisk extends Entity {
     @Override
     protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
         BABattleTowers.LOGGER.debug("Setting obelisk data");
-        tag.putString(towerName, this.golemType.getSerializedName());
+        tag.putString(towerName, this.towerType.getSerializedName());
         tag.putInt(spawnersDestroyedName, this.getSpawnersDestroyed());
         tag.putBoolean(crystalSpawnedName, this.crystalSpawned);
         tag.putInt(generationStateName, this.generationState.getValue());
@@ -721,7 +718,7 @@ public class BTAbstractObelisk extends Entity {
         if (itemInHand.getItem() instanceof ResonanceStoneItem stoneItem) {
             stoneItem.addEnchantment(itemInHand);
             return InteractionResult.SUCCESS;
-        } else if (itemInHand.is(GolemType.getEyeFor(this.golemType)) && this.getGolemSpawned()) {
+        } else if (itemInHand.is(TowerType.getEyeFor(this.towerType)) && this.getGolemSpawned()) {
             this.displayCrystal = false;
             return InteractionResult.CONSUME;
         } else {

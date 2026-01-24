@@ -11,7 +11,7 @@ import com.brass_amber.ba_bt.init.BTItems;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 
 import com.brass_amber.ba_bt.util.BTUtil;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
@@ -52,7 +52,6 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 
-import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 
 
@@ -77,7 +76,7 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 	protected int explosionPower = 1;
 	protected Component GolemName;
 	protected int allowedTowerRange = 32;
-	public GolemType golemType;
+	public TowerType towerType;
 
 	// Data Strings
 	protected final String spawnPosName = "SpawnPos";
@@ -424,7 +423,7 @@ public abstract class AbstractGolem extends PathfinderMob implements Enemy {
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		// BrassAmberBattleTowers.LOGGER.debug("SPAWN GOLEM");
-		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(GolemType.getMaxHealthFor(this.golemType));
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(TowerType.getMaxHealthFor(this.towerType));
 		this.setHealth(this.getMaxHealth());
 		// Set spawn position and direction centered on the spawning Block.
 		this.setSpawnPos(this.blockPosition());

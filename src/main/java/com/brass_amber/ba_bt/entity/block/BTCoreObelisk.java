@@ -4,7 +4,7 @@ import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTExtras;
 import com.brass_amber.ba_bt.util.BTTags;
 import com.brass_amber.ba_bt.util.BTUtil;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.FluidTags;
@@ -36,7 +36,7 @@ import static java.lang.Math.abs;
 
 public class BTCoreObelisk extends BTAbstractObelisk {
 
-    private final List<Block> avoidBlocks = towerBlocks.get(GolemType.CORE.ordinal());
+    private final List<Block> avoidBlocks = towerBlocks.get(TowerType.CORE.ordinal());
 
     private int noise;
     private int westWall;
@@ -55,7 +55,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
     }
 
     public BTCoreObelisk(Level level) {
-        super(GolemType.CORE, level);
+        super(TowerType.CORE, level);
     }
 
 

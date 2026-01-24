@@ -28,7 +28,7 @@ public class LandDestructionEntity extends AbstractDestructionEntity {
     public LandDestructionEntity(Level level, BlockPos obeliskPos) {
         this(BTEntityType.LAND_DESTRUCTION.get(), level);
         this.setPos(obeliskPos, 98);
-        LOGGER.debug("Destruction {} spawned at: {}", this.golemType.getSerializedName(), this.blockPosition());
+        LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
         LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
     }
 

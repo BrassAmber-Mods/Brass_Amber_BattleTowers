@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import com.brass_amber.ba_bt.entity.ai.goal.SkyGolemFireballAttackGoal;
 
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -35,12 +35,12 @@ public class SkyGolem extends AbstractGolem {
 	public SkyGolem(EntityType<? extends SkyGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
 		this.moveControl = new SkyGolem.MoveHelperController(this);
-		this.setGolemName(GolemType.SKY.getDisplayName());
+		this.setGolemName(TowerType.SKY.getDisplayName());
 		this.setBossBarName();
 		this.BOSS_MUSIC = SKY_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 15345;
-		this.golemType = GolemType.SKY;
+		this.towerType = TowerType.SKY;
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {

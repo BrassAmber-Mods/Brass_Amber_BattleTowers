@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.datagen.loot;
 
 import com.brass_amber.ba_bt.init.BTEntityType;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
@@ -21,12 +21,12 @@ public class BTEntitiesLootTables extends EntityLootSubProvider {
 
     @Override
     public void generate() {
-        this.add(BTEntityType.LAND_GOLEM.get(), getGolemLootTable(GolemType.LAND));
-        this.add(BTEntityType.OCEAN_GOLEM.get(), getGolemLootTable(GolemType.OCEAN));
-        this.add(BTEntityType.CORE_GOLEM.get(), getGolemLootTable(GolemType.CORE));
-        this.add(BTEntityType.NETHER_GOLEM.get(), getGolemLootTable(GolemType.NETHER));
-        this.add(BTEntityType.END_GOLEM.get(), getGolemLootTable(GolemType.END));
-        this.add(BTEntityType.SKY_GOLEM.get(), getGolemLootTable(GolemType.SKY));
+        this.add(BTEntityType.LAND_GOLEM.get(), getGolemLootTable(TowerType.LAND));
+        this.add(BTEntityType.OCEAN_GOLEM.get(), getGolemLootTable(TowerType.OCEAN));
+        this.add(BTEntityType.CORE_GOLEM.get(), getGolemLootTable(TowerType.CORE));
+        this.add(BTEntityType.NETHER_GOLEM.get(), getGolemLootTable(TowerType.NETHER));
+        this.add(BTEntityType.END_GOLEM.get(), getGolemLootTable(TowerType.END));
+        this.add(BTEntityType.SKY_GOLEM.get(), getGolemLootTable(TowerType.SKY));
         this.add(BTEntityType.SKY_MINION.get(), LootTable.lootTable());
         this.add(BTEntityType.BT_CULTIST.get(), LootTable.lootTable());
         this.add(BTEntityType.FRAGMENT_OF_OBTHUURYN.get(), LootTable.lootTable());
@@ -38,10 +38,10 @@ public class BTEntitiesLootTables extends EntityLootSubProvider {
         return BTEntityType.ENTITY_TYPES.getEntries().stream().map(RegistryObject::get);
     }
 
-    public static LootTable.Builder getGolemLootTable(GolemType type) {
+    public static LootTable.Builder getGolemLootTable(TowerType type) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-                        .add(LootItem.lootTableItem(Objects.requireNonNull(GolemType.getEyeFor(type))))
+                        .add(LootItem.lootTableItem(Objects.requireNonNull(TowerType.getEyeFor(type))))
         );
     }
 }

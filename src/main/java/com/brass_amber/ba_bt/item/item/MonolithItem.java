@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.item.item;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Random;
 
 public class MonolithItem extends Item {
-	private final GolemType monolithType;
+	private final TowerType monolithType;
 
-	public MonolithItem(GolemType type, Item.Properties builder) {
+	public MonolithItem(TowerType type, Item.Properties builder) {
 		super(builder);
 		this.monolithType = type;
 	}
@@ -57,7 +57,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(GolemType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock, level.getBlockState(newPlacementPos.below()));
+					BTMonolith newBTMonolithEntity = new BTMonolith(TowerType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock, level.getBlockState(newPlacementPos.below()));
 					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
 					level.addFreshEntity(newBTMonolithEntity);
 				}

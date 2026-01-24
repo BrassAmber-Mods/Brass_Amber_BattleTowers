@@ -4,7 +4,7 @@ import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 
 
 import net.minecraft.core.BlockPos;
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.NotNull;
 public class BTMonolith extends Entity {
 	public static final EntityDataAccessor<Integer> KEYS = SynchedEntityData.defineId(BTMonolith.class, EntityDataSerializers.INT);
 	private final EntityType<?> monolithType;
-	private final GolemType golemType;
+	private final TowerType towerType;
 	private final Item correctMonolithKey;
 	private final Item correctGuardianEye;
 	private boolean displayEye = false;
@@ -58,9 +58,9 @@ public class BTMonolith extends Entity {
 		this.blocksBuilding = true;
 		this.floatingRotation = this.random.nextInt(100_000);
 		this.monolithType = this.getType();
-		this.golemType = GolemType.getTypeForMonolith(this);
-		this.correctMonolithKey = GolemType.getKeyFor(this.golemType);
-		this.correctGuardianEye = GolemType.getEyeFor(GolemType.getPreviousGolemType(this.golemType));
+		this.towerType = TowerType.getTypeForMonolith(this);
+		this.correctMonolithKey = TowerType.getKeyFor(this.towerType);
+		this.correctGuardianEye = TowerType.getEyeFor(TowerType.getPreviousGolemType(this.towerType));
 		this.fromItem = true;
 	}
 
@@ -226,7 +226,7 @@ public class BTMonolith extends Entity {
 			this.level().explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Level.ExplosionInteraction.BLOCK);
 
 			// Get the correct GolemEntityType.
-			EntityType<?> golemEntityType = GolemType.getGolemFor(this.golemType);
+			EntityType<?> golemEntityType = TowerType.getGolemFor(this.towerType);
 			// Create a new GolemEntity.
 			Entity entity = golemEntityType.create(this.level());
 			if (entity instanceof AbstractGolem newGolemEntity) {
@@ -240,7 +240,7 @@ public class BTMonolith extends Entity {
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
 				newGolemEntity.setBossBarName();
-				newGolemEntity.golemType = this.golemType;
+				newGolemEntity.towerType = this.towerType;
 
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);
@@ -250,7 +250,7 @@ public class BTMonolith extends Entity {
 
 	protected void spawnObelisk(ServerLevel serverWorld) {
 		Entity obelisk;
-		switch (this.golemType) {
+		switch (this.towerType) {
 			case OCEAN -> {
 				// BABTMain.LOGGER.debug("Ocean Obelisk");
 				obelisk = new BTOceanObelisk(this.level());
@@ -290,9 +290,9 @@ public class BTMonolith extends Entity {
 		for (int height = 0; height < 3; height++) {
 			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
 			BlockState testBlock = this.level().getBlockState(monolithPos);
-			if (!testBlock.isAir() && this.golemType != GolemType.OCEAN) {
+			if (!testBlock.isAir() && this.towerType != TowerType.OCEAN) {
 				this.level().setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
-			} else if (!this.level().isWaterAt(monolithPos) && this.golemType == GolemType.OCEAN) {
+			} else if (!this.level().isWaterAt(monolithPos) && this.towerType == TowerType.OCEAN) {
 				this.level().setBlock(monolithPos, Blocks.WATER.defaultBlockState(), 2);
 			}
 		}
@@ -337,7 +337,7 @@ public class BTMonolith extends Entity {
 	 */
 	@Override
 	public ItemStack getPickedResult(HitResult target) {
-		return new ItemStack(GolemType.getMonolithItemFor(this.golemType));
+		return new ItemStack(TowerType.getMonolithItemFor(this.towerType));
 	}
 
 

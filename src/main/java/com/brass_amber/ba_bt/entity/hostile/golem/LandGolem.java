@@ -4,25 +4,17 @@ import com.brass_amber.ba_bt.entity.ai.goal.LandGolemFireballAttackGoal;
 import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
 
 
-import com.brass_amber.ba_bt.util.GolemType;
-import net.minecraft.nbt.CompoundTag;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.BossEvent;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
-import javax.annotation.Nullable;
-
-import static com.brass_amber.ba_bt.BattleTowersConfig.landGolemHP;
 import static com.brass_amber.ba_bt.sound.BTMusic.LAND_GOLEM_FIGHT_MUSIC;
 
 public class LandGolem extends AbstractGolem {
@@ -31,12 +23,12 @@ public class LandGolem extends AbstractGolem {
 
 	public LandGolem(EntityType<? extends LandGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.BLUE);
-		this.setGolemName(GolemType.LAND.getDisplayName());
+		this.setGolemName(TowerType.LAND.getDisplayName());
 		this.setBossBarName();
 
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
 		this.xpReward = 315;
-		this.golemType = GolemType.LAND;
+		this.towerType = TowerType.LAND;
 
 		this.BOSS_MUSIC = LAND_GOLEM_FIGHT_MUSIC;
 

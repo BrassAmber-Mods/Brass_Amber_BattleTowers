@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.block.blockentity;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
-import com.brass_amber.ba_bt.util.GolemType;
+import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -23,23 +23,23 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 
 public class BTChestBlockEntity extends ChestBlockEntity {
 	protected boolean unlocked = false;
-	protected GolemType golemType;
+	protected TowerType towerType;
 	protected boolean golemChest;
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 
-	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, GolemType golemType) {
-		this(GolemType.getChestForType(golemType, GolemType.isGolemChest(blockState.getBlock())), blockPos, blockState);
+	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, TowerType towerType) {
+		this(TowerType.getChestForType(towerType, TowerType.isGolemChest(blockState.getBlock())), blockPos, blockState);
 	}
 
 	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(GolemType.getChestForType(GolemType.getTypeForChest(blockState.getBlock()), GolemType.isGolemChest(blockState.getBlock())), blockPos, blockState);
+		this(TowerType.getChestForType(TowerType.getTypeForChest(blockState.getBlock()), TowerType.isGolemChest(blockState.getBlock())), blockPos, blockState);
 	}
 
 	protected BTChestBlockEntity(BlockEntityType<? extends BTChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
-		this.golemType = GolemType.getTypeForChest(blockEntityType);
-		this.golemChest = GolemType.isGolemChest(blockState.getBlock());
+		this.towerType = TowerType.getTypeForChest(blockEntityType);
+		this.golemChest = TowerType.isGolemChest(blockState.getBlock());
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 		return 36;
 	}
 
-	public GolemType getChestType() {
-		return this.golemType;
+	public TowerType getChestType() {
+		return this.towerType;
 	}
 
 	/**
@@ -58,9 +58,9 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	@Override
 	protected Component getDefaultName() {
 		if (this.golemChest) {
-			return Component.translatable("container.ba_bt." + this.golemType.getLowercaseName() + "_golem_chest");
+			return Component.translatable("container.ba_bt." + this.towerType.getLowercaseName() + "_golem_chest");
 		}
-		return Component.translatable("container.ba_bt." + this.golemType.getLowercaseName() + "_chest");
+		return Component.translatable("container.ba_bt." + this.towerType.getLowercaseName() + "_chest");
 	}
 
 	@Override
