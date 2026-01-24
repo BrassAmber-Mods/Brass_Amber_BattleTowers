@@ -1,5 +1,6 @@
 package com.brass_amber.ba_bt.worldGen.structures;
 
+import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.init.BTStructures;
 import com.brass_amber.ba_bt.util.BTTags;
 import com.mojang.datafixers.util.Either;
@@ -25,10 +26,10 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -140,9 +141,7 @@ public class LandTower extends Structure implements TowerStructure {
         // 12 Blocks seem to work well with allowing a good number of small cliff spawns, while removing the mountainside spawns
         boolean isFlat = highestY - lowestY <= 15;
 
-        int usableHeight = lowestY + ((highestY - lowestY) / 3);
 
-        LOGGER.debug("flat?: {} usable height: {}", isFlat, usableHeight);
 
         int middleHieght = chunkGen.getFirstOccupiedHeight(
                 chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
@@ -159,16 +158,34 @@ public class LandTower extends Structure implements TowerStructure {
         Pair<BlockPos, Holder<Biome>> waterBiomeNearby = chunkGen.getBiomeSource().findBiomeHorizontal(
                 middleBlock.getX(), chunkGen.getSeaLevel(), middleBlock.getZ(), 24, predicate, generationContext.random(), generationContext.randomState().sampler()
         );
-        // LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
+        LOGGER.debug("Water Biome nearby = {} {}", waterBiomeNearby, waterBiomeNearby == null);
 
+        int[] heightPos = new int[4];
 
+        heightPos[0] = chunkGen.getFirstOccupiedHeight(
+                chunkPos.getMiddleBlockX() - 13, chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
+        );
+        heightPos[1] = chunkGen.getFirstOccupiedHeight(
+                chunkPos.getMiddleBlockX() + 13, chunkPos.getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
+        );
+        heightPos[2] = chunkGen.getFirstOccupiedHeight(
+                chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ() - 13, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
+        );
+        heightPos[3] = chunkGen.getFirstOccupiedHeight(
+                chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ() - 13, Heightmap.Types.WORLD_SURFACE_WG, generationContext.heightAccessor(), generationContext.randomState()
+        );
+
+        int usableHeight = Arrays.stream(heightPos).max().getAsInt();
+
+        LOGGER.debug("flat?: {} usable height: {}", isFlat, usableHeight);
+        // chunkGen.findNearestMapStructure()
         // Get a random usable position from the list, otherwise return false
         if (isFlat && generationContext.validBiome().test(biome) && waterBiomeNearby == null) {
             checkVariant(generationContext, middleBlock);
             if (this.towerType == 2) {
                 usableHeight -= 2;
             }
-            return Pair.of(true, usableHeight);
+            return Pair.of(true, usableHeight + BattleTowersConfig.landTowerHeightOffset);
         }
 
         if (usableHeight > 215) {
