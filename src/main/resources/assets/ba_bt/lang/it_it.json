@@ -106,6 +106,8 @@
 	"block.ba_bt.core_matter_stair": "Scalini di materia del nucleo",
 	"block.ba_bt.core_matter_wall": "Muretto di materia del nucleo",
 
+	"block.ba_bt.cloud": "Cloud",
+
 	"block.ba_bt.spawner_marker" : "Segnaposto per generatori",
 	"block.ba_bt.data_marker" : "Segnaposto per contenitori",
 

@@ -106,6 +106,8 @@
 	"block.ba_bt.core_matter_stair": "Core Matter Stair",
 	"block.ba_bt.core_matter_wall": "Core Matter Wall",
 
+	"block.ba_bt.cloud": "Cloud",
+
 	"block.ba_bt.spawner_marker" : "Spawner Marker",
 	"block.ba_bt.data_marker" : "Data Marker",
 
