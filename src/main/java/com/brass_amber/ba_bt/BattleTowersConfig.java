@@ -24,6 +24,26 @@ public class BattleTowersConfig {
                     .comment("Minimum distance from spawn a Tower can be measured in chunks (Applies to X and Z). Default: 30 chunks ")
                     .define("firstTowerDistance", 30);
 
+    private static final ForgeConfigSpec.ConfigValue<Integer> MINIMUM_LAND_TOWER_SEPERATION =
+            BUILDER.comment("Minimum Distance between generated Land Towers.")
+                    .define("minimumLandSeperation", 40);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> MINIMUM_OCEAN_TOWER_SEPERATION =
+            BUILDER.comment("Minimum Distance between generated Ocean Towers.")
+                    .define("minimumOceanSeperation", 56);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> MINIMUM_CORE_TOWER_SEPERATION =
+            BUILDER.comment("Minimum Distance between generated Core Towers.")
+                    .define("minimumCoreSeperation", 72);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> MINIMUM_SKY_TOWER_SEPERATION =
+            BUILDER.comment("Minimum Distance between generated Sky Towers.")
+                    .define("minimumSkySeperation", 128);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> MINIMUM_TOWER_SEPERATION =
+            BUILDER.comment("Minimum Distance between any towers in the battle_towers structure tag")
+                    .define("minimumTowerSeperation", 8);
+
 
     private static final ForgeConfigSpec.ConfigValue<Integer> LAND_TIME_BEFORE_COLLAPSE =
             BUILDER.comment("Length of time in seconds after Golem is defeated before the Land Tower collapses")
@@ -73,6 +93,10 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<Double> SKY_TOWER_CRUMBLE_PERCENT =
             BUILDER.comment("How much of the Sky tower remains after defeating the Golem. Default: 0% of tower.")
                     .defineInRange("skyTowerDestruction", 0D, 0, 1D);
+
+    private static final ForgeConfigSpec.ConfigValue<Integer> LAND_TOWER_HEIGHT_OFFSET =
+            BUILDER.comment("Extra option for adding/subtracting height from every Land Tower generation. Default: 0.")
+                    .define("landTowerHeightOffset", 0);
 
     private static final ForgeConfigSpec.ConfigValue<Boolean> MINIMAL_OCEAN_CARVING =
             BUILDER.comment("Makes the Ocean trench around the Ocean tower much smaller, reducing the lag on load")
@@ -162,6 +186,7 @@ public class BattleTowersConfig {
     public static double endTowerCrumblePercent;
     public static double skyTowerCrumblePercent;
 
+    public static int landTowerHeightOffset;
     public static boolean oceanTowerVoidHole;
     public static boolean minimalOceanCarving;
     public static boolean depthDropperAffectsMobs;
@@ -235,6 +260,7 @@ public class BattleTowersConfig {
         endTowerCrumblePercent = END_TOWER_CRUMBLE_PERCENT.get();
         skyTowerCrumblePercent = SKY_TOWER_CRUMBLE_PERCENT.get();
 
+        landTowerHeightOffset = LAND_TOWER_HEIGHT_OFFSET.get();
         oceanTowerVoidHole = OCEAN_TOWER_VOID_HOLE.get();
         minimalOceanCarving = MINIMAL_OCEAN_CARVING.get();
         depthDropperAffectsMobs = DEPTH_DROPPER_AFFECTS_MOBS.get();
