@@ -5,17 +5,17 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 public class CoreTemperatureEffect extends MobEffect {
-    public CoreTemperatureEffect(MobEffectCategory p_19451_, int p_19452_) {
-        super(p_19451_, p_19452_);
+    public CoreTemperatureEffect(MobEffectCategory pCategory, int pColor) {
+        super(pCategory, pColor);
     }
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        entity.hurt(entity.level().damageSources().onFire(), 1);
+        entity.hurt(entity.level().damageSources().onFire(), 2/amplifier);
     }
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
+        return duration % Math.max(32 >> amplifier, 0) == 0;
     }
 }
