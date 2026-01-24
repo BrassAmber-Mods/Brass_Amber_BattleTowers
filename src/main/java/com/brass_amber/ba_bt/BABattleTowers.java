@@ -156,6 +156,8 @@ public class BABattleTowers {
             event.accept(BTBlocks.CORE_MATTER_STAIR);
             event.accept(BTBlocks.CORE_MATTER_WALL);
 
+            event.accept(BTBlocks.CLOUD);
+
             event.accept(BTItems.LAND_RESONANCE_CRYSTAL);
             event.accept(BTItems.OCEAN_RESONANCE_CRYSTAL);
             event.accept(BTItems.CORE_RESONANCE_CRYSTAL);
