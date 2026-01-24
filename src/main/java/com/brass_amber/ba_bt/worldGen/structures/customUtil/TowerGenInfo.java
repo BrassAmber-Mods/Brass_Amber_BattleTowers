@@ -28,7 +28,7 @@ public enum TowerGenInfo {
                                     new WeightedPiece("barracks_abandoned", 0.05f, List.of(), Vec3i.ZERO),
                                     new WeightedPiece("barracks_open", 0.18f, List.of(), Vec3i.ZERO),
                                     new WeightedPiece("barracks", 0.18f, List.of(), Vec3i.ZERO),
-                                    new WeightedPiece("kitchen", 0.34f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("kitchen", 0.34f, List.of(LAND_CROP_PLACER), Vec3i.ZERO),
                                     new WeightedPiece("library", 0.25f, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)
                             ),
                             List.of(new WeightedPiece("cult_floor", 1, List.of(LAND_CARPET_PLACER), Vec3i.ZERO)),
@@ -37,7 +37,7 @@ public enum TowerGenInfo {
                     new VariantPieces(
                             List.of(
                                     new WeightedPiece("lush", 0.5f, List.of(), Vec3i.ZERO),
-                                    new WeightedPiece("farm", 0.3f, List.of(), Vec3i.ZERO),
+                                    new WeightedPiece("farm", 0.3f, List.of(LAND_CROP_PLACER), Vec3i.ZERO),
                                     new WeightedPiece("integrated", 0.2f, List.of(), Vec3i.ZERO)
                             ),
                             List.of(new WeightedPiece("base", 1, List.of(LAND_WALL), new Vec3i(-3, 0, -3))),

@@ -3,13 +3,11 @@ package com.brass_amber.ba_bt.worldGen.structures.customUtil;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CrossCollisionBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 
+import java.util.List;
 import java.util.Random;
 
 import static com.brass_amber.ba_bt.util.BTTags.Blocks.BASE_PROTECTED_TAG;
@@ -22,6 +20,7 @@ public class TowerProcessors {
     static final StructureProcessor LAND_NORMAL_FLOOR;
     static final StructureProcessor LAND_NORMAL_STAIRS;
     static final StructureProcessor LAND_CARPET_PLACER;
+    static final StructureProcessor LAND_CROP_PLACER;
 
     static final StructureProcessor SAND_REMOVE_7;
     static final StructureProcessor SANDSTONE;
@@ -38,6 +37,10 @@ public class TowerProcessors {
     static final StructureProcessor CORE_STAIRS;
     static final StructureProcessor CORE_ROOF;
     static final StructureProcessor CORE_ORE;
+
+
+    static final StructureProcessor SKY_BASE_SNOW;
+    static final StructureProcessor SKY_BASE_GOLD;
 
     static {
 
@@ -204,6 +207,15 @@ public class TowerProcessors {
                 )
 
         ));
+
+        LAND_CROP_PLACER = new CropPlaceProcessor(
+                List.of(
+                        Blocks.CARROTS.defaultBlockState(),
+                        Blocks.WHEAT.defaultBlockState(),
+                        Blocks.POTATOES.defaultBlockState(),
+                        Blocks.BEETROOTS.defaultBlockState()
+                )
+        );
 
         SANDSTONE = new RuleProcessor(ImmutableList.of(
                 new ProcessorRule(
@@ -405,5 +417,42 @@ public class TowerProcessors {
                         Blocks.DEEPSLATE.defaultBlockState()
                 )
         ));
+
+        SKY_BASE_SNOW = new NearbyBlockMatchProcessor(
+                new BlockMatchTest(BTBlocks.CLOUD.get()),
+                List.of(
+                        new NearbyBlockMatchProcessor.BlockMatchRule(
+                                List.of(BTBlocks.CLOUD.get().defaultBlockState()),
+                                List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN),
+                                3,
+                                6,
+                                1
+                        )
+                ),
+                Blocks.SNOW_BLOCK.defaultBlockState(),
+                1f
+        );
+
+        SKY_BASE_GOLD = new NearbyBlockMatchProcessor(
+                new BlockMatchTest(BTBlocks.CLOUD.get()),
+                List.of(
+                        new NearbyBlockMatchProcessor.BlockMatchRule(
+                                List.of(BTBlocks.CLOUD.get().defaultBlockState(), Blocks.SNOW_BLOCK.defaultBlockState()),
+                                List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN),
+                                6,
+                                6,
+                                1
+                        ),
+                        new NearbyBlockMatchProcessor.BlockMatchRule(
+                                List.of(Blocks.AIR.defaultBlockState()),
+                                List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN),
+                                2,
+                                6,
+                                2
+                        )
+                ),
+                Blocks.GOLD_BLOCK.defaultBlockState(),
+                .5f
+        );
     }
 }
