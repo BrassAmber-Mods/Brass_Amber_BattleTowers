@@ -178,8 +178,17 @@ public class BTBlocks {
 					.pushReaction(PushReaction.DESTROY).lightLevel((blockState) -> 12)
 					.hasPostProcess(BTBlocks::always).emissiveRendering(BTBlocks::always)), 64);
 
+	public static final RegistryObject<Block> CLOUD = registerBlock("cloud",
+			() -> new CloudBlock(BlockBehaviour.Properties.of().instabreak().noOcclusion()
+					.isValidSpawn(BTBlocks::never).isRedstoneConductor(BTBlocks::never).isSuffocating(BTBlocks::never)
+					.isViewBlocking(BTBlocks::never).speedFactor(1.2F)), 128);
+
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
+		return false;
+	}
+
+	private static Boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
 		return false;
 	}
 
