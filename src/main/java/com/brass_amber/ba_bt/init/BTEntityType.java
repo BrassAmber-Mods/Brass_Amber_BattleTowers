@@ -1,10 +1,7 @@
 package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.entity.CoreDestructionEntity;
-import com.brass_amber.ba_bt.entity.LandDestructionEntity;
-import com.brass_amber.ba_bt.entity.ExplosionPhysics;
-import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
+import com.brass_amber.ba_bt.entity.*;
 import com.brass_amber.ba_bt.entity.block.*;
 import com.brass_amber.ba_bt.entity.hostile.BTCultist;
 import com.brass_amber.ba_bt.entity.hostile.FragmentOfObthuuryn;
@@ -62,28 +59,28 @@ public class BTEntityType {
 	public static final RegistryObject<EntityType<FragmentOfObthuuryn>> FRAGMENT_OF_OBTHUURYN = ENTITY_TYPES.register("fragment_of_obthuuryn", () -> EntityType.Builder.of(FragmentOfObthuuryn::new, MobCategory.MONSTER).fireImmune().canSpawnFarFromPlayer().sized(1.0F, 1.0F).clientTrackingRange(10).build("fragment_of_obthuuryn"));
 
 	//*********************** MISC ENTITIES *********************\\
-	public static final RegistryObject<EntityType<LandDestructionEntity>> LAND_DESTRUCTION = ENTITY_TYPES.register("land_destruction",
-			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<AbstractDestructionEntity>> LAND_DESTRUCTION = ENTITY_TYPES.register("land_destruction",
+			() -> EntityType.Builder.<AbstractDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("land_destruction"));
 
-	public static final RegistryObject<EntityType<OceanDestructionEntity>> OCEAN_DESTRUCTION = ENTITY_TYPES.register("ocean_destruction",
-			() -> EntityType.Builder.<OceanDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<AbstractDestructionEntity>> OCEAN_DESTRUCTION = ENTITY_TYPES.register("ocean_destruction",
+			() -> EntityType.Builder.<AbstractDestructionEntity>of(OceanDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("ocean_destruction"));
 
-	public static final RegistryObject<EntityType<CoreDestructionEntity>> CORE_DESTRUCTION = ENTITY_TYPES.register("core_destruction",
-			() -> EntityType.Builder.<CoreDestructionEntity>of(CoreDestructionEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<AbstractDestructionEntity>> CORE_DESTRUCTION = ENTITY_TYPES.register("core_destruction",
+			() -> EntityType.Builder.<AbstractDestructionEntity>of(CoreDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("core_destruction"));
 
-	public static final RegistryObject<EntityType<LandDestructionEntity>> NETHER_DESTRUCTION = ENTITY_TYPES.register("nether_destruction",
-			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<AbstractDestructionEntity>> NETHER_DESTRUCTION = ENTITY_TYPES.register("nether_destruction",
+			() -> EntityType.Builder.<AbstractDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("nether_destruction"));
 
-	public static final RegistryObject<EntityType<LandDestructionEntity>> END_DESTRUCTION = ENTITY_TYPES.register("end_destruction",
-			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<AbstractDestructionEntity>> END_DESTRUCTION = ENTITY_TYPES.register("end_destruction",
+			() -> EntityType.Builder.<AbstractDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("end_destruction"));
 
-	public static final RegistryObject<EntityType<LandDestructionEntity>> SKY_DESTRUCTION = ENTITY_TYPES.register("sky_destruction",
-			() -> EntityType.Builder.<LandDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<AbstractDestructionEntity>> SKY_DESTRUCTION = ENTITY_TYPES.register("sky_destruction",
+			() -> EntityType.Builder.<AbstractDestructionEntity>of(LandDestructionEntity::new, MobCategory.MISC)
 					.sized(1.0F, 1.0F).setTrackingRange(100).fireImmune().immuneTo(Blocks.TNT).noSummon().build("sky_destruction"));
 
 	public static final RegistryObject<EntityType<ExplosionPhysics>> PHYSICS_EXPLOSION = ENTITY_TYPES.register("explosion_physics",
