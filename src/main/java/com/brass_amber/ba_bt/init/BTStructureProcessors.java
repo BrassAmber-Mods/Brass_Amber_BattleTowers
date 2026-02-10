@@ -17,6 +17,7 @@ public class BTStructureProcessors {
 
     public static final RegistryObject<StructureProcessorType<NearbyBlockMatchProcessor>> NEARBY_BLOCK_MATCH_PROCESSOR = STRUCTURE_PROCESSOR_TYPE_REGISTER.register("nearby_block_match_processor", () -> explicitStructureTypeTyping(NearbyBlockMatchProcessor.CODEC));
     public static final RegistryObject<StructureProcessorType<CropPlaceProcessor>> CROP_PLACE_PROCESSOR = STRUCTURE_PROCESSOR_TYPE_REGISTER.register("crop_place_processor", () -> explicitStructureTypeTyping(CropPlaceProcessor.CODEC));
+    public static final RegistryObject<StructureProcessorType<CropPlaceProcessor>> SPAWNER_MARKER_PROCESSOR = STRUCTURE_PROCESSOR_TYPE_REGISTER.register("spawner_marker_processor", () -> explicitStructureTypeTyping(CropPlaceProcessor.CODEC));
 
     private static <T extends StructureProcessor> StructureProcessorType<T> explicitStructureTypeTyping(Codec<T> structureProcessorTypeCodec) {
         return () -> structureProcessorTypeCodec;
