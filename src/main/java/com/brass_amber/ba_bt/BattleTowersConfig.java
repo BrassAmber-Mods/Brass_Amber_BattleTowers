@@ -138,8 +138,8 @@ public class BattleTowersConfig {
 
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_MOBS =
-                BUILDER.pop().comment("Crashable settings -- If you edit these, and the game crashes, its on you").push("crashable")
-                        .push("towerMobs").comment("Lists of mob ids of possible mobs to spawn in spawners inside each Tower. Each list must contain at least one value")
+            BUILDER.pop().comment("Crashable settings -- If you edit these, and the game crashes, its on you")
+                    .push("crashable").push("towerMobs").comment("Lists of mob ids of possible mobs to spawn in spawners inside each Tower. Lists can be empty")
                         .defineListAllowEmpty("landTowerMobs", () -> List.of("minecraft:zombie", "minecraft:zombie", "minecraft:skeleton", "minecraft:spider"), BattleTowersConfig::validateEntityName);
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> OCEAN_TOWER_MOBS =
@@ -157,6 +157,7 @@ public class BattleTowersConfig {
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> SKY_TOWER_MOBS =
             BUILDER.defineListAllowEmpty("skyTowerMobs", Collections.emptyList(), BattleTowersConfig::validateEntityName);
 
+
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> LAND_TOWER_CHEST_LOOT_TABLES = BUILDER.pop().pop().push("towerChestLootTableReplacements")
             .comment("Adding a resource location of a custom loot-table to one of these lists replaces the loot generated ")
             .comment("    using the Tower Extendable Loot Pools above  for floor/golem chests with loot from the supplied loot-table.")
@@ -171,6 +172,11 @@ public class BattleTowersConfig {
     public static final ForgeConfigSpec SPEC = BUILDER.pop().build();
     
     public static int firstTowerDistance;
+    public static int minimumLandTowerSeperation;
+    public static int minimumOceanTowerSeperation;
+    public static int minimumCoreTowerSeperation;
+    public static int minimumSkyTowerSeperation;
+    public static int minimumTowerSeperation;
 
     public static int landTimeBeforeCollapse;
     public static int oceanTimeBeforeCollapse;
@@ -245,6 +251,11 @@ public class BattleTowersConfig {
     static void onLoad(final ModConfigEvent event) {
         
         firstTowerDistance = FIRST_TOWER_DISTANCE.get();
+        minimumLandTowerSeperation = MINIMUM_LAND_TOWER_SEPERATION.get();
+        minimumOceanTowerSeperation = MINIMUM_OCEAN_TOWER_SEPERATION.get();
+        minimumCoreTowerSeperation = MINIMUM_CORE_TOWER_SEPERATION.get();
+        minimumSkyTowerSeperation = MINIMUM_SKY_TOWER_SEPERATION.get();
+        minimumTowerSeperation = MINIMUM_TOWER_SEPERATION.get();
 
         landTimeBeforeCollapse = LAND_TIME_BEFORE_COLLAPSE.get();
         oceanTimeBeforeCollapse = OCEAN_TIME_BEFORE_COLLAPSE.get();
