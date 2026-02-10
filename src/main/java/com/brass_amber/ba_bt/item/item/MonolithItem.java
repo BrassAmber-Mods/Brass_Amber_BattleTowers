@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.Random;
 
 public class MonolithItem extends Item {
-	private final TowerType monolithType;
+	private final TowerType towerType;
 
 	public MonolithItem(TowerType type, Item.Properties builder) {
 		super(builder);
-		this.monolithType = type;
+		this.towerType = type;
 	}
 
 	/*********************************************************** Placement ********************************************************/
@@ -57,12 +57,13 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(TowerType.getMonolithFor(this.monolithType), level, x + centerOnBlock, y, z + centerOnBlock, level.getBlockState(newPlacementPos.below()));
+					BTMonolith newBTMonolithEntity = new BTMonolith(TowerType.getMonolithFor(this.towerType), level);
 					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
+					newBTMonolithEntity.setPos(x + centerOnBlock, y, z + centerOnBlock);
+					newBTMonolithEntity.setFromItem(true);
 					level.addFreshEntity(newBTMonolithEntity);
 				}
 
-				// TODO Fix subtitles
 				level.playSound(null, newPlacementPos, SoundEvents.IRON_GOLEM_STEP, SoundSource.BLOCKS, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
 				level.playSound(null, newPlacementPos, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, this.getSoundVolume() - 0.7F, this.getSoundPitch());
 				level.playSound(null, newPlacementPos, SoundEvents.RESPAWN_ANCHOR_CHARGE, SoundSource.BLOCKS, this.getSoundVolume() - 0.25F, this.getSoundPitch());
@@ -100,7 +101,7 @@ public class MonolithItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.monolithType.getLowercaseName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.towerType.getLowercaseName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
