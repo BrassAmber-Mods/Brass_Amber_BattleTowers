@@ -53,7 +53,6 @@ public abstract class AbstractDestructionEntity extends Entity {
     protected Component collapseFlavorText;
 
     // Data Strings
-    protected final String crumbleStartName = "CrumbleStartY";
     protected final String crumbleStopName = "CrumbleStopY";
     protected final String golemTypeName = "GolemType";
     protected final String destructionStateName = "DestructionState";
@@ -70,17 +69,12 @@ public abstract class AbstractDestructionEntity extends Entity {
         this.startTicks = TowerType.getDestructionDelay(this.towerType) * 20;
         this.setInvulnerable(true);
         this.setInvisible(true);
-    }
-
-    public void setPos(BlockPos obeliskPos, int destroyOffset) {
-        super.setPos(obeliskPos.getX(), obeliskPos.getY() + destroyOffset, obeliskPos.getZ());
-        this.crumbleStartY = this.getBlockY();
-        this.crumbleStopY = obeliskPos.getY() + Mth.floor(destroyOffset * TowerType.getDestructionPercent(this.towerType));
+        this.crumbleStartY = -800;
+        this.crumbleStopY = -800;
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compoundTag) {
-        compoundTag.putInt(this.crumbleStartName, this.crumbleStartY);
         compoundTag.putInt(this.crumbleStopName, this.crumbleStopY);
         compoundTag.putString(this.golemTypeName, this.towerType.getSerializedName());
         compoundTag.putInt(this.destructionStateName, this.destructionState.value);
@@ -89,11 +83,18 @@ public abstract class AbstractDestructionEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
-        this.crumbleStartY = compoundTag.getInt(this.crumbleStartName);
         this.crumbleStopY = compoundTag.getInt(this.crumbleStopName);
         this.towerType = TowerType.valueOf(compoundTag.getString(this.golemTypeName));
         this.destructionState = DestructionState.getState(compoundTag.getInt(this.destructionStateName));
         this.titleState = TitleState.values()[compoundTag.getInt(this.titleStateName)];
+    }
+
+    public void setStartStop(BlockPos obeliskPos) {
+        int offset = this.towerType.getDestructionOffset();
+        this.setPos(obeliskPos.getX(), obeliskPos.getY() + offset, obeliskPos.getZ());
+        this.crumbleStartY = this.getBlockY();
+        this.crumbleStopY = obeliskPos.getY() +this.crumbleDirection + Mth.floor(offset * this.towerType.getDestructionPercent());
+        LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
     }
 
     @Override
