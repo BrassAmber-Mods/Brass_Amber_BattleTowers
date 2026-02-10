@@ -60,13 +60,8 @@ public class BTMonolith extends Entity {
 		this.monolithType = this.getType();
 		this.towerType = TowerType.getTypeForMonolith(this);
 		this.correctMonolithKey = TowerType.getKeyFor(this.towerType);
-		this.correctGuardianEye = TowerType.getEyeFor(TowerType.getPreviousGolemType(this.towerType));
-		this.fromItem = true;
-	}
-
-	public BTMonolith(EntityType<BTMonolith> monolithEntityType, Level levelIn, double x, double y, double z, BlockState placedOnState) {
-		this(monolithEntityType, levelIn);
-		this.setPos(x, y, z);
+		this.correctGuardianEye = TowerType.getEyeFor(this.towerType.getPreviousGolemType());
+		this.fromItem = false;
 	}
 
 	/*********************************************************** Data ********************************************************/
@@ -266,8 +261,6 @@ public class BTMonolith extends Entity {
 				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
 			}
         }
-		obelisk.setInvulnerable(true);
-		obelisk.invulnerableTime = 999999999;
 		serverWorld.addFreshEntity(obelisk);
 	}
 
@@ -378,6 +371,10 @@ public class BTMonolith extends Entity {
 	public void kill() {
 		// Do nothing to prevent people deleting a Monolith by accident.
 		BABattleTowers.LOGGER.debug("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
+	}
+
+	public void setFromItem(boolean fromItem) {
+		this.fromItem = fromItem;
 	}
 
 	/**
