@@ -5,6 +5,7 @@ import com.brass_amber.ba_bt.block.block.BTSpawnerBlock;
 import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
 import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
+import com.brass_amber.ba_bt.entity.AbstractDestructionEntity;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
 import com.brass_amber.ba_bt.util.BTStatics;
@@ -452,7 +453,8 @@ public class BTAbstractObelisk extends Entity {
         }
         if (this.golemDead && this.initialized && !this.destructionSpawned) {
             try {
-                Entity destroyTowerEntity = TowerType.getDestructionEntity(this.towerType, this.level(), this.blockPosition());
+                AbstractDestructionEntity destroyTowerEntity = TowerType.getDestructionEntity(this.towerType, this.level());
+                destroyTowerEntity.setStartStop(this.blockPosition());
                 this.level().addFreshEntity(destroyTowerEntity);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -534,7 +536,7 @@ public class BTAbstractObelisk extends Entity {
         }
 
         if (!specialEnemyCap && canSpawn && acceptableDistance && onGround && serverWorld.getBlockState(spawn.above()).isAir()) {
-            Entity entity = TowerType.getSpecialEnemy(this.towerType, serverWorld);
+            Entity entity = TowerType.getSpecialEnemy(this.towerType, serverWorld).getType();
             if (entity instanceof Mob mob) {
                 mob.setPos(spawn.getX() + .5, spawn.getY(), spawn.getZ() + .5);
                 net.minecraftforge.event.ForgeEventFactory.onFinalizeSpawn(mob, serverWorld, serverWorld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
