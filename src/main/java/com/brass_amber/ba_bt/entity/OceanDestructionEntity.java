@@ -31,8 +31,8 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
     public String waterBelowTowerName = "waterBelowTower";
 
 
-    public OceanDestructionEntity(EntityType<OceanDestructionEntity> type, Level level) {
-        super(type, level);
+    public OceanDestructionEntity(EntityType<?> entityType, Level level) {
+        super(entityType, level);
         this.blockSearchDistance = 17;
         this.destructionRadius = 17.5;
         this.crumbleDirection = 1;
@@ -42,11 +42,8 @@ public class OceanDestructionEntity extends AbstractDestructionEntity {
         this.waterbelowTower = false;
     }
 
-    public OceanDestructionEntity(Level level, BlockPos obeliskPos) {
+    public OceanDestructionEntity(Level level) {
         this(BTEntityType.OCEAN_DESTRUCTION.get(), level);
-        this.setPos(obeliskPos, -110);
-        LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
-        LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
     }
 
     @Override

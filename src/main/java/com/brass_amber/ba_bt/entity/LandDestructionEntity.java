@@ -17,19 +17,16 @@ import static com.brass_amber.ba_bt.util.BTUtil.*;
 
 public class LandDestructionEntity extends AbstractDestructionEntity {
 
-    public LandDestructionEntity(EntityType<LandDestructionEntity> type, Level level) {
-        super(type, level);
+    public LandDestructionEntity(EntityType<?> entityType, Level level) {
+        super(BTEntityType.LAND_DESTRUCTION.get(), level);
         this.blockSearchDistance = 16;
         this.destructionRadius = 15.5;
         this.crumbleDirection = -1;
         this.destroySpeed = 0;
     }
 
-    public LandDestructionEntity(Level level, BlockPos obeliskPos) {
+    public LandDestructionEntity(Level level) {
         this(BTEntityType.LAND_DESTRUCTION.get(), level);
-        this.setPos(obeliskPos, 98);
-        LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
-        LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
     }
 
     @Override

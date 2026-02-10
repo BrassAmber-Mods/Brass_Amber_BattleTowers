@@ -32,12 +32,8 @@ public class CoreDestructionEntity extends AbstractDestructionEntity {
         this.destroySpeed = 0;
     }
 
-    public CoreDestructionEntity(Level level, BlockPos obeliskPos) {
+    public CoreDestructionEntity(Level level) {
         this(BTEntityType.CORE_DESTRUCTION.get(), level);
-        this.setPos(obeliskPos, 98);
-        LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
-        LOGGER.debug("Start Y: {} | Stop Y: {}", this.crumbleStartY, this.crumbleStopY);
-        this.crumbleStopY -=1;
     }
 
     @Override
