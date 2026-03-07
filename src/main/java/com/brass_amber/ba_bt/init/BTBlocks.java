@@ -183,6 +183,10 @@ public class BTBlocks {
 					.isValidSpawn(BTBlocks::never).isRedstoneConductor(BTBlocks::never).isSuffocating(BTBlocks::never)
 					.isViewBlocking(BTBlocks::never).speedFactor(1.2F)), 128);
 
+	public static final RegistryObject<Block> GILDED_PRISMARINE = registerBlock("gilded_prismarine",
+			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+					.instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+					.strength(1.5F, 6.0F)), 128);
 
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return false;
