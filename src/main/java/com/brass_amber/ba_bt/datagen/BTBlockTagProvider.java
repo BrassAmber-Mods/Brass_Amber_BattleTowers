@@ -108,17 +108,21 @@ public class BTBlockTagProvider extends BlockTagsProvider  {
                 .addTag(BT_SPAWNERS)
                 .addTag(BT_CORRITE_BLOCKS)
                 .addTag(BT_ACTIVE_CORRITE_BLOCKS)
-                .addTag(BT_CORE_MATTER_BLOCKS);
+                .addTag(BT_CORE_MATTER_BLOCKS)
+                .add(BTBlocks.GILDED_PRISMARINE.get());
 
         this.tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(BT_CHESTS)
                 .addTag(BT_SPAWNERS);
 
         this.tag(BlockTags.NEEDS_IRON_TOOL)
-                .addTag(BT_CHESTS);
+                .addTag(BT_CHESTS)
+                .addTag(BT_CORRITE_BLOCKS)
+                .addTag(BT_ACTIVE_CORRITE_BLOCKS);
 
         this.tag(BlockTags.NEEDS_STONE_TOOL)
-                .addTag(BT_SPAWNERS);
+                .addTag(BT_SPAWNERS)
+                .addTag(BT_CORE_MATTER_BLOCKS);
 
         this.tag(BlockTags.WITHER_IMMUNE)
                 .addTag(BT_CHESTS)
