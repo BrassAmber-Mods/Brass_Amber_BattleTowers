@@ -27,11 +27,6 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         super(output, BABattleTowers.MOD_ID, exFileHelper);
     }
 
-    private static final Map<BTBookSlotModelCacheKey, ResourceLocation> CHISELED_BOOKSHELF_SLOT_MODEL_CACHE = new HashMap<>();
-
-    static record BTBookSlotModelCacheKey(ModelTemplate template, String modelSuffix) {
-    }
-
     @Override
     protected void registerStatesAndModels() {
         chestBlock(BTBlocks.LAND_CHEST);
@@ -75,9 +70,10 @@ public class BTBlocksStateProvider extends BlockStateProvider {
         stairBlock(BTBlocks.CORE_MATTER_STAIR);
         wallBlock(BTBlocks.CORE_MATTER_WALL);
 
-        simpleBlock(BTBlocks.CLOUD.get(), models().getExistingFile(locate("block/cloud")));
+        simpleBlock(BTBlocks.CLOUD.get());
         itemModels().singleTexture(BTBlocks.CLOUD.getId().getPath(), locate("block/cloud") , locate("item/cloud_inventory"));
 
+        simpleBlock(BTBlocks.GILDED_PRISMARINE.get());
     }
 
     public void simpleBTBlock(RegistryObject<Block> block) {
