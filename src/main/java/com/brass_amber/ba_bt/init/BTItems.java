@@ -53,6 +53,10 @@ public class BTItems {
 	public static final RegistryObject<Item> SKY_RESONANCE_CRYSTAL = ITEMS.register("sky_resonance_stone", () -> new ResonanceStoneItem(TowerType.SKY, MUSIC_SKY_TOWER,new Item.Properties().stacksTo(1).fireResistant(), 3940));
 	public static final RegistryObject<Item> CITY_RESONANCE_CRYSTAL = ITEMS.register("city_resonance_stone", () -> new ResonanceStoneItem(TowerType.CITY, MUSIC_CITY,new Item.Properties().stacksTo(1).fireResistant(), 6560));
 
+	public static final RegistryObject<Item> CORRITE_ROD = ITEMS.register("corrite_rod", () -> new Item(new Item.Properties().fireResistant()));
+	public static final RegistryObject<Item> CORREYE = ITEMS.register("correye", () -> new Item(new Item.Properties().stacksTo(1).fireResistant()));
+
+
 	public static void register(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 	}
