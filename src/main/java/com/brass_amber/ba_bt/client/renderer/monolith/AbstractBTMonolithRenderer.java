@@ -18,10 +18,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+
+
 public abstract class AbstractBTMonolithRenderer extends EntityRenderer<BTMonolith> {
 	private final MonolithModel monolith;
 	private List<ResourceLocation> monolithTextures = Lists.newArrayList();

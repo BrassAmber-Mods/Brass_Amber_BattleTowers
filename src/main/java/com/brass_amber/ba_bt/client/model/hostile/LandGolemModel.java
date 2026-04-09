@@ -14,8 +14,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 
 /**
@@ -24,7 +23,7 @@ import net.minecraft.client.renderer.blockentity.ChestRenderer;
  * End Golem needs transparency?
  *
  */
-@OnlyIn(Dist.CLIENT)
+
 public class LandGolemModel extends HumanoidModel<AbstractGolem> {
 	/**
 	 * Look at {@link ChestRenderer} for example of doing multiple types of textures for an entity

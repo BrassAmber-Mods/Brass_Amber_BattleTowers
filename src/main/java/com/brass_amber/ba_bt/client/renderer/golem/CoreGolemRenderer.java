@@ -7,10 +7,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+
+
 public class CoreGolemRenderer extends AbstractGolemRenderer<CoreGolem, CoreGolemModel> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/core_golem/core_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");

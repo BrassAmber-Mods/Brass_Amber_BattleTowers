@@ -12,10 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+
+
 public class FragmentOfObthuurynRenderer extends MobRenderer<FragmentOfObthuuryn, FragmentOfObthuurynModel<FragmentOfObthuuryn>> {
    private static final ResourceLocation DEFAULT_TEXTURE_LOCATION = BABattleTowers.locate("textures/entity/fragment_of_obthuuryn.png");
    public static final ModelLayerLocation TEXTURE = new ModelLayerLocation(DEFAULT_TEXTURE_LOCATION, "main");

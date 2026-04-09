@@ -6,10 +6,9 @@ import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+
+
 public class OceanGolemRenderer extends AbstractGolemRenderer<AbstractGolem, OceanGolemModel> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/golem/ocean_golem/ocean_golem_dormant");
 	public static ModelLayerLocation LAYER = new ModelLayerLocation(TEXTURE, "main");

@@ -10,15 +10,14 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 /**
  * 
  * Sky golem legs do not move and she uses vex animations [weapon hand raises when she charges]
  *
  */
-@OnlyIn(Dist.CLIENT)
+
 public class SkyGolemModel extends EntityModel<AbstractGolem> {
 	private final ModelPart bone;
 	public static ModelLayerLocation LAYER;

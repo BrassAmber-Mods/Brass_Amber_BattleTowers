@@ -9,8 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class GuardianEyeItem extends Item {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("tooltip.ba_bt." + this.towerType.getLowercaseName() + "_eye").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));

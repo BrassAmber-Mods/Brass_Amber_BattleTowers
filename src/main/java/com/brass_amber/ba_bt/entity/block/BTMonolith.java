@@ -30,8 +30,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 /*
@@ -397,12 +395,12 @@ public class BTMonolith extends Entity {
 
 	/****************************************************** Client ***************************************************/
 
-	@OnlyIn(Dist.CLIENT)
+
 	public float getFloatingRotation() {
 		return this.floatingRotation;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+
 	private void animateTick() {
 		// TODO Add blue portal like particle
 		if (/*!config.disableParticles.get() && */this.random.nextFloat() < 0.2f) {

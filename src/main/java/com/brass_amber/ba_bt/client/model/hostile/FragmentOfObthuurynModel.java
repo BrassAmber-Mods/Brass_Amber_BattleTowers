@@ -12,10 +12,9 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.monster.Shulker;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+
+
 public class FragmentOfObthuurynModel<T extends FragmentOfObthuuryn> extends ListModel<T> {
    private static final String LID = "lid";
    private static final String BASE = "base";

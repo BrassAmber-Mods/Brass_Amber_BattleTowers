@@ -8,8 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 
 import javax.annotation.Nullable;
@@ -26,7 +25,7 @@ public class MonolithKeyItem extends Item {
 	 * allows items to add custom lines of information to the mouseover description
 	 */
 	@Override
-	@OnlyIn(Dist.CLIENT)
+
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_key").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));

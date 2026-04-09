@@ -9,15 +9,14 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 /**
  * 
  * Ocean golem tail doesn't need an animation but a light waving would be fine
  *
  */
-@OnlyIn(Dist.CLIENT)
+
 public class OceanGolemModel extends EntityModel<AbstractGolem> {
 	// TODO
 	private final ModelPart bone;
