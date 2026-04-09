@@ -29,7 +29,7 @@ public class BTBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, BABattleTowers.MOD_ID);
 
 	public static final RegistryObject<Block> LAND_GOLEM_CHEST = registerChestBlock("land_golem_chest",
-			() -> new BTChestBlock(BTBlockEntityType.LAND_GOLEM_CHEST::get,
+			() -> new GolemChestBlock(BTBlockEntityType.LAND_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 1200.0F)
 							.sound(SoundType.STONE).noOcclusion(), TowerType.LAND)
 	);
@@ -40,7 +40,7 @@ public class BTBlocks {
 	);
 
 	public static final RegistryObject<Block> OCEAN_GOLEM_CHEST = registerChestBlock("ocean_golem_chest",
-			() -> new BTChestBlock(BTBlockEntityType.OCEAN_GOLEM_CHEST::get,
+			() -> new GolemChestBlock(BTBlockEntityType.OCEAN_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
 							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), TowerType.OCEAN)
 	);
@@ -51,7 +51,7 @@ public class BTBlocks {
 	);
 
 	public static final RegistryObject<Block> CORE_GOLEM_CHEST = registerChestBlock("core_golem_chest",
-			() -> new BTChestBlock(BTBlockEntityType.CORE_GOLEM_CHEST::get,
+			() -> new GolemChestBlock(BTBlockEntityType.CORE_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
 							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), TowerType.CORE)
 	);
@@ -62,7 +62,7 @@ public class BTBlocks {
 	);
 
 	public static final RegistryObject<Block> NETHER_GOLEM_CHEST = registerChestBlock("nether_golem_chest",
-			() -> new BTChestBlock(BTBlockEntityType.NETHER_GOLEM_CHEST::get,
+			() -> new GolemChestBlock(BTBlockEntityType.NETHER_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
 							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), TowerType.NETHER)
 	);
@@ -73,7 +73,7 @@ public class BTBlocks {
 	);
 
 	public static final RegistryObject<Block> END_GOLEM_CHEST = registerChestBlock("end_golem_chest",
-			() -> new BTChestBlock(BTBlockEntityType.END_GOLEM_CHEST::get,
+			() -> new GolemChestBlock(BTBlockEntityType.END_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
 							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), TowerType.END)
 	);
@@ -84,7 +84,7 @@ public class BTBlocks {
 	);
 
 	public static final RegistryObject<Block> SKY_GOLEM_CHEST = registerChestBlock("sky_golem_chest",
-			() -> new BTChestBlock(BTBlockEntityType.SKY_GOLEM_CHEST::get,
+			() -> new GolemChestBlock(BTBlockEntityType.SKY_GOLEM_CHEST::get,
 					Block.Properties.of().mapColor(MapColor.STONE).strength(2.5F)
 							.sound(SoundType.STONE).noOcclusion().explosionResistance(1200.0F), TowerType.SKY)
 	);
@@ -95,22 +95,22 @@ public class BTBlocks {
 	);
 
     public static final RegistryObject<Block> LAND_SPAWNER = registerBlock("land_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
+			() -> new TowerSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final RegistryObject<Block> OCEAN_SPAWNER = registerBlock("ocean_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
+			() -> new TowerSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final RegistryObject<Block> CORE_SPAWNER = registerBlock("core_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
+			() -> new TowerSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final RegistryObject<Block> NETHER_SPAWNER = registerBlock("nether_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
+			() -> new TowerSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final RegistryObject<Block> END_SPAWNER = registerBlock("end_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
+			() -> new TowerSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final RegistryObject<Block> SKY_SPAWNER = registerBlock("sky_spawner",
-			() -> new BTSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
+			() -> new TowerSpawnerBlock(Block.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.METAL).noOcclusion().noLootTable()), 1);
 
 	public static final  RegistryObject<Block> SPAWNER_MARKER = registerBlock("spawner_marker",
 			() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F).noOcclusion().noLootTable().isValidSpawn(BTBlocks::never)), 1);

@@ -1,8 +1,7 @@
-package com.brass_amber.ba_bt.block.blockentity;
+package com.brass_amber.ba_bt.block.blockentity.chest;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.block.block.BTChestBlock;
-import com.brass_amber.ba_bt.util.TowerType;
+import com.brass_amber.ba_bt.block.block.GolemChestBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -21,34 +20,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
 
-public class BTChestBlockEntity extends ChestBlockEntity {
+public class AbstractChestBlockEntity extends ChestBlockEntity {
 	protected boolean unlocked = false;
-	protected TowerType towerType;
+	protected String name_prefix;
 	protected boolean golemChest;
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 
-	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState, TowerType towerType) {
-		this(TowerType.getChestForType(towerType, TowerType.isGolemChest(blockState.getBlock())), blockPos, blockState);
-	}
-
-	public BTChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(TowerType.getChestForType(TowerType.getTypeForChest(blockState.getBlock()), TowerType.isGolemChest(blockState.getBlock())), blockPos, blockState);
-	}
-
-	protected BTChestBlockEntity(BlockEntityType<? extends BTChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
+	protected AbstractChestBlockEntity(BlockEntityType<? extends AbstractChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
-		this.towerType = TowerType.getTypeForChest(blockEntityType);
-		this.golemChest = TowerType.isGolemChest(blockState.getBlock());
+		this.golemChest = false;
 	}
 
 	@Override
 	public int getContainerSize() {
 		return 36;
-	}
-
-	public TowerType getChestType() {
-		return this.towerType;
 	}
 
 	/**
@@ -58,9 +44,9 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	@Override
 	protected Component getDefaultName() {
 		if (this.golemChest) {
-			return Component.translatable("container.ba_bt." + this.towerType.getLowercaseName() + "_golem_chest");
+			return Component.translatable("container.ba_bt." + this.name_prefix + "_golem_chest");
 		}
-		return Component.translatable("container.ba_bt." + this.towerType.getLowercaseName() + "_chest");
+		return Component.translatable("container.ba_bt." + this.name_prefix + "_chest");
 	}
 
 	@Override
@@ -108,17 +94,17 @@ public class BTChestBlockEntity extends ChestBlockEntity {
 	}
 
 	public void setUnlocked(boolean tf) {
-		ChestType chesttype = this.getBlockState().getValue(BTChestBlock.TYPE);
+		ChestType chesttype = this.getBlockState().getValue(GolemChestBlock.TYPE);
 		this.unlocked = tf;
 
         // BABTMain.LOGGER.debug("{} {}", this.unlocked, chesttype);
 
 		// Make sure that if this is a double chest the other half also gets unlocked.
 		if (chesttype != ChestType.SINGLE) {
-			Direction direction = BTChestBlock.getConnectedDirection(this.getBlockState());
-			BTChestBlockEntity chestEntity = null;
+			Direction direction = GolemChestBlock.getConnectedDirection(this.getBlockState());
+			AbstractChestBlockEntity chestEntity = null;
 			try {
-				chestEntity = (BTChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
+				chestEntity = (AbstractChestBlockEntity) this.level.getBlockEntity(this.getBlockPos().relative(direction));
 			} catch (Exception e) {
 				BABattleTowers.LOGGER.debug(e.toString());
 			}
