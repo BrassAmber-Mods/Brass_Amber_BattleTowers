@@ -27,7 +27,7 @@ public class AbstractChestBlockEntity extends ChestBlockEntity {
 
 	protected NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
 
-	protected AbstractChestBlockEntity(BlockEntityType<? extends AbstractChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
+	public AbstractChestBlockEntity(BlockEntityType<? extends AbstractChestBlockEntity> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
 		this.golemChest = false;
 	}

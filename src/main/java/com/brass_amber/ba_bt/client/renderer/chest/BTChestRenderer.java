@@ -1,18 +1,17 @@
 package com.brass_amber.ba_bt.client.renderer.chest;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
+import com.brass_amber.ba_bt.block.blockentity.chest.AbstractChestBlockEntity;
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
-public class BTChestRenderer extends ChestRenderer<BTChestBlockEntity> {
+
+
+public class BTChestRenderer extends ChestRenderer<AbstractChestBlockEntity> {
 	public static Material[] single = new Material[TowerType.VALUES.length];
 	public static Material[] left = new Material[TowerType.VALUES.length];
 	public static Material[] right = new Material[TowerType.VALUES.length];
@@ -37,7 +36,7 @@ public class BTChestRenderer extends ChestRenderer<BTChestBlockEntity> {
 	}
 
 	@Override
-	protected Material getMaterial(BTChestBlockEntity chestBlockEntity, ChestType chestType) {
+	protected Material getMaterial(AbstractChestBlockEntity chestBlockEntity, ChestType chestType) {
 		return getChestMaterial(chestBlockEntity, chestType);
 	}
 
@@ -51,18 +50,18 @@ public class BTChestRenderer extends ChestRenderer<BTChestBlockEntity> {
 
 	}
 
-	private static Material getChestMaterial(BTChestBlockEntity chestBlockEntity, ChestType type) {
+	private static Material getChestMaterial(AbstractChestBlockEntity chestBlockEntity, ChestType type) {
 		if (chestBlockEntity.isGolemChest()) {
 			return switch (type) {
-				case LEFT -> leftGolem[chestBlockEntity.getChestType().ordinal()];
-				case RIGHT -> rightGolem[chestBlockEntity.getChestType().ordinal()];
-				default -> singleGolem[chestBlockEntity.getChestType().ordinal()];
+				case LEFT -> leftGolem[TowerType.getTypeForChest(chestBlockEntity).ordinal()];
+				case RIGHT -> rightGolem[TowerType.getTypeForChest(chestBlockEntity).ordinal()];
+				default -> singleGolem[TowerType.getTypeForChest(chestBlockEntity).ordinal()];
 			};
 		}
         return switch (type) {
-            case LEFT -> left[chestBlockEntity.getChestType().ordinal()];
-            case RIGHT -> right[chestBlockEntity.getChestType().ordinal()];
-            default -> single[chestBlockEntity.getChestType().ordinal()];
+            case LEFT -> left[TowerType.getTypeForChest(chestBlockEntity).ordinal()];
+            case RIGHT -> right[TowerType.getTypeForChest(chestBlockEntity).ordinal()];
+            default -> single[TowerType.getTypeForChest(chestBlockEntity).ordinal()];
         };
 	}
 }
