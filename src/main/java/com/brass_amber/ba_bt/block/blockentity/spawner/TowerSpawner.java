@@ -6,10 +6,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.WeightedEntry;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -19,10 +16,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public abstract class BTBaseSpawner extends BaseSpawner {
+public abstract class TowerSpawner extends net.minecraft.world.level.BaseSpawner {
     private BlockPos towerCenter = BlockPos.ZERO;
-    private int towerRadius = 6;
-    public void setBtSpawnData(int minDelay, int maxDelay, int spawnCount, int maxNearby, int playerRange, int spawnRange, BlockPos towerCenter, int towerRadius) {
+
+    public void setBtSpawnData(int minDelay, int maxDelay, int spawnCount, int maxNearby, int playerRange, int spawnRange, BlockPos towerCenter) {
         this.minSpawnDelay = minDelay;
         this.maxSpawnDelay = maxDelay;
         this.spawnCount = spawnCount;
@@ -31,7 +28,6 @@ public abstract class BTBaseSpawner extends BaseSpawner {
         this.spawnRange = spawnRange;
         this.spawnDelay = 0;
         this.towerCenter = towerCenter;
-        this.towerRadius = towerRadius;
     }
 
     public void serverTick(@NotNull ServerLevel serverLevel, @NotNull BlockPos blockPos) {
@@ -58,9 +54,9 @@ public abstract class BTBaseSpawner extends BaseSpawner {
 
                     ListTag listtag = compoundtag.getList("Pos", 6);
                     int j = listtag.size();
-                    double d0 = j >= 1 ? listtag.getDouble(0) : (double)blockPos.getX() + (serverLevel.random.nextDouble() - serverLevel.random.nextDouble()) * (double)this.spawnRange + 0.5D;
-                    double d1 = j >= 2 ? listtag.getDouble(1) : (double)(blockPos.getY() + serverLevel.random.nextInt(3) - 1);
-                    double d2 = j >= 3 ? listtag.getDouble(2) : (double)blockPos.getZ() + (serverLevel.random.nextDouble() - serverLevel.random.nextDouble()) * (double)this.spawnRange + 0.5D;
+                    double d0 = j >= 1 ? listtag.getDouble(0) : (double) towerCenter.getX() + (serverLevel.random.nextDouble() - serverLevel.random.nextDouble()) * (double)this.spawnRange + 0.5D;
+                    double d1 = j >= 2 ? listtag.getDouble(1) : (double)(towerCenter.getY() + serverLevel.random.nextInt(3) - 1);
+                    double d2 = j >= 3 ? listtag.getDouble(2) : (double) towerCenter.getZ() + (serverLevel.random.nextDouble() - serverLevel.random.nextDouble()) * (double)this.spawnRange + 0.5D;
                     if (serverLevel.noCollision(optional.get().getAABB(d0, d1, d2))) {
                         BlockPos blockpos2 = BlockPos.containing(d0, d1, d2);
 
@@ -73,7 +69,7 @@ public abstract class BTBaseSpawner extends BaseSpawner {
                             return;
                         }
 
-                        int k = serverLevel.getEntitiesOfClass(entity.getClass(), (new AABB(towerCenter.getX(), blockPos.getY(), towerCenter.getZ(), towerCenter.getX() + 1, blockPos.getY() + 1, towerCenter.getZ() + 1)).inflate(this.towerRadius)).size();
+                        int k = serverLevel.getEntitiesOfClass(entity.getClass(), (new AABB(towerCenter.getX(), blockPos.getY(), towerCenter.getZ(), towerCenter.getX() + 1, blockPos.getY() + 1, towerCenter.getZ() + 1)).inflate(this.spawnRange)).size();
                         if (k >= this.maxNearbyEntities) {
                             this.delay(serverLevel, blockPos);
                             return;
@@ -117,7 +113,6 @@ public abstract class BTBaseSpawner extends BaseSpawner {
     @Override
     public CompoundTag save(CompoundTag compoundTag) {
         compoundTag.put("TowerCenter", NbtUtils.writeBlockPos(this.towerCenter));
-        compoundTag.putInt("TowerRadius", this.towerRadius);
         return super.save(compoundTag);
     }
 

@@ -4,9 +4,9 @@ import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BTOceanSpawnerEntity extends BTAbstractSpawnerBlockEntity {
+public class OceanSpawnerEntity extends AbstractSpawnerBlockEntity {
 
-    public BTOceanSpawnerEntity(BlockPos blockPos, BlockState blockState) {
+    public OceanSpawnerEntity(BlockPos blockPos, BlockState blockState) {
         super(blockPos, blockState, BTBlockEntityType.OCEAN_MOB_SPAWNER.get());
     }
 }

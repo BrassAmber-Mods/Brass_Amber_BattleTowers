@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class BTAbstractSpawnerBlockEntity extends BlockEntity {
+public class AbstractSpawnerBlockEntity extends BlockEntity {
 
-    private final BTBaseSpawner spawner = new BTBaseSpawner() {
+    private final TowerSpawner spawner = new TowerSpawner() {
         public void broadcastEvent(Level level, BlockPos blockPos, int p_155769_) {
             level.blockEvent(blockPos, Blocks.SPAWNER, p_155769_, 0);
         }
@@ -32,10 +32,10 @@ public class BTAbstractSpawnerBlockEntity extends BlockEntity {
 
         }
         @org.jetbrains.annotations.Nullable
-        public net.minecraft.world.level.block.entity.BlockEntity getSpawnerBlockEntity() { return BTAbstractSpawnerBlockEntity.this; }
+        public net.minecraft.world.level.block.entity.BlockEntity getSpawnerBlockEntity() { return AbstractSpawnerBlockEntity.this; }
     };
 
-    public BTAbstractSpawnerBlockEntity(BlockPos blockPos, BlockState blockState, BlockEntityType<?> spawnerType) {
+    public AbstractSpawnerBlockEntity(BlockPos blockPos, BlockState blockState, BlockEntityType<?> spawnerType) {
         super(spawnerType, blockPos, blockState);
     }
 
@@ -49,11 +49,11 @@ public class BTAbstractSpawnerBlockEntity extends BlockEntity {
         this.spawner.save(tag);
     }
 
-    public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, BTAbstractSpawnerBlockEntity btSpawnerBlockEntity) {
+    public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, AbstractSpawnerBlockEntity btSpawnerBlockEntity) {
         btSpawnerBlockEntity.spawner.clientTick(level, blockPos);
     }
 
-    public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, BTAbstractSpawnerBlockEntity btSpawnerBlockEntity) {
+    public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, AbstractSpawnerBlockEntity btSpawnerBlockEntity) {
         btSpawnerBlockEntity.spawner.serverTick((ServerLevel) level, blockPos);
     }
 
@@ -79,7 +79,7 @@ public class BTAbstractSpawnerBlockEntity extends BlockEntity {
         this.spawner.setEntityId(p_254530_, this.level, p_253719_, this.worldPosition);
     }
 
-    public BTBaseSpawner getSpawner() {
+    public TowerSpawner getSpawner() {
         return this.spawner;
     }
 }

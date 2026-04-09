@@ -4,9 +4,9 @@ import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BTLandSpawnerEntity extends BTAbstractSpawnerBlockEntity {
+public class LandSpawnerEntity extends AbstractSpawnerBlockEntity {
 
-    public BTLandSpawnerEntity(BlockPos blockPos, BlockState blockState) {
+    public LandSpawnerEntity(BlockPos blockPos, BlockState blockState) {
         super(blockPos, blockState, BTBlockEntityType.LAND_MOB_SPAWNER.get());
     }
 }
