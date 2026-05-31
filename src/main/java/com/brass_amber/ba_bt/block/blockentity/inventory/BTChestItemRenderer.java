@@ -1,7 +1,7 @@
 package com.brass_amber.ba_bt.block.blockentity.inventory;
 
-import com.brass_amber.ba_bt.block.block.GolemChestBlock;
-import com.brass_amber.ba_bt.block.blockentity.chest.AbstractChestBlockEntity;
+import com.brass_amber.ba_bt.block.block.BTChestBlock;
+import com.brass_amber.ba_bt.block.blockentity.chest.BTChestBlockEntity;
 import com.brass_amber.ba_bt.util.TowerType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -20,15 +20,6 @@ public class BTChestItemRenderer<T extends BlockEntity> extends BlockEntityWitho
 
     public static BTChestItemRenderer INSTANCE = new BTChestItemRenderer();
 
-    private AbstractChestBlockEntity[] tiles = new AbstractChestBlockEntity[TowerType.VALUES.length];
-    private AbstractChestBlockEntity[] tilesGolem = new AbstractChestBlockEntity[TowerType.VALUES.length];
-
-    {
-        for (TowerType type : TowerType.VALUES) {
-            tiles[type.ordinal()] = new AbstractChestBlockEntity(TowerType.getChestForType(type, false), BlockPos.ZERO, TowerType.getChestBlockForType(type, false).defaultBlockState());
-            tilesGolem[type.ordinal()] = new AbstractChestBlockEntity(TowerType.getChestForType(type, false),BlockPos.ZERO, TowerType.getChestBlockForType(type, true).defaultBlockState());
-        }
-    }
 
     public BTChestItemRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -41,8 +32,12 @@ public class BTChestItemRenderer<T extends BlockEntity> extends BlockEntityWitho
     @Override
     public void renderByItem(ItemStack itemStack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLightIn, int combinedOverlayIn) {
         Block block = Block.byItem(itemStack.getItem());
-        if (block instanceof GolemChestBlock) {
-            Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(this.tiles[((GolemChestBlock)block).getType().ordinal()], poseStack, multiBufferSource, combinedLightIn, combinedOverlayIn);
+
+        if (block instanceof BTChestBlock chestBlock) {
+            Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(
+                    chestBlock.newBlockEntity(BlockPos.ZERO, chestBlock.defaultBlockState()),
+                    poseStack, multiBufferSource, combinedLightIn, combinedOverlayIn
+            );
         } else {
             super.renderByItem(itemStack, displayContext, poseStack, multiBufferSource, combinedLightIn, combinedOverlayIn);
         }

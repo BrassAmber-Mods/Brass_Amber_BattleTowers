@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 
 import com.brass_amber.ba_bt.block.blockentity.chest.*;
 
-import com.brass_amber.ba_bt.block.blockentity.spawner.*;
+import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.inventory.BTChestMenu;
 import com.brass_amber.ba_bt.util.TowerType;
@@ -25,7 +25,7 @@ import net.minecraft.world.level.material.FluidState;
 
 import javax.annotation.Nullable;
 
-public class GolemChestBlock extends ChestBlock {
+public class BTChestBlock extends ChestBlock {
 
 	private static final DoubleBlockCombiner.Combiner<ChestBlockEntity, Optional<MenuProvider>> MENU_PROVIDER_COMBINER = new DoubleBlockCombiner.Combiner<>() {
         public Optional<MenuProvider> acceptDouble(final ChestBlockEntity container1, final ChestBlockEntity chestBlockEntity) {
@@ -61,18 +61,18 @@ public class GolemChestBlock extends ChestBlock {
         }
     };
 
-	protected final TowerType type;
 	protected boolean golemChest;
+	protected String namePrefix;
 
-	public GolemChestBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties, TowerType type) {
+	public BTChestBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> chestSupplier, Properties properties, String namePrefix, boolean golemChest) {
 		super(properties, chestSupplier);
-		this.type = type;
-		this.golemChest = true;
+		this.golemChest = golemChest;
+		this.namePrefix = namePrefix;
 	}
 
 	@Override
 	public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, LivingEntity livingEntity, ItemStack itemStack) {
-		AbstractChestBlockEntity blockEntity = (AbstractChestBlockEntity) level.getBlockEntity(blockPos);
+		BTChestBlockEntity blockEntity = (BTChestBlockEntity) level.getBlockEntity(blockPos);
 
 		if (itemStack.hasCustomHoverName()) {
 			blockEntity.setCustomName(itemStack.getHoverName());
@@ -91,24 +91,14 @@ public class GolemChestBlock extends ChestBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-		if (this == BTBlocks.OCEAN_GOLEM_CHEST.get()) {
-			return new OceanGolemChestBlockEntity(blockPos, blockState);
-		} else if (this == BTBlocks.CORE_GOLEM_CHEST.get()) {
-			return new CoreGolemChestBlockEntity(blockPos, blockState);
-		} else if (this == BTBlocks.NETHER_GOLEM_CHEST.get()) {
-			return new NetherGolemChestBlockEntity(blockPos, blockState);
-		} else if (this == BTBlocks.END_GOLEM_CHEST.get()) {
-			return new EndGolemChestBlockEntity(blockPos, blockState);
-		} else if (this == BTBlocks.SKY_GOLEM_CHEST.get()) {
-			return new SkyGolemChestBlockEntity(blockPos, blockState);
-		} else {
-			return new LandGolemChestBlockEntity(blockPos, blockState);
-		}
+		BTChestBlockEntity chestBlockEntity = new BTChestBlockEntity( blockPos, blockState);
+		chestBlockEntity.setPrefixType(this.namePrefix, this.golemChest);
+		return chestBlockEntity;
 	}
 
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-		AbstractChestBlockEntity chestTileEntity = (AbstractChestBlockEntity) level.getBlockEntity(pos);
+		BTChestBlockEntity chestTileEntity = (BTChestBlockEntity) level.getBlockEntity(pos);
         if (chestTileEntity.isUnlocked()) {
 			return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 		} else if (player != null && player.isCreative()) {
@@ -118,11 +108,7 @@ public class GolemChestBlock extends ChestBlock {
 		}
 	}
 
-	public TowerType getType() {
-		return type;
-	}
-
 	public boolean isGolemChest() {
-		return golemChest;
+		return this.golemChest;
 	}
 }

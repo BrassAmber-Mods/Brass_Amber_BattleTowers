@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.client.renderer;
 
-import com.brass_amber.ba_bt.block.blockentity.spawner.AbstractSpawnerBlockEntity;
+import com.brass_amber.ba_bt.block.blockentity.spawner.BTSpawnerBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,13 +13,13 @@ import net.minecraft.world.level.BaseSpawner;
 
 
 
-public class BTSpawnerBlockEntityRenderer implements BlockEntityRenderer<AbstractSpawnerBlockEntity> {
+public class BTSpawnerBlockEntityRenderer implements BlockEntityRenderer<BTSpawnerBlockEntity> {
     private final EntityRenderDispatcher entityRenderer;
     public BTSpawnerBlockEntityRenderer(BlockEntityRendererProvider.Context p_173673_) {
         this.entityRenderer = p_173673_.getEntityRenderer();
     }
 
-    public void render(AbstractSpawnerBlockEntity spawnerBlockEntity, float rotation, PoseStack poseStack, MultiBufferSource bufferSource, int lightCoords, int p_112568_) {
+    public void render(BTSpawnerBlockEntity spawnerBlockEntity, float rotation, PoseStack poseStack, MultiBufferSource bufferSource, int lightCoords, int p_112568_) {
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.0D, 0.5F);
         BaseSpawner basespawner = spawnerBlockEntity.getSpawner();

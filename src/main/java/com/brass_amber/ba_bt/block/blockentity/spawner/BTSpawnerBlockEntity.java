@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.block.blockentity.spawner;
 
 
+import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -11,12 +12,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class AbstractSpawnerBlockEntity extends BlockEntity {
+public class BTSpawnerBlockEntity extends BlockEntity {
 
     private final TowerSpawner spawner = new TowerSpawner() {
         public void broadcastEvent(Level level, BlockPos blockPos, int p_155769_) {
@@ -32,11 +32,11 @@ public class AbstractSpawnerBlockEntity extends BlockEntity {
 
         }
         @org.jetbrains.annotations.Nullable
-        public net.minecraft.world.level.block.entity.BlockEntity getSpawnerBlockEntity() { return AbstractSpawnerBlockEntity.this; }
+        public net.minecraft.world.level.block.entity.BlockEntity getSpawnerBlockEntity() { return BTSpawnerBlockEntity.this; }
     };
 
-    public AbstractSpawnerBlockEntity(BlockPos blockPos, BlockState blockState, BlockEntityType<?> spawnerType) {
-        super(spawnerType, blockPos, blockState);
+    public BTSpawnerBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(BTBlockEntityType.BT_SPAWNER.get(), blockPos, blockState);
     }
 
     public void load(CompoundTag tag) {
@@ -49,11 +49,11 @@ public class AbstractSpawnerBlockEntity extends BlockEntity {
         this.spawner.save(tag);
     }
 
-    public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, AbstractSpawnerBlockEntity btSpawnerBlockEntity) {
+    public static void clientTick(Level level, BlockPos blockPos, BlockState blockState, BTSpawnerBlockEntity btSpawnerBlockEntity) {
         btSpawnerBlockEntity.spawner.clientTick(level, blockPos);
     }
 
-    public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, AbstractSpawnerBlockEntity btSpawnerBlockEntity) {
+    public static void serverTick(Level level, BlockPos blockPos, BlockState blockState, BTSpawnerBlockEntity btSpawnerBlockEntity) {
         btSpawnerBlockEntity.spawner.serverTick((ServerLevel) level, blockPos);
     }
 
