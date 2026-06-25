@@ -97,6 +97,17 @@ public abstract class AbstractDestructionEntity extends Entity {
         LOGGER.debug("Destruction {} spawned at: {}", this.towerType.getSerializedName(), this.blockPosition());
     }
 
+    public void setTowerType(TowerType type) {
+        // TODO
+        this.towerType = type;
+        this.colorCode = this.towerType.getColorCode();
+        this.golemName = this.towerType.getDisplayName();
+        this.golemDefeatText = Component.translatable("title.ba_bt." + this.towerType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_defeated");
+        this.golemFateText = Component.translatable("title.ba_bt." + this.towerType.getSerializedName().toLowerCase(Locale.ROOT) + "_golem_fate");
+        this.collapseFlavorText = Component.translatable("title.ba_bt." + this.towerType.getSerializedName().toLowerCase(Locale.ROOT) + "_collapse_flavor");
+        this.startTicks = TowerType.getDestructionDelay(type) * 20;
+    }
+
     @Override
     public void tick() {
         super.tick();
