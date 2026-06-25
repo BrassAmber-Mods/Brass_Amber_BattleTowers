@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.brass_amber.ba_bt.block.blockentity.*;
+import com.brass_amber.ba_bt.block.blockentity.chest.BTChestBlockEntity;
 import com.brass_amber.ba_bt.entity.CoreDestructionEntity;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
@@ -198,20 +198,6 @@ public enum TowerType implements StringRepresentable {
 		};
 	}
 
-	/**
-	 * Get the correct Monolith key for the Correct Monolith Entity
-	 */
-	public static @NotNull EntityType<BTMonolith> getMonolithFor(TowerType towerType) {
-		return switch (towerType) {
-			case OCEAN -> BTEntityType.OCEAN_MONOLITH.get();
-			case CORE -> BTEntityType.CORE_MONOLITH.get();
-			case NETHER -> BTEntityType.NETHER_MONOLITH.get();
-			case END -> BTEntityType.END_MONOLITH.get();
-			case SKY -> BTEntityType.SKY_MONOLITH.get();
-			default -> BTEntityType.LAND_MONOLITH.get();
-		};
-	}
-
 	/*********************************************************** Obelisk ********************************************************/
 
 	/**
@@ -285,26 +271,6 @@ public enum TowerType implements StringRepresentable {
 	/**
 	 * Return the correct GolemType for each ChestBlock Entity.
 	 */
-
-	public static TowerType getTypeForChest(BlockEntityType<? extends BTChestBlockEntity> blockEntityType) {
-
-		if (BTBlockEntityType.LAND_CHEST.get().equals(blockEntityType) || BTBlockEntityType.LAND_GOLEM_CHEST.get().equals(blockEntityType)) {
-			return LAND;
-		} else if (BTBlockEntityType.OCEAN_CHEST.get().equals(blockEntityType) || BTBlockEntityType.OCEAN_GOLEM_CHEST.get().equals(blockEntityType)) {
-			return OCEAN;
-		} else if (BTBlockEntityType.CORE_CHEST.get().equals(blockEntityType) || BTBlockEntityType.CORE_GOLEM_CHEST.get().equals(blockEntityType)) {
-			return CORE;
-		} else if (BTBlockEntityType.NETHER_CHEST.get().equals(blockEntityType) || BTBlockEntityType.NETHER_GOLEM_CHEST.get().equals(blockEntityType)) {
-			return NETHER;
-		} else if (BTBlockEntityType.END_CHEST.get().equals(blockEntityType) || BTBlockEntityType.END_GOLEM_CHEST.get().equals(blockEntityType)) {
-			return END;
-		} else if (BTBlockEntityType.SKY_CHEST.get().equals(blockEntityType) || BTBlockEntityType.SKY_GOLEM_CHEST.get().equals(blockEntityType)) {
-			return SKY;
-		}
-
-		// Couldn't get EntityType
-		return EMPTY;
-	}
 	
 	public static TowerType getTypeForChest(Block block) {
 
@@ -367,38 +333,6 @@ public enum TowerType implements StringRepresentable {
 		// Couldn't get EntityType
 		return EMPTY;
 	}
-	/**
-	 * Return the correct ChestBlock Entity for each GolemType.
-	 */
-	public static BlockEntityType<? extends BTChestBlockEntity> getChestForType(TowerType towerType, boolean golemChest) {
-		if (golemChest) {
-			return switch (towerType) {
-				case OCEAN -> BTBlockEntityType.OCEAN_GOLEM_CHEST.get();
-				case CORE -> BTBlockEntityType.CORE_GOLEM_CHEST.get();
-				case NETHER -> BTBlockEntityType.NETHER_GOLEM_CHEST.get();
-				case END -> BTBlockEntityType.END_GOLEM_CHEST.get();
-				case SKY -> BTBlockEntityType.SKY_GOLEM_CHEST.get();
-				default -> BTBlockEntityType.LAND_GOLEM_CHEST.get();
-			};
-		}
-		return switch (towerType) {
-			case OCEAN -> BTBlockEntityType.OCEAN_CHEST.get();
-			case CORE -> BTBlockEntityType.CORE_CHEST.get();
-			case NETHER -> BTBlockEntityType.NETHER_CHEST.get();
-			case END -> BTBlockEntityType.END_CHEST.get();
-			case SKY -> BTBlockEntityType.SKY_CHEST.get();
-			default ->BTBlockEntityType.LAND_CHEST.get();
-		};
-	}
-
-	public static boolean isGolemChest(BlockEntityType<?> blockEntityType) {
-        return BTBlockEntityType.LAND_GOLEM_CHEST.get().equals(blockEntityType)
-                || BTBlockEntityType.OCEAN_GOLEM_CHEST.get().equals(blockEntityType)
-                || BTBlockEntityType.CORE_GOLEM_CHEST.get().equals(blockEntityType)
-                || BTBlockEntityType.NETHER_GOLEM_CHEST.get().equals(blockEntityType)
-                || BTBlockEntityType.END_GOLEM_CHEST.get().equals(blockEntityType)
-                || BTBlockEntityType.SKY_GOLEM_CHEST.get().equals(blockEntityType);
-    }
 
 	public static boolean isGolemChest(Block block) {
 		return BTBlocks.LAND_GOLEM_CHEST.get().equals(block)
@@ -407,18 +341,6 @@ public enum TowerType implements StringRepresentable {
 				|| BTBlocks.NETHER_GOLEM_CHEST.get().equals(block)
 				|| BTBlocks.END_GOLEM_CHEST.get().equals(block)
 				|| BTBlocks.SKY_GOLEM_CHEST.get().equals(block);
-	}
-
-
-	public static EntityType<?> getDestructionEntityForType(TowerType towerType) {
-		return switch (towerType) {
-            case OCEAN -> BTEntityType.OCEAN_DESTRUCTION.get();
-			case CORE -> BTEntityType.CORE_DESTRUCTION.get();
-			case NETHER -> BTEntityType.NETHER_DESTRUCTION.get();
-			case END -> BTEntityType.END_DESTRUCTION.get();
-			case SKY -> BTEntityType.SKY_DESTRUCTION.get();
-            default -> BTEntityType.LAND_DESTRUCTION.get();
-        };
 	}
 
 	/**
