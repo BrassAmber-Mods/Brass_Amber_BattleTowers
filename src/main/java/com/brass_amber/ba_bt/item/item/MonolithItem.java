@@ -2,7 +2,6 @@ package com.brass_amber.ba_bt.item.item;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.block.BTMonolith;
-import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -13,25 +12,25 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
 
 public class MonolithItem extends Item {
-	private final TowerType towerType;
+	private final EntityType<? extends BTMonolith> monolithType;
 
-	public MonolithItem(TowerType type, Item.Properties builder) {
+	public MonolithItem(EntityType<? extends BTMonolith> monolithType, Item.Properties builder) {
 		super(builder);
-		this.towerType = type;
+		this.monolithType = monolithType;
 	}
 
 	/*********************************************************** Placement ********************************************************/
@@ -57,7 +56,7 @@ public class MonolithItem extends Item {
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(TowerType.getMonolithFor(this.towerType), level);
+					BTMonolith newBTMonolithEntity = new BTMonolith(this.monolithType, level);
 					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
 					newBTMonolithEntity.setPos(x + centerOnBlock, y, z + centerOnBlock);
 					newBTMonolithEntity.setFromItem(true);
@@ -98,10 +97,11 @@ public class MonolithItem extends Item {
 
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.towerType.getLowercaseName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			BABattleTowers.LOGGER.debug(this.monolithType.getDescriptionId());
+			tooltip.add(Component.translatable("tooltip.ba_bt."+ this.monolithType.getDescriptionId()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
