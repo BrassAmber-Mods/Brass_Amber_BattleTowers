@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
+import com.brass_amber.ba_bt.block.blockentity.chest.BTChestBlockEntity;
+import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,10 +16,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
 
 public abstract class AbstractObeliskEntity extends Entity {
     public static final EntityDataSerializer<ObeliskState> OBELISK_STATE_SERIALIZER = EntityDataSerializer.simpleEnum(ObeliskState.class);
@@ -55,7 +59,7 @@ public abstract class AbstractObeliskEntity extends Entity {
     protected int towerRange;
 
     protected GenerationState generationState = GenerationState.REMOVE_MOTION_BLOCKS;
-    protected ObeliskState obeliskState = ObeliskState.SETUP;
+    protected ObeliskState obeliskState = ObeliskState.TOWER_SETUP;
     protected List<BlockPos> toRemove;
     protected int floorDistance;
     public EntityType<?> lastSpawnerType;
@@ -101,18 +105,16 @@ public abstract class AbstractObeliskEntity extends Entity {
             this.clientTick();
         }
 
-        if (!this.fromItem) {
-            if (this.generationState != GenerationState.FINISHED) {
-                switch (this.generationState) {
-                    case REMOVE_MOTION_BLOCKS -> this.removeMotionActiveBlocks();
-                    case GATHER_AREA_BLOCKS -> this.gatherAreaBlocks();
-                    case REMOVE_AREA_BLOCKS -> this.removeAreaBlocks();
-                    case ADD_AREA_FEATURES -> this.addAreaFeatures();
-                }
-            }
+        switch (this.obeliskState) {
+            case TOWER_SETUP -> this.towerSetup();
+            case TOWER_GENERATION -> this.towerGeneration();
+            case ACTIVE_TOWER -> this.activeTower();
+            case SPAWNERS_DESTROYED -> this.spawnersDestroyed();
+            case GOLEM_SPAWNED -> this.golemSpawned();
+            case TOWER_COLLAPSING -> this.towerCollapsing();
+            case TOWER_INACTIVE -> this.towerInactive();
+            default -> this.fromItem();
         }
-
-
     }
 
     public void clientTick() {
@@ -133,7 +135,7 @@ public abstract class AbstractObeliskEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(OBELISK_STATE, ObeliskState.SETUP);
+        this.entityData.define(OBELISK_STATE, ObeliskState.TOWER_SETUP);
         this.entityData.define(HAS_CRYSTAL, false);
     }
 
@@ -202,38 +204,89 @@ public abstract class AbstractObeliskEntity extends Entity {
 
     public enum ObeliskState {
         FROM_ITEM(),
-        SETUP(),
+        TOWER_SETUP(),
+        TOWER_GENERATION(),
         ACTIVE_TOWER(),
         SPAWNERS_DESTROYED(),
         GOLEM_SPAWNED(),
         TOWER_COLLAPSING(),
-        TOWER_COLLAPSED();
+        TOWER_INACTIVE();
 
 
         ObeliskState() {
         }
 
         public static ObeliskState getState(int value) {
-            return value > 0 && value < 3 ? SETUP : ObeliskState.values()[value];
+            return value > 0 && value < 3 ? TOWER_SETUP : ObeliskState.values()[value];
         }
     }
 
-    public void towerSetup() {
+    public void fromItem() {
+        // Always Empty
+    }
 
+    public void towerSetup() {
+        BlockPos floorBottom = this.getOnPos().offset(-15, 0, -15);
+        BlockPos floorTop = this.blockPosition().offset(-15, +this.floorDistance, -15);
+        for (int i = 0; i < 8; i++) {
+            for (BlockPos toCheck : BlockPos.betweenClosed(floorBottom, floorTop)) {
+                // This is here to avoid unnecessary variable passing to checkPos()
+                if (this.level().getBlockState(toCheck).getBlock() == BTBlocks.SPAWNER_MARKER.get()) {
+                    // BrassAmberBattleTowers.LOGGER.debug(toCheck + " " + this.level().getBlockState(toCheck));
+                    spawnersSet = this.setSpawnerBlock(toCheck.immutable(), this.checkLayer, level, spawnersSet);
+                }
+                this.checkPos(toCheck.immutable(), level);
+                this.extraCheck(toCheck.immutable(), level);
+            }
+            this.checkPos(
+                    BlockPos.betweenClosedStream(floorBottom, floorTop)
+                            .filter(blockPos -> distanceTo2D(this, blockPos) < 13)
+                            .toList(), i
+            );
+
+            floorBottom.above(this.floorDistance);
+            floorTop.above(this.floorDistance);
+        }
+    }
+
+    public void checkPos(List<BlockPos> blockPosList, int floorId) {
+        for (BlockPos blockPos : blockPosList) {
+            BlockState blockState = this.level().getBlockState(blockPos);
+
+
+        }
+
+
+    }
+
+    public void towerGeneration() {
+        if (this.generationState != GenerationState.FINISHED) {
+            switch (this.generationState) {
+                case REMOVE_MOTION_BLOCKS -> this.removeMotionActiveBlocks();
+                case GATHER_AREA_BLOCKS -> this.gatherAreaBlocks();
+                case REMOVE_AREA_BLOCKS -> this.removeAreaBlocks();
+                case ADD_AREA_FEATURES -> this.addAreaFeatures();
+            }
+        }
     }
 
     public void activeTower() {
 
     }
 
-    public void
+    public void spawnersDestroyed() {
+
+    }
 
     public void golemSpawned() {
+
     }
 
     public void towerCollapsing() {
+
     }
 
-    public void towerCollapsed() {
+    public void towerInactive() {
+
     }
 }
