@@ -136,7 +136,7 @@ public class BTCoreObelisk extends BTAbstractObelisk {
                     }
                 } else if (entity instanceof Animal || entity instanceof NeutralMob) {
                     if (entity.getY() < this.level().getMinBuildHeight()) {
-                        List<BlockPos> pos = BlockPos.betweenClosedStream(this.blockPosition().offset(-22, 0, -22), this.blockPosition().offset(22, 0, 22)).filter(blockPos -> distanceTo2D(this, blockPos) > this.enemySpawnRange + 1).map(BlockPos::immutable).toList();
+                        List<BlockPos> pos = BlockPos.betweenClosedStream(this.blockPosition().offset(-22, 0, -22), this.blockPosition().offset(22, 0, 22)).filter(blockPos -> distanceTo2D(this, blockPos) > this.towerRange + 1).map(BlockPos::immutable).toList();
                         BlockPos teleportPos = pos.get(this.random.nextInt(pos.size()));
                         entity.teleportTo(teleportPos.getX(), teleportPos.getY() + 9, teleportPos.getZ());
                         entity.resetFallDistance();
