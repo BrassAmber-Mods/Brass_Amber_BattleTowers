@@ -1,4 +1,4 @@
-package com.brass_amber.ba_bt.item;
+package com.brass_amber.ba_bt.registries;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTRegistries;

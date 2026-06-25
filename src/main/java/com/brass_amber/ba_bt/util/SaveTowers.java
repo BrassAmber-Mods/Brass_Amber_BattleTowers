@@ -2,7 +2,7 @@ package com.brass_amber.ba_bt.util;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTRegistries;
-import com.brass_amber.ba_bt.item.ItemPool;
+import com.brass_amber.ba_bt.registries.ItemPool;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;

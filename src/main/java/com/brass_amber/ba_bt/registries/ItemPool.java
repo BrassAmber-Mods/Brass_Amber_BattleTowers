@@ -1,9 +1,7 @@
-package com.brass_amber.ba_bt.item;
+package com.brass_amber.ba_bt.registries;
 
-import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.util.BTRarity;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -29,11 +27,11 @@ public class ItemPool {
     public static final Codec<ItemPool> CODEC = RecordCodecBuilder.create(lootPoolInstance ->
             lootPoolInstance.group(
                     Codec.STRING.fieldOf("name").forGetter(itemPool -> itemPool.name),
-                    Codec.list(PoolItem.CODEC.codec()).fieldOf(JUNK.getSerializedName()).forGetter(itemPool -> itemPool.junkItems),
-                    Codec.list(PoolItem.CODEC.codec()).fieldOf(COMMON.getSerializedName()).forGetter(itemPool -> itemPool.commonItems),
-                    Codec.list(PoolItem.CODEC.codec()).fieldOf(UNCOMMON.getSerializedName()).forGetter(itemPool -> itemPool.uncommonItems),
-                    Codec.list(PoolItem.CODEC.codec()).fieldOf(RARE.getSerializedName()).forGetter(itemPool -> itemPool.rareItems),
-                    Codec.list(PoolItem.CODEC.codec()).fieldOf(EPIC.getSerializedName()).forGetter(itemPool -> itemPool.epicItems)
+                    PoolItem.CODEC.listOf().fieldOf(JUNK.getSerializedName()).forGetter(itemPool -> itemPool.junkItems),
+                    PoolItem.CODEC.listOf().fieldOf(COMMON.getSerializedName()).forGetter(itemPool -> itemPool.commonItems),
+                    PoolItem.CODEC.listOf().fieldOf(UNCOMMON.getSerializedName()).forGetter(itemPool -> itemPool.uncommonItems),
+                    PoolItem.CODEC.listOf().fieldOf(RARE.getSerializedName()).forGetter(itemPool -> itemPool.rareItems),
+                    PoolItem.CODEC.listOf().fieldOf(EPIC.getSerializedName()).forGetter(itemPool -> itemPool.epicItems)
             ).apply(lootPoolInstance, ItemPool::new)
     );
 
@@ -104,8 +102,7 @@ public class ItemPool {
             Item item, IntProvider intProvider
     ) {
 
-
-        public static final MapCodec<PoolItem> CODEC = RecordCodecBuilder.mapCodec(
+        public static final Codec<PoolItem> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
                         ForgeRegistries.ITEMS.getCodec().fieldOf("item").orElse(Items.AIR).forGetter(PoolItem::item),
                         IntProvider.codec(1, 64).orElse(ConstantInt.of(1)).fieldOf("amount").forGetter(PoolItem::intProvider)

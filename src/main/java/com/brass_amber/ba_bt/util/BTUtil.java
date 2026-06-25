@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.util;
 
-import com.brass_amber.ba_bt.item.ItemPool;
+import com.brass_amber.ba_bt.registries.ItemPool;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
