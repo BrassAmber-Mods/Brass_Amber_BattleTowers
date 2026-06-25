@@ -1,10 +1,10 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.block.block.BTSpawnerBlock;
+import com.brass_amber.ba_bt.block.block.TowerSpawnerBlock;
 import com.brass_amber.ba_bt.block.blockentity.DataMarkerBlockEntity;
-import com.brass_amber.ba_bt.block.blockentity.BTChestBlockEntity;
-import com.brass_amber.ba_bt.block.blockentity.spawner.BTAbstractSpawnerBlockEntity;
+import com.brass_amber.ba_bt.block.blockentity.chest.BTChestBlockEntity;
+import com.brass_amber.ba_bt.block.blockentity.spawner.BTSpawnerBlockEntity;
 import com.brass_amber.ba_bt.entity.AbstractDestructionEntity;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.item.item.ResonanceStoneItem;
@@ -149,7 +149,7 @@ public class BTAbstractObelisk extends Entity {
 
     public void initialize() {
         this.initialized = true;
-        this.enemySpawnRange = 12;
+        this.enemySpawnRange = 6;
         this.entityCheckAABB = this.getBoundingBox().inflate(this.towerRange, 115, this.towerRange);
         this.toRemove = new ArrayList<>();
     }
@@ -265,7 +265,7 @@ public class BTAbstractObelisk extends Entity {
                 this.SPAWNERS.get(this.checkLayer-1).add(toCheck);
                 BlockEntity entity = level.getBlockEntity(toCheck);
                 EntityType<?> nextSpawnerEntity;
-                if (entity instanceof BTAbstractSpawnerBlockEntity btspawnerEntity) {
+                if (entity instanceof BTSpawnerBlockEntity btspawnerEntity) {
                     // Prevent floors from having all spawners of one type (i.e all skeletons) unless list only has one possible mob
                     do {
                         nextSpawnerEntity = this.towerMobs.get(this.random.nextInt(this.towerMobs.size()));
@@ -273,8 +273,8 @@ public class BTAbstractObelisk extends Entity {
                     btspawnerEntity.getSpawner().setEntityId(nextSpawnerEntity, level, level.getRandom(), toCheck);
                     btspawnerEntity.getSpawner().setBtSpawnData(
                             this.floorData.get(0), this.floorData.get(1), this.floorData.get(2),
-                            this.floorData.get(3), this.floorData.get(4), this.floorData.get(5),
-                            this.blockPosition(), this.enemySpawnRange
+                            this.floorData.get(3), this.floorData.get(4), this.enemySpawnRange,
+                            this.blockPosition()
                     );
                 }
                 // BABattleTowers.LOGGER.debug("Found spawner: " + this.checkLayer);
@@ -589,7 +589,7 @@ public class BTAbstractObelisk extends Entity {
                     for (int x = 0; x < positions.size(); x++) {
                         if (positions.get(x) != null) {
                             BlockPos blockPos = positions.get(x);
-                            if (!(level.getBlockState(blockPos).getBlock() instanceof BTSpawnerBlock)) {
+                            if (!(level.getBlockState(blockPos).getBlock() instanceof TowerSpawnerBlock)) {
                                 this.SPAWNERS.get(i).set(x, null);
                                 this.setSpawnersDestroyed(this.getSpawnersDestroyed() + 1);
                                 BABattleTowers.LOGGER.debug("Spawners Destroyed: {}", this.getSpawnersDestroyed());
