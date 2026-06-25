@@ -19,8 +19,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -59,6 +57,7 @@ public class ObeliskItem extends Item {
 
 					AbstractObeliskEntity obelisk;
 					double centerOnBlock = 0.5D;
+					// TODO FIX OBELISK CREATION
 					switch (this.towerType) {
 						case OCEAN -> {
 							// BABTMain.LOGGER.debug("Ocean Obelisk");
@@ -114,7 +113,7 @@ public class ObeliskItem extends Item {
 
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.towerType.getLowercaseName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
