@@ -1,23 +1,34 @@
-// Made with Blockbench 5.0.7
+package com.brass_amber.ba_bt.client.model;// Made with Blockbench 5.0.7
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
+import com.brass_amber.ba_bt.entity.CorreyeEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 
-public class correye<T extends Entity> extends EntityModel<T> {
+public class CorreyeModel extends EntityModel<CorreyeEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "correye"), "main");
+	public static ModelLayerLocation LAYER_LOCATION;
 	private final ModelPart correye;
 	private final ModelPart body;
 	private final ModelPart tendril_right;
 	private final ModelPart tendril_left;
 	private final ModelPart tendril_middle;
 
-	public correye(ModelPart root) {
+	public CorreyeModel(ModelPart root, ModelLayerLocation location) {
 		this.correye = root.getChild("correye");
 		this.body = this.correye.getChild("body");
 		this.tendril_right = this.body.getChild("tendril_right");
 		this.tendril_left = this.body.getChild("tendril_left");
 		this.tendril_middle = this.body.getChild("tendril_middle");
+		LAYER_LOCATION = location;
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -50,7 +61,7 @@ public class correye<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(CorreyeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

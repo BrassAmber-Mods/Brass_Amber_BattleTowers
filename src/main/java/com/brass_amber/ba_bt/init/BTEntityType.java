@@ -87,6 +87,10 @@ public class BTEntityType {
 			() -> EntityType.Builder.of(ExplosionPhysics::new, MobCategory.MISC)
 					.sized(0.0F, 0.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().noSave().noSummon().build("explosion_physics"));
 
+	public static final RegistryObject<EntityType<CorreyeEntity>> CORREYE_ENTITY = ENTITY_TYPES.register("correye_entity",
+			() -> EntityType.Builder.of(CorreyeEntity::new, MobCategory.AMBIENT)
+					.sized(1.0F, 1.0F).setTrackingRange(100).immuneTo(Blocks.TNT).fireImmune().build("correye_entity")
+			);
 	
 	/**
 	 * Register Spawn Rules

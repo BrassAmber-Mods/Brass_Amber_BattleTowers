@@ -1,11 +1,11 @@
 package com.brass_amber.ba_bt.client;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.entity.CorreyeEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -22,7 +22,6 @@ import static com.brass_amber.ba_bt.sound.BTMusic.LAND_TOWER_MUSIC;
 public class BTEvents {
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     public static void onDeath(PlayerEvent.PlayerRespawnEvent event) {
         BABattleTowers.LOGGER.debug("In Respawn code-");
         Player player = event.getEntity();
@@ -32,6 +31,20 @@ public class BTEvents {
             MusicManager musicManager = mc.getMusicManager();
             if (musicManager.isPlayingMusic(LAND_TOWER_MUSIC) || musicManager.isPlayingMusic(LAND_GOLEM_FIGHT_MUSIC)) {
                 musicManager.stopPlaying();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void blockBreak(PlayerEvent.BreakSpeed event) {
+        Player player = event.getEntity();
+        if (!player.level().isClientSide() && !player.isSpectator() && !player.isCreative()) {
+            CorreyeEntity correyeEntity = player.level().getNearestEntity(
+                    CorreyeEntity.class, TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight(), player,
+                    player.getX(), player.getY(), player.getZ(), player.getBoundingBox().inflate(10D, 10D, 10D));
+
+            if (correyeEntity != null) {
+                event.setNewSpeed(2f);
             }
         }
     }

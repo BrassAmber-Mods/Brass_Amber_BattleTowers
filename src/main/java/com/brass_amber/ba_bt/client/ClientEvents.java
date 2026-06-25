@@ -1,6 +1,7 @@
 package com.brass_amber.ba_bt.client;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.client.model.CorreyeModel;
 import com.brass_amber.ba_bt.client.model.block.MonolithModel;
 import com.brass_amber.ba_bt.client.model.block.ObeliskModel;
 import com.brass_amber.ba_bt.client.renderer.*;
@@ -21,19 +22,16 @@ import com.brass_amber.ba_bt.client.renderer.golem.LandGolemRenderer;
 import com.brass_amber.ba_bt.client.renderer.golem.NetherGolemRenderer;
 import com.brass_amber.ba_bt.client.renderer.golem.OceanGolemRenderer;
 import com.brass_amber.ba_bt.client.renderer.golem.SkyGolemRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber(modid = BABattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BABattleTowers.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
 
 	private ClientEvents() {}
-
-	@OnlyIn(Dist.CLIENT)
+	
 	@SubscribeEvent
 	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		// ENTITIES
@@ -47,6 +45,7 @@ public class ClientEvents {
 		event.registerEntityRenderer(BTEntityType.SKY_MINION.get(), SkyMinionRenderer::new);
 		event.registerEntityRenderer(BTEntityType.BT_CULTIST.get(), BTCultistRenderer::new);
 		event.registerEntityRenderer(BTEntityType.FRAGMENT_OF_OBTHUURYN.get(), FragmentOfObthuurynRenderer::new);
+		event.registerEntityRenderer(BTEntityType.CORREYE_ENTITY.get(), CorreyeRenderer::new);
 
 		event.registerEntityRenderer(BTEntityType.LAND_MONOLITH.get(), LandBTMonolithRenderer::new);
 		event.registerEntityRenderer(BTEntityType.OCEAN_MONOLITH.get(), OceanBTMonolithRenderer::new);
@@ -94,7 +93,7 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(BTBlockEntityType.DATA_MARKER.get(), DataMarkerBlockRenderer::new);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+
 	@SubscribeEvent
 	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(LandBTMonolithRenderer.TEXTURE, MonolithModel::createBodyLayer);
@@ -114,6 +113,7 @@ public class ClientEvents {
 		event.registerLayerDefinition(SkyMinionRenderer.TEXTURE, SkyMinionModel::createBodyLayer);
 		event.registerLayerDefinition(BTCultistRenderer.TEXTURE, BTCultistModel::createBodyLayer);
 		event.registerLayerDefinition(FragmentOfObthuurynRenderer.TEXTURE, FragmentOfObthuurynModel::createBodyLayer);
+		event.registerLayerDefinition(CorreyeRenderer.TEXTURE, CorreyeModel::createBodyLayer);
 
 		event.registerLayerDefinition(LandGolemRenderer.LAYER, LandGolemModel::createBodyLayer);
 		event.registerLayerDefinition(OceanGolemRenderer.LAYER, OceanGolemModel::createBodyLayer);
