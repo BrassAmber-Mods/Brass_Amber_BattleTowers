@@ -1,7 +1,9 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
+import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.BossEvent;
@@ -32,7 +34,7 @@ public class OceanGolem extends AbstractGolem {
 	public OceanGolem(EntityType<? extends OceanGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.YELLOW);
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-		this.setGolemName(TowerType.OCEAN.getDisplayName());
+		this.setGolemName(Component.translatable("entity.ba_bt.ocean_golem"));
 		this.setBossBarName();
 		this.BOSS_MUSIC = OCEAN_GOLEM_FIGHT_MUSIC;
 		this.moveControl = new SmoothSwimmingMoveControl(this, 90, 90, .08f, .5f, false);
@@ -44,7 +46,7 @@ public class OceanGolem extends AbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 250).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 12.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.oceanGolemHP).add(Attributes.MOVEMENT_SPEED, 1D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 12.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	protected @NotNull PathNavigation createNavigation(@NotNull Level level) {

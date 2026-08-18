@@ -2,10 +2,12 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import java.util.EnumSet;
 
+import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.ai.goal.SkyGolemFireballAttackGoal;
 
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -35,7 +37,7 @@ public class SkyGolem extends AbstractGolem {
 	public SkyGolem(EntityType<? extends SkyGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.WHITE);
 		this.moveControl = new SkyGolem.MoveHelperController(this);
-		this.setGolemName(TowerType.SKY.getDisplayName());
+		this.setGolemName(Component.translatable("entity.ba_bt.sky_golem"));
 		this.setBossBarName();
 		this.BOSS_MUSIC = SKY_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
@@ -44,7 +46,7 @@ public class SkyGolem extends AbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 650D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.skyGolemHP).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	@Override

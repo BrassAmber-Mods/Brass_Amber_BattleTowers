@@ -1,6 +1,8 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
+import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.util.TowerType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -13,7 +15,7 @@ public class EndGolem extends AbstractGolem {
 
 	public EndGolem(EntityType<? extends EndGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.PINK);
-		this.setGolemName(TowerType.END.getDisplayName());
+		this.setGolemName(Component.translatable("entity.ba_bt.end_golem"));
 		this.setBossBarName();
 		this.BOSS_MUSIC = END_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
@@ -22,7 +24,7 @@ public class EndGolem extends AbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 600D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.endGolemHP).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 21.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	@Override

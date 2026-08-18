@@ -1,10 +1,12 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.BattleTowersConfig;
 import com.brass_amber.ba_bt.entity.ai.goal.CoreGolemFireballAttackGoal;
 import com.brass_amber.ba_bt.entity.ai.goal.CoreMeleeGoal;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.TowerType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -40,7 +42,7 @@ public class CoreGolem extends AbstractGolem {
 
 	public CoreGolem(EntityType<? extends CoreGolem> type, Level levelIn) {
 		super(type, levelIn, BossEvent.BossBarColor.PURPLE);
-		this.setGolemName(TowerType.CORE.getDisplayName());
+		this.setGolemName(Component.translatable("entity.ba_bt.core_golem"));
 		this.setBossBarName();
 		this.BOSS_MUSIC = CORE_GOLEM_FIGHT_MUSIC;
 		// Sets the experience points to drop. Reference taken from the EnderDragon.
@@ -64,7 +66,7 @@ public class CoreGolem extends AbstractGolem {
 	}
 
 	public static AttributeSupplier.Builder createBattleGolemAttributes() {
-		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, 500D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
+		return AbstractGolem.createBattleGolemAttributes().add(Attributes.MAX_HEALTH, BattleTowersConfig.coreGolemHP).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D).add(Attributes.ATTACK_DAMAGE, 15.0D).add(Attributes.FOLLOW_RANGE, 60.0D).add(Attributes.ARMOR, 4);
 	}
 
 	private void setupAnimimationStates() {
