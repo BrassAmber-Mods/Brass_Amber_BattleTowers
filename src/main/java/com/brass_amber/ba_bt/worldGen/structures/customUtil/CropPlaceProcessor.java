@@ -31,7 +31,7 @@ public class CropPlaceProcessor extends StructureProcessor {
         List<StructureTemplate.StructureBlockInfo> newInfo = new java.util.ArrayList<>(List.copyOf(pProcessedBlockInfos));
         RandomSource randomsource = pSettings.getRandom(pPos);
         List<BlockPos> posList = pProcessedBlockInfos.stream().filter(structureBlockInfo -> structureBlockInfo.state().is(Blocks.FARMLAND)).map(structureBlockInfo -> structureBlockInfo.pos().above()).toList();
-        newInfo.replaceAll(info -> posList.contains(info.pos()) ? new StructureTemplate.StructureBlockInfo(info.pos(), this.crops.get(randomsource.nextInt(this.crops.size())), info.nbt()) : info);
+        newInfo.replaceAll(info -> posList.contains(info.pos()) ? new StructureTemplate.StructureBlockInfo(info.pos(), this.crops.get(randomsource.nextInt(this.crops.size())), null) : info);
 
         return newInfo;
     }
