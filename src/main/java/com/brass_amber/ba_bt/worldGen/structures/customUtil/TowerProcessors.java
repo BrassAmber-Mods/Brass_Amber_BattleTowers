@@ -14,33 +14,33 @@ import static com.brass_amber.ba_bt.util.BTTags.Blocks.BASE_PROTECTED_TAG;
 
 public class TowerProcessors {
 
-    static final StructureProcessor BASE_PROTECTED;
+    public static final StructureProcessor BASE_PROTECTED;
 
-    static final StructureProcessor LAND_WALL;
-    static final StructureProcessor LAND_NORMAL_FLOOR;
-    static final StructureProcessor LAND_NORMAL_STAIRS;
-    static final StructureProcessor LAND_CARPET_PLACER;
-    static final StructureProcessor LAND_CROP_PLACER;
+    public static final StructureProcessor LAND_WALL;
+    public static final StructureProcessor LAND_NORMAL_FLOOR;
+    public static final StructureProcessor LAND_NORMAL_STAIRS;
+    public static final StructureProcessor LAND_CARPET_PLACER;
+    public static final StructureProcessor LAND_CROP_PLACER;
 
-    static final StructureProcessor SAND_REMOVE_7;
-    static final StructureProcessor SANDSTONE;
+    public static final StructureProcessor SAND_REMOVE_7;
+    public static final StructureProcessor SANDSTONE;
 
-    static final StructureProcessor OCEAN_NORMAL;
-    static final StructureProcessor OCEAN_NORMAL_FLOOR;
-    static final StructureProcessor NORMAL_STAIRS_OCEAN;
+    public static final StructureProcessor OCEAN_NORMAL;
+    public static final StructureProcessor OCEAN_NORMAL_FLOOR;
+    public static final StructureProcessor NORMAL_STAIRS_OCEAN;
 
-    static final StructureProcessor BONE_REMOVE;
-    static final StructureProcessor WATERLOGGED;
+    public static final StructureProcessor BONE_REMOVE;
+    public static final StructureProcessor WATERLOGGED;
 
-    static final StructureProcessor CORE_WALL;
-    static final StructureProcessor CORE_FLOOR;
-    static final StructureProcessor CORE_STAIRS;
-    static final StructureProcessor CORE_ROOF;
-    static final StructureProcessor CORE_ORE;
+    public static final StructureProcessor CORE_WALL;
+    public static final StructureProcessor CORE_FLOOR;
+    public static final StructureProcessor CORE_STAIRS;
+    public static final StructureProcessor CORE_ROOF;
+    public static final StructureProcessor CORE_ORE;
 
+    public static final StructureProcessor SKY_BASE_SNOW;
+    public static final StructureProcessor SKY_BASE_GOLD;
 
-    static final StructureProcessor SKY_BASE_SNOW;
-    static final StructureProcessor SKY_BASE_GOLD;
 
     static {
 
