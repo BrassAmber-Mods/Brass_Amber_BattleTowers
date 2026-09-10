@@ -31,8 +31,8 @@ public class MonolithRenderer extends EntityRenderer<MonolithEntity> {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(MonolithEntity entityIn) {
-		if (entityIn.towerData != null) {
-			return BABattleTowers.locate("textures/entity/monolith/" + entityIn.towerData.getName() + "_monolith.png");
+		if (entityIn.btEntityData != null) {
+			return BABattleTowers.locate("textures/entity/monolith/" + entityIn.btEntityData.getName() + "_monolith.png");
 		}
 		return BABattleTowers.locate("textures/entity/monolith/land_monolith.png");
 	}

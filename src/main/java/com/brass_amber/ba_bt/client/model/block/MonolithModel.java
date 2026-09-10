@@ -106,7 +106,7 @@ public class MonolithModel<T extends MonolithEntity> extends HierarchicalModel<T
 
 	private void toggleInvisibleParts(T pEntity) {
 
-		int currentVisualMax = pEntity.towerData.getEntityData().getMultiStateKeys().getKeyMax(pEntity.getStateInEntity());
+		int currentVisualMax = pEntity.btEntityData.getMultiStateKeys().getKeyMax(pEntity.getStateInEntity());
 
 		switch (currentVisualMax) {
 			case 2 -> {
