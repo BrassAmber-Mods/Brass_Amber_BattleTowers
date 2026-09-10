@@ -1,7 +1,8 @@
-package com.brass_amber.ba_bt.registries;
+package com.brass_amber.ba_bt.datagen.datapack;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.init.BTRegistries;
+import com.brass_amber.ba_bt.registries.ItemPool;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
