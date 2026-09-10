@@ -46,7 +46,7 @@ public class BTSoundEvents {
 	 * Helper method for registering all SoundEvents
 	 */
 	private static RegistryObject<SoundEvent> registerSoundEvent(String registryName) {
-		SoundEvent soundEvent = SoundEvent.createFixedRangeEvent(BABattleTowers.locate(registryName), 50);
+		SoundEvent soundEvent = SoundEvent.createVariableRangeEvent(BABattleTowers.locate(registryName));
 		return SOUND_EVENTS.register(registryName, () -> soundEvent);
 	}
 
