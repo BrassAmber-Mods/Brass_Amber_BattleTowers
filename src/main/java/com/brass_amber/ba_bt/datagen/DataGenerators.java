@@ -34,6 +34,6 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new BTStructureSetTagProvider(packOutput, lookupProvider, BABattleTowers.MOD_ID, existingFileHelper));
         generator.addProvider(event.includeServer(), new BTBiomeTagProvider(packOutput, lookupProvider, BABattleTowers.MOD_ID,existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new BTWorldGenProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new BTDataPackProvider(packOutput, lookupProvider));
     }
 }
