@@ -1,8 +1,10 @@
 package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.datagen.datapack.TowerDataBootstrap;
 import com.brass_amber.ba_bt.item.item.*;
 import com.brass_amber.ba_bt.util.TowerType;
+import com.brass_amber.ba_bt.datagen.datapack.GenerationDataBootstrap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -31,12 +33,19 @@ public class BTItems {
 	public static final RegistryObject<Item> END_GOLEM_EYE = ITEMS.register("end_golem_eye", () -> new GuardianEyeItem(TowerType.END, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
 	public static final RegistryObject<Item> SKY_GOLEM_EYE = ITEMS.register("sky_golem_eye", () -> new GuardianEyeItem(TowerType.SKY, (new Item.Properties()).stacksTo(8).rarity(Rarity.EPIC).fireResistant()));
 
-	public static final RegistryObject<Item> LAND_MONOLITH = ITEMS.register("land_monolith", () -> new MonolithItem(TowerType.LAND, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
-	public static final RegistryObject<Item> OCEAN_MONOLITH = ITEMS.register("ocean_monolith", () -> new MonolithItem(TowerType.OCEAN, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
-	public static final RegistryObject<Item> CORE_MONOLITH = ITEMS.register("core_monolith", () -> new MonolithItem(TowerType.CORE, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
-	public static final RegistryObject<Item> NETHER_MONOLITH = ITEMS.register("nether_monolith", () -> new MonolithItem(TowerType.NETHER, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
-	public static final RegistryObject<Item> END_MONOLITH = ITEMS.register("end_monolith", () -> new MonolithItem(TowerType.END, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
-	public static final RegistryObject<Item> SKY_MONOLITH = ITEMS.register("sky_monolith", () -> new MonolithItem(TowerType.SKY, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> LAND_MONOLITH = ITEMS.register("land_monolith", () -> new MonolithItem(TowerDataBootstrap.LAND_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> OCEAN_MONOLITH = ITEMS.register("ocean_monolith", () -> new MonolithItem(TowerDataBootstrap.OCEAN_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> CORE_MONOLITH = ITEMS.register("core_monolith", () -> new MonolithItem(TowerDataBootstrap.CORE_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> NETHER_MONOLITH = ITEMS.register("nether_monolith", () -> new MonolithItem(TowerDataBootstrap.NETHER_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> END_MONOLITH = ITEMS.register("end_monolith", () -> new MonolithItem(TowerDataBootstrap.END_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> SKY_MONOLITH = ITEMS.register("sky_monolith", () -> new MonolithItem(TowerDataBootstrap.SKY_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+
+	public static final RegistryObject<Item> LAND_OBELISK = ITEMS.register("land_obelisk", () -> new ObeliskItem(TowerDataBootstrap.LAND_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> OCEAN_OBELISK = ITEMS.register("ocean_obelisk", () -> new ObeliskItem(TowerDataBootstrap.OCEAN_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> CORE_OBELISK = ITEMS.register("core_obelisk", () -> new ObeliskItem(TowerDataBootstrap.CORE_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> NETHER_OBELISK = ITEMS.register("nether_obelisk", () -> new ObeliskItem(TowerDataBootstrap.NETHER_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> END_OBELISK = ITEMS.register("end_obelisk", () -> new ObeliskItem(TowerDataBootstrap.END_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> SKY_OBELISK = ITEMS.register("sky_obelisk", () -> new ObeliskItem(TowerDataBootstrap.SKY_TOWER_DATA, (new Item.Properties()).stacksTo(1).rarity(Rarity.EPIC)));
 
 	public static final RegistryObject<Item> LAND_CHEST_SHARD = ITEMS.register("land_chest_shard", () -> new Item(new Item.Properties().stacksTo(16)));
 	public static final RegistryObject<Item> OCEAN_CHEST_SHARD = ITEMS.register("ocean_chest_shard", () -> new Item(new Item.Properties().stacksTo(16)));

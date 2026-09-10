@@ -1,23 +1,26 @@
 package com.brass_amber.ba_bt.item.item;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.entity.block.BTMonolith;
+import com.brass_amber.ba_bt.entity.block.MonolithEntity;
+import com.brass_amber.ba_bt.init.BTEntityType;
+import com.brass_amber.ba_bt.registries.TowerData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 
 import org.jetbrains.annotations.Nullable;
@@ -26,11 +29,11 @@ import java.util.List;
 import java.util.Random;
 
 public class MonolithItem extends Item {
-	private final EntityType<? extends BTMonolith> monolithType;
+	private final ResourceKey<TowerData> towerDataKey;
 
-	public MonolithItem(EntityType<? extends BTMonolith> monolithType, Item.Properties builder) {
+	public MonolithItem(ResourceKey<TowerData> towerType, Properties builder) {
 		super(builder);
-		this.monolithType = monolithType;
+		this.towerDataKey = towerType;
 	}
 
 	/*********************************************************** Placement ********************************************************/
@@ -43,24 +46,25 @@ public class MonolithItem extends Item {
 		Level level = context.getLevel();
 		BlockPos clickedPos = context.getClickedPos();
 		Direction clickedBlockFace = context.getClickedFace();
+
 		BlockPos newPlacementPos = clickedBlockFace.equals(Direction.DOWN) ? clickedPos.relative(clickedBlockFace, 3) : clickedPos.relative(clickedBlockFace);
 		if (!this.hasEnoughSpace(level, newPlacementPos, clickedBlockFace)) {
 			return InteractionResult.FAIL;
 		} else {
-			double x = (double) newPlacementPos.getX();
-			double y = (double) newPlacementPos.getY();
-			double z = (double) newPlacementPos.getZ();
-			List<Entity> list = level.getEntities((Entity) null, new AABB(x, y, z, x + 1.0D, y + 3.0D, z + 1.0D));
+			double x = newPlacementPos.getX();
+			double y = newPlacementPos.getY();
+			double z = newPlacementPos.getZ();
+			List<Entity> list = level.getEntities(null, new AABB(x, y, z, x + 1.0D, y + 3.0D, z + 1.0D));
 			if (!list.isEmpty()) {
 				return InteractionResult.FAIL;
 			} else {
 				if (level instanceof ServerLevel) {
 					double centerOnBlock = 0.5D;
-					BTMonolith newBTMonolithEntity = new BTMonolith(this.monolithType, level);
-					newBTMonolithEntity.setYRot(this.getPlacementDirection(context));
-					newBTMonolithEntity.setPos(x + centerOnBlock, y, z + centerOnBlock);
-					newBTMonolithEntity.setFromItem(true);
-					level.addFreshEntity(newBTMonolithEntity);
+					MonolithEntity newMonolithEntity = BTEntityType.MONOLITH.get().create(level);
+					newMonolithEntity.setBtEntityData(this.towerDataKey);
+					newMonolithEntity.setYRot(this.getPlacementDirection(context));
+					newMonolithEntity.setPos(x + centerOnBlock, y, z + centerOnBlock);
+					level.addFreshEntity(newMonolithEntity);
 				}
 
 				level.playSound(null, newPlacementPos, SoundEvents.IRON_GOLEM_STEP, SoundSource.BLOCKS, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
@@ -82,11 +86,11 @@ public class MonolithItem extends Item {
 	}
 
 	/**
-	 * Checks if there are any Blocks in the way
+	 * Checks if there are any Blocks in the way (checks for air/fluid at both blocks
 	 */
 	private boolean hasEnoughSpace(Level world, BlockPos pos, Direction clickedBlockFace) {
 		for (int height = 0; height < 3; height++) {
-			if (!world.isEmptyBlock(pos.offset(0, height, 0)) && !world.isWaterAt(pos.offset(0, height, 0))) {
+			if (!world.isEmptyBlock(pos.offset(0, height, 0)) && world.isFluidAtPosition(pos.offset(0, height, 0), FluidState::isEmpty)) {
 				return false;
 			}
 		}
@@ -100,8 +104,7 @@ public class MonolithItem extends Item {
 
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			BABattleTowers.LOGGER.debug(this.monolithType.getDescriptionId());
-			tooltip.add(Component.translatable("tooltip.ba_bt."+ this.monolithType.getDescriptionId()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("tooltip.ba_bt.monolith"+ this.towerDataKey.location()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}

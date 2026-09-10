@@ -2,12 +2,15 @@ package com.brass_amber.ba_bt.item.item;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.entity.block.*;
+import com.brass_amber.ba_bt.init.BTEntityType;
+import com.brass_amber.ba_bt.registries.TowerData;
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,11 +28,11 @@ import java.util.List;
 import java.util.Random;
 
 public class ObeliskItem extends Item {
-	private final TowerType towerType;
+	private final ResourceKey<TowerData> towerDataKey;
 
-	public ObeliskItem(TowerType type, Properties builder) {
+	public ObeliskItem(ResourceKey<TowerData> towerType, Properties builder) {
 		super(builder);
-		this.towerType = type;
+		this.towerDataKey = towerType;
 	}
 
 	/*********************************************************** Placement ********************************************************/
@@ -42,46 +45,30 @@ public class ObeliskItem extends Item {
 		Level level = context.getLevel();
 		BlockPos clickedPos = context.getClickedPos();
 		Direction clickedBlockFace = context.getClickedFace();
+
 		BlockPos newPlacementPos = clickedBlockFace.equals(Direction.DOWN) ? clickedPos.relative(clickedBlockFace, 3) : clickedPos.relative(clickedBlockFace);
 		if (!this.hasEnoughSpace(level, newPlacementPos, clickedBlockFace)) {
 			return InteractionResult.FAIL;
 		} else {
-			double x = (double) newPlacementPos.getX();
-			double y = (double) newPlacementPos.getY();
-			double z = (double) newPlacementPos.getZ();
-			List<Entity> list = level.getEntities((Entity) null, new AABB(x, y, z, x + 1.0D, y + 3.0D, z + 1.0D));
+			double x = newPlacementPos.getX();
+			double y = newPlacementPos.getY();
+			double z = newPlacementPos.getZ();
+			List<Entity> list = level.getEntities(null, new AABB(x, y, z, x + 1.0D, y + 3.0D, z + 1.0D));
 			if (!list.isEmpty()) {
 				return InteractionResult.FAIL;
 			} else {
 				if (level instanceof ServerLevel) {
-
-					AbstractObeliskEntity obelisk;
 					double centerOnBlock = 0.5D;
-					// TODO FIX OBELISK CREATION
-					switch (this.towerType) {
-						case OCEAN -> {
-							// BABTMain.LOGGER.debug("Ocean Obelisk");
-							obelisk = new BTOceanObelisk(level);
-						}
-						case CORE -> {
-							// BABTMain.LOGGER.debug("Core Obelisk");
-							obelisk = new BTCoreObelisk(level);
-						}
-						default -> {
-							obelisk = new BTLandObelisk(level);
-						}
-
-					}
-					obelisk.setPos(x + centerOnBlock, y, z + centerOnBlock);
-					obelisk.setFromItem();
-
+					ObeliskEntity obelisk = BTEntityType.OBELISK.get().create(level);
+					obelisk.setBtEntityData(this.towerDataKey);
 					obelisk.setYRot(this.getPlacementDirection(context));
+					obelisk.setPos(x + centerOnBlock, y, z + centerOnBlock);
 					level.addFreshEntity(obelisk);
 				}
 
 				level.playSound(null, newPlacementPos, SoundEvents.IRON_GOLEM_STEP, SoundSource.BLOCKS, this.getSoundVolume() + 2.0F, this.getSoundPitch() + 1.0F);
 				level.playSound(null, newPlacementPos, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, this.getSoundVolume() - 0.7F, this.getSoundPitch());
-				level.playSound(null, newPlacementPos, SoundEvents.RESPAWN_ANCHOR_CHARGE, SoundSource.BLOCKS, this.getSoundVolume() - 0.25F, this.getSoundPitch() - 2f);
+				level.playSound(null, newPlacementPos, SoundEvents.CONDUIT_ACTIVATE, SoundSource.BLOCKS, this.getSoundVolume() - 0.25F, this.getSoundPitch() - 2f);
 				context.getItemInHand().shrink(1);
 				return InteractionResult.sidedSuccess(level.isClientSide());
 			}
@@ -116,7 +103,7 @@ public class ObeliskItem extends Item {
 
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (Screen.hasShiftDown()) {
-			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.towerType.getLowercaseName()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("tooltip.ba_bt.monolith_"+ this.towerDataKey.location()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
 		} else {
 			tooltip.add(BABattleTowers.HOLD_SHIFT_TOOLTIP);
 		}
