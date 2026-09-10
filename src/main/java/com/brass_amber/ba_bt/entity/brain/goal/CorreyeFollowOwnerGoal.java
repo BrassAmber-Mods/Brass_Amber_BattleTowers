@@ -1,4 +1,4 @@
-package com.brass_amber.ba_bt.entity.ai.goal;
+package com.brass_amber.ba_bt.entity.brain.goal;
 
 import com.brass_amber.ba_bt.entity.CorreyeEntity;
 import net.minecraft.core.BlockPos;

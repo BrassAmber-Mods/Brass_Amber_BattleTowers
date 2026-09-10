@@ -1,8 +1,6 @@
-package com.brass_amber.ba_bt.entity.ai.goal;
+package com.brass_amber.ba_bt.entity.brain.goal;
 
 import com.brass_amber.ba_bt.entity.hostile.golem.CoreGolem;
-import com.brass_amber.ba_bt.sound.BTSoundEvents;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.projectile.LargeFireball;
@@ -11,7 +9,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import static com.brass_amber.ba_bt.entity.hostile.golem.CoreGolem.FIREBALL_DURATION_TICKS;
-import static com.brass_amber.ba_bt.entity.hostile.golem.CoreGolem.MELEE_DURATION_TICKS;
 
 public class CoreGolemFireballAttackGoal extends Goal {
 	protected final CoreGolem golem;

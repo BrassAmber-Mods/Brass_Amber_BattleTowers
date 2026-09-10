@@ -1,6 +1,6 @@
 package com.brass_amber.ba_bt.entity;
 
-import com.brass_amber.ba_bt.entity.ai.goal.CorreyeFollowOwnerGoal;
+import com.brass_amber.ba_bt.entity.brain.goal.CorreyeFollowOwnerGoal;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;

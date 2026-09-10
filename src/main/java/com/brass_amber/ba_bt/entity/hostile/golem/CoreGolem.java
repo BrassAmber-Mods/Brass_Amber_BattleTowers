@@ -2,8 +2,8 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.entity.ai.goal.CoreGolemFireballAttackGoal;
-import com.brass_amber.ba_bt.entity.ai.goal.CoreMeleeGoal;
+import com.brass_amber.ba_bt.entity.brain.goal.CoreGolemFireballAttackGoal;
+import com.brass_amber.ba_bt.entity.brain.goal.CoreMeleeGoal;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.network.chat.Component;

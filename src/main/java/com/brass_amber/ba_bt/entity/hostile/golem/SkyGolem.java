@@ -3,7 +3,7 @@ package com.brass_amber.ba_bt.entity.hostile.golem;
 import java.util.EnumSet;
 
 import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.entity.ai.goal.SkyGolemFireballAttackGoal;
+import com.brass_amber.ba_bt.entity.brain.goal.SkyGolemFireballAttackGoal;
 
 import com.brass_amber.ba_bt.util.TowerType;
 import net.minecraft.core.BlockPos;

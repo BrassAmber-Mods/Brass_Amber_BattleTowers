@@ -1,4 +1,4 @@
-package com.brass_amber.ba_bt.entity.ai.goal;
+package com.brass_amber.ba_bt.entity.brain.goal;
 
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;

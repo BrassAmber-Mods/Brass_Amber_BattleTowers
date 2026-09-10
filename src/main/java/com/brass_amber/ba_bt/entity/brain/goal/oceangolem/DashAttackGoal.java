@@ -1,4 +1,4 @@
-package com.brass_amber.ba_bt.entity.ai.goal.oceangolem;
+package com.brass_amber.ba_bt.entity.brain.goal.oceangolem;
 
 import com.brass_amber.ba_bt.entity.hostile.golem.OceanGolem;
 import net.minecraft.core.BlockPos;

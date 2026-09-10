@@ -1,12 +1,10 @@
-package com.brass_amber.ba_bt.entity.ai.goal;
+package com.brass_amber.ba_bt.entity.brain.goal;
 
-import com.brass_amber.ba_bt.entity.hostile.golem.LandGolem;
+import com.brass_amber.ba_bt.entity.hostile.golem.SkyGolem;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
-
-
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.DragonFireball;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -16,11 +14,11 @@ import net.minecraft.world.phys.Vec3;
  * 
  * TODO Doesn't seem to work together with {@link net.minecraft.world.entity.ai.goal.MeleeAttackGoal}
  */
-public class LandGolemFireballAttackGoal extends Goal {
-	protected final LandGolem golem;
+public class SkyGolemFireballAttackGoal extends Goal {
+	protected final SkyGolem golem;
 	public int chargeTime;
 
-	public LandGolemFireballAttackGoal(LandGolem golem) {
+	public SkyGolemFireballAttackGoal(SkyGolem golem) {
 		this.golem = golem;
 	}
 
@@ -110,8 +108,9 @@ public class LandGolemFireballAttackGoal extends Goal {
 			this.golem.setCharging(this.chargeTime > 10);
 		}
 	}
-	
+
+
 	protected Projectile createFireBall(Level level, double xPower, double yPower, double zPower) {
-		return new LargeFireball(level, this.golem, xPower, yPower, zPower, this.golem.getExplosionPower());
+		return new DragonFireball(level, this.golem, xPower, yPower, zPower);
 	}
 }

@@ -6,7 +6,7 @@ import com.brass_amber.ba_bt.BABattleTowers;
 import com.brass_amber.ba_bt.block.block.BTChestBlock;
 import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
 import com.brass_amber.ba_bt.init.BTEntityType;
-import com.brass_amber.ba_bt.entity.ai.target.TargetTaskGolem;
+import com.brass_amber.ba_bt.entity.brain.target.TargetTaskGolem;
 import com.brass_amber.ba_bt.init.BTItems;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
 

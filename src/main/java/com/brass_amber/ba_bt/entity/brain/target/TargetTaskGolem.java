@@ -1,4 +1,4 @@
-package com.brass_amber.ba_bt.entity.ai.target;
+package com.brass_amber.ba_bt.entity.brain.target;
 
 
 import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;

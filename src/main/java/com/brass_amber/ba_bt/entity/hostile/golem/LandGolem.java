@@ -1,8 +1,8 @@
 package com.brass_amber.ba_bt.entity.hostile.golem;
 
 import com.brass_amber.ba_bt.BattleTowersConfig;
-import com.brass_amber.ba_bt.entity.ai.goal.LandGolemFireballAttackGoal;
-import com.brass_amber.ba_bt.entity.ai.goal.GolemStompAttackGoal;
+import com.brass_amber.ba_bt.entity.brain.goal.LandGolemFireballAttackGoal;
+import com.brass_amber.ba_bt.entity.brain.goal.GolemStompAttackGoal;
 
 
 import com.brass_amber.ba_bt.util.TowerType;
