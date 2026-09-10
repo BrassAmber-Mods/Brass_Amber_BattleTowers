@@ -1,18 +1,26 @@
 package com.brass_amber.ba_bt.entity.block;
 
 import com.brass_amber.ba_bt.BABattleTowers;
-import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.entity.hostile.golem.AbstractGolem;
+import com.brass_amber.ba_bt.init.BTRegistries;
+import com.brass_amber.ba_bt.registries.EntityData;
+import com.brass_amber.ba_bt.registries.TowerData;
 import com.brass_amber.ba_bt.sound.BTSoundEvents;
-import com.brass_amber.ba_bt.util.TowerType;
 
 
+import com.mojang.serialization.DynamicOps;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,10 +31,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.HitResult;
@@ -37,32 +44,29 @@ import org.jetbrains.annotations.NotNull;
  * 
  * Make particles appear like destroying blocks when removing
  */
-public class BTMonolith extends Entity {
-	public static final EntityDataAccessor<Integer> KEYS = SynchedEntityData.defineId(BTMonolith.class, EntityDataSerializers.INT);
-	private final EntityType<?> monolithType;
-	private final TowerType towerType;
-	private final Item correctMonolithKey;
-	private final Item correctGuardianEye;
-	private boolean displayEye = false;
-	private int nextStageCounter = 0;
-	private int livingSoundTime;
-	private int floatingRotation;
-	private boolean playedSpawnSound = false;
-	private boolean spawnedObelisk = false;
-	private boolean fromItem;
+public class MonolithEntity extends Entity {
+	public static final EntityDataAccessor<Integer> KEYS = SynchedEntityData.defineId(MonolithEntity.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(MonolithEntity.class, EntityDataSerializers.INT);
 
-	public BTMonolith(EntityType<? extends BTMonolith> type, Level level) {
+	public final AnimationState floating = new AnimationState();
+	public final AnimationState spawningGolem = new AnimationState();
+
+	public EntityData btEntityData;
+	private int livingSoundTime;
+	private int nextStageCounter = 0;
+	private boolean playedSpawnSound = false;
+
+	public MonolithEntity(EntityType<?> type, Level level) {
 		super(type, level);
 		this.blocksBuilding = true;
-		this.floatingRotation = this.random.nextInt(100_000);
-		this.monolithType = this.getType();
-		this.towerType = TowerType.getTypeForMonolith(this);
-		this.correctMonolithKey = TowerType.getKeyFor(this.towerType);
-		this.correctGuardianEye = TowerType.getEyeFor(this.towerType.getPreviousGolemType());
-		this.fromItem = false;
 	}
 
 	/*********************************************************** Data ********************************************************/
+
+	public void setBtEntityData(ResourceKey<TowerData> dataKey) {
+		Registry<TowerData> towerDataReg = this.level().getServer().registryAccess().registryOrThrow(BTRegistries.Keys.TOWER_DATA);
+		this.btEntityData = towerDataReg.getOrThrow(dataKey).getEntityData();
+	}
 
 	@Override
 	protected void defineSynchedData() {
@@ -72,15 +76,31 @@ public class BTMonolith extends Entity {
 	@Override
 	protected void readAdditionalSaveData(CompoundTag compound) {
 		this.setKeyCountInEntity(compound.getInt("Keys"));
-		this.spawnedObelisk = compound.getBoolean("Obelisk");
-		this.fromItem = compound.getBoolean("FromItem");
+		this.setStateInEntity(compound.getInt("State"));
+
+		DynamicOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, this.level().getServer().registryAccess());
+		this.btEntityData = EntityData.CODEC.parse(ops, compound.getCompound("BtEntityData")).getOrThrow(false, BABattleTowers.LOGGER::error);
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag compound) {
 		compound.putInt("Keys", this.getKeyCountInEntity());
-		compound.putBoolean("Obelisk", this.spawnedObelisk);
-		compound.putBoolean("FromItem", this.fromItem);
+		compound.putInt("State", this.getStateInEntity());
+
+		DynamicOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, this.level().getServer().registryAccess());
+		compound.put("BtEntityData", EntityData.CODEC.encodeStart(ops, this.btEntityData).getOrThrow(false, BABattleTowers.LOGGER::error));
+	}
+
+	@Override
+	public Component getDisplayName() {
+		Component nameComponent = Component.translatable("entity.ba_bt.land_monolith");
+
+		try {
+			nameComponent = Component.translatable("entity.ba_bt.%S_monolith".formatted(this.btEntityData.getName()));
+		} catch (Exception e) {
+			BABattleTowers.LOGGER.error("Unfindable towerData name of: %S ".formatted(this.btEntityData.getName()));
+		}
+		return nameComponent;
 	}
 
 	/*********************************************************** Ticks ********************************************************/
@@ -91,36 +111,36 @@ public class BTMonolith extends Entity {
 	@Override
 	public void baseTick() {
 		super.baseTick();
-		if (!this.level().isClientSide() && !this.spawnedObelisk && !this.fromItem) {
-			ServerLevel serverworld = (ServerLevel) this.level();
-			this.spawnObelisk(serverworld);
-			this.spawnedObelisk = true;
+		if (!this.spawningGolem.isStarted()) {
+			this.floating.startIfStopped(this.tickCount);
 		}
 
-		boolean isLandMonolith = this.monolithType.equals(BTEntityType.LAND_MONOLITH.get());
-		if (this.getKeyCountInEntity() == 2 && !isLandMonolith) {
+		if (this.getKeyCountInEntity() == this.btEntityData.getKeyMax(this.getStateInEntity()) && !this.playedSpawnSound) {
 			this.nextStageCounter++;
-			int seconds = 2;
-			// Hold this stage for 2 seconds before the Eye slot becomes visible.
-			if (this.nextStageCounter >= (seconds * 20)) {
-				// Display the Eye slot on the Monolith.
-				this.setEyeSlotDisplayed();
-				// Reset counter.
+
+			// Hold the stage for 2 seconds before going to the next
+			if (this.nextStageCounter >= 40) {
+				// Display next state
+				this.setStateInEntity(this.entityData.get(STATE) + 1);
+				this.setKeyCountInEntity(0);
 				this.nextStageCounter = 0;
 			}
 		}
-		// Checks for keys.
-		else if (this.getKeyCountInEntity() >= 3 && (this.isEyeSlotDisplayed() || isLandMonolith)) {
+
+		if (this.getStateInEntity() == this.btEntityData.getMultiStateKeys().getMaxState()) {
 			if (!this.playedSpawnSound) {
 				this.playSpawnSound();
 				this.playedSpawnSound = true;
 			}
+			this.floating.stop();
+			this.spawningGolem.start(this.tickCount);
 			// Hold this for 5 seconds before Golem Spawns
 			int seconds = 5;
 			if (this.nextStageCounter >= (seconds * 20)) {
 				//	Spawn Golem and remove this entity
 				this.spawnGolem();
 				this.updateObelisk();
+				this.nextStageCounter = 0;
 				this.remove(RemovalReason.DISCARDED);
 			}
 			this.nextStageCounter++;
@@ -129,14 +149,10 @@ public class BTMonolith extends Entity {
 		// Checks if there are any blocks inside the hit-box and deletes them.
 		this.checkBlocksInEntity();
 
-		// Handles the floating animation
-		++this.floatingRotation;
-
 		if (this.level().isClientSide()) {
 			// Animate particles.
 			this.animateTick();
 		}
-
 
 		// Play ambient sounds at random intervals.
 		if (this.isAlive() && this.random.nextInt(1000) < this.livingSoundTime++) {
@@ -164,25 +180,12 @@ public class BTMonolith extends Entity {
 	 */
 	@Override
 	public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
-		if (this.monolithType != null) {
-			// Get the item in the player's hand.
-			Item itemInHand = player.getItemInHand(hand).getItem();
-			if (itemInHand.equals(this.correctMonolithKey)) {
-				// Need 3 keys for the Land Monolith and 2 for the others.
-				int keysNeeded = this.monolithType.equals(BTEntityType.LAND_MONOLITH.get()) ? 3 : 2;
-				// Check how many keys are already in.
-				if (this.getKeyCountInEntity() < keysNeeded) {
-					// Increase Keys by one.
-					this.increaseKeyCount(player, hand);
-					return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
-				}
-			}
-
-			// Test for a chance to insert a Guardian Eye.
-			else if (itemInHand.equals(this.correctGuardianEye) && this.getKeyCountInEntity() == 2 && !this.monolithType.equals(BTEntityType.LAND_MONOLITH.get()) && this.isEyeSlotDisplayed()) {
-				this.increaseKeyCount(player, hand);
-				return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
-			}
+		EntityData.MultiStateKeys keys = this.btEntityData.getMultiStateKeys();
+		// Get the item in the player's hand.
+		ItemStack itemInHand = player.getItemInHand(hand);
+		if (keys.keyMatch(itemInHand, this.getStateInEntity(), this.getKeyCountInEntity())) {
+			this.increaseKeyCount(player, hand);
+			return InteractionResult.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 		}
 
 		// Pass
@@ -208,7 +211,6 @@ public class BTMonolith extends Entity {
 	private void spawnGolem() {
 		if (!this.level().isClientSide()) {
 			ServerLevel serverworld = (ServerLevel) this.level();
-
 			// Spawn visual lightning
 			LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(serverworld);
 			lightningbolt.moveTo(this.getX(), this.getY(), this.getZ());
@@ -219,7 +221,7 @@ public class BTMonolith extends Entity {
 			this.level().explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Level.ExplosionInteraction.BLOCK);
 
 			// Get the correct GolemEntityType.
-			EntityType<?> golemEntityType = TowerType.getGolemFor(this.towerType);
+			EntityType<?> golemEntityType = this.btEntityData.getGolemEntity();
 			// Create a new GolemEntity.
 			Entity entity = golemEntityType.create(this.level());
 			if (entity instanceof AbstractGolem newGolemEntity) {
@@ -233,35 +235,12 @@ public class BTMonolith extends Entity {
 				newGolemEntity.faceDirection(this.getGolemSpawnDirection(this.getYRot()));
 
 				newGolemEntity.setBossBarName();
-				newGolemEntity.towerType = this.towerType;
 
 				newGolemEntity.finalizeSpawn(serverworld, serverworld.getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.TRIGGERED, null, null);
 				serverworld.addFreshEntity(newGolemEntity);
 			}
 		}
 	}
-
-	protected void spawnObelisk(ServerLevel serverWorld) {
-		Entity obelisk;
-		switch (this.towerType) {
-			case OCEAN -> {
-				// BABTMain.LOGGER.debug("Ocean Obelisk");
-				obelisk = new BTOceanObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() + 106, this.getZ());
-			}
-			case CORE -> {
-				// BABTMain.LOGGER.debug("Ocean Obelisk");
-				obelisk = new BTCoreObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
-			}
-            default -> {
-				obelisk = new BTLandObelisk(this.level());
-				obelisk.setPos(this.getX(), this.getY() - 90, this.getZ());
-			}
-        }
-		serverWorld.addFreshEntity(obelisk);
-	}
-
 
 	/**
 	 * Returns the correct spawn rotation for the Golem.
@@ -276,15 +255,13 @@ public class BTMonolith extends Entity {
 	/**
 	 * Checks if there are any Blocks in the way.
 	 */
-	@SuppressWarnings("deprecation")
 	private void checkBlocksInEntity() {
+		Block setBlock = this.btEntityData.getMonolithFillBlock();
 		for (int height = 0; height < 3; height++) {
 			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
 			BlockState testBlock = this.level().getBlockState(monolithPos);
-			if (!testBlock.isAir() && this.towerType != TowerType.OCEAN) {
-				this.level().setBlockAndUpdate(monolithPos, Blocks.AIR.defaultBlockState());
-			} else if (!this.level().isWaterAt(monolithPos) && this.towerType == TowerType.OCEAN) {
-				this.level().setBlock(monolithPos, Blocks.WATER.defaultBlockState(), 2);
+			if (!testBlock.is(setBlock)) {
+				this.level().setBlockAndUpdate(monolithPos, setBlock.defaultBlockState());
 			}
 		}
 	}
@@ -305,18 +282,19 @@ public class BTMonolith extends Entity {
 		this.entityData.set(KEYS, count);
 	}
 
-	/*********************************************** Golem Type Helpers *********************************************/
-
-	public EntityType<?> getMonolithType() {
-		return this.monolithType;
+	/**
+	 * counts the state  in the entity. used in rendering.
+	 */
+	public final int getStateInEntity() {
+		return Mth.clamp(this.entityData.get(STATE), 0, 3);
 	}
 
-	public void setEyeSlotDisplayed() {
-		this.displayEye = true;
-	}
-
-	public boolean isEyeSlotDisplayed() {
-		return this.displayEye;
+	/**
+	 * sets the state in the entity. used for rendering.
+	 */
+	public final void setStateInEntity(int count) {
+		// Ensure State never goes past final so that final state is shown visually until monolith is removed
+		this.entityData.set(STATE, Math.min(count, this.btEntityData.getMultiStateKeys().getMaxState()));
 	}
 
 	/*************************************** Characteristics & Properties *******************************************/
@@ -328,7 +306,7 @@ public class BTMonolith extends Entity {
 	 */
 	@Override
 	public ItemStack getPickedResult(HitResult target) {
-		return new ItemStack(TowerType.getMonolithItemFor(this.towerType));
+		return new ItemStack(this.btEntityData.getMonolithItem());
 	}
 
 
@@ -371,10 +349,6 @@ public class BTMonolith extends Entity {
 		BABattleTowers.LOGGER.debug("Used the /kill command. However, a Monolith has been saved at: " + Math.round(this.getX()) + "X " + Math.round(this.getY()) + "Y " + Math.round(this.getZ()) + "Z.");
 	}
 
-	public void setFromItem(boolean fromItem) {
-		this.fromItem = fromItem;
-	}
-
 	/**
 	 * Called when the entity is attacked.
 	 */
@@ -394,11 +368,6 @@ public class BTMonolith extends Entity {
 	}
 
 	/****************************************************** Client ***************************************************/
-
-
-	public float getFloatingRotation() {
-		return this.floatingRotation;
-	}
 
 
 	private void animateTick() {
