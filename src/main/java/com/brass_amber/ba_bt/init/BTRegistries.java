@@ -1,8 +1,10 @@
 package com.brass_amber.ba_bt.init;
 
 import com.brass_amber.ba_bt.BABattleTowers;
+import com.brass_amber.ba_bt.registries.GenerationData;
 import com.brass_amber.ba_bt.registries.ItemPool;
 import com.brass_amber.ba_bt.registries.EntityData;
+import com.brass_amber.ba_bt.registries.TowerData;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,9 +19,9 @@ public class BTRegistries {
     public static final class Keys {
         public static final ResourceKey<Registry<ItemPool>> ITEM_POOLS = key("item_pools");
 
-        public static final ResourceKey<Registry<EntityData>> TOWER_DATA = key("tower_data");
+        public static final ResourceKey<Registry<TowerData>> TOWER_DATA = key("tower_data");
         public static final ResourceKey<Registry<EntityData>> ENTITY_DATA = key("entity_data");
-        public static final ResourceKey<Registry<EntityData>> GENERATION_DATA = key("generation_data");
+        public static final ResourceKey<Registry<GenerationData>> GENERATION_DATA = key("generation_data");
         public static final ResourceKey<Registry<EntityData>> DESTRUCTION_TYPE = key("destruction_type");
         public static final ResourceKey<Registry<EntityData>> LOCAL_MODIFICATION_TYPE = key("local_modifications_type");
     }

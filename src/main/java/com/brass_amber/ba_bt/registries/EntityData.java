@@ -23,30 +23,43 @@ public class EntityData {
             towerTypeInstance.group(
                     Codec.STRING.fieldOf("name").forGetter(entityData -> entityData.name),
                     Codec.STRING.fieldOf("color_code").forGetter(entityData -> entityData.colorCode),
-                    MobList.CODEC.listOf().optionalFieldOf("mobs_by_floor").forGetter(entityData -> Optional.ofNullable(entityData.mobsByFloor)),
-                    MobList.CODEC.optionalFieldOf("mobs_by_tower").forGetter(entityData -> Optional.ofNullable(entityData.mobsByTower)),
+                    Codec.STRING.fieldOf("translation_key").forGetter(towerData -> towerData.translationKey),
                     Music.CODEC.fieldOf("tower_music").forGetter(entityData -> entityData.towerMusic),
                     Music.CODEC.fieldOf("boss_music").forGetter(entityData -> entityData.bossMusic),
+                    // Blocks
+                    ForgeRegistries.BLOCKS.getCodec().fieldOf("tower_chest").forGetter(entityData -> entityData.towerChest),
+                    ForgeRegistries.BLOCKS.getCodec().fieldOf("golem_chest").forGetter(entityData -> entityData.golemChest),
+                    ForgeRegistries.BLOCKS.getCodec().fieldOf("spawner_block").forGetter(entityData -> entityData.spawnerBlock),
+                    ForgeRegistries.BLOCKS.getCodec().fieldOf("monolith_fill").forGetter(entityData -> entityData.monolithFillBlock),
+                    // Items
+                    ForgeRegistries.ITEMS.getCodec().fieldOf("monolith_item").forGetter(entityData -> entityData.monolithItem),
+                    // Entity Reference
                     ForgeRegistries.ENTITY_TYPES.getCodec().fieldOf("golem_entity").forGetter(entityData -> entityData.golemEntity),
                     ForgeRegistries.ENTITY_TYPES.getCodec().fieldOf("monolith_entity").forGetter(entityData -> entityData.monolithEntity),
                     ForgeRegistries.ENTITY_TYPES.getCodec().fieldOf("obelisk_entity").forGetter(entityData -> entityData.obeliskEntity),
-                    ForgeRegistries.BLOCKS.getCodec().fieldOf("tower_chest").forGetter(entityData -> entityData.towerChest),
-                    ForgeRegistries.BLOCKS.getCodec().fieldOf("golem_chest").forGetter(entityData -> entityData.golemChest),
+                    // Progression Related
+                    MobList.CODEC.listOf().optionalFieldOf("mobs_by_floor").forGetter(entityData -> Optional.ofNullable(entityData.mobsByFloor)),
+                    MobList.CODEC.optionalFieldOf("mobs_by_tower").forGetter(entityData -> Optional.ofNullable(entityData.mobsByTower)),
                     MultiStateKeys.CODEC.fieldOf("key_items").forGetter(entityData -> entityData.multiStateKeys)
             ).apply(towerTypeInstance, EntityData::new)
     );
 
     private final String name;
     private final String colorCode;
+    private final String translationKey;
     private final Music towerMusic;
     private final Music bossMusic;
-    private final EntityType<?> golemEntity;
-    private final EntityType<?> monolithEntity;
-    private final EntityType<?> obeliskEntity;
+
     private final Block towerChest;
     private final Block golemChest;
     private final Block spawnerBlock;
+    private final Block monolithFillBlock;
 
+    private final Item monolithItem;
+
+    private final EntityType<?> golemEntity;
+    private final EntityType<?> monolithEntity;
+    private final EntityType<?> obeliskEntity;
 
     @Nullable
     private final List<MobList> mobsByFloor;
@@ -57,22 +70,31 @@ public class EntityData {
     // TODO TOWER GENERATION VALUES
 
     public EntityData(
-            String name, String colorCode, Music towerMusic, Music bossMusic,
+            String name, String colorCode, String translationKey, Music towerMusic, Music bossMusic,
+            Block towerChest, Block golemChest, Block spawnerBlock, Block monolithFillBlock, Item monolithItem,
             EntityType<?> golemEntity, EntityType<?> monolithEntity, EntityType<?> obeliskEntity,
-            Block towerChest, Block golemChest, Block spawnerBlock,
-            Optional<List<MobList>> mobsByFloor, Optional<MobList> mobsByTower, List<SpawnDataRecord> spawnDataRecords,
-            MultiStateKeys multiStateKeys
+            Optional<List<MobList>> mobsByFloor, Optional<MobList> mobsByTower, MultiStateKeys multiStateKeys
     ) {
         this.name = name;
         this.colorCode = colorCode;
+        this.translationKey = translationKey;
         this.towerMusic = towerMusic;
         this.bossMusic = bossMusic;
-        this.mobsByFloor = mobsByFloor.orElse(null);
-        this.mobsByTower = mobsByTower.orElse(null);
 
         this.towerChest = towerChest;
         this.golemChest = golemChest;
-        this.multiStateKeys = multiStateKeys;
+        this.spawnerBlock = spawnerBlock;
+        this.monolithFillBlock = monolithFillBlock;
+
+        this.monolithItem = monolithItem;
+
+        this.golemEntity = golemEntity;
+        this.monolithEntity = monolithEntity;
+        this.obeliskEntity = obeliskEntity;
+
+        this.mobsByFloor = mobsByFloor.orElse(null);
+        this.mobsByTower = mobsByTower.orElse(null);
+
         if (this.mobsByTower == null && this.mobsByFloor == null) {
             throw new RuntimeException("""
                     TowerType with name %s is invalid.
@@ -81,14 +103,15 @@ public class EntityData {
                     """.formatted(this.name)
             );
         }
-        this.golemEntity = golemEntity;
-        this.monolithEntity = monolithEntity;
-        this.obeliskEntity = obeliskEntity;
-
+        this.multiStateKeys = multiStateKeys;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getTranslationKey() {
+        return translationKey;
     }
 
     public String getColorCode() {
@@ -104,6 +127,7 @@ public class EntityData {
             mobs = this.mobsByFloor.get(floor).getMobs();
             return mobs.get(randomSource.nextInt(mobs.size()));
         } else {
+            // Return an obviously wrong entity so that the game doesn't hard crash
             return EntityType.MINECART;
         }
     }
@@ -116,6 +140,41 @@ public class EntityData {
         return bossMusic;
     }
 
+    public Block getTowerChest() {
+        return towerChest;
+    }
+
+    public Block getGolemChest() {
+        return golemChest;
+    }
+
+    public Block getSpawnerBlock() {
+        return spawnerBlock;
+    }
+
+    public Block getMonolithFillBlock() {
+        return monolithFillBlock;
+    }
+
+    public Item getMonolithItem() {
+        return monolithItem;
+    }
+
+    public EntityType<?> getGolemEntity() {
+        return golemEntity;
+    }
+
+    public EntityType<?> getMonolithEntity() {
+        return monolithEntity;
+    }
+
+    public MultiStateKeys getMultiStateKeys() {
+        return multiStateKeys;
+    }
+
+    public int getKeyMax(int state) {
+        return this.multiStateKeys.getKeyMax(state);
+    }
 
     public record MobList(List<String> mobIds) {
         public static final Codec<MobList> CODEC = RecordCodecBuilder.create(mobListInstance ->
@@ -137,50 +196,38 @@ public class EntityData {
     public static class MultiStateKeys {
         public static final MapCodec<MultiStateKeys> CODEC = RecordCodecBuilder.mapCodec(multiStateInstance ->
                 multiStateInstance.group(
-                        ForgeRegistries.ITEMS.getCodec().listOf().fieldOf("keys").forGetter(multiStateKeys -> multiStateKeys.keys),
-                        com.mojang.serialization.Codec.INT.listOf().fieldOf("keysPerState").forGetter(multiStateKeys -> multiStateKeys.keysPerState)
+                        ForgeRegistries.ITEMS.getCodec().listOf().listOf().fieldOf("keys").forGetter(multiStateKeys -> multiStateKeys.keys)
                 ).apply(multiStateInstance, MultiStateKeys::new)
         );
 
-        private int id;
         private final int length;
-        private int state;
-        public List<Item> keys;
-        public List<Integer> keysPerState;
+        public List<List<Item>> keys;
 
-        public MultiStateKeys(List<Item> keys, List<Integer> keysPerState) {
-            this.id = 0;
+        public MultiStateKeys(List<List<Item>> keys) {
+
             this.length = keys.size();
-            this.state = 0;
             this.keys = keys;
-            this.keysPerState = keysPerState;
-        }
-
-        public boolean shouldUnlock() {
-            return this.id == this.length;
-        }
-
-        public int getState() {
-            return this.state;
-        }
-
-        public boolean keyMatch(ItemStack keyTest) {
-            if (keyTest.is(this.keys.get(this.id))) {
-                this.id++;
-                if (this.id == this.keysPerState.get(this.state)) {
-                    this.state++;
-                }
-                return true;
+            if (this.keys.isEmpty()) {
+                throw new RuntimeException("""
+                        Key Items in Entity Data is invalid.
+                        keys value does not contain valid items.
+                        Please correct this error so that the tower can be initialized correctly
+                        """
+                );
             }
-            return false;
         }
 
-        public Optional<Item> getNextKey() {
-            return this.id + 1 < this.keys.size() ? Optional.of(this.keys.get(this.id + 1)) : Optional.empty();
+
+        public boolean keyMatch(ItemStack keyTest, int state, int id) {
+            return keyTest.is(this.keys.get(state).get(id));
         }
 
-        public Optional<Item> getKey(int key_id) {
-            return key_id < this.keys.size() ? Optional.of(this.keys.get(key_id)) : Optional.empty();
+        public int getKeyMax(int state){
+            return this.keys.get(state).size();
+        }
+
+        public int getMaxState() {
+            return this.length-1;
         }
     }
 }
