@@ -16,7 +16,7 @@ import static com.brass_amber.ba_bt.BABattleTowers.MOD_ID;
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BTRegistries {
     static final DeferredRegister<Codec<? extends LocalModification>> DEFERRED_LOCAL_MODIFICATION_TYPE_SERIALIZERS = DeferredRegister.create(Keys.LOCAL_MODIFICATION_TYPE, MOD_ID);
-    public static final Supplier<IForgeRegistry<Codec<? extends LocalModification>>> LOCAL_MODIFICATION_TYPE_SERIALIZERS = DEFERRED_LOCAL_MODIFICATION_TYPE_SERIALIZERS.makeRegistry(() -> getLocalModificationSerializersRegistryBuilder());
+    public static final Supplier<IForgeRegistry<Codec<? extends LocalModification>>> LOCAL_MODIFICATION_TYPE_SERIALIZERS = DEFERRED_LOCAL_MODIFICATION_TYPE_SERIALIZERS.makeRegistry(BTRegistries::getLocalModificationSerializersRegistryBuilder);
 
     public static final class Keys {
         public static final ResourceKey<Registry<Codec<? extends LocalModification>>> LOCAL_MODIFICATION_TYPE = key("local_modification_type");
