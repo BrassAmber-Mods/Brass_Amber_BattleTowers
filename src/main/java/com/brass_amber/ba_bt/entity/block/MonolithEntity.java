@@ -221,7 +221,7 @@ public class MonolithEntity extends Entity {
 			this.level().explode(null, this.getX(), this.getY() + 1, this.getZ(), 1.4F, Level.ExplosionInteraction.BLOCK);
 
 			// Get the correct GolemEntityType.
-			EntityType<?> golemEntityType = this.btEntityData.getGolemEntity();
+			EntityType<?> golemEntityType = this.btEntityData.getTypeReferences().golemEntity();
 			// Create a new GolemEntity.
 			Entity entity = golemEntityType.create(this.level());
 			if (entity instanceof AbstractGolem newGolemEntity) {
@@ -256,7 +256,7 @@ public class MonolithEntity extends Entity {
 	 * Checks if there are any Blocks in the way.
 	 */
 	private void checkBlocksInEntity() {
-		Block setBlock = this.btEntityData.getMonolithFillBlock();
+		Block setBlock = this.btEntityData.getTypeReferences().monolithFillBlock();
 		for (int height = 0; height < 3; height++) {
 			BlockPos monolithPos = this.blockPosition().offset(0, height, 0);
 			BlockState testBlock = this.level().getBlockState(monolithPos);
@@ -306,7 +306,7 @@ public class MonolithEntity extends Entity {
 	 */
 	@Override
 	public ItemStack getPickedResult(HitResult target) {
-		return new ItemStack(this.btEntityData.getMonolithItem());
+		return new ItemStack(this.btEntityData.getTypeReferences().monolithItem());
 	}
 
 
