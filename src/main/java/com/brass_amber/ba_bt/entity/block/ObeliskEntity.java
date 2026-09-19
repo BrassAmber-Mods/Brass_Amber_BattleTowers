@@ -1,33 +1,42 @@
 package com.brass_amber.ba_bt.entity.block;
 
-import com.brass_amber.ba_bt.block.blockentity.chest.BTChestBlockEntity;
-import com.brass_amber.ba_bt.init.BTBlocks;
-import com.brass_amber.ba_bt.util.TowerType;
+import com.brass_amber.ba_bt.init.BTRegistries;
+import com.brass_amber.ba_bt.registries.EntityData;
+import com.brass_amber.ba_bt.registries.LocalModification.GenerationState;
+import com.brass_amber.ba_bt.registries.LocalModification;
+import com.brass_amber.ba_bt.registries.TowerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brass_amber.ba_bt.util.BTUtil.distanceTo2D;
-
-public abstract class AbstractObeliskEntity extends Entity {
+public class ObeliskEntity extends Entity {
     public static final EntityDataSerializer<ObeliskState> OBELISK_STATE_SERIALIZER = EntityDataSerializer.simpleEnum(ObeliskState.class);
-    private static final EntityDataAccessor<ObeliskState> OBELISK_STATE = SynchedEntityData.defineId(AbstractObeliskEntity.class, OBELISK_STATE_SERIALIZER);
-    private static final EntityDataAccessor<Boolean> HAS_CRYSTAL = SynchedEntityData.defineId(AbstractObeliskEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<ObeliskState> OBELISK_STATE = SynchedEntityData.defineId(ObeliskEntity.class, OBELISK_STATE_SERIALIZER);
+    private static final EntityDataAccessor<Boolean> HAS_CRYSTAL = SynchedEntityData.defineId(ObeliskEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public final AnimationState powered = new AnimationState();
+
+    public EntityData btEntityData;
 
     private List<BlockPos> chestPositions = new ArrayList<>(9);
     private List<List<BlockPos>> spawnerPositions;
@@ -42,60 +51,45 @@ public abstract class AbstractObeliskEntity extends Entity {
     public boolean destructionSpawned;
 
     // Data Strings
-    private final String golemType = "Tower";
     private final String spawnersDestroyedName = "SpawnersDestroyed";
     private final String crystalSpawnedName = "CrystalSpawned";
     private final String generationStateName = "GenerationState";
+    private final String towerStateName = "GenerationState";
     private final String golemSpawnedName = "GolemSpawned";
     private final String golemDeadName = "GolemDead";
-    private final String hasPlayerName = "HasPlayer";
-    private final String destructionSpawnedName = "DestructionSpawned";
 
     protected MusicManager music;
     protected boolean musicPlaying;
-    protected int musicDistance;
-
-    protected TowerType towerType;
     protected int towerRange;
 
     protected GenerationState generationState = GenerationState.REMOVE_MOTION_BLOCKS;
     protected ObeliskState obeliskState = ObeliskState.TOWER_SETUP;
-    protected List<BlockPos> toRemove;
-    protected int floorDistance;
+    protected List<BlockPos> blocksToRemove;
+
     public EntityType<?> lastSpawnerType;
-    public boolean fromItem;
 
-    protected List<List<Integer>> perFloorData;
-    protected List<Integer> floorData;
-    protected BTChestBlockEntity golemChest;
-    protected ArrayList<String> golemChestLootTypes;
-    protected ArrayList<String> towerChestLootTypes;
-    protected ItemStack[] golemLoot;
     protected AABB entityCheckAABB;
-    protected int enemySpawnRange;
 
-    public AbstractObeliskEntity(EntityType<?> entityType, Level level) {
+    public ObeliskEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.towerType = TowerType.getTypeForObeliskEntity(this);
         this.blocksBuilding = true; // BlocksMovement ?
-        this.musicPlaying = false;
-        this.musicDistance = 0;
         this.towerRange = 0;
         this.lastSpawnerType = EntityType.IRON_GOLEM;
         this.crystalSpawned = false;
-        this.enemySpawnRange = 13;
         this.entityCheckAABB = this.getBoundingBox().inflate(this.towerRange, 115, this.towerRange);
-        this.toRemove = new ArrayList<>();
+        this.blocksToRemove = new ArrayList<>();
         if (level.isClientSide()) {
             this.music = Minecraft.getInstance().getMusicManager();
         }
-        this.fromItem = false;
         this.setInvulnerable(true);
         this.invulnerableTime = 999999999;
     }
 
-    public void setFromItem() {
-        this.obeliskState = ObeliskState.FROM_ITEM;
+    public void setBtEntityData(ResourceKey<TowerData> dataKey) {
+        Registry<TowerData> towerDataReg = this.level().getServer().registryAccess().registryOrThrow(BTRegistries.Keys.TOWER_DATA);
+        TowerData towerData = towerDataReg.getOrThrow(dataKey);
+        this.btEntityData = towerData.getEntityData();
+
     }
 
     @Override
@@ -117,17 +111,40 @@ public abstract class AbstractObeliskEntity extends Entity {
         }
     }
 
+    @Override
+    protected void readAdditionalSaveData(CompoundTag pCompound) {
+
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag pCompound) {
+
+    }
+
     public void clientTick() {
         ClientLevel client = (ClientLevel) this.level();
-        Player player = client.getNearestPlayer(this, this.musicDistance * 1.5);
+        Player player = client.getNearestPlayer(this.getX(), this.getY(), this.getZ(), 50, true);
         if (player != null && this.getObeliskState().ordinal() < ObeliskState.GOLEM_SPAWNED.ordinal()) {
-            if (this.distanceTo(player) <= this.musicDistance && !this.music.isPlayingMusic(this.towerType.getTowerMusic())) {
+            if (!this.music.isPlayingMusic(this.btEntityData.getTowerMusic())) {
                 this.music.stopPlaying();
-                this.music.startPlaying(this.towerType.getTowerMusic());
+                this.music.startPlaying(this.btEntityData.getTowerMusic());
                 this.musicPlaying = true;
             }
         } else {
-            this.music.stopPlaying(this.towerType.getTowerMusic());
+            this.music.stopPlaying(this.btEntityData.getTowerMusic());
+        }
+    }
+
+    /**
+     * Ensure music is stopped when unloaded.
+     **/
+    @Override
+    public void onRemovedFromWorld() {
+        super.onRemovedFromWorld();
+        if (this.level().isClientSide() ) {
+            if (this.music.isPlayingMusic(this.btEntityData.getTowerMusic())) {
+                this.music.stopPlaying();
+            }
         }
     }
 
@@ -157,48 +174,7 @@ public abstract class AbstractObeliskEntity extends Entity {
 
     /************************************************** GENERATION **************************************************/
 
-    public enum GenerationState {
-        REMOVE_MOTION_BLOCKS(0),
-        GATHER_AREA_BLOCKS(1),
-        REMOVE_AREA_BLOCKS(2),
-        ADD_AREA_FEATURES(3),
-        FINISHED(4);
 
-        private final int value;
-
-        GenerationState(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public static BTAbstractObelisk.GenerationState getState(int value) {
-            return switch (value) {
-                case 1, 2 -> BTAbstractObelisk.GenerationState.GATHER_AREA_BLOCKS;
-                case 3 -> BTAbstractObelisk.GenerationState.ADD_AREA_FEATURES;
-                case 4 -> BTAbstractObelisk.GenerationState.FINISHED;
-                default -> BTAbstractObelisk.GenerationState.REMOVE_MOTION_BLOCKS;
-            };
-        }
-    }
-
-    public void removeMotionActiveBlocks() {
-        this.generationState = GenerationState.GATHER_AREA_BLOCKS;
-    }
-
-    public void gatherAreaBlocks() {
-        this.generationState = GenerationState.REMOVE_AREA_BLOCKS;
-    }
-
-    public void removeAreaBlocks() {
-        this.generationState = GenerationState.ADD_AREA_FEATURES;
-    }
-
-    public void addAreaFeatures() {
-        this.generationState = GenerationState.FINISHED;
-    }
 
     /************************************************** GENERATION **************************************************/
 
@@ -226,6 +202,7 @@ public abstract class AbstractObeliskEntity extends Entity {
     }
 
     public void towerSetup() {
+        /*
         BlockPos floorBottom = this.getOnPos().offset(-15, 0, -15);
         BlockPos floorTop = this.blockPosition().offset(-15, +this.floorDistance, -15);
         for (int i = 0; i < 8; i++) {
@@ -247,6 +224,7 @@ public abstract class AbstractObeliskEntity extends Entity {
             floorBottom.above(this.floorDistance);
             floorTop.above(this.floorDistance);
         }
+        */
     }
 
     public void checkPos(List<BlockPos> blockPosList, int floorId) {
@@ -260,18 +238,21 @@ public abstract class AbstractObeliskEntity extends Entity {
     }
 
     public void towerGeneration() {
-        if (this.generationState != GenerationState.FINISHED) {
-            switch (this.generationState) {
-                case REMOVE_MOTION_BLOCKS -> this.removeMotionActiveBlocks();
-                case GATHER_AREA_BLOCKS -> this.gatherAreaBlocks();
-                case REMOVE_AREA_BLOCKS -> this.removeAreaBlocks();
-                case ADD_AREA_FEATURES -> this.addAreaFeatures();
-            }
+        if (this.btEntityData.getLocalModification().generationState != LocalModification.GenerationState.FINISHED) {
+            this.btEntityData.getLocalModification().run(this);
         }
     }
 
     public void activeTower() {
 
+    }
+
+    public void checkSpawners() {
+
+    }
+
+    public void addChestLoot(RandomizableContainerBlockEntity containerBlockEntity, ResourceLocation lootTable) {
+        containerBlockEntity.setLootTable(lootTable, this.level().random.nextLong());
     }
 
     public void spawnersDestroyed() {

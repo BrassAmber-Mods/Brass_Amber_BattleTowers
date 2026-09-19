@@ -2,15 +2,10 @@ package com.brass_amber.ba_bt.util;
 
 import javax.annotation.Nullable;
 
-import com.brass_amber.ba_bt.block.blockentity.chest.BTChestBlockEntity;
 import com.brass_amber.ba_bt.entity.CoreDestructionEntity;
 import com.brass_amber.ba_bt.entity.LandDestructionEntity;
 import com.brass_amber.ba_bt.entity.OceanDestructionEntity;
-import com.brass_amber.ba_bt.entity.block.AbstractObeliskEntity;
-import com.brass_amber.ba_bt.entity.block.BTAbstractObelisk;
-import com.brass_amber.ba_bt.entity.block.BTMonolith;
 import com.brass_amber.ba_bt.entity.AbstractDestructionEntity;
-import com.brass_amber.ba_bt.init.BTBlockEntityType;
 import com.brass_amber.ba_bt.init.BTBlocks;
 import com.brass_amber.ba_bt.init.BTEntityType;
 import com.brass_amber.ba_bt.init.BTItems;
@@ -23,7 +18,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -200,21 +194,6 @@ public enum TowerType implements StringRepresentable {
 
 	/*********************************************************** Obelisk ********************************************************/
 
-	/**
-	 * Get the correct Obelisk for the Golem Type.
-	 */
-	@NotNull
-	public static EntityType<BTAbstractObelisk> getObeliskFor(TowerType towerType) {
-		return switch (towerType) {
-			case OCEAN -> BTEntityType.OCEAN_OBELISK.get();
-			case CORE -> BTEntityType.CORE_OBELISK.get();
-			case NETHER -> BTEntityType.NETHER_OBELISK.get();
-			case END -> BTEntityType.END_OBELISK.get();
-			case SKY -> BTEntityType.SKY_OBELISK.get();
-			default -> BTEntityType.LAND_OBELISK.get();
-		};
-	}
-
 	@NotNull
 	public  static EntityType<AbstractDestructionEntity> getDestructionEntityFor(TowerType towerType) {
 		return switch (towerType) {
@@ -227,45 +206,6 @@ public enum TowerType implements StringRepresentable {
 		};
 	}
 
-	/*********************************************************** Monolith ********************************************************/
-
-	/**
-	 * Get the correct Monolith Item for the Correct Monolith Entity.
-	 */
-
-	public static Item getMonolithItemFor(TowerType towerType) {
-		return switch (towerType) {
-            case OCEAN -> BTItems.OCEAN_MONOLITH.get();
-			case CORE -> BTItems.CORE_MONOLITH.get();
-			case NETHER -> BTItems.NETHER_MONOLITH.get();
-			case END -> BTItems.END_MONOLITH.get();
-			case SKY -> BTItems.SKY_MONOLITH.get();
-            default -> BTItems.LAND_MONOLITH.get();
-        };
-	}
-
-	/**
-	 * Return the correct GolemType for each Monolith Entity.
-	 */
-	public static TowerType getTypeForMonolith(BTMonolith BTMonolithEntity) {
-		EntityType<?> entityType = BTMonolithEntity.getType();
-        if (entityType.equals(BTEntityType.LAND_MONOLITH.get())) {
-            return LAND;
-        } else if (entityType.equals(BTEntityType.OCEAN_MONOLITH.get())) {
-            return OCEAN;
-        } else if (entityType.equals(BTEntityType.CORE_MONOLITH.get())) {
-            return CORE;
-        } else if (entityType.equals(BTEntityType.NETHER_MONOLITH.get())) {
-            return NETHER;
-        } else if (entityType.equals(BTEntityType.END_MONOLITH.get())) {
-            return END;
-        } else if (entityType.equals(BTEntityType.SKY_MONOLITH.get())) {
-            return SKY;
-        }
-
-        // Couldn't get EntityType
-		return EMPTY;
-	}
 
 	/*********************************************************** Monolith ********************************************************/
 	/**
@@ -312,27 +252,6 @@ public enum TowerType implements StringRepresentable {
 		// Couldn't get EntityType
 		return EMPTY;
     }
-
-	public static TowerType getTypeForObeliskEntity(AbstractObeliskEntity entity) {
-		EntityType<?> entityType = entity.getType();
-
-		if (entityType.equals(BTEntityType.LAND_OBELISK.get())) {
-			return LAND;
-		} else if (entityType.equals(BTEntityType.OCEAN_OBELISK.get())) {
-			return OCEAN;
-		} else if (entityType.equals(BTEntityType.CORE_OBELISK.get())) {
-			return CORE;
-		} else if (entityType.equals(BTEntityType.NETHER_OBELISK.get())) {
-			return NETHER;
-		} else if (entityType.equals(BTEntityType.END_OBELISK.get())) {
-			return END;
-		} else if (entityType.equals(BTEntityType.SKY_OBELISK.get())) {
-			return SKY;
-		}
-
-		// Couldn't get EntityType
-		return EMPTY;
-	}
 
 	public static boolean isGolemChest(Block block) {
 		return BTBlocks.LAND_GOLEM_CHEST.get().equals(block)
